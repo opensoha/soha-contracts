@@ -1,0 +1,3291 @@
+openapi: 3.1.0
+info:
+  title: Soha API
+  version: 0.1.0
+  description: >
+    Public OpenSoha core API contract. This first contract focuses on stable
+    cross-repository boundaries: auth, health, runner-facing control-plane
+    callbacks, AI Gateway, and MCP capability discovery.
+servers:
+  - url: /api/v1
+    description: Soha API v1
+security:
+  - bearerAuth: []
+tags:
+  - name: System
+  - name: Auth
+  - name: Runner
+  - name: AI Gateway
+  - name: MCP
+  - name: Plugins
+paths:
+  /healthz:
+    get:
+      tags: [System]
+      operationId: getHealthz
+      security: []
+      responses:
+        "200":
+          description: Process is alive.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObject"
+  /readyz:
+    get:
+      tags: [System]
+      operationId: getReadyz
+      security: []
+      responses:
+        "200":
+          description: Process is ready.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericObject"
+  /auth/providers:
+    get:
+      tags: [Auth]
+      operationId: listAuthProviders
+      security: []
+      responses:
+        "200":
+          description: Enabled login providers.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthProviderListEnvelope"
+  /auth/login-options:
+    get:
+      tags: [Auth]
+      operationId: getAuthLoginOptions
+      security: []
+      responses:
+        "200":
+          description: Login verification options.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginOptionsEnvelope"
+  /auth/login:
+    post:
+      tags: [Auth]
+      operationId: passwordLogin
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PasswordLoginRequest"
+      responses:
+        "200":
+          description: Authenticated session.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      operationId: refreshAuthSession
+      security: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RefreshRequest"
+      responses:
+        "200":
+          description: Refreshed token set.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResultEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+  /auth/oidc/login:
+    get:
+      tags: [Auth]
+      operationId: beginOIDCLogin
+      security: []
+      responses:
+        "302":
+          description: Redirect to the configured OIDC provider.
+  /auth/oidc/callback:
+    get:
+      tags: [Auth]
+      operationId: handleOIDCCallback
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/OIDCCode"
+        - $ref: "#/components/parameters/OIDCState"
+      responses:
+        "302":
+          description: Redirect back to the web console with an exchange code.
+  /auth/oidc/exchange:
+    post:
+      tags: [Auth]
+      operationId: exchangeOIDCCode
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OIDCExchangeRequest"
+      responses:
+        "200":
+          description: Authenticated session.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResultEnvelope"
+  /auth/login/{providerID}/start:
+    get:
+      tags: [Auth]
+      operationId: beginProviderLogin
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/ProviderID"
+      responses:
+        "302":
+          description: Redirect to the selected identity provider.
+  /auth/login/{providerID}/callback:
+    get:
+      tags: [Auth]
+      operationId: handleProviderCallback
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/ProviderID"
+        - $ref: "#/components/parameters/OIDCCode"
+        - $ref: "#/components/parameters/OIDCState"
+      responses:
+        "302":
+          description: Redirect back to the web console with an exchange code.
+  /auth/me:
+    get:
+      tags: [Auth]
+      operationId: getCurrentPrincipal
+      responses:
+        "200":
+          description: Current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PrincipalEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+  /auth/profile:
+    get:
+      tags: [Auth]
+      operationId: getCurrentUserProfile
+      responses:
+        "200":
+          description: Current user profile.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfileEnvelope"
+  /auth/bootstrap:
+    get:
+      tags: [Auth]
+      operationId: getAuthBootstrap
+      responses:
+        "200":
+          description: Principal, permission snapshot, and branding bootstrap data.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthBootstrapEnvelope"
+  /auth/logout:
+    post:
+      tags: [Auth]
+      operationId: logoutAuthSession
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RefreshRequest"
+      responses:
+        "204":
+          description: Session logged out.
+        "401":
+          $ref: "#/components/responses/Error"
+  /auth/stream-ticket:
+    post:
+      tags: [Auth]
+      operationId: issueStreamTicket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StreamTicketRequest"
+      responses:
+        "200":
+          description: Short-lived stream ticket.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StreamTicketEnvelope"
+  /delivery/execution-tasks/claim:
+    post:
+      tags: [Runner]
+      operationId: claimExecutionTask
+      security:
+        - runtimeBearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExecutionTaskClaimRequest"
+      responses:
+        "200":
+          description: Claimed execution task, or empty data when none is available.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExecutionTaskEnvelope"
+  /delivery/execution-tasks/{taskID}/runner-status:
+    get:
+      tags: [Runner]
+      operationId: getExecutionTaskRunnerStatus
+      security:
+        - runtimeBearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/TaskID"
+      responses:
+        "200":
+          description: Runner-visible task status.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExecutionTaskEnvelope"
+  /delivery/execution-callbacks:
+    post:
+      tags: [Runner]
+      operationId: recordExecutionCallback
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExecutionCallbackRequest"
+      responses:
+        "200":
+          description: Updated execution task.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExecutionTaskEnvelope"
+  /docker/operations/claim:
+    post:
+      tags: [Runner]
+      operationId: claimDockerOperation
+      security:
+        - runtimeBearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DockerOperationClaimRequest"
+      responses:
+        "200":
+          description: Claimed Docker operation, or empty data when none is available.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerOperationEnvelope"
+  /docker/operations/{operationID}/runner-status:
+    get:
+      tags: [Runner]
+      operationId: getDockerOperationRunnerStatus
+      security:
+        - runtimeBearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/OperationID"
+      responses:
+        "200":
+          description: Runner-visible Docker operation status.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerOperationEnvelope"
+  /docker/operation-callbacks:
+    post:
+      tags: [Runner]
+      operationId: recordDockerOperationCallback
+      security:
+        - runtimeBearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DockerOperationCallbackRequest"
+      responses:
+        "200":
+          description: Updated Docker operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerOperationEnvelope"
+  /copilot/agent-runs/claim:
+    post:
+      tags: [Runner]
+      operationId: claimAgentRun
+      security:
+        - runtimeBearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentRunClaimRequest"
+      responses:
+        "200":
+          description: Claimed agent run, or empty data when none is available.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentRunEnvelope"
+  /copilot/agent-runs/callback:
+    post:
+      tags: [Runner]
+      operationId: recordAgentRunCallback
+      security:
+        - runtimeBearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentRunCallbackRequest"
+      responses:
+        "200":
+          description: Updated agent run.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentRunEnvelope"
+  /copilot/agent-runs/tool-call:
+    post:
+      tags: [Runner]
+      operationId: recordAgentRunToolCall
+      security:
+        - runtimeBearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentRunToolCallRequest"
+      responses:
+        "200":
+          description: Tool call result recorded by the control plane.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentToolCallResultEnvelope"
+  /copilot/agent-runs:
+    get:
+      tags: [Runner]
+      operationId: listAgentRuns
+      responses:
+        "200":
+          description: Agent run list visible to the current user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericItemsEnvelope"
+  /ai-gateway/capabilities:
+    get:
+      tags: [AI Gateway]
+      operationId: getAIGatewayCapabilities
+      parameters:
+        - $ref: "#/components/parameters/AIClientID"
+        - $ref: "#/components/parameters/AIClientName"
+        - $ref: "#/components/parameters/SkillID"
+        - $ref: "#/components/parameters/Source"
+      responses:
+        "200":
+          description: Permission-filtered AI Gateway manifest.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AIGatewayManifestEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/tools/{toolName}/invoke:
+    post:
+      tags: [AI Gateway]
+      operationId: invokeAIGatewayTool
+      parameters:
+        - $ref: "#/components/parameters/ToolName"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ToolInvocationRequest"
+      responses:
+        "200":
+          description: Gateway tool invocation result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ToolInvocationResultEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/resources/read:
+    post:
+      tags: [AI Gateway]
+      operationId: readAIGatewayResource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResourceReadRequest"
+      responses:
+        "200":
+          description: Redacted Gateway resource document.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceReadResultEnvelope"
+  /ai-gateway/prompts/get:
+    post:
+      tags: [AI Gateway]
+      operationId: getAIGatewayPrompt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PromptGetRequest"
+      responses:
+        "200":
+          description: Gateway prompt messages assembled by the backend.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptGetResultEnvelope"
+  /ai-gateway/personal-access-tokens:
+    get:
+      tags: [AI Gateway]
+      operationId: listPersonalAccessTokens
+      parameters:
+        - name: scope
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: userId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Personal access tokens visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PersonalAccessTokenListEnvelope"
+    post:
+      tags: [AI Gateway]
+      operationId: createPersonalAccessToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PersonalAccessTokenInput"
+      responses:
+        "201":
+          description: Newly created personal access token and one-time secret value.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreatedPersonalAccessTokenEnvelope"
+  /ai-gateway/personal-access-tokens/{tokenID}/revoke:
+    post:
+      tags: [AI Gateway]
+      operationId: revokePersonalAccessToken
+      parameters:
+        - name: tokenID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Personal access token was revoked.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationStatus"
+  /ai-gateway/personal-access-tokens/{tokenID}/rotate:
+    post:
+      tags: [AI Gateway]
+      operationId: rotatePersonalAccessToken
+      parameters:
+        - name: tokenID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TokenRotationInput"
+      responses:
+        "201":
+          description: Rotated personal access token and one-time secret value.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreatedPersonalAccessTokenEnvelope"
+  /ai-gateway/service-accounts:
+    get:
+      tags: [AI Gateway]
+      operationId: listServiceAccounts
+      responses:
+        "200":
+          description: Service accounts visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceAccountListEnvelope"
+    post:
+      tags: [AI Gateway]
+      operationId: createServiceAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceAccountInput"
+      responses:
+        "201":
+          description: Newly created service account.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceAccountEnvelope"
+  /ai-gateway/service-account-tokens:
+    get:
+      tags: [AI Gateway]
+      operationId: listServiceAccountTokens
+      responses:
+        "200":
+          description: Service account tokens visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceAccountTokenListEnvelope"
+  /ai-gateway/service-accounts/{serviceAccountID}/tokens:
+    post:
+      tags: [AI Gateway]
+      operationId: createServiceAccountToken
+      parameters:
+        - name: serviceAccountID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceAccountTokenInput"
+      responses:
+        "201":
+          description: Newly created service account token and one-time secret value.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreatedServiceAccountTokenEnvelope"
+  /ai-gateway/service-account-tokens/{tokenID}/revoke:
+    post:
+      tags: [AI Gateway]
+      operationId: revokeServiceAccountToken
+      parameters:
+        - name: tokenID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Service account token was revoked.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationStatus"
+  /ai-gateway/service-account-tokens/{tokenID}/rotate:
+    post:
+      tags: [AI Gateway]
+      operationId: rotateServiceAccountToken
+      parameters:
+        - name: tokenID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TokenRotationInput"
+      responses:
+        "201":
+          description: Rotated service account token and one-time secret value.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreatedServiceAccountTokenEnvelope"
+  /ai-gateway/audit-logs:
+    get:
+      tags: [AI Gateway]
+      operationId: listAIGatewayAuditLogs
+      parameters:
+        - name: actorType
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: actorId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Canonical actor identifier query parameter. The server also accepts actor.
+        - name: aiClientId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: skillId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: toolName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: approvalRequestId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: riskLevel
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/RiskLevel"
+        - name: result
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: action
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+      responses:
+        "200":
+          description: AI Gateway audit log entries.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuditLogListEnvelope"
+  /ai-gateway/approval-requests:
+    get:
+      tags: [AI Gateway]
+      operationId: listAIGatewayApprovalRequests
+      parameters:
+        - name: id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Canonical approval request id query parameter. The server also accepts requestID and approvalRequestId.
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: actorType
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: actorId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Canonical actor identifier query parameter. The server also accepts actor.
+        - name: aiClientId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: skillId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: toolName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: riskLevel
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/RiskLevel"
+        - name: strategy
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+      responses:
+        "200":
+          description: AI Gateway approval requests.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApprovalRequestListEnvelope"
+  /ai-gateway/approval-requests/{requestID}/timeline:
+    get:
+      tags: [AI Gateway]
+      operationId: getAIGatewayApprovalTimeline
+      parameters:
+        - name: requestID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Approval request timeline.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApprovalTimelineEnvelope"
+  /ai-gateway/approval-requests/{requestID}/{action}:
+    post:
+      tags: [AI Gateway]
+      operationId: decideAIGatewayApprovalRequest
+      parameters:
+        - name: requestID
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: action
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [approve, reject, cancel]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApprovalDecisionInput"
+      responses:
+        "200":
+          description: Approval decision result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApprovalDecisionResultEnvelope"
+  /ai-gateway/governance/status:
+    get:
+      tags: [AI Gateway]
+      operationId: getAIGatewayGovernanceStatus
+      parameters:
+        - name: windowHours
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 168
+      responses:
+        "200":
+          description: AI Gateway governance health and usage summary.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GovernanceStatusEnvelope"
+  /mcp/capabilities:
+    get:
+      tags: [MCP]
+      operationId: listMCPCapabilities
+      responses:
+        "200":
+          description: MCP adapter capability list.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MCPCapabilityListEnvelope"
+  /plugins/marketplace:
+    get:
+      tags: [Plugins]
+      operationId: listMarketplacePlugins
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: publisher
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Marketplace plugins visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MarketplacePluginListEnvelope"
+  /plugins/marketplace/{pluginID}:
+    get:
+      tags: [Plugins]
+      operationId: getMarketplacePlugin
+      parameters:
+        - $ref: "#/components/parameters/PluginID"
+      responses:
+        "200":
+          description: Marketplace plugin detail.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MarketplacePluginEnvelope"
+  /plugins/installed:
+    get:
+      tags: [Plugins]
+      operationId: listInstalledPlugins
+      responses:
+        "200":
+          description: Installed plugin records.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InstalledPluginListEnvelope"
+  /plugins/install:
+    post:
+      tags: [Plugins]
+      operationId: installPlugin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PluginInstallRequest"
+      responses:
+        "201":
+          description: Installed plugin snapshot.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InstalledPluginEnvelope"
+  /plugins/{pluginID}:
+    get:
+      tags: [Plugins]
+      operationId: getInstalledPlugin
+      parameters:
+        - $ref: "#/components/parameters/PluginID"
+      responses:
+        "200":
+          description: Installed plugin record.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InstalledPluginEnvelope"
+    delete:
+      tags: [Plugins]
+      operationId: removeInstalledPlugin
+      parameters:
+        - $ref: "#/components/parameters/PluginID"
+      responses:
+        "200":
+          description: Installed plugin was removed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationStatus"
+  /plugins/{pluginID}/manifest:
+    get:
+      tags: [Plugins]
+      operationId: getInstalledPluginManifest
+      parameters:
+        - $ref: "#/components/parameters/PluginID"
+      responses:
+        "200":
+          description: Installed plugin manifest snapshot.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PluginManifestEnvelope"
+  /plugins/{pluginID}/enable:
+    post:
+      tags: [Plugins]
+      operationId: enableInstalledPlugin
+      parameters:
+        - $ref: "#/components/parameters/PluginID"
+      responses:
+        "200":
+          description: Plugin enabled.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InstalledPluginEnvelope"
+  /plugins/{pluginID}/disable:
+    post:
+      tags: [Plugins]
+      operationId: disableInstalledPlugin
+      parameters:
+        - $ref: "#/components/parameters/PluginID"
+      responses:
+        "200":
+          description: Plugin disabled.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InstalledPluginEnvelope"
+  /plugins/{pluginID}/upgrade:
+    post:
+      tags: [Plugins]
+      operationId: upgradeInstalledPlugin
+      parameters:
+        - $ref: "#/components/parameters/PluginID"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PluginInstallRequest"
+      responses:
+        "200":
+          description: Plugin upgraded and manifest snapshot refreshed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InstalledPluginEnvelope"
+  /plugins/{pluginID}/config:
+    put:
+      tags: [Plugins]
+      operationId: configureInstalledPlugin
+      parameters:
+        - $ref: "#/components/parameters/PluginID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PluginConfigRequest"
+      responses:
+        "200":
+          description: Plugin configuration updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InstalledPluginEnvelope"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    runtimeBearerAuth:
+      type: http
+      scheme: bearer
+      description: Runtime execution runner token.
+  parameters:
+    AIClientID:
+      name: aiClientId
+      in: query
+      required: false
+      schema:
+        type: string
+    AIClientName:
+      name: aiClientName
+      in: query
+      required: false
+      schema:
+        type: string
+    OIDCCode:
+      name: code
+      in: query
+      required: false
+      schema:
+        type: string
+    OIDCState:
+      name: state
+      in: query
+      required: false
+      schema:
+        type: string
+    OperationID:
+      name: operationID
+      in: path
+      required: true
+      schema:
+        type: string
+    ProviderID:
+      name: providerID
+      in: path
+      required: true
+      schema:
+        type: string
+    PluginID:
+      name: pluginID
+      in: path
+      required: true
+      schema:
+        type: string
+    SkillID:
+      name: skillId
+      in: query
+      required: false
+      schema:
+        type: string
+    Source:
+      name: source
+      in: query
+      required: false
+      schema:
+        type: string
+    TaskID:
+      name: taskID
+      in: path
+      required: true
+      schema:
+        type: string
+    ToolName:
+      name: toolName
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    Error:
+      description: Standard Soha API error envelope.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+  schemas:
+    AnyValue: {}
+    GenericObject:
+      type: object
+      additionalProperties: true
+    GenericDataEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/AnyValue"
+      additionalProperties: false
+    GenericItemsEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/AnyValue"
+      additionalProperties: false
+    ErrorEnvelope:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            request_id:
+              type: string
+          additionalProperties: false
+      additionalProperties: false
+    Principal:
+      type: object
+      required: [userId, userName, email, roles, teams, projects, tags]
+      properties:
+        userId:
+          type: string
+        userName:
+          type: string
+        email:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+        teams:
+          type: array
+          items:
+            type: string
+        projects:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: string
+        permissionKeys:
+          type: array
+          items:
+            type: string
+      additionalProperties: true
+    UserProfile:
+      type: object
+      required: [userId, username, displayName, email, status, roles, teams, projects, tags]
+      properties:
+        userId:
+          type: string
+        username:
+          type: string
+        displayName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        status:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+        teams:
+          type: array
+          items:
+            type: string
+        projects:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: string
+        identities:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        sessions:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        lastLoginAt:
+          type: string
+          format: date-time
+      additionalProperties: true
+    TokenSet:
+      type: object
+      required: [accessToken, refreshToken, tokenType, expiresIn, expiresAt]
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+        tokenType:
+          type: string
+        expiresIn:
+          type: integer
+          format: int64
+        expiresAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    AuthResult:
+      type: object
+      required: [user, tokens]
+      properties:
+        user:
+          $ref: "#/components/schemas/Principal"
+        tokens:
+          $ref: "#/components/schemas/TokenSet"
+      additionalProperties: false
+    AuthProvider:
+      type: object
+      required: [type, name, enabled]
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        enabled:
+          type: boolean
+        loginUrl:
+          type: string
+      additionalProperties: false
+    LoginOptions:
+      type: object
+      required: [verification]
+      properties:
+        verification:
+          type: object
+          required: [sliderEnabled]
+          properties:
+            sliderEnabled:
+              type: boolean
+          additionalProperties: false
+      additionalProperties: false
+    PasswordLoginRequest:
+      type: object
+      required: [login, password]
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+      additionalProperties: false
+    RefreshRequest:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+      additionalProperties: false
+    OIDCExchangeRequest:
+      type: object
+      required: [code]
+      properties:
+        code:
+          type: string
+      additionalProperties: false
+    StreamTicketRequest:
+      type: object
+      required: [path]
+      properties:
+        path:
+          type: string
+      additionalProperties: false
+    StreamTicket:
+      type: object
+      required: [ticket, expiresAt]
+      properties:
+        ticket:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    PrincipalEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/Principal"
+      additionalProperties: false
+    UserProfileEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/UserProfile"
+      additionalProperties: false
+    AuthResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/AuthResult"
+      additionalProperties: false
+    AuthProviderListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/AuthProvider"
+      additionalProperties: false
+    LoginOptionsEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/LoginOptions"
+      additionalProperties: false
+    AuthBootstrapEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: object
+          required: [user, currentUser, permissionSnapshot, branding]
+          properties:
+            user:
+              $ref: "#/components/schemas/Principal"
+            currentUser:
+              $ref: "#/components/schemas/Principal"
+            permissionSnapshot:
+              type: object
+              additionalProperties: true
+            branding:
+              type: object
+              additionalProperties: true
+          additionalProperties: true
+      additionalProperties: false
+    StreamTicketEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/StreamTicket"
+      additionalProperties: false
+    ExecutionTask:
+      type: object
+      required: [id, applicationId, applicationEnvironmentId, taskKind, providerKind, status, callbackToken, payload]
+      properties:
+        id:
+          type: string
+        applicationId:
+          type: string
+        applicationEnvironmentId:
+          type: string
+        taskKind:
+          type: string
+        providerKind:
+          type: string
+        status:
+          type: string
+        callbackToken:
+          type: string
+        payload:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+    ExecutionTaskClaimRequest:
+      type: object
+      required: [agentId]
+      properties:
+        agentId:
+          type: string
+        providerKinds:
+          type: array
+          items:
+            type: string
+        runtimeEndpoint:
+          type: string
+      additionalProperties: false
+    ExecutionCallbackRequest:
+      type: object
+      required: [callbackToken, status, payload]
+      properties:
+        callbackToken:
+          type: string
+        status:
+          type: string
+        payload:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    DockerOperation:
+      type: object
+      required: [id, operationKind, status, payload, timeoutSeconds]
+      properties:
+        id:
+          type: string
+        hostId:
+          type: string
+        projectId:
+          type: string
+        serviceId:
+          type: string
+        operationKind:
+          type: string
+        status:
+          type: string
+        claimedByWorkerId:
+          type: string
+        payload:
+          type: object
+          additionalProperties: true
+        timeoutSeconds:
+          type: integer
+      additionalProperties: true
+    DockerOperationClaimRequest:
+      type: object
+      required: [workerId, agentId]
+      properties:
+        workerId:
+          type: string
+        agentId:
+          type: string
+        hostIds:
+          type: array
+          items:
+            type: string
+        operationKinds:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    DockerOperationCallbackRequest:
+      type: object
+      required: [operationId, workerId, status, payload, logs]
+      properties:
+        operationId:
+          type: string
+        workerId:
+          type: string
+        status:
+          type: string
+        payload:
+          type: object
+          additionalProperties: true
+        logs:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    AgentRun:
+      type: object
+      required: [id, providerId, providerKind, capabilityId, status, callbackToken, timeoutSeconds]
+      properties:
+        id:
+          type: string
+        providerId:
+          type: string
+        providerKind:
+          type: string
+        capabilityId:
+          type: string
+        skillIds:
+          type: array
+          items:
+            type: string
+        sessionId:
+          type: string
+        status:
+          type: string
+        scope:
+          type: object
+          additionalProperties: true
+        toolset:
+          type: object
+          additionalProperties: true
+        toolBindings:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        skillBindings:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        input:
+          type: object
+          additionalProperties: true
+        output:
+          type: object
+          additionalProperties: true
+        callbackToken:
+          type: string
+        timeoutSeconds:
+          type: integer
+        analysisArtifacts:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+      additionalProperties: true
+    AgentRunClaimRequest:
+      type: object
+      required: [agentId]
+      properties:
+        agentId:
+          type: string
+        providerIds:
+          type: array
+          items:
+            type: string
+        kinds:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    AgentRunCallbackRequest:
+      type: object
+      required: [runId, callbackToken, agentId, status, payload]
+      properties:
+        runId:
+          type: string
+        callbackToken:
+          type: string
+        agentId:
+          type: string
+        status:
+          type: string
+        payload:
+          type: object
+          additionalProperties: true
+        toolExecutions:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        analysisArtifacts:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        externalRunId:
+          type: string
+        errorMessage:
+          type: string
+      additionalProperties: false
+    AgentRunToolCallRequest:
+      type: object
+      required: [runId, callbackToken, agentId]
+      properties:
+        runId:
+          type: string
+        callbackToken:
+          type: string
+        agentId:
+          type: string
+        toolBindingId:
+          type: string
+        adapterId:
+          type: string
+        toolName:
+          type: string
+        input:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    AgentToolCallResult:
+      type: object
+      required: [runId, toolExecution]
+      properties:
+        runId:
+          type: string
+        toolExecution:
+          type: object
+          additionalProperties: true
+        output:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+    ExecutionTaskEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ExecutionTask"
+      additionalProperties: false
+    DockerOperationEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/DockerOperation"
+      additionalProperties: false
+    AgentRunEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/AgentRun"
+      additionalProperties: false
+    AgentToolCallResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/AgentToolCallResult"
+      additionalProperties: false
+    RiskLevel:
+      type: string
+      enum: [read, analyze, mutate, execute, high]
+    JSONSchema:
+      type: object
+      additionalProperties: true
+    ToolCapability:
+      type: object
+      required: [name, title, description, domain, action, riskLevel, permissionKeys, requiresApproval]
+      properties:
+        name:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        domain:
+          type: string
+        action:
+          type: string
+        riskLevel:
+          $ref: "#/components/schemas/RiskLevel"
+        permissionKeys:
+          type: array
+          items:
+            type: string
+        requiredScopes:
+          type: array
+          items:
+            type: string
+        mcpAdapterId:
+          type: string
+        mcpToolName:
+          type: string
+        requiresApproval:
+          type: boolean
+        inputSchema:
+          $ref: "#/components/schemas/JSONSchema"
+        outputSchema:
+          $ref: "#/components/schemas/JSONSchema"
+      additionalProperties: false
+    ResourceCapability:
+      type: object
+      required: [name, description, permissionKeys]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        permissionKeys:
+          type: array
+          items:
+            type: string
+        requiredScopes:
+          type: array
+          items:
+            type: string
+        contextSchema:
+          $ref: "#/components/schemas/JSONSchema"
+      additionalProperties: false
+    PromptCapability:
+      type: object
+      required: [name, description, permissionKeys]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        permissionKeys:
+          type: array
+          items:
+            type: string
+        requiredScopes:
+          type: array
+          items:
+            type: string
+        argumentSchema:
+          $ref: "#/components/schemas/JSONSchema"
+        contextSchema:
+          $ref: "#/components/schemas/JSONSchema"
+      additionalProperties: false
+    SkillCapability:
+      type: object
+      required: [id, name, category, description]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        capabilityRefs:
+          type: array
+          items:
+            type: string
+        permissionKeys:
+          type: array
+          items:
+            type: string
+        requiredScopes:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    CallerContext:
+      type: object
+      required: [identityMode]
+      properties:
+        identityMode:
+          type: string
+        aiClientId:
+          type: string
+        aiClientName:
+          type: string
+        skillId:
+          type: string
+        tokenId:
+          type: string
+        sessionId:
+          type: string
+        subjectType:
+          type: string
+        subjectId:
+          type: string
+        source:
+          type: string
+      additionalProperties: false
+    AIGatewayManifest:
+      type: object
+      required: [name, version, generatedAt, principal, caller, permissionKeys, tools, summary]
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        generatedAt:
+          type: string
+          format: date-time
+        principal:
+          $ref: "#/components/schemas/Principal"
+        caller:
+          $ref: "#/components/schemas/CallerContext"
+        permissionKeys:
+          type: array
+          items:
+            type: string
+        tools:
+          type: array
+          items:
+            $ref: "#/components/schemas/ToolCapability"
+        resources:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResourceCapability"
+        prompts:
+          type: array
+          items:
+            $ref: "#/components/schemas/PromptCapability"
+        skills:
+          type: array
+          items:
+            $ref: "#/components/schemas/SkillCapability"
+        summary:
+          type: object
+          required: [toolCount, resourceCount, promptCount, skillCount, deniedCount]
+          properties:
+            toolCount:
+              type: integer
+            resourceCount:
+              type: integer
+            promptCount:
+              type: integer
+            skillCount:
+              type: integer
+            deniedCount:
+              type: integer
+          additionalProperties: false
+      additionalProperties: false
+    ToolInvocationRequest:
+      type: object
+      properties:
+        toolName:
+          type: string
+        input:
+          type: object
+          additionalProperties: true
+        aiClientId:
+          type: string
+        aiClientName:
+          type: string
+        skillId:
+          type: string
+        requestId:
+          type: string
+      additionalProperties: false
+    ToolInvocationResult:
+      type: object
+      required: [toolName, riskLevel, requiresApproval, result]
+      properties:
+        toolName:
+          type: string
+        riskLevel:
+          $ref: "#/components/schemas/RiskLevel"
+        requiresApproval:
+          type: boolean
+        result:
+          type: string
+        output:
+          $ref: "#/components/schemas/AnyValue"
+        relatedIds:
+          type: object
+          additionalProperties: true
+        audit:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+    ResourceReadRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        uri:
+          type: string
+        context:
+          type: object
+          additionalProperties: true
+        aiClientId:
+          type: string
+        aiClientName:
+          type: string
+        skillId:
+          type: string
+        requestId:
+          type: string
+      additionalProperties: false
+    ResourceReadResult:
+      type: object
+      required: [name, uri, mimeType]
+      properties:
+        name:
+          type: string
+        uri:
+          type: string
+        mimeType:
+          type: string
+        text:
+          type: string
+        data:
+          $ref: "#/components/schemas/AnyValue"
+        relatedIds:
+          type: object
+          additionalProperties: true
+        audit:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+    PromptGetRequest:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+        arguments:
+          type: object
+          additionalProperties: true
+        context:
+          type: object
+          additionalProperties: true
+        aiClientId:
+          type: string
+        aiClientName:
+          type: string
+        skillId:
+          type: string
+        requestId:
+          type: string
+      additionalProperties: false
+    PromptMessage:
+      type: object
+      required: [role, content]
+      properties:
+        role:
+          type: string
+        content:
+          type: string
+      additionalProperties: false
+    PromptGetResult:
+      type: object
+      required: [name, description, messages]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/PromptMessage"
+        relatedIds:
+          type: object
+          additionalProperties: true
+        audit:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+    AIGatewayManifestEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/AIGatewayManifest"
+      additionalProperties: false
+    ToolInvocationResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ToolInvocationResult"
+      additionalProperties: false
+    ResourceReadResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ResourceReadResult"
+      additionalProperties: false
+    PromptGetResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/PromptGetResult"
+      additionalProperties: false
+    OperationStatus:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+      additionalProperties: false
+    PluginAssetSnapshot:
+      type: object
+      properties:
+        skills:
+          type: array
+          items:
+            type: string
+        mcpPresets:
+          type: array
+          items:
+            type: string
+        connectors:
+          type: array
+          items:
+            type: string
+        aiProviderAdapters:
+          type: array
+          items:
+            type: string
+        agentProfiles:
+          type: array
+          items:
+            type: string
+        gatewayPolicyPacks:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    PluginCompatibility:
+      type: object
+      properties:
+        soha:
+          type: string
+        contracts:
+          type: string
+      additionalProperties: true
+    PluginCapabilityRequest:
+      type: object
+      properties:
+        tools:
+          type: array
+          items:
+            type: string
+        resources:
+          type: array
+          items:
+            type: string
+        prompts:
+          type: array
+          items:
+            type: string
+        skills:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    PluginPermissionRequest:
+      type: object
+      properties:
+        required:
+          type: array
+          items:
+            type: string
+        domain:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    PluginSecretRequirement:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        required:
+          type: boolean
+        secretRef:
+          type: string
+      additionalProperties: false
+    PluginIntegrity:
+      type: object
+      properties:
+        checksum:
+          type: string
+        signature:
+          type: string
+        verified:
+          type: boolean
+        status:
+          type: string
+      additionalProperties: false
+    PluginManifest:
+      type: object
+      required: [id, name, version, publisher, type]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        version:
+          type: string
+        publisher:
+          type: string
+        type:
+          type: string
+          enum: [skill, skill-pack, mcp-preset, connector, ai-provider-adapter, agent-profile, gateway-policy-pack]
+        description:
+          type: string
+        homepage:
+          type: string
+        compatibility:
+          $ref: "#/components/schemas/PluginCompatibility"
+        assets:
+          $ref: "#/components/schemas/PluginAssetSnapshot"
+        capabilities:
+          $ref: "#/components/schemas/PluginCapabilityRequest"
+        permissions:
+          $ref: "#/components/schemas/PluginPermissionRequest"
+        secrets:
+          type: object
+          properties:
+            required:
+              type: array
+              items:
+                $ref: "#/components/schemas/PluginSecretRequirement"
+          additionalProperties: false
+        integrity:
+          $ref: "#/components/schemas/PluginIntegrity"
+        metadata:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    MarketplacePlugin:
+      type: object
+      required: [id, name, version, publisher, type, manifest, source]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        version:
+          type: string
+        publisher:
+          type: string
+        type:
+          type: string
+        summary:
+          type: string
+        source:
+          type: string
+        riskLevel:
+          type: string
+        manifest:
+          $ref: "#/components/schemas/PluginManifest"
+        installed:
+          type: boolean
+      additionalProperties: false
+    InstalledPlugin:
+      type: object
+      required: [id, name, version, publisher, type, status, source, manifest, checksumStatus, installedBy, installedAt, updatedAt]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        version:
+          type: string
+        publisher:
+          type: string
+        type:
+          type: string
+        status:
+          type: string
+          enum: [enabled, disabled]
+        source:
+          type: string
+        manifest:
+          $ref: "#/components/schemas/PluginManifest"
+        checksumStatus:
+          type: string
+        signatureStatus:
+          type: string
+        requestedPermissions:
+          $ref: "#/components/schemas/PluginPermissionRequest"
+        configuredSecretRefs:
+          type: object
+          additionalProperties:
+            type: string
+        installedBy:
+          type: string
+        installedAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        enabledAt:
+          type: string
+          format: date-time
+        disabledAt:
+          type: string
+          format: date-time
+        metadata:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    PluginInstallRequest:
+      type: object
+      properties:
+        pluginId:
+          type: string
+        source:
+          type: string
+        manifest:
+          $ref: "#/components/schemas/PluginManifest"
+        expectedChecksum:
+          type: string
+        enable:
+          type: boolean
+      additionalProperties: false
+    PluginConfigRequest:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          x-go-pointer: true
+        secretRefs:
+          type: object
+          additionalProperties:
+            type: string
+        metadata:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    PluginManifestEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/PluginManifest"
+      additionalProperties: false
+    MarketplacePluginEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/MarketplacePlugin"
+      additionalProperties: false
+    MarketplacePluginListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/MarketplacePlugin"
+      additionalProperties: false
+    InstalledPluginEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/InstalledPlugin"
+      additionalProperties: false
+    InstalledPluginListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/InstalledPlugin"
+      additionalProperties: false
+    PersonalAccessToken:
+      type: object
+      required: [id, userId, name, tokenPrefix, scopes, permissionKeys, createdBy, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        name:
+          type: string
+        tokenPrefix:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+        permissionKeys:
+          type: array
+          items:
+            type: string
+        metadata:
+          type: object
+          additionalProperties: true
+        expiresAt:
+          type: string
+          format: date-time
+        lastUsedAt:
+          type: string
+          format: date-time
+        revokedAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    PersonalAccessTokenInput:
+      type: object
+      required: [name, scopes, permissionKeys]
+      properties:
+        name:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+        permissionKeys:
+          type: array
+          items:
+            type: string
+        metadata:
+          type: object
+          additionalProperties: true
+        expiresAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    CreatedPersonalAccessToken:
+      type: object
+      required: [token, value]
+      properties:
+        token:
+          $ref: "#/components/schemas/PersonalAccessToken"
+        value:
+          type: string
+      additionalProperties: false
+    PersonalAccessTokenListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PersonalAccessToken"
+      additionalProperties: false
+    CreatedPersonalAccessTokenEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/CreatedPersonalAccessToken"
+      additionalProperties: false
+    ServiceAccount:
+      type: object
+      required: [id, name, status, roleIds, teamIds, scopeGrantIds, createdBy, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+        ownerUserId:
+          type: string
+        roleIds:
+          type: array
+          items:
+            type: string
+        teamIds:
+          type: array
+          items:
+            type: string
+        scopeGrantIds:
+          type: array
+          items:
+            type: string
+        metadata:
+          type: object
+          additionalProperties: true
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ServiceAccountInput:
+      type: object
+      required: [id, name, status]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+        ownerUserId:
+          type: string
+        roleIds:
+          type: array
+          items:
+            type: string
+        teamIds:
+          type: array
+          items:
+            type: string
+        scopeGrantIds:
+          type: array
+          items:
+            type: string
+        metadata:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    ServiceAccountEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ServiceAccount"
+      additionalProperties: false
+    ServiceAccountListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ServiceAccount"
+      additionalProperties: false
+    ServiceAccountToken:
+      type: object
+      required: [id, serviceAccountId, name, tokenPrefix, scopes, permissionKeys, createdBy, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        serviceAccountId:
+          type: string
+        name:
+          type: string
+        tokenPrefix:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+        permissionKeys:
+          type: array
+          items:
+            type: string
+        metadata:
+          type: object
+          additionalProperties: true
+        expiresAt:
+          type: string
+          format: date-time
+        lastUsedAt:
+          type: string
+          format: date-time
+        revokedAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ServiceAccountTokenInput:
+      type: object
+      required: [name, scopes, permissionKeys]
+      properties:
+        name:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+        permissionKeys:
+          type: array
+          items:
+            type: string
+        metadata:
+          type: object
+          additionalProperties: true
+        expiresAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    CreatedServiceAccountToken:
+      type: object
+      required: [token, value]
+      properties:
+        token:
+          $ref: "#/components/schemas/ServiceAccountToken"
+        value:
+          type: string
+      additionalProperties: false
+    ServiceAccountTokenListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ServiceAccountToken"
+      additionalProperties: false
+    CreatedServiceAccountTokenEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/CreatedServiceAccountToken"
+      additionalProperties: false
+    TokenRotationInput:
+      type: object
+      properties:
+        expiresAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    AuditLog:
+      type: object
+      required: [id, actorType, actorId, action, result, summary, createdAt]
+      properties:
+        id:
+          type: string
+        actorType:
+          type: string
+        actorId:
+          type: string
+        actorName:
+          type: string
+        aiClientId:
+          type: string
+        aiClientName:
+          type: string
+        skillId:
+          type: string
+        toolName:
+          type: string
+        riskLevel:
+          $ref: "#/components/schemas/RiskLevel"
+        resourceScope:
+          type: object
+          additionalProperties: true
+        action:
+          type: string
+        result:
+          type: string
+        summary:
+          type: string
+        requestId:
+          type: string
+        sourceIp:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true
+        createdAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    AuditLogListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/AuditLog"
+      additionalProperties: false
+    ApprovalTrace:
+      type: object
+      properties:
+        approvalMode:
+          type: string
+        currentStageIndex:
+          type: integer
+        currentStageName:
+          type: string
+        stageCount:
+          type: integer
+        approvedCount:
+          type: integer
+        requiredApprovals:
+          type: integer
+        pendingRequirements:
+          type: array
+          items:
+            type: string
+        satisfiedRequirements:
+          type: array
+          items:
+            type: string
+        roleApprovedCounts:
+          type: object
+          additionalProperties:
+            type: integer
+        teamApprovedCounts:
+          type: object
+          additionalProperties:
+            type: integer
+        candidateUserIds:
+          type: array
+          items:
+            type: string
+        candidateRoles:
+          type: array
+          items:
+            type: string
+        candidateTeams:
+          type: array
+          items:
+            type: string
+        onCallCandidateUserIds:
+          type: array
+          items:
+            type: string
+        workflowRunId:
+          type: string
+        executionTaskId:
+          type: string
+        releaseBundleId:
+          type: string
+        decisions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApprovalDecisionTrace"
+        stageHistory:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApprovalStageTrace"
+      additionalProperties: false
+    ApprovalDecisionTrace:
+      type: object
+      properties:
+        userId:
+          type: string
+        userName:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+        teams:
+          type: array
+          items:
+            type: string
+        result:
+          type: string
+        comment:
+          type: string
+        stageIndex:
+          type: integer
+        stageName:
+          type: string
+        decidedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ApprovalStageTrace:
+      type: object
+      properties:
+        stageIndex:
+          type: integer
+        stageName:
+          type: string
+        result:
+          type: string
+        completedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ApprovalTimelineEvent:
+      type: object
+      required: [id, kind, action, result, createdAt]
+      properties:
+        id:
+          type: string
+        kind:
+          type: string
+        action:
+          type: string
+        result:
+          type: string
+        summary:
+          type: string
+        actorType:
+          type: string
+        actorId:
+          type: string
+        actorName:
+          type: string
+        stageIndex:
+          type: integer
+        stageName:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true
+        createdAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ApprovalRequest:
+      type: object
+      required: [id, status, strategy, actorType, actorId, toolName, riskLevel, requiresApproval, summary, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+        strategy:
+          type: string
+        policyId:
+          type: string
+        approvalPolicyRef:
+          type: string
+        actorType:
+          type: string
+        actorId:
+          type: string
+        actorName:
+          type: string
+        actorRoles:
+          type: array
+          items:
+            type: string
+        actorTeams:
+          type: array
+          items:
+            type: string
+        aiClientId:
+          type: string
+        aiClientName:
+          type: string
+        skillId:
+          type: string
+        toolName:
+          type: string
+        riskLevel:
+          $ref: "#/components/schemas/RiskLevel"
+        requiresApproval:
+          type: boolean
+        resourceScope:
+          type: object
+          additionalProperties: true
+        toolInput:
+          type: object
+          additionalProperties: true
+        relatedIds:
+          type: object
+          additionalProperties: true
+        approvalTrace:
+          $ref: "#/components/schemas/ApprovalTrace"
+        output:
+          $ref: "#/components/schemas/AnyValue"
+        summary:
+          type: string
+        requestId:
+          type: string
+        sourceIp:
+          type: string
+        decidedBy:
+          type: string
+        decidedByName:
+          type: string
+        decidedAt:
+          type: string
+          format: date-time
+        decisionComment:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ApprovalDecisionInput:
+      type: object
+      properties:
+        comment:
+          type: string
+      additionalProperties: false
+    ApprovalDecisionResult:
+      type: object
+      required: [request]
+      properties:
+        request:
+          $ref: "#/components/schemas/ApprovalRequest"
+        invocation:
+          $ref: "#/components/schemas/ToolInvocationResult"
+      additionalProperties: false
+    ApprovalTimeline:
+      type: object
+      required: [request]
+      properties:
+        request:
+          $ref: "#/components/schemas/ApprovalRequest"
+        trace:
+          $ref: "#/components/schemas/ApprovalTrace"
+        events:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApprovalTimelineEvent"
+      additionalProperties: false
+    ApprovalRequestListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApprovalRequest"
+      additionalProperties: false
+    ApprovalTimelineEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ApprovalTimeline"
+      additionalProperties: false
+    ApprovalDecisionResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ApprovalDecisionResult"
+      additionalProperties: false
+    GovernanceStatus:
+      type: object
+      required: [generatedAt, windowHours, health, metrics, tokens, clients, approvals, policyCoverage, redaction]
+      properties:
+        generatedAt:
+          type: string
+          format: date-time
+        windowHours:
+          type: integer
+        health:
+          $ref: "#/components/schemas/GovernanceHealth"
+        metrics:
+          $ref: "#/components/schemas/GovernanceMetrics"
+        tokens:
+          $ref: "#/components/schemas/GovernanceTokenSummary"
+        clients:
+          $ref: "#/components/schemas/GovernanceClientSummary"
+        approvals:
+          $ref: "#/components/schemas/GovernanceApprovalSummary"
+        policyCoverage:
+          $ref: "#/components/schemas/GovernancePolicyCoverage"
+        redaction:
+          $ref: "#/components/schemas/GovernanceRedactionSummary"
+        anomalies:
+          type: array
+          items:
+            $ref: "#/components/schemas/GovernanceFinding"
+        recommendations:
+          type: array
+          items:
+            type: string
+        recommendationActions:
+          type: array
+          items:
+            $ref: "#/components/schemas/GovernanceRecommendationAction"
+        metadata:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    GovernanceHealth:
+      type: object
+      required: [status, message]
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        checks:
+          type: array
+          items:
+            $ref: "#/components/schemas/GovernanceHealthCheck"
+      additionalProperties: false
+    GovernanceHealthCheck:
+      type: object
+      required: [name, status, message]
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+        message:
+          type: string
+        count:
+          type: integer
+      additionalProperties: false
+    GovernanceMetrics:
+      type: object
+      required: [totalCalls, successCount, denyCount, failureCount, pendingApprovalCount, dryRunCount]
+      properties:
+        totalCalls:
+          type: integer
+        successCount:
+          type: integer
+        denyCount:
+          type: integer
+        failureCount:
+          type: integer
+        pendingApprovalCount:
+          type: integer
+        dryRunCount:
+          type: integer
+        riskCounts:
+          type: object
+          additionalProperties:
+            type: integer
+        topTools:
+          type: array
+          items:
+            $ref: "#/components/schemas/GovernanceMetricCount"
+        topAiClients:
+          type: array
+          items:
+            $ref: "#/components/schemas/GovernanceMetricCount"
+        topActors:
+          type: array
+          items:
+            $ref: "#/components/schemas/GovernanceMetricCount"
+        recentResultBreakdown:
+          type: object
+          additionalProperties:
+            type: integer
+        recentActionBreakdown:
+          type: object
+          additionalProperties:
+            type: integer
+      additionalProperties: false
+    GovernanceMetricCount:
+      type: object
+      required: [key, count]
+      properties:
+        key:
+          type: string
+        count:
+          type: integer
+      additionalProperties: false
+    GovernanceRedactionSummary:
+      type: object
+      required: [totalMatches, auditsWithRedaction, inputAudits, outputAudits, fieldMatches, sensitiveKeyMatches, sensitiveTextMatches, valuePatternMatches, secretClassifierMatches, structuredSecretMatches]
+      properties:
+        totalMatches:
+          type: integer
+        auditsWithRedaction:
+          type: integer
+        inputAudits:
+          type: integer
+        outputAudits:
+          type: integer
+        fieldMatches:
+          type: integer
+        sensitiveKeyMatches:
+          type: integer
+        sensitiveTextMatches:
+          type: integer
+        valuePatternMatches:
+          type: integer
+        secretClassifierMatches:
+          type: integer
+        structuredSecretMatches:
+          type: integer
+        topTargets:
+          type: array
+          items:
+            $ref: "#/components/schemas/GovernanceMetricCount"
+        topFieldPaths:
+          type: array
+          items:
+            $ref: "#/components/schemas/GovernanceMetricCount"
+        topMatchTypes:
+          type: array
+          items:
+            $ref: "#/components/schemas/GovernanceMetricCount"
+        topClassifiers:
+          type: array
+          items:
+            $ref: "#/components/schemas/GovernanceMetricCount"
+        topPolicies:
+          type: array
+          items:
+            $ref: "#/components/schemas/GovernanceMetricCount"
+        topTools:
+          type: array
+          items:
+            $ref: "#/components/schemas/GovernanceMetricCount"
+      additionalProperties: false
+    GovernanceTokenSummary:
+      type: object
+      required: [personalAccessTokens, serviceAccountTokens, lastUsedTrackingState]
+      properties:
+        personalAccessTokens:
+          $ref: "#/components/schemas/GovernanceTokenCounts"
+        serviceAccountTokens:
+          $ref: "#/components/schemas/GovernanceTokenCounts"
+        expiringSoon:
+          type: array
+          items:
+            $ref: "#/components/schemas/GovernanceTokenFinding"
+        expiredActive:
+          type: array
+          items:
+            $ref: "#/components/schemas/GovernanceTokenFinding"
+        stale:
+          type: array
+          items:
+            $ref: "#/components/schemas/GovernanceTokenFinding"
+        neverUsed:
+          type: array
+          items:
+            $ref: "#/components/schemas/GovernanceTokenFinding"
+        lastUsedTrackingState:
+          type: string
+      additionalProperties: false
+    GovernanceTokenCounts:
+      type: object
+      required: [total, active, revoked, expired, expiringSoon, stale, neverUsed]
+      properties:
+        total:
+          type: integer
+        active:
+          type: integer
+        revoked:
+          type: integer
+        expired:
+          type: integer
+        expiringSoon:
+          type: integer
+        stale:
+          type: integer
+        neverUsed:
+          type: integer
+      additionalProperties: false
+    GovernanceTokenFinding:
+      type: object
+      required: [kind, id, name, tokenPrefix, severity, message]
+      properties:
+        kind:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        ownerId:
+          type: string
+        tokenPrefix:
+          type: string
+        severity:
+          type: string
+        message:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+        lastUsedAt:
+          type: string
+          format: date-time
+        daysUntilDue:
+          type: integer
+        staleDays:
+          type: integer
+      additionalProperties: false
+    GovernanceClientSummary:
+      type: object
+      required: [total, active, disabled, pendingApproval, registrationApproval]
+      properties:
+        total:
+          type: integer
+        active:
+          type: integer
+        disabled:
+          type: integer
+        pendingApproval:
+          type: integer
+        registrationApproval:
+          type: string
+        pendingApprovalClientIds:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    GovernanceApprovalSummary:
+      type: object
+      required: [pending, dueSoon, stalePending, overdue]
+      properties:
+        pending:
+          type: integer
+        dueSoon:
+          type: integer
+        stalePending:
+          type: integer
+        overdue:
+          type: integer
+        oldestPendingHours:
+          type: integer
+        oldestPendingRequestId:
+          type: string
+        nextDueAt:
+          type: string
+          format: date-time
+        nextDueRequestId:
+          type: string
+        dueSoonRequestIds:
+          type: array
+          items:
+            type: string
+        stalePendingRequestIds:
+          type: array
+          items:
+            type: string
+        overdueRequestIds:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    GovernancePolicyCoverage:
+      type: object
+      required: [accessPolicies, toolGrants, skillBindings, activeAccessPolicies, activeToolGrants, activeSkillBindings, budgetPolicies, rateLimitPolicies, redactionPolicies, resourceScopedAccessPolicies, resourceScopedToolGrants, budgetState, rateLimitState, redactionPolicyState, resourceScopeState]
+      properties:
+        accessPolicies:
+          type: integer
+        toolGrants:
+          type: integer
+        skillBindings:
+          type: integer
+        activeAccessPolicies:
+          type: integer
+        activeToolGrants:
+          type: integer
+        activeSkillBindings:
+          type: integer
+        budgetPolicies:
+          type: integer
+        rateLimitPolicies:
+          type: integer
+        redactionPolicies:
+          type: integer
+        resourceScopedAccessPolicies:
+          type: integer
+        resourceScopedToolGrants:
+          type: integer
+        budgetState:
+          type: string
+        rateLimitState:
+          type: string
+        redactionPolicyState:
+          type: string
+        resourceScopeState:
+          type: string
+      additionalProperties: false
+    GovernanceFinding:
+      type: object
+      required: [type, severity, summary]
+      properties:
+        type:
+          type: string
+        severity:
+          type: string
+        summary:
+          type: string
+        count:
+          type: integer
+        actorType:
+          type: string
+        actorId:
+          type: string
+        subjectType:
+          type: string
+        subjectId:
+          type: string
+        aiClientId:
+          type: string
+        policyId:
+          type: string
+        approvalRequestId:
+          type: string
+        grantId:
+          type: string
+        toolName:
+          type: string
+        riskLevel:
+          $ref: "#/components/schemas/RiskLevel"
+      additionalProperties: false
+    GovernanceRecommendationAction:
+      type: object
+      required: [type, severity, summary, action]
+      properties:
+        type:
+          type: string
+        severity:
+          type: string
+        summary:
+          type: string
+        action:
+          type: string
+        targetKind:
+          type: string
+        targetId:
+          type: string
+        refs:
+          type: array
+          items:
+            type: string
+        count:
+          type: integer
+        metadata:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    GovernanceStatusEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/GovernanceStatus"
+      additionalProperties: false
+    MCPCapability:
+      type: object
+      required: [adapterID, name, description, scopes]
+      properties:
+        adapterID:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    MCPCapabilityListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/MCPCapability"
+      additionalProperties: false

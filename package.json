@@ -1,0 +1,41 @@
+{
+  "name": "@opensoha/contracts",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Shared OpenSoha API, agent, MCP, skill, event, and auth contracts.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "generate": "node scripts/generate-sdk.mjs",
+    "check:generated": "node scripts/generate-sdk.mjs --check",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "npm run check:generated && node scripts/validate.mjs && npm run typecheck && go test ./..."
+  },
+  "exports": {
+    "./gen/ts/sohaapi": "./gen/ts/sohaapi/index.ts",
+    "./openapi/soha-api.yaml": "./openapi/soha-api.yaml",
+    "./agent/agent-protocol.schema.json": "./agent/agent-protocol.schema.json",
+    "./mcp/gateway-manifest.schema.json": "./mcp/gateway-manifest.schema.json",
+    "./skills/skill-manifest.schema.json": "./skills/skill-manifest.schema.json",
+    "./plugins/plugin-manifest.schema.json": "./plugins/plugin-manifest.schema.json",
+    "./events/event-envelope.schema.json": "./events/event-envelope.schema.json",
+    "./auth/token-claims.schema.json": "./auth/token-claims.schema.json"
+  },
+  "files": [
+    "gen",
+    "openapi",
+    "agent",
+    "mcp",
+    "skills",
+    "plugins",
+    "events",
+    "auth"
+  ],
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "yaml": "^2.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,230 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.opensoha.dev/agent/agent-protocol.schema.json",
+  "title": "Soha Agent Protocol",
+  "description": "Runner-facing control-plane contracts shared by Soha core and Soha Agent.",
+  "oneOf": [
+    { "$ref": "#/$defs/ExecutionTaskClaimRequest" },
+    { "$ref": "#/$defs/ExecutionCallbackRequest" },
+    { "$ref": "#/$defs/DockerOperationClaimRequest" },
+    { "$ref": "#/$defs/DockerOperationCallbackRequest" },
+    { "$ref": "#/$defs/AgentRunClaimRequest" },
+    { "$ref": "#/$defs/AgentRunCallbackRequest" },
+    { "$ref": "#/$defs/AgentRunToolCallRequest" }
+  ],
+  "$defs": {
+    "AnyObject": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "ExecutionTask": {
+      "type": "object",
+      "required": [
+        "id",
+        "applicationId",
+        "applicationEnvironmentId",
+        "taskKind",
+        "providerKind",
+        "status",
+        "callbackToken",
+        "payload"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "applicationId": { "type": "string" },
+        "applicationEnvironmentId": { "type": "string" },
+        "taskKind": { "type": "string" },
+        "providerKind": { "type": "string" },
+        "status": { "type": "string" },
+        "callbackToken": { "type": "string" },
+        "payload": { "$ref": "#/$defs/AnyObject" }
+      },
+      "additionalProperties": true
+    },
+    "ExecutionTaskClaimRequest": {
+      "type": "object",
+      "required": ["agentId"],
+      "properties": {
+        "agentId": { "type": "string", "minLength": 1 },
+        "providerKinds": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "runtimeEndpoint": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "ExecutionCallbackRequest": {
+      "type": "object",
+      "required": ["callbackToken", "status", "payload"],
+      "properties": {
+        "callbackToken": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "minLength": 1 },
+        "payload": { "$ref": "#/$defs/AnyObject" }
+      },
+      "additionalProperties": false
+    },
+    "DockerOperation": {
+      "type": "object",
+      "required": ["id", "operationKind", "status", "payload", "timeoutSeconds"],
+      "properties": {
+        "id": { "type": "string" },
+        "hostId": { "type": "string" },
+        "projectId": { "type": "string" },
+        "serviceId": { "type": "string" },
+        "operationKind": { "type": "string" },
+        "status": { "type": "string" },
+        "claimedByWorkerId": { "type": "string" },
+        "payload": { "$ref": "#/$defs/AnyObject" },
+        "timeoutSeconds": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "DockerOperationClaimRequest": {
+      "type": "object",
+      "required": ["workerId", "agentId"],
+      "properties": {
+        "workerId": { "type": "string", "minLength": 1 },
+        "agentId": { "type": "string", "minLength": 1 },
+        "hostIds": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "operationKinds": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "additionalProperties": false
+    },
+    "DockerOperationCallbackRequest": {
+      "type": "object",
+      "required": ["operationId", "workerId", "status", "payload", "logs"],
+      "properties": {
+        "operationId": { "type": "string", "minLength": 1 },
+        "workerId": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "minLength": 1 },
+        "payload": { "$ref": "#/$defs/AnyObject" },
+        "logs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "AgentRun": {
+      "type": "object",
+      "required": [
+        "id",
+        "providerId",
+        "providerKind",
+        "capabilityId",
+        "status",
+        "callbackToken",
+        "timeoutSeconds"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "providerId": { "type": "string" },
+        "providerKind": { "type": "string" },
+        "capabilityId": { "type": "string" },
+        "skillIds": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "sessionId": { "type": "string" },
+        "status": { "type": "string" },
+        "scope": { "$ref": "#/$defs/AnyObject" },
+        "toolset": { "$ref": "#/$defs/AnyObject" },
+        "toolBindings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/AnyObject" }
+        },
+        "skillBindings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/AnyObject" }
+        },
+        "input": { "$ref": "#/$defs/AnyObject" },
+        "output": { "$ref": "#/$defs/AnyObject" },
+        "callbackToken": { "type": "string" },
+        "timeoutSeconds": { "type": "integer", "minimum": 0 },
+        "analysisArtifacts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/AnyObject" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "AgentRunClaimRequest": {
+      "type": "object",
+      "required": ["agentId"],
+      "properties": {
+        "agentId": { "type": "string", "minLength": 1 },
+        "providerIds": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "kinds": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "additionalProperties": false
+    },
+    "AgentRunCallbackRequest": {
+      "type": "object",
+      "required": ["runId", "callbackToken", "agentId", "status", "payload"],
+      "properties": {
+        "runId": { "type": "string", "minLength": 1 },
+        "callbackToken": { "type": "string", "minLength": 1 },
+        "agentId": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "minLength": 1 },
+        "payload": { "$ref": "#/$defs/AnyObject" },
+        "toolExecutions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/AnyObject" }
+        },
+        "analysisArtifacts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/AnyObject" }
+        },
+        "externalRunId": { "type": "string" },
+        "errorMessage": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "AgentRunToolCallRequest": {
+      "type": "object",
+      "required": ["runId", "callbackToken", "agentId"],
+      "properties": {
+        "runId": { "type": "string", "minLength": 1 },
+        "callbackToken": { "type": "string", "minLength": 1 },
+        "agentId": { "type": "string", "minLength": 1 },
+        "toolBindingId": { "type": "string" },
+        "adapterId": { "type": "string" },
+        "toolName": { "type": "string" },
+        "input": { "$ref": "#/$defs/AnyObject" }
+      },
+      "additionalProperties": false
+    },
+    "AgentToolCallResult": {
+      "type": "object",
+      "required": ["runId", "toolExecution"],
+      "properties": {
+        "runId": { "type": "string" },
+        "toolExecution": { "$ref": "#/$defs/AnyObject" },
+        "output": { "$ref": "#/$defs/AnyObject" }
+      },
+      "additionalProperties": true
+    },
+    "DataEnvelope": {
+      "type": "object",
+      "required": ["data"],
+      "properties": {
+        "data": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}
+
