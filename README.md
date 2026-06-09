@@ -69,10 +69,16 @@ and Go compilation for the generated SDK package.
 
 ## Release Shape
 
-The TypeScript package is published as `@opensoha/contracts`. Go consumers use
-the module path `github.com/opensoha/soha-contracts/gen/go/sohaapi`.
-Consumers may keep local `go.work` replaces during development, but released
-consumer modules should depend on a real `soha-contracts` version tag.
+The stable TypeScript package name is `@opensoha/contracts`, and the stable Go
+module path is `github.com/opensoha/soha-contracts/gen/go/sohaapi`.
+
+During private staging, consumers intentionally use sibling repository
+checkouts, `go.work` / `replace` entries, and `file:../soha-contracts` package
+dependencies instead of resolving this repository through anonymous GitHub
+module fetches or npm. After the repository is publicly readable and the npm
+package is published, released consumer modules can switch to a real
+`soha-contracts` version tag and the published npm package without changing SDK
+import paths.
 
 ## License
 
