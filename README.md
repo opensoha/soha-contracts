@@ -45,7 +45,8 @@ runner-facing protocol DTOs, plugin marketplace/install DTOs, and AI Gateway
 token management, audit, approval, and governance DTOs used by `soha-cli`,
 `soha-agent`, and `soha-web`.
 
-SDK DTOs are generated from `openapi/soha-api.yaml`:
+SDK DTOs are generated from `openapi/soha-api.yaml` with
+`openapi-typescript` and `oapi-codegen`:
 
 ```sh
 npm run generate
@@ -54,6 +55,9 @@ npm run check:generated
 
 The runner-facing Go client in `gen/go/sohaapi/client.go` intentionally keeps
 the stable hand-written method surface while DTOs are generated from OpenAPI.
+The Go generator currently runs with Go 1.24.x in CI because the pinned
+`oapi-codegen` release requires that toolchain; generated DTO consumers can
+continue compiling with their own repository Go versions.
 
 ## Validation
 
