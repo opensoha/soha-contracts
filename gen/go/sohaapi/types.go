@@ -14,6 +14,27 @@ const (
 	RuntimeBearerAuthScopes runtimeBearerAuthContextKey = "runtimeBearerAuth.Scopes"
 )
 
+// Defines values for ClusterCapabilityStatus.
+const (
+	Available   ClusterCapabilityStatus = "available"
+	Partial     ClusterCapabilityStatus = "partial"
+	Unsupported ClusterCapabilityStatus = "unsupported"
+)
+
+// Valid indicates whether the value is a known member of the ClusterCapabilityStatus enum.
+func (e ClusterCapabilityStatus) Valid() bool {
+	switch e {
+	case Available:
+		return true
+	case Partial:
+		return true
+	case Unsupported:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for DecideAIGatewayApprovalRequestParamsAction.
 const (
 	Approve DecideAIGatewayApprovalRequestParamsAction = "approve"
@@ -339,6 +360,34 @@ type CallerContext struct {
 	SubjectType  string `json:"subjectType,omitempty"`
 	TokenID      string `json:"tokenId,omitempty"`
 }
+
+// ClusterCapabilityMatrixEntry defines model for ClusterCapabilityMatrixEntry.
+type ClusterCapabilityMatrixEntry struct {
+	Agent            ClusterCapabilityModeSupport `json:"agent"`
+	Category         string                       `json:"category"`
+	Direct           ClusterCapabilityModeSupport `json:"direct"`
+	DocsURL          string                       `json:"docsUrl,omitempty"`
+	Key              string                       `json:"key"`
+	Label            string                       `json:"label"`
+	RequiredScopes   []string                     `json:"requiredScopes,omitempty"`
+	RequiresApproval bool                         `json:"requiresApproval"`
+	RiskLevel        RiskLevel                    `json:"riskLevel"`
+}
+
+// ClusterCapabilityMatrixEnvelope defines model for ClusterCapabilityMatrixEnvelope.
+type ClusterCapabilityMatrixEnvelope struct {
+	Items []ClusterCapabilityMatrixEntry `json:"items"`
+}
+
+// ClusterCapabilityModeSupport defines model for ClusterCapabilityModeSupport.
+type ClusterCapabilityModeSupport struct {
+	Notes  []string                `json:"notes,omitempty"`
+	Reason string                  `json:"reason,omitempty"`
+	Status ClusterCapabilityStatus `json:"status"`
+}
+
+// ClusterCapabilityStatus defines model for ClusterCapabilityStatus.
+type ClusterCapabilityStatus string
 
 // CreatedPersonalAccessToken defines model for CreatedPersonalAccessToken.
 type CreatedPersonalAccessToken struct {

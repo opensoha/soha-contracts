@@ -15,6 +15,7 @@ tags:
   - name: System
   - name: Auth
   - name: Runner
+  - name: Platform
   - name: AI Gateway
   - name: MCP
   - name: Plugins
@@ -408,6 +409,19 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GenericItemsEnvelope"
+  /clusters/capabilities:
+    get:
+      tags: [Platform]
+      operationId: listClusterCapabilityMatrix
+      responses:
+        "200":
+          description: Cluster runtime capability matrix for Direct and Agent modes.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClusterCapabilityMatrixEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
   /ai-gateway/capabilities:
     get:
       tags: [AI Gateway]
@@ -1680,6 +1694,56 @@ components:
     RiskLevel:
       type: string
       enum: [read, analyze, mutate, execute, high]
+    ClusterCapabilityStatus:
+      type: string
+      enum: [available, partial, unsupported]
+    ClusterCapabilityModeSupport:
+      type: object
+      required: [status]
+      properties:
+        status:
+          $ref: "#/components/schemas/ClusterCapabilityStatus"
+        reason:
+          type: string
+        notes:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    ClusterCapabilityMatrixEntry:
+      type: object
+      required: [key, label, category, riskLevel, requiresApproval, direct, agent]
+      properties:
+        key:
+          type: string
+        label:
+          type: string
+        category:
+          type: string
+        requiredScopes:
+          type: array
+          items:
+            type: string
+        riskLevel:
+          $ref: "#/components/schemas/RiskLevel"
+        requiresApproval:
+          type: boolean
+        docsUrl:
+          type: string
+        direct:
+          $ref: "#/components/schemas/ClusterCapabilityModeSupport"
+        agent:
+          $ref: "#/components/schemas/ClusterCapabilityModeSupport"
+      additionalProperties: false
+    ClusterCapabilityMatrixEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ClusterCapabilityMatrixEntry"
+      additionalProperties: false
     JSONSchema:
       type: object
       additionalProperties: true
@@ -2152,6 +2216,62 @@ components:
         metadata:
           type: object
           additionalProperties: true
+      additionalProperties: false
+    CloudExtensionPointKind:
+      type: string
+      enum: [managed-agent-fleet, managed-connector, managed-cluster, ops-back-office, public-contract]
+    CloudExtensionBoundary:
+      type: string
+      enum: [public-contract, http-api, sdk, webhook, event-sink]
+    CloudOnlyDomain:
+      type: string
+      enum: [billing, quota, saas-iam]
+    CloudExtensionPoint:
+      type: object
+      required: [id, name, kind, boundary, contractRefs, excludedCloudOnlyDomains]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        kind:
+          $ref: "#/components/schemas/CloudExtensionPointKind"
+        boundary:
+          $ref: "#/components/schemas/CloudExtensionBoundary"
+        description:
+          type: string
+        contractRefs:
+          type: array
+          minItems: 1
+          items:
+            type: string
+        supportedConsumers:
+          type: array
+          items:
+            type: string
+            enum: [core, cli, web, agent, skills, connectors, cloud]
+        requiredHeaders:
+          type: array
+          items:
+            type: string
+        eventTypes:
+          type: array
+          items:
+            type: string
+        excludedCloudOnlyDomains:
+          type: array
+          minItems: 3
+          items:
+            $ref: "#/components/schemas/CloudOnlyDomain"
+      additionalProperties: false
+    CloudExtensionPointListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/CloudExtensionPoint"
       additionalProperties: false
     MarketplacePlugin:
       type: object

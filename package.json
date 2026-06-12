@@ -8,30 +8,59 @@
   "scripts": {
     "generate": "node scripts/generate-sdk.mjs",
     "check:generated": "node scripts/generate-sdk.mjs --check",
+    "check:version-sync": "node scripts/check-version-sync.mjs",
+    "check:consumers": "node scripts/check-consumers.mjs",
+    "validate": "node scripts/validate.mjs",
+    "lint:openapi": "node scripts/lint-openapi.mjs",
+    "check:openapi-breaking": "node scripts/check-openapi-breaking.mjs",
+    "check:openapi-loose-boundaries": "node scripts/check-openapi-loose-boundaries.mjs",
+    "check:json-schema-compat": "node scripts/check-json-schema-compat.mjs",
+    "check:openapi-breaking:update": "node scripts/check-openapi-breaking.mjs --update-baseline",
+    "release:artifacts": "node scripts/prepare-release-artifacts.mjs",
+    "release:verify": "node scripts/prepare-release-artifacts.mjs --verify",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "test": "npm run check:generated && node scripts/validate.mjs && npm run typecheck && go test ./..."
+    "test": "npm run check:version-sync && npm run check:generated && npm run validate && npm run lint:openapi && npm run check:openapi-breaking && npm run check:openapi-loose-boundaries && npm run check:json-schema-compat && npm run typecheck && go test ./..."
   },
   "exports": {
     "./gen/ts/sohaapi": "./gen/ts/sohaapi/index.ts",
     "./openapi/soha-api.yaml": "./openapi/soha-api.yaml",
+    "./capabilities/cluster-capability-matrix.schema.json": "./capabilities/cluster-capability-matrix.schema.json",
+    "./profiles/agent-profile.schema.json": "./profiles/agent-profile.schema.json",
+    "./presets/mcp-preset.schema.json": "./presets/mcp-preset.schema.json",
+    "./governance/approval-request.schema.json": "./governance/approval-request.schema.json",
+    "./governance/audit-log.schema.json": "./governance/audit-log.schema.json",
     "./agent/agent-protocol.schema.json": "./agent/agent-protocol.schema.json",
+    "./runner/operation-lifecycle.schema.json": "./runner/operation-lifecycle.schema.json",
     "./mcp/gateway-manifest.schema.json": "./mcp/gateway-manifest.schema.json",
     "./skills/skill-manifest.schema.json": "./skills/skill-manifest.schema.json",
     "./plugins/plugin-manifest.schema.json": "./plugins/plugin-manifest.schema.json",
     "./events/event-envelope.schema.json": "./events/event-envelope.schema.json",
-    "./auth/token-claims.schema.json": "./auth/token-claims.schema.json"
+    "./auth/token-claims.schema.json": "./auth/token-claims.schema.json",
+    "./connectors/connector-event-envelope.schema.json": "./connectors/connector-event-envelope.schema.json"
   },
   "files": [
+    "COMPATIBILITY.md",
+    "compat",
+    "examples",
+    "fixtures",
     "gen",
     "openapi",
+    "capabilities",
+    "profiles",
+    "presets",
+    "governance",
     "agent",
+    "runner",
     "mcp",
     "skills",
     "plugins",
     "events",
-    "auth"
+    "auth",
+    "connectors"
   ],
   "devDependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
     "openapi-typescript": "^7.13.0",
     "typescript": "^5.9.3",
     "yaml": "^2.9.0"

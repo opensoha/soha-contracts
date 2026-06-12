@@ -1,0 +1,9 @@
+{
+  "items": [
+    {
+      "adapterID": "builtin",
+      "name": "k8s.list_pods",
+      "description": "List pods."
+    }
+  ]
+}

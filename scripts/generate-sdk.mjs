@@ -1,4 +1,4 @@
-import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -14,54 +14,68 @@ const outputs = [
   "gen/ts/sohaapi/index.ts",
 ];
 
-const before = new Map();
-if (checkOnly) {
-  for (const path of outputs) {
-    before.set(path, await readFile(new URL(path, root), "utf8").catch(() => ""));
+const rootPath = fileURLToPath(root);
+const outputRootPath = checkOnly ? await mkdtemp(join(tmpdir(), "opensoha-contracts-sdk-")) : rootPath;
+
+try {
+  await generateSdk(outputRootPath);
+  if (checkOnly) {
+    await checkGeneratedOutput(outputRootPath);
+  }
+} finally {
+  if (checkOnly) {
+    await rm(outputRootPath, { recursive: true, force: true });
   }
 }
 
-await mkdir(new URL("gen/go/sohaapi", root), { recursive: true });
-await mkdir(new URL("gen/ts/sohaapi", root), { recursive: true });
+async function generateSdk(outputRoot) {
+  const tsOutput = join(outputRoot, "gen/ts/sohaapi/index.ts");
+  const goOutput = join(outputRoot, "gen/go/sohaapi/types.go");
 
-run("npx", [
-  "openapi-typescript",
-  "openapi/soha-api.yaml",
-  "--root-types",
-  "--root-types-no-schema-prefix",
-  "--root-types-keep-casing",
-  "--output",
-  "gen/ts/sohaapi/index.ts",
-]);
-await patchTypeScriptEntrypoint(new URL("gen/ts/sohaapi/index.ts", root));
+  await mkdir(dirname(tsOutput), { recursive: true });
+  await mkdir(dirname(goOutput), { recursive: true });
 
-const goSpecPath = await writeGoCompatibilitySpec();
-run("go", [
-  "run",
-  `github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@${oapiCodegenVersion}`,
-  "-config",
-  "configs/oapi-codegen.yaml",
-  "-o",
-  "gen/go/sohaapi/types.go",
-  goSpecPath,
-]);
-await patchGoEntrypoint(new URL("gen/go/sohaapi/types.go", root));
-run("gofmt", ["-w", "gen/go/sohaapi/types.go"]);
+  run("npx", [
+    "openapi-typescript",
+    "openapi/soha-api.yaml",
+    "--root-types",
+    "--root-types-no-schema-prefix",
+    "--root-types-keep-casing",
+    "--output",
+    tsOutput,
+  ]);
+  await patchTypeScriptEntrypoint(tsOutput);
 
-if (checkOnly) {
-  let changed = false;
+  const goSpec = await writeGoCompatibilitySpec();
+  try {
+    run("go", [
+      "run",
+      `github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@${oapiCodegenVersion}`,
+      "-config",
+      "configs/oapi-codegen.yaml",
+      "-o",
+      goOutput,
+      goSpec.path,
+    ]);
+  } finally {
+    await rm(goSpec.dir, { recursive: true, force: true });
+  }
+  await patchGoEntrypoint(goOutput);
+  run("gofmt", ["-w", goOutput]);
+}
+
+async function checkGeneratedOutput(generatedRoot) {
+  const staleOutputs = [];
   for (const path of outputs) {
+    const expected = await readFile(join(generatedRoot, path), "utf8").catch(() => "");
     const current = await readFile(new URL(path, root), "utf8").catch(() => "");
-    if (before.get(path) !== current) {
-      changed = true;
-      console.error(`${path} is out of date. Run npm run generate.`);
+    if (expected !== current) {
+      staleOutputs.push(path);
     }
   }
-  if (changed) {
-    for (const [path, content] of before) {
-      const url = new URL(path, root);
-      await mkdir(dirname(fileURLToPath(url)), { recursive: true });
-      await writeFile(url, content);
+  if (staleOutputs.length > 0) {
+    for (const path of staleOutputs) {
+      console.error(`${path} is out of date. Run npm run generate.`);
     }
     throw new Error("generated SDK entrypoints are out of date");
   }
@@ -107,7 +121,7 @@ async function writeGoCompatibilitySpec() {
   const dir = await mkdtemp(join(tmpdir(), "opensoha-contracts-"));
   const path = join(dir, "soha-api.go.yaml");
   await writeFile(path, stringify(spec));
-  return path;
+  return { dir, path };
 }
 
 function applyGoCompatibility(spec) {

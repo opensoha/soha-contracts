@@ -417,6 +417,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/clusters/capabilities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listClusterCapabilityMatrix"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/ai-gateway/capabilities": {
         parameters: {
             query?: never;
@@ -1143,6 +1159,27 @@ export interface components {
         };
         /** @enum {string} */
         RiskLevel: "read" | "analyze" | "mutate" | "execute" | "high";
+        /** @enum {string} */
+        ClusterCapabilityStatus: "available" | "partial" | "unsupported";
+        ClusterCapabilityModeSupport: {
+            status: components["schemas"]["ClusterCapabilityStatus"];
+            reason?: string;
+            notes?: string[];
+        };
+        ClusterCapabilityMatrixEntry: {
+            key: string;
+            label: string;
+            category: string;
+            requiredScopes?: string[];
+            riskLevel: components["schemas"]["RiskLevel"];
+            requiresApproval: boolean;
+            docsUrl?: string;
+            direct: components["schemas"]["ClusterCapabilityModeSupport"];
+            agent: components["schemas"]["ClusterCapabilityModeSupport"];
+        };
+        ClusterCapabilityMatrixEnvelope: {
+            items: components["schemas"]["ClusterCapabilityMatrixEntry"][];
+        };
         JSONSchema: {
             [key: string]: unknown;
         };
@@ -1368,6 +1405,27 @@ export interface components {
             metadata?: {
                 [key: string]: unknown;
             };
+        };
+        /** @enum {string} */
+        CloudExtensionPointKind: "managed-agent-fleet" | "managed-connector" | "managed-cluster" | "ops-back-office" | "public-contract";
+        /** @enum {string} */
+        CloudExtensionBoundary: "public-contract" | "http-api" | "sdk" | "webhook" | "event-sink";
+        /** @enum {string} */
+        CloudOnlyDomain: "billing" | "quota" | "saas-iam";
+        CloudExtensionPoint: {
+            id: string;
+            name: string;
+            kind: components["schemas"]["CloudExtensionPointKind"];
+            boundary: components["schemas"]["CloudExtensionBoundary"];
+            description?: string;
+            contractRefs: string[];
+            supportedConsumers?: ("core" | "cli" | "web" | "agent" | "skills" | "connectors" | "cloud")[];
+            requiredHeaders?: string[];
+            eventTypes?: string[];
+            excludedCloudOnlyDomains: components["schemas"]["CloudOnlyDomain"][];
+        };
+        CloudExtensionPointListEnvelope: {
+            items: components["schemas"]["CloudExtensionPoint"][];
         };
         MarketplacePlugin: {
             id: string;
@@ -1974,6 +2032,10 @@ export type DockerOperationEnvelope = components['schemas']['DockerOperationEnve
 export type AgentRunEnvelope = components['schemas']['AgentRunEnvelope'];
 export type AgentToolCallResultEnvelope = components['schemas']['AgentToolCallResultEnvelope'];
 export type RiskLevel = components['schemas']['RiskLevel'];
+export type ClusterCapabilityStatus = components['schemas']['ClusterCapabilityStatus'];
+export type ClusterCapabilityModeSupport = components['schemas']['ClusterCapabilityModeSupport'];
+export type ClusterCapabilityMatrixEntry = components['schemas']['ClusterCapabilityMatrixEntry'];
+export type ClusterCapabilityMatrixEnvelope = components['schemas']['ClusterCapabilityMatrixEnvelope'];
 export type JSONSchema = components['schemas']['JSONSchema'];
 export type ToolCapability = components['schemas']['ToolCapability'];
 export type ResourceCapability = components['schemas']['ResourceCapability'];
@@ -2000,6 +2062,11 @@ export type PluginPermissionRequest = components['schemas']['PluginPermissionReq
 export type PluginSecretRequirement = components['schemas']['PluginSecretRequirement'];
 export type PluginIntegrity = components['schemas']['PluginIntegrity'];
 export type PluginManifest = components['schemas']['PluginManifest'];
+export type CloudExtensionPointKind = components['schemas']['CloudExtensionPointKind'];
+export type CloudExtensionBoundary = components['schemas']['CloudExtensionBoundary'];
+export type CloudOnlyDomain = components['schemas']['CloudOnlyDomain'];
+export type CloudExtensionPoint = components['schemas']['CloudExtensionPoint'];
+export type CloudExtensionPointListEnvelope = components['schemas']['CloudExtensionPointListEnvelope'];
 export type MarketplacePlugin = components['schemas']['MarketplacePlugin'];
 export type InstalledPlugin = components['schemas']['InstalledPlugin'];
 export type PluginInstallRequest = components['schemas']['PluginInstallRequest'];
@@ -2643,6 +2710,27 @@ export interface operations {
                     "application/json": components["schemas"]["GenericItemsEnvelope"];
                 };
             };
+        };
+    };
+    listClusterCapabilityMatrix: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Cluster runtime capability matrix for Direct and Agent modes. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClusterCapabilityMatrixEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
         };
     };
     getAIGatewayCapabilities: {

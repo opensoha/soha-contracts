@@ -6,8 +6,62 @@ on:
       - "v*"
 
 jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.25.x"
+          cache: true
+      - run: npm ci
+      - run: npm test
+      - run: npm pack --dry-run
+
+  consumers:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        consumer:
+          - soha
+          - soha-web
+          - soha-cli
+          - soha-agent
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: soha-contracts
+      - uses: actions/checkout@v4
+        with:
+          repository: opensoha/${{ matrix.consumer }}
+          path: ${{ matrix.consumer }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.24.x"
+          cache: true
+      - run: npm ci
+        working-directory: soha-contracts
+      - run: npm run check:consumers -- --consumer ${{ matrix.consumer }} --require-all --out "dist/consumer-matrix-${{ matrix.consumer }}.json"
+        working-directory: soha-contracts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: consumer-matrix-${{ matrix.consumer }}
+          path: soha-contracts/dist/consumer-matrix-${{ matrix.consumer }}.json
+          if-no-files-found: error
+
   release:
     runs-on: ubuntu-latest
+    needs:
+      - verify
+      - consumers
     permissions:
       contents: write
       id-token: write
@@ -25,17 +79,101 @@ jobs:
           go-version: "1.24.x"
           cache: true
       - run: npm ci
-      - run: npm test
-      - run: npm pack --dry-run
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: consumer-matrix-*
+          path: dist/consumer-matrix-input
+          merge-multiple: true
+      - name: Merge consumer matrix
+        run: |
+          mkdir -p dist/release
+          node --input-type=module <<'NODE'
+          import { readdir, readFile, writeFile } from 'node:fs/promises';
+          import { join } from 'node:path';
+          const inputDir = 'dist/consumer-matrix-input';
+          const files = (await readdir(inputDir)).filter((name) => name.endsWith('.json')).sort();
+          if (files.length === 0) {
+            throw new Error('no consumer matrix artifacts were downloaded');
+          }
+          const parts = await Promise.all(files.map(async (file) => JSON.parse(await readFile(join(inputDir, file), 'utf8'))));
+          const version = parts[0].contractsVersion;
+          const results = parts.flatMap((part) => part.results ?? []);
+          const checked = parts.reduce((sum, part) => sum + Number(part.checked ?? 0), 0);
+          const skipped = parts.reduce((sum, part) => sum + Number(part.skipped ?? 0), 0);
+          await writeFile(
+            'dist/release/consumer-matrix.json',
+            `${JSON.stringify({
+              schemaVersion: 1,
+              contractsVersion: version,
+              checked,
+              skipped,
+              results,
+            }, null, 2)}\n`,
+          );
+          NODE
+      - id: artifacts
+        run: npm run release:artifacts -- --consumer-matrix dist/release/consumer-matrix.json
+      - name: Verify release artifacts
+        run: npm run release:verify -- "${{ steps.artifacts.outputs.tarball }}"
+      - name: Require npm publish credentials
+        if: startsWith(github.ref, 'refs/tags/v') && env.HAS_NPM_TOKEN != 'true'
+        run: |
+          echo "NPM_TOKEN is required for contracts tag releases." >&2
+          exit 1
       - name: Publish npm package
         if: startsWith(github.ref, 'refs/tags/v') && env.HAS_NPM_TOKEN == 'true'
-        run: npm publish --provenance
+        run: npm publish "${{ steps.artifacts.outputs.tarball }}" --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Skip npm publish
-        if: startsWith(github.ref, 'refs/tags/v') && env.HAS_NPM_TOKEN != 'true'
-        run: echo "NPM_TOKEN is not configured; skipping npm publish."
+      - name: Verify published npm package and Go module tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          version="${{ steps.artifacts.outputs.version }}"
+          for attempt in 1 2 3 4 5; do
+            if npm view "@opensoha/contracts@${version}" version dist.tarball dist.integrity --json; then
+              break
+            fi
+            if [[ "${attempt}" == "5" ]]; then
+              echo "published npm package @opensoha/contracts@${version} was not visible" >&2
+              exit 1
+            fi
+            sleep 15
+          done
+          go list -m -json "github.com/opensoha/soha-contracts@v${version}"
       - name: GitHub release
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
+          files: |
+            ${{ steps.artifacts.outputs.tarball }}
+            ${{ steps.artifacts.outputs.checksum }}
+            ${{ steps.artifacts.outputs.sbom }}
+            ${{ steps.artifacts.outputs.sbom_checksum }}
+            ${{ steps.artifacts.outputs.provenance_policy }}
+            ${{ steps.artifacts.outputs.provenance_policy_checksum }}
+            ${{ steps.artifacts.outputs.manifest }}
+            dist/release/consumer-matrix.json
+      - name: Download published release assets and verify
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p downloaded-release
+          tarball_name="$(basename "${{ steps.artifacts.outputs.tarball }}")"
+          checksum_name="$(basename "${{ steps.artifacts.outputs.checksum }}")"
+          sbom_name="$(basename "${{ steps.artifacts.outputs.sbom }}")"
+          sbom_checksum_name="$(basename "${{ steps.artifacts.outputs.sbom_checksum }}")"
+          provenance_policy_name="$(basename "${{ steps.artifacts.outputs.provenance_policy }}")"
+          provenance_policy_checksum_name="$(basename "${{ steps.artifacts.outputs.provenance_policy_checksum }}")"
+          manifest_name="$(basename "${{ steps.artifacts.outputs.manifest }}")"
+          gh release download "${GITHUB_REF_NAME}" \
+            --pattern "${tarball_name}" \
+            --pattern "${checksum_name}" \
+            --pattern "${sbom_name}" \
+            --pattern "${sbom_checksum_name}" \
+            --pattern "${provenance_policy_name}" \
+            --pattern "${provenance_policy_checksum_name}" \
+            --pattern "${manifest_name}" \
+            --pattern "consumer-matrix.json" \
+            --dir downloaded-release \
+            --clobber
+          npm run release:verify -- "downloaded-release/${tarball_name}"

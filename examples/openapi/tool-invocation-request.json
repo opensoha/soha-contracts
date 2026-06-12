@@ -1,0 +1,11 @@
+{
+  "toolName": "k8s.list_pods",
+  "input": {
+    "clusterId": "default",
+    "namespace": "default"
+  },
+  "aiClientId": "cli",
+  "aiClientName": "Soha CLI",
+  "skillId": "k8s-sre",
+  "requestId": "req-01"
+}

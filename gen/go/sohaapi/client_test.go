@@ -1,0 +1,1477 @@
+package sohaapi
+
+import (
+	"context"
+	"encoding/json"
+	"io"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+	"time"
+)
+
+func TestSystemHealthAndReadinessUsePublicRequests(t *testing.T) {
+	cases := []struct {
+		name string
+		path string
+		call func(*Client) (GenericObject, error)
+	}{
+		{
+			name: "healthz",
+			path: "/api/v1/healthz",
+			call: func(client *Client) (GenericObject, error) {
+				return client.GetHealthz(context.Background())
+			},
+		},
+		{
+			name: "readyz",
+			path: "/api/v1/readyz",
+			call: func(client *Client) (GenericObject, error) {
+				return client.GetReadyz(context.Background())
+			},
+		},
+	}
+	for _, tt := range cases {
+		t.Run(tt.name, func(t *testing.T) {
+			client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+				assertPublicRequest(t, r, http.MethodGet, tt.path)
+				writeJSON(t, w, map[string]any{"status": "ok", "check": tt.name})
+			})
+
+			result, err := tt.call(client)
+			if err != nil {
+				t.Fatalf("%s returned error: %v", tt.name, err)
+			}
+			if got := result["status"]; got != "ok" {
+				t.Fatalf("%s status = %v, want ok", tt.name, got)
+			}
+		})
+	}
+}
+
+func TestListAuthProvidersBuildsPublicRequestAndDecodesItems(t *testing.T) {
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertPublicRequest(t, r, http.MethodGet, "/api/v1/auth/providers")
+		assertQuery(t, r, map[string]string{})
+		writeJSON(t, w, map[string]any{
+			"items": []map[string]any{
+				{
+					"id":       "local",
+					"name":     "Password",
+					"type":     "password",
+					"enabled":  true,
+					"loginUrl": "/auth/login",
+				},
+			},
+		})
+	})
+
+	items, err := client.ListAuthProviders(context.Background())
+	if err != nil {
+		t.Fatalf("ListAuthProviders returned error: %v", err)
+	}
+	if len(items) != 1 {
+		t.Fatalf("got %d auth providers, want 1", len(items))
+	}
+	if got := items[0].ID; got != "local" {
+		t.Fatalf("auth provider ID = %q, want local", got)
+	}
+	if !items[0].Enabled {
+		t.Fatal("auth provider Enabled = false, want true")
+	}
+}
+
+func TestGetAuthLoginOptionsBuildsPublicRequestAndDecodesData(t *testing.T) {
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertPublicRequest(t, r, http.MethodGet, "/api/v1/auth/login-options")
+		writeJSON(t, w, map[string]any{
+			"data": map[string]any{
+				"verification": map[string]any{"sliderEnabled": true},
+			},
+		})
+	})
+
+	options, err := client.GetAuthLoginOptions(context.Background())
+	if err != nil {
+		t.Fatalf("GetAuthLoginOptions returned error: %v", err)
+	}
+	if !options.Verification.SliderEnabled {
+		t.Fatal("login options slider enabled = false, want true")
+	}
+}
+
+func TestPasswordLoginPostsPublicBodyAndDecodesData(t *testing.T) {
+	expiresAt := time.Date(2026, 6, 9, 8, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertPublicRequest(t, r, http.MethodPost, "/api/v1/auth/login")
+		body := decodeJSONRequestBody[PasswordLoginRequest](t, r)
+		if got := body.Login; got != "admin" {
+			t.Fatalf("password login login = %q, want admin", got)
+		}
+		if got := body.Password; got != "secret" {
+			t.Fatalf("password login password = %q, want secret", got)
+		}
+		writeJSON(t, w, authResultJSON(expiresAt, "access-login"))
+	})
+
+	result, err := client.PasswordLogin(context.Background(), PasswordLoginRequest{
+		Login:    "admin",
+		Password: "secret",
+	})
+	if err != nil {
+		t.Fatalf("PasswordLogin returned error: %v", err)
+	}
+	if got := result.Tokens.AccessToken; got != "access-login" {
+		t.Fatalf("password login access token = %q, want access-login", got)
+	}
+	if got := result.User.UserID; got != "user-1" {
+		t.Fatalf("password login user ID = %q, want user-1", got)
+	}
+}
+
+func TestRefreshAuthSessionPostsPublicOptionalBodyAndDecodesData(t *testing.T) {
+	expiresAt := time.Date(2026, 6, 9, 9, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertPublicRequest(t, r, http.MethodPost, "/api/v1/auth/refresh")
+		body := decodeJSONRequestBody[RefreshRequest](t, r)
+		if got := body.RefreshToken; got != "refresh-1" {
+			t.Fatalf("refresh token = %q, want refresh-1", got)
+		}
+		writeJSON(t, w, authResultJSON(expiresAt, "access-refresh"))
+	})
+
+	result, err := client.RefreshAuthSession(context.Background(), &RefreshRequest{RefreshToken: "refresh-1"})
+	if err != nil {
+		t.Fatalf("RefreshAuthSession returned error: %v", err)
+	}
+	if got := result.Tokens.AccessToken; got != "access-refresh" {
+		t.Fatalf("refresh access token = %q, want access-refresh", got)
+	}
+	if got := result.Tokens.ExpiresAt; !got.Equal(expiresAt) {
+		t.Fatalf("refresh ExpiresAt = %s, want %s", got, expiresAt)
+	}
+}
+
+func TestExchangeOIDCCodePostsPublicBodyAndDecodesData(t *testing.T) {
+	expiresAt := time.Date(2026, 6, 9, 10, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertPublicRequest(t, r, http.MethodPost, "/api/v1/auth/oidc/exchange")
+		body := decodeJSONRequestBody[OIDCExchangeRequest](t, r)
+		if got := body.Code; got != "oidc-code" {
+			t.Fatalf("OIDC exchange code = %q, want oidc-code", got)
+		}
+		writeJSON(t, w, authResultJSON(expiresAt, "access-oidc"))
+	})
+
+	result, err := client.ExchangeOIDCCode(context.Background(), OIDCExchangeRequest{Code: "oidc-code"})
+	if err != nil {
+		t.Fatalf("ExchangeOIDCCode returned error: %v", err)
+	}
+	if got := result.Tokens.AccessToken; got != "access-oidc" {
+		t.Fatalf("OIDC exchange access token = %q, want access-oidc", got)
+	}
+}
+
+func TestCurrentAuthMethodsBuildBearerRequestsAndDecodeData(t *testing.T) {
+	lastLoginAt := time.Date(2026, 6, 9, 11, 0, 0, 0, time.UTC)
+	cases := []struct {
+		name string
+		path string
+		call func(*testing.T, *Client) error
+		body map[string]any
+	}{
+		{
+			name: "me",
+			path: "/api/v1/auth/me",
+			call: func(t *testing.T, client *Client) error {
+				t.Helper()
+				principal, err := client.GetCurrentPrincipal(context.Background())
+				if err != nil {
+					return err
+				}
+				if got := principal.UserID; got != "user-1" {
+					t.Fatalf("current principal user ID = %q, want user-1", got)
+				}
+				return nil
+			},
+			body: map[string]any{"data": principalJSON("user-1")},
+		},
+		{
+			name: "profile",
+			path: "/api/v1/auth/profile",
+			call: func(t *testing.T, client *Client) error {
+				t.Helper()
+				profile, err := client.GetCurrentUserProfile(context.Background())
+				if err != nil {
+					return err
+				}
+				if got := profile.Username; got != "admin" {
+					t.Fatalf("current user profile username = %q, want admin", got)
+				}
+				if profile.LastLoginAt == nil || !profile.LastLoginAt.Equal(lastLoginAt) {
+					t.Fatalf("current user profile LastLoginAt = %v, want %s", profile.LastLoginAt, lastLoginAt)
+				}
+				return nil
+			},
+			body: map[string]any{
+				"data": map[string]any{
+					"userId":      "user-1",
+					"username":    "admin",
+					"displayName": "Admin User",
+					"email":       "admin@example.com",
+					"roles":       []string{"admin"},
+					"teams":       []string{"platform"},
+					"projects":    []string{"default"},
+					"tags":        []string{"ops"},
+					"status":      "active",
+					"lastLoginAt": lastLoginAt,
+					"sessions":    []map[string]any{{"id": "session-1"}},
+				},
+			},
+		},
+		{
+			name: "bootstrap",
+			path: "/api/v1/auth/bootstrap",
+			call: func(t *testing.T, client *Client) error {
+				t.Helper()
+				bootstrap, err := client.GetAuthBootstrap(context.Background())
+				if err != nil {
+					return err
+				}
+				if got := bootstrap.CurrentUser.UserID; got != "user-1" {
+					t.Fatalf("auth bootstrap current user ID = %q, want user-1", got)
+				}
+				if got := bootstrap.Branding["productName"]; got != "OpenSoha" {
+					t.Fatalf("auth bootstrap branding product name = %v, want OpenSoha", got)
+				}
+				return nil
+			},
+			body: map[string]any{
+				"data": map[string]any{
+					"branding":           map[string]any{"productName": "OpenSoha"},
+					"currentUser":        principalJSON("user-1"),
+					"permissionSnapshot": map[string]any{"allowed": []string{"auth.read"}},
+					"user":               principalJSON("user-1"),
+				},
+			},
+		},
+	}
+	for _, tt := range cases {
+		t.Run(tt.name, func(t *testing.T) {
+			client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+				assertCommonRequest(t, r, http.MethodGet, tt.path)
+				writeJSON(t, w, tt.body)
+			})
+
+			if err := tt.call(t, client); err != nil {
+				t.Fatalf("%s returned error: %v", tt.name, err)
+			}
+		})
+	}
+}
+
+func TestLogoutAuthSessionPostsBearerBodyAndAcceptsNoContent(t *testing.T) {
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodPost, "/api/v1/auth/logout")
+		body := decodeJSONRequestBody[RefreshRequest](t, r)
+		if got := body.RefreshToken; got != "refresh-logout" {
+			t.Fatalf("logout refresh token = %q, want refresh-logout", got)
+		}
+		w.WriteHeader(http.StatusNoContent)
+	})
+
+	if err := client.LogoutAuthSession(context.Background(), &RefreshRequest{RefreshToken: "refresh-logout"}); err != nil {
+		t.Fatalf("LogoutAuthSession returned error: %v", err)
+	}
+}
+
+func TestIssueStreamTicketPostsBearerBodyAndDecodesData(t *testing.T) {
+	expiresAt := time.Date(2026, 6, 9, 12, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodPost, "/api/v1/auth/stream-ticket")
+		body := decodeJSONRequestBody[StreamTicketRequest](t, r)
+		if got := body.Path; got != "/api/v1/events/stream" {
+			t.Fatalf("stream ticket path = %q, want /api/v1/events/stream", got)
+		}
+		writeJSON(t, w, map[string]any{
+			"data": map[string]any{
+				"ticket":    "ticket-1",
+				"expiresAt": expiresAt,
+			},
+		})
+	})
+
+	ticket, err := client.IssueStreamTicket(context.Background(), StreamTicketRequest{Path: "/api/v1/events/stream"})
+	if err != nil {
+		t.Fatalf("IssueStreamTicket returned error: %v", err)
+	}
+	if got := ticket.Ticket; got != "ticket-1" {
+		t.Fatalf("stream ticket = %q, want ticket-1", got)
+	}
+	if got := ticket.ExpiresAt; !got.Equal(expiresAt) {
+		t.Fatalf("stream ticket ExpiresAt = %s, want %s", got, expiresAt)
+	}
+}
+
+func TestListAIGatewayAuditLogsBuildsRequestAndDecodesItems(t *testing.T) {
+	from := time.Date(2026, 6, 10, 8, 9, 10, 123000000, time.UTC)
+	to := time.Date(2026, 6, 10, 9, 9, 10, 0, time.UTC)
+	createdAt := time.Date(2026, 6, 10, 8, 30, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodGet, "/api/v1/ai-gateway/audit-logs")
+		assertQuery(t, r, map[string]string{
+			"action":            "tool.invoke",
+			"actorId":           "user 1",
+			"actorType":         "user",
+			"aiClientId":        "client-1",
+			"approvalRequestId": "approval-1",
+			"from":              from.Format(time.RFC3339Nano),
+			"limit":             "50",
+			"result":            "success",
+			"riskLevel":         "high",
+			"skillId":           "skill-1",
+			"to":                to.Format(time.RFC3339Nano),
+			"toolName":          "deploy.apply",
+		})
+		writeJSON(t, w, map[string]any{
+			"items": []map[string]any{
+				{
+					"id":           "audit-1",
+					"action":       "tool.invoke",
+					"actorId":      "user-1",
+					"actorType":    "user",
+					"createdAt":    createdAt,
+					"result":       "success",
+					"riskLevel":    "high",
+					"summary":      "tool invocation allowed",
+					"toolName":     "deploy.apply",
+					"aiClientId":   "client-1",
+					"aiClientName": "CLI",
+				},
+			},
+		})
+	})
+
+	items, err := client.ListAIGatewayAuditLogs(context.Background(), ListAIGatewayAuditLogsParams{
+		Action:            "tool.invoke",
+		ActorID:           "user 1",
+		ActorType:         "user",
+		AIClientID:        "client-1",
+		ApprovalRequestID: "approval-1",
+		From:              from,
+		Limit:             50,
+		Result:            "success",
+		RiskLevel:         "high",
+		SkillID:           "skill-1",
+		To:                to,
+		ToolName:          "deploy.apply",
+	})
+	if err != nil {
+		t.Fatalf("ListAIGatewayAuditLogs returned error: %v", err)
+	}
+	if len(items) != 1 {
+		t.Fatalf("got %d audit logs, want 1", len(items))
+	}
+	if got := items[0].ID; got != "audit-1" {
+		t.Fatalf("audit log ID = %q, want audit-1", got)
+	}
+	if got := items[0].CreatedAt; !got.Equal(createdAt) {
+		t.Fatalf("audit log CreatedAt = %s, want %s", got, createdAt)
+	}
+}
+
+func TestListAIGatewayApprovalRequestsBuildsRequestAndDecodesItems(t *testing.T) {
+	from := time.Date(2026, 6, 1, 0, 0, 0, 0, time.UTC)
+	to := time.Date(2026, 6, 2, 0, 0, 0, 0, time.UTC)
+	createdAt := time.Date(2026, 6, 1, 10, 0, 0, 0, time.UTC)
+	updatedAt := time.Date(2026, 6, 1, 10, 5, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodGet, "/api/v1/ai-gateway/approval-requests")
+		assertQuery(t, r, map[string]string{
+			"actorId":    "user-1",
+			"actorType":  "user",
+			"aiClientId": "client-1",
+			"from":       from.Format(time.RFC3339Nano),
+			"id":         "approval-1",
+			"limit":      "25",
+			"riskLevel":  "critical",
+			"skillId":    "skill-1",
+			"status":     "pending",
+			"strategy":   "multi-stage",
+			"to":         to.Format(time.RFC3339Nano),
+			"toolName":   "deploy.apply",
+		})
+		writeJSON(t, w, map[string]any{
+			"items": []map[string]any{
+				{
+					"id":               "approval-1",
+					"actorId":          "user-1",
+					"actorType":        "user",
+					"createdAt":        createdAt,
+					"requiresApproval": true,
+					"riskLevel":        "critical",
+					"status":           "pending",
+					"strategy":         "multi-stage",
+					"summary":          "deployment requires approval",
+					"toolName":         "deploy.apply",
+					"updatedAt":        updatedAt,
+				},
+			},
+		})
+	})
+
+	items, err := client.ListAIGatewayApprovalRequests(context.Background(), ListAIGatewayApprovalRequestsParams{
+		ActorID:    "user-1",
+		ActorType:  "user",
+		AIClientID: "client-1",
+		From:       from,
+		ID:         "approval-1",
+		Limit:      25,
+		RiskLevel:  "critical",
+		SkillID:    "skill-1",
+		Status:     "pending",
+		Strategy:   "multi-stage",
+		To:         to,
+		ToolName:   "deploy.apply",
+	})
+	if err != nil {
+		t.Fatalf("ListAIGatewayApprovalRequests returned error: %v", err)
+	}
+	if len(items) != 1 {
+		t.Fatalf("got %d approval requests, want 1", len(items))
+	}
+	if got := items[0].Status; got != "pending" {
+		t.Fatalf("approval status = %q, want pending", got)
+	}
+	if got := items[0].RiskLevel; got != "critical" {
+		t.Fatalf("approval risk level = %q, want critical", got)
+	}
+}
+
+func TestGetAIGatewayApprovalTimelineEscapesPathAndDecodesData(t *testing.T) {
+	createdAt := time.Date(2026, 6, 3, 12, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodGet, "/api/v1/ai-gateway/approval-requests/request%2F1/timeline")
+		writeJSON(t, w, map[string]any{
+			"data": map[string]any{
+				"request": map[string]any{
+					"id":               "request/1",
+					"actorId":          "user-1",
+					"actorType":        "user",
+					"createdAt":        createdAt,
+					"requiresApproval": true,
+					"riskLevel":        "high",
+					"status":           "pending",
+					"strategy":         "manual",
+					"summary":          "manual approval",
+					"toolName":         "deploy.apply",
+					"updatedAt":        createdAt,
+				},
+				"events": []map[string]any{
+					{
+						"id":        "event-1",
+						"action":    "created",
+						"createdAt": createdAt,
+						"kind":      "approval",
+						"result":    "pending",
+					},
+				},
+			},
+		})
+	})
+
+	timeline, err := client.GetAIGatewayApprovalTimeline(context.Background(), "request/1")
+	if err != nil {
+		t.Fatalf("GetAIGatewayApprovalTimeline returned error: %v", err)
+	}
+	if got := timeline.Request.ID; got != "request/1" {
+		t.Fatalf("timeline request ID = %q, want request/1", got)
+	}
+	if len(timeline.Events) != 1 {
+		t.Fatalf("got %d timeline events, want 1", len(timeline.Events))
+	}
+}
+
+func TestDecideAIGatewayApprovalRequestPostsBodyAndDecodesData(t *testing.T) {
+	decidedAt := time.Date(2026, 6, 4, 13, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodPost, "/api/v1/ai-gateway/approval-requests/request%2F1/approve")
+		if got := r.Header.Get("Content-Type"); got != "application/json" {
+			t.Fatalf("Content-Type = %q, want application/json", got)
+		}
+		var body ApprovalDecisionInput
+		raw, err := io.ReadAll(r.Body)
+		if err != nil {
+			t.Fatalf("read request body: %v", err)
+		}
+		if err := json.Unmarshal(raw, &body); err != nil {
+			t.Fatalf("decode request body %q: %v", string(raw), err)
+		}
+		if got := body.Comment; got != "ship it" {
+			t.Fatalf("decision comment = %q, want ship it", got)
+		}
+		writeJSON(t, w, map[string]any{
+			"data": map[string]any{
+				"request": map[string]any{
+					"id":               "request/1",
+					"actorId":          "user-1",
+					"actorType":        "user",
+					"createdAt":        decidedAt,
+					"decidedAt":        decidedAt,
+					"decisionComment":  "ship it",
+					"requiresApproval": true,
+					"riskLevel":        "high",
+					"status":           "approved",
+					"strategy":         "manual",
+					"summary":          "manual approval",
+					"toolName":         "deploy.apply",
+					"updatedAt":        decidedAt,
+				},
+				"invocation": map[string]any{
+					"requiresApproval": false,
+					"result":           "success",
+					"riskLevel":        "high",
+					"toolName":         "deploy.apply",
+				},
+			},
+		})
+	})
+
+	result, err := client.DecideAIGatewayApprovalRequest(context.Background(), "request/1", Approve, &ApprovalDecisionInput{Comment: "ship it"})
+	if err != nil {
+		t.Fatalf("DecideAIGatewayApprovalRequest returned error: %v", err)
+	}
+	if got := result.Request.Status; got != "approved" {
+		t.Fatalf("decision request status = %q, want approved", got)
+	}
+	if result.Invocation == nil {
+		t.Fatal("decision invocation is nil, want decoded invocation")
+	}
+	if got := result.Invocation.Result; got != "success" {
+		t.Fatalf("decision invocation result = %q, want success", got)
+	}
+}
+
+func TestGetAIGatewayGovernanceStatusBuildsRequestAndDecodesData(t *testing.T) {
+	generatedAt := time.Date(2026, 6, 5, 14, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodGet, "/api/v1/ai-gateway/governance/status")
+		assertQuery(t, r, map[string]string{"windowHours": "24"})
+		writeJSON(t, w, map[string]any{
+			"data": map[string]any{
+				"generatedAt": generatedAt,
+				"windowHours": 24,
+				"health":      map[string]any{"status": "healthy", "message": "all checks passed"},
+				"approvals":   map[string]any{"pending": 2, "overdue": 1, "stalePending": 1, "dueSoon": 1},
+				"clients":     map[string]any{"total": 3, "active": 2, "disabled": 1, "pendingApproval": 0, "registrationApproval": "manual"},
+				"metrics":     map[string]any{"totalCalls": 10, "successCount": 8, "failureCount": 1, "denyCount": 1, "dryRunCount": 0, "pendingApprovalCount": 2},
+				"redaction":   map[string]any{"totalMatches": 1, "auditsWithRedaction": 1, "fieldMatches": 1, "inputAudits": 1, "outputAudits": 0, "secretClassifierMatches": 0, "sensitiveKeyMatches": 1, "sensitiveTextMatches": 0, "structuredSecretMatches": 0, "valuePatternMatches": 0},
+				"policyCoverage": map[string]any{
+					"accessPolicies": 1, "activeAccessPolicies": 1, "activeSkillBindings": 1, "activeToolGrants": 1, "budgetPolicies": 1,
+					"budgetState": "enabled", "rateLimitPolicies": 1, "rateLimitState": "enabled", "redactionPolicies": 1, "redactionPolicyState": "enabled",
+					"resourceScopeState": "enabled", "resourceScopedAccessPolicies": 1, "resourceScopedToolGrants": 1, "skillBindings": 1, "toolGrants": 1,
+				},
+				"tokens": map[string]any{
+					"lastUsedTrackingState": "enabled",
+					"personalAccessTokens":  map[string]any{"total": 2, "active": 1, "revoked": 1, "expired": 0, "expiringSoon": 0, "neverUsed": 1, "stale": 0},
+					"serviceAccountTokens":  map[string]any{"total": 1, "active": 1, "revoked": 0, "expired": 0, "expiringSoon": 0, "neverUsed": 0, "stale": 0},
+				},
+			},
+		})
+	})
+
+	status, err := client.GetAIGatewayGovernanceStatus(context.Background(), GetAIGatewayGovernanceStatusParams{WindowHours: 24})
+	if err != nil {
+		t.Fatalf("GetAIGatewayGovernanceStatus returned error: %v", err)
+	}
+	if got := status.WindowHours; got != 24 {
+		t.Fatalf("window hours = %d, want 24", got)
+	}
+	if got := status.Health.Status; got != "healthy" {
+		t.Fatalf("health status = %q, want healthy", got)
+	}
+	if got := status.Tokens.PersonalAccessTokens.Total; got != 2 {
+		t.Fatalf("personal access token count = %d, want 2", got)
+	}
+}
+
+func TestListPersonalAccessTokensBuildsRequestAndDecodesItems(t *testing.T) {
+	createdAt := time.Date(2026, 6, 6, 8, 0, 0, 0, time.UTC)
+	updatedAt := time.Date(2026, 6, 6, 8, 1, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodGet, "/api/v1/ai-gateway/personal-access-tokens")
+		assertQuery(t, r, map[string]string{
+			"scope":  "ai:gateway",
+			"userId": "user-1",
+		})
+		writeJSON(t, w, map[string]any{
+			"items": []map[string]any{
+				{
+					"id":             "pat-1",
+					"userId":         "user-1",
+					"name":           "CLI",
+					"tokenPrefix":    "soha_pat_1234",
+					"scopes":         []string{"ai:gateway"},
+					"permissionKeys": []string{"ai_gateway.audit.read"},
+					"createdBy":      "user-1",
+					"createdAt":      createdAt,
+					"updatedAt":      updatedAt,
+				},
+			},
+		})
+	})
+
+	items, err := client.ListPersonalAccessTokens(context.Background(), ListPersonalAccessTokensParams{
+		Scope:  "ai:gateway",
+		UserID: "user-1",
+	})
+	if err != nil {
+		t.Fatalf("ListPersonalAccessTokens returned error: %v", err)
+	}
+	if len(items) != 1 {
+		t.Fatalf("got %d personal access tokens, want 1", len(items))
+	}
+	if got := items[0].ID; got != "pat-1" {
+		t.Fatalf("personal access token ID = %q, want pat-1", got)
+	}
+	if got := items[0].UpdatedAt; !got.Equal(updatedAt) {
+		t.Fatalf("personal access token UpdatedAt = %s, want %s", got, updatedAt)
+	}
+}
+
+func TestCreatePersonalAccessTokenPostsBodyAndDecodesData(t *testing.T) {
+	expiresAt := time.Date(2026, 7, 1, 0, 0, 0, 0, time.UTC)
+	createdAt := time.Date(2026, 6, 6, 9, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodPost, "/api/v1/ai-gateway/personal-access-tokens")
+		body := decodeJSONRequestBody[PersonalAccessTokenInput](t, r)
+		if got := body.Name; got != "release bot" {
+			t.Fatalf("personal access token name = %q, want release bot", got)
+		}
+		if body.ExpiresAt == nil || !body.ExpiresAt.Equal(expiresAt) {
+			t.Fatalf("personal access token ExpiresAt = %v, want %s", body.ExpiresAt, expiresAt)
+		}
+		if got := body.Metadata["purpose"]; got != "release" {
+			t.Fatalf("personal access token metadata purpose = %v, want release", got)
+		}
+		writeJSON(t, w, map[string]any{
+			"data": map[string]any{
+				"value": "soha_pat_secret",
+				"token": map[string]any{
+					"id":             "pat-2",
+					"userId":         "user-1",
+					"name":           "release bot",
+					"tokenPrefix":    "soha_pat_5678",
+					"scopes":         []string{"ai:gateway"},
+					"permissionKeys": []string{"ai_gateway.tokens.write"},
+					"expiresAt":      expiresAt,
+					"createdBy":      "user-1",
+					"createdAt":      createdAt,
+					"updatedAt":      createdAt,
+				},
+			},
+		})
+	})
+
+	result, err := client.CreatePersonalAccessToken(context.Background(), PersonalAccessTokenInput{
+		Name:           "release bot",
+		Scopes:         []string{"ai:gateway"},
+		PermissionKeys: []string{"ai_gateway.tokens.write"},
+		Metadata:       map[string]any{"purpose": "release"},
+		ExpiresAt:      &expiresAt,
+	})
+	if err != nil {
+		t.Fatalf("CreatePersonalAccessToken returned error: %v", err)
+	}
+	if got := result.Value; got != "soha_pat_secret" {
+		t.Fatalf("created personal access token value = %q, want soha_pat_secret", got)
+	}
+	if got := result.Token.ID; got != "pat-2" {
+		t.Fatalf("created personal access token ID = %q, want pat-2", got)
+	}
+	if result.Token.ExpiresAt == nil || !result.Token.ExpiresAt.Equal(expiresAt) {
+		t.Fatalf("created personal access token ExpiresAt = %v, want %s", result.Token.ExpiresAt, expiresAt)
+	}
+}
+
+func TestRevokePersonalAccessTokenEscapesPathAndDecodesStatus(t *testing.T) {
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodPost, "/api/v1/ai-gateway/personal-access-tokens/pat%2F1/revoke")
+		writeJSON(t, w, map[string]any{"status": "revoked"})
+	})
+
+	status, err := client.RevokePersonalAccessToken(context.Background(), "pat/1")
+	if err != nil {
+		t.Fatalf("RevokePersonalAccessToken returned error: %v", err)
+	}
+	if got := status.Status; got != "revoked" {
+		t.Fatalf("personal access token revoke status = %q, want revoked", got)
+	}
+}
+
+func TestRotatePersonalAccessTokenEscapesPathPostsBodyAndDecodesData(t *testing.T) {
+	expiresAt := time.Date(2026, 8, 1, 0, 0, 0, 0, time.UTC)
+	rotatedAt := time.Date(2026, 6, 6, 10, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodPost, "/api/v1/ai-gateway/personal-access-tokens/pat%2F1/rotate")
+		body := decodeJSONRequestBody[TokenRotationInput](t, r)
+		if body.ExpiresAt == nil || !body.ExpiresAt.Equal(expiresAt) {
+			t.Fatalf("personal access token rotation ExpiresAt = %v, want %s", body.ExpiresAt, expiresAt)
+		}
+		writeJSON(t, w, map[string]any{
+			"data": map[string]any{
+				"value": "soha_pat_rotated",
+				"token": map[string]any{
+					"id":             "pat-rotated",
+					"userId":         "user-1",
+					"name":           "rotated",
+					"tokenPrefix":    "soha_pat_9999",
+					"scopes":         []string{"ai:gateway"},
+					"permissionKeys": []string{"ai_gateway.tokens.write"},
+					"expiresAt":      expiresAt,
+					"createdBy":      "user-1",
+					"createdAt":      rotatedAt,
+					"updatedAt":      rotatedAt,
+				},
+			},
+		})
+	})
+
+	result, err := client.RotatePersonalAccessToken(context.Background(), "pat/1", &TokenRotationInput{ExpiresAt: &expiresAt})
+	if err != nil {
+		t.Fatalf("RotatePersonalAccessToken returned error: %v", err)
+	}
+	if got := result.Value; got != "soha_pat_rotated" {
+		t.Fatalf("rotated personal access token value = %q, want soha_pat_rotated", got)
+	}
+	if got := result.Token.ID; got != "pat-rotated" {
+		t.Fatalf("rotated personal access token ID = %q, want pat-rotated", got)
+	}
+}
+
+func TestListServiceAccountsBuildsRequestAndDecodesItems(t *testing.T) {
+	createdAt := time.Date(2026, 6, 7, 8, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodGet, "/api/v1/ai-gateway/service-accounts")
+		assertQuery(t, r, map[string]string{})
+		writeJSON(t, w, map[string]any{
+			"items": []map[string]any{
+				{
+					"id":            "svc-1",
+					"name":          "deploy service",
+					"description":   "automation",
+					"status":        "active",
+					"roleIds":       []string{"runner"},
+					"teamIds":       []string{"platform"},
+					"scopeGrantIds": []string{"gateway"},
+					"createdBy":     "user-1",
+					"createdAt":     createdAt,
+					"updatedAt":     createdAt,
+				},
+			},
+		})
+	})
+
+	items, err := client.ListServiceAccounts(context.Background())
+	if err != nil {
+		t.Fatalf("ListServiceAccounts returned error: %v", err)
+	}
+	if len(items) != 1 {
+		t.Fatalf("got %d service accounts, want 1", len(items))
+	}
+	if got := items[0].ID; got != "svc-1" {
+		t.Fatalf("service account ID = %q, want svc-1", got)
+	}
+	if got := items[0].RoleIDs[0]; got != "runner" {
+		t.Fatalf("service account role ID = %q, want runner", got)
+	}
+}
+
+func TestCreateServiceAccountPostsBodyAndDecodesData(t *testing.T) {
+	createdAt := time.Date(2026, 6, 7, 9, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodPost, "/api/v1/ai-gateway/service-accounts")
+		body := decodeJSONRequestBody[ServiceAccountInput](t, r)
+		if got := body.ID; got != "svc-create" {
+			t.Fatalf("service account input ID = %q, want svc-create", got)
+		}
+		if got := body.Metadata["owner"]; got != "platform" {
+			t.Fatalf("service account metadata owner = %v, want platform", got)
+		}
+		writeJSON(t, w, map[string]any{
+			"data": map[string]any{
+				"id":            "svc-create",
+				"name":          "created service",
+				"description":   "created by test",
+				"status":        "active",
+				"ownerUserId":   "user-1",
+				"roleIds":       []string{"runner"},
+				"teamIds":       []string{"platform"},
+				"scopeGrantIds": []string{"gateway"},
+				"metadata":      map[string]any{"owner": "platform"},
+				"createdBy":     "user-1",
+				"createdAt":     createdAt,
+				"updatedAt":     createdAt,
+			},
+		})
+	})
+
+	result, err := client.CreateServiceAccount(context.Background(), ServiceAccountInput{
+		ID:            "svc-create",
+		Name:          "created service",
+		Description:   "created by test",
+		Status:        "active",
+		OwnerUserID:   "user-1",
+		RoleIDs:       []string{"runner"},
+		TeamIDs:       []string{"platform"},
+		ScopeGrantIDs: []string{"gateway"},
+		Metadata:      map[string]any{"owner": "platform"},
+	})
+	if err != nil {
+		t.Fatalf("CreateServiceAccount returned error: %v", err)
+	}
+	if got := result.ID; got != "svc-create" {
+		t.Fatalf("created service account ID = %q, want svc-create", got)
+	}
+	if got := result.OwnerUserID; got != "user-1" {
+		t.Fatalf("created service account owner = %q, want user-1", got)
+	}
+}
+
+func TestListServiceAccountTokensBuildsRequestAndDecodesItems(t *testing.T) {
+	createdAt := time.Date(2026, 6, 7, 10, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodGet, "/api/v1/ai-gateway/service-account-tokens")
+		assertQuery(t, r, map[string]string{})
+		writeJSON(t, w, map[string]any{
+			"items": []map[string]any{
+				{
+					"id":               "sat-1",
+					"serviceAccountId": "svc-1",
+					"name":             "deploy token",
+					"tokenPrefix":      "soha_sat_1234",
+					"scopes":           []string{"ai:gateway"},
+					"permissionKeys":   []string{"ai_gateway.tools.invoke"},
+					"createdBy":        "user-1",
+					"createdAt":        createdAt,
+					"updatedAt":        createdAt,
+				},
+			},
+		})
+	})
+
+	items, err := client.ListServiceAccountTokens(context.Background())
+	if err != nil {
+		t.Fatalf("ListServiceAccountTokens returned error: %v", err)
+	}
+	if len(items) != 1 {
+		t.Fatalf("got %d service account tokens, want 1", len(items))
+	}
+	if got := items[0].ServiceAccountID; got != "svc-1" {
+		t.Fatalf("service account token service account ID = %q, want svc-1", got)
+	}
+}
+
+func TestCreateServiceAccountTokenEscapesPathPostsBodyAndDecodesData(t *testing.T) {
+	expiresAt := time.Date(2026, 9, 1, 0, 0, 0, 0, time.UTC)
+	createdAt := time.Date(2026, 6, 7, 11, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodPost, "/api/v1/ai-gateway/service-accounts/svc%2F1/tokens")
+		body := decodeJSONRequestBody[ServiceAccountTokenInput](t, r)
+		if got := body.Name; got != "deploy token" {
+			t.Fatalf("service account token name = %q, want deploy token", got)
+		}
+		if body.ExpiresAt == nil || !body.ExpiresAt.Equal(expiresAt) {
+			t.Fatalf("service account token ExpiresAt = %v, want %s", body.ExpiresAt, expiresAt)
+		}
+		writeJSON(t, w, map[string]any{
+			"data": map[string]any{
+				"value": "soha_sat_secret",
+				"token": map[string]any{
+					"id":               "sat-2",
+					"serviceAccountId": "svc/1",
+					"name":             "deploy token",
+					"tokenPrefix":      "soha_sat_5678",
+					"scopes":           []string{"ai:gateway"},
+					"permissionKeys":   []string{"ai_gateway.tools.invoke"},
+					"expiresAt":        expiresAt,
+					"createdBy":        "user-1",
+					"createdAt":        createdAt,
+					"updatedAt":        createdAt,
+				},
+			},
+		})
+	})
+
+	result, err := client.CreateServiceAccountToken(context.Background(), "svc/1", ServiceAccountTokenInput{
+		Name:           "deploy token",
+		Scopes:         []string{"ai:gateway"},
+		PermissionKeys: []string{"ai_gateway.tools.invoke"},
+		ExpiresAt:      &expiresAt,
+	})
+	if err != nil {
+		t.Fatalf("CreateServiceAccountToken returned error: %v", err)
+	}
+	if got := result.Value; got != "soha_sat_secret" {
+		t.Fatalf("created service account token value = %q, want soha_sat_secret", got)
+	}
+	if got := result.Token.ServiceAccountID; got != "svc/1" {
+		t.Fatalf("created service account token service account ID = %q, want svc/1", got)
+	}
+}
+
+func TestRevokeServiceAccountTokenEscapesPathAndDecodesStatus(t *testing.T) {
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodPost, "/api/v1/ai-gateway/service-account-tokens/sat%2F1/revoke")
+		writeJSON(t, w, map[string]any{"status": "revoked"})
+	})
+
+	status, err := client.RevokeServiceAccountToken(context.Background(), "sat/1")
+	if err != nil {
+		t.Fatalf("RevokeServiceAccountToken returned error: %v", err)
+	}
+	if got := status.Status; got != "revoked" {
+		t.Fatalf("service account token revoke status = %q, want revoked", got)
+	}
+}
+
+func TestRotateServiceAccountTokenEscapesPathPostsBodyAndDecodesData(t *testing.T) {
+	expiresAt := time.Date(2026, 10, 1, 0, 0, 0, 0, time.UTC)
+	rotatedAt := time.Date(2026, 6, 7, 12, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodPost, "/api/v1/ai-gateway/service-account-tokens/sat%2F1/rotate")
+		body := decodeJSONRequestBody[TokenRotationInput](t, r)
+		if body.ExpiresAt == nil || !body.ExpiresAt.Equal(expiresAt) {
+			t.Fatalf("service account token rotation ExpiresAt = %v, want %s", body.ExpiresAt, expiresAt)
+		}
+		writeJSON(t, w, map[string]any{
+			"data": map[string]any{
+				"value": "soha_sat_rotated",
+				"token": map[string]any{
+					"id":               "sat-rotated",
+					"serviceAccountId": "svc-1",
+					"name":             "rotated service token",
+					"tokenPrefix":      "soha_sat_9999",
+					"scopes":           []string{"ai:gateway"},
+					"permissionKeys":   []string{"ai_gateway.tools.invoke"},
+					"expiresAt":        expiresAt,
+					"createdBy":        "user-1",
+					"createdAt":        rotatedAt,
+					"updatedAt":        rotatedAt,
+				},
+			},
+		})
+	})
+
+	result, err := client.RotateServiceAccountToken(context.Background(), "sat/1", &TokenRotationInput{ExpiresAt: &expiresAt})
+	if err != nil {
+		t.Fatalf("RotateServiceAccountToken returned error: %v", err)
+	}
+	if got := result.Value; got != "soha_sat_rotated" {
+		t.Fatalf("rotated service account token value = %q, want soha_sat_rotated", got)
+	}
+	if got := result.Token.ID; got != "sat-rotated" {
+		t.Fatalf("rotated service account token ID = %q, want sat-rotated", got)
+	}
+}
+
+func TestListMCPCapabilitiesBuildsRequestAndDecodesItems(t *testing.T) {
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodGet, "/api/v1/mcp/capabilities")
+		assertQuery(t, r, map[string]string{})
+		writeJSON(t, w, map[string]any{
+			"items": []map[string]any{
+				{
+					"adapterID":   "filesystem",
+					"name":        "resource.read",
+					"description": "read files through the gateway",
+					"scopes":      []string{"resources:read"},
+				},
+			},
+		})
+	})
+
+	items, err := client.ListMCPCapabilities(context.Background())
+	if err != nil {
+		t.Fatalf("ListMCPCapabilities returned error: %v", err)
+	}
+	if len(items) != 1 {
+		t.Fatalf("got %d MCP capabilities, want 1", len(items))
+	}
+	if got := items[0].AdapterID; got != "filesystem" {
+		t.Fatalf("MCP capability adapter ID = %q, want filesystem", got)
+	}
+	if got := items[0].Scopes[0]; got != "resources:read" {
+		t.Fatalf("MCP capability scope = %q, want resources:read", got)
+	}
+}
+
+func TestListMarketplacePluginsBuildsRequestAndDecodesItems(t *testing.T) {
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodGet, "/api/v1/plugins/marketplace")
+		assertQuery(t, r, map[string]string{
+			"publisher": "OpenSoha",
+			"q":         "k8s sre",
+			"type":      "skill-pack",
+		})
+		writeJSON(t, w, map[string]any{
+			"items": []map[string]any{
+				marketplacePluginJSON("k8s-sre", true),
+			},
+		})
+	})
+
+	items, err := client.ListMarketplacePlugins(context.Background(), ListMarketplacePluginsParams{
+		Publisher: "OpenSoha",
+		Q:         "k8s sre",
+		Type:      "skill-pack",
+	})
+	if err != nil {
+		t.Fatalf("ListMarketplacePlugins returned error: %v", err)
+	}
+	if len(items) != 1 {
+		t.Fatalf("got %d marketplace plugins, want 1", len(items))
+	}
+	if got := items[0].ID; got != "k8s-sre" {
+		t.Fatalf("marketplace plugin ID = %q, want k8s-sre", got)
+	}
+	if got := items[0].Manifest.Capabilities.Tools[0]; got != "k8s.rollout" {
+		t.Fatalf("marketplace plugin tool = %q, want k8s.rollout", got)
+	}
+	if !items[0].Installed {
+		t.Fatal("marketplace plugin Installed = false, want true")
+	}
+}
+
+func TestGetMarketplacePluginEscapesPathAndDecodesData(t *testing.T) {
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodGet, "/api/v1/plugins/marketplace/plugin%2F1")
+		writeJSON(t, w, map[string]any{
+			"data": marketplacePluginJSON("plugin/1", false),
+		})
+	})
+
+	plugin, err := client.GetMarketplacePlugin(context.Background(), "plugin/1")
+	if err != nil {
+		t.Fatalf("GetMarketplacePlugin returned error: %v", err)
+	}
+	if got := plugin.ID; got != "plugin/1" {
+		t.Fatalf("marketplace plugin ID = %q, want plugin/1", got)
+	}
+	if got := plugin.Source; got != "marketplace" {
+		t.Fatalf("marketplace plugin source = %q, want marketplace", got)
+	}
+}
+
+func TestListInstalledPluginsBuildsRequestAndDecodesItems(t *testing.T) {
+	installedAt := time.Date(2026, 6, 8, 9, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodGet, "/api/v1/plugins/installed")
+		assertQuery(t, r, map[string]string{})
+		writeJSON(t, w, map[string]any{
+			"items": []map[string]any{
+				installedPluginJSON("k8s-sre", "enabled", installedAt),
+			},
+		})
+	})
+
+	items, err := client.ListInstalledPlugins(context.Background())
+	if err != nil {
+		t.Fatalf("ListInstalledPlugins returned error: %v", err)
+	}
+	if len(items) != 1 {
+		t.Fatalf("got %d installed plugins, want 1", len(items))
+	}
+	if got := items[0].Status; got != "enabled" {
+		t.Fatalf("installed plugin status = %q, want enabled", got)
+	}
+	if got := items[0].InstalledAt; !got.Equal(installedAt) {
+		t.Fatalf("installed plugin InstalledAt = %s, want %s", got, installedAt)
+	}
+}
+
+func TestInstallPluginPostsBodyAndDecodesData(t *testing.T) {
+	installedAt := time.Date(2026, 6, 8, 10, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodPost, "/api/v1/plugins/install")
+		body := decodeJSONRequestBody[PluginInstallRequest](t, r)
+		if got := body.PluginID; got != "k8s-sre" {
+			t.Fatalf("plugin install PluginID = %q, want k8s-sre", got)
+		}
+		if got := body.Source; got != "marketplace" {
+			t.Fatalf("plugin install Source = %q, want marketplace", got)
+		}
+		if got := body.ExpectedChecksum; got != "sha256:abc123" {
+			t.Fatalf("plugin install ExpectedChecksum = %q, want sha256:abc123", got)
+		}
+		if !body.Enable {
+			t.Fatal("plugin install Enable = false, want true")
+		}
+		if body.Manifest == nil || body.Manifest.ID != "custom-plugin" {
+			t.Fatalf("plugin install Manifest ID = %v, want custom-plugin", body.Manifest)
+		}
+		writeJSON(t, w, map[string]any{
+			"data": installedPluginJSON("k8s-sre", "enabled", installedAt),
+		})
+	})
+
+	plugin, err := client.InstallPlugin(context.Background(), PluginInstallRequest{
+		Enable:           true,
+		ExpectedChecksum: "sha256:abc123",
+		Manifest: &PluginManifest{
+			ID:        "custom-plugin",
+			Name:      "Custom Plugin",
+			Publisher: "OpenSoha",
+			Type:      "skill-pack",
+			Version:   "1.0.0",
+		},
+		PluginID: "k8s-sre",
+		Source:   "marketplace",
+	})
+	if err != nil {
+		t.Fatalf("InstallPlugin returned error: %v", err)
+	}
+	if got := plugin.ID; got != "k8s-sre" {
+		t.Fatalf("installed plugin ID = %q, want k8s-sre", got)
+	}
+	if got := plugin.Manifest.ID; got != "k8s-sre" {
+		t.Fatalf("installed plugin manifest ID = %q, want k8s-sre", got)
+	}
+}
+
+func TestGetInstalledPluginEscapesPathAndDecodesData(t *testing.T) {
+	installedAt := time.Date(2026, 6, 8, 11, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodGet, "/api/v1/plugins/plugin%2F1")
+		writeJSON(t, w, map[string]any{
+			"data": installedPluginJSON("plugin/1", "enabled", installedAt),
+		})
+	})
+
+	plugin, err := client.GetInstalledPlugin(context.Background(), "plugin/1")
+	if err != nil {
+		t.Fatalf("GetInstalledPlugin returned error: %v", err)
+	}
+	if got := plugin.ID; got != "plugin/1" {
+		t.Fatalf("installed plugin ID = %q, want plugin/1", got)
+	}
+	if got := plugin.Type; got != "skill-pack" {
+		t.Fatalf("installed plugin type = %q, want skill-pack", got)
+	}
+}
+
+func TestRemoveInstalledPluginEscapesPathAndDecodesStatus(t *testing.T) {
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodDelete, "/api/v1/plugins/plugin%2F1")
+		writeJSON(t, w, map[string]any{"status": "removed"})
+	})
+
+	status, err := client.RemoveInstalledPlugin(context.Background(), "plugin/1")
+	if err != nil {
+		t.Fatalf("RemoveInstalledPlugin returned error: %v", err)
+	}
+	if got := status.Status; got != "removed" {
+		t.Fatalf("remove installed plugin status = %q, want removed", got)
+	}
+}
+
+func TestGetInstalledPluginManifestEscapesPathAndDecodesData(t *testing.T) {
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodGet, "/api/v1/plugins/plugin%2F1/manifest")
+		writeJSON(t, w, map[string]any{
+			"data": pluginManifestJSON("plugin/1"),
+		})
+	})
+
+	manifest, err := client.GetInstalledPluginManifest(context.Background(), "plugin/1")
+	if err != nil {
+		t.Fatalf("GetInstalledPluginManifest returned error: %v", err)
+	}
+	if got := manifest.ID; got != "plugin/1" {
+		t.Fatalf("installed plugin manifest ID = %q, want plugin/1", got)
+	}
+	if got := manifest.Permissions.Required[0]; got != "mcp.capabilities.read" {
+		t.Fatalf("installed plugin manifest permission = %q, want mcp.capabilities.read", got)
+	}
+}
+
+func TestInstalledPluginStateMethodsEscapePathAndDecodeData(t *testing.T) {
+	cases := []struct {
+		name   string
+		path   string
+		status string
+		call   func(*Client) (InstalledPlugin, error)
+	}{
+		{
+			name:   "enable",
+			path:   "/api/v1/plugins/plugin%2F1/enable",
+			status: "enabled",
+			call: func(client *Client) (InstalledPlugin, error) {
+				return client.EnableInstalledPlugin(context.Background(), "plugin/1")
+			},
+		},
+		{
+			name:   "disable",
+			path:   "/api/v1/plugins/plugin%2F1/disable",
+			status: "disabled",
+			call: func(client *Client) (InstalledPlugin, error) {
+				return client.DisableInstalledPlugin(context.Background(), "plugin/1")
+			},
+		},
+	}
+	for _, tt := range cases {
+		t.Run(tt.name, func(t *testing.T) {
+			updatedAt := time.Date(2026, 6, 8, 12, 0, 0, 0, time.UTC)
+			client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+				assertCommonRequest(t, r, http.MethodPost, tt.path)
+				writeJSON(t, w, map[string]any{
+					"data": installedPluginJSON("plugin/1", tt.status, updatedAt),
+				})
+			})
+
+			plugin, err := tt.call(client)
+			if err != nil {
+				t.Fatalf("%s installed plugin returned error: %v", tt.name, err)
+			}
+			if got := plugin.Status; got != tt.status {
+				t.Fatalf("%s installed plugin status = %q, want %s", tt.name, got, tt.status)
+			}
+		})
+	}
+}
+
+func TestUpgradeInstalledPluginEscapesPathPostsBodyAndDecodesData(t *testing.T) {
+	updatedAt := time.Date(2026, 6, 8, 13, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodPost, "/api/v1/plugins/plugin%2F1/upgrade")
+		body := decodeJSONRequestBody[PluginInstallRequest](t, r)
+		if got := body.Source; got != "marketplace" {
+			t.Fatalf("plugin upgrade Source = %q, want marketplace", got)
+		}
+		if got := body.ExpectedChecksum; got != "sha256:def456" {
+			t.Fatalf("plugin upgrade ExpectedChecksum = %q, want sha256:def456", got)
+		}
+		writeJSON(t, w, map[string]any{
+			"data": installedPluginJSON("plugin/1", "enabled", updatedAt),
+		})
+	})
+
+	plugin, err := client.UpgradeInstalledPlugin(context.Background(), "plugin/1", &PluginInstallRequest{
+		ExpectedChecksum: "sha256:def456",
+		Source:           "marketplace",
+	})
+	if err != nil {
+		t.Fatalf("UpgradeInstalledPlugin returned error: %v", err)
+	}
+	if got := plugin.ID; got != "plugin/1" {
+		t.Fatalf("upgraded installed plugin ID = %q, want plugin/1", got)
+	}
+}
+
+func TestConfigureInstalledPluginEscapesPathPostsBodyAndDecodesData(t *testing.T) {
+	enabled := false
+	updatedAt := time.Date(2026, 6, 8, 14, 0, 0, 0, time.UTC)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodPut, "/api/v1/plugins/plugin%2F1/config")
+		body := decodeJSONRequestBody[PluginConfigRequest](t, r)
+		if body.Enabled == nil || *body.Enabled {
+			t.Fatalf("plugin config Enabled = %v, want false", body.Enabled)
+		}
+		if got := body.Metadata["env"]; got != "prod" {
+			t.Fatalf("plugin config metadata env = %v, want prod", got)
+		}
+		if got := body.SecretRefs["apiToken"]; got != "secret/ref" {
+			t.Fatalf("plugin config secret ref = %q, want secret/ref", got)
+		}
+		writeJSON(t, w, map[string]any{
+			"data": installedPluginJSON("plugin/1", "disabled", updatedAt),
+		})
+	})
+
+	plugin, err := client.ConfigureInstalledPlugin(context.Background(), "plugin/1", PluginConfigRequest{
+		Enabled:    &enabled,
+		Metadata:   map[string]any{"env": "prod"},
+		SecretRefs: map[string]string{"apiToken": "secret/ref"},
+	})
+	if err != nil {
+		t.Fatalf("ConfigureInstalledPlugin returned error: %v", err)
+	}
+	if got := plugin.Status; got != "disabled" {
+		t.Fatalf("configured installed plugin status = %q, want disabled", got)
+	}
+}
+
+func newTestClient(t *testing.T, handler http.HandlerFunc) *Client {
+	t.Helper()
+	server := httptest.NewServer(handler)
+	t.Cleanup(server.Close)
+	return NewClient(
+		server.URL,
+		WithBearerToken("test-token"),
+		WithHTTPClient(server.Client()),
+		WithUserAgent("sohaapi-test"),
+	)
+}
+
+func decodeJSONRequestBody[T any](t *testing.T, r *http.Request) T {
+	t.Helper()
+	if got := r.Header.Get("Content-Type"); got != "application/json" {
+		t.Fatalf("Content-Type = %q, want application/json", got)
+	}
+	raw, err := io.ReadAll(r.Body)
+	if err != nil {
+		t.Fatalf("read request body: %v", err)
+	}
+	var body T
+	if err := json.Unmarshal(raw, &body); err != nil {
+		t.Fatalf("decode request body %q: %v", string(raw), err)
+	}
+	return body
+}
+
+func assertCommonRequest(t *testing.T, r *http.Request, method, path string) {
+	t.Helper()
+	if r.Method != method {
+		t.Fatalf("method = %s, want %s", r.Method, method)
+	}
+	if got := r.URL.EscapedPath(); got != path {
+		t.Fatalf("path = %q, want %q", got, path)
+	}
+	if got := r.Header.Get("Accept"); got != "application/json" {
+		t.Fatalf("Accept = %q, want application/json", got)
+	}
+	if got := r.Header.Get("Authorization"); got != "Bearer test-token" {
+		t.Fatalf("Authorization = %q, want Bearer test-token", got)
+	}
+	if got := r.Header.Get("User-Agent"); got != "sohaapi-test" {
+		t.Fatalf("User-Agent = %q, want sohaapi-test", got)
+	}
+}
+
+func assertPublicRequest(t *testing.T, r *http.Request, method, path string) {
+	t.Helper()
+	if r.Method != method {
+		t.Fatalf("method = %s, want %s", r.Method, method)
+	}
+	if got := r.URL.EscapedPath(); got != path {
+		t.Fatalf("path = %q, want %q", got, path)
+	}
+	if got := r.Header.Get("Accept"); got != "application/json" {
+		t.Fatalf("Accept = %q, want application/json", got)
+	}
+	if got := r.Header.Get("Authorization"); got != "" {
+		t.Fatalf("Authorization = %q, want empty", got)
+	}
+	if got := r.Header.Get("User-Agent"); got != "sohaapi-test" {
+		t.Fatalf("User-Agent = %q, want sohaapi-test", got)
+	}
+}
+
+func assertQuery(t *testing.T, r *http.Request, want map[string]string) {
+	t.Helper()
+	got := r.URL.Query()
+	if len(got) != len(want) {
+		t.Fatalf("query keys = %v, want %v", got, want)
+	}
+	for key, value := range want {
+		if gotValue := got.Get(key); gotValue != value {
+			t.Fatalf("query[%s] = %q, want %q", key, gotValue, value)
+		}
+	}
+}
+
+func authResultJSON(expiresAt time.Time, accessToken string) map[string]any {
+	return map[string]any{
+		"data": map[string]any{
+			"tokens": map[string]any{
+				"accessToken":  accessToken,
+				"expiresAt":    expiresAt,
+				"expiresIn":    int64(3600),
+				"refreshToken": "refresh-token",
+				"tokenType":    "Bearer",
+			},
+			"user": principalJSON("user-1"),
+		},
+	}
+}
+
+func principalJSON(userID string) map[string]any {
+	return map[string]any{
+		"userId":         userID,
+		"userName":       "admin",
+		"email":          "admin@example.com",
+		"roles":          []string{"admin"},
+		"teams":          []string{"platform"},
+		"projects":       []string{"default"},
+		"tags":           []string{"ops"},
+		"permissionKeys": []string{"auth.read"},
+	}
+}
+
+func writeJSON(t *testing.T, w http.ResponseWriter, value any) {
+	t.Helper()
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(value); err != nil {
+		t.Fatalf("write response JSON: %v", err)
+	}
+}
+
+func marketplacePluginJSON(id string, installed bool) map[string]any {
+	return map[string]any{
+		"id":        id,
+		"name":      "Kubernetes SRE",
+		"publisher": "OpenSoha",
+		"riskLevel": "high",
+		"source":    "marketplace",
+		"summary":   "Kubernetes operations through OpenSoha",
+		"type":      "skill-pack",
+		"version":   "1.0.0",
+		"installed": installed,
+		"manifest":  pluginManifestJSON(id),
+	}
+}
+
+func installedPluginJSON(id, status string, timestamp time.Time) map[string]any {
+	value := map[string]any{
+		"id":                   id,
+		"name":                 "Kubernetes SRE",
+		"publisher":            "OpenSoha",
+		"type":                 "skill-pack",
+		"version":              "1.0.0",
+		"status":               status,
+		"source":               "marketplace",
+		"manifest":             pluginManifestJSON(id),
+		"checksumStatus":       "verified",
+		"signatureStatus":      "verified",
+		"requestedPermissions": map[string]any{"required": []string{"mcp.capabilities.read"}},
+		"configuredSecretRefs": map[string]string{"apiToken": "secret/ref"},
+		"metadata":             map[string]any{"env": "prod"},
+		"installedBy":          "user-1",
+		"installedAt":          timestamp,
+		"updatedAt":            timestamp,
+	}
+	if status == "enabled" {
+		value["enabledAt"] = timestamp
+	}
+	if status == "disabled" {
+		value["disabledAt"] = timestamp
+	}
+	return value
+}
+
+func pluginManifestJSON(id string) map[string]any {
+	return map[string]any{
+		"id":          id,
+		"name":        "Kubernetes SRE",
+		"publisher":   "OpenSoha",
+		"type":        "skill-pack",
+		"version":     "1.0.0",
+		"description": "Kubernetes operations through OpenSoha",
+		"capabilities": map[string]any{
+			"tools": []string{"k8s.rollout"},
+		},
+		"permissions": map[string]any{
+			"required": []string{"mcp.capabilities.read"},
+		},
+	}
+}
