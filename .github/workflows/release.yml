@@ -20,6 +20,10 @@ jobs:
           cache: true
       - run: npm ci
       - run: npm test
+      - name: Go vet
+        run: GOWORK=off go vet ./...
+      - name: Govulncheck
+        run: GOWORK=off go run golang.org/x/vuln/cmd/govulncheck@v1.3.0 ./...
       - run: npm pack --dry-run
 
   consumers:

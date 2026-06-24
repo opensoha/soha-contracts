@@ -61,7 +61,7 @@ func Decode(encoded string, labels map[string]string) (*Release, error) {
 		if err != nil {
 			return nil, err
 		}
-		defer reader.Close()
+		defer func() { _ = reader.Close() }()
 		uncompressed, err := io.ReadAll(reader)
 		if err != nil {
 			return nil, err
