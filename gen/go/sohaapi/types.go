@@ -7,11 +7,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
+
+	"github.com/oapi-codegen/runtime"
+	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
 const (
 	BearerAuthScopes        bearerAuthContextKey        = "bearerAuth.Scopes"
 	RuntimeBearerAuthScopes runtimeBearerAuthContextKey = "runtimeBearerAuth.Scopes"
+	SohaXAPIKeyScopes       sohaXAPIKeyContextKey       = "sohaXAPIKey.Scopes"
 )
 
 // Defines values for ClusterCapabilityStatus.
@@ -35,6 +39,507 @@ func (e ClusterCapabilityStatus) Valid() bool {
 	}
 }
 
+// Defines values for LLMCallLogCacheStatus.
+const (
+	LLMCallLogCacheStatusBypass       LLMCallLogCacheStatus = "bypass"
+	LLMCallLogCacheStatusHit          LLMCallLogCacheStatus = "hit"
+	LLMCallLogCacheStatusMiss         LLMCallLogCacheStatus = "miss"
+	LLMCallLogCacheStatusStaleHit     LLMCallLogCacheStatus = "stale_hit"
+	LLMCallLogCacheStatusWrite        LLMCallLogCacheStatus = "write"
+	LLMCallLogCacheStatusWriteSkipped LLMCallLogCacheStatus = "write_skipped"
+)
+
+// Valid indicates whether the value is a known member of the LLMCallLogCacheStatus enum.
+func (e LLMCallLogCacheStatus) Valid() bool {
+	switch e {
+	case LLMCallLogCacheStatusBypass:
+		return true
+	case LLMCallLogCacheStatusHit:
+		return true
+	case LLMCallLogCacheStatusMiss:
+		return true
+	case LLMCallLogCacheStatusStaleHit:
+		return true
+	case LLMCallLogCacheStatusWrite:
+		return true
+	case LLMCallLogCacheStatusWriteSkipped:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LLMCallLogProviderKind.
+const (
+	LLMCallLogProviderKindAnthropic        LLMCallLogProviderKind = "anthropic"
+	LLMCallLogProviderKindAzureOpenai      LLMCallLogProviderKind = "azure-openai"
+	LLMCallLogProviderKindCohere           LLMCallLogProviderKind = "cohere"
+	LLMCallLogProviderKindDeepseek         LLMCallLogProviderKind = "deepseek"
+	LLMCallLogProviderKindGemini           LLMCallLogProviderKind = "gemini"
+	LLMCallLogProviderKindOpenai           LLMCallLogProviderKind = "openai"
+	LLMCallLogProviderKindOpenaiCompatible LLMCallLogProviderKind = "openai-compatible"
+	LLMCallLogProviderKindOpenrouter       LLMCallLogProviderKind = "openrouter"
+	LLMCallLogProviderKindQwen             LLMCallLogProviderKind = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the LLMCallLogProviderKind enum.
+func (e LLMCallLogProviderKind) Valid() bool {
+	switch e {
+	case LLMCallLogProviderKindAnthropic:
+		return true
+	case LLMCallLogProviderKindAzureOpenai:
+		return true
+	case LLMCallLogProviderKindCohere:
+		return true
+	case LLMCallLogProviderKindDeepseek:
+		return true
+	case LLMCallLogProviderKindGemini:
+		return true
+	case LLMCallLogProviderKindOpenai:
+		return true
+	case LLMCallLogProviderKindOpenaiCompatible:
+		return true
+	case LLMCallLogProviderKindOpenrouter:
+		return true
+	case LLMCallLogProviderKindQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LLMCallLogStatus.
+const (
+	LLMCallLogStatusCancelled       LLMCallLogStatus = "cancelled"
+	LLMCallLogStatusClientCancelled LLMCallLogStatus = "client_cancelled"
+	LLMCallLogStatusFailure         LLMCallLogStatus = "failure"
+	LLMCallLogStatusPolicyDenied    LLMCallLogStatus = "policy_denied"
+	LLMCallLogStatusRateLimited     LLMCallLogStatus = "rate_limited"
+	LLMCallLogStatusSuccess         LLMCallLogStatus = "success"
+)
+
+// Valid indicates whether the value is a known member of the LLMCallLogStatus enum.
+func (e LLMCallLogStatus) Valid() bool {
+	switch e {
+	case LLMCallLogStatusCancelled:
+		return true
+	case LLMCallLogStatusClientCancelled:
+		return true
+	case LLMCallLogStatusFailure:
+		return true
+	case LLMCallLogStatusPolicyDenied:
+		return true
+	case LLMCallLogStatusRateLimited:
+		return true
+	case LLMCallLogStatusSuccess:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LLMCallLogTokenKind.
+const (
+	LLMCallLogTokenKindPersonalAccessToken LLMCallLogTokenKind = "personal_access_token"
+	LLMCallLogTokenKindServiceAccountToken LLMCallLogTokenKind = "service_account_token"
+)
+
+// Valid indicates whether the value is a known member of the LLMCallLogTokenKind enum.
+func (e LLMCallLogTokenKind) Valid() bool {
+	switch e {
+	case LLMCallLogTokenKindPersonalAccessToken:
+		return true
+	case LLMCallLogTokenKindServiceAccountToken:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LLMModelRouteProviderKind.
+const (
+	LLMModelRouteProviderKindAnthropic        LLMModelRouteProviderKind = "anthropic"
+	LLMModelRouteProviderKindAzureOpenai      LLMModelRouteProviderKind = "azure-openai"
+	LLMModelRouteProviderKindCohere           LLMModelRouteProviderKind = "cohere"
+	LLMModelRouteProviderKindDeepseek         LLMModelRouteProviderKind = "deepseek"
+	LLMModelRouteProviderKindGemini           LLMModelRouteProviderKind = "gemini"
+	LLMModelRouteProviderKindOpenai           LLMModelRouteProviderKind = "openai"
+	LLMModelRouteProviderKindOpenaiCompatible LLMModelRouteProviderKind = "openai-compatible"
+	LLMModelRouteProviderKindOpenrouter       LLMModelRouteProviderKind = "openrouter"
+	LLMModelRouteProviderKindQwen             LLMModelRouteProviderKind = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the LLMModelRouteProviderKind enum.
+func (e LLMModelRouteProviderKind) Valid() bool {
+	switch e {
+	case LLMModelRouteProviderKindAnthropic:
+		return true
+	case LLMModelRouteProviderKindAzureOpenai:
+		return true
+	case LLMModelRouteProviderKindCohere:
+		return true
+	case LLMModelRouteProviderKindDeepseek:
+		return true
+	case LLMModelRouteProviderKindGemini:
+		return true
+	case LLMModelRouteProviderKindOpenai:
+		return true
+	case LLMModelRouteProviderKindOpenaiCompatible:
+		return true
+	case LLMModelRouteProviderKindOpenrouter:
+		return true
+	case LLMModelRouteProviderKindQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LLMModelRouteInputProviderKind.
+const (
+	LLMModelRouteInputProviderKindAnthropic        LLMModelRouteInputProviderKind = "anthropic"
+	LLMModelRouteInputProviderKindAzureOpenai      LLMModelRouteInputProviderKind = "azure-openai"
+	LLMModelRouteInputProviderKindCohere           LLMModelRouteInputProviderKind = "cohere"
+	LLMModelRouteInputProviderKindDeepseek         LLMModelRouteInputProviderKind = "deepseek"
+	LLMModelRouteInputProviderKindGemini           LLMModelRouteInputProviderKind = "gemini"
+	LLMModelRouteInputProviderKindOpenai           LLMModelRouteInputProviderKind = "openai"
+	LLMModelRouteInputProviderKindOpenaiCompatible LLMModelRouteInputProviderKind = "openai-compatible"
+	LLMModelRouteInputProviderKindOpenrouter       LLMModelRouteInputProviderKind = "openrouter"
+	LLMModelRouteInputProviderKindQwen             LLMModelRouteInputProviderKind = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the LLMModelRouteInputProviderKind enum.
+func (e LLMModelRouteInputProviderKind) Valid() bool {
+	switch e {
+	case LLMModelRouteInputProviderKindAnthropic:
+		return true
+	case LLMModelRouteInputProviderKindAzureOpenai:
+		return true
+	case LLMModelRouteInputProviderKindCohere:
+		return true
+	case LLMModelRouteInputProviderKindDeepseek:
+		return true
+	case LLMModelRouteInputProviderKindGemini:
+		return true
+	case LLMModelRouteInputProviderKindOpenai:
+		return true
+	case LLMModelRouteInputProviderKindOpenaiCompatible:
+		return true
+	case LLMModelRouteInputProviderKindOpenrouter:
+		return true
+	case LLMModelRouteInputProviderKindQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LLMUpstreamProviderKind.
+const (
+	LLMUpstreamProviderKindAnthropic        LLMUpstreamProviderKind = "anthropic"
+	LLMUpstreamProviderKindAzureOpenai      LLMUpstreamProviderKind = "azure-openai"
+	LLMUpstreamProviderKindCohere           LLMUpstreamProviderKind = "cohere"
+	LLMUpstreamProviderKindDeepseek         LLMUpstreamProviderKind = "deepseek"
+	LLMUpstreamProviderKindGemini           LLMUpstreamProviderKind = "gemini"
+	LLMUpstreamProviderKindOpenai           LLMUpstreamProviderKind = "openai"
+	LLMUpstreamProviderKindOpenaiCompatible LLMUpstreamProviderKind = "openai-compatible"
+	LLMUpstreamProviderKindOpenrouter       LLMUpstreamProviderKind = "openrouter"
+	LLMUpstreamProviderKindQwen             LLMUpstreamProviderKind = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the LLMUpstreamProviderKind enum.
+func (e LLMUpstreamProviderKind) Valid() bool {
+	switch e {
+	case LLMUpstreamProviderKindAnthropic:
+		return true
+	case LLMUpstreamProviderKindAzureOpenai:
+		return true
+	case LLMUpstreamProviderKindCohere:
+		return true
+	case LLMUpstreamProviderKindDeepseek:
+		return true
+	case LLMUpstreamProviderKindGemini:
+		return true
+	case LLMUpstreamProviderKindOpenai:
+		return true
+	case LLMUpstreamProviderKindOpenaiCompatible:
+		return true
+	case LLMUpstreamProviderKindOpenrouter:
+		return true
+	case LLMUpstreamProviderKindQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LLMUpstreamStatus.
+const (
+	LLMUpstreamStatusActive   LLMUpstreamStatus = "active"
+	LLMUpstreamStatusDegraded LLMUpstreamStatus = "degraded"
+	LLMUpstreamStatusDisabled LLMUpstreamStatus = "disabled"
+)
+
+// Valid indicates whether the value is a known member of the LLMUpstreamStatus enum.
+func (e LLMUpstreamStatus) Valid() bool {
+	switch e {
+	case LLMUpstreamStatusActive:
+		return true
+	case LLMUpstreamStatusDegraded:
+		return true
+	case LLMUpstreamStatusDisabled:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LLMUpstreamInputProviderKind.
+const (
+	LLMUpstreamInputProviderKindAnthropic        LLMUpstreamInputProviderKind = "anthropic"
+	LLMUpstreamInputProviderKindAzureOpenai      LLMUpstreamInputProviderKind = "azure-openai"
+	LLMUpstreamInputProviderKindCohere           LLMUpstreamInputProviderKind = "cohere"
+	LLMUpstreamInputProviderKindDeepseek         LLMUpstreamInputProviderKind = "deepseek"
+	LLMUpstreamInputProviderKindGemini           LLMUpstreamInputProviderKind = "gemini"
+	LLMUpstreamInputProviderKindOpenai           LLMUpstreamInputProviderKind = "openai"
+	LLMUpstreamInputProviderKindOpenaiCompatible LLMUpstreamInputProviderKind = "openai-compatible"
+	LLMUpstreamInputProviderKindOpenrouter       LLMUpstreamInputProviderKind = "openrouter"
+	LLMUpstreamInputProviderKindQwen             LLMUpstreamInputProviderKind = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the LLMUpstreamInputProviderKind enum.
+func (e LLMUpstreamInputProviderKind) Valid() bool {
+	switch e {
+	case LLMUpstreamInputProviderKindAnthropic:
+		return true
+	case LLMUpstreamInputProviderKindAzureOpenai:
+		return true
+	case LLMUpstreamInputProviderKindCohere:
+		return true
+	case LLMUpstreamInputProviderKindDeepseek:
+		return true
+	case LLMUpstreamInputProviderKindGemini:
+		return true
+	case LLMUpstreamInputProviderKindOpenai:
+		return true
+	case LLMUpstreamInputProviderKindOpenaiCompatible:
+		return true
+	case LLMUpstreamInputProviderKindOpenrouter:
+		return true
+	case LLMUpstreamInputProviderKindQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LLMUpstreamInputStatus.
+const (
+	LLMUpstreamInputStatusActive   LLMUpstreamInputStatus = "active"
+	LLMUpstreamInputStatusDegraded LLMUpstreamInputStatus = "degraded"
+	LLMUpstreamInputStatusDisabled LLMUpstreamInputStatus = "disabled"
+)
+
+// Valid indicates whether the value is a known member of the LLMUpstreamInputStatus enum.
+func (e LLMUpstreamInputStatus) Valid() bool {
+	switch e {
+	case LLMUpstreamInputStatusActive:
+		return true
+	case LLMUpstreamInputStatusDegraded:
+		return true
+	case LLMUpstreamInputStatusDisabled:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LLMUpstreamTestRequestEndpoint.
+const (
+	AudioSpeech         LLMUpstreamTestRequestEndpoint = "audio.speech"
+	AudioTranscriptions LLMUpstreamTestRequestEndpoint = "audio.transcriptions"
+	AudioTranslations   LLMUpstreamTestRequestEndpoint = "audio.translations"
+	ChatCompletions     LLMUpstreamTestRequestEndpoint = "chat.completions"
+	ImagesEdits         LLMUpstreamTestRequestEndpoint = "images.edits"
+	ImagesGenerations   LLMUpstreamTestRequestEndpoint = "images.generations"
+	ImagesVariations    LLMUpstreamTestRequestEndpoint = "images.variations"
+	Interactions        LLMUpstreamTestRequestEndpoint = "interactions"
+	Messages            LLMUpstreamTestRequestEndpoint = "messages"
+	Models              LLMUpstreamTestRequestEndpoint = "models"
+	Rerank              LLMUpstreamTestRequestEndpoint = "rerank"
+	Responses           LLMUpstreamTestRequestEndpoint = "responses"
+)
+
+// Valid indicates whether the value is a known member of the LLMUpstreamTestRequestEndpoint enum.
+func (e LLMUpstreamTestRequestEndpoint) Valid() bool {
+	switch e {
+	case AudioSpeech:
+		return true
+	case AudioTranscriptions:
+		return true
+	case AudioTranslations:
+		return true
+	case ChatCompletions:
+		return true
+	case ImagesEdits:
+		return true
+	case ImagesGenerations:
+		return true
+	case ImagesVariations:
+		return true
+	case Interactions:
+		return true
+	case Messages:
+		return true
+	case Models:
+		return true
+	case Rerank:
+		return true
+	case Responses:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LLMUpstreamTestResultProviderKind.
+const (
+	LLMUpstreamTestResultProviderKindAnthropic        LLMUpstreamTestResultProviderKind = "anthropic"
+	LLMUpstreamTestResultProviderKindAzureOpenai      LLMUpstreamTestResultProviderKind = "azure-openai"
+	LLMUpstreamTestResultProviderKindCohere           LLMUpstreamTestResultProviderKind = "cohere"
+	LLMUpstreamTestResultProviderKindDeepseek         LLMUpstreamTestResultProviderKind = "deepseek"
+	LLMUpstreamTestResultProviderKindGemini           LLMUpstreamTestResultProviderKind = "gemini"
+	LLMUpstreamTestResultProviderKindOpenai           LLMUpstreamTestResultProviderKind = "openai"
+	LLMUpstreamTestResultProviderKindOpenaiCompatible LLMUpstreamTestResultProviderKind = "openai-compatible"
+	LLMUpstreamTestResultProviderKindOpenrouter       LLMUpstreamTestResultProviderKind = "openrouter"
+	LLMUpstreamTestResultProviderKindQwen             LLMUpstreamTestResultProviderKind = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the LLMUpstreamTestResultProviderKind enum.
+func (e LLMUpstreamTestResultProviderKind) Valid() bool {
+	switch e {
+	case LLMUpstreamTestResultProviderKindAnthropic:
+		return true
+	case LLMUpstreamTestResultProviderKindAzureOpenai:
+		return true
+	case LLMUpstreamTestResultProviderKindCohere:
+		return true
+	case LLMUpstreamTestResultProviderKindDeepseek:
+		return true
+	case LLMUpstreamTestResultProviderKindGemini:
+		return true
+	case LLMUpstreamTestResultProviderKindOpenai:
+		return true
+	case LLMUpstreamTestResultProviderKindOpenaiCompatible:
+		return true
+	case LLMUpstreamTestResultProviderKindOpenrouter:
+		return true
+	case LLMUpstreamTestResultProviderKindQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LLMUpstreamTestResultStatus.
+const (
+	LLMUpstreamTestResultStatusFailure LLMUpstreamTestResultStatus = "failure"
+	LLMUpstreamTestResultStatusSuccess LLMUpstreamTestResultStatus = "success"
+)
+
+// Valid indicates whether the value is a known member of the LLMUpstreamTestResultStatus enum.
+func (e LLMUpstreamTestResultStatus) Valid() bool {
+	switch e {
+	case LLMUpstreamTestResultStatusFailure:
+		return true
+	case LLMUpstreamTestResultStatusSuccess:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for OpenAIAudioTranscriptionRequestTimestampGranularities.
+const (
+	Segment OpenAIAudioTranscriptionRequestTimestampGranularities = "segment"
+	Word    OpenAIAudioTranscriptionRequestTimestampGranularities = "word"
+)
+
+// Valid indicates whether the value is a known member of the OpenAIAudioTranscriptionRequestTimestampGranularities enum.
+func (e OpenAIAudioTranscriptionRequestTimestampGranularities) Valid() bool {
+	switch e {
+	case Segment:
+		return true
+	case Word:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for OpenAIModelsResponseObject.
+const (
+	List OpenAIModelsResponseObject = "list"
+)
+
+// Valid indicates whether the value is a known member of the OpenAIModelsResponseObject enum.
+func (e OpenAIModelsResponseObject) Valid() bool {
+	switch e {
+	case List:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for OpenAICompatibleProvider.
+const (
+	OpenAICompatibleProviderAzureOpenai OpenAICompatibleProvider = "azure-openai"
+	OpenAICompatibleProviderDeepseek    OpenAICompatibleProvider = "deepseek"
+	OpenAICompatibleProviderOpenrouter  OpenAICompatibleProvider = "openrouter"
+	OpenAICompatibleProviderQwen        OpenAICompatibleProvider = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the OpenAICompatibleProvider enum.
+func (e OpenAICompatibleProvider) Valid() bool {
+	switch e {
+	case OpenAICompatibleProviderAzureOpenai:
+		return true
+	case OpenAICompatibleProviderDeepseek:
+		return true
+	case OpenAICompatibleProviderOpenrouter:
+		return true
+	case OpenAICompatibleProviderQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SohaCacheModeHeader.
+const (
+	SohaCacheModeHeaderBypass   SohaCacheModeHeader = "bypass"
+	SohaCacheModeHeaderDefault  SohaCacheModeHeader = "default"
+	SohaCacheModeHeaderReadOnly SohaCacheModeHeader = "read-only"
+	SohaCacheModeHeaderRefresh  SohaCacheModeHeader = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the SohaCacheModeHeader enum.
+func (e SohaCacheModeHeader) Valid() bool {
+	switch e {
+	case SohaCacheModeHeaderBypass:
+		return true
+	case SohaCacheModeHeaderDefault:
+		return true
+	case SohaCacheModeHeaderReadOnly:
+		return true
+	case SohaCacheModeHeaderRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for DecideAIGatewayApprovalRequestParamsAction.
 const (
 	Approve DecideAIGatewayApprovalRequestParamsAction = "approve"
@@ -50,6 +555,966 @@ func (e DecideAIGatewayApprovalRequestParamsAction) Valid() bool {
 	case Cancel:
 		return true
 	case Reject:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayAnthropicMessageParamsXSohaCacheMode.
+const (
+	CreateAIGatewayAnthropicMessageParamsXSohaCacheModeBypass   CreateAIGatewayAnthropicMessageParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayAnthropicMessageParamsXSohaCacheModeDefault  CreateAIGatewayAnthropicMessageParamsXSohaCacheMode = "default"
+	CreateAIGatewayAnthropicMessageParamsXSohaCacheModeReadOnly CreateAIGatewayAnthropicMessageParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayAnthropicMessageParamsXSohaCacheModeRefresh  CreateAIGatewayAnthropicMessageParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayAnthropicMessageParamsXSohaCacheMode enum.
+func (e CreateAIGatewayAnthropicMessageParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayAnthropicMessageParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayAnthropicMessageParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayAnthropicMessageParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayAnthropicMessageParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayCohereRerankParamsXSohaCacheMode.
+const (
+	CreateAIGatewayCohereRerankParamsXSohaCacheModeBypass   CreateAIGatewayCohereRerankParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayCohereRerankParamsXSohaCacheModeDefault  CreateAIGatewayCohereRerankParamsXSohaCacheMode = "default"
+	CreateAIGatewayCohereRerankParamsXSohaCacheModeReadOnly CreateAIGatewayCohereRerankParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayCohereRerankParamsXSohaCacheModeRefresh  CreateAIGatewayCohereRerankParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayCohereRerankParamsXSohaCacheMode enum.
+func (e CreateAIGatewayCohereRerankParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayCohereRerankParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayCohereRerankParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayCohereRerankParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayCohereRerankParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode.
+const (
+	CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeBypass   CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeDefault  CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode = "default"
+	CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeReadOnly CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeRefresh  CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode enum.
+func (e CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode.
+const (
+	CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeBypass   CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeDefault  CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode = "default"
+	CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeReadOnly CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeRefresh  CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode enum.
+func (e CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode.
+const (
+	CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeBypass   CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeDefault  CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode = "default"
+	CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeReadOnly CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeRefresh  CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode enum.
+func (e CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode.
+const (
+	CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode.
+const (
+	CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode.
+const (
+	CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode.
+const (
+	CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode.
+const (
+	CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode.
+const (
+	CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode.
+const (
+	CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode.
+const (
+	CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAIResponseParamsXSohaCacheMode.
+const (
+	CreateAIGatewayOpenAIResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIResponseParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIResponseParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIResponseParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIResponseParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIResponseParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAIResponseParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAIResponseParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayOpenAIResponseParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayOpenAIResponseParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayOpenAIResponseParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode.
+const (
+	CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatibleProvider.
+const (
+	CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatibleProviderAzureOpenai CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatibleProvider = "azure-openai"
+	CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatibleProviderDeepseek    CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatibleProvider = "deepseek"
+	CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatibleProviderOpenrouter  CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatibleProvider = "openrouter"
+	CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatibleProviderQwen        CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatibleProvider = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatibleProvider enum.
+func (e CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatibleProvider) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatibleProviderAzureOpenai:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatibleProviderDeepseek:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatibleProviderOpenrouter:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatibleProviderQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode.
+const (
+	CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCompatibleProvider.
+const (
+	CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCompatibleProviderAzureOpenai CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCompatibleProvider = "azure-openai"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCompatibleProviderDeepseek    CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCompatibleProvider = "deepseek"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCompatibleProviderOpenrouter  CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCompatibleProvider = "openrouter"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCompatibleProviderQwen        CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCompatibleProvider = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCompatibleProvider enum.
+func (e CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCompatibleProvider) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCompatibleProviderAzureOpenai:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCompatibleProviderDeepseek:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCompatibleProviderOpenrouter:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCompatibleProviderQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode.
+const (
+	CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompatibleProvider.
+const (
+	CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompatibleProviderAzureOpenai CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompatibleProvider = "azure-openai"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompatibleProviderDeepseek    CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompatibleProvider = "deepseek"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompatibleProviderOpenrouter  CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompatibleProvider = "openrouter"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompatibleProviderQwen        CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompatibleProvider = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompatibleProvider enum.
+func (e CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompatibleProvider) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompatibleProviderAzureOpenai:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompatibleProviderDeepseek:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompatibleProviderOpenrouter:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompatibleProviderQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode.
+const (
+	CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompatibleProvider.
+const (
+	CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompatibleProviderAzureOpenai CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompatibleProvider = "azure-openai"
+	CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompatibleProviderDeepseek    CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompatibleProvider = "deepseek"
+	CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompatibleProviderOpenrouter  CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompatibleProvider = "openrouter"
+	CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompatibleProviderQwen        CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompatibleProvider = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompatibleProvider enum.
+func (e CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompatibleProvider) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompatibleProviderAzureOpenai:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompatibleProviderDeepseek:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompatibleProviderOpenrouter:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompatibleProviderQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode.
+const (
+	CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatibleProvider.
+const (
+	CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatibleProviderAzureOpenai CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatibleProvider = "azure-openai"
+	CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatibleProviderDeepseek    CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatibleProvider = "deepseek"
+	CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatibleProviderOpenrouter  CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatibleProvider = "openrouter"
+	CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatibleProviderQwen        CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatibleProvider = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatibleProvider enum.
+func (e CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatibleProvider) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatibleProviderAzureOpenai:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatibleProviderDeepseek:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatibleProviderOpenrouter:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatibleProviderQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode.
+const (
+	CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatibleProvider.
+const (
+	CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatibleProviderAzureOpenai CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatibleProvider = "azure-openai"
+	CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatibleProviderDeepseek    CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatibleProvider = "deepseek"
+	CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatibleProviderOpenrouter  CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatibleProvider = "openrouter"
+	CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatibleProviderQwen        CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatibleProvider = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatibleProvider enum.
+func (e CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatibleProvider) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatibleProviderAzureOpenai:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatibleProviderDeepseek:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatibleProviderOpenrouter:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatibleProviderQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode.
+const (
+	CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompatibleProvider.
+const (
+	CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompatibleProviderAzureOpenai CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompatibleProvider = "azure-openai"
+	CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompatibleProviderDeepseek    CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompatibleProvider = "deepseek"
+	CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompatibleProviderOpenrouter  CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompatibleProvider = "openrouter"
+	CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompatibleProviderQwen        CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompatibleProvider = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompatibleProvider enum.
+func (e CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompatibleProvider) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompatibleProviderAzureOpenai:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompatibleProviderDeepseek:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompatibleProviderOpenrouter:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompatibleProviderQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode.
+const (
+	CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeBypass:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeDefault:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeReadOnly:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeRefresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderImageVariationParamsOpenaiCompatibleProvider.
+const (
+	CreateAIGatewayOpenAICompatibleProviderImageVariationParamsOpenaiCompatibleProviderAzureOpenai CreateAIGatewayOpenAICompatibleProviderImageVariationParamsOpenaiCompatibleProvider = "azure-openai"
+	CreateAIGatewayOpenAICompatibleProviderImageVariationParamsOpenaiCompatibleProviderDeepseek    CreateAIGatewayOpenAICompatibleProviderImageVariationParamsOpenaiCompatibleProvider = "deepseek"
+	CreateAIGatewayOpenAICompatibleProviderImageVariationParamsOpenaiCompatibleProviderOpenrouter  CreateAIGatewayOpenAICompatibleProviderImageVariationParamsOpenaiCompatibleProvider = "openrouter"
+	CreateAIGatewayOpenAICompatibleProviderImageVariationParamsOpenaiCompatibleProviderQwen        CreateAIGatewayOpenAICompatibleProviderImageVariationParamsOpenaiCompatibleProvider = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderImageVariationParamsOpenaiCompatibleProvider enum.
+func (e CreateAIGatewayOpenAICompatibleProviderImageVariationParamsOpenaiCompatibleProvider) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAICompatibleProviderImageVariationParamsOpenaiCompatibleProviderAzureOpenai:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageVariationParamsOpenaiCompatibleProviderDeepseek:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageVariationParamsOpenaiCompatibleProviderOpenrouter:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderImageVariationParamsOpenaiCompatibleProviderQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProvider.
+const (
+	ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProviderAzureOpenai ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProvider = "azure-openai"
+	ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProviderDeepseek    ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProvider = "deepseek"
+	ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProviderOpenrouter  ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProvider = "openrouter"
+	ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProviderQwen        ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProvider = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProvider enum.
+func (e ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProvider) Valid() bool {
+	switch e {
+	case ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProviderAzureOpenai:
+		return true
+	case ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProviderDeepseek:
+		return true
+	case ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProviderOpenrouter:
+		return true
+	case ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProviderQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode.
+const (
+	Bypass   CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "bypass"
+	Default  CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "default"
+	ReadOnly CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "read-only"
+	Refresh  CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "refresh"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode enum.
+func (e CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode) Valid() bool {
+	switch e {
+	case Bypass:
+		return true
+	case Default:
+		return true
+	case ReadOnly:
+		return true
+	case Refresh:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CreateAIGatewayOpenAICompatibleProviderResponseParamsOpenaiCompatibleProvider.
+const (
+	CreateAIGatewayOpenAICompatibleProviderResponseParamsOpenaiCompatibleProviderAzureOpenai CreateAIGatewayOpenAICompatibleProviderResponseParamsOpenaiCompatibleProvider = "azure-openai"
+	CreateAIGatewayOpenAICompatibleProviderResponseParamsOpenaiCompatibleProviderDeepseek    CreateAIGatewayOpenAICompatibleProviderResponseParamsOpenaiCompatibleProvider = "deepseek"
+	CreateAIGatewayOpenAICompatibleProviderResponseParamsOpenaiCompatibleProviderOpenrouter  CreateAIGatewayOpenAICompatibleProviderResponseParamsOpenaiCompatibleProvider = "openrouter"
+	CreateAIGatewayOpenAICompatibleProviderResponseParamsOpenaiCompatibleProviderQwen        CreateAIGatewayOpenAICompatibleProviderResponseParamsOpenaiCompatibleProvider = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderResponseParamsOpenaiCompatibleProvider enum.
+func (e CreateAIGatewayOpenAICompatibleProviderResponseParamsOpenaiCompatibleProvider) Valid() bool {
+	switch e {
+	case CreateAIGatewayOpenAICompatibleProviderResponseParamsOpenaiCompatibleProviderAzureOpenai:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderResponseParamsOpenaiCompatibleProviderDeepseek:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderResponseParamsOpenaiCompatibleProviderOpenrouter:
+		return true
+	case CreateAIGatewayOpenAICompatibleProviderResponseParamsOpenaiCompatibleProviderQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ListAIGatewayRelayModelCallsParamsProviderKind.
+const (
+	ListAIGatewayRelayModelCallsParamsProviderKindAnthropic        ListAIGatewayRelayModelCallsParamsProviderKind = "anthropic"
+	ListAIGatewayRelayModelCallsParamsProviderKindAzureOpenai      ListAIGatewayRelayModelCallsParamsProviderKind = "azure-openai"
+	ListAIGatewayRelayModelCallsParamsProviderKindCohere           ListAIGatewayRelayModelCallsParamsProviderKind = "cohere"
+	ListAIGatewayRelayModelCallsParamsProviderKindDeepseek         ListAIGatewayRelayModelCallsParamsProviderKind = "deepseek"
+	ListAIGatewayRelayModelCallsParamsProviderKindGemini           ListAIGatewayRelayModelCallsParamsProviderKind = "gemini"
+	ListAIGatewayRelayModelCallsParamsProviderKindOpenai           ListAIGatewayRelayModelCallsParamsProviderKind = "openai"
+	ListAIGatewayRelayModelCallsParamsProviderKindOpenaiCompatible ListAIGatewayRelayModelCallsParamsProviderKind = "openai-compatible"
+	ListAIGatewayRelayModelCallsParamsProviderKindOpenrouter       ListAIGatewayRelayModelCallsParamsProviderKind = "openrouter"
+	ListAIGatewayRelayModelCallsParamsProviderKindQwen             ListAIGatewayRelayModelCallsParamsProviderKind = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the ListAIGatewayRelayModelCallsParamsProviderKind enum.
+func (e ListAIGatewayRelayModelCallsParamsProviderKind) Valid() bool {
+	switch e {
+	case ListAIGatewayRelayModelCallsParamsProviderKindAnthropic:
+		return true
+	case ListAIGatewayRelayModelCallsParamsProviderKindAzureOpenai:
+		return true
+	case ListAIGatewayRelayModelCallsParamsProviderKindCohere:
+		return true
+	case ListAIGatewayRelayModelCallsParamsProviderKindDeepseek:
+		return true
+	case ListAIGatewayRelayModelCallsParamsProviderKindGemini:
+		return true
+	case ListAIGatewayRelayModelCallsParamsProviderKindOpenai:
+		return true
+	case ListAIGatewayRelayModelCallsParamsProviderKindOpenaiCompatible:
+		return true
+	case ListAIGatewayRelayModelCallsParamsProviderKindOpenrouter:
+		return true
+	case ListAIGatewayRelayModelCallsParamsProviderKindQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ListAIGatewayRelayModelCallsParamsStatus.
+const (
+	Cancelled       ListAIGatewayRelayModelCallsParamsStatus = "cancelled"
+	ClientCancelled ListAIGatewayRelayModelCallsParamsStatus = "client_cancelled"
+	Failure         ListAIGatewayRelayModelCallsParamsStatus = "failure"
+	PolicyDenied    ListAIGatewayRelayModelCallsParamsStatus = "policy_denied"
+	RateLimited     ListAIGatewayRelayModelCallsParamsStatus = "rate_limited"
+	Success         ListAIGatewayRelayModelCallsParamsStatus = "success"
+)
+
+// Valid indicates whether the value is a known member of the ListAIGatewayRelayModelCallsParamsStatus enum.
+func (e ListAIGatewayRelayModelCallsParamsStatus) Valid() bool {
+	switch e {
+	case Cancelled:
+		return true
+	case ClientCancelled:
+		return true
+	case Failure:
+		return true
+	case PolicyDenied:
+		return true
+	case RateLimited:
+		return true
+	case Success:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ListAIGatewayRelayModelRoutesParamsProviderKind.
+const (
+	ListAIGatewayRelayModelRoutesParamsProviderKindAnthropic        ListAIGatewayRelayModelRoutesParamsProviderKind = "anthropic"
+	ListAIGatewayRelayModelRoutesParamsProviderKindAzureOpenai      ListAIGatewayRelayModelRoutesParamsProviderKind = "azure-openai"
+	ListAIGatewayRelayModelRoutesParamsProviderKindCohere           ListAIGatewayRelayModelRoutesParamsProviderKind = "cohere"
+	ListAIGatewayRelayModelRoutesParamsProviderKindDeepseek         ListAIGatewayRelayModelRoutesParamsProviderKind = "deepseek"
+	ListAIGatewayRelayModelRoutesParamsProviderKindGemini           ListAIGatewayRelayModelRoutesParamsProviderKind = "gemini"
+	ListAIGatewayRelayModelRoutesParamsProviderKindOpenai           ListAIGatewayRelayModelRoutesParamsProviderKind = "openai"
+	ListAIGatewayRelayModelRoutesParamsProviderKindOpenaiCompatible ListAIGatewayRelayModelRoutesParamsProviderKind = "openai-compatible"
+	ListAIGatewayRelayModelRoutesParamsProviderKindOpenrouter       ListAIGatewayRelayModelRoutesParamsProviderKind = "openrouter"
+	ListAIGatewayRelayModelRoutesParamsProviderKindQwen             ListAIGatewayRelayModelRoutesParamsProviderKind = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the ListAIGatewayRelayModelRoutesParamsProviderKind enum.
+func (e ListAIGatewayRelayModelRoutesParamsProviderKind) Valid() bool {
+	switch e {
+	case ListAIGatewayRelayModelRoutesParamsProviderKindAnthropic:
+		return true
+	case ListAIGatewayRelayModelRoutesParamsProviderKindAzureOpenai:
+		return true
+	case ListAIGatewayRelayModelRoutesParamsProviderKindCohere:
+		return true
+	case ListAIGatewayRelayModelRoutesParamsProviderKindDeepseek:
+		return true
+	case ListAIGatewayRelayModelRoutesParamsProviderKindGemini:
+		return true
+	case ListAIGatewayRelayModelRoutesParamsProviderKindOpenai:
+		return true
+	case ListAIGatewayRelayModelRoutesParamsProviderKindOpenaiCompatible:
+		return true
+	case ListAIGatewayRelayModelRoutesParamsProviderKindOpenrouter:
+		return true
+	case ListAIGatewayRelayModelRoutesParamsProviderKindQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ListAIGatewayRelayUpstreamsParamsProviderKind.
+const (
+	ListAIGatewayRelayUpstreamsParamsProviderKindAnthropic        ListAIGatewayRelayUpstreamsParamsProviderKind = "anthropic"
+	ListAIGatewayRelayUpstreamsParamsProviderKindAzureOpenai      ListAIGatewayRelayUpstreamsParamsProviderKind = "azure-openai"
+	ListAIGatewayRelayUpstreamsParamsProviderKindCohere           ListAIGatewayRelayUpstreamsParamsProviderKind = "cohere"
+	ListAIGatewayRelayUpstreamsParamsProviderKindDeepseek         ListAIGatewayRelayUpstreamsParamsProviderKind = "deepseek"
+	ListAIGatewayRelayUpstreamsParamsProviderKindGemini           ListAIGatewayRelayUpstreamsParamsProviderKind = "gemini"
+	ListAIGatewayRelayUpstreamsParamsProviderKindOpenai           ListAIGatewayRelayUpstreamsParamsProviderKind = "openai"
+	ListAIGatewayRelayUpstreamsParamsProviderKindOpenaiCompatible ListAIGatewayRelayUpstreamsParamsProviderKind = "openai-compatible"
+	ListAIGatewayRelayUpstreamsParamsProviderKindOpenrouter       ListAIGatewayRelayUpstreamsParamsProviderKind = "openrouter"
+	ListAIGatewayRelayUpstreamsParamsProviderKindQwen             ListAIGatewayRelayUpstreamsParamsProviderKind = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the ListAIGatewayRelayUpstreamsParamsProviderKind enum.
+func (e ListAIGatewayRelayUpstreamsParamsProviderKind) Valid() bool {
+	switch e {
+	case ListAIGatewayRelayUpstreamsParamsProviderKindAnthropic:
+		return true
+	case ListAIGatewayRelayUpstreamsParamsProviderKindAzureOpenai:
+		return true
+	case ListAIGatewayRelayUpstreamsParamsProviderKindCohere:
+		return true
+	case ListAIGatewayRelayUpstreamsParamsProviderKindDeepseek:
+		return true
+	case ListAIGatewayRelayUpstreamsParamsProviderKindGemini:
+		return true
+	case ListAIGatewayRelayUpstreamsParamsProviderKindOpenai:
+		return true
+	case ListAIGatewayRelayUpstreamsParamsProviderKindOpenaiCompatible:
+		return true
+	case ListAIGatewayRelayUpstreamsParamsProviderKindOpenrouter:
+		return true
+	case ListAIGatewayRelayUpstreamsParamsProviderKindQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ListAIGatewayRelayUpstreamsParamsStatus.
+const (
+	Active   ListAIGatewayRelayUpstreamsParamsStatus = "active"
+	Degraded ListAIGatewayRelayUpstreamsParamsStatus = "degraded"
+	Disabled ListAIGatewayRelayUpstreamsParamsStatus = "disabled"
+)
+
+// Valid indicates whether the value is a known member of the ListAIGatewayRelayUpstreamsParamsStatus enum.
+func (e ListAIGatewayRelayUpstreamsParamsStatus) Valid() bool {
+	switch e {
+	case Active:
+		return true
+	case Degraded:
+		return true
+	case Disabled:
 		return true
 	default:
 		return false
@@ -150,6 +1615,34 @@ type AgentToolCallResult struct {
 // AgentToolCallResultEnvelope defines model for AgentToolCallResultEnvelope.
 type AgentToolCallResultEnvelope struct {
 	Data AgentToolCallResult `json:"data"`
+}
+
+// AnthropicMessagesRequest defines model for AnthropicMessagesRequest.
+type AnthropicMessagesRequest struct {
+	MaxTokens            int              `json:"max_tokens"`
+	Messages             []map[string]any `json:"messages"`
+	Model                string           `json:"model"`
+	Stream               bool             `json:"stream,omitempty"`
+	System               AnyValue         `json:"system,omitempty"`
+	AdditionalProperties map[string]any   `json:"-"`
+}
+
+// AnthropicModel defines model for AnthropicModel.
+type AnthropicModel struct {
+	CreatedAt            string         `json:"created_at,omitempty"`
+	DisplayName          string         `json:"display_name,omitempty"`
+	ID                   string         `json:"id"`
+	Type                 string         `json:"type"`
+	AdditionalProperties map[string]any `json:"-"`
+}
+
+// AnthropicModelsResponse defines model for AnthropicModelsResponse.
+type AnthropicModelsResponse struct {
+	Data                 []AnthropicModel `json:"data"`
+	FirstID              string           `json:"first_id,omitempty"`
+	HasMore              bool             `json:"has_more,omitempty"`
+	LastID               string           `json:"last_id,omitempty"`
+	AdditionalProperties map[string]any   `json:"-"`
 }
 
 // AnyValue defines model for AnyValue.
@@ -389,6 +1882,30 @@ type ClusterCapabilityModeSupport struct {
 // ClusterCapabilityStatus defines model for ClusterCapabilityStatus.
 type ClusterCapabilityStatus string
 
+// CohereRerankRequest defines model for CohereRerankRequest.
+type CohereRerankRequest struct {
+	Documents       []CohereRerankRequest_Documents_Item `json:"documents"`
+	MaxTokensPerDoc int                                  `json:"max_tokens_per_doc,omitempty"`
+
+	// Model Public rerank model ID exposed by Soha; the relay maps it to the configured upstream model.
+	Model                string         `json:"model"`
+	Query                string         `json:"query"`
+	RankFields           []string       `json:"rank_fields,omitempty"`
+	TopN                 int            `json:"top_n,omitempty"`
+	AdditionalProperties map[string]any `json:"-"`
+}
+
+// CohereRerankRequestDocuments0 defines model for .
+type CohereRerankRequestDocuments0 = string
+
+// CohereRerankRequestDocuments1 defines model for .
+type CohereRerankRequestDocuments1 map[string]any
+
+// CohereRerankRequest_Documents_Item defines model for CohereRerankRequest.documents.Item.
+type CohereRerankRequest_Documents_Item struct {
+	union json.RawMessage
+}
+
 // CreatedPersonalAccessToken defines model for CreatedPersonalAccessToken.
 type CreatedPersonalAccessToken struct {
 	Token PersonalAccessToken `json:"token"`
@@ -486,6 +2003,47 @@ type ExecutionTaskClaimRequest struct {
 // ExecutionTaskEnvelope defines model for ExecutionTaskEnvelope.
 type ExecutionTaskEnvelope struct {
 	Data ExecutionTask `json:"data"`
+}
+
+// GeminiGenerateContentRequest Native Gemini generateContent request body. The model is taken from the path and mapped by Soha model routes. Gemini text, inlineData, fileData, cachedContent, generationConfig, and safetySettings fields are passed through; multimodal audio/image/file inputs bypass response cache and local token estimation only counts text parts when provider usageMetadata is absent.
+type GeminiGenerateContentRequest struct {
+	Contents             []map[string]any `json:"contents,omitempty"`
+	GenerationConfig     map[string]any   `json:"generationConfig,omitempty"`
+	SafetySettings       []map[string]any `json:"safetySettings,omitempty"`
+	SystemInstruction    map[string]any   `json:"systemInstruction,omitempty"`
+	AdditionalProperties map[string]any   `json:"-"`
+}
+
+// GeminiInteractionsRequest Native Gemini Interactions request body. The public model is supplied in the body and mapped by Soha model routes before forwarding to the upstream `/interactions` endpoint. This first slice supports non-streaming JSON interactions for native image generation; `stream` and `background` modes are rejected by the relay. Multimodal inputs bypass response cache, and provider usage totals are recorded when present.
+type GeminiInteractionsRequest struct {
+	// Background Background interactions are not supported by this relay slice.
+	Background bool `json:"background,omitempty"`
+
+	// Input Native Gemini Interactions input payload.
+	Input interface{} `json:"input"`
+
+	// Model Public Gemini model ID exposed by Soha; the relay rewrites it to the configured upstream model.
+	Model string `json:"model"`
+
+	// Stream Streaming interactions are not supported by this relay slice.
+	Stream               bool           `json:"stream,omitempty"`
+	AdditionalProperties map[string]any `json:"-"`
+}
+
+// GeminiModel defines model for GeminiModel.
+type GeminiModel struct {
+	Description                string         `json:"description,omitempty"`
+	DisplayName                string         `json:"displayName,omitempty"`
+	Name                       string         `json:"name"`
+	SupportedGenerationMethods []string       `json:"supportedGenerationMethods,omitempty"`
+	Version                    string         `json:"version,omitempty"`
+	AdditionalProperties       map[string]any `json:"-"`
+}
+
+// GeminiModelsResponse defines model for GeminiModelsResponse.
+type GeminiModelsResponse struct {
+	Models               []GeminiModel  `json:"models"`
+	AdditionalProperties map[string]any `json:"-"`
 }
 
 // GenericItemsEnvelope defines model for GenericItemsEnvelope.
@@ -722,6 +2280,356 @@ type InstalledPluginListEnvelope struct {
 // JSONSchema defines model for JSONSchema.
 type JSONSchema map[string]any
 
+// LLMCallLog defines model for LLMCallLog.
+type LLMCallLog struct {
+	ActorID           string                `json:"actorId,omitempty"`
+	ActorName         string                `json:"actorName,omitempty"`
+	ActorType         string                `json:"actorType,omitempty"`
+	AIClientID        string                `json:"aiClientId,omitempty"`
+	CacheStatus       LLMCallLogCacheStatus `json:"cacheStatus,omitempty"`
+	CachedReadTokens  int                   `json:"cachedReadTokens,omitempty"`
+	CachedWriteTokens int                   `json:"cachedWriteTokens,omitempty"`
+	CompletionTokens  int                   `json:"completionTokens,omitempty"`
+	CreatedAt         time.Time             `json:"createdAt"`
+	DurationMs        int64                 `json:"durationMs,omitempty"`
+	Endpoint          string                `json:"endpoint,omitempty"`
+	ErrorCode         string                `json:"errorCode,omitempty"`
+
+	// ErrorMessage Redacted error summary.
+	ErrorMessage    string `json:"errorMessage,omitempty"`
+	EstimatedTokens bool   `json:"estimatedTokens"`
+	HTTPStatus      int    `json:"httpStatus,omitempty"`
+	ID              string `json:"id"`
+	InputBytes      int64  `json:"inputBytes,omitempty"`
+
+	// Metadata Redacted metadata only; prompt bodies, raw provider payloads, full headers, and credentials are not included.
+	Metadata        map[string]any         `json:"metadata,omitempty"`
+	OutputBytes     int64                  `json:"outputBytes,omitempty"`
+	PromptTokens    int                    `json:"promptTokens,omitempty"`
+	ProviderKind    LLMCallLogProviderKind `json:"providerKind,omitempty"`
+	PublicModel     string                 `json:"publicModel,omitempty"`
+	ReasoningTokens int                    `json:"reasoningTokens,omitempty"`
+	RequestID       string                 `json:"requestId,omitempty"`
+	RouteTrace      map[string]any         `json:"routeTrace,omitempty"`
+	SourceIP        string                 `json:"sourceIp,omitempty"`
+	Status          LLMCallLogStatus       `json:"status"`
+	Stream          bool                   `json:"stream"`
+	TokenID         string                 `json:"tokenId,omitempty"`
+	TokenKind       LLMCallLogTokenKind    `json:"tokenKind,omitempty"`
+	TokenPrefix     string                 `json:"tokenPrefix,omitempty"`
+	TotalTokens     int                    `json:"totalTokens,omitempty"`
+	TtfbMs          int64                  `json:"ttfbMs,omitempty"`
+	TtftMs          int64                  `json:"ttftMs,omitempty"`
+	UpstreamID      string                 `json:"upstreamId,omitempty"`
+	UpstreamModel   string                 `json:"upstreamModel,omitempty"`
+	UpstreamName    string                 `json:"upstreamName,omitempty"`
+	UpstreamStatus  int                    `json:"upstreamStatus,omitempty"`
+	UserAgent       string                 `json:"userAgent,omitempty"`
+}
+
+// LLMCallLogCacheStatus defines model for LLMCallLog.CacheStatus.
+type LLMCallLogCacheStatus string
+
+// LLMCallLogProviderKind defines model for LLMCallLog.ProviderKind.
+type LLMCallLogProviderKind string
+
+// LLMCallLogStatus defines model for LLMCallLog.Status.
+type LLMCallLogStatus string
+
+// LLMCallLogTokenKind defines model for LLMCallLog.TokenKind.
+type LLMCallLogTokenKind string
+
+// LLMCallLogListEnvelope defines model for LLMCallLogListEnvelope.
+type LLMCallLogListEnvelope struct {
+	Items []LLMCallLog `json:"items"`
+}
+
+// LLMModelRoute defines model for LLMModelRoute.
+type LLMModelRoute struct {
+	CachePolicy        map[string]any            `json:"cachePolicy,omitempty"`
+	CreatedAt          time.Time                 `json:"createdAt"`
+	Enabled            bool                      `json:"enabled"`
+	FallbackPolicy     map[string]any            `json:"fallbackPolicy,omitempty"`
+	ID                 string                    `json:"id"`
+	Metadata           map[string]any            `json:"metadata,omitempty"`
+	Priority           int                       `json:"priority"`
+	ProviderKind       LLMModelRouteProviderKind `json:"providerKind,omitempty"`
+	PublicModel        string                    `json:"publicModel"`
+	RateLimitProfileID string                    `json:"rateLimitProfileId,omitempty"`
+	RouteGroup         string                    `json:"routeGroup,omitempty"`
+
+	// TransformPolicy Optional relay format conversion policy. Set `mode: convert` and `targetProviderKind` to `openai` or `anthropic` to enable text-only non-streaming OpenAI Chat Completions <-> Anthropic Messages conversion for this route. Streaming, tool/function, multimodal, audio, image, and file payloads are not converted.
+	TransformPolicy map[string]any `json:"transformPolicy,omitempty"`
+	UpdatedAt       time.Time      `json:"updatedAt"`
+	UpstreamID      string         `json:"upstreamId,omitempty"`
+	UpstreamModel   string         `json:"upstreamModel"`
+	Weight          int            `json:"weight"`
+}
+
+// LLMModelRouteProviderKind defines model for LLMModelRoute.ProviderKind.
+type LLMModelRouteProviderKind string
+
+// LLMModelRouteEnvelope defines model for LLMModelRouteEnvelope.
+type LLMModelRouteEnvelope struct {
+	Data LLMModelRoute `json:"data"`
+}
+
+// LLMModelRouteInput defines model for LLMModelRouteInput.
+type LLMModelRouteInput struct {
+	CachePolicy        map[string]any                 `json:"cachePolicy,omitempty"`
+	Enabled            bool                           `json:"enabled,omitempty"`
+	FallbackPolicy     map[string]any                 `json:"fallbackPolicy,omitempty"`
+	ID                 string                         `json:"id,omitempty"`
+	Metadata           map[string]any                 `json:"metadata,omitempty"`
+	Priority           int                            `json:"priority,omitempty"`
+	ProviderKind       LLMModelRouteInputProviderKind `json:"providerKind,omitempty"`
+	PublicModel        string                         `json:"publicModel"`
+	RateLimitProfileID string                         `json:"rateLimitProfileId,omitempty"`
+	RouteGroup         string                         `json:"routeGroup,omitempty"`
+
+	// TransformPolicy Optional relay format conversion policy. Set `mode: convert` and `targetProviderKind` to `openai` or `anthropic` to enable text-only non-streaming OpenAI Chat Completions <-> Anthropic Messages conversion for this route. Streaming, tool/function, multimodal, audio, image, and file payloads are not converted.
+	TransformPolicy map[string]any `json:"transformPolicy,omitempty"`
+	UpstreamID      string         `json:"upstreamId,omitempty"`
+	UpstreamModel   string         `json:"upstreamModel"`
+	Weight          int            `json:"weight,omitempty"`
+}
+
+// LLMModelRouteInputProviderKind defines model for LLMModelRouteInput.ProviderKind.
+type LLMModelRouteInputProviderKind string
+
+// LLMModelRouteListEnvelope defines model for LLMModelRouteListEnvelope.
+type LLMModelRouteListEnvelope struct {
+	Items []LLMModelRoute `json:"items"`
+}
+
+// LLMRelayCachePurgeRequest defines model for LLMRelayCachePurgeRequest.
+type LLMRelayCachePurgeRequest struct {
+	DryRun      bool       `json:"dryRun,omitempty"`
+	OlderThan   *time.Time `json:"olderThan,omitempty"`
+	PublicModel string     `json:"publicModel,omitempty"`
+	RouteGroup  string     `json:"routeGroup,omitempty"`
+	UpstreamID  string     `json:"upstreamId,omitempty"`
+}
+
+// LLMRelayCachePurgeResult defines model for LLMRelayCachePurgeResult.
+type LLMRelayCachePurgeResult struct {
+	DryRun      bool   `json:"dryRun,omitempty"`
+	PurgedCount int    `json:"purgedCount"`
+	Status      string `json:"status"`
+}
+
+// LLMRelayCachePurgeResultEnvelope defines model for LLMRelayCachePurgeResultEnvelope.
+type LLMRelayCachePurgeResultEnvelope struct {
+	Data LLMRelayCachePurgeResult `json:"data"`
+}
+
+// LLMRelayCacheStats defines model for LLMRelayCacheStats.
+type LLMRelayCacheStats struct {
+	ByModel                   []map[string]any `json:"byModel,omitempty"`
+	ByUpstream                []map[string]any `json:"byUpstream,omitempty"`
+	GeneratedAt               time.Time        `json:"generatedAt"`
+	ProviderCachedReadTokens  int              `json:"providerCachedReadTokens,omitempty"`
+	ProviderCachedWriteTokens int              `json:"providerCachedWriteTokens,omitempty"`
+	ResponseCacheBypasses     int              `json:"responseCacheBypasses,omitempty"`
+	ResponseCacheEnabled      bool             `json:"responseCacheEnabled"`
+	ResponseCacheHits         int              `json:"responseCacheHits,omitempty"`
+	ResponseCacheMisses       int              `json:"responseCacheMisses,omitempty"`
+	ResponseCacheWrites       int              `json:"responseCacheWrites,omitempty"`
+	WindowHours               int              `json:"windowHours"`
+}
+
+// LLMRelayCacheStatsEnvelope defines model for LLMRelayCacheStatsEnvelope.
+type LLMRelayCacheStatsEnvelope struct {
+	Data LLMRelayCacheStats `json:"data"`
+}
+
+// LLMRelayHealthCheckRun defines model for LLMRelayHealthCheckRun.
+type LLMRelayHealthCheckRun struct {
+	Checked   int                     `json:"checked"`
+	CheckedAt time.Time               `json:"checkedAt"`
+	Degraded  int                     `json:"degraded"`
+	Failed    int                     `json:"failed"`
+	Healthy   int                     `json:"healthy"`
+	Recovered int                     `json:"recovered"`
+	Results   []LLMUpstreamTestResult `json:"results,omitempty"`
+	Skipped   int                     `json:"skipped"`
+	Total     int                     `json:"total"`
+}
+
+// LLMRelayHealthCheckRunEnvelope defines model for LLMRelayHealthCheckRunEnvelope.
+type LLMRelayHealthCheckRunEnvelope struct {
+	Data LLMRelayHealthCheckRun `json:"data"`
+}
+
+// LLMRelayMetricBreakdown defines model for LLMRelayMetricBreakdown.
+type LLMRelayMetricBreakdown struct {
+	AverageDurationMs float32 `json:"averageDurationMs,omitempty"`
+	AverageTTFBMs     float32 `json:"averageTTFBMs,omitempty"`
+	AverageTTFTMs     float32 `json:"averageTTFTMs,omitempty"`
+	CachedReadTokens  int     `json:"cachedReadTokens,omitempty"`
+	CachedWriteTokens int     `json:"cachedWriteTokens,omitempty"`
+	FailureCount      int     `json:"failureCount,omitempty"`
+	Key               string  `json:"key"`
+	RequestCount      int     `json:"requestCount"`
+	StreamCount       int     `json:"streamCount,omitempty"`
+	SuccessCount      int     `json:"successCount,omitempty"`
+	TotalTokens       int     `json:"totalTokens,omitempty"`
+}
+
+// LLMRelayMetricSeriesPoint defines model for LLMRelayMetricSeriesPoint.
+type LLMRelayMetricSeriesPoint struct {
+	AverageDurationMs float32   `json:"averageDurationMs,omitempty"`
+	AverageTTFBMs     float32   `json:"averageTTFBMs,omitempty"`
+	AverageTTFTMs     float32   `json:"averageTTFTMs,omitempty"`
+	CachedReadTokens  int       `json:"cachedReadTokens,omitempty"`
+	CachedWriteTokens int       `json:"cachedWriteTokens,omitempty"`
+	CompletionTokens  int       `json:"completionTokens,omitempty"`
+	FailureCount      int       `json:"failureCount,omitempty"`
+	PolicyDeniedCount int       `json:"policyDeniedCount,omitempty"`
+	PromptTokens      int       `json:"promptTokens,omitempty"`
+	RateLimitedCount  int       `json:"rateLimitedCount,omitempty"`
+	RequestCount      int       `json:"requestCount"`
+	SuccessCount      int       `json:"successCount,omitempty"`
+	Timestamp         time.Time `json:"timestamp"`
+	TotalTokens       int       `json:"totalTokens,omitempty"`
+}
+
+// LLMRelayMetrics defines model for LLMRelayMetrics.
+type LLMRelayMetrics struct {
+	AverageDurationMs    float32                     `json:"averageDurationMs,omitempty"`
+	AverageTTFBMs        float32                     `json:"averageTTFBMs,omitempty"`
+	AverageTTFTMs        float32                     `json:"averageTTFTMs,omitempty"`
+	ByModel              []LLMRelayMetricBreakdown   `json:"byModel,omitempty"`
+	ByUpstream           []LLMRelayMetricBreakdown   `json:"byUpstream,omitempty"`
+	CachedReadTokens     int                         `json:"cachedReadTokens,omitempty"`
+	CachedWriteTokens    int                         `json:"cachedWriteTokens,omitempty"`
+	ClientCancelledCount int                         `json:"clientCancelledCount,omitempty"`
+	CompletionTokens     int                         `json:"completionTokens,omitempty"`
+	FailureCount         int                         `json:"failureCount"`
+	GeneratedAt          time.Time                   `json:"generatedAt"`
+	PolicyDeniedCount    int                         `json:"policyDeniedCount,omitempty"`
+	PromptTokens         int                         `json:"promptTokens,omitempty"`
+	RateLimitedCount     int                         `json:"rateLimitedCount,omitempty"`
+	ReasoningTokens      int                         `json:"reasoningTokens,omitempty"`
+	RequestCount         int                         `json:"requestCount"`
+	Series               []LLMRelayMetricSeriesPoint `json:"series,omitempty"`
+	StreamCount          int                         `json:"streamCount,omitempty"`
+	SuccessCount         int                         `json:"successCount"`
+	TotalTokens          int                         `json:"totalTokens,omitempty"`
+	WindowHours          int                         `json:"windowHours"`
+}
+
+// LLMRelayMetricsEnvelope defines model for LLMRelayMetricsEnvelope.
+type LLMRelayMetricsEnvelope struct {
+	Data LLMRelayMetrics `json:"data"`
+}
+
+// LLMUpstream defines model for LLMUpstream.
+type LLMUpstream struct {
+	// APIKeyPrefix Display-only prefix for the encrypted upstream API key. The full key is never returned.
+	APIKeyPrefix string    `json:"apiKeyPrefix,omitempty"`
+	BaseURL      string    `json:"baseUrl"`
+	CreatedAt    time.Time `json:"createdAt"`
+	CreatedBy    string    `json:"createdBy"`
+
+	// DefaultHeaders Non-sensitive upstream headers only.
+	DefaultHeaders map[string]any `json:"defaultHeaders,omitempty"`
+	Health         map[string]any `json:"health,omitempty"`
+	ID             string         `json:"id"`
+	MaxConcurrency int            `json:"maxConcurrency"`
+	Metadata       map[string]any `json:"metadata,omitempty"`
+	Name           string         `json:"name"`
+
+	// Priority Lower values are selected first.
+	Priority             int                     `json:"priority"`
+	ProviderKind         LLMUpstreamProviderKind `json:"providerKind"`
+	ProxyURL             string                  `json:"proxyUrl,omitempty"`
+	Status               LLMUpstreamStatus       `json:"status"`
+	StreamTimeoutSeconds int                     `json:"streamTimeoutSeconds"`
+	SupportedModels      []string                `json:"supportedModels"`
+	TimeoutSeconds       int                     `json:"timeoutSeconds"`
+	UpdatedAt            time.Time               `json:"updatedAt"`
+	Weight               int                     `json:"weight"`
+}
+
+// LLMUpstreamProviderKind defines model for LLMUpstream.ProviderKind.
+type LLMUpstreamProviderKind string
+
+// LLMUpstreamStatus defines model for LLMUpstream.Status.
+type LLMUpstreamStatus string
+
+// LLMUpstreamEnvelope defines model for LLMUpstreamEnvelope.
+type LLMUpstreamEnvelope struct {
+	Data LLMUpstream `json:"data"`
+}
+
+// LLMUpstreamInput defines model for LLMUpstreamInput.
+type LLMUpstreamInput struct {
+	// APIKey Upstream provider key. It must be encrypted at rest and never returned by read APIs.
+	APIKey               string                       `json:"apiKey,omitempty"`
+	BaseURL              string                       `json:"baseUrl"`
+	DefaultHeaders       map[string]any               `json:"defaultHeaders,omitempty"`
+	Health               map[string]any               `json:"health,omitempty"`
+	ID                   string                       `json:"id,omitempty"`
+	MaxConcurrency       int                          `json:"maxConcurrency,omitempty"`
+	Metadata             map[string]any               `json:"metadata,omitempty"`
+	Name                 string                       `json:"name"`
+	Priority             int                          `json:"priority,omitempty"`
+	ProviderKind         LLMUpstreamInputProviderKind `json:"providerKind"`
+	ProxyURL             string                       `json:"proxyUrl,omitempty"`
+	Status               LLMUpstreamInputStatus       `json:"status,omitempty"`
+	StreamTimeoutSeconds int                          `json:"streamTimeoutSeconds,omitempty"`
+	SupportedModels      []string                     `json:"supportedModels,omitempty"`
+	TimeoutSeconds       int                          `json:"timeoutSeconds,omitempty"`
+	Weight               int                          `json:"weight,omitempty"`
+}
+
+// LLMUpstreamInputProviderKind defines model for LLMUpstreamInput.ProviderKind.
+type LLMUpstreamInputProviderKind string
+
+// LLMUpstreamInputStatus defines model for LLMUpstreamInput.Status.
+type LLMUpstreamInputStatus string
+
+// LLMUpstreamListEnvelope defines model for LLMUpstreamListEnvelope.
+type LLMUpstreamListEnvelope struct {
+	Items []LLMUpstream `json:"items"`
+}
+
+// LLMUpstreamTestRequest defines model for LLMUpstreamTestRequest.
+type LLMUpstreamTestRequest struct {
+	Endpoint       LLMUpstreamTestRequestEndpoint `json:"endpoint,omitempty"`
+	Model          string                         `json:"model,omitempty"`
+	TimeoutSeconds int                            `json:"timeoutSeconds,omitempty"`
+}
+
+// LLMUpstreamTestRequestEndpoint defines model for LLMUpstreamTestRequest.Endpoint.
+type LLMUpstreamTestRequestEndpoint string
+
+// LLMUpstreamTestResult defines model for LLMUpstreamTestResult.
+type LLMUpstreamTestResult struct {
+	CheckedAt  *time.Time `json:"checkedAt,omitempty"`
+	DurationMs int64      `json:"durationMs"`
+	ErrorCode  string     `json:"errorCode,omitempty"`
+
+	// ErrorMessage Redacted error summary.
+	ErrorMessage   string                            `json:"errorMessage,omitempty"`
+	ModelCount     int                               `json:"modelCount,omitempty"`
+	ProviderKind   LLMUpstreamTestResultProviderKind `json:"providerKind"`
+	Status         LLMUpstreamTestResultStatus       `json:"status"`
+	UpstreamStatus int                               `json:"upstreamStatus,omitempty"`
+}
+
+// LLMUpstreamTestResultProviderKind defines model for LLMUpstreamTestResult.ProviderKind.
+type LLMUpstreamTestResultProviderKind string
+
+// LLMUpstreamTestResultStatus defines model for LLMUpstreamTestResult.Status.
+type LLMUpstreamTestResultStatus string
+
+// LLMUpstreamTestResultEnvelope defines model for LLMUpstreamTestResultEnvelope.
+type LLMUpstreamTestResultEnvelope struct {
+	Data LLMUpstreamTestResult `json:"data"`
+}
+
 // LoginOptions defines model for LoginOptions.
 type LoginOptions struct {
 	Verification struct {
@@ -771,9 +2679,147 @@ type MarketplacePluginListEnvelope struct {
 	Items []MarketplacePlugin `json:"items"`
 }
 
+// NativeProviderObject Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+type NativeProviderObject map[string]any
+
 // OIDCExchangeRequest defines model for OIDCExchangeRequest.
 type OIDCExchangeRequest struct {
 	Code string `json:"code"`
+}
+
+// OpenAIAudioSpeechRequest defines model for OpenAIAudioSpeechRequest.
+type OpenAIAudioSpeechRequest struct {
+	Input        string `json:"input"`
+	Instructions string `json:"instructions,omitempty"`
+
+	// Model Public speech model ID exposed by Soha; the relay maps it to the configured upstream model.
+	Model                string         `json:"model"`
+	ResponseFormat       string         `json:"response_format,omitempty"`
+	Speed                float32        `json:"speed,omitempty"`
+	User                 string         `json:"user,omitempty"`
+	Voice                string         `json:"voice"`
+	AdditionalProperties map[string]any `json:"-"`
+}
+
+// OpenAIAudioTranscriptionRequest defines model for OpenAIAudioTranscriptionRequest.
+type OpenAIAudioTranscriptionRequest struct {
+	File     openapi_types.File `json:"file"`
+	Include  []string           `json:"include,omitempty"`
+	Language string             `json:"language,omitempty"`
+
+	// Model Public transcription model ID exposed by Soha; the relay maps it to the configured upstream model.
+	Model                  string                                                  `json:"model"`
+	Prompt                 string                                                  `json:"prompt,omitempty"`
+	ResponseFormat         string                                                  `json:"response_format,omitempty"`
+	Temperature            float32                                                 `json:"temperature,omitempty"`
+	TimestampGranularities []OpenAIAudioTranscriptionRequestTimestampGranularities `json:"timestamp_granularities,omitempty"`
+	AdditionalProperties   map[string]any                                          `json:"-"`
+}
+
+// OpenAIAudioTranscriptionRequestTimestampGranularities defines model for OpenAIAudioTranscriptionRequest.TimestampGranularities.
+type OpenAIAudioTranscriptionRequestTimestampGranularities string
+
+// OpenAIAudioTranslationRequest defines model for OpenAIAudioTranslationRequest.
+type OpenAIAudioTranslationRequest struct {
+	File openapi_types.File `json:"file"`
+
+	// Model Public translation model ID exposed by Soha; the relay maps it to the configured upstream model.
+	Model                string         `json:"model"`
+	Prompt               string         `json:"prompt,omitempty"`
+	ResponseFormat       string         `json:"response_format,omitempty"`
+	Temperature          float32        `json:"temperature,omitempty"`
+	AdditionalProperties map[string]any `json:"-"`
+}
+
+// OpenAIChatCompletionRequest defines model for OpenAIChatCompletionRequest.
+type OpenAIChatCompletionRequest struct {
+	Messages             []map[string]any `json:"messages"`
+	Model                string           `json:"model"`
+	Stream               bool             `json:"stream,omitempty"`
+	StreamOptions        map[string]any   `json:"stream_options,omitempty"`
+	AdditionalProperties map[string]any   `json:"-"`
+}
+
+// OpenAIEmbeddingRequest defines model for OpenAIEmbeddingRequest.
+type OpenAIEmbeddingRequest struct {
+	Input                AnyValue       `json:"input"`
+	Model                string         `json:"model"`
+	AdditionalProperties map[string]any `json:"-"`
+}
+
+// OpenAIImageEditRequest defines model for OpenAIImageEditRequest.
+type OpenAIImageEditRequest struct {
+	Image openapi_types.File `json:"image"`
+	Mask  openapi_types.File `json:"mask,omitempty"`
+
+	// Model Public image edit model ID exposed by Soha; the relay maps it to the configured upstream model.
+	Model                string         `json:"model"`
+	N                    int            `json:"n,omitempty"`
+	Prompt               string         `json:"prompt"`
+	Quality              string         `json:"quality,omitempty"`
+	ResponseFormat       string         `json:"response_format,omitempty"`
+	Size                 string         `json:"size,omitempty"`
+	User                 string         `json:"user,omitempty"`
+	AdditionalProperties map[string]any `json:"-"`
+}
+
+// OpenAIImageGenerationRequest defines model for OpenAIImageGenerationRequest.
+type OpenAIImageGenerationRequest struct {
+	Background string `json:"background,omitempty"`
+
+	// Model Public image model ID exposed by Soha; the relay maps it to the configured upstream model.
+	Model                string         `json:"model"`
+	Moderation           string         `json:"moderation,omitempty"`
+	N                    int            `json:"n,omitempty"`
+	OutputCompression    int            `json:"output_compression,omitempty"`
+	OutputFormat         string         `json:"output_format,omitempty"`
+	Prompt               string         `json:"prompt"`
+	Quality              string         `json:"quality,omitempty"`
+	ResponseFormat       string         `json:"response_format,omitempty"`
+	Size                 string         `json:"size,omitempty"`
+	Style                string         `json:"style,omitempty"`
+	User                 string         `json:"user,omitempty"`
+	AdditionalProperties map[string]any `json:"-"`
+}
+
+// OpenAIImageVariationRequest defines model for OpenAIImageVariationRequest.
+type OpenAIImageVariationRequest struct {
+	Image openapi_types.File `json:"image"`
+
+	// Model Public image variation model ID exposed by Soha; the relay maps it to the configured upstream model.
+	Model                string         `json:"model"`
+	N                    int            `json:"n,omitempty"`
+	ResponseFormat       string         `json:"response_format,omitempty"`
+	Size                 string         `json:"size,omitempty"`
+	User                 string         `json:"user,omitempty"`
+	AdditionalProperties map[string]any `json:"-"`
+}
+
+// OpenAIModel defines model for OpenAIModel.
+type OpenAIModel struct {
+	Created              int            `json:"created,omitempty"`
+	ID                   string         `json:"id"`
+	Object               string         `json:"object"`
+	OwnedBy              string         `json:"owned_by,omitempty"`
+	AdditionalProperties map[string]any `json:"-"`
+}
+
+// OpenAIModelsResponse defines model for OpenAIModelsResponse.
+type OpenAIModelsResponse struct {
+	Data                 []OpenAIModel              `json:"data"`
+	Object               OpenAIModelsResponseObject `json:"object"`
+	AdditionalProperties map[string]any             `json:"-"`
+}
+
+// OpenAIModelsResponseObject defines model for OpenAIModelsResponse.Object.
+type OpenAIModelsResponseObject string
+
+// OpenAIResponseRequest defines model for OpenAIResponseRequest.
+type OpenAIResponseRequest struct {
+	Input                AnyValue       `json:"input,omitempty"`
+	Model                string         `json:"model"`
+	Stream               bool           `json:"stream,omitempty"`
+	AdditionalProperties map[string]any `json:"-"`
 }
 
 // OperationStatus defines model for OperationStatus.
@@ -1201,6 +3247,9 @@ type OIDCCode = string
 // OIDCState defines model for OIDCState.
 type OIDCState = string
 
+// OpenAICompatibleProvider defines model for OpenAICompatibleProvider.
+type OpenAICompatibleProvider string
+
 // OperationID defines model for OperationID.
 type OperationID = string
 
@@ -1210,8 +3259,20 @@ type PluginID = string
 // ProviderID defines model for ProviderID.
 type ProviderID = string
 
+// RouteID defines model for RouteID.
+type RouteID = string
+
 // SkillID defines model for SkillID.
 type SkillID = string
+
+// SohaCacheModeHeader defines model for SohaCacheModeHeader.
+type SohaCacheModeHeader string
+
+// SohaRouteTraceHeader defines model for SohaRouteTraceHeader.
+type SohaRouteTraceHeader = bool
+
+// SohaUpstreamIDHeader defines model for SohaUpstreamIDHeader.
+type SohaUpstreamIDHeader = string
 
 // Source defines model for Source.
 type Source = string
@@ -1222,6 +3283,9 @@ type TaskID = string
 // ToolName defines model for ToolName.
 type ToolName = string
 
+// UpstreamID defines model for UpstreamID.
+type UpstreamID = string
+
 // Error defines model for Error.
 type Error = ErrorEnvelope
 
@@ -1230,6 +3294,9 @@ type bearerAuthContextKey string
 
 // runtimeBearerAuthContextKey is the context key for runtimeBearerAuth security scheme
 type runtimeBearerAuthContextKey string
+
+// sohaXAPIKeyContextKey is the context key for sohaXAPIKey security scheme
+type sohaXAPIKeyContextKey string
 
 // ListAIGatewayApprovalRequestsParams defines parameters for ListAIGatewayApprovalRequests.
 type ListAIGatewayApprovalRequestsParams struct {
@@ -1284,11 +3351,461 @@ type GetAIGatewayGovernanceStatusParams struct {
 	WindowHours int `form:"windowHours,omitempty" json:"windowHours,omitempty"`
 }
 
+// CreateAIGatewayAnthropicMessageParams defines parameters for CreateAIGatewayAnthropicMessage.
+type CreateAIGatewayAnthropicMessageParams struct {
+	// AnthropicVersion Forwarded Anthropic API version header when present.
+	AnthropicVersion string `json:"anthropic-version,omitempty"`
+
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayAnthropicMessageParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayAnthropicMessageParamsXSohaCacheMode defines parameters for CreateAIGatewayAnthropicMessage.
+type CreateAIGatewayAnthropicMessageParamsXSohaCacheMode string
+
+// CreateAIGatewayCohereRerankParams defines parameters for CreateAIGatewayCohereRerank.
+type CreateAIGatewayCohereRerankParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayCohereRerankParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayCohereRerankParamsXSohaCacheMode defines parameters for CreateAIGatewayCohereRerank.
+type CreateAIGatewayCohereRerankParamsXSohaCacheMode string
+
+// CreateAIGatewayGeminiInteractionsParams defines parameters for CreateAIGatewayGeminiInteractions.
+type CreateAIGatewayGeminiInteractionsParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode defines parameters for CreateAIGatewayGeminiInteractions.
+type CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode string
+
+// CreateAIGatewayGeminiGenerateContentParams defines parameters for CreateAIGatewayGeminiGenerateContent.
+type CreateAIGatewayGeminiGenerateContentParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode defines parameters for CreateAIGatewayGeminiGenerateContent.
+type CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode string
+
+// CreateAIGatewayGeminiStreamGenerateContentParams defines parameters for CreateAIGatewayGeminiStreamGenerateContent.
+type CreateAIGatewayGeminiStreamGenerateContentParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode defines parameters for CreateAIGatewayGeminiStreamGenerateContent.
+type CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAIAudioSpeechParams defines parameters for CreateAIGatewayOpenAIAudioSpeech.
+type CreateAIGatewayOpenAIAudioSpeechParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAIAudioSpeech.
+type CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAIAudioTranscriptionParams defines parameters for CreateAIGatewayOpenAIAudioTranscription.
+type CreateAIGatewayOpenAIAudioTranscriptionParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAIAudioTranscription.
+type CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAIAudioTranslationParams defines parameters for CreateAIGatewayOpenAIAudioTranslation.
+type CreateAIGatewayOpenAIAudioTranslationParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAIAudioTranslation.
+type CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAIChatCompletionParams defines parameters for CreateAIGatewayOpenAIChatCompletion.
+type CreateAIGatewayOpenAIChatCompletionParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAIChatCompletion.
+type CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAIEmbeddingParams defines parameters for CreateAIGatewayOpenAIEmbedding.
+type CreateAIGatewayOpenAIEmbeddingParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAIEmbedding.
+type CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAIImageEditParams defines parameters for CreateAIGatewayOpenAIImageEdit.
+type CreateAIGatewayOpenAIImageEditParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAIImageEdit.
+type CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAIImageGenerationParams defines parameters for CreateAIGatewayOpenAIImageGeneration.
+type CreateAIGatewayOpenAIImageGenerationParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAIImageGeneration.
+type CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAIImageVariationParams defines parameters for CreateAIGatewayOpenAIImageVariation.
+type CreateAIGatewayOpenAIImageVariationParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAIImageVariation.
+type CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode string
+
+// ConnectAIGatewayOpenAIRealtimeParams defines parameters for ConnectAIGatewayOpenAIRealtime.
+type ConnectAIGatewayOpenAIRealtimeParams struct {
+	// Model Public model name to route to an upstream OpenAI Realtime model.
+	Model string `form:"model" json:"model"`
+
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+}
+
+// CreateAIGatewayOpenAIResponseParams defines parameters for CreateAIGatewayOpenAIResponse.
+type CreateAIGatewayOpenAIResponseParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAIResponseParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAIResponseParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAIResponse.
+type CreateAIGatewayOpenAIResponseParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAICompatibleProviderAudioSpeechParams defines parameters for CreateAIGatewayOpenAICompatibleProviderAudioSpeech.
+type CreateAIGatewayOpenAICompatibleProviderAudioSpeechParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAICompatibleProviderAudioSpeech.
+type CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatibleProvider defines parameters for CreateAIGatewayOpenAICompatibleProviderAudioSpeech.
+type CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatibleProvider string
+
+// CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParams defines parameters for CreateAIGatewayOpenAICompatibleProviderAudioTranscription.
+type CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAICompatibleProviderAudioTranscription.
+type CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCompatibleProvider defines parameters for CreateAIGatewayOpenAICompatibleProviderAudioTranscription.
+type CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCompatibleProvider string
+
+// CreateAIGatewayOpenAICompatibleProviderAudioTranslationParams defines parameters for CreateAIGatewayOpenAICompatibleProviderAudioTranslation.
+type CreateAIGatewayOpenAICompatibleProviderAudioTranslationParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAICompatibleProviderAudioTranslation.
+type CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompatibleProvider defines parameters for CreateAIGatewayOpenAICompatibleProviderAudioTranslation.
+type CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompatibleProvider string
+
+// CreateAIGatewayOpenAICompatibleProviderChatCompletionParams defines parameters for CreateAIGatewayOpenAICompatibleProviderChatCompletion.
+type CreateAIGatewayOpenAICompatibleProviderChatCompletionParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAICompatibleProviderChatCompletion.
+type CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompatibleProvider defines parameters for CreateAIGatewayOpenAICompatibleProviderChatCompletion.
+type CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompatibleProvider string
+
+// CreateAIGatewayOpenAICompatibleProviderEmbeddingParams defines parameters for CreateAIGatewayOpenAICompatibleProviderEmbedding.
+type CreateAIGatewayOpenAICompatibleProviderEmbeddingParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAICompatibleProviderEmbedding.
+type CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatibleProvider defines parameters for CreateAIGatewayOpenAICompatibleProviderEmbedding.
+type CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatibleProvider string
+
+// CreateAIGatewayOpenAICompatibleProviderImageEditParams defines parameters for CreateAIGatewayOpenAICompatibleProviderImageEdit.
+type CreateAIGatewayOpenAICompatibleProviderImageEditParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAICompatibleProviderImageEdit.
+type CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatibleProvider defines parameters for CreateAIGatewayOpenAICompatibleProviderImageEdit.
+type CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatibleProvider string
+
+// CreateAIGatewayOpenAICompatibleProviderImageGenerationParams defines parameters for CreateAIGatewayOpenAICompatibleProviderImageGeneration.
+type CreateAIGatewayOpenAICompatibleProviderImageGenerationParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAICompatibleProviderImageGeneration.
+type CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompatibleProvider defines parameters for CreateAIGatewayOpenAICompatibleProviderImageGeneration.
+type CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompatibleProvider string
+
+// CreateAIGatewayOpenAICompatibleProviderImageVariationParams defines parameters for CreateAIGatewayOpenAICompatibleProviderImageVariation.
+type CreateAIGatewayOpenAICompatibleProviderImageVariationParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAICompatibleProviderImageVariation.
+type CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAICompatibleProviderImageVariationParamsOpenaiCompatibleProvider defines parameters for CreateAIGatewayOpenAICompatibleProviderImageVariation.
+type CreateAIGatewayOpenAICompatibleProviderImageVariationParamsOpenaiCompatibleProvider string
+
+// ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProvider defines parameters for ListAIGatewayOpenAICompatibleProviderModels.
+type ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProvider string
+
+// CreateAIGatewayOpenAICompatibleProviderResponseParams defines parameters for CreateAIGatewayOpenAICompatibleProviderResponse.
+type CreateAIGatewayOpenAICompatibleProviderResponseParams struct {
+	// XSohaUpstreamID Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+	XSohaUpstreamID SohaUpstreamIDHeader `json:"X-Soha-Upstream-ID,omitempty"`
+
+	// XSohaRouteTrace When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+	XSohaRouteTrace SohaRouteTraceHeader `json:"X-Soha-Route-Trace,omitempty"`
+
+	// XSohaCacheMode Optional relay cache behavior hint.
+	XSohaCacheMode CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode `json:"X-Soha-Cache-Mode,omitempty"`
+}
+
+// CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode defines parameters for CreateAIGatewayOpenAICompatibleProviderResponse.
+type CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode string
+
+// CreateAIGatewayOpenAICompatibleProviderResponseParamsOpenaiCompatibleProvider defines parameters for CreateAIGatewayOpenAICompatibleProviderResponse.
+type CreateAIGatewayOpenAICompatibleProviderResponseParamsOpenaiCompatibleProvider string
+
 // ListPersonalAccessTokensParams defines parameters for ListPersonalAccessTokens.
 type ListPersonalAccessTokensParams struct {
 	Scope  string `form:"scope,omitempty" json:"scope,omitempty"`
 	UserID string `form:"userId,omitempty" json:"userId,omitempty"`
 }
+
+// GetAIGatewayRelayCacheStatsParams defines parameters for GetAIGatewayRelayCacheStats.
+type GetAIGatewayRelayCacheStatsParams struct {
+	WindowHours int    `form:"windowHours,omitempty" json:"windowHours,omitempty"`
+	PublicModel string `form:"publicModel,omitempty" json:"publicModel,omitempty"`
+	UpstreamID  string `form:"upstreamId,omitempty" json:"upstreamId,omitempty"`
+}
+
+// GetAIGatewayRelayMetricsParams defines parameters for GetAIGatewayRelayMetrics.
+type GetAIGatewayRelayMetricsParams struct {
+	WindowHours int    `form:"windowHours,omitempty" json:"windowHours,omitempty"`
+	PublicModel string `form:"publicModel,omitempty" json:"publicModel,omitempty"`
+	UpstreamID  string `form:"upstreamId,omitempty" json:"upstreamId,omitempty"`
+}
+
+// ListAIGatewayRelayModelCallsParams defines parameters for ListAIGatewayRelayModelCalls.
+type ListAIGatewayRelayModelCallsParams struct {
+	ActorType    string                                         `form:"actorType,omitempty" json:"actorType,omitempty"`
+	ActorID      string                                         `form:"actorId,omitempty" json:"actorId,omitempty"`
+	TokenID      string                                         `form:"tokenId,omitempty" json:"tokenId,omitempty"`
+	PublicModel  string                                         `form:"publicModel,omitempty" json:"publicModel,omitempty"`
+	UpstreamID   string                                         `form:"upstreamId,omitempty" json:"upstreamId,omitempty"`
+	ProviderKind ListAIGatewayRelayModelCallsParamsProviderKind `form:"providerKind,omitempty" json:"providerKind,omitempty"`
+	Status       ListAIGatewayRelayModelCallsParamsStatus       `form:"status,omitempty" json:"status,omitempty"`
+	Endpoint     string                                         `form:"endpoint,omitempty" json:"endpoint,omitempty"`
+	From         time.Time                                      `form:"from,omitempty" json:"from,omitempty"`
+	To           time.Time                                      `form:"to,omitempty" json:"to,omitempty"`
+	Limit        int                                            `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListAIGatewayRelayModelCallsParamsProviderKind defines parameters for ListAIGatewayRelayModelCalls.
+type ListAIGatewayRelayModelCallsParamsProviderKind string
+
+// ListAIGatewayRelayModelCallsParamsStatus defines parameters for ListAIGatewayRelayModelCalls.
+type ListAIGatewayRelayModelCallsParamsStatus string
+
+// ListAIGatewayRelayModelRoutesParams defines parameters for ListAIGatewayRelayModelRoutes.
+type ListAIGatewayRelayModelRoutesParams struct {
+	PublicModel     string                                          `form:"publicModel,omitempty" json:"publicModel,omitempty"`
+	ProviderKind    ListAIGatewayRelayModelRoutesParamsProviderKind `form:"providerKind,omitempty" json:"providerKind,omitempty"`
+	UpstreamID      string                                          `form:"upstreamId,omitempty" json:"upstreamId,omitempty"`
+	RouteGroup      string                                          `form:"routeGroup,omitempty" json:"routeGroup,omitempty"`
+	IncludeDisabled bool                                            `form:"includeDisabled,omitempty" json:"includeDisabled,omitempty"`
+}
+
+// ListAIGatewayRelayModelRoutesParamsProviderKind defines parameters for ListAIGatewayRelayModelRoutes.
+type ListAIGatewayRelayModelRoutesParamsProviderKind string
+
+// ListAIGatewayRelayUpstreamsParams defines parameters for ListAIGatewayRelayUpstreams.
+type ListAIGatewayRelayUpstreamsParams struct {
+	ProviderKind ListAIGatewayRelayUpstreamsParamsProviderKind `form:"providerKind,omitempty" json:"providerKind,omitempty"`
+	Status       ListAIGatewayRelayUpstreamsParamsStatus       `form:"status,omitempty" json:"status,omitempty"`
+	IncludeAll   bool                                          `form:"includeAll,omitempty" json:"includeAll,omitempty"`
+}
+
+// ListAIGatewayRelayUpstreamsParamsProviderKind defines parameters for ListAIGatewayRelayUpstreams.
+type ListAIGatewayRelayUpstreamsParamsProviderKind string
+
+// ListAIGatewayRelayUpstreamsParamsStatus defines parameters for ListAIGatewayRelayUpstreams.
+type ListAIGatewayRelayUpstreamsParamsStatus string
 
 // HandleProviderCallbackParams defines parameters for HandleProviderCallback.
 type HandleProviderCallbackParams struct {
@@ -1312,6 +3829,75 @@ type ListMarketplacePluginsParams struct {
 // DecideAIGatewayApprovalRequestJSONRequestBody defines body for DecideAIGatewayApprovalRequest for application/json ContentType.
 type DecideAIGatewayApprovalRequestJSONRequestBody = ApprovalDecisionInput
 
+// CreateAIGatewayAnthropicMessageJSONRequestBody defines body for CreateAIGatewayAnthropicMessage for application/json ContentType.
+type CreateAIGatewayAnthropicMessageJSONRequestBody = AnthropicMessagesRequest
+
+// CreateAIGatewayCohereRerankJSONRequestBody defines body for CreateAIGatewayCohereRerank for application/json ContentType.
+type CreateAIGatewayCohereRerankJSONRequestBody = CohereRerankRequest
+
+// CreateAIGatewayGeminiInteractionsJSONRequestBody defines body for CreateAIGatewayGeminiInteractions for application/json ContentType.
+type CreateAIGatewayGeminiInteractionsJSONRequestBody = GeminiInteractionsRequest
+
+// CreateAIGatewayGeminiGenerateContentJSONRequestBody defines body for CreateAIGatewayGeminiGenerateContent for application/json ContentType.
+type CreateAIGatewayGeminiGenerateContentJSONRequestBody = GeminiGenerateContentRequest
+
+// CreateAIGatewayGeminiStreamGenerateContentJSONRequestBody defines body for CreateAIGatewayGeminiStreamGenerateContent for application/json ContentType.
+type CreateAIGatewayGeminiStreamGenerateContentJSONRequestBody = GeminiGenerateContentRequest
+
+// CreateAIGatewayOpenAIAudioSpeechJSONRequestBody defines body for CreateAIGatewayOpenAIAudioSpeech for application/json ContentType.
+type CreateAIGatewayOpenAIAudioSpeechJSONRequestBody = OpenAIAudioSpeechRequest
+
+// CreateAIGatewayOpenAIAudioTranscriptionMultipartRequestBody defines body for CreateAIGatewayOpenAIAudioTranscription for multipart/form-data ContentType.
+type CreateAIGatewayOpenAIAudioTranscriptionMultipartRequestBody = OpenAIAudioTranscriptionRequest
+
+// CreateAIGatewayOpenAIAudioTranslationMultipartRequestBody defines body for CreateAIGatewayOpenAIAudioTranslation for multipart/form-data ContentType.
+type CreateAIGatewayOpenAIAudioTranslationMultipartRequestBody = OpenAIAudioTranslationRequest
+
+// CreateAIGatewayOpenAIChatCompletionJSONRequestBody defines body for CreateAIGatewayOpenAIChatCompletion for application/json ContentType.
+type CreateAIGatewayOpenAIChatCompletionJSONRequestBody = OpenAIChatCompletionRequest
+
+// CreateAIGatewayOpenAIEmbeddingJSONRequestBody defines body for CreateAIGatewayOpenAIEmbedding for application/json ContentType.
+type CreateAIGatewayOpenAIEmbeddingJSONRequestBody = OpenAIEmbeddingRequest
+
+// CreateAIGatewayOpenAIImageEditMultipartRequestBody defines body for CreateAIGatewayOpenAIImageEdit for multipart/form-data ContentType.
+type CreateAIGatewayOpenAIImageEditMultipartRequestBody = OpenAIImageEditRequest
+
+// CreateAIGatewayOpenAIImageGenerationJSONRequestBody defines body for CreateAIGatewayOpenAIImageGeneration for application/json ContentType.
+type CreateAIGatewayOpenAIImageGenerationJSONRequestBody = OpenAIImageGenerationRequest
+
+// CreateAIGatewayOpenAIImageVariationMultipartRequestBody defines body for CreateAIGatewayOpenAIImageVariation for multipart/form-data ContentType.
+type CreateAIGatewayOpenAIImageVariationMultipartRequestBody = OpenAIImageVariationRequest
+
+// CreateAIGatewayOpenAIResponseJSONRequestBody defines body for CreateAIGatewayOpenAIResponse for application/json ContentType.
+type CreateAIGatewayOpenAIResponseJSONRequestBody = OpenAIResponseRequest
+
+// CreateAIGatewayOpenAICompatibleProviderAudioSpeechJSONRequestBody defines body for CreateAIGatewayOpenAICompatibleProviderAudioSpeech for application/json ContentType.
+type CreateAIGatewayOpenAICompatibleProviderAudioSpeechJSONRequestBody = OpenAIAudioSpeechRequest
+
+// CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionMultipartRequestBody defines body for CreateAIGatewayOpenAICompatibleProviderAudioTranscription for multipart/form-data ContentType.
+type CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionMultipartRequestBody = OpenAIAudioTranscriptionRequest
+
+// CreateAIGatewayOpenAICompatibleProviderAudioTranslationMultipartRequestBody defines body for CreateAIGatewayOpenAICompatibleProviderAudioTranslation for multipart/form-data ContentType.
+type CreateAIGatewayOpenAICompatibleProviderAudioTranslationMultipartRequestBody = OpenAIAudioTranslationRequest
+
+// CreateAIGatewayOpenAICompatibleProviderChatCompletionJSONRequestBody defines body for CreateAIGatewayOpenAICompatibleProviderChatCompletion for application/json ContentType.
+type CreateAIGatewayOpenAICompatibleProviderChatCompletionJSONRequestBody = OpenAIChatCompletionRequest
+
+// CreateAIGatewayOpenAICompatibleProviderEmbeddingJSONRequestBody defines body for CreateAIGatewayOpenAICompatibleProviderEmbedding for application/json ContentType.
+type CreateAIGatewayOpenAICompatibleProviderEmbeddingJSONRequestBody = OpenAIEmbeddingRequest
+
+// CreateAIGatewayOpenAICompatibleProviderImageEditMultipartRequestBody defines body for CreateAIGatewayOpenAICompatibleProviderImageEdit for multipart/form-data ContentType.
+type CreateAIGatewayOpenAICompatibleProviderImageEditMultipartRequestBody = OpenAIImageEditRequest
+
+// CreateAIGatewayOpenAICompatibleProviderImageGenerationJSONRequestBody defines body for CreateAIGatewayOpenAICompatibleProviderImageGeneration for application/json ContentType.
+type CreateAIGatewayOpenAICompatibleProviderImageGenerationJSONRequestBody = OpenAIImageGenerationRequest
+
+// CreateAIGatewayOpenAICompatibleProviderImageVariationMultipartRequestBody defines body for CreateAIGatewayOpenAICompatibleProviderImageVariation for multipart/form-data ContentType.
+type CreateAIGatewayOpenAICompatibleProviderImageVariationMultipartRequestBody = OpenAIImageVariationRequest
+
+// CreateAIGatewayOpenAICompatibleProviderResponseJSONRequestBody defines body for CreateAIGatewayOpenAICompatibleProviderResponse for application/json ContentType.
+type CreateAIGatewayOpenAICompatibleProviderResponseJSONRequestBody = OpenAIResponseRequest
+
 // CreatePersonalAccessTokenJSONRequestBody defines body for CreatePersonalAccessToken for application/json ContentType.
 type CreatePersonalAccessTokenJSONRequestBody = PersonalAccessTokenInput
 
@@ -1320,6 +3906,24 @@ type RotatePersonalAccessTokenJSONRequestBody = TokenRotationInput
 
 // GetAIGatewayPromptJSONRequestBody defines body for GetAIGatewayPrompt for application/json ContentType.
 type GetAIGatewayPromptJSONRequestBody = PromptGetRequest
+
+// PurgeAIGatewayRelayCacheJSONRequestBody defines body for PurgeAIGatewayRelayCache for application/json ContentType.
+type PurgeAIGatewayRelayCacheJSONRequestBody = LLMRelayCachePurgeRequest
+
+// CreateAIGatewayRelayModelRouteJSONRequestBody defines body for CreateAIGatewayRelayModelRoute for application/json ContentType.
+type CreateAIGatewayRelayModelRouteJSONRequestBody = LLMModelRouteInput
+
+// UpdateAIGatewayRelayModelRouteJSONRequestBody defines body for UpdateAIGatewayRelayModelRoute for application/json ContentType.
+type UpdateAIGatewayRelayModelRouteJSONRequestBody = LLMModelRouteInput
+
+// CreateAIGatewayRelayUpstreamJSONRequestBody defines body for CreateAIGatewayRelayUpstream for application/json ContentType.
+type CreateAIGatewayRelayUpstreamJSONRequestBody = LLMUpstreamInput
+
+// UpdateAIGatewayRelayUpstreamJSONRequestBody defines body for UpdateAIGatewayRelayUpstream for application/json ContentType.
+type UpdateAIGatewayRelayUpstreamJSONRequestBody = LLMUpstreamInput
+
+// TestAIGatewayRelayUpstreamJSONRequestBody defines body for TestAIGatewayRelayUpstream for application/json ContentType.
+type TestAIGatewayRelayUpstreamJSONRequestBody = LLMUpstreamTestRequest
 
 // ReadAIGatewayResourceJSONRequestBody defines body for ReadAIGatewayResource for application/json ContentType.
 type ReadAIGatewayResourceJSONRequestBody = ResourceReadRequest
@@ -1754,6 +4358,338 @@ func (a AgentToolCallResult) MarshalJSON() ([]byte, error) {
 	return json.Marshal(object)
 }
 
+// Getter for additional properties for AnthropicMessagesRequest. Returns the specified
+// element and whether it was found
+func (a AnthropicMessagesRequest) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for AnthropicMessagesRequest
+func (a *AnthropicMessagesRequest) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for AnthropicMessagesRequest to handle AdditionalProperties
+func (a *AnthropicMessagesRequest) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["max_tokens"]; found {
+		err = json.Unmarshal(raw, &a.MaxTokens)
+		if err != nil {
+			return fmt.Errorf("error reading 'max_tokens': %w", err)
+		}
+		delete(object, "max_tokens")
+	}
+
+	if raw, found := object["messages"]; found {
+		err = json.Unmarshal(raw, &a.Messages)
+		if err != nil {
+			return fmt.Errorf("error reading 'messages': %w", err)
+		}
+		delete(object, "messages")
+	}
+
+	if raw, found := object["model"]; found {
+		err = json.Unmarshal(raw, &a.Model)
+		if err != nil {
+			return fmt.Errorf("error reading 'model': %w", err)
+		}
+		delete(object, "model")
+	}
+
+	if raw, found := object["stream"]; found {
+		err = json.Unmarshal(raw, &a.Stream)
+		if err != nil {
+			return fmt.Errorf("error reading 'stream': %w", err)
+		}
+		delete(object, "stream")
+	}
+
+	if raw, found := object["system"]; found {
+		err = json.Unmarshal(raw, &a.System)
+		if err != nil {
+			return fmt.Errorf("error reading 'system': %w", err)
+		}
+		delete(object, "system")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for AnthropicMessagesRequest to handle AdditionalProperties
+func (a AnthropicMessagesRequest) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	object["max_tokens"], err = json.Marshal(a.MaxTokens)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'max_tokens': %w", err)
+	}
+
+	if a.Messages != nil {
+		object["messages"], err = json.Marshal(a.Messages)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'messages': %w", err)
+		}
+	}
+
+	object["model"], err = json.Marshal(a.Model)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'model': %w", err)
+	}
+
+	object["stream"], err = json.Marshal(a.Stream)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'stream': %w", err)
+	}
+
+	object["system"], err = json.Marshal(a.System)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'system': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for AnthropicModel. Returns the specified
+// element and whether it was found
+func (a AnthropicModel) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for AnthropicModel
+func (a *AnthropicModel) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for AnthropicModel to handle AdditionalProperties
+func (a *AnthropicModel) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["created_at"]; found {
+		err = json.Unmarshal(raw, &a.CreatedAt)
+		if err != nil {
+			return fmt.Errorf("error reading 'created_at': %w", err)
+		}
+		delete(object, "created_at")
+	}
+
+	if raw, found := object["display_name"]; found {
+		err = json.Unmarshal(raw, &a.DisplayName)
+		if err != nil {
+			return fmt.Errorf("error reading 'display_name': %w", err)
+		}
+		delete(object, "display_name")
+	}
+
+	if raw, found := object["id"]; found {
+		err = json.Unmarshal(raw, &a.ID)
+		if err != nil {
+			return fmt.Errorf("error reading 'id': %w", err)
+		}
+		delete(object, "id")
+	}
+
+	if raw, found := object["type"]; found {
+		err = json.Unmarshal(raw, &a.Type)
+		if err != nil {
+			return fmt.Errorf("error reading 'type': %w", err)
+		}
+		delete(object, "type")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for AnthropicModel to handle AdditionalProperties
+func (a AnthropicModel) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	object["created_at"], err = json.Marshal(a.CreatedAt)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'created_at': %w", err)
+	}
+
+	object["display_name"], err = json.Marshal(a.DisplayName)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'display_name': %w", err)
+	}
+
+	object["id"], err = json.Marshal(a.ID)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'id': %w", err)
+	}
+
+	object["type"], err = json.Marshal(a.Type)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'type': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for AnthropicModelsResponse. Returns the specified
+// element and whether it was found
+func (a AnthropicModelsResponse) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for AnthropicModelsResponse
+func (a *AnthropicModelsResponse) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for AnthropicModelsResponse to handle AdditionalProperties
+func (a *AnthropicModelsResponse) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["data"]; found {
+		err = json.Unmarshal(raw, &a.Data)
+		if err != nil {
+			return fmt.Errorf("error reading 'data': %w", err)
+		}
+		delete(object, "data")
+	}
+
+	if raw, found := object["first_id"]; found {
+		err = json.Unmarshal(raw, &a.FirstID)
+		if err != nil {
+			return fmt.Errorf("error reading 'first_id': %w", err)
+		}
+		delete(object, "first_id")
+	}
+
+	if raw, found := object["has_more"]; found {
+		err = json.Unmarshal(raw, &a.HasMore)
+		if err != nil {
+			return fmt.Errorf("error reading 'has_more': %w", err)
+		}
+		delete(object, "has_more")
+	}
+
+	if raw, found := object["last_id"]; found {
+		err = json.Unmarshal(raw, &a.LastID)
+		if err != nil {
+			return fmt.Errorf("error reading 'last_id': %w", err)
+		}
+		delete(object, "last_id")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for AnthropicModelsResponse to handle AdditionalProperties
+func (a AnthropicModelsResponse) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.Data != nil {
+		object["data"], err = json.Marshal(a.Data)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'data': %w", err)
+		}
+	}
+
+	object["first_id"], err = json.Marshal(a.FirstID)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'first_id': %w", err)
+	}
+
+	object["has_more"], err = json.Marshal(a.HasMore)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'has_more': %w", err)
+	}
+
+	object["last_id"], err = json.Marshal(a.LastID)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'last_id': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
 // Getter for additional properties for AuthBootstrapEnvelope_Data. Returns the specified
 // element and whether it was found
 func (a AuthBootstrapEnvelope_Data) Get(fieldName string) (value interface{}, found bool) {
@@ -1852,6 +4788,141 @@ func (a AuthBootstrapEnvelope_Data) MarshalJSON() ([]byte, error) {
 	object["user"], err = json.Marshal(a.User)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling 'user': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for CohereRerankRequest. Returns the specified
+// element and whether it was found
+func (a CohereRerankRequest) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for CohereRerankRequest
+func (a *CohereRerankRequest) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for CohereRerankRequest to handle AdditionalProperties
+func (a *CohereRerankRequest) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["documents"]; found {
+		err = json.Unmarshal(raw, &a.Documents)
+		if err != nil {
+			return fmt.Errorf("error reading 'documents': %w", err)
+		}
+		delete(object, "documents")
+	}
+
+	if raw, found := object["max_tokens_per_doc"]; found {
+		err = json.Unmarshal(raw, &a.MaxTokensPerDoc)
+		if err != nil {
+			return fmt.Errorf("error reading 'max_tokens_per_doc': %w", err)
+		}
+		delete(object, "max_tokens_per_doc")
+	}
+
+	if raw, found := object["model"]; found {
+		err = json.Unmarshal(raw, &a.Model)
+		if err != nil {
+			return fmt.Errorf("error reading 'model': %w", err)
+		}
+		delete(object, "model")
+	}
+
+	if raw, found := object["query"]; found {
+		err = json.Unmarshal(raw, &a.Query)
+		if err != nil {
+			return fmt.Errorf("error reading 'query': %w", err)
+		}
+		delete(object, "query")
+	}
+
+	if raw, found := object["rank_fields"]; found {
+		err = json.Unmarshal(raw, &a.RankFields)
+		if err != nil {
+			return fmt.Errorf("error reading 'rank_fields': %w", err)
+		}
+		delete(object, "rank_fields")
+	}
+
+	if raw, found := object["top_n"]; found {
+		err = json.Unmarshal(raw, &a.TopN)
+		if err != nil {
+			return fmt.Errorf("error reading 'top_n': %w", err)
+		}
+		delete(object, "top_n")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for CohereRerankRequest to handle AdditionalProperties
+func (a CohereRerankRequest) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.Documents != nil {
+		object["documents"], err = json.Marshal(a.Documents)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'documents': %w", err)
+		}
+	}
+
+	object["max_tokens_per_doc"], err = json.Marshal(a.MaxTokensPerDoc)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'max_tokens_per_doc': %w", err)
+	}
+
+	object["model"], err = json.Marshal(a.Model)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'model': %w", err)
+	}
+
+	object["query"], err = json.Marshal(a.Query)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'query': %w", err)
+	}
+
+	if a.RankFields != nil {
+		object["rank_fields"], err = json.Marshal(a.RankFields)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'rank_fields': %w", err)
+		}
+	}
+
+	object["top_n"], err = json.Marshal(a.TopN)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'top_n': %w", err)
 	}
 
 	for fieldName, field := range a.AdditionalProperties {
@@ -2183,6 +5254,1811 @@ func (a ExecutionTask) MarshalJSON() ([]byte, error) {
 	object["taskKind"], err = json.Marshal(a.TaskKind)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling 'taskKind': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for GeminiGenerateContentRequest. Returns the specified
+// element and whether it was found
+func (a GeminiGenerateContentRequest) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for GeminiGenerateContentRequest
+func (a *GeminiGenerateContentRequest) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for GeminiGenerateContentRequest to handle AdditionalProperties
+func (a *GeminiGenerateContentRequest) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["contents"]; found {
+		err = json.Unmarshal(raw, &a.Contents)
+		if err != nil {
+			return fmt.Errorf("error reading 'contents': %w", err)
+		}
+		delete(object, "contents")
+	}
+
+	if raw, found := object["generationConfig"]; found {
+		err = json.Unmarshal(raw, &a.GenerationConfig)
+		if err != nil {
+			return fmt.Errorf("error reading 'generationConfig': %w", err)
+		}
+		delete(object, "generationConfig")
+	}
+
+	if raw, found := object["safetySettings"]; found {
+		err = json.Unmarshal(raw, &a.SafetySettings)
+		if err != nil {
+			return fmt.Errorf("error reading 'safetySettings': %w", err)
+		}
+		delete(object, "safetySettings")
+	}
+
+	if raw, found := object["systemInstruction"]; found {
+		err = json.Unmarshal(raw, &a.SystemInstruction)
+		if err != nil {
+			return fmt.Errorf("error reading 'systemInstruction': %w", err)
+		}
+		delete(object, "systemInstruction")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for GeminiGenerateContentRequest to handle AdditionalProperties
+func (a GeminiGenerateContentRequest) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.Contents != nil {
+		object["contents"], err = json.Marshal(a.Contents)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'contents': %w", err)
+		}
+	}
+
+	if a.GenerationConfig != nil {
+		object["generationConfig"], err = json.Marshal(a.GenerationConfig)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'generationConfig': %w", err)
+		}
+	}
+
+	if a.SafetySettings != nil {
+		object["safetySettings"], err = json.Marshal(a.SafetySettings)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'safetySettings': %w", err)
+		}
+	}
+
+	if a.SystemInstruction != nil {
+		object["systemInstruction"], err = json.Marshal(a.SystemInstruction)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'systemInstruction': %w", err)
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for GeminiInteractionsRequest. Returns the specified
+// element and whether it was found
+func (a GeminiInteractionsRequest) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for GeminiInteractionsRequest
+func (a *GeminiInteractionsRequest) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for GeminiInteractionsRequest to handle AdditionalProperties
+func (a *GeminiInteractionsRequest) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["background"]; found {
+		err = json.Unmarshal(raw, &a.Background)
+		if err != nil {
+			return fmt.Errorf("error reading 'background': %w", err)
+		}
+		delete(object, "background")
+	}
+
+	if raw, found := object["input"]; found {
+		err = json.Unmarshal(raw, &a.Input)
+		if err != nil {
+			return fmt.Errorf("error reading 'input': %w", err)
+		}
+		delete(object, "input")
+	}
+
+	if raw, found := object["model"]; found {
+		err = json.Unmarshal(raw, &a.Model)
+		if err != nil {
+			return fmt.Errorf("error reading 'model': %w", err)
+		}
+		delete(object, "model")
+	}
+
+	if raw, found := object["stream"]; found {
+		err = json.Unmarshal(raw, &a.Stream)
+		if err != nil {
+			return fmt.Errorf("error reading 'stream': %w", err)
+		}
+		delete(object, "stream")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for GeminiInteractionsRequest to handle AdditionalProperties
+func (a GeminiInteractionsRequest) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	object["background"], err = json.Marshal(a.Background)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'background': %w", err)
+	}
+
+	object["input"], err = json.Marshal(a.Input)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'input': %w", err)
+	}
+
+	object["model"], err = json.Marshal(a.Model)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'model': %w", err)
+	}
+
+	object["stream"], err = json.Marshal(a.Stream)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'stream': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for GeminiModel. Returns the specified
+// element and whether it was found
+func (a GeminiModel) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for GeminiModel
+func (a *GeminiModel) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for GeminiModel to handle AdditionalProperties
+func (a *GeminiModel) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["description"]; found {
+		err = json.Unmarshal(raw, &a.Description)
+		if err != nil {
+			return fmt.Errorf("error reading 'description': %w", err)
+		}
+		delete(object, "description")
+	}
+
+	if raw, found := object["displayName"]; found {
+		err = json.Unmarshal(raw, &a.DisplayName)
+		if err != nil {
+			return fmt.Errorf("error reading 'displayName': %w", err)
+		}
+		delete(object, "displayName")
+	}
+
+	if raw, found := object["name"]; found {
+		err = json.Unmarshal(raw, &a.Name)
+		if err != nil {
+			return fmt.Errorf("error reading 'name': %w", err)
+		}
+		delete(object, "name")
+	}
+
+	if raw, found := object["supportedGenerationMethods"]; found {
+		err = json.Unmarshal(raw, &a.SupportedGenerationMethods)
+		if err != nil {
+			return fmt.Errorf("error reading 'supportedGenerationMethods': %w", err)
+		}
+		delete(object, "supportedGenerationMethods")
+	}
+
+	if raw, found := object["version"]; found {
+		err = json.Unmarshal(raw, &a.Version)
+		if err != nil {
+			return fmt.Errorf("error reading 'version': %w", err)
+		}
+		delete(object, "version")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for GeminiModel to handle AdditionalProperties
+func (a GeminiModel) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	object["description"], err = json.Marshal(a.Description)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'description': %w", err)
+	}
+
+	object["displayName"], err = json.Marshal(a.DisplayName)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'displayName': %w", err)
+	}
+
+	object["name"], err = json.Marshal(a.Name)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'name': %w", err)
+	}
+
+	if a.SupportedGenerationMethods != nil {
+		object["supportedGenerationMethods"], err = json.Marshal(a.SupportedGenerationMethods)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'supportedGenerationMethods': %w", err)
+		}
+	}
+
+	object["version"], err = json.Marshal(a.Version)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'version': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for GeminiModelsResponse. Returns the specified
+// element and whether it was found
+func (a GeminiModelsResponse) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for GeminiModelsResponse
+func (a *GeminiModelsResponse) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for GeminiModelsResponse to handle AdditionalProperties
+func (a *GeminiModelsResponse) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["models"]; found {
+		err = json.Unmarshal(raw, &a.Models)
+		if err != nil {
+			return fmt.Errorf("error reading 'models': %w", err)
+		}
+		delete(object, "models")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for GeminiModelsResponse to handle AdditionalProperties
+func (a GeminiModelsResponse) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.Models != nil {
+		object["models"], err = json.Marshal(a.Models)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'models': %w", err)
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for OpenAIAudioSpeechRequest. Returns the specified
+// element and whether it was found
+func (a OpenAIAudioSpeechRequest) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for OpenAIAudioSpeechRequest
+func (a *OpenAIAudioSpeechRequest) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for OpenAIAudioSpeechRequest to handle AdditionalProperties
+func (a *OpenAIAudioSpeechRequest) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["input"]; found {
+		err = json.Unmarshal(raw, &a.Input)
+		if err != nil {
+			return fmt.Errorf("error reading 'input': %w", err)
+		}
+		delete(object, "input")
+	}
+
+	if raw, found := object["instructions"]; found {
+		err = json.Unmarshal(raw, &a.Instructions)
+		if err != nil {
+			return fmt.Errorf("error reading 'instructions': %w", err)
+		}
+		delete(object, "instructions")
+	}
+
+	if raw, found := object["model"]; found {
+		err = json.Unmarshal(raw, &a.Model)
+		if err != nil {
+			return fmt.Errorf("error reading 'model': %w", err)
+		}
+		delete(object, "model")
+	}
+
+	if raw, found := object["response_format"]; found {
+		err = json.Unmarshal(raw, &a.ResponseFormat)
+		if err != nil {
+			return fmt.Errorf("error reading 'response_format': %w", err)
+		}
+		delete(object, "response_format")
+	}
+
+	if raw, found := object["speed"]; found {
+		err = json.Unmarshal(raw, &a.Speed)
+		if err != nil {
+			return fmt.Errorf("error reading 'speed': %w", err)
+		}
+		delete(object, "speed")
+	}
+
+	if raw, found := object["user"]; found {
+		err = json.Unmarshal(raw, &a.User)
+		if err != nil {
+			return fmt.Errorf("error reading 'user': %w", err)
+		}
+		delete(object, "user")
+	}
+
+	if raw, found := object["voice"]; found {
+		err = json.Unmarshal(raw, &a.Voice)
+		if err != nil {
+			return fmt.Errorf("error reading 'voice': %w", err)
+		}
+		delete(object, "voice")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for OpenAIAudioSpeechRequest to handle AdditionalProperties
+func (a OpenAIAudioSpeechRequest) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	object["input"], err = json.Marshal(a.Input)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'input': %w", err)
+	}
+
+	object["instructions"], err = json.Marshal(a.Instructions)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'instructions': %w", err)
+	}
+
+	object["model"], err = json.Marshal(a.Model)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'model': %w", err)
+	}
+
+	object["response_format"], err = json.Marshal(a.ResponseFormat)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'response_format': %w", err)
+	}
+
+	object["speed"], err = json.Marshal(a.Speed)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'speed': %w", err)
+	}
+
+	object["user"], err = json.Marshal(a.User)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'user': %w", err)
+	}
+
+	object["voice"], err = json.Marshal(a.Voice)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'voice': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for OpenAIAudioTranscriptionRequest. Returns the specified
+// element and whether it was found
+func (a OpenAIAudioTranscriptionRequest) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for OpenAIAudioTranscriptionRequest
+func (a *OpenAIAudioTranscriptionRequest) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for OpenAIAudioTranscriptionRequest to handle AdditionalProperties
+func (a *OpenAIAudioTranscriptionRequest) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["file"]; found {
+		err = json.Unmarshal(raw, &a.File)
+		if err != nil {
+			return fmt.Errorf("error reading 'file': %w", err)
+		}
+		delete(object, "file")
+	}
+
+	if raw, found := object["include"]; found {
+		err = json.Unmarshal(raw, &a.Include)
+		if err != nil {
+			return fmt.Errorf("error reading 'include': %w", err)
+		}
+		delete(object, "include")
+	}
+
+	if raw, found := object["language"]; found {
+		err = json.Unmarshal(raw, &a.Language)
+		if err != nil {
+			return fmt.Errorf("error reading 'language': %w", err)
+		}
+		delete(object, "language")
+	}
+
+	if raw, found := object["model"]; found {
+		err = json.Unmarshal(raw, &a.Model)
+		if err != nil {
+			return fmt.Errorf("error reading 'model': %w", err)
+		}
+		delete(object, "model")
+	}
+
+	if raw, found := object["prompt"]; found {
+		err = json.Unmarshal(raw, &a.Prompt)
+		if err != nil {
+			return fmt.Errorf("error reading 'prompt': %w", err)
+		}
+		delete(object, "prompt")
+	}
+
+	if raw, found := object["response_format"]; found {
+		err = json.Unmarshal(raw, &a.ResponseFormat)
+		if err != nil {
+			return fmt.Errorf("error reading 'response_format': %w", err)
+		}
+		delete(object, "response_format")
+	}
+
+	if raw, found := object["temperature"]; found {
+		err = json.Unmarshal(raw, &a.Temperature)
+		if err != nil {
+			return fmt.Errorf("error reading 'temperature': %w", err)
+		}
+		delete(object, "temperature")
+	}
+
+	if raw, found := object["timestamp_granularities"]; found {
+		err = json.Unmarshal(raw, &a.TimestampGranularities)
+		if err != nil {
+			return fmt.Errorf("error reading 'timestamp_granularities': %w", err)
+		}
+		delete(object, "timestamp_granularities")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for OpenAIAudioTranscriptionRequest to handle AdditionalProperties
+func (a OpenAIAudioTranscriptionRequest) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	object["file"], err = json.Marshal(a.File)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'file': %w", err)
+	}
+
+	if a.Include != nil {
+		object["include"], err = json.Marshal(a.Include)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'include': %w", err)
+		}
+	}
+
+	object["language"], err = json.Marshal(a.Language)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'language': %w", err)
+	}
+
+	object["model"], err = json.Marshal(a.Model)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'model': %w", err)
+	}
+
+	object["prompt"], err = json.Marshal(a.Prompt)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'prompt': %w", err)
+	}
+
+	object["response_format"], err = json.Marshal(a.ResponseFormat)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'response_format': %w", err)
+	}
+
+	object["temperature"], err = json.Marshal(a.Temperature)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'temperature': %w", err)
+	}
+
+	if a.TimestampGranularities != nil {
+		object["timestamp_granularities"], err = json.Marshal(a.TimestampGranularities)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'timestamp_granularities': %w", err)
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for OpenAIAudioTranslationRequest. Returns the specified
+// element and whether it was found
+func (a OpenAIAudioTranslationRequest) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for OpenAIAudioTranslationRequest
+func (a *OpenAIAudioTranslationRequest) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for OpenAIAudioTranslationRequest to handle AdditionalProperties
+func (a *OpenAIAudioTranslationRequest) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["file"]; found {
+		err = json.Unmarshal(raw, &a.File)
+		if err != nil {
+			return fmt.Errorf("error reading 'file': %w", err)
+		}
+		delete(object, "file")
+	}
+
+	if raw, found := object["model"]; found {
+		err = json.Unmarshal(raw, &a.Model)
+		if err != nil {
+			return fmt.Errorf("error reading 'model': %w", err)
+		}
+		delete(object, "model")
+	}
+
+	if raw, found := object["prompt"]; found {
+		err = json.Unmarshal(raw, &a.Prompt)
+		if err != nil {
+			return fmt.Errorf("error reading 'prompt': %w", err)
+		}
+		delete(object, "prompt")
+	}
+
+	if raw, found := object["response_format"]; found {
+		err = json.Unmarshal(raw, &a.ResponseFormat)
+		if err != nil {
+			return fmt.Errorf("error reading 'response_format': %w", err)
+		}
+		delete(object, "response_format")
+	}
+
+	if raw, found := object["temperature"]; found {
+		err = json.Unmarshal(raw, &a.Temperature)
+		if err != nil {
+			return fmt.Errorf("error reading 'temperature': %w", err)
+		}
+		delete(object, "temperature")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for OpenAIAudioTranslationRequest to handle AdditionalProperties
+func (a OpenAIAudioTranslationRequest) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	object["file"], err = json.Marshal(a.File)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'file': %w", err)
+	}
+
+	object["model"], err = json.Marshal(a.Model)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'model': %w", err)
+	}
+
+	object["prompt"], err = json.Marshal(a.Prompt)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'prompt': %w", err)
+	}
+
+	object["response_format"], err = json.Marshal(a.ResponseFormat)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'response_format': %w", err)
+	}
+
+	object["temperature"], err = json.Marshal(a.Temperature)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'temperature': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for OpenAIChatCompletionRequest. Returns the specified
+// element and whether it was found
+func (a OpenAIChatCompletionRequest) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for OpenAIChatCompletionRequest
+func (a *OpenAIChatCompletionRequest) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for OpenAIChatCompletionRequest to handle AdditionalProperties
+func (a *OpenAIChatCompletionRequest) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["messages"]; found {
+		err = json.Unmarshal(raw, &a.Messages)
+		if err != nil {
+			return fmt.Errorf("error reading 'messages': %w", err)
+		}
+		delete(object, "messages")
+	}
+
+	if raw, found := object["model"]; found {
+		err = json.Unmarshal(raw, &a.Model)
+		if err != nil {
+			return fmt.Errorf("error reading 'model': %w", err)
+		}
+		delete(object, "model")
+	}
+
+	if raw, found := object["stream"]; found {
+		err = json.Unmarshal(raw, &a.Stream)
+		if err != nil {
+			return fmt.Errorf("error reading 'stream': %w", err)
+		}
+		delete(object, "stream")
+	}
+
+	if raw, found := object["stream_options"]; found {
+		err = json.Unmarshal(raw, &a.StreamOptions)
+		if err != nil {
+			return fmt.Errorf("error reading 'stream_options': %w", err)
+		}
+		delete(object, "stream_options")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for OpenAIChatCompletionRequest to handle AdditionalProperties
+func (a OpenAIChatCompletionRequest) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.Messages != nil {
+		object["messages"], err = json.Marshal(a.Messages)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'messages': %w", err)
+		}
+	}
+
+	object["model"], err = json.Marshal(a.Model)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'model': %w", err)
+	}
+
+	object["stream"], err = json.Marshal(a.Stream)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'stream': %w", err)
+	}
+
+	if a.StreamOptions != nil {
+		object["stream_options"], err = json.Marshal(a.StreamOptions)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'stream_options': %w", err)
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for OpenAIEmbeddingRequest. Returns the specified
+// element and whether it was found
+func (a OpenAIEmbeddingRequest) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for OpenAIEmbeddingRequest
+func (a *OpenAIEmbeddingRequest) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for OpenAIEmbeddingRequest to handle AdditionalProperties
+func (a *OpenAIEmbeddingRequest) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["input"]; found {
+		err = json.Unmarshal(raw, &a.Input)
+		if err != nil {
+			return fmt.Errorf("error reading 'input': %w", err)
+		}
+		delete(object, "input")
+	}
+
+	if raw, found := object["model"]; found {
+		err = json.Unmarshal(raw, &a.Model)
+		if err != nil {
+			return fmt.Errorf("error reading 'model': %w", err)
+		}
+		delete(object, "model")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for OpenAIEmbeddingRequest to handle AdditionalProperties
+func (a OpenAIEmbeddingRequest) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	object["input"], err = json.Marshal(a.Input)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'input': %w", err)
+	}
+
+	object["model"], err = json.Marshal(a.Model)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'model': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for OpenAIImageEditRequest. Returns the specified
+// element and whether it was found
+func (a OpenAIImageEditRequest) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for OpenAIImageEditRequest
+func (a *OpenAIImageEditRequest) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for OpenAIImageEditRequest to handle AdditionalProperties
+func (a *OpenAIImageEditRequest) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["image"]; found {
+		err = json.Unmarshal(raw, &a.Image)
+		if err != nil {
+			return fmt.Errorf("error reading 'image': %w", err)
+		}
+		delete(object, "image")
+	}
+
+	if raw, found := object["mask"]; found {
+		err = json.Unmarshal(raw, &a.Mask)
+		if err != nil {
+			return fmt.Errorf("error reading 'mask': %w", err)
+		}
+		delete(object, "mask")
+	}
+
+	if raw, found := object["model"]; found {
+		err = json.Unmarshal(raw, &a.Model)
+		if err != nil {
+			return fmt.Errorf("error reading 'model': %w", err)
+		}
+		delete(object, "model")
+	}
+
+	if raw, found := object["n"]; found {
+		err = json.Unmarshal(raw, &a.N)
+		if err != nil {
+			return fmt.Errorf("error reading 'n': %w", err)
+		}
+		delete(object, "n")
+	}
+
+	if raw, found := object["prompt"]; found {
+		err = json.Unmarshal(raw, &a.Prompt)
+		if err != nil {
+			return fmt.Errorf("error reading 'prompt': %w", err)
+		}
+		delete(object, "prompt")
+	}
+
+	if raw, found := object["quality"]; found {
+		err = json.Unmarshal(raw, &a.Quality)
+		if err != nil {
+			return fmt.Errorf("error reading 'quality': %w", err)
+		}
+		delete(object, "quality")
+	}
+
+	if raw, found := object["response_format"]; found {
+		err = json.Unmarshal(raw, &a.ResponseFormat)
+		if err != nil {
+			return fmt.Errorf("error reading 'response_format': %w", err)
+		}
+		delete(object, "response_format")
+	}
+
+	if raw, found := object["size"]; found {
+		err = json.Unmarshal(raw, &a.Size)
+		if err != nil {
+			return fmt.Errorf("error reading 'size': %w", err)
+		}
+		delete(object, "size")
+	}
+
+	if raw, found := object["user"]; found {
+		err = json.Unmarshal(raw, &a.User)
+		if err != nil {
+			return fmt.Errorf("error reading 'user': %w", err)
+		}
+		delete(object, "user")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for OpenAIImageEditRequest to handle AdditionalProperties
+func (a OpenAIImageEditRequest) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	object["image"], err = json.Marshal(a.Image)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'image': %w", err)
+	}
+
+	object["mask"], err = json.Marshal(a.Mask)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'mask': %w", err)
+	}
+
+	object["model"], err = json.Marshal(a.Model)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'model': %w", err)
+	}
+
+	object["n"], err = json.Marshal(a.N)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'n': %w", err)
+	}
+
+	object["prompt"], err = json.Marshal(a.Prompt)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'prompt': %w", err)
+	}
+
+	object["quality"], err = json.Marshal(a.Quality)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'quality': %w", err)
+	}
+
+	object["response_format"], err = json.Marshal(a.ResponseFormat)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'response_format': %w", err)
+	}
+
+	object["size"], err = json.Marshal(a.Size)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'size': %w", err)
+	}
+
+	object["user"], err = json.Marshal(a.User)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'user': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for OpenAIImageGenerationRequest. Returns the specified
+// element and whether it was found
+func (a OpenAIImageGenerationRequest) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for OpenAIImageGenerationRequest
+func (a *OpenAIImageGenerationRequest) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for OpenAIImageGenerationRequest to handle AdditionalProperties
+func (a *OpenAIImageGenerationRequest) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["background"]; found {
+		err = json.Unmarshal(raw, &a.Background)
+		if err != nil {
+			return fmt.Errorf("error reading 'background': %w", err)
+		}
+		delete(object, "background")
+	}
+
+	if raw, found := object["model"]; found {
+		err = json.Unmarshal(raw, &a.Model)
+		if err != nil {
+			return fmt.Errorf("error reading 'model': %w", err)
+		}
+		delete(object, "model")
+	}
+
+	if raw, found := object["moderation"]; found {
+		err = json.Unmarshal(raw, &a.Moderation)
+		if err != nil {
+			return fmt.Errorf("error reading 'moderation': %w", err)
+		}
+		delete(object, "moderation")
+	}
+
+	if raw, found := object["n"]; found {
+		err = json.Unmarshal(raw, &a.N)
+		if err != nil {
+			return fmt.Errorf("error reading 'n': %w", err)
+		}
+		delete(object, "n")
+	}
+
+	if raw, found := object["output_compression"]; found {
+		err = json.Unmarshal(raw, &a.OutputCompression)
+		if err != nil {
+			return fmt.Errorf("error reading 'output_compression': %w", err)
+		}
+		delete(object, "output_compression")
+	}
+
+	if raw, found := object["output_format"]; found {
+		err = json.Unmarshal(raw, &a.OutputFormat)
+		if err != nil {
+			return fmt.Errorf("error reading 'output_format': %w", err)
+		}
+		delete(object, "output_format")
+	}
+
+	if raw, found := object["prompt"]; found {
+		err = json.Unmarshal(raw, &a.Prompt)
+		if err != nil {
+			return fmt.Errorf("error reading 'prompt': %w", err)
+		}
+		delete(object, "prompt")
+	}
+
+	if raw, found := object["quality"]; found {
+		err = json.Unmarshal(raw, &a.Quality)
+		if err != nil {
+			return fmt.Errorf("error reading 'quality': %w", err)
+		}
+		delete(object, "quality")
+	}
+
+	if raw, found := object["response_format"]; found {
+		err = json.Unmarshal(raw, &a.ResponseFormat)
+		if err != nil {
+			return fmt.Errorf("error reading 'response_format': %w", err)
+		}
+		delete(object, "response_format")
+	}
+
+	if raw, found := object["size"]; found {
+		err = json.Unmarshal(raw, &a.Size)
+		if err != nil {
+			return fmt.Errorf("error reading 'size': %w", err)
+		}
+		delete(object, "size")
+	}
+
+	if raw, found := object["style"]; found {
+		err = json.Unmarshal(raw, &a.Style)
+		if err != nil {
+			return fmt.Errorf("error reading 'style': %w", err)
+		}
+		delete(object, "style")
+	}
+
+	if raw, found := object["user"]; found {
+		err = json.Unmarshal(raw, &a.User)
+		if err != nil {
+			return fmt.Errorf("error reading 'user': %w", err)
+		}
+		delete(object, "user")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for OpenAIImageGenerationRequest to handle AdditionalProperties
+func (a OpenAIImageGenerationRequest) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	object["background"], err = json.Marshal(a.Background)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'background': %w", err)
+	}
+
+	object["model"], err = json.Marshal(a.Model)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'model': %w", err)
+	}
+
+	object["moderation"], err = json.Marshal(a.Moderation)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'moderation': %w", err)
+	}
+
+	object["n"], err = json.Marshal(a.N)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'n': %w", err)
+	}
+
+	object["output_compression"], err = json.Marshal(a.OutputCompression)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'output_compression': %w", err)
+	}
+
+	object["output_format"], err = json.Marshal(a.OutputFormat)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'output_format': %w", err)
+	}
+
+	object["prompt"], err = json.Marshal(a.Prompt)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'prompt': %w", err)
+	}
+
+	object["quality"], err = json.Marshal(a.Quality)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'quality': %w", err)
+	}
+
+	object["response_format"], err = json.Marshal(a.ResponseFormat)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'response_format': %w", err)
+	}
+
+	object["size"], err = json.Marshal(a.Size)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'size': %w", err)
+	}
+
+	object["style"], err = json.Marshal(a.Style)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'style': %w", err)
+	}
+
+	object["user"], err = json.Marshal(a.User)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'user': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for OpenAIImageVariationRequest. Returns the specified
+// element and whether it was found
+func (a OpenAIImageVariationRequest) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for OpenAIImageVariationRequest
+func (a *OpenAIImageVariationRequest) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for OpenAIImageVariationRequest to handle AdditionalProperties
+func (a *OpenAIImageVariationRequest) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["image"]; found {
+		err = json.Unmarshal(raw, &a.Image)
+		if err != nil {
+			return fmt.Errorf("error reading 'image': %w", err)
+		}
+		delete(object, "image")
+	}
+
+	if raw, found := object["model"]; found {
+		err = json.Unmarshal(raw, &a.Model)
+		if err != nil {
+			return fmt.Errorf("error reading 'model': %w", err)
+		}
+		delete(object, "model")
+	}
+
+	if raw, found := object["n"]; found {
+		err = json.Unmarshal(raw, &a.N)
+		if err != nil {
+			return fmt.Errorf("error reading 'n': %w", err)
+		}
+		delete(object, "n")
+	}
+
+	if raw, found := object["response_format"]; found {
+		err = json.Unmarshal(raw, &a.ResponseFormat)
+		if err != nil {
+			return fmt.Errorf("error reading 'response_format': %w", err)
+		}
+		delete(object, "response_format")
+	}
+
+	if raw, found := object["size"]; found {
+		err = json.Unmarshal(raw, &a.Size)
+		if err != nil {
+			return fmt.Errorf("error reading 'size': %w", err)
+		}
+		delete(object, "size")
+	}
+
+	if raw, found := object["user"]; found {
+		err = json.Unmarshal(raw, &a.User)
+		if err != nil {
+			return fmt.Errorf("error reading 'user': %w", err)
+		}
+		delete(object, "user")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for OpenAIImageVariationRequest to handle AdditionalProperties
+func (a OpenAIImageVariationRequest) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	object["image"], err = json.Marshal(a.Image)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'image': %w", err)
+	}
+
+	object["model"], err = json.Marshal(a.Model)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'model': %w", err)
+	}
+
+	object["n"], err = json.Marshal(a.N)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'n': %w", err)
+	}
+
+	object["response_format"], err = json.Marshal(a.ResponseFormat)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'response_format': %w", err)
+	}
+
+	object["size"], err = json.Marshal(a.Size)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'size': %w", err)
+	}
+
+	object["user"], err = json.Marshal(a.User)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'user': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for OpenAIModel. Returns the specified
+// element and whether it was found
+func (a OpenAIModel) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for OpenAIModel
+func (a *OpenAIModel) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for OpenAIModel to handle AdditionalProperties
+func (a *OpenAIModel) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["created"]; found {
+		err = json.Unmarshal(raw, &a.Created)
+		if err != nil {
+			return fmt.Errorf("error reading 'created': %w", err)
+		}
+		delete(object, "created")
+	}
+
+	if raw, found := object["id"]; found {
+		err = json.Unmarshal(raw, &a.ID)
+		if err != nil {
+			return fmt.Errorf("error reading 'id': %w", err)
+		}
+		delete(object, "id")
+	}
+
+	if raw, found := object["object"]; found {
+		err = json.Unmarshal(raw, &a.Object)
+		if err != nil {
+			return fmt.Errorf("error reading 'object': %w", err)
+		}
+		delete(object, "object")
+	}
+
+	if raw, found := object["owned_by"]; found {
+		err = json.Unmarshal(raw, &a.OwnedBy)
+		if err != nil {
+			return fmt.Errorf("error reading 'owned_by': %w", err)
+		}
+		delete(object, "owned_by")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for OpenAIModel to handle AdditionalProperties
+func (a OpenAIModel) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	object["created"], err = json.Marshal(a.Created)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'created': %w", err)
+	}
+
+	object["id"], err = json.Marshal(a.ID)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'id': %w", err)
+	}
+
+	object["object"], err = json.Marshal(a.Object)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'object': %w", err)
+	}
+
+	object["owned_by"], err = json.Marshal(a.OwnedBy)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'owned_by': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for OpenAIModelsResponse. Returns the specified
+// element and whether it was found
+func (a OpenAIModelsResponse) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for OpenAIModelsResponse
+func (a *OpenAIModelsResponse) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for OpenAIModelsResponse to handle AdditionalProperties
+func (a *OpenAIModelsResponse) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["data"]; found {
+		err = json.Unmarshal(raw, &a.Data)
+		if err != nil {
+			return fmt.Errorf("error reading 'data': %w", err)
+		}
+		delete(object, "data")
+	}
+
+	if raw, found := object["object"]; found {
+		err = json.Unmarshal(raw, &a.Object)
+		if err != nil {
+			return fmt.Errorf("error reading 'object': %w", err)
+		}
+		delete(object, "object")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for OpenAIModelsResponse to handle AdditionalProperties
+func (a OpenAIModelsResponse) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.Data != nil {
+		object["data"], err = json.Marshal(a.Data)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'data': %w", err)
+		}
+	}
+
+	object["object"], err = json.Marshal(a.Object)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'object': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for OpenAIResponseRequest. Returns the specified
+// element and whether it was found
+func (a OpenAIResponseRequest) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for OpenAIResponseRequest
+func (a *OpenAIResponseRequest) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for OpenAIResponseRequest to handle AdditionalProperties
+func (a *OpenAIResponseRequest) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["input"]; found {
+		err = json.Unmarshal(raw, &a.Input)
+		if err != nil {
+			return fmt.Errorf("error reading 'input': %w", err)
+		}
+		delete(object, "input")
+	}
+
+	if raw, found := object["model"]; found {
+		err = json.Unmarshal(raw, &a.Model)
+		if err != nil {
+			return fmt.Errorf("error reading 'model': %w", err)
+		}
+		delete(object, "model")
+	}
+
+	if raw, found := object["stream"]; found {
+		err = json.Unmarshal(raw, &a.Stream)
+		if err != nil {
+			return fmt.Errorf("error reading 'stream': %w", err)
+		}
+		delete(object, "stream")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for OpenAIResponseRequest to handle AdditionalProperties
+func (a OpenAIResponseRequest) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	object["input"], err = json.Marshal(a.Input)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'input': %w", err)
+	}
+
+	object["model"], err = json.Marshal(a.Model)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'model': %w", err)
+	}
+
+	object["stream"], err = json.Marshal(a.Stream)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'stream': %w", err)
 	}
 
 	for fieldName, field := range a.AdditionalProperties {
@@ -3094,4 +7970,66 @@ func (a UserProfile) MarshalJSON() ([]byte, error) {
 		}
 	}
 	return json.Marshal(object)
+}
+
+// AsCohereRerankRequestDocuments0 returns the union data inside the CohereRerankRequest_Documents_Item as a CohereRerankRequestDocuments0
+func (t CohereRerankRequest_Documents_Item) AsCohereRerankRequestDocuments0() (CohereRerankRequestDocuments0, error) {
+	var body CohereRerankRequestDocuments0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCohereRerankRequestDocuments0 overwrites any union data inside the CohereRerankRequest_Documents_Item as the provided CohereRerankRequestDocuments0
+func (t *CohereRerankRequest_Documents_Item) FromCohereRerankRequestDocuments0(v CohereRerankRequestDocuments0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCohereRerankRequestDocuments0 performs a merge with any union data inside the CohereRerankRequest_Documents_Item, using the provided CohereRerankRequestDocuments0
+func (t *CohereRerankRequest_Documents_Item) MergeCohereRerankRequestDocuments0(v CohereRerankRequestDocuments0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsCohereRerankRequestDocuments1 returns the union data inside the CohereRerankRequest_Documents_Item as a CohereRerankRequestDocuments1
+func (t CohereRerankRequest_Documents_Item) AsCohereRerankRequestDocuments1() (CohereRerankRequestDocuments1, error) {
+	var body CohereRerankRequestDocuments1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCohereRerankRequestDocuments1 overwrites any union data inside the CohereRerankRequest_Documents_Item as the provided CohereRerankRequestDocuments1
+func (t *CohereRerankRequest_Documents_Item) FromCohereRerankRequestDocuments1(v CohereRerankRequestDocuments1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCohereRerankRequestDocuments1 performs a merge with any union data inside the CohereRerankRequest_Documents_Item, using the provided CohereRerankRequestDocuments1
+func (t *CohereRerankRequest_Documents_Item) MergeCohereRerankRequestDocuments1(v CohereRerankRequestDocuments1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t CohereRerankRequest_Documents_Item) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *CohereRerankRequest_Documents_Item) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
 }

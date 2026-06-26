@@ -892,6 +892,1724 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GovernanceStatusEnvelope"
+  /ai-gateway/relay/upstreams:
+    get:
+      tags: [AI Gateway]
+      operationId: listAIGatewayRelayUpstreams
+      x-soha-implementation-status: implemented
+      parameters:
+        - name: providerKind
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [openai, anthropic, openai-compatible, deepseek, qwen, openrouter, azure-openai, gemini, cohere]
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [active, disabled, degraded]
+        - name: includeAll
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        "200":
+          description: Relay upstreams visible to the current Gateway manager. Full upstream API keys are never returned.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LLMUpstreamListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayRelayUpstream
+      x-soha-implementation-status: implemented
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LLMUpstreamInput"
+      responses:
+        "201":
+          description: Created relay upstream. The stored API key is encrypted and only the display prefix is returned.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LLMUpstreamEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/relay/upstreams/{upstreamID}:
+    put:
+      tags: [AI Gateway]
+      operationId: updateAIGatewayRelayUpstream
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/UpstreamID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LLMUpstreamInput"
+      responses:
+        "200":
+          description: Updated relay upstream. Omit apiKey to keep the existing encrypted key.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LLMUpstreamEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/relay/upstreams/health-checks/run:
+    post:
+      tags: [AI Gateway]
+      operationId: runAIGatewayRelayHealthChecks
+      x-soha-implementation-status: implemented
+      responses:
+        "200":
+          description: Runs relay upstream health checks and applies health-check managed degraded/recovered status transitions.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LLMRelayHealthCheckRunEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/relay/upstreams/{upstreamID}/test:
+    post:
+      tags: [AI Gateway]
+      operationId: testAIGatewayRelayUpstream
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/UpstreamID"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LLMUpstreamTestRequest"
+      responses:
+        "200":
+          description: Redacted upstream connectivity test result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LLMUpstreamTestResultEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/relay/model-routes:
+    get:
+      tags: [AI Gateway]
+      operationId: listAIGatewayRelayModelRoutes
+      x-soha-implementation-status: implemented
+      parameters:
+        - name: publicModel
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: providerKind
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [openai, anthropic, openai-compatible, deepseek, qwen, openrouter, azure-openai, gemini, cohere]
+        - name: upstreamId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: routeGroup
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: includeDisabled
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        "200":
+          description: Relay model routes.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LLMModelRouteListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayRelayModelRoute
+      x-soha-implementation-status: implemented
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LLMModelRouteInput"
+      responses:
+        "201":
+          description: Created relay model route.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LLMModelRouteEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/relay/model-routes/{routeID}:
+    put:
+      tags: [AI Gateway]
+      operationId: updateAIGatewayRelayModelRoute
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/RouteID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LLMModelRouteInput"
+      responses:
+        "200":
+          description: Updated relay model route.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LLMModelRouteEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags: [AI Gateway]
+      operationId: deleteAIGatewayRelayModelRoute
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/RouteID"
+      responses:
+        "200":
+          description: Deleted relay model route.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationStatus"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/relay/model-calls:
+    get:
+      tags: [AI Gateway]
+      operationId: listAIGatewayRelayModelCalls
+      x-soha-implementation-status: implemented
+      parameters:
+        - name: actorType
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: actorId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: tokenId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: publicModel
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: upstreamId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: providerKind
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [openai, anthropic, openai-compatible, deepseek, qwen, openrouter, azure-openai, gemini, cohere]
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [success, failure, cancelled, client_cancelled, rate_limited, policy_denied]
+        - name: endpoint
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+            maximum: 1000
+      responses:
+        "200":
+          description: Redacted relay model call logs. Prompts, full headers, token values, and upstream API keys are not returned.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LLMCallLogListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/relay/metrics:
+    get:
+      tags: [AI Gateway]
+      operationId: getAIGatewayRelayMetrics
+      x-soha-implementation-status: implemented
+      parameters:
+        - name: windowHours
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 168
+            default: 24
+        - name: publicModel
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: upstreamId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Relay usage, latency, token, and cache-token metrics.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LLMRelayMetricsEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/relay/cache/stats:
+    get:
+      tags: [AI Gateway]
+      operationId: getAIGatewayRelayCacheStats
+      x-soha-implementation-status: implemented
+      parameters:
+        - name: windowHours
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 168
+            default: 24
+        - name: publicModel
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: upstreamId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Relay response cache and provider prompt-cache statistics.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LLMRelayCacheStatsEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/relay/cache/purge:
+    post:
+      tags: [AI Gateway]
+      operationId: purgeAIGatewayRelayCache
+      x-soha-implementation-status: implemented
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LLMRelayCachePurgeRequest"
+      responses:
+        "200":
+          description: Relay cache purge accepted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LLMRelayCachePurgeResultEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/openai/v1/models:
+    get:
+      tags: [AI Gateway]
+      operationId: listAIGatewayOpenAIModels
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      responses:
+        "200":
+          description: Native OpenAI-compatible models response. This endpoint does not use the OpenSoha envelope.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OpenAIModelsResponse"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/openai/v1/chat/completions:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAIChatCompletion
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OpenAIChatCompletionRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible chat completion JSON or SSE stream.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+            text/event-stream:
+              schema:
+                type: string
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/openai/v1/responses:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAIResponse
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OpenAIResponseRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible Responses JSON or SSE stream.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+            text/event-stream:
+              schema:
+                type: string
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/openai/v1/embeddings:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAIEmbedding
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OpenAIEmbeddingRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible embeddings response. This endpoint does not use the OpenSoha envelope.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/openai/v1/images/generations:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAIImageGeneration
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OpenAIImageGenerationRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible image generation response. This endpoint does not use the OpenSoha envelope.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/openai/v1/images/edits:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAIImageEdit
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/OpenAIImageEditRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible image edit response. This endpoint does not use the OpenSoha envelope.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/openai/v1/images/variations:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAIImageVariation
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/OpenAIImageVariationRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible image variation response. This endpoint does not use the OpenSoha envelope.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/openai/v1/audio/speech:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAIAudioSpeech
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OpenAIAudioSpeechRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible audio speech response. This endpoint returns binary audio and does not use the OpenSoha envelope.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+            audio/wav:
+              schema:
+                type: string
+                format: binary
+            audio/ogg:
+              schema:
+                type: string
+                format: binary
+            audio/flac:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/openai/v1/audio/transcriptions:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAIAudioTranscription
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/OpenAIAudioTranscriptionRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible audio transcription response. This endpoint does not use the OpenSoha envelope.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+            text/plain:
+              schema:
+                type: string
+            text/vtt:
+              schema:
+                type: string
+            application/x-subrip:
+              schema:
+                type: string
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/openai/v1/audio/translations:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAIAudioTranslation
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/OpenAIAudioTranslationRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible audio translation response. This endpoint does not use the OpenSoha envelope.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+            text/plain:
+              schema:
+                type: string
+            text/vtt:
+              schema:
+                type: string
+            application/x-subrip:
+              schema:
+                type: string
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/openai/v1/realtime:
+    get:
+      tags: [AI Gateway]
+      operationId: connectAIGatewayOpenAIRealtime
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - name: model
+          in: query
+          required: true
+          description: Public model name to route to an upstream OpenAI Realtime model.
+          schema:
+            type: string
+            minLength: 1
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+      responses:
+        "101":
+          description: WebSocket upgrade accepted. The connection proxies OpenAI Realtime frames without wrapping provider messages in an OpenSoha envelope.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/{openaiCompatibleProvider}/v1/models:
+    get:
+      tags: [AI Gateway]
+      operationId: listAIGatewayOpenAICompatibleProviderModels
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/OpenAICompatibleProvider"
+      responses:
+        "200":
+          description: Native OpenAI-compatible models response for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. This endpoint does not use the OpenSoha envelope.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OpenAIModelsResponse"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/{openaiCompatibleProvider}/v1/chat/completions:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAICompatibleProviderChatCompletion
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/OpenAICompatibleProvider"
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OpenAIChatCompletionRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible chat completion JSON or SSE stream for DeepSeek, Qwen, OpenRouter, or Azure OpenAI.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+            text/event-stream:
+              schema:
+                type: string
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/{openaiCompatibleProvider}/v1/responses:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAICompatibleProviderResponse
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/OpenAICompatibleProvider"
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OpenAIResponseRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible Responses JSON or SSE stream for DeepSeek, Qwen, OpenRouter, or Azure OpenAI.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+            text/event-stream:
+              schema:
+                type: string
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/{openaiCompatibleProvider}/v1/embeddings:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAICompatibleProviderEmbedding
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/OpenAICompatibleProvider"
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OpenAIEmbeddingRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible embeddings response for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. This endpoint does not use the OpenSoha envelope.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/{openaiCompatibleProvider}/v1/images/generations:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAICompatibleProviderImageGeneration
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/OpenAICompatibleProvider"
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OpenAIImageGenerationRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible image generation response for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. This endpoint does not use the OpenSoha envelope.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/{openaiCompatibleProvider}/v1/images/edits:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAICompatibleProviderImageEdit
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/OpenAICompatibleProvider"
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/OpenAIImageEditRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible image edit response for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. This endpoint does not use the OpenSoha envelope.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/{openaiCompatibleProvider}/v1/images/variations:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAICompatibleProviderImageVariation
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/OpenAICompatibleProvider"
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/OpenAIImageVariationRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible image variation response for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. This endpoint does not use the OpenSoha envelope.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/{openaiCompatibleProvider}/v1/audio/speech:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAICompatibleProviderAudioSpeech
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/OpenAICompatibleProvider"
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OpenAIAudioSpeechRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible audio speech response for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. This endpoint returns binary audio and does not use the OpenSoha envelope.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+            audio/wav:
+              schema:
+                type: string
+                format: binary
+            audio/ogg:
+              schema:
+                type: string
+                format: binary
+            audio/flac:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/{openaiCompatibleProvider}/v1/audio/transcriptions:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAICompatibleProviderAudioTranscription
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/OpenAICompatibleProvider"
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/OpenAIAudioTranscriptionRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible audio transcription response for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. This endpoint does not use the OpenSoha envelope.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+            text/plain:
+              schema:
+                type: string
+            text/vtt:
+              schema:
+                type: string
+            application/x-subrip:
+              schema:
+                type: string
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/{openaiCompatibleProvider}/v1/audio/translations:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayOpenAICompatibleProviderAudioTranslation
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/OpenAICompatibleProvider"
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/OpenAIAudioTranslationRequest"
+      responses:
+        "200":
+          description: Native OpenAI-compatible audio translation response for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. This endpoint does not use the OpenSoha envelope.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+            text/plain:
+              schema:
+                type: string
+            text/vtt:
+              schema:
+                type: string
+            application/x-subrip:
+              schema:
+                type: string
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/gemini/v1beta/models:
+    get:
+      tags: [AI Gateway]
+      operationId: listAIGatewayGeminiModels
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      responses:
+        "200":
+          description: Native Gemini-compatible models response. This endpoint does not use the OpenSoha envelope.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GeminiModelsResponse"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/gemini/v1beta/models/{geminiModel}:generateContent:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayGeminiGenerateContent
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - name: geminiModel
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Public Gemini model ID exposed by Soha; the relay maps it to the configured upstream model.
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GeminiGenerateContentRequest"
+      responses:
+        "200":
+          description: Native Gemini generateContent JSON response.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/gemini/v1beta/models/{geminiModel}:streamGenerateContent:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayGeminiStreamGenerateContent
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - name: geminiModel
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Public Gemini model ID exposed by Soha; the relay maps it to the configured upstream model.
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GeminiGenerateContentRequest"
+      responses:
+        "200":
+          description: Native Gemini streamGenerateContent SSE stream.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            text/event-stream:
+              schema:
+                type: string
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/gemini/v1beta/interactions:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayGeminiInteractions
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GeminiInteractionsRequest"
+      responses:
+        "200":
+          description: Native Gemini Interactions JSON response. This endpoint does not use the OpenSoha envelope.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/cohere/v2/rerank:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayCohereRerank
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CohereRerankRequest"
+      responses:
+        "200":
+          description: Native Cohere-compatible rerank JSON response. This endpoint does not use the OpenSoha envelope.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/anthropic/v1/models:
+    get:
+      tags: [AI Gateway]
+      operationId: listAIGatewayAnthropicModels
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      responses:
+        "200":
+          description: Native Anthropic-compatible models response. This endpoint does not use the OpenSoha envelope.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnthropicModelsResponse"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /ai-gateway/llm/anthropic/v1/messages:
+    post:
+      tags: [AI Gateway]
+      operationId: createAIGatewayAnthropicMessage
+      x-soha-implementation-status: implemented
+      security:
+        - bearerAuth: []
+        - sohaXAPIKey: []
+      parameters:
+        - name: anthropic-version
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Forwarded Anthropic API version header when present.
+        - $ref: "#/components/parameters/SohaUpstreamIDHeader"
+        - $ref: "#/components/parameters/SohaRouteTraceHeader"
+        - $ref: "#/components/parameters/SohaCacheModeHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnthropicMessagesRequest"
+      responses:
+        "200":
+          description: Native Anthropic-compatible message JSON or SSE stream.
+          headers:
+            X-Soha-Route-ID:
+              $ref: "#/components/headers/SohaRouteIDHeader"
+            X-Soha-Upstream-ID:
+              $ref: "#/components/headers/SohaSelectedUpstreamIDHeader"
+            X-Soha-Provider-Kind:
+              $ref: "#/components/headers/SohaProviderKindHeader"
+            X-Soha-Public-Model:
+              $ref: "#/components/headers/SohaPublicModelHeader"
+            X-Soha-Upstream-Model:
+              $ref: "#/components/headers/SohaUpstreamModelHeader"
+            X-Soha-Relay-Endpoint:
+              $ref: "#/components/headers/SohaRelayEndpointHeader"
+            X-Soha-Relay-Stream:
+              $ref: "#/components/headers/SohaRelayStreamHeader"
+            X-Soha-Upstream-Status:
+              $ref: "#/components/headers/SohaUpstreamStatusHeader"
+            X-Soha-Cache-Status:
+              $ref: "#/components/headers/SohaCacheStatusHeader"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeProviderObject"
+            text/event-stream:
+              schema:
+                type: string
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
   /mcp/capabilities:
     get:
       tags: [MCP]
@@ -1083,6 +2801,11 @@ components:
       type: http
       scheme: bearer
       description: Runtime execution runner token.
+    sohaXAPIKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: Anthropic-style Soha PAT/SAT credential header for native relay endpoints.
   parameters:
     AIClientID:
       name: aiClientId
@@ -1150,6 +2873,85 @@ components:
       required: true
       schema:
         type: string
+    UpstreamID:
+      name: upstreamID
+      in: path
+      required: true
+      schema:
+        type: string
+    RouteID:
+      name: routeID
+      in: path
+      required: true
+      schema:
+        type: string
+    OpenAICompatibleProvider:
+      name: openaiCompatibleProvider
+      in: path
+      required: true
+      schema:
+        type: string
+        enum: [deepseek, qwen, openrouter, azure-openai]
+      description: First-class OpenAI-compatible relay provider kind. Azure OpenAI uses Azure data-plane URL and api-key header adaptation upstream.
+    SohaUpstreamIDHeader:
+      name: X-Soha-Upstream-ID
+      in: header
+      required: false
+      schema:
+        type: string
+      description: Optional debug override for administrators or tokens explicitly allowed to select an upstream.
+    SohaRouteTraceHeader:
+      name: X-Soha-Route-Trace
+      in: header
+      required: false
+      schema:
+        type: boolean
+      description: When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled.
+    SohaCacheModeHeader:
+      name: X-Soha-Cache-Mode
+      in: header
+      required: false
+      schema:
+        type: string
+        enum: [default, bypass, read-only, refresh]
+      description: Optional relay cache behavior hint.
+  headers:
+    SohaRouteIDHeader:
+      schema:
+        type: string
+      description: Selected Soha relay route ID returned when X-Soha-Route-Trace is authorized.
+    SohaSelectedUpstreamIDHeader:
+      schema:
+        type: string
+      description: Selected Soha relay upstream ID returned when X-Soha-Route-Trace is authorized.
+    SohaProviderKindHeader:
+      schema:
+        type: string
+      description: Selected upstream provider kind returned when X-Soha-Route-Trace is authorized.
+    SohaPublicModelHeader:
+      schema:
+        type: string
+      description: Public model requested by the client returned when X-Soha-Route-Trace is authorized.
+    SohaUpstreamModelHeader:
+      schema:
+        type: string
+      description: Upstream model selected by Soha returned when X-Soha-Route-Trace is authorized.
+    SohaRelayEndpointHeader:
+      schema:
+        type: string
+      description: Relay endpoint returned when X-Soha-Route-Trace is authorized.
+    SohaRelayStreamHeader:
+      schema:
+        type: boolean
+      description: Whether the relayed request streamed upstream output, returned when X-Soha-Route-Trace is authorized.
+    SohaUpstreamStatusHeader:
+      schema:
+        type: string
+      description: Upstream HTTP status returned when X-Soha-Route-Trace is authorized.
+    SohaCacheStatusHeader:
+      schema:
+        type: string
+      description: Relay cache status returned when X-Soha-Route-Trace is authorized.
   responses:
     Error:
       description: Standard Soha API error envelope.
@@ -2083,6 +3885,1015 @@ components:
         status:
           type: string
       additionalProperties: false
+    LLMTokenMetadata:
+      type: object
+      properties:
+        purpose:
+          type: string
+          enum: [llm-relay]
+        allowedModels:
+          type: array
+          items:
+            type: string
+        allowedProviderKinds:
+          type: array
+          items:
+            type: string
+            enum: [openai, anthropic, openai-compatible, deepseek, qwen, openrouter, azure-openai, gemini, cohere]
+        allowedUpstreamIds:
+          type: array
+          items:
+            type: string
+        allowedIPCIDRs:
+          type: array
+          items:
+            type: string
+        allowedTeams:
+          type: array
+          items:
+            type: string
+          description: Team or organization IDs allowed to use this relay token. Empty means unrestricted unless deniedTeams matches.
+        deniedTeams:
+          type: array
+          items:
+            type: string
+          description: Team or organization IDs denied for this relay token. Deny rules take precedence over allowedTeams.
+        rateLimitProfileId:
+          type: string
+        allowRouteTrace:
+          type: boolean
+          description: Allows X-Soha-Route-Trace response headers when set by a relay manager.
+        allowUpstreamSelection:
+          type: boolean
+          description: Allows X-Soha-Upstream-ID debug selection, still constrained by allowedUpstreamIds, when set by a relay manager.
+      additionalProperties: true
+    LLMUpstream:
+      type: object
+      required: [id, name, providerKind, baseUrl, status, priority, weight, timeoutSeconds, streamTimeoutSeconds, maxConcurrency, supportedModels, createdBy, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        providerKind:
+          type: string
+          enum: [openai, anthropic, openai-compatible, deepseek, qwen, openrouter, azure-openai, gemini, cohere]
+        baseUrl:
+          type: string
+          format: uri
+        apiKeyPrefix:
+          type: string
+          description: Display-only prefix for the encrypted upstream API key. The full key is never returned.
+        status:
+          type: string
+          enum: [active, disabled, degraded]
+        priority:
+          type: integer
+          description: Lower values are selected first.
+        weight:
+          type: integer
+          minimum: 0
+        timeoutSeconds:
+          type: integer
+          minimum: 1
+        streamTimeoutSeconds:
+          type: integer
+          minimum: 1
+        maxConcurrency:
+          type: integer
+          minimum: 0
+        supportedModels:
+          type: array
+          items:
+            type: string
+        defaultHeaders:
+          type: object
+          description: Non-sensitive upstream headers only.
+          additionalProperties: true
+        proxyUrl:
+          type: string
+        health:
+          type: object
+          additionalProperties: true
+        metadata:
+          type: object
+          additionalProperties: true
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    LLMUpstreamInput:
+      type: object
+      required: [name, providerKind, baseUrl]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        providerKind:
+          type: string
+          enum: [openai, anthropic, openai-compatible, deepseek, qwen, openrouter, azure-openai, gemini, cohere]
+        baseUrl:
+          type: string
+          format: uri
+        apiKey:
+          type: string
+          writeOnly: true
+          description: Upstream provider key. It must be encrypted at rest and never returned by read APIs.
+        status:
+          type: string
+          enum: [active, disabled, degraded]
+        priority:
+          type: integer
+        weight:
+          type: integer
+          minimum: 0
+        timeoutSeconds:
+          type: integer
+          minimum: 1
+        streamTimeoutSeconds:
+          type: integer
+          minimum: 1
+        maxConcurrency:
+          type: integer
+          minimum: 0
+        supportedModels:
+          type: array
+          items:
+            type: string
+        defaultHeaders:
+          type: object
+          additionalProperties: true
+        proxyUrl:
+          type: string
+        health:
+          type: object
+          additionalProperties: true
+        metadata:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    LLMUpstreamEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/LLMUpstream"
+      additionalProperties: false
+    LLMUpstreamListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/LLMUpstream"
+      additionalProperties: false
+    LLMUpstreamTestRequest:
+      type: object
+      properties:
+        model:
+          type: string
+        endpoint:
+          type: string
+          enum: [models, chat.completions, responses, messages, rerank, interactions, images.generations, images.edits, images.variations, audio.speech, audio.transcriptions, audio.translations]
+        timeoutSeconds:
+          type: integer
+          minimum: 1
+      additionalProperties: false
+    LLMUpstreamTestResult:
+      type: object
+      required: [status, providerKind, durationMs]
+      properties:
+        status:
+          type: string
+          enum: [success, failure]
+        providerKind:
+          type: string
+          enum: [openai, anthropic, openai-compatible, deepseek, qwen, openrouter, azure-openai, gemini, cohere]
+        upstreamStatus:
+          type: integer
+        durationMs:
+          type: integer
+          format: int64
+        modelCount:
+          type: integer
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
+          description: Redacted error summary.
+        checkedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    LLMUpstreamTestResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/LLMUpstreamTestResult"
+      additionalProperties: false
+    LLMRelayHealthCheckRun:
+      type: object
+      required: [checkedAt, total, checked, skipped, healthy, degraded, recovered, failed]
+      properties:
+        checkedAt:
+          type: string
+          format: date-time
+        total:
+          type: integer
+        checked:
+          type: integer
+        skipped:
+          type: integer
+        healthy:
+          type: integer
+        degraded:
+          type: integer
+        recovered:
+          type: integer
+        failed:
+          type: integer
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/LLMUpstreamTestResult"
+      additionalProperties: false
+    LLMRelayHealthCheckRunEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/LLMRelayHealthCheckRun"
+      additionalProperties: false
+    LLMModelRoute:
+      type: object
+      required: [id, publicModel, upstreamModel, priority, weight, enabled, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        publicModel:
+          type: string
+        providerKind:
+          type: string
+          enum: [openai, anthropic, openai-compatible, deepseek, qwen, openrouter, azure-openai, gemini, cohere]
+        upstreamId:
+          type: string
+        upstreamModel:
+          type: string
+        routeGroup:
+          type: string
+        priority:
+          type: integer
+        weight:
+          type: integer
+          minimum: 0
+        enabled:
+          type: boolean
+        transformPolicy:
+          type: object
+          description: >
+            Optional relay format conversion policy. Set `mode: convert` and
+            `targetProviderKind` to `openai` or `anthropic` to enable text-only
+            non-streaming OpenAI Chat Completions <-> Anthropic Messages
+            conversion for this route. Streaming, tool/function, multimodal,
+            audio, image, and file payloads are not converted.
+          example:
+            mode: convert
+            targetProviderKind: anthropic
+          additionalProperties: true
+        fallbackPolicy:
+          type: object
+          additionalProperties: true
+        cachePolicy:
+          type: object
+          additionalProperties: true
+        rateLimitProfileId:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    LLMModelRouteInput:
+      type: object
+      required: [publicModel, upstreamModel]
+      properties:
+        id:
+          type: string
+        publicModel:
+          type: string
+        providerKind:
+          type: string
+          enum: [openai, anthropic, openai-compatible, deepseek, qwen, openrouter, azure-openai, gemini, cohere]
+        upstreamId:
+          type: string
+        upstreamModel:
+          type: string
+        routeGroup:
+          type: string
+        priority:
+          type: integer
+        weight:
+          type: integer
+          minimum: 0
+        enabled:
+          type: boolean
+        transformPolicy:
+          type: object
+          description: >
+            Optional relay format conversion policy. Set `mode: convert` and
+            `targetProviderKind` to `openai` or `anthropic` to enable text-only
+            non-streaming OpenAI Chat Completions <-> Anthropic Messages
+            conversion for this route. Streaming, tool/function, multimodal,
+            audio, image, and file payloads are not converted.
+          example:
+            mode: convert
+            targetProviderKind: anthropic
+          additionalProperties: true
+        fallbackPolicy:
+          type: object
+          additionalProperties: true
+        cachePolicy:
+          type: object
+          additionalProperties: true
+        rateLimitProfileId:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    LLMModelRouteEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/LLMModelRoute"
+      additionalProperties: false
+    LLMModelRouteListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/LLMModelRoute"
+      additionalProperties: false
+    LLMCallLog:
+      type: object
+      required: [id, stream, status, estimatedTokens, createdAt]
+      properties:
+        id:
+          type: string
+        requestId:
+          type: string
+        actorType:
+          type: string
+        actorId:
+          type: string
+        actorName:
+          type: string
+        tokenId:
+          type: string
+        tokenPrefix:
+          type: string
+        tokenKind:
+          type: string
+          enum: [personal_access_token, service_account_token]
+        aiClientId:
+          type: string
+        publicModel:
+          type: string
+        upstreamId:
+          type: string
+        upstreamName:
+          type: string
+        providerKind:
+          type: string
+          enum: [openai, anthropic, openai-compatible, deepseek, qwen, openrouter, azure-openai, gemini, cohere]
+        upstreamModel:
+          type: string
+        endpoint:
+          type: string
+        stream:
+          type: boolean
+        status:
+          type: string
+          enum: [success, failure, cancelled, client_cancelled, rate_limited, policy_denied]
+        httpStatus:
+          type: integer
+        upstreamStatus:
+          type: integer
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
+          description: Redacted error summary.
+        promptTokens:
+          type: integer
+        completionTokens:
+          type: integer
+        totalTokens:
+          type: integer
+        reasoningTokens:
+          type: integer
+        cachedReadTokens:
+          type: integer
+        cachedWriteTokens:
+          type: integer
+        estimatedTokens:
+          type: boolean
+        ttfbMs:
+          type: integer
+          format: int64
+        ttftMs:
+          type: integer
+          format: int64
+        durationMs:
+          type: integer
+          format: int64
+        inputBytes:
+          type: integer
+          format: int64
+        outputBytes:
+          type: integer
+          format: int64
+        cacheStatus:
+          type: string
+          enum: [bypass, miss, hit, stale_hit, write, write_skipped]
+        routeTrace:
+          type: object
+          additionalProperties: true
+        sourceIp:
+          type: string
+        userAgent:
+          type: string
+        metadata:
+          type: object
+          description: Redacted metadata only; prompt bodies, raw provider payloads, full headers, and credentials are not included.
+          additionalProperties: true
+        createdAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    LLMCallLogListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/LLMCallLog"
+      additionalProperties: false
+    LLMRelayMetricSeriesPoint:
+      type: object
+      required: [timestamp, requestCount]
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        requestCount:
+          type: integer
+        successCount:
+          type: integer
+        failureCount:
+          type: integer
+        rateLimitedCount:
+          type: integer
+        policyDeniedCount:
+          type: integer
+        averageTTFBMs:
+          type: number
+        averageTTFTMs:
+          type: number
+        averageDurationMs:
+          type: number
+        promptTokens:
+          type: integer
+        completionTokens:
+          type: integer
+        totalTokens:
+          type: integer
+        cachedReadTokens:
+          type: integer
+        cachedWriteTokens:
+          type: integer
+      additionalProperties: false
+    LLMRelayMetricBreakdown:
+      type: object
+      required: [key, requestCount]
+      properties:
+        key:
+          type: string
+        requestCount:
+          type: integer
+        successCount:
+          type: integer
+        failureCount:
+          type: integer
+        streamCount:
+          type: integer
+        averageTTFBMs:
+          type: number
+        averageTTFTMs:
+          type: number
+        averageDurationMs:
+          type: number
+        totalTokens:
+          type: integer
+        cachedReadTokens:
+          type: integer
+        cachedWriteTokens:
+          type: integer
+      additionalProperties: false
+    LLMRelayMetrics:
+      type: object
+      required: [generatedAt, windowHours, requestCount, successCount, failureCount]
+      properties:
+        generatedAt:
+          type: string
+          format: date-time
+        windowHours:
+          type: integer
+        requestCount:
+          type: integer
+        successCount:
+          type: integer
+        failureCount:
+          type: integer
+        streamCount:
+          type: integer
+        clientCancelledCount:
+          type: integer
+        rateLimitedCount:
+          type: integer
+        policyDeniedCount:
+          type: integer
+        averageTTFBMs:
+          type: number
+        averageTTFTMs:
+          type: number
+        averageDurationMs:
+          type: number
+        promptTokens:
+          type: integer
+        completionTokens:
+          type: integer
+        totalTokens:
+          type: integer
+        reasoningTokens:
+          type: integer
+        cachedReadTokens:
+          type: integer
+        cachedWriteTokens:
+          type: integer
+        byModel:
+          type: array
+          items:
+            $ref: "#/components/schemas/LLMRelayMetricBreakdown"
+        byUpstream:
+          type: array
+          items:
+            $ref: "#/components/schemas/LLMRelayMetricBreakdown"
+        series:
+          type: array
+          items:
+            $ref: "#/components/schemas/LLMRelayMetricSeriesPoint"
+      additionalProperties: false
+    LLMRelayMetricsEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/LLMRelayMetrics"
+      additionalProperties: false
+    LLMRelayCacheStats:
+      type: object
+      required: [generatedAt, windowHours, responseCacheEnabled]
+      properties:
+        generatedAt:
+          type: string
+          format: date-time
+        windowHours:
+          type: integer
+        responseCacheEnabled:
+          type: boolean
+        responseCacheHits:
+          type: integer
+        responseCacheMisses:
+          type: integer
+        responseCacheWrites:
+          type: integer
+        responseCacheBypasses:
+          type: integer
+        providerCachedReadTokens:
+          type: integer
+        providerCachedWriteTokens:
+          type: integer
+        byModel:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        byUpstream:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+      additionalProperties: false
+    LLMRelayCacheStatsEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/LLMRelayCacheStats"
+      additionalProperties: false
+    LLMRelayCachePurgeRequest:
+      type: object
+      properties:
+        publicModel:
+          type: string
+        upstreamId:
+          type: string
+        routeGroup:
+          type: string
+        olderThan:
+          type: string
+          format: date-time
+        dryRun:
+          type: boolean
+          default: false
+      additionalProperties: false
+    LLMRelayCachePurgeResult:
+      type: object
+      required: [status, purgedCount]
+      properties:
+        status:
+          type: string
+        purgedCount:
+          type: integer
+        dryRun:
+          type: boolean
+      additionalProperties: false
+    LLMRelayCachePurgeResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/LLMRelayCachePurgeResult"
+      additionalProperties: false
+    NativeProviderObject:
+      type: object
+      description: Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+      additionalProperties: true
+    OpenAIModel:
+      type: object
+      required: [id, object]
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+        created:
+          type: integer
+        owned_by:
+          type: string
+      additionalProperties: true
+    OpenAIModelsResponse:
+      type: object
+      required: [object, data]
+      properties:
+        object:
+          type: string
+          enum: [list]
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpenAIModel"
+      additionalProperties: true
+    OpenAIChatCompletionRequest:
+      type: object
+      required: [model, messages]
+      properties:
+        model:
+          type: string
+        messages:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        stream:
+          type: boolean
+        stream_options:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+    OpenAIResponseRequest:
+      type: object
+      required: [model]
+      properties:
+        model:
+          type: string
+        input:
+          $ref: "#/components/schemas/AnyValue"
+        stream:
+          type: boolean
+      additionalProperties: true
+    OpenAIEmbeddingRequest:
+      type: object
+      required: [model, input]
+      properties:
+        model:
+          type: string
+        input:
+          $ref: "#/components/schemas/AnyValue"
+      additionalProperties: true
+    OpenAIImageGenerationRequest:
+      type: object
+      required: [model, prompt]
+      properties:
+        model:
+          type: string
+          description: Public image model ID exposed by Soha; the relay maps it to the configured upstream model.
+        prompt:
+          type: string
+        n:
+          type: integer
+        size:
+          type: string
+        quality:
+          type: string
+        response_format:
+          type: string
+        style:
+          type: string
+        background:
+          type: string
+        output_format:
+          type: string
+        output_compression:
+          type: integer
+        moderation:
+          type: string
+        user:
+          type: string
+      additionalProperties: true
+    OpenAIImageEditRequest:
+      type: object
+      required: [image, model, prompt]
+      properties:
+        image:
+          type: string
+          format: binary
+        model:
+          type: string
+          description: Public image edit model ID exposed by Soha; the relay maps it to the configured upstream model.
+        prompt:
+          type: string
+        mask:
+          type: string
+          format: binary
+        n:
+          type: integer
+        size:
+          type: string
+        quality:
+          type: string
+        response_format:
+          type: string
+        user:
+          type: string
+      additionalProperties: true
+    OpenAIImageVariationRequest:
+      type: object
+      required: [image, model]
+      properties:
+        image:
+          type: string
+          format: binary
+        model:
+          type: string
+          description: Public image variation model ID exposed by Soha; the relay maps it to the configured upstream model.
+        n:
+          type: integer
+        size:
+          type: string
+        response_format:
+          type: string
+        user:
+          type: string
+      additionalProperties: true
+    OpenAIAudioSpeechRequest:
+      type: object
+      required: [model, input, voice]
+      properties:
+        model:
+          type: string
+          description: Public speech model ID exposed by Soha; the relay maps it to the configured upstream model.
+        input:
+          type: string
+        voice:
+          type: string
+        response_format:
+          type: string
+        speed:
+          type: number
+        instructions:
+          type: string
+        user:
+          type: string
+      additionalProperties: true
+    OpenAIAudioTranscriptionRequest:
+      type: object
+      required: [file, model]
+      properties:
+        file:
+          type: string
+          format: binary
+        model:
+          type: string
+          description: Public transcription model ID exposed by Soha; the relay maps it to the configured upstream model.
+        language:
+          type: string
+        prompt:
+          type: string
+        response_format:
+          type: string
+        temperature:
+          type: number
+        timestamp_granularities:
+          type: array
+          items:
+            type: string
+            enum: [word, segment]
+        include:
+          type: array
+          items:
+            type: string
+      additionalProperties: true
+    OpenAIAudioTranslationRequest:
+      type: object
+      required: [file, model]
+      properties:
+        file:
+          type: string
+          format: binary
+        model:
+          type: string
+          description: Public translation model ID exposed by Soha; the relay maps it to the configured upstream model.
+        prompt:
+          type: string
+        response_format:
+          type: string
+        temperature:
+          type: number
+      additionalProperties: true
+    GeminiModel:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        displayName:
+          type: string
+        description:
+          type: string
+        supportedGenerationMethods:
+          type: array
+          items:
+            type: string
+      additionalProperties: true
+    GeminiModelsResponse:
+      type: object
+      required: [models]
+      properties:
+        models:
+          type: array
+          items:
+            $ref: "#/components/schemas/GeminiModel"
+      additionalProperties: true
+    GeminiGenerateContentRequest:
+      type: object
+      description: Native Gemini generateContent request body. The model is taken from the path and mapped by Soha model routes. Gemini text, inlineData, fileData, cachedContent, generationConfig, and safetySettings fields are passed through; multimodal audio/image/file inputs bypass response cache and local token estimation only counts text parts when provider usageMetadata is absent.
+      properties:
+        contents:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        systemInstruction:
+          type: object
+          additionalProperties: true
+        generationConfig:
+          type: object
+          additionalProperties: true
+        safetySettings:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+      additionalProperties: true
+    GeminiInteractionsRequest:
+      type: object
+      required: [model, input]
+      description: Native Gemini Interactions request body. The public model is supplied in the body and mapped by Soha model routes before forwarding to the upstream `/interactions` endpoint. This first slice supports non-streaming JSON interactions for native image generation; `stream` and `background` modes are rejected by the relay. Multimodal inputs bypass response cache, and provider usage totals are recorded when present.
+      properties:
+        model:
+          type: string
+          description: Public Gemini model ID exposed by Soha; the relay rewrites it to the configured upstream model.
+        input:
+          description: Native Gemini Interactions input payload.
+        stream:
+          type: boolean
+          description: Streaming interactions are not supported by this relay slice.
+        background:
+          type: boolean
+          description: Background interactions are not supported by this relay slice.
+      additionalProperties: true
+    CohereRerankRequest:
+      type: object
+      required: [model, query, documents]
+      properties:
+        model:
+          type: string
+          description: Public rerank model ID exposed by Soha; the relay maps it to the configured upstream model.
+        query:
+          type: string
+        documents:
+          type: array
+          items:
+            oneOf:
+              - type: string
+              - type: object
+                additionalProperties: true
+        top_n:
+          type: integer
+        max_tokens_per_doc:
+          type: integer
+        rank_fields:
+          type: array
+          items:
+            type: string
+      additionalProperties: true
+    AnthropicModel:
+      type: object
+      required: [id, type]
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        display_name:
+          type: string
+        created_at:
+          type: string
+      additionalProperties: true
+    AnthropicModelsResponse:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/AnthropicModel"
+        has_more:
+          type: boolean
+        first_id:
+          type: string
+        last_id:
+          type: string
+      additionalProperties: true
+    AnthropicMessagesRequest:
+      type: object
+      required: [model, messages, max_tokens]
+      properties:
+        model:
+          type: string
+        max_tokens:
+          type: integer
+        messages:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        system:
+          $ref: "#/components/schemas/AnyValue"
+        stream:
+          type: boolean
+      additionalProperties: true
     PluginAssetSnapshot:
       type: object
       properties:

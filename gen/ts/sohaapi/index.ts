@@ -705,6 +705,614 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ai-gateway/relay/upstreams": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAIGatewayRelayUpstreams"];
+        put?: never;
+        post: operations["createAIGatewayRelayUpstream"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/relay/upstreams/{upstreamID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateAIGatewayRelayUpstream"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/relay/upstreams/health-checks/run": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["runAIGatewayRelayHealthChecks"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/relay/upstreams/{upstreamID}/test": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["testAIGatewayRelayUpstream"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/relay/model-routes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAIGatewayRelayModelRoutes"];
+        put?: never;
+        post: operations["createAIGatewayRelayModelRoute"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/relay/model-routes/{routeID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateAIGatewayRelayModelRoute"];
+        post?: never;
+        delete: operations["deleteAIGatewayRelayModelRoute"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/relay/model-calls": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAIGatewayRelayModelCalls"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/relay/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAIGatewayRelayMetrics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/relay/cache/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAIGatewayRelayCacheStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/relay/cache/purge": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["purgeAIGatewayRelayCache"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/openai/v1/models": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAIGatewayOpenAIModels"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/openai/v1/chat/completions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAIChatCompletion"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/openai/v1/responses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAIResponse"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/openai/v1/embeddings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAIEmbedding"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/openai/v1/images/generations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAIImageGeneration"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/openai/v1/images/edits": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAIImageEdit"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/openai/v1/images/variations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAIImageVariation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/openai/v1/audio/speech": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAIAudioSpeech"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/openai/v1/audio/transcriptions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAIAudioTranscription"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/openai/v1/audio/translations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAIAudioTranslation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/openai/v1/realtime": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["connectAIGatewayOpenAIRealtime"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/{openaiCompatibleProvider}/v1/models": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAIGatewayOpenAICompatibleProviderModels"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/{openaiCompatibleProvider}/v1/chat/completions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAICompatibleProviderChatCompletion"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/{openaiCompatibleProvider}/v1/responses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAICompatibleProviderResponse"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/{openaiCompatibleProvider}/v1/embeddings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAICompatibleProviderEmbedding"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/{openaiCompatibleProvider}/v1/images/generations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAICompatibleProviderImageGeneration"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/{openaiCompatibleProvider}/v1/images/edits": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAICompatibleProviderImageEdit"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/{openaiCompatibleProvider}/v1/images/variations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAICompatibleProviderImageVariation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/{openaiCompatibleProvider}/v1/audio/speech": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAICompatibleProviderAudioSpeech"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/{openaiCompatibleProvider}/v1/audio/transcriptions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAICompatibleProviderAudioTranscription"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/{openaiCompatibleProvider}/v1/audio/translations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayOpenAICompatibleProviderAudioTranslation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/gemini/v1beta/models": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAIGatewayGeminiModels"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/gemini/v1beta/models/{geminiModel}:generateContent": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayGeminiGenerateContent"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/gemini/v1beta/models/{geminiModel}:streamGenerateContent": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayGeminiStreamGenerateContent"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/gemini/v1beta/interactions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayGeminiInteractions"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/cohere/v2/rerank": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayCohereRerank"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/anthropic/v1/models": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAIGatewayAnthropicModels"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/llm/anthropic/v1/messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createAIGatewayAnthropicMessage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/mcp/capabilities": {
         parameters: {
             query?: never;
@@ -1349,6 +1957,572 @@ export interface components {
         OperationStatus: {
             status: string;
         };
+        LLMTokenMetadata: {
+            /** @enum {string} */
+            purpose?: "llm-relay";
+            allowedModels?: string[];
+            allowedProviderKinds?: ("openai" | "anthropic" | "openai-compatible" | "deepseek" | "qwen" | "openrouter" | "azure-openai" | "gemini" | "cohere")[];
+            allowedUpstreamIds?: string[];
+            allowedIPCIDRs?: string[];
+            /** @description Team or organization IDs allowed to use this relay token. Empty means unrestricted unless deniedTeams matches. */
+            allowedTeams?: string[];
+            /** @description Team or organization IDs denied for this relay token. Deny rules take precedence over allowedTeams. */
+            deniedTeams?: string[];
+            rateLimitProfileId?: string;
+            /** @description Allows X-Soha-Route-Trace response headers when set by a relay manager. */
+            allowRouteTrace?: boolean;
+            /** @description Allows X-Soha-Upstream-ID debug selection, still constrained by allowedUpstreamIds, when set by a relay manager. */
+            allowUpstreamSelection?: boolean;
+        } & {
+            [key: string]: unknown;
+        };
+        LLMUpstream: {
+            id: string;
+            name: string;
+            /** @enum {string} */
+            providerKind: "openai" | "anthropic" | "openai-compatible" | "deepseek" | "qwen" | "openrouter" | "azure-openai" | "gemini" | "cohere";
+            /** Format: uri */
+            baseUrl: string;
+            /** @description Display-only prefix for the encrypted upstream API key. The full key is never returned. */
+            apiKeyPrefix?: string;
+            /** @enum {string} */
+            status: "active" | "disabled" | "degraded";
+            /** @description Lower values are selected first. */
+            priority: number;
+            weight: number;
+            timeoutSeconds: number;
+            streamTimeoutSeconds: number;
+            maxConcurrency: number;
+            supportedModels: string[];
+            /** @description Non-sensitive upstream headers only. */
+            defaultHeaders?: {
+                [key: string]: unknown;
+            };
+            proxyUrl?: string;
+            health?: {
+                [key: string]: unknown;
+            };
+            metadata?: {
+                [key: string]: unknown;
+            };
+            createdBy: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        LLMUpstreamInput: {
+            id?: string;
+            name: string;
+            /** @enum {string} */
+            providerKind: "openai" | "anthropic" | "openai-compatible" | "deepseek" | "qwen" | "openrouter" | "azure-openai" | "gemini" | "cohere";
+            /** Format: uri */
+            baseUrl: string;
+            /** @description Upstream provider key. It must be encrypted at rest and never returned by read APIs. */
+            apiKey?: string;
+            /** @enum {string} */
+            status?: "active" | "disabled" | "degraded";
+            priority?: number;
+            weight?: number;
+            timeoutSeconds?: number;
+            streamTimeoutSeconds?: number;
+            maxConcurrency?: number;
+            supportedModels?: string[];
+            defaultHeaders?: {
+                [key: string]: unknown;
+            };
+            proxyUrl?: string;
+            health?: {
+                [key: string]: unknown;
+            };
+            metadata?: {
+                [key: string]: unknown;
+            };
+        };
+        LLMUpstreamEnvelope: {
+            data: components["schemas"]["LLMUpstream"];
+        };
+        LLMUpstreamListEnvelope: {
+            items: components["schemas"]["LLMUpstream"][];
+        };
+        LLMUpstreamTestRequest: {
+            model?: string;
+            /** @enum {string} */
+            endpoint?: "models" | "chat.completions" | "responses" | "messages" | "rerank" | "interactions" | "images.generations" | "images.edits" | "images.variations" | "audio.speech" | "audio.transcriptions" | "audio.translations";
+            timeoutSeconds?: number;
+        };
+        LLMUpstreamTestResult: {
+            /** @enum {string} */
+            status: "success" | "failure";
+            /** @enum {string} */
+            providerKind: "openai" | "anthropic" | "openai-compatible" | "deepseek" | "qwen" | "openrouter" | "azure-openai" | "gemini" | "cohere";
+            upstreamStatus?: number;
+            /** Format: int64 */
+            durationMs: number;
+            modelCount?: number;
+            errorCode?: string;
+            /** @description Redacted error summary. */
+            errorMessage?: string;
+            /** Format: date-time */
+            checkedAt?: string;
+        };
+        LLMUpstreamTestResultEnvelope: {
+            data: components["schemas"]["LLMUpstreamTestResult"];
+        };
+        LLMRelayHealthCheckRun: {
+            /** Format: date-time */
+            checkedAt: string;
+            total: number;
+            checked: number;
+            skipped: number;
+            healthy: number;
+            degraded: number;
+            recovered: number;
+            failed: number;
+            results?: components["schemas"]["LLMUpstreamTestResult"][];
+        };
+        LLMRelayHealthCheckRunEnvelope: {
+            data: components["schemas"]["LLMRelayHealthCheckRun"];
+        };
+        LLMModelRoute: {
+            id: string;
+            publicModel: string;
+            /** @enum {string} */
+            providerKind?: "openai" | "anthropic" | "openai-compatible" | "deepseek" | "qwen" | "openrouter" | "azure-openai" | "gemini" | "cohere";
+            upstreamId?: string;
+            upstreamModel: string;
+            routeGroup?: string;
+            priority: number;
+            weight: number;
+            enabled: boolean;
+            /**
+             * @description Optional relay format conversion policy. Set `mode: convert` and `targetProviderKind` to `openai` or `anthropic` to enable text-only non-streaming OpenAI Chat Completions <-> Anthropic Messages conversion for this route. Streaming, tool/function, multimodal, audio, image, and file payloads are not converted.
+             * @example {
+             *       "mode": "convert",
+             *       "targetProviderKind": "anthropic"
+             *     }
+             */
+            transformPolicy?: {
+                [key: string]: unknown;
+            };
+            fallbackPolicy?: {
+                [key: string]: unknown;
+            };
+            cachePolicy?: {
+                [key: string]: unknown;
+            };
+            rateLimitProfileId?: string;
+            metadata?: {
+                [key: string]: unknown;
+            };
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        LLMModelRouteInput: {
+            id?: string;
+            publicModel: string;
+            /** @enum {string} */
+            providerKind?: "openai" | "anthropic" | "openai-compatible" | "deepseek" | "qwen" | "openrouter" | "azure-openai" | "gemini" | "cohere";
+            upstreamId?: string;
+            upstreamModel: string;
+            routeGroup?: string;
+            priority?: number;
+            weight?: number;
+            enabled?: boolean;
+            /**
+             * @description Optional relay format conversion policy. Set `mode: convert` and `targetProviderKind` to `openai` or `anthropic` to enable text-only non-streaming OpenAI Chat Completions <-> Anthropic Messages conversion for this route. Streaming, tool/function, multimodal, audio, image, and file payloads are not converted.
+             * @example {
+             *       "mode": "convert",
+             *       "targetProviderKind": "anthropic"
+             *     }
+             */
+            transformPolicy?: {
+                [key: string]: unknown;
+            };
+            fallbackPolicy?: {
+                [key: string]: unknown;
+            };
+            cachePolicy?: {
+                [key: string]: unknown;
+            };
+            rateLimitProfileId?: string;
+            metadata?: {
+                [key: string]: unknown;
+            };
+        };
+        LLMModelRouteEnvelope: {
+            data: components["schemas"]["LLMModelRoute"];
+        };
+        LLMModelRouteListEnvelope: {
+            items: components["schemas"]["LLMModelRoute"][];
+        };
+        LLMCallLog: {
+            id: string;
+            requestId?: string;
+            actorType?: string;
+            actorId?: string;
+            actorName?: string;
+            tokenId?: string;
+            tokenPrefix?: string;
+            /** @enum {string} */
+            tokenKind?: "personal_access_token" | "service_account_token";
+            aiClientId?: string;
+            publicModel?: string;
+            upstreamId?: string;
+            upstreamName?: string;
+            /** @enum {string} */
+            providerKind?: "openai" | "anthropic" | "openai-compatible" | "deepseek" | "qwen" | "openrouter" | "azure-openai" | "gemini" | "cohere";
+            upstreamModel?: string;
+            endpoint?: string;
+            stream: boolean;
+            /** @enum {string} */
+            status: "success" | "failure" | "cancelled" | "client_cancelled" | "rate_limited" | "policy_denied";
+            httpStatus?: number;
+            upstreamStatus?: number;
+            errorCode?: string;
+            /** @description Redacted error summary. */
+            errorMessage?: string;
+            promptTokens?: number;
+            completionTokens?: number;
+            totalTokens?: number;
+            reasoningTokens?: number;
+            cachedReadTokens?: number;
+            cachedWriteTokens?: number;
+            estimatedTokens: boolean;
+            /** Format: int64 */
+            ttfbMs?: number;
+            /** Format: int64 */
+            ttftMs?: number;
+            /** Format: int64 */
+            durationMs?: number;
+            /** Format: int64 */
+            inputBytes?: number;
+            /** Format: int64 */
+            outputBytes?: number;
+            /** @enum {string} */
+            cacheStatus?: "bypass" | "miss" | "hit" | "stale_hit" | "write" | "write_skipped";
+            routeTrace?: {
+                [key: string]: unknown;
+            };
+            sourceIp?: string;
+            userAgent?: string;
+            /** @description Redacted metadata only; prompt bodies, raw provider payloads, full headers, and credentials are not included. */
+            metadata?: {
+                [key: string]: unknown;
+            };
+            /** Format: date-time */
+            createdAt: string;
+        };
+        LLMCallLogListEnvelope: {
+            items: components["schemas"]["LLMCallLog"][];
+        };
+        LLMRelayMetricSeriesPoint: {
+            /** Format: date-time */
+            timestamp: string;
+            requestCount: number;
+            successCount?: number;
+            failureCount?: number;
+            rateLimitedCount?: number;
+            policyDeniedCount?: number;
+            averageTTFBMs?: number;
+            averageTTFTMs?: number;
+            averageDurationMs?: number;
+            promptTokens?: number;
+            completionTokens?: number;
+            totalTokens?: number;
+            cachedReadTokens?: number;
+            cachedWriteTokens?: number;
+        };
+        LLMRelayMetricBreakdown: {
+            key: string;
+            requestCount: number;
+            successCount?: number;
+            failureCount?: number;
+            streamCount?: number;
+            averageTTFBMs?: number;
+            averageTTFTMs?: number;
+            averageDurationMs?: number;
+            totalTokens?: number;
+            cachedReadTokens?: number;
+            cachedWriteTokens?: number;
+        };
+        LLMRelayMetrics: {
+            /** Format: date-time */
+            generatedAt: string;
+            windowHours: number;
+            requestCount: number;
+            successCount: number;
+            failureCount: number;
+            streamCount?: number;
+            clientCancelledCount?: number;
+            rateLimitedCount?: number;
+            policyDeniedCount?: number;
+            averageTTFBMs?: number;
+            averageTTFTMs?: number;
+            averageDurationMs?: number;
+            promptTokens?: number;
+            completionTokens?: number;
+            totalTokens?: number;
+            reasoningTokens?: number;
+            cachedReadTokens?: number;
+            cachedWriteTokens?: number;
+            byModel?: components["schemas"]["LLMRelayMetricBreakdown"][];
+            byUpstream?: components["schemas"]["LLMRelayMetricBreakdown"][];
+            series?: components["schemas"]["LLMRelayMetricSeriesPoint"][];
+        };
+        LLMRelayMetricsEnvelope: {
+            data: components["schemas"]["LLMRelayMetrics"];
+        };
+        LLMRelayCacheStats: {
+            /** Format: date-time */
+            generatedAt: string;
+            windowHours: number;
+            responseCacheEnabled: boolean;
+            responseCacheHits?: number;
+            responseCacheMisses?: number;
+            responseCacheWrites?: number;
+            responseCacheBypasses?: number;
+            providerCachedReadTokens?: number;
+            providerCachedWriteTokens?: number;
+            byModel?: {
+                [key: string]: unknown;
+            }[];
+            byUpstream?: {
+                [key: string]: unknown;
+            }[];
+        };
+        LLMRelayCacheStatsEnvelope: {
+            data: components["schemas"]["LLMRelayCacheStats"];
+        };
+        LLMRelayCachePurgeRequest: {
+            publicModel?: string;
+            upstreamId?: string;
+            routeGroup?: string;
+            /** Format: date-time */
+            olderThan?: string;
+            /** @default false */
+            dryRun: boolean;
+        };
+        LLMRelayCachePurgeResult: {
+            status: string;
+            purgedCount: number;
+            dryRun?: boolean;
+        };
+        LLMRelayCachePurgeResultEnvelope: {
+            data: components["schemas"]["LLMRelayCachePurgeResult"];
+        };
+        /** @description Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope. */
+        NativeProviderObject: {
+            [key: string]: unknown;
+        };
+        OpenAIModel: {
+            id: string;
+            object: string;
+            created?: number;
+            owned_by?: string;
+        } & {
+            [key: string]: unknown;
+        };
+        OpenAIModelsResponse: {
+            /** @enum {string} */
+            object: "list";
+            data: components["schemas"]["OpenAIModel"][];
+        } & {
+            [key: string]: unknown;
+        };
+        OpenAIChatCompletionRequest: {
+            model: string;
+            messages: {
+                [key: string]: unknown;
+            }[];
+            stream?: boolean;
+            stream_options?: {
+                [key: string]: unknown;
+            };
+        } & {
+            [key: string]: unknown;
+        };
+        OpenAIResponseRequest: {
+            model: string;
+            input?: components["schemas"]["AnyValue"];
+            stream?: boolean;
+        } & {
+            [key: string]: unknown;
+        };
+        OpenAIEmbeddingRequest: {
+            model: string;
+            input: components["schemas"]["AnyValue"];
+        } & {
+            [key: string]: unknown;
+        };
+        OpenAIImageGenerationRequest: {
+            /** @description Public image model ID exposed by Soha; the relay maps it to the configured upstream model. */
+            model: string;
+            prompt: string;
+            n?: number;
+            size?: string;
+            quality?: string;
+            response_format?: string;
+            style?: string;
+            background?: string;
+            output_format?: string;
+            output_compression?: number;
+            moderation?: string;
+            user?: string;
+        } & {
+            [key: string]: unknown;
+        };
+        OpenAIImageEditRequest: {
+            /** Format: binary */
+            image: string;
+            /** @description Public image edit model ID exposed by Soha; the relay maps it to the configured upstream model. */
+            model: string;
+            prompt: string;
+            /** Format: binary */
+            mask?: string;
+            n?: number;
+            size?: string;
+            quality?: string;
+            response_format?: string;
+            user?: string;
+        } & {
+            [key: string]: unknown;
+        };
+        OpenAIImageVariationRequest: {
+            /** Format: binary */
+            image: string;
+            /** @description Public image variation model ID exposed by Soha; the relay maps it to the configured upstream model. */
+            model: string;
+            n?: number;
+            size?: string;
+            response_format?: string;
+            user?: string;
+        } & {
+            [key: string]: unknown;
+        };
+        OpenAIAudioSpeechRequest: {
+            /** @description Public speech model ID exposed by Soha; the relay maps it to the configured upstream model. */
+            model: string;
+            input: string;
+            voice: string;
+            response_format?: string;
+            speed?: number;
+            instructions?: string;
+            user?: string;
+        } & {
+            [key: string]: unknown;
+        };
+        OpenAIAudioTranscriptionRequest: {
+            /** Format: binary */
+            file: string;
+            /** @description Public transcription model ID exposed by Soha; the relay maps it to the configured upstream model. */
+            model: string;
+            language?: string;
+            prompt?: string;
+            response_format?: string;
+            temperature?: number;
+            timestamp_granularities?: ("word" | "segment")[];
+            include?: string[];
+        } & {
+            [key: string]: unknown;
+        };
+        OpenAIAudioTranslationRequest: {
+            /** Format: binary */
+            file: string;
+            /** @description Public translation model ID exposed by Soha; the relay maps it to the configured upstream model. */
+            model: string;
+            prompt?: string;
+            response_format?: string;
+            temperature?: number;
+        } & {
+            [key: string]: unknown;
+        };
+        GeminiModel: {
+            name: string;
+            version?: string;
+            displayName?: string;
+            description?: string;
+            supportedGenerationMethods?: string[];
+        } & {
+            [key: string]: unknown;
+        };
+        GeminiModelsResponse: {
+            models: components["schemas"]["GeminiModel"][];
+        } & {
+            [key: string]: unknown;
+        };
+        /** @description Native Gemini generateContent request body. The model is taken from the path and mapped by Soha model routes. Gemini text, inlineData, fileData, cachedContent, generationConfig, and safetySettings fields are passed through; multimodal audio/image/file inputs bypass response cache and local token estimation only counts text parts when provider usageMetadata is absent. */
+        GeminiGenerateContentRequest: {
+            contents?: {
+                [key: string]: unknown;
+            }[];
+            systemInstruction?: {
+                [key: string]: unknown;
+            };
+            generationConfig?: {
+                [key: string]: unknown;
+            };
+            safetySettings?: {
+                [key: string]: unknown;
+            }[];
+        } & {
+            [key: string]: unknown;
+        };
+        /** @description Native Gemini Interactions request body. The public model is supplied in the body and mapped by Soha model routes before forwarding to the upstream `/interactions` endpoint. This first slice supports non-streaming JSON interactions for native image generation; `stream` and `background` modes are rejected by the relay. Multimodal inputs bypass response cache, and provider usage totals are recorded when present. */
+        GeminiInteractionsRequest: {
+            /** @description Public Gemini model ID exposed by Soha; the relay rewrites it to the configured upstream model. */
+            model: string;
+            /** @description Native Gemini Interactions input payload. */
+            input: unknown;
+            /** @description Streaming interactions are not supported by this relay slice. */
+            stream?: boolean;
+            /** @description Background interactions are not supported by this relay slice. */
+            background?: boolean;
+        } & {
+            [key: string]: unknown;
+        };
+        CohereRerankRequest: {
+            /** @description Public rerank model ID exposed by Soha; the relay maps it to the configured upstream model. */
+            model: string;
+            query: string;
+            documents: (string | {
+                [key: string]: unknown;
+            })[];
+            top_n?: number;
+            max_tokens_per_doc?: number;
+            rank_fields?: string[];
+        } & {
+            [key: string]: unknown;
+        };
+        AnthropicModel: {
+            id: string;
+            type: string;
+            display_name?: string;
+            created_at?: string;
+        } & {
+            [key: string]: unknown;
+        };
+        AnthropicModelsResponse: {
+            data: components["schemas"]["AnthropicModel"][];
+            has_more?: boolean;
+            first_id?: string;
+            last_id?: string;
+        } & {
+            [key: string]: unknown;
+        };
+        AnthropicMessagesRequest: {
+            model: string;
+            max_tokens: number;
+            messages: {
+                [key: string]: unknown;
+            }[];
+            system?: components["schemas"]["AnyValue"];
+            stream?: boolean;
+        } & {
+            [key: string]: unknown;
+        };
         PluginAssetSnapshot: {
             skills?: string[];
             mcpPresets?: string[];
@@ -1984,9 +3158,38 @@ export interface components {
         Source: string;
         TaskID: string;
         ToolName: string;
+        UpstreamID: string;
+        RouteID: string;
+        /** @description First-class OpenAI-compatible relay provider kind. Azure OpenAI uses Azure data-plane URL and api-key header adaptation upstream. */
+        OpenAICompatibleProvider: "deepseek" | "qwen" | "openrouter" | "azure-openai";
+        /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+        SohaUpstreamIDHeader: string;
+        /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+        SohaRouteTraceHeader: boolean;
+        /** @description Optional relay cache behavior hint. */
+        SohaCacheModeHeader: "default" | "bypass" | "read-only" | "refresh";
     };
     requestBodies: never;
-    headers: never;
+    headers: {
+        /** @description Selected Soha relay route ID returned when X-Soha-Route-Trace is authorized. */
+        SohaRouteIDHeader: string;
+        /** @description Selected Soha relay upstream ID returned when X-Soha-Route-Trace is authorized. */
+        SohaSelectedUpstreamIDHeader: string;
+        /** @description Selected upstream provider kind returned when X-Soha-Route-Trace is authorized. */
+        SohaProviderKindHeader: string;
+        /** @description Public model requested by the client returned when X-Soha-Route-Trace is authorized. */
+        SohaPublicModelHeader: string;
+        /** @description Upstream model selected by Soha returned when X-Soha-Route-Trace is authorized. */
+        SohaUpstreamModelHeader: string;
+        /** @description Relay endpoint returned when X-Soha-Route-Trace is authorized. */
+        SohaRelayEndpointHeader: string;
+        /** @description Whether the relayed request streamed upstream output, returned when X-Soha-Route-Trace is authorized. */
+        SohaRelayStreamHeader: boolean;
+        /** @description Upstream HTTP status returned when X-Soha-Route-Trace is authorized. */
+        SohaUpstreamStatusHeader: string;
+        /** @description Relay cache status returned when X-Soha-Route-Trace is authorized. */
+        SohaCacheStatusHeader: string;
+    };
     pathItems: never;
 }
 export type AnyObject = Record<string, unknown>;
@@ -2055,6 +3258,51 @@ export type ToolInvocationResultEnvelope = components['schemas']['ToolInvocation
 export type ResourceReadResultEnvelope = components['schemas']['ResourceReadResultEnvelope'];
 export type PromptGetResultEnvelope = components['schemas']['PromptGetResultEnvelope'];
 export type OperationStatus = components['schemas']['OperationStatus'];
+export type LLMTokenMetadata = components['schemas']['LLMTokenMetadata'];
+export type LLMUpstream = components['schemas']['LLMUpstream'];
+export type LLMUpstreamInput = components['schemas']['LLMUpstreamInput'];
+export type LLMUpstreamEnvelope = components['schemas']['LLMUpstreamEnvelope'];
+export type LLMUpstreamListEnvelope = components['schemas']['LLMUpstreamListEnvelope'];
+export type LLMUpstreamTestRequest = components['schemas']['LLMUpstreamTestRequest'];
+export type LLMUpstreamTestResult = components['schemas']['LLMUpstreamTestResult'];
+export type LLMUpstreamTestResultEnvelope = components['schemas']['LLMUpstreamTestResultEnvelope'];
+export type LLMRelayHealthCheckRun = components['schemas']['LLMRelayHealthCheckRun'];
+export type LLMRelayHealthCheckRunEnvelope = components['schemas']['LLMRelayHealthCheckRunEnvelope'];
+export type LLMModelRoute = components['schemas']['LLMModelRoute'];
+export type LLMModelRouteInput = components['schemas']['LLMModelRouteInput'];
+export type LLMModelRouteEnvelope = components['schemas']['LLMModelRouteEnvelope'];
+export type LLMModelRouteListEnvelope = components['schemas']['LLMModelRouteListEnvelope'];
+export type LLMCallLog = components['schemas']['LLMCallLog'];
+export type LLMCallLogListEnvelope = components['schemas']['LLMCallLogListEnvelope'];
+export type LLMRelayMetricSeriesPoint = components['schemas']['LLMRelayMetricSeriesPoint'];
+export type LLMRelayMetricBreakdown = components['schemas']['LLMRelayMetricBreakdown'];
+export type LLMRelayMetrics = components['schemas']['LLMRelayMetrics'];
+export type LLMRelayMetricsEnvelope = components['schemas']['LLMRelayMetricsEnvelope'];
+export type LLMRelayCacheStats = components['schemas']['LLMRelayCacheStats'];
+export type LLMRelayCacheStatsEnvelope = components['schemas']['LLMRelayCacheStatsEnvelope'];
+export type LLMRelayCachePurgeRequest = components['schemas']['LLMRelayCachePurgeRequest'];
+export type LLMRelayCachePurgeResult = components['schemas']['LLMRelayCachePurgeResult'];
+export type LLMRelayCachePurgeResultEnvelope = components['schemas']['LLMRelayCachePurgeResultEnvelope'];
+export type NativeProviderObject = components['schemas']['NativeProviderObject'];
+export type OpenAIModel = components['schemas']['OpenAIModel'];
+export type OpenAIModelsResponse = components['schemas']['OpenAIModelsResponse'];
+export type OpenAIChatCompletionRequest = components['schemas']['OpenAIChatCompletionRequest'];
+export type OpenAIResponseRequest = components['schemas']['OpenAIResponseRequest'];
+export type OpenAIEmbeddingRequest = components['schemas']['OpenAIEmbeddingRequest'];
+export type OpenAIImageGenerationRequest = components['schemas']['OpenAIImageGenerationRequest'];
+export type OpenAIImageEditRequest = components['schemas']['OpenAIImageEditRequest'];
+export type OpenAIImageVariationRequest = components['schemas']['OpenAIImageVariationRequest'];
+export type OpenAIAudioSpeechRequest = components['schemas']['OpenAIAudioSpeechRequest'];
+export type OpenAIAudioTranscriptionRequest = components['schemas']['OpenAIAudioTranscriptionRequest'];
+export type OpenAIAudioTranslationRequest = components['schemas']['OpenAIAudioTranslationRequest'];
+export type GeminiModel = components['schemas']['GeminiModel'];
+export type GeminiModelsResponse = components['schemas']['GeminiModelsResponse'];
+export type GeminiGenerateContentRequest = components['schemas']['GeminiGenerateContentRequest'];
+export type GeminiInteractionsRequest = components['schemas']['GeminiInteractionsRequest'];
+export type CohereRerankRequest = components['schemas']['CohereRerankRequest'];
+export type AnthropicModel = components['schemas']['AnthropicModel'];
+export type AnthropicModelsResponse = components['schemas']['AnthropicModelsResponse'];
+export type AnthropicMessagesRequest = components['schemas']['AnthropicMessagesRequest'];
 export type PluginAssetSnapshot = components['schemas']['PluginAssetSnapshot'];
 export type PluginCompatibility = components['schemas']['PluginCompatibility'];
 export type PluginCapabilityRequest = components['schemas']['PluginCapabilityRequest'];
@@ -2133,6 +3381,21 @@ export type ParameterSkillId = components['parameters']['SkillID'];
 export type ParameterSource = components['parameters']['Source'];
 export type ParameterTaskId = components['parameters']['TaskID'];
 export type ParameterToolName = components['parameters']['ToolName'];
+export type ParameterUpstreamId = components['parameters']['UpstreamID'];
+export type ParameterRouteId = components['parameters']['RouteID'];
+export type ParameterOpenAiCompatibleProvider = components['parameters']['OpenAICompatibleProvider'];
+export type ParameterSohaUpstreamIdHeader = components['parameters']['SohaUpstreamIDHeader'];
+export type ParameterSohaRouteTraceHeader = components['parameters']['SohaRouteTraceHeader'];
+export type ParameterSohaCacheModeHeader = components['parameters']['SohaCacheModeHeader'];
+export type HeaderSohaRouteIdHeader = components['headers']['SohaRouteIDHeader'];
+export type HeaderSohaSelectedUpstreamIdHeader = components['headers']['SohaSelectedUpstreamIDHeader'];
+export type HeaderSohaProviderKindHeader = components['headers']['SohaProviderKindHeader'];
+export type HeaderSohaPublicModelHeader = components['headers']['SohaPublicModelHeader'];
+export type HeaderSohaUpstreamModelHeader = components['headers']['SohaUpstreamModelHeader'];
+export type HeaderSohaRelayEndpointHeader = components['headers']['SohaRelayEndpointHeader'];
+export type HeaderSohaRelayStreamHeader = components['headers']['SohaRelayStreamHeader'];
+export type HeaderSohaUpstreamStatusHeader = components['headers']['SohaUpstreamStatusHeader'];
+export type HeaderSohaCacheStatusHeader = components['headers']['SohaCacheStatusHeader'];
 export type $defs = Record<string, never>;
 export interface operations {
     getHealthz: {
@@ -3205,6 +4468,1500 @@ export interface operations {
                     "application/json": components["schemas"]["GovernanceStatusEnvelope"];
                 };
             };
+        };
+    };
+    listAIGatewayRelayUpstreams: {
+        parameters: {
+            query?: {
+                providerKind?: "openai" | "anthropic" | "openai-compatible" | "deepseek" | "qwen" | "openrouter" | "azure-openai" | "gemini" | "cohere";
+                status?: "active" | "disabled" | "degraded";
+                includeAll?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Relay upstreams visible to the current Gateway manager. Full upstream API keys are never returned. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LLMUpstreamListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayRelayUpstream: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LLMUpstreamInput"];
+            };
+        };
+        responses: {
+            /** @description Created relay upstream. The stored API key is encrypted and only the display prefix is returned. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LLMUpstreamEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    updateAIGatewayRelayUpstream: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                upstreamID: components["parameters"]["UpstreamID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LLMUpstreamInput"];
+            };
+        };
+        responses: {
+            /** @description Updated relay upstream. Omit apiKey to keep the existing encrypted key. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LLMUpstreamEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    runAIGatewayRelayHealthChecks: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Runs relay upstream health checks and applies health-check managed degraded/recovered status transitions. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LLMRelayHealthCheckRunEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    testAIGatewayRelayUpstream: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                upstreamID: components["parameters"]["UpstreamID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["LLMUpstreamTestRequest"];
+            };
+        };
+        responses: {
+            /** @description Redacted upstream connectivity test result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LLMUpstreamTestResultEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    listAIGatewayRelayModelRoutes: {
+        parameters: {
+            query?: {
+                publicModel?: string;
+                providerKind?: "openai" | "anthropic" | "openai-compatible" | "deepseek" | "qwen" | "openrouter" | "azure-openai" | "gemini" | "cohere";
+                upstreamId?: string;
+                routeGroup?: string;
+                includeDisabled?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Relay model routes. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LLMModelRouteListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayRelayModelRoute: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LLMModelRouteInput"];
+            };
+        };
+        responses: {
+            /** @description Created relay model route. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LLMModelRouteEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    updateAIGatewayRelayModelRoute: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                routeID: components["parameters"]["RouteID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LLMModelRouteInput"];
+            };
+        };
+        responses: {
+            /** @description Updated relay model route. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LLMModelRouteEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteAIGatewayRelayModelRoute: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                routeID: components["parameters"]["RouteID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted relay model route. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listAIGatewayRelayModelCalls: {
+        parameters: {
+            query?: {
+                actorType?: string;
+                actorId?: string;
+                tokenId?: string;
+                publicModel?: string;
+                upstreamId?: string;
+                providerKind?: "openai" | "anthropic" | "openai-compatible" | "deepseek" | "qwen" | "openrouter" | "azure-openai" | "gemini" | "cohere";
+                status?: "success" | "failure" | "cancelled" | "client_cancelled" | "rate_limited" | "policy_denied";
+                endpoint?: string;
+                from?: string;
+                to?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Redacted relay model call logs. Prompts, full headers, token values, and upstream API keys are not returned. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LLMCallLogListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    getAIGatewayRelayMetrics: {
+        parameters: {
+            query?: {
+                windowHours?: number;
+                publicModel?: string;
+                upstreamId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Relay usage, latency, token, and cache-token metrics. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LLMRelayMetricsEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    getAIGatewayRelayCacheStats: {
+        parameters: {
+            query?: {
+                windowHours?: number;
+                publicModel?: string;
+                upstreamId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Relay response cache and provider prompt-cache statistics. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LLMRelayCacheStatsEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    purgeAIGatewayRelayCache: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["LLMRelayCachePurgeRequest"];
+            };
+        };
+        responses: {
+            /** @description Relay cache purge accepted. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LLMRelayCachePurgeResultEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    listAIGatewayOpenAIModels: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Native OpenAI-compatible models response. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OpenAIModelsResponse"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAIChatCompletion: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenAIChatCompletionRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible chat completion JSON or SSE stream. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                    "text/event-stream": string;
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAIResponse: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenAIResponseRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible Responses JSON or SSE stream. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                    "text/event-stream": string;
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAIEmbedding: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenAIEmbeddingRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible embeddings response. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAIImageGeneration: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenAIImageGenerationRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible image generation response. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAIImageEdit: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["OpenAIImageEditRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible image edit response. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAIImageVariation: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["OpenAIImageVariationRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible image variation response. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAIAudioSpeech: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenAIAudioSpeechRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible audio speech response. This endpoint returns binary audio and does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
+                    "audio/mpeg": string;
+                    "audio/wav": string;
+                    "audio/ogg": string;
+                    "audio/flac": string;
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAIAudioTranscription: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["OpenAIAudioTranscriptionRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible audio transcription response. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                    "text/plain": string;
+                    "text/vtt": string;
+                    "application/x-subrip": string;
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAIAudioTranslation: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["OpenAIAudioTranslationRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible audio translation response. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                    "text/plain": string;
+                    "text/vtt": string;
+                    "application/x-subrip": string;
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    connectAIGatewayOpenAIRealtime: {
+        parameters: {
+            query: {
+                /** @description Public model name to route to an upstream OpenAI Realtime model. */
+                model: string;
+            };
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description WebSocket upgrade accepted. The connection proxies OpenAI Realtime frames without wrapping provider messages in an OpenSoha envelope. */
+            101: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listAIGatewayOpenAICompatibleProviderModels: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description First-class OpenAI-compatible relay provider kind. Azure OpenAI uses Azure data-plane URL and api-key header adaptation upstream. */
+                openaiCompatibleProvider: components["parameters"]["OpenAICompatibleProvider"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Native OpenAI-compatible models response for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OpenAIModelsResponse"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAICompatibleProviderChatCompletion: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path: {
+                /** @description First-class OpenAI-compatible relay provider kind. Azure OpenAI uses Azure data-plane URL and api-key header adaptation upstream. */
+                openaiCompatibleProvider: components["parameters"]["OpenAICompatibleProvider"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenAIChatCompletionRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible chat completion JSON or SSE stream for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                    "text/event-stream": string;
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAICompatibleProviderResponse: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path: {
+                /** @description First-class OpenAI-compatible relay provider kind. Azure OpenAI uses Azure data-plane URL and api-key header adaptation upstream. */
+                openaiCompatibleProvider: components["parameters"]["OpenAICompatibleProvider"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenAIResponseRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible Responses JSON or SSE stream for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                    "text/event-stream": string;
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAICompatibleProviderEmbedding: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path: {
+                /** @description First-class OpenAI-compatible relay provider kind. Azure OpenAI uses Azure data-plane URL and api-key header adaptation upstream. */
+                openaiCompatibleProvider: components["parameters"]["OpenAICompatibleProvider"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenAIEmbeddingRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible embeddings response for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAICompatibleProviderImageGeneration: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path: {
+                /** @description First-class OpenAI-compatible relay provider kind. Azure OpenAI uses Azure data-plane URL and api-key header adaptation upstream. */
+                openaiCompatibleProvider: components["parameters"]["OpenAICompatibleProvider"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenAIImageGenerationRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible image generation response for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAICompatibleProviderImageEdit: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path: {
+                /** @description First-class OpenAI-compatible relay provider kind. Azure OpenAI uses Azure data-plane URL and api-key header adaptation upstream. */
+                openaiCompatibleProvider: components["parameters"]["OpenAICompatibleProvider"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["OpenAIImageEditRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible image edit response for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAICompatibleProviderImageVariation: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path: {
+                /** @description First-class OpenAI-compatible relay provider kind. Azure OpenAI uses Azure data-plane URL and api-key header adaptation upstream. */
+                openaiCompatibleProvider: components["parameters"]["OpenAICompatibleProvider"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["OpenAIImageVariationRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible image variation response for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAICompatibleProviderAudioSpeech: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path: {
+                /** @description First-class OpenAI-compatible relay provider kind. Azure OpenAI uses Azure data-plane URL and api-key header adaptation upstream. */
+                openaiCompatibleProvider: components["parameters"]["OpenAICompatibleProvider"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenAIAudioSpeechRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible audio speech response for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. This endpoint returns binary audio and does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
+                    "audio/mpeg": string;
+                    "audio/wav": string;
+                    "audio/ogg": string;
+                    "audio/flac": string;
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAICompatibleProviderAudioTranscription: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path: {
+                /** @description First-class OpenAI-compatible relay provider kind. Azure OpenAI uses Azure data-plane URL and api-key header adaptation upstream. */
+                openaiCompatibleProvider: components["parameters"]["OpenAICompatibleProvider"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["OpenAIAudioTranscriptionRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible audio transcription response for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                    "text/plain": string;
+                    "text/vtt": string;
+                    "application/x-subrip": string;
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayOpenAICompatibleProviderAudioTranslation: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path: {
+                /** @description First-class OpenAI-compatible relay provider kind. Azure OpenAI uses Azure data-plane URL and api-key header adaptation upstream. */
+                openaiCompatibleProvider: components["parameters"]["OpenAICompatibleProvider"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["OpenAIAudioTranslationRequest"];
+            };
+        };
+        responses: {
+            /** @description Native OpenAI-compatible audio translation response for DeepSeek, Qwen, OpenRouter, or Azure OpenAI. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                    "text/plain": string;
+                    "text/vtt": string;
+                    "application/x-subrip": string;
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listAIGatewayGeminiModels: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Native Gemini-compatible models response. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GeminiModelsResponse"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayGeminiGenerateContent: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path: {
+                /** @description Public Gemini model ID exposed by Soha; the relay maps it to the configured upstream model. */
+                geminiModel: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GeminiGenerateContentRequest"];
+            };
+        };
+        responses: {
+            /** @description Native Gemini generateContent JSON response. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayGeminiStreamGenerateContent: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path: {
+                /** @description Public Gemini model ID exposed by Soha; the relay maps it to the configured upstream model. */
+                geminiModel: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GeminiGenerateContentRequest"];
+            };
+        };
+        responses: {
+            /** @description Native Gemini streamGenerateContent SSE stream. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": string;
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayGeminiInteractions: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GeminiInteractionsRequest"];
+            };
+        };
+        responses: {
+            /** @description Native Gemini Interactions JSON response. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayCohereRerank: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CohereRerankRequest"];
+            };
+        };
+        responses: {
+            /** @description Native Cohere-compatible rerank JSON response. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listAIGatewayAnthropicModels: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Native Anthropic-compatible models response. This endpoint does not use the OpenSoha envelope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AnthropicModelsResponse"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAIGatewayAnthropicMessage: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Forwarded Anthropic API version header when present. */
+                "anthropic-version"?: string;
+                /** @description Optional debug override for administrators or tokens explicitly allowed to select an upstream. */
+                "X-Soha-Upstream-ID"?: components["parameters"]["SohaUpstreamIDHeader"];
+                /** @description When true, returns redacted Soha route trace response headers for relay managers or tokens with allowRouteTrace explicitly enabled. */
+                "X-Soha-Route-Trace"?: components["parameters"]["SohaRouteTraceHeader"];
+                /** @description Optional relay cache behavior hint. */
+                "X-Soha-Cache-Mode"?: components["parameters"]["SohaCacheModeHeader"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AnthropicMessagesRequest"];
+            };
+        };
+        responses: {
+            /** @description Native Anthropic-compatible message JSON or SSE stream. */
+            200: {
+                headers: {
+                    "X-Soha-Route-ID": components["headers"]["SohaRouteIDHeader"];
+                    "X-Soha-Upstream-ID": components["headers"]["SohaSelectedUpstreamIDHeader"];
+                    "X-Soha-Provider-Kind": components["headers"]["SohaProviderKindHeader"];
+                    "X-Soha-Public-Model": components["headers"]["SohaPublicModelHeader"];
+                    "X-Soha-Upstream-Model": components["headers"]["SohaUpstreamModelHeader"];
+                    "X-Soha-Relay-Endpoint": components["headers"]["SohaRelayEndpointHeader"];
+                    "X-Soha-Relay-Stream": components["headers"]["SohaRelayStreamHeader"];
+                    "X-Soha-Upstream-Status": components["headers"]["SohaUpstreamStatusHeader"];
+                    "X-Soha-Cache-Status": components["headers"]["SohaCacheStatusHeader"];
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NativeProviderObject"];
+                    "text/event-stream": string;
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
         };
     };
     listMCPCapabilities: {

@@ -104,16 +104,18 @@ function lintRequestBody(label, requestBody) {
   if (requestBody.$ref) {
     return;
   }
-  const jsonContent = requestBody.content?.["application/json"];
-  expect(jsonContent, `${label} requestBody must include application/json content`);
-  expect(jsonContent?.schema, `${label} application/json requestBody must declare schema`);
+  const entries = Object.entries(requestBody.content ?? {});
+  expect(entries.length > 0, `${label} requestBody must declare content`);
+  for (const [contentType, content] of entries) {
+    expect(content?.schema, `${label} ${contentType} requestBody must declare schema`);
+  }
 }
 
 function lintResponses(label, responses) {
   const statusCodes = Object.keys(responses);
-  expect(statusCodes.some((status) => /^[23]/.test(status)), `${label} must declare a 2xx or 3xx success response`);
+  expect(statusCodes.some((status) => status === "101" || /^[23]/.test(status)), `${label} must declare a 101, 2xx, or 3xx success response`);
   for (const [status, response] of Object.entries(responses)) {
-    if (response?.$ref || status === "204" || status === "302") {
+    if (response?.$ref || status === "101" || status === "204" || status === "302") {
       continue;
     }
     const jsonContent = response?.content?.["application/json"];
