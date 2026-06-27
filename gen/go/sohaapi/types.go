@@ -1547,6 +1547,46 @@ type AIGatewayManifestEnvelope struct {
 	Data AIGatewayManifest `json:"data"`
 }
 
+// AISettings defines model for AISettings.
+type AISettings struct {
+	SkillsRegistry []AISkillSettings        `json:"skillsRegistry"`
+	WorkbenchModel AIWorkbenchModelSettings `json:"workbenchModel"`
+}
+
+// AISettingsEnvelope defines model for AISettingsEnvelope.
+type AISettingsEnvelope struct {
+	Data AISettings `json:"data"`
+}
+
+// AISkillSettings defines model for AISkillSettings.
+type AISkillSettings struct {
+	BlueprintRefs  []string       `json:"blueprintRefs,omitempty"`
+	CapabilityRefs []string       `json:"capabilityRefs,omitempty"`
+	Category       string         `json:"category,omitempty"`
+	Description    string         `json:"description,omitempty"`
+	Enabled        bool           `json:"enabled"`
+	ID             string         `json:"id"`
+	InputSchema    map[string]any `json:"inputSchema,omitempty"`
+	Name           string         `json:"name"`
+	OutputSchema   map[string]any `json:"outputSchema,omitempty"`
+	OwnerModule    string         `json:"ownerModule,omitempty"`
+	ScopeRules     []string       `json:"scopeRules,omitempty"`
+	Scopes         []string       `json:"scopes,omitempty"`
+}
+
+// AIWorkbenchModelSettings defines model for AIWorkbenchModelSettings.
+type AIWorkbenchModelSettings struct {
+	// DefaultEndpoint Workbench relay endpoint. Supported values are chat/completions, responses, and messages.
+	DefaultEndpoint string `json:"defaultEndpoint,omitempty"`
+
+	// DefaultPublicModel Public model name exposed by AI Gateway model routes and used as the Workbench default.
+	DefaultPublicModel string `json:"defaultPublicModel,omitempty"`
+
+	// DefaultRouteID Stable AI Gateway model-route ID used as the Workbench default when set.
+	DefaultRouteID string `json:"defaultRouteId,omitempty"`
+	Enabled        bool   `json:"enabled"`
+}
+
 // AgentRun defines model for AgentRun.
 type AgentRun struct {
 	AnalysisArtifacts    []map[string]any `json:"analysisArtifacts,omitempty"`
@@ -3212,6 +3252,16 @@ type ToolInvocationResultEnvelope struct {
 	Data ToolInvocationResult `json:"data"`
 }
 
+// UpdateAISkillsRequest defines model for UpdateAISkillsRequest.
+type UpdateAISkillsRequest struct {
+	SkillsRegistry []AISkillSettings `json:"skillsRegistry"`
+}
+
+// UpdateAIWorkbenchModelRequest defines model for UpdateAIWorkbenchModelRequest.
+type UpdateAIWorkbenchModelRequest struct {
+	WorkbenchModel AIWorkbenchModelSettings `json:"workbenchModel"`
+}
+
 // UserProfile defines model for UserProfile.
 type UserProfile struct {
 	DisplayName          string           `json:"displayName"`
@@ -3984,6 +4034,12 @@ type ConfigureInstalledPluginJSONRequestBody = PluginConfigRequest
 
 // UpgradeInstalledPluginJSONRequestBody defines body for UpgradeInstalledPlugin for application/json ContentType.
 type UpgradeInstalledPluginJSONRequestBody = PluginInstallRequest
+
+// UpdateAISkillsRegistryJSONRequestBody defines body for UpdateAISkillsRegistry for application/json ContentType.
+type UpdateAISkillsRegistryJSONRequestBody = UpdateAISkillsRequest
+
+// UpdateAIWorkbenchModelSettingsJSONRequestBody defines body for UpdateAIWorkbenchModelSettings for application/json ContentType.
+type UpdateAIWorkbenchModelSettingsJSONRequestBody = UpdateAIWorkbenchModelRequest
 
 // Getter for additional properties for AgentRun. Returns the specified
 // element and whether it was found

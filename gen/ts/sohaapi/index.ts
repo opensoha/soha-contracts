@@ -257,6 +257,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/settings/ai": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAISettings"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/settings/ai/workbench-model": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateAIWorkbenchModelSettings"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/settings/ai/skills": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateAISkillsRegistry"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/delivery/execution-tasks/claim": {
         parameters: {
             query?: never;
@@ -1509,6 +1557,49 @@ export interface components {
                 message: string;
                 request_id?: string;
             };
+        };
+        AIWorkbenchModelSettings: {
+            /** @description Public model name exposed by AI Gateway model routes and used as the Workbench default. */
+            defaultPublicModel?: string;
+            /** @description Stable AI Gateway model-route ID used as the Workbench default when set. */
+            defaultRouteId?: string;
+            /**
+             * @description Workbench relay endpoint. Supported values are chat/completions, responses, and messages.
+             * @default chat/completions
+             */
+            defaultEndpoint: string;
+            enabled: boolean;
+        };
+        AISkillSettings: {
+            id: string;
+            name: string;
+            category?: string;
+            ownerModule?: string;
+            description?: string;
+            capabilityRefs?: string[];
+            blueprintRefs?: string[];
+            inputSchema?: {
+                [key: string]: unknown;
+            };
+            outputSchema?: {
+                [key: string]: unknown;
+            };
+            scopeRules?: string[];
+            enabled: boolean;
+            scopes?: string[];
+        };
+        AISettings: {
+            workbenchModel: components["schemas"]["AIWorkbenchModelSettings"];
+            skillsRegistry: components["schemas"]["AISkillSettings"][];
+        };
+        AISettingsEnvelope: {
+            data: components["schemas"]["AISettings"];
+        };
+        UpdateAIWorkbenchModelRequest: {
+            workbenchModel: components["schemas"]["AIWorkbenchModelSettings"];
+        };
+        UpdateAISkillsRequest: {
+            skillsRegistry: components["schemas"]["AISkillSettings"][];
         };
         Principal: {
             userId: string;
@@ -3201,6 +3292,12 @@ export type GenericObject = components['schemas']['GenericObject'];
 export type GenericDataEnvelope = components['schemas']['GenericDataEnvelope'];
 export type GenericItemsEnvelope = components['schemas']['GenericItemsEnvelope'];
 export type ErrorEnvelope = components['schemas']['ErrorEnvelope'];
+export type AIWorkbenchModelSettings = components['schemas']['AIWorkbenchModelSettings'];
+export type AISkillSettings = components['schemas']['AISkillSettings'];
+export type AISettings = components['schemas']['AISettings'];
+export type AISettingsEnvelope = components['schemas']['AISettingsEnvelope'];
+export type UpdateAIWorkbenchModelRequest = components['schemas']['UpdateAIWorkbenchModelRequest'];
+export type UpdateAISkillsRequest = components['schemas']['UpdateAISkillsRequest'];
 export type Principal = components['schemas']['Principal'];
 export type UserProfile = components['schemas']['UserProfile'];
 export type TokenSet = components['schemas']['TokenSet'];
@@ -3741,6 +3838,79 @@ export interface operations {
                     "application/json": components["schemas"]["StreamTicketEnvelope"];
                 };
             };
+        };
+    };
+    getAISettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description AI Workbench settings. Provider credentials and upstream connection details are intentionally excluded; provider ingress is managed by AI Gateway relay upstreams and model routes. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AISettingsEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    updateAIWorkbenchModelSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateAIWorkbenchModelRequest"];
+            };
+        };
+        responses: {
+            /** @description Updated AI Workbench default model and route selection. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AISettingsEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    updateAISkillsRegistry: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateAISkillsRequest"];
+            };
+        };
+        responses: {
+            /** @description Updated AI Workbench skills registry. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AISettingsEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
         };
     };
     claimExecutionTask: {

@@ -16,6 +16,7 @@ tags:
   - name: Auth
   - name: Runner
   - name: Platform
+  - name: Settings
   - name: AI Gateway
   - name: MCP
   - name: Plugins
@@ -236,6 +237,64 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/StreamTicketEnvelope"
+  /settings/ai:
+    get:
+      tags: [Settings]
+      operationId: getAISettings
+      x-soha-implementation-status: implemented
+      responses:
+        "200":
+          description: AI Workbench settings. Provider credentials and upstream connection details are intentionally excluded; provider ingress is managed by AI Gateway relay upstreams and model routes.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AISettingsEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /settings/ai/workbench-model:
+    put:
+      tags: [Settings]
+      operationId: updateAIWorkbenchModelSettings
+      x-soha-implementation-status: implemented
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateAIWorkbenchModelRequest"
+      responses:
+        "200":
+          description: Updated AI Workbench default model and route selection.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AISettingsEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /settings/ai/skills:
+    put:
+      tags: [Settings]
+      operationId: updateAISkillsRegistry
+      x-soha-implementation-status: implemented
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateAISkillsRequest"
+      responses:
+        "200":
+          description: Updated AI Workbench skills registry.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AISettingsEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
   /delivery/execution-tasks/claim:
     post:
       tags: [Runner]
@@ -2995,6 +3054,96 @@ components:
             request_id:
               type: string
           additionalProperties: false
+      additionalProperties: false
+    AIWorkbenchModelSettings:
+      type: object
+      required: [enabled]
+      properties:
+        defaultPublicModel:
+          type: string
+          description: Public model name exposed by AI Gateway model routes and used as the Workbench default.
+        defaultRouteId:
+          type: string
+          description: Stable AI Gateway model-route ID used as the Workbench default when set.
+        defaultEndpoint:
+          type: string
+          description: Workbench relay endpoint. Supported values are chat/completions, responses, and messages.
+          default: chat/completions
+        enabled:
+          type: boolean
+      additionalProperties: false
+    AISkillSettings:
+      type: object
+      required: [id, name, enabled]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+        ownerModule:
+          type: string
+        description:
+          type: string
+        capabilityRefs:
+          type: array
+          items:
+            type: string
+        blueprintRefs:
+          type: array
+          items:
+            type: string
+        inputSchema:
+          type: object
+          additionalProperties: true
+        outputSchema:
+          type: object
+          additionalProperties: true
+        scopeRules:
+          type: array
+          items:
+            type: string
+        enabled:
+          type: boolean
+        scopes:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    AISettings:
+      type: object
+      required: [workbenchModel, skillsRegistry]
+      properties:
+        workbenchModel:
+          $ref: "#/components/schemas/AIWorkbenchModelSettings"
+        skillsRegistry:
+          type: array
+          items:
+            $ref: "#/components/schemas/AISkillSettings"
+      additionalProperties: false
+    AISettingsEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/AISettings"
+      additionalProperties: false
+    UpdateAIWorkbenchModelRequest:
+      type: object
+      required: [workbenchModel]
+      properties:
+        workbenchModel:
+          $ref: "#/components/schemas/AIWorkbenchModelSettings"
+      additionalProperties: false
+    UpdateAISkillsRequest:
+      type: object
+      required: [skillsRegistry]
+      properties:
+        skillsRegistry:
+          type: array
+          items:
+            $ref: "#/components/schemas/AISkillSettings"
       additionalProperties: false
     Principal:
       type: object
