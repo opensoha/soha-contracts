@@ -32,6 +32,7 @@
     "./agent/agent-protocol.schema.json": "./agent/agent-protocol.schema.json",
     "./runner/operation-lifecycle.schema.json": "./runner/operation-lifecycle.schema.json",
     "./mcp/gateway-manifest.schema.json": "./mcp/gateway-manifest.schema.json",
+    "./mcp/gateway-capability-baseline.schema.json": "./mcp/gateway-capability-baseline.schema.json",
     "./skills/skill-manifest.schema.json": "./skills/skill-manifest.schema.json",
     "./plugins/plugin-manifest.schema.json": "./plugins/plugin-manifest.schema.json",
     "./events/event-envelope.schema.json": "./events/event-envelope.schema.json",

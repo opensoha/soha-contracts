@@ -24,6 +24,10 @@ const requiredJsonSchemas = [
     fixtureDir: "fixtures/json-schema/runner-operation-lifecycle",
   },
   { file: "mcp/gateway-manifest.schema.json", fixtureDir: "fixtures/json-schema/gateway-manifest" },
+  {
+    file: "mcp/gateway-capability-baseline.schema.json",
+    fixtureDir: "fixtures/json-schema/gateway-capability-baseline",
+  },
   { file: "skills/skill-manifest.schema.json", fixtureDir: "fixtures/json-schema/skill-manifest" },
   { file: "plugins/plugin-manifest.schema.json", fixtureDir: "fixtures/json-schema/plugin-manifest" },
   { file: "events/event-envelope.schema.json", fixtureDir: "fixtures/json-schema/event-envelope" },
@@ -60,6 +64,10 @@ const requiredJsonExamples = [
   { file: "examples/governance/approval-request.json", schemaFile: "governance/approval-request.schema.json" },
   { file: "examples/governance/audit-log.json", schemaFile: "governance/audit-log.schema.json" },
   { file: "examples/gateway-manifest/minimal.json", schemaFile: "mcp/gateway-manifest.schema.json" },
+  {
+    file: "examples/gateway-capability-baseline/minimal.json",
+    schemaFile: "mcp/gateway-capability-baseline.schema.json",
+  },
   { file: "examples/token-claims/service-account.json", schemaFile: "auth/token-claims.schema.json" },
   { file: "examples/plugin-manifest/skill-pack.json", schemaFile: "plugins/plugin-manifest.schema.json" },
   { file: "examples/plugin-manifest/connector.json", schemaFile: "plugins/plugin-manifest.schema.json" },
