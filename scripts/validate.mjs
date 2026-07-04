@@ -51,6 +51,7 @@ const requiredOpenapiFixtureSchemas = [
   "GovernanceStatusEnvelope",
   "MCPCapabilityListEnvelope",
   "CloudExtensionPointListEnvelope",
+  "WorkbenchStreamEvent",
   "ErrorEnvelope",
 ];
 

@@ -18,6 +18,126 @@ const (
 	SohaXAPIKeyScopes       sohaXAPIKeyContextKey       = "sohaXAPIKey.Scopes"
 )
 
+// Defines values for ApplicationDeliveryActionKind.
+const (
+	Build       ApplicationDeliveryActionKind = "build"
+	BuildDeploy ApplicationDeliveryActionKind = "build_deploy"
+	Deploy      ApplicationDeliveryActionKind = "deploy"
+	Rollback    ApplicationDeliveryActionKind = "rollback"
+	Verify      ApplicationDeliveryActionKind = "verify"
+	Workflow    ApplicationDeliveryActionKind = "workflow"
+)
+
+// Valid indicates whether the value is a known member of the ApplicationDeliveryActionKind enum.
+func (e ApplicationDeliveryActionKind) Valid() bool {
+	switch e {
+	case Build:
+		return true
+	case BuildDeploy:
+		return true
+	case Deploy:
+		return true
+	case Rollback:
+		return true
+	case Verify:
+		return true
+	case Workflow:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ApplicationServiceServiceKind.
+const (
+	ApplicationServiceServiceKindExternalService    ApplicationServiceServiceKind = "external_service"
+	ApplicationServiceServiceKindHelmRelease        ApplicationServiceServiceKind = "helm_release"
+	ApplicationServiceServiceKindJob                ApplicationServiceServiceKind = "job"
+	ApplicationServiceServiceKindKubernetesWorkload ApplicationServiceServiceKind = "kubernetes_workload"
+)
+
+// Valid indicates whether the value is a known member of the ApplicationServiceServiceKind enum.
+func (e ApplicationServiceServiceKind) Valid() bool {
+	switch e {
+	case ApplicationServiceServiceKindExternalService:
+		return true
+	case ApplicationServiceServiceKindHelmRelease:
+		return true
+	case ApplicationServiceServiceKindJob:
+		return true
+	case ApplicationServiceServiceKindKubernetesWorkload:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ApplicationServiceInputServiceKind.
+const (
+	ApplicationServiceInputServiceKindExternalService    ApplicationServiceInputServiceKind = "external_service"
+	ApplicationServiceInputServiceKindHelmRelease        ApplicationServiceInputServiceKind = "helm_release"
+	ApplicationServiceInputServiceKindJob                ApplicationServiceInputServiceKind = "job"
+	ApplicationServiceInputServiceKindKubernetesWorkload ApplicationServiceInputServiceKind = "kubernetes_workload"
+)
+
+// Valid indicates whether the value is a known member of the ApplicationServiceInputServiceKind enum.
+func (e ApplicationServiceInputServiceKind) Valid() bool {
+	switch e {
+	case ApplicationServiceInputServiceKindExternalService:
+		return true
+	case ApplicationServiceInputServiceKindHelmRelease:
+		return true
+	case ApplicationServiceInputServiceKindJob:
+		return true
+	case ApplicationServiceInputServiceKindKubernetesWorkload:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for BuildSourceType.
+const (
+	BuildSourceTypeExternalPipeline      BuildSourceType = "external_pipeline"
+	BuildSourceTypePlatformBuildTemplate BuildSourceType = "platform_build_template"
+	BuildSourceTypeRepoDockerfile        BuildSourceType = "repo_dockerfile"
+)
+
+// Valid indicates whether the value is a known member of the BuildSourceType enum.
+func (e BuildSourceType) Valid() bool {
+	switch e {
+	case BuildSourceTypeExternalPipeline:
+		return true
+	case BuildSourceTypePlatformBuildTemplate:
+		return true
+	case BuildSourceTypeRepoDockerfile:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for BuildSourceInputType.
+const (
+	BuildSourceInputTypeExternalPipeline      BuildSourceInputType = "external_pipeline"
+	BuildSourceInputTypePlatformBuildTemplate BuildSourceInputType = "platform_build_template"
+	BuildSourceInputTypeRepoDockerfile        BuildSourceInputType = "repo_dockerfile"
+)
+
+// Valid indicates whether the value is a known member of the BuildSourceInputType enum.
+func (e BuildSourceInputType) Valid() bool {
+	switch e {
+	case BuildSourceInputTypeExternalPipeline:
+		return true
+	case BuildSourceInputTypePlatformBuildTemplate:
+		return true
+	case BuildSourceInputTypeRepoDockerfile:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ClusterCapabilityStatus.
 const (
 	Available   ClusterCapabilityStatus = "available"
@@ -33,6 +153,63 @@ func (e ClusterCapabilityStatus) Valid() bool {
 	case Partial:
 		return true
 	case Unsupported:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryPlanSource.
+const (
+	DeliveryPlanSourceAI     DeliveryPlanSource = "ai"
+	DeliveryPlanSourceManual DeliveryPlanSource = "manual"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryPlanSource enum.
+func (e DeliveryPlanSource) Valid() bool {
+	switch e {
+	case DeliveryPlanSourceAI:
+		return true
+	case DeliveryPlanSourceManual:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryPlanStatus.
+const (
+	Confirmed  DeliveryPlanStatus = "confirmed"
+	Confirming DeliveryPlanStatus = "confirming"
+	Draft      DeliveryPlanStatus = "draft"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryPlanStatus enum.
+func (e DeliveryPlanStatus) Valid() bool {
+	switch e {
+	case Confirmed:
+		return true
+	case Confirming:
+		return true
+	case Draft:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryPlanInputSource.
+const (
+	DeliveryPlanInputSourceAI     DeliveryPlanInputSource = "ai"
+	DeliveryPlanInputSourceManual DeliveryPlanInputSource = "manual"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryPlanInputSource enum.
+func (e DeliveryPlanInputSource) Valid() bool {
+	switch e {
+	case DeliveryPlanInputSourceAI:
+		return true
+	case DeliveryPlanInputSourceManual:
 		return true
 	default:
 		return false
@@ -486,6 +663,327 @@ const (
 func (e OpenAIModelsResponseObject) Valid() bool {
 	switch e {
 	case List:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchAgentStatusEventProviderKind.
+const (
+	General  WorkbenchAgentStatusEventProviderKind = "general"
+	Hermes   WorkbenchAgentStatusEventProviderKind = "hermes"
+	Internal WorkbenchAgentStatusEventProviderKind = "internal"
+	Openclaw WorkbenchAgentStatusEventProviderKind = "openclaw"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchAgentStatusEventProviderKind enum.
+func (e WorkbenchAgentStatusEventProviderKind) Valid() bool {
+	switch e {
+	case General:
+		return true
+	case Hermes:
+		return true
+	case Internal:
+		return true
+	case Openclaw:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchAgentStatusEventStatus.
+const (
+	WorkbenchAgentStatusEventStatusCancelled WorkbenchAgentStatusEventStatus = "cancelled"
+	WorkbenchAgentStatusEventStatusFailed    WorkbenchAgentStatusEventStatus = "failed"
+	WorkbenchAgentStatusEventStatusQueued    WorkbenchAgentStatusEventStatus = "queued"
+	WorkbenchAgentStatusEventStatusRunning   WorkbenchAgentStatusEventStatus = "running"
+	WorkbenchAgentStatusEventStatusSucceeded WorkbenchAgentStatusEventStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchAgentStatusEventStatus enum.
+func (e WorkbenchAgentStatusEventStatus) Valid() bool {
+	switch e {
+	case WorkbenchAgentStatusEventStatusCancelled:
+		return true
+	case WorkbenchAgentStatusEventStatusFailed:
+		return true
+	case WorkbenchAgentStatusEventStatusQueued:
+		return true
+	case WorkbenchAgentStatusEventStatusRunning:
+		return true
+	case WorkbenchAgentStatusEventStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchAgentStatusEventType.
+const (
+	AgentStatus WorkbenchAgentStatusEventType = "agent.status"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchAgentStatusEventType enum.
+func (e WorkbenchAgentStatusEventType) Valid() bool {
+	switch e {
+	case AgentStatus:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchArtifactUpdatedEventType.
+const (
+	ArtifactUpdated WorkbenchArtifactUpdatedEventType = "artifact.updated"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchArtifactUpdatedEventType enum.
+func (e WorkbenchArtifactUpdatedEventType) Valid() bool {
+	switch e {
+	case ArtifactUpdated:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchCardCommandEventType.
+const (
+	CardCommand WorkbenchCardCommandEventType = "card.command"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchCardCommandEventType enum.
+func (e WorkbenchCardCommandEventType) Valid() bool {
+	switch e {
+	case CardCommand:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchErrorEventType.
+const (
+	WorkbenchErrorEventTypeError WorkbenchErrorEventType = "error"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchErrorEventType enum.
+func (e WorkbenchErrorEventType) Valid() bool {
+	switch e {
+	case WorkbenchErrorEventTypeError:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchMessageDeltaEventRole.
+const (
+	WorkbenchMessageDeltaEventRoleAssistant WorkbenchMessageDeltaEventRole = "assistant"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchMessageDeltaEventRole enum.
+func (e WorkbenchMessageDeltaEventRole) Valid() bool {
+	switch e {
+	case WorkbenchMessageDeltaEventRoleAssistant:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchMessageDeltaEventType.
+const (
+	MessageDelta WorkbenchMessageDeltaEventType = "message.delta"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchMessageDeltaEventType enum.
+func (e WorkbenchMessageDeltaEventType) Valid() bool {
+	switch e {
+	case MessageDelta:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchMessageDoneEventRole.
+const (
+	WorkbenchMessageDoneEventRoleAssistant WorkbenchMessageDoneEventRole = "assistant"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchMessageDoneEventRole enum.
+func (e WorkbenchMessageDoneEventRole) Valid() bool {
+	switch e {
+	case WorkbenchMessageDoneEventRoleAssistant:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchMessageDoneEventType.
+const (
+	MessageDone WorkbenchMessageDoneEventType = "message.done"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchMessageDoneEventType enum.
+func (e WorkbenchMessageDoneEventType) Valid() bool {
+	switch e {
+	case MessageDone:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchSourceKind.
+const (
+	Audit    WorkbenchSourceKind = "audit"
+	Delivery WorkbenchSourceKind = "delivery"
+	Document WorkbenchSourceKind = "document"
+	Event    WorkbenchSourceKind = "event"
+	Log      WorkbenchSourceKind = "log"
+	Metric   WorkbenchSourceKind = "metric"
+	Trace    WorkbenchSourceKind = "trace"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchSourceKind enum.
+func (e WorkbenchSourceKind) Valid() bool {
+	switch e {
+	case Audit:
+		return true
+	case Delivery:
+		return true
+	case Document:
+		return true
+	case Event:
+		return true
+	case Log:
+		return true
+	case Metric:
+		return true
+	case Trace:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchSourceUpdatedEventType.
+const (
+	SourceUpdated WorkbenchSourceUpdatedEventType = "source.updated"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchSourceUpdatedEventType enum.
+func (e WorkbenchSourceUpdatedEventType) Valid() bool {
+	switch e {
+	case SourceUpdated:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchThinkingDeltaEventType.
+const (
+	ThinkingDelta WorkbenchThinkingDeltaEventType = "thinking.delta"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchThinkingDeltaEventType enum.
+func (e WorkbenchThinkingDeltaEventType) Valid() bool {
+	switch e {
+	case ThinkingDelta:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchThinkingDoneEventType.
+const (
+	ThinkingDone WorkbenchThinkingDoneEventType = "thinking.done"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchThinkingDoneEventType enum.
+func (e WorkbenchThinkingDoneEventType) Valid() bool {
+	switch e {
+	case ThinkingDone:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchToolCallStatus.
+const (
+	WorkbenchToolCallStatusError   WorkbenchToolCallStatus = "error"
+	WorkbenchToolCallStatusPending WorkbenchToolCallStatus = "pending"
+	WorkbenchToolCallStatusRunning WorkbenchToolCallStatus = "running"
+	WorkbenchToolCallStatusSkipped WorkbenchToolCallStatus = "skipped"
+	WorkbenchToolCallStatusSuccess WorkbenchToolCallStatus = "success"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchToolCallStatus enum.
+func (e WorkbenchToolCallStatus) Valid() bool {
+	switch e {
+	case WorkbenchToolCallStatusError:
+		return true
+	case WorkbenchToolCallStatusPending:
+		return true
+	case WorkbenchToolCallStatusRunning:
+		return true
+	case WorkbenchToolCallStatusSkipped:
+		return true
+	case WorkbenchToolCallStatusSuccess:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchToolCompletedEventType.
+const (
+	ToolCompleted WorkbenchToolCompletedEventType = "tool.completed"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchToolCompletedEventType enum.
+func (e WorkbenchToolCompletedEventType) Valid() bool {
+	switch e {
+	case ToolCompleted:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchToolDeltaEventType.
+const (
+	ToolDelta WorkbenchToolDeltaEventType = "tool.delta"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchToolDeltaEventType enum.
+func (e WorkbenchToolDeltaEventType) Valid() bool {
+	switch e {
+	case ToolDelta:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchToolStartedEventType.
+const (
+	ToolStarted WorkbenchToolStartedEventType = "tool.started"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchToolStartedEventType enum.
+func (e WorkbenchToolStartedEventType) Valid() bool {
+	switch e {
+	case ToolStarted:
 		return true
 	default:
 		return false
@@ -1688,6 +2186,346 @@ type AnthropicModelsResponse struct {
 // AnyValue defines model for AnyValue.
 type AnyValue = any
 
+// Application defines model for Application.
+type Application struct {
+	BuildContextDir     string         `json:"buildContextDir,omitempty"`
+	BuildImage          string         `json:"buildImage,omitempty"`
+	BuildSources        []BuildSource  `json:"buildSources,omitempty"`
+	BusinessLineID      string         `json:"businessLineId,omitempty"`
+	CreatedAt           time.Time      `json:"createdAt"`
+	DefaultBranch       string         `json:"defaultBranch,omitempty"`
+	DefaultTag          string         `json:"defaultTag,omitempty"`
+	Description         string         `json:"description,omitempty"`
+	DockerfilePath      string         `json:"dockerfilePath,omitempty"`
+	Enabled             bool           `json:"enabled"`
+	EnvironmentCount    int            `json:"environmentCount,omitempty"`
+	Group               string         `json:"group"`
+	ID                  string         `json:"id"`
+	Key                 string         `json:"key"`
+	Language            string         `json:"language"`
+	Metadata            map[string]any `json:"metadata,omitempty"`
+	Name                string         `json:"name"`
+	OwnerTeam           string         `json:"ownerTeam,omitempty"`
+	RepositoryPath      string         `json:"repositoryPath,omitempty"`
+	RepositoryProjectID string         `json:"repositoryProjectId,omitempty"`
+	RepositoryProvider  string         `json:"repositoryProvider,omitempty"`
+	UpdatedAt           time.Time      `json:"updatedAt"`
+}
+
+// ApplicationBindingSummary defines model for ApplicationBindingSummary.
+type ApplicationBindingSummary struct {
+	ActionKind               string            `json:"actionKind,omitempty"`
+	ApplicationEnvironmentID string            `json:"applicationEnvironmentId"`
+	BuildPolicy              *BuildPolicy      `json:"buildPolicy,omitempty"`
+	BuildSource              *BuildSource      `json:"buildSource,omitempty"`
+	BuildSourceID            string            `json:"buildSourceId,omitempty"`
+	EnvironmentID            string            `json:"environmentId"`
+	EnvironmentKey           string            `json:"environmentKey,omitempty"`
+	EnvironmentName          string            `json:"environmentName,omitempty"`
+	LatestBuild              *BuildRecord      `json:"latestBuild,omitempty"`
+	LatestBundle             *ReleaseBundle    `json:"latestBundle,omitempty"`
+	LatestExecutionTask      *ExecutionTask    `json:"latestExecutionTask,omitempty"`
+	LatestRelease            *ReleaseRecord    `json:"latestRelease,omitempty"`
+	LatestWorkflow           *WorkflowRun      `json:"latestWorkflow,omitempty"`
+	RequiresApproval         bool              `json:"requiresApproval"`
+	TargetCount              int               `json:"targetCount"`
+	Targets                  []ReleaseTarget   `json:"targets,omitempty"`
+	WorkflowTemplate         *WorkflowTemplate `json:"workflowTemplate,omitempty"`
+	WorkflowTemplateID       string            `json:"workflowTemplateId,omitempty"`
+	WorkflowTemplateName     string            `json:"workflowTemplateName,omitempty"`
+}
+
+// ApplicationDeliveryActionKind defines model for ApplicationDeliveryActionKind.
+type ApplicationDeliveryActionKind string
+
+// ApplicationDeliveryActionRelatedIDs defines model for ApplicationDeliveryActionRelatedIDs.
+type ApplicationDeliveryActionRelatedIDs struct {
+	ExecutionTaskID string `json:"executionTaskId,omitempty"`
+	ReleaseBundleID string `json:"releaseBundleId,omitempty"`
+	WorkflowRunID   string `json:"workflowRunId,omitempty"`
+}
+
+// ApplicationDeliveryActionRequest defines model for ApplicationDeliveryActionRequest.
+type ApplicationDeliveryActionRequest struct {
+	Action                   ApplicationDeliveryActionKind `json:"action"`
+	ApplicationEnvironmentID string                        `json:"applicationEnvironmentId"`
+	BuildArgs                map[string]any                `json:"buildArgs,omitempty"`
+	BuildSourceID            string                        `json:"buildSourceId,omitempty"`
+	ContainerName            string                        `json:"containerName,omitempty"`
+	ImageTag                 string                        `json:"imageTag,omitempty"`
+	RefName                  string                        `json:"refName,omitempty"`
+	RefType                  string                        `json:"refType,omitempty"`
+	ReleaseBundleID          string                        `json:"releaseBundleId,omitempty"`
+	ReleaseName              string                        `json:"releaseName,omitempty"`
+	TargetID                 string                        `json:"targetId,omitempty"`
+	Variables                map[string]any                `json:"variables,omitempty"`
+}
+
+// ApplicationDeliveryActionResult defines model for ApplicationDeliveryActionResult.
+type ApplicationDeliveryActionResult struct {
+	Action                   ApplicationDeliveryActionKind        `json:"action"`
+	ApplicationEnvironmentID string                               `json:"applicationEnvironmentId"`
+	ApplicationID            string                               `json:"applicationId"`
+	Build                    *BuildRecord                         `json:"build,omitempty"`
+	RelatedIDs               *ApplicationDeliveryActionRelatedIDs `json:"relatedIds,omitempty"`
+	Release                  *ReleaseRecord                       `json:"release,omitempty"`
+	Target                   *ReleaseTarget                       `json:"target,omitempty"`
+	Workflow                 *WorkflowRun                         `json:"workflow,omitempty"`
+}
+
+// ApplicationDeliveryActionResultEnvelope defines model for ApplicationDeliveryActionResultEnvelope.
+type ApplicationDeliveryActionResultEnvelope struct {
+	Data ApplicationDeliveryActionResult `json:"data"`
+}
+
+// ApplicationDeliveryDetail defines model for ApplicationDeliveryDetail.
+type ApplicationDeliveryDetail struct {
+	Application         Application                 `json:"application"`
+	Bindings            []ApplicationBindingSummary `json:"bindings,omitempty"`
+	LatestBuild         *BuildRecord                `json:"latestBuild,omitempty"`
+	LatestBundle        *ReleaseBundle              `json:"latestBundle,omitempty"`
+	LatestExecutionTask *ExecutionTask              `json:"latestExecutionTask,omitempty"`
+	LatestRelease       *ReleaseRecord              `json:"latestRelease,omitempty"`
+	LatestWorkflow      *WorkflowRun                `json:"latestWorkflow,omitempty"`
+}
+
+// ApplicationDeliveryDetailEnvelope defines model for ApplicationDeliveryDetailEnvelope.
+type ApplicationDeliveryDetailEnvelope struct {
+	Data ApplicationDeliveryDetail `json:"data"`
+}
+
+// ApplicationEnvelope defines model for ApplicationEnvelope.
+type ApplicationEnvelope struct {
+	Data Application `json:"data"`
+}
+
+// ApplicationEnvironment defines model for ApplicationEnvironment.
+type ApplicationEnvironment struct {
+	ApplicationGroup   string            `json:"applicationGroup,omitempty"`
+	ApplicationID      string            `json:"applicationId"`
+	ArtifactPolicyID   string            `json:"artifactPolicyId,omitempty"`
+	BuildPolicy        *BuildPolicy      `json:"buildPolicy,omitempty"`
+	BusinessLineID     string            `json:"businessLineId,omitempty"`
+	CreatedAt          time.Time         `json:"createdAt"`
+	EnvironmentID      string            `json:"environmentId"`
+	EnvironmentKey     string            `json:"environmentKey,omitempty"`
+	ID                 string            `json:"id"`
+	PromotionPolicyID  string            `json:"promotionPolicyId,omitempty"`
+	ReleasePolicy      *ReleasePolicy    `json:"releasePolicy,omitempty"`
+	ResourceSelector   *ResourceSelector `json:"resourceSelector,omitempty"`
+	StrategyProfileID  string            `json:"strategyProfileId,omitempty"`
+	Targets            []ReleaseTarget   `json:"targets,omitempty"`
+	UpdatedAt          time.Time         `json:"updatedAt"`
+	WorkflowTemplate   *WorkflowTemplate `json:"workflowTemplate,omitempty"`
+	WorkflowTemplateID string            `json:"workflowTemplateId,omitempty"`
+}
+
+// ApplicationEnvironmentDeliveryDetail defines model for ApplicationEnvironmentDeliveryDetail.
+type ApplicationEnvironmentDeliveryDetail struct {
+	ActionKind          string                 `json:"actionKind,omitempty"`
+	Application         Application            `json:"application"`
+	Binding             ApplicationEnvironment `json:"binding"`
+	BuildSource         *BuildSource           `json:"buildSource,omitempty"`
+	Environment         *DeliveryEnvironment   `json:"environment,omitempty"`
+	LatestBuild         *BuildRecord           `json:"latestBuild,omitempty"`
+	LatestBundle        *ReleaseBundle         `json:"latestBundle,omitempty"`
+	LatestExecutionTask *ExecutionTask         `json:"latestExecutionTask,omitempty"`
+	LatestRelease       *ReleaseRecord         `json:"latestRelease,omitempty"`
+	LatestWorkflow      *WorkflowRun           `json:"latestWorkflow,omitempty"`
+	RequiresApproval    bool                   `json:"requiresApproval"`
+}
+
+// ApplicationEnvironmentDeliveryDetailEnvelope defines model for ApplicationEnvironmentDeliveryDetailEnvelope.
+type ApplicationEnvironmentDeliveryDetailEnvelope struct {
+	Data ApplicationEnvironmentDeliveryDetail `json:"data"`
+}
+
+// ApplicationEnvironmentEnvelope defines model for ApplicationEnvironmentEnvelope.
+type ApplicationEnvironmentEnvelope struct {
+	Data ApplicationEnvironment `json:"data"`
+}
+
+// ApplicationEnvironmentInput defines model for ApplicationEnvironmentInput.
+type ApplicationEnvironmentInput struct {
+	ApplicationID      string               `json:"applicationId"`
+	ArtifactPolicyID   string               `json:"artifactPolicyId,omitempty"`
+	BuildPolicy        *BuildPolicy         `json:"buildPolicy,omitempty"`
+	EnvironmentID      string               `json:"environmentId"`
+	ID                 string               `json:"id,omitempty"`
+	PromotionPolicyID  string               `json:"promotionPolicyId,omitempty"`
+	ReleasePolicy      *ReleasePolicy       `json:"releasePolicy,omitempty"`
+	ResourceSelector   *ResourceSelector    `json:"resourceSelector,omitempty"`
+	StrategyProfileID  string               `json:"strategyProfileId,omitempty"`
+	Targets            []ReleaseTargetInput `json:"targets,omitempty"`
+	WorkflowTemplateID string               `json:"workflowTemplateId,omitempty"`
+}
+
+// ApplicationEnvironmentListEnvelope defines model for ApplicationEnvironmentListEnvelope.
+type ApplicationEnvironmentListEnvelope struct {
+	Data []ApplicationEnvironment `json:"data"`
+}
+
+// ApplicationInput defines model for ApplicationInput.
+type ApplicationInput struct {
+	BuildContextDir     string             `json:"buildContextDir,omitempty"`
+	BuildImage          string             `json:"buildImage,omitempty"`
+	BuildSources        []BuildSourceInput `json:"buildSources,omitempty"`
+	BusinessLineID      string             `json:"businessLineId,omitempty"`
+	DefaultBranch       string             `json:"defaultBranch,omitempty"`
+	DefaultTag          string             `json:"defaultTag,omitempty"`
+	Description         string             `json:"description,omitempty"`
+	DockerfilePath      string             `json:"dockerfilePath,omitempty"`
+	Enabled             bool               `json:"enabled"`
+	Group               string             `json:"group"`
+	ID                  string             `json:"id,omitempty"`
+	Key                 string             `json:"key"`
+	Language            string             `json:"language"`
+	Metadata            map[string]any     `json:"metadata,omitempty"`
+	Name                string             `json:"name"`
+	OwnerTeam           string             `json:"ownerTeam,omitempty"`
+	RepositoryPath      string             `json:"repositoryPath,omitempty"`
+	RepositoryProjectID string             `json:"repositoryProjectId,omitempty"`
+	RepositoryProvider  string             `json:"repositoryProvider,omitempty"`
+}
+
+// ApplicationListEnvelope defines model for ApplicationListEnvelope.
+type ApplicationListEnvelope struct {
+	Data []Application `json:"data"`
+}
+
+// ApplicationRuntimeDetail defines model for ApplicationRuntimeDetail.
+type ApplicationRuntimeDetail struct {
+	Application  Application                     `json:"application"`
+	Environments []ApplicationRuntimeEnvironment `json:"environments,omitempty"`
+}
+
+// ApplicationRuntimeDetailEnvelope defines model for ApplicationRuntimeDetailEnvelope.
+type ApplicationRuntimeDetailEnvelope struct {
+	Data ApplicationRuntimeDetail `json:"data"`
+}
+
+// ApplicationRuntimeEnvironment defines model for ApplicationRuntimeEnvironment.
+type ApplicationRuntimeEnvironment struct {
+	ActionKind               string                       `json:"actionKind,omitempty"`
+	ApplicationEnvironmentID string                       `json:"applicationEnvironmentId"`
+	EnvironmentID            string                       `json:"environmentId"`
+	EnvironmentKey           string                       `json:"environmentKey,omitempty"`
+	EnvironmentName          string                       `json:"environmentName,omitempty"`
+	RequiresApproval         bool                         `json:"requiresApproval"`
+	ResourceSelector         *ResourceSelector            `json:"resourceSelector,omitempty"`
+	Targets                  []ReleaseTarget              `json:"targets,omitempty"`
+	Workloads                []ApplicationRuntimeWorkload `json:"workloads,omitempty"`
+}
+
+// ApplicationRuntimeWorkload defines model for ApplicationRuntimeWorkload.
+type ApplicationRuntimeWorkload struct {
+	ApplicationEnvironmentID string            `json:"applicationEnvironmentId"`
+	AvailableReplicas        int               `json:"availableReplicas"`
+	BuildSource              *BuildSource      `json:"buildSource,omitempty"`
+	ClusterID                string            `json:"clusterId"`
+	DesiredReplicas          int               `json:"desiredReplicas"`
+	Labels                   map[string]string `json:"labels,omitempty"`
+	LatestBuild              *BuildRecord      `json:"latestBuild,omitempty"`
+	LatestBundle             *ReleaseBundle    `json:"latestBundle,omitempty"`
+	LatestExecutionTask      *ExecutionTask    `json:"latestExecutionTask,omitempty"`
+	LatestRelease            *ReleaseRecord    `json:"latestRelease,omitempty"`
+	LatestWorkflow           *WorkflowRun      `json:"latestWorkflow,omitempty"`
+	Namespace                string            `json:"namespace"`
+	ReadyReplicas            int               `json:"readyReplicas"`
+	Selector                 map[string]string `json:"selector,omitempty"`
+	UpdatedReplicas          int               `json:"updatedReplicas"`
+	WorkloadKind             string            `json:"workloadKind"`
+	WorkloadName             string            `json:"workloadName"`
+}
+
+// ApplicationService defines model for ApplicationService.
+type ApplicationService struct {
+	ApplicationID       string                        `json:"applicationId"`
+	BuildSourceID       string                        `json:"buildSourceId,omitempty"`
+	Containers          []ApplicationServiceContainer `json:"containers,omitempty"`
+	CreatedAt           time.Time                     `json:"createdAt"`
+	DefaultBranch       string                        `json:"defaultBranch,omitempty"`
+	Description         string                        `json:"description,omitempty"`
+	Enabled             bool                          `json:"enabled"`
+	ID                  string                        `json:"id"`
+	Key                 string                        `json:"key"`
+	Metadata            map[string]any                `json:"metadata,omitempty"`
+	Name                string                        `json:"name"`
+	OwnerTeam           string                        `json:"ownerTeam,omitempty"`
+	RepositoryPath      string                        `json:"repositoryPath,omitempty"`
+	RepositoryProjectID string                        `json:"repositoryProjectId,omitempty"`
+	RepositoryProvider  string                        `json:"repositoryProvider,omitempty"`
+	ServiceKind         ApplicationServiceServiceKind `json:"serviceKind"`
+	UpdatedAt           time.Time                     `json:"updatedAt"`
+}
+
+// ApplicationServiceServiceKind defines model for ApplicationService.ServiceKind.
+type ApplicationServiceServiceKind string
+
+// ApplicationServiceContainer defines model for ApplicationServiceContainer.
+type ApplicationServiceContainer struct {
+	BuildContextDir    string         `json:"buildContextDir,omitempty"`
+	CreatedAt          *time.Time     `json:"createdAt,omitempty"`
+	DefaultTagTemplate string         `json:"defaultTagTemplate,omitempty"`
+	DockerfilePath     string         `json:"dockerfilePath,omitempty"`
+	EnvSchema          map[string]any `json:"envSchema,omitempty"`
+	HealthCheck        map[string]any `json:"healthCheck,omitempty"`
+	ID                 string         `json:"id"`
+	ImageRepository    string         `json:"imageRepository,omitempty"`
+	Metadata           map[string]any `json:"metadata,omitempty"`
+	Name               string         `json:"name"`
+	ResourceProfile    map[string]any `json:"resourceProfile,omitempty"`
+	RuntimePorts       []int          `json:"runtimePorts,omitempty"`
+	ServiceID          string         `json:"serviceId,omitempty"`
+	UpdatedAt          *time.Time     `json:"updatedAt,omitempty"`
+}
+
+// ApplicationServiceContainerInput defines model for ApplicationServiceContainerInput.
+type ApplicationServiceContainerInput struct {
+	BuildContextDir    string         `json:"buildContextDir,omitempty"`
+	DefaultTagTemplate string         `json:"defaultTagTemplate,omitempty"`
+	DockerfilePath     string         `json:"dockerfilePath,omitempty"`
+	EnvSchema          map[string]any `json:"envSchema,omitempty"`
+	HealthCheck        map[string]any `json:"healthCheck,omitempty"`
+	ID                 string         `json:"id,omitempty"`
+	ImageRepository    string         `json:"imageRepository,omitempty"`
+	Metadata           map[string]any `json:"metadata,omitempty"`
+	Name               string         `json:"name"`
+	ResourceProfile    map[string]any `json:"resourceProfile,omitempty"`
+	RuntimePorts       []int          `json:"runtimePorts,omitempty"`
+}
+
+// ApplicationServiceEnvelope defines model for ApplicationServiceEnvelope.
+type ApplicationServiceEnvelope struct {
+	Data ApplicationService `json:"data"`
+}
+
+// ApplicationServiceInput defines model for ApplicationServiceInput.
+type ApplicationServiceInput struct {
+	BuildSourceID       string                             `json:"buildSourceId,omitempty"`
+	Containers          []ApplicationServiceContainerInput `json:"containers,omitempty"`
+	DefaultBranch       string                             `json:"defaultBranch,omitempty"`
+	Description         string                             `json:"description,omitempty"`
+	Enabled             bool                               `json:"enabled"`
+	ID                  string                             `json:"id,omitempty"`
+	Key                 string                             `json:"key"`
+	Metadata            map[string]any                     `json:"metadata,omitempty"`
+	Name                string                             `json:"name"`
+	OwnerTeam           string                             `json:"ownerTeam,omitempty"`
+	RepositoryPath      string                             `json:"repositoryPath,omitempty"`
+	RepositoryProjectID string                             `json:"repositoryProjectId,omitempty"`
+	RepositoryProvider  string                             `json:"repositoryProvider,omitempty"`
+	ServiceKind         ApplicationServiceInputServiceKind `json:"serviceKind"`
+}
+
+// ApplicationServiceInputServiceKind defines model for ApplicationServiceInput.ServiceKind.
+type ApplicationServiceInputServiceKind string
+
+// ApplicationServiceListEnvelope defines model for ApplicationServiceListEnvelope.
+type ApplicationServiceListEnvelope struct {
+	Data []ApplicationService `json:"data"`
+}
+
 // ApprovalDecisionInput defines model for ApprovalDecisionInput.
 type ApprovalDecisionInput struct {
 	Comment string `json:"comment,omitempty"`
@@ -1881,6 +2719,101 @@ type AuthResultEnvelope struct {
 	Data AuthResult `json:"data"`
 }
 
+// BuildPolicy defines model for BuildPolicy.
+type BuildPolicy struct {
+	BuildArgs        map[string]any `json:"buildArgs,omitempty"`
+	ImageTagMode     string         `json:"imageTagMode,omitempty"`
+	ImageTagTemplate string         `json:"imageTagTemplate,omitempty"`
+	RefType          string         `json:"refType,omitempty"`
+	RefValue         string         `json:"refValue,omitempty"`
+	SourceID         string         `json:"sourceId,omitempty"`
+	Variables        map[string]any `json:"variables,omitempty"`
+}
+
+// BuildRecord defines model for BuildRecord.
+type BuildRecord struct {
+	ApplicationID string         `json:"applicationId"`
+	CreatedAt     time.Time      `json:"createdAt"`
+	FinishedAt    *time.Time     `json:"finishedAt,omitempty"`
+	ID            string         `json:"id"`
+	Metadata      map[string]any `json:"metadata,omitempty"`
+	SourceSystem  string         `json:"sourceSystem"`
+	StartedAt     *time.Time     `json:"startedAt,omitempty"`
+	Status        string         `json:"status"`
+}
+
+// BuildSource defines model for BuildSource.
+type BuildSource struct {
+	BuildImage string          `json:"buildImage,omitempty"`
+	Config     map[string]any  `json:"config,omitempty"`
+	CreatedAt  *time.Time      `json:"createdAt,omitempty"`
+	DefaultTag string          `json:"defaultTag,omitempty"`
+	Enabled    bool            `json:"enabled"`
+	ID         string          `json:"id"`
+	IsDefault  bool            `json:"isDefault"`
+	Name       string          `json:"name"`
+	Type       BuildSourceType `json:"type"`
+	UpdatedAt  *time.Time      `json:"updatedAt,omitempty"`
+}
+
+// BuildSourceType defines model for BuildSource.Type.
+type BuildSourceType string
+
+// BuildSourceInput defines model for BuildSourceInput.
+type BuildSourceInput struct {
+	BuildImage string               `json:"buildImage,omitempty"`
+	Config     map[string]any       `json:"config,omitempty"`
+	DefaultTag string               `json:"defaultTag,omitempty"`
+	Enabled    bool                 `json:"enabled"`
+	ID         string               `json:"id,omitempty"`
+	IsDefault  bool                 `json:"isDefault"`
+	Name       string               `json:"name"`
+	Type       BuildSourceInputType `json:"type"`
+}
+
+// BuildSourceInputType defines model for BuildSourceInput.Type.
+type BuildSourceInputType string
+
+// BuildTemplate defines model for BuildTemplate.
+type BuildTemplate struct {
+	BuildCommands      []string       `json:"buildCommands,omitempty"`
+	BuilderKind        string         `json:"builderKind,omitempty"`
+	CreatedAt          time.Time      `json:"createdAt"`
+	DefaultVariables   map[string]any `json:"defaultVariables,omitempty"`
+	Description        string         `json:"description,omitempty"`
+	DockerfileTemplate string         `json:"dockerfileTemplate,omitempty"`
+	Enabled            bool           `json:"enabled"`
+	ID                 string         `json:"id"`
+	Key                string         `json:"key"`
+	Name               string         `json:"name"`
+	UpdatedAt          time.Time      `json:"updatedAt"`
+	VariableSchema     map[string]any `json:"variableSchema,omitempty"`
+}
+
+// BuildTemplateEnvelope defines model for BuildTemplateEnvelope.
+type BuildTemplateEnvelope struct {
+	Data BuildTemplate `json:"data"`
+}
+
+// BuildTemplateInput defines model for BuildTemplateInput.
+type BuildTemplateInput struct {
+	BuildCommands      []string       `json:"buildCommands,omitempty"`
+	BuilderKind        string         `json:"builderKind,omitempty"`
+	DefaultVariables   map[string]any `json:"defaultVariables,omitempty"`
+	Description        string         `json:"description,omitempty"`
+	DockerfileTemplate string         `json:"dockerfileTemplate,omitempty"`
+	Enabled            bool           `json:"enabled"`
+	ID                 string         `json:"id,omitempty"`
+	Key                string         `json:"key"`
+	Name               string         `json:"name"`
+	VariableSchema     map[string]any `json:"variableSchema,omitempty"`
+}
+
+// BuildTemplateListEnvelope defines model for BuildTemplateListEnvelope.
+type BuildTemplateListEnvelope struct {
+	Data []BuildTemplate `json:"data"`
+}
+
 // CallerContext defines model for CallerContext.
 type CallerContext struct {
 	AIClientID   string `json:"aiClientId,omitempty"`
@@ -1968,6 +2901,105 @@ type CreatedServiceAccountTokenEnvelope struct {
 	Data CreatedServiceAccountToken `json:"data"`
 }
 
+// DeliveryEnvironment defines model for DeliveryEnvironment.
+type DeliveryEnvironment struct {
+	CreatedAt        time.Time `json:"createdAt"`
+	Enabled          bool      `json:"enabled"`
+	ID               string    `json:"id"`
+	IsProduction     bool      `json:"isProduction"`
+	Key              string    `json:"key"`
+	Name             string    `json:"name"`
+	RequiresApproval bool      `json:"requiresApproval"`
+	SortOrder        int       `json:"sortOrder"`
+	StageLevel       int       `json:"stageLevel"`
+	Tier             string    `json:"tier,omitempty"`
+	UpdatedAt        time.Time `json:"updatedAt"`
+}
+
+// DeliveryPlan defines model for DeliveryPlan.
+type DeliveryPlan struct {
+	Action                   ApplicationDeliveryActionKind `json:"action"`
+	ApplicationEnvironmentID string                        `json:"applicationEnvironmentId"`
+	ApplicationID            string                        `json:"applicationId"`
+	ApplicationName          string                        `json:"applicationName,omitempty"`
+	BuildArgs                map[string]any                `json:"buildArgs,omitempty"`
+	BuildSourceID            string                        `json:"buildSourceId,omitempty"`
+	ConfirmedAt              *time.Time                    `json:"confirmedAt,omitempty"`
+	ContainerName            string                        `json:"containerName,omitempty"`
+	CreatedAt                time.Time                     `json:"createdAt"`
+	CreatedBy                string                        `json:"createdBy,omitempty"`
+	EnvironmentKey           string                        `json:"environmentKey,omitempty"`
+	ID                       string                        `json:"id"`
+	ImageTag                 string                        `json:"imageTag,omitempty"`
+	Impact                   map[string]any                `json:"impact,omitempty"`
+	Reason                   string                        `json:"reason,omitempty"`
+	RefName                  string                        `json:"refName,omitempty"`
+	RefType                  string                        `json:"refType,omitempty"`
+	ReleaseBundleID          string                        `json:"releaseBundleId,omitempty"`
+	ReleaseName              string                        `json:"releaseName,omitempty"`
+	RequiresApproval         bool                          `json:"requiresApproval"`
+	RiskLevel                string                        `json:"riskLevel,omitempty"`
+	RollbackStrategy         string                        `json:"rollbackStrategy,omitempty"`
+	Source                   DeliveryPlanSource            `json:"source"`
+	Status                   DeliveryPlanStatus            `json:"status"`
+	TargetID                 string                        `json:"targetId,omitempty"`
+	TargetSummary            string                        `json:"targetSummary,omitempty"`
+	UpdatedAt                time.Time                     `json:"updatedAt"`
+	Variables                map[string]any                `json:"variables,omitempty"`
+}
+
+// DeliveryPlanSource defines model for DeliveryPlan.Source.
+type DeliveryPlanSource string
+
+// DeliveryPlanStatus defines model for DeliveryPlan.Status.
+type DeliveryPlanStatus string
+
+// DeliveryPlanConfirmResult defines model for DeliveryPlanConfirmResult.
+type DeliveryPlanConfirmResult struct {
+	Plan   DeliveryPlan                    `json:"plan"`
+	Result ApplicationDeliveryActionResult `json:"result"`
+}
+
+// DeliveryPlanConfirmResultEnvelope defines model for DeliveryPlanConfirmResultEnvelope.
+type DeliveryPlanConfirmResultEnvelope struct {
+	Data DeliveryPlanConfirmResult `json:"data"`
+}
+
+// DeliveryPlanEnvelope defines model for DeliveryPlanEnvelope.
+type DeliveryPlanEnvelope struct {
+	Data DeliveryPlan `json:"data"`
+}
+
+// DeliveryPlanInput defines model for DeliveryPlanInput.
+type DeliveryPlanInput struct {
+	Action                   ApplicationDeliveryActionKind `json:"action"`
+	ApplicationEnvironmentID string                        `json:"applicationEnvironmentId"`
+	ApplicationID            string                        `json:"applicationId"`
+	ApplicationName          string                        `json:"applicationName,omitempty"`
+	BuildArgs                map[string]any                `json:"buildArgs,omitempty"`
+	BuildSourceID            string                        `json:"buildSourceId,omitempty"`
+	ContainerName            string                        `json:"containerName,omitempty"`
+	EnvironmentKey           string                        `json:"environmentKey,omitempty"`
+	ID                       string                        `json:"id,omitempty"`
+	ImageTag                 string                        `json:"imageTag,omitempty"`
+	Impact                   map[string]any                `json:"impact,omitempty"`
+	Reason                   string                        `json:"reason,omitempty"`
+	RefName                  string                        `json:"refName,omitempty"`
+	RefType                  string                        `json:"refType,omitempty"`
+	ReleaseBundleID          string                        `json:"releaseBundleId,omitempty"`
+	ReleaseName              string                        `json:"releaseName,omitempty"`
+	RequiresApproval         bool                          `json:"requiresApproval,omitempty"`
+	RiskLevel                string                        `json:"riskLevel,omitempty"`
+	RollbackStrategy         string                        `json:"rollbackStrategy,omitempty"`
+	Source                   DeliveryPlanInputSource       `json:"source,omitempty"`
+	TargetID                 string                        `json:"targetId,omitempty"`
+	TargetSummary            string                        `json:"targetSummary,omitempty"`
+	Variables                map[string]any                `json:"variables,omitempty"`
+}
+
+// DeliveryPlanInputSource defines model for DeliveryPlanInput.Source.
+type DeliveryPlanInputSource string
+
 // DockerOperation defines model for DockerOperation.
 type DockerOperation struct {
 	ClaimedByWorkerID    string         `json:"claimedByWorkerId,omitempty"`
@@ -2013,6 +3045,34 @@ type ErrorEnvelope struct {
 	} `json:"error"`
 }
 
+// ExecutionArtifact defines model for ExecutionArtifact.
+type ExecutionArtifact struct {
+	ApplicationEnvironmentID string         `json:"applicationEnvironmentId,omitempty"`
+	ApplicationID            string         `json:"applicationId,omitempty"`
+	CreatedAt                *time.Time     `json:"createdAt,omitempty"`
+	Digest                   string         `json:"digest,omitempty"`
+	ExecutionTaskID          string         `json:"executionTaskId,omitempty"`
+	ID                       string         `json:"id,omitempty"`
+	Kind                     string         `json:"kind"`
+	Metadata                 map[string]any `json:"metadata,omitempty"`
+	ModifiedAt               *time.Time     `json:"modifiedAt,omitempty"`
+	Name                     string         `json:"name,omitempty"`
+	Path                     string         `json:"path,omitempty"`
+	Ref                      string         `json:"ref,omitempty"`
+	ReleaseBundleID          string         `json:"releaseBundleId,omitempty"`
+	RetentionUntil           *time.Time     `json:"retentionUntil,omitempty"`
+	SizeBytes                int64          `json:"sizeBytes,omitempty"`
+	Status                   string         `json:"status,omitempty"`
+	UpdatedAt                *time.Time     `json:"updatedAt,omitempty"`
+	WorkflowNodeID           string         `json:"workflowNodeId,omitempty"`
+	WorkflowRunID            string         `json:"workflowRunId,omitempty"`
+}
+
+// ExecutionArtifactListEnvelope defines model for ExecutionArtifactListEnvelope.
+type ExecutionArtifactListEnvelope struct {
+	Data []ExecutionArtifact `json:"data"`
+}
+
 // ExecutionCallbackRequest defines model for ExecutionCallbackRequest.
 type ExecutionCallbackRequest struct {
 	CallbackToken string         `json:"callbackToken"`
@@ -2022,15 +3082,35 @@ type ExecutionCallbackRequest struct {
 
 // ExecutionTask defines model for ExecutionTask.
 type ExecutionTask struct {
-	ApplicationEnvironmentID string         `json:"applicationEnvironmentId"`
-	ApplicationID            string         `json:"applicationId"`
-	CallbackToken            string         `json:"callbackToken"`
-	ID                       string         `json:"id"`
-	Payload                  map[string]any `json:"payload"`
-	ProviderKind             string         `json:"providerKind"`
-	Status                   string         `json:"status"`
-	TaskKind                 string         `json:"taskKind"`
-	AdditionalProperties     map[string]any `json:"-"`
+	ApplicationEnvironmentID string              `json:"applicationEnvironmentId"`
+	ApplicationID            string              `json:"applicationId"`
+	Artifacts                []ExecutionArtifact `json:"artifacts,omitempty"`
+	AttemptCount             int                 `json:"attemptCount,omitempty"`
+	CallbackToken            string              `json:"callbackToken"`
+	ClaimedByAgentID         string              `json:"claimedByAgentId,omitempty"`
+	CreatedAt                *time.Time          `json:"createdAt,omitempty"`
+	FinishedAt               *time.Time          `json:"finishedAt,omitempty"`
+	ID                       string              `json:"id"`
+	LastHeartbeatAt          *time.Time          `json:"lastHeartbeatAt,omitempty"`
+	LastRuntimeSeenAt        *time.Time          `json:"lastRuntimeSeenAt,omitempty"`
+	LockKey                  string              `json:"lockKey,omitempty"`
+	MaxRetries               int                 `json:"maxRetries,omitempty"`
+	OperationState           *OperationState     `json:"operationState,omitempty"`
+	Payload                  map[string]any      `json:"payload"`
+	ProviderKind             string              `json:"providerKind"`
+	QueueKey                 string              `json:"queueKey,omitempty"`
+	ReleaseBundleID          string              `json:"releaseBundleId,omitempty"`
+	Result                   map[string]any      `json:"result,omitempty"`
+	RuntimeClusterID         string              `json:"runtimeClusterId,omitempty"`
+	RuntimeEndpoint          string              `json:"runtimeEndpoint,omitempty"`
+	StartedAt                *time.Time          `json:"startedAt,omitempty"`
+	Status                   string              `json:"status"`
+	StopTransport            string              `json:"stopTransport,omitempty"`
+	TargetKind               string              `json:"targetKind,omitempty"`
+	TaskKind                 string              `json:"taskKind"`
+	TimeoutSeconds           int                 `json:"timeoutSeconds,omitempty"`
+	UpdatedAt                *time.Time          `json:"updatedAt,omitempty"`
+	AdditionalProperties     map[string]any      `json:"-"`
 }
 
 // ExecutionTaskClaimRequest defines model for ExecutionTaskClaimRequest.
@@ -2043,6 +3123,11 @@ type ExecutionTaskClaimRequest struct {
 // ExecutionTaskEnvelope defines model for ExecutionTaskEnvelope.
 type ExecutionTaskEnvelope struct {
 	Data ExecutionTask `json:"data"`
+}
+
+// ExecutionTaskListEnvelope defines model for ExecutionTaskListEnvelope.
+type ExecutionTaskListEnvelope struct {
+	Data []ExecutionTask `json:"data"`
 }
 
 // GeminiGenerateContentRequest Native Gemini generateContent request body. The model is taken from the path and mapped by Soha model routes. Gemini text, inlineData, fileData, cachedContent, generationConfig, and safetySettings fields are passed through; multimodal audio/image/file inputs bypass response cache and local token estimation only counts text parts when provider usageMetadata is absent.
@@ -2862,6 +3947,27 @@ type OpenAIResponseRequest struct {
 	AdditionalProperties map[string]any `json:"-"`
 }
 
+// OperationState defines model for OperationState.
+type OperationState struct {
+	Cancelable             bool       `json:"cancelable"`
+	ClaimedByAgentID       string     `json:"claimedByAgentId,omitempty"`
+	FailureMessage         string     `json:"failureMessage,omitempty"`
+	FailureReason          string     `json:"failureReason,omitempty"`
+	FinalStateRecordedAt   *time.Time `json:"finalStateRecordedAt,omitempty"`
+	HeartbeatRequired      bool       `json:"heartbeatRequired"`
+	HeartbeatStale         bool       `json:"heartbeatStale"`
+	LastHeartbeatAt        *time.Time `json:"lastHeartbeatAt,omitempty"`
+	LastRuntimeSeenAt      *time.Time `json:"lastRuntimeSeenAt,omitempty"`
+	NextHeartbeatDeadline  *time.Time `json:"nextHeartbeatDeadline,omitempty"`
+	Phase                  string     `json:"phase"`
+	RecommendedNextAction  string     `json:"recommendedNextAction,omitempty"`
+	Retryable              bool       `json:"retryable"`
+	RuntimeEndpointPresent bool       `json:"runtimeEndpointPresent"`
+	Status                 string     `json:"status"`
+	Terminal               bool       `json:"terminal"`
+	TimeoutSeconds         int        `json:"timeoutSeconds"`
+}
+
 // OperationStatus defines model for OperationStatus.
 type OperationStatus struct {
 	Status string `json:"status"`
@@ -3057,6 +4163,94 @@ type RefreshRequest struct {
 	RefreshToken string `json:"refreshToken,omitempty"`
 }
 
+// ReleaseBundle defines model for ReleaseBundle.
+type ReleaseBundle struct {
+	ApplicationEnvironmentID string              `json:"applicationEnvironmentId,omitempty"`
+	ApplicationID            string              `json:"applicationId"`
+	ArtifactDigest           string              `json:"artifactDigest,omitempty"`
+	ArtifactRef              string              `json:"artifactRef,omitempty"`
+	Artifacts                []ExecutionArtifact `json:"artifacts,omitempty"`
+	CreatedAt                time.Time           `json:"createdAt"`
+	ID                       string              `json:"id"`
+	Metadata                 map[string]any      `json:"metadata,omitempty"`
+	SourceType               string              `json:"sourceType"`
+	Status                   string              `json:"status"`
+	UpdatedAt                time.Time           `json:"updatedAt"`
+	Version                  string              `json:"version"`
+}
+
+// ReleaseBundleEnvelope defines model for ReleaseBundleEnvelope.
+type ReleaseBundleEnvelope struct {
+	Data ReleaseBundle `json:"data"`
+}
+
+// ReleaseBundleListEnvelope defines model for ReleaseBundleListEnvelope.
+type ReleaseBundleListEnvelope struct {
+	Data []ReleaseBundle `json:"data"`
+}
+
+// ReleasePolicy defines model for ReleasePolicy.
+type ReleasePolicy struct {
+	ActionKind            string   `json:"actionKind,omitempty"`
+	ApproverRoles         []string `json:"approverRoles,omitempty"`
+	AutoRollback          bool     `json:"autoRollback,omitempty"`
+	RequiresApproval      bool     `json:"requiresApproval,omitempty"`
+	RolloutTimeoutSeconds int      `json:"rolloutTimeoutSeconds,omitempty"`
+	VerificationMode      string   `json:"verificationMode,omitempty"`
+}
+
+// ReleaseRecord defines model for ReleaseRecord.
+type ReleaseRecord struct {
+	ApplicationID  string         `json:"applicationId"`
+	ClusterID      string         `json:"clusterId"`
+	CreatedAt      time.Time      `json:"createdAt"`
+	DeployedAt     *time.Time     `json:"deployedAt,omitempty"`
+	DeploymentName string         `json:"deploymentName"`
+	ID             string         `json:"id"`
+	Metadata       map[string]any `json:"metadata,omitempty"`
+	Namespace      string         `json:"namespace"`
+	Status         string         `json:"status"`
+}
+
+// ReleaseTarget defines model for ReleaseTarget.
+type ReleaseTarget struct {
+	ApplicationEnvironmentID string         `json:"applicationEnvironmentId"`
+	ClusterID                string         `json:"clusterId"`
+	ConfigRef                string         `json:"configRef,omitempty"`
+	ContainerName            string         `json:"containerName,omitempty"`
+	CreatedAt                *time.Time     `json:"createdAt,omitempty"`
+	Enabled                  bool           `json:"enabled"`
+	ExecutorKind             string         `json:"executorKind,omitempty"`
+	GroupKey                 string         `json:"groupKey,omitempty"`
+	ID                       string         `json:"id"`
+	Metadata                 map[string]any `json:"metadata,omitempty"`
+	Namespace                string         `json:"namespace"`
+	RegionKey                string         `json:"regionKey,omitempty"`
+	TargetKind               string         `json:"targetKind,omitempty"`
+	UpdatedAt                *time.Time     `json:"updatedAt,omitempty"`
+	WaveKey                  string         `json:"waveKey,omitempty"`
+	WorkloadKind             string         `json:"workloadKind"`
+	WorkloadName             string         `json:"workloadName"`
+}
+
+// ReleaseTargetInput defines model for ReleaseTargetInput.
+type ReleaseTargetInput struct {
+	ClusterID     string         `json:"clusterId"`
+	ConfigRef     string         `json:"configRef,omitempty"`
+	ContainerName string         `json:"containerName,omitempty"`
+	Enabled       bool           `json:"enabled"`
+	ExecutorKind  string         `json:"executorKind,omitempty"`
+	GroupKey      string         `json:"groupKey,omitempty"`
+	ID            string         `json:"id,omitempty"`
+	Metadata      map[string]any `json:"metadata,omitempty"`
+	Namespace     string         `json:"namespace"`
+	RegionKey     string         `json:"regionKey,omitempty"`
+	TargetKind    string         `json:"targetKind,omitempty"`
+	WaveKey       string         `json:"waveKey,omitempty"`
+	WorkloadKind  string         `json:"workloadKind"`
+	WorkloadName  string         `json:"workloadName"`
+}
+
 // ResourceCapability defines model for ResourceCapability.
 type ResourceCapability struct {
 	ContextSchema  JSONSchema `json:"contextSchema,omitempty"`
@@ -3092,6 +4286,11 @@ type ResourceReadResult struct {
 // ResourceReadResultEnvelope defines model for ResourceReadResultEnvelope.
 type ResourceReadResultEnvelope struct {
 	Data ResourceReadResult `json:"data"`
+}
+
+// ResourceSelector defines model for ResourceSelector.
+type ResourceSelector struct {
+	MatchLabels map[string]string `json:"matchLabels,omitempty"`
 }
 
 // RiskLevel defines model for RiskLevel.
@@ -3285,11 +4484,352 @@ type UserProfileEnvelope struct {
 	Data UserProfile `json:"data"`
 }
 
+// WorkbenchAgentStatusEvent defines model for WorkbenchAgentStatusEvent.
+type WorkbenchAgentStatusEvent struct {
+	CreatedAt    time.Time                             `json:"createdAt"`
+	ID           string                                `json:"id"`
+	MessageID    string                                `json:"messageId,omitempty"`
+	ProviderID   string                                `json:"providerId"`
+	ProviderKind WorkbenchAgentStatusEventProviderKind `json:"providerKind"`
+	RunID        string                                `json:"runId,omitempty"`
+	Sequence     int                                   `json:"sequence"`
+	SessionID    string                                `json:"sessionId"`
+	Status       WorkbenchAgentStatusEventStatus       `json:"status"`
+	Type         WorkbenchAgentStatusEventType         `json:"type"`
+}
+
+// WorkbenchAgentStatusEventProviderKind defines model for WorkbenchAgentStatusEvent.ProviderKind.
+type WorkbenchAgentStatusEventProviderKind string
+
+// WorkbenchAgentStatusEventStatus defines model for WorkbenchAgentStatusEvent.Status.
+type WorkbenchAgentStatusEventStatus string
+
+// WorkbenchAgentStatusEventType defines model for WorkbenchAgentStatusEvent.Type.
+type WorkbenchAgentStatusEventType string
+
+// WorkbenchArtifactUpdatedEvent defines model for WorkbenchArtifactUpdatedEvent.
+type WorkbenchArtifactUpdatedEvent struct {
+	Artifact  AnyValue                          `json:"artifact"`
+	CreatedAt time.Time                         `json:"createdAt"`
+	ID        string                            `json:"id"`
+	MessageID string                            `json:"messageId,omitempty"`
+	RunID     string                            `json:"runId,omitempty"`
+	Sequence  int                               `json:"sequence"`
+	SessionID string                            `json:"sessionId"`
+	Type      WorkbenchArtifactUpdatedEventType `json:"type"`
+}
+
+// WorkbenchArtifactUpdatedEventType defines model for WorkbenchArtifactUpdatedEvent.Type.
+type WorkbenchArtifactUpdatedEventType string
+
+// WorkbenchCardCommandEvent defines model for WorkbenchCardCommandEvent.
+type WorkbenchCardCommandEvent struct {
+	Command   AnyValue                      `json:"command"`
+	CreatedAt time.Time                     `json:"createdAt"`
+	ID        string                        `json:"id"`
+	MessageID string                        `json:"messageId,omitempty"`
+	RunID     string                        `json:"runId,omitempty"`
+	Sequence  int                           `json:"sequence"`
+	SessionID string                        `json:"sessionId"`
+	SurfaceID string                        `json:"surfaceId"`
+	Type      WorkbenchCardCommandEventType `json:"type"`
+}
+
+// WorkbenchCardCommandEventType defines model for WorkbenchCardCommandEvent.Type.
+type WorkbenchCardCommandEventType string
+
+// WorkbenchErrorEvent defines model for WorkbenchErrorEvent.
+type WorkbenchErrorEvent struct {
+	Code      string                  `json:"code,omitempty"`
+	CreatedAt time.Time               `json:"createdAt"`
+	ID        string                  `json:"id"`
+	Message   string                  `json:"message"`
+	MessageID string                  `json:"messageId,omitempty"`
+	Retryable bool                    `json:"retryable,omitempty"`
+	RunID     string                  `json:"runId,omitempty"`
+	Sequence  int                     `json:"sequence"`
+	SessionID string                  `json:"sessionId"`
+	Type      WorkbenchErrorEventType `json:"type"`
+}
+
+// WorkbenchErrorEventType defines model for WorkbenchErrorEvent.Type.
+type WorkbenchErrorEventType string
+
+// WorkbenchMessageDeltaEvent defines model for WorkbenchMessageDeltaEvent.
+type WorkbenchMessageDeltaEvent struct {
+	ContentDelta string                         `json:"contentDelta"`
+	CreatedAt    time.Time                      `json:"createdAt"`
+	ID           string                         `json:"id"`
+	MessageID    string                         `json:"messageId,omitempty"`
+	Role         WorkbenchMessageDeltaEventRole `json:"role"`
+	RunID        string                         `json:"runId,omitempty"`
+	Sequence     int                            `json:"sequence"`
+	SessionID    string                         `json:"sessionId"`
+	Type         WorkbenchMessageDeltaEventType `json:"type"`
+}
+
+// WorkbenchMessageDeltaEventRole defines model for WorkbenchMessageDeltaEvent.Role.
+type WorkbenchMessageDeltaEventRole string
+
+// WorkbenchMessageDeltaEventType defines model for WorkbenchMessageDeltaEvent.Type.
+type WorkbenchMessageDeltaEventType string
+
+// WorkbenchMessageDoneEvent defines model for WorkbenchMessageDoneEvent.
+type WorkbenchMessageDoneEvent struct {
+	Content   string                        `json:"content"`
+	CreatedAt time.Time                     `json:"createdAt"`
+	ID        string                        `json:"id"`
+	MessageID string                        `json:"messageId,omitempty"`
+	Metadata  map[string]any                `json:"metadata,omitempty"`
+	Role      WorkbenchMessageDoneEventRole `json:"role"`
+	RunID     string                        `json:"runId,omitempty"`
+	Sequence  int                           `json:"sequence"`
+	SessionID string                        `json:"sessionId"`
+	Type      WorkbenchMessageDoneEventType `json:"type"`
+}
+
+// WorkbenchMessageDoneEventRole defines model for WorkbenchMessageDoneEvent.Role.
+type WorkbenchMessageDoneEventRole string
+
+// WorkbenchMessageDoneEventType defines model for WorkbenchMessageDoneEvent.Type.
+type WorkbenchMessageDoneEventType string
+
+// WorkbenchSendMessageStreamRequest defines model for WorkbenchSendMessageStreamRequest.
+type WorkbenchSendMessageStreamRequest struct {
+	AgentProviderID string   `json:"agentProviderId,omitempty"`
+	Content         string   `json:"content"`
+	Mode            string   `json:"mode,omitempty"`
+	ScopeOverrides  AnyValue `json:"scopeOverrides,omitempty"`
+	Toolset         AnyValue `json:"toolset,omitempty"`
+}
+
+// WorkbenchSource defines model for WorkbenchSource.
+type WorkbenchSource struct {
+	ID      string              `json:"id"`
+	Kind    WorkbenchSourceKind `json:"kind"`
+	Summary string              `json:"summary,omitempty"`
+	Title   string              `json:"title"`
+	URL     string              `json:"url,omitempty"`
+}
+
+// WorkbenchSourceKind defines model for WorkbenchSource.Kind.
+type WorkbenchSourceKind string
+
+// WorkbenchSourceUpdatedEvent defines model for WorkbenchSourceUpdatedEvent.
+type WorkbenchSourceUpdatedEvent struct {
+	CreatedAt time.Time                       `json:"createdAt"`
+	ID        string                          `json:"id"`
+	MessageID string                          `json:"messageId,omitempty"`
+	RunID     string                          `json:"runId,omitempty"`
+	Sequence  int                             `json:"sequence"`
+	SessionID string                          `json:"sessionId"`
+	Source    WorkbenchSource                 `json:"source"`
+	Type      WorkbenchSourceUpdatedEventType `json:"type"`
+}
+
+// WorkbenchSourceUpdatedEventType defines model for WorkbenchSourceUpdatedEvent.Type.
+type WorkbenchSourceUpdatedEventType string
+
+// WorkbenchStreamEvent defines model for WorkbenchStreamEvent.
+type WorkbenchStreamEvent struct {
+	union json.RawMessage
+}
+
+// WorkbenchStreamEventBase defines model for WorkbenchStreamEventBase.
+type WorkbenchStreamEventBase struct {
+	CreatedAt time.Time `json:"createdAt"`
+	ID        string    `json:"id"`
+	MessageID string    `json:"messageId,omitempty"`
+	RunID     string    `json:"runId,omitempty"`
+	Sequence  int       `json:"sequence"`
+	SessionID string    `json:"sessionId"`
+}
+
+// WorkbenchThinkingDeltaEvent defines model for WorkbenchThinkingDeltaEvent.
+type WorkbenchThinkingDeltaEvent struct {
+	CreatedAt time.Time                       `json:"createdAt"`
+	ID        string                          `json:"id"`
+	MessageID string                          `json:"messageId,omitempty"`
+	RunID     string                          `json:"runId,omitempty"`
+	Sequence  int                             `json:"sequence"`
+	SessionID string                          `json:"sessionId"`
+	TextDelta string                          `json:"textDelta"`
+	Type      WorkbenchThinkingDeltaEventType `json:"type"`
+}
+
+// WorkbenchThinkingDeltaEventType defines model for WorkbenchThinkingDeltaEvent.Type.
+type WorkbenchThinkingDeltaEventType string
+
+// WorkbenchThinkingDoneEvent defines model for WorkbenchThinkingDoneEvent.
+type WorkbenchThinkingDoneEvent struct {
+	Collapsed bool                           `json:"collapsed"`
+	CreatedAt time.Time                      `json:"createdAt"`
+	ID        string                         `json:"id"`
+	MessageID string                         `json:"messageId,omitempty"`
+	RunID     string                         `json:"runId,omitempty"`
+	Sequence  int                            `json:"sequence"`
+	SessionID string                         `json:"sessionId"`
+	Summary   string                         `json:"summary"`
+	Type      WorkbenchThinkingDoneEventType `json:"type"`
+}
+
+// WorkbenchThinkingDoneEventType defines model for WorkbenchThinkingDoneEvent.Type.
+type WorkbenchThinkingDoneEventType string
+
+// WorkbenchToolCall defines model for WorkbenchToolCall.
+type WorkbenchToolCall struct {
+	AdapterID     string                  `json:"adapterId"`
+	ArtifactRefs  []string                `json:"artifactRefs,omitempty"`
+	CapabilityID  string                  `json:"capabilityId,omitempty"`
+	CompletedAt   *time.Time              `json:"completedAt,omitempty"`
+	DurationMs    int                     `json:"durationMs,omitempty"`
+	EvidenceRefs  []string                `json:"evidenceRefs,omitempty"`
+	ID            string                  `json:"id"`
+	InputPreview  AnyValue                `json:"inputPreview,omitempty"`
+	OutputPreview AnyValue                `json:"outputPreview,omitempty"`
+	SkillID       string                  `json:"skillId,omitempty"`
+	SkillName     string                  `json:"skillName,omitempty"`
+	StartedAt     *time.Time              `json:"startedAt,omitempty"`
+	Status        WorkbenchToolCallStatus `json:"status"`
+	Summary       string                  `json:"summary,omitempty"`
+	ToolName      string                  `json:"toolName"`
+}
+
+// WorkbenchToolCallStatus defines model for WorkbenchToolCall.Status.
+type WorkbenchToolCallStatus string
+
+// WorkbenchToolCompletedEvent defines model for WorkbenchToolCompletedEvent.
+type WorkbenchToolCompletedEvent struct {
+	CreatedAt time.Time                       `json:"createdAt"`
+	ID        string                          `json:"id"`
+	MessageID string                          `json:"messageId,omitempty"`
+	RunID     string                          `json:"runId,omitempty"`
+	Sequence  int                             `json:"sequence"`
+	SessionID string                          `json:"sessionId"`
+	ToolCall  WorkbenchToolCall               `json:"toolCall"`
+	Type      WorkbenchToolCompletedEventType `json:"type"`
+}
+
+// WorkbenchToolCompletedEventType defines model for WorkbenchToolCompletedEvent.Type.
+type WorkbenchToolCompletedEventType string
+
+// WorkbenchToolDeltaEvent defines model for WorkbenchToolDeltaEvent.
+type WorkbenchToolDeltaEvent struct {
+	CreatedAt   time.Time                   `json:"createdAt"`
+	ID          string                      `json:"id"`
+	LogDelta    string                      `json:"logDelta,omitempty"`
+	MessageID   string                      `json:"messageId,omitempty"`
+	OutputDelta string                      `json:"outputDelta,omitempty"`
+	RunID       string                      `json:"runId,omitempty"`
+	Sequence    int                         `json:"sequence"`
+	SessionID   string                      `json:"sessionId"`
+	ToolCallID  string                      `json:"toolCallId"`
+	Type        WorkbenchToolDeltaEventType `json:"type"`
+}
+
+// WorkbenchToolDeltaEventType defines model for WorkbenchToolDeltaEvent.Type.
+type WorkbenchToolDeltaEventType string
+
+// WorkbenchToolStartedEvent defines model for WorkbenchToolStartedEvent.
+type WorkbenchToolStartedEvent struct {
+	CreatedAt time.Time                     `json:"createdAt"`
+	ID        string                        `json:"id"`
+	MessageID string                        `json:"messageId,omitempty"`
+	RunID     string                        `json:"runId,omitempty"`
+	Sequence  int                           `json:"sequence"`
+	SessionID string                        `json:"sessionId"`
+	ToolCall  WorkbenchToolCall             `json:"toolCall"`
+	Type      WorkbenchToolStartedEventType `json:"type"`
+}
+
+// WorkbenchToolStartedEventType defines model for WorkbenchToolStartedEvent.Type.
+type WorkbenchToolStartedEventType string
+
+// WorkflowNodeRun defines model for WorkflowNodeRun.
+type WorkflowNodeRun struct {
+	FinishedAt string `json:"finishedAt,omitempty"`
+	Name       string `json:"name"`
+	NodeID     string `json:"nodeId"`
+	StartedAt  string `json:"startedAt,omitempty"`
+	Status     string `json:"status"`
+	Summary    string `json:"summary,omitempty"`
+	Type       string `json:"type"`
+}
+
+// WorkflowRun defines model for WorkflowRun.
+type WorkflowRun struct {
+	ApplicationID  string            `json:"applicationId"`
+	ClusterID      string            `json:"clusterId,omitempty"`
+	CreatedAt      string            `json:"createdAt"`
+	DeploymentName string            `json:"deploymentName,omitempty"`
+	ID             string            `json:"id"`
+	Metadata       map[string]any    `json:"metadata,omitempty"`
+	Namespace      string            `json:"namespace,omitempty"`
+	NodeRuns       []WorkflowNodeRun `json:"nodeRuns,omitempty"`
+	Status         string            `json:"status"`
+	Steps          []WorkflowStep    `json:"steps"`
+	UpdatedAt      string            `json:"updatedAt"`
+	WorkflowName   string            `json:"workflowName"`
+}
+
+// WorkflowStep defines model for WorkflowStep.
+type WorkflowStep struct {
+	Name    string `json:"name"`
+	Status  string `json:"status"`
+	Summary string `json:"summary,omitempty"`
+}
+
+// WorkflowTemplate defines model for WorkflowTemplate.
+type WorkflowTemplate struct {
+	Category    string         `json:"category,omitempty"`
+	CreatedAt   time.Time      `json:"createdAt"`
+	Definition  map[string]any `json:"definition,omitempty"`
+	Description string         `json:"description,omitempty"`
+	Enabled     bool           `json:"enabled"`
+	ID          string         `json:"id"`
+	Key         string         `json:"key"`
+	Name        string         `json:"name"`
+	UpdatedAt   time.Time      `json:"updatedAt"`
+}
+
+// WorkflowTemplateEnvelope defines model for WorkflowTemplateEnvelope.
+type WorkflowTemplateEnvelope struct {
+	Data WorkflowTemplate `json:"data"`
+}
+
+// WorkflowTemplateInput defines model for WorkflowTemplateInput.
+type WorkflowTemplateInput struct {
+	Category    string         `json:"category,omitempty"`
+	Definition  map[string]any `json:"definition,omitempty"`
+	Description string         `json:"description,omitempty"`
+	Enabled     bool           `json:"enabled"`
+	ID          string         `json:"id,omitempty"`
+	Key         string         `json:"key"`
+	Name        string         `json:"name"`
+}
+
+// WorkflowTemplateListEnvelope defines model for WorkflowTemplateListEnvelope.
+type WorkflowTemplateListEnvelope struct {
+	Data []WorkflowTemplate `json:"data"`
+}
+
 // AIClientID defines model for AIClientID.
 type AIClientID = string
 
 // AIClientName defines model for AIClientName.
 type AIClientName = string
+
+// ApplicationEnvironmentID defines model for ApplicationEnvironmentID.
+type ApplicationEnvironmentID = string
+
+// ApplicationID defines model for ApplicationID.
+type ApplicationID = string
+
+// BuildTemplateID defines model for BuildTemplateID.
+type BuildTemplateID = string
+
+// BundleID defines model for BundleID.
+type BundleID = string
 
 // OIDCCode defines model for OIDCCode.
 type OIDCCode = string
@@ -3303,6 +4843,9 @@ type OpenAICompatibleProvider string
 // OperationID defines model for OperationID.
 type OperationID = string
 
+// PlanID defines model for PlanID.
+type PlanID = string
+
 // PluginID defines model for PluginID.
 type PluginID = string
 
@@ -3311,6 +4854,12 @@ type ProviderID = string
 
 // RouteID defines model for RouteID.
 type RouteID = string
+
+// ServiceID defines model for ServiceID.
+type ServiceID = string
+
+// SessionID defines model for SessionID.
+type SessionID = string
 
 // SkillID defines model for SkillID.
 type SkillID = string
@@ -3335,6 +4884,9 @@ type ToolName = string
 
 // UpstreamID defines model for UpstreamID.
 type UpstreamID = string
+
+// WorkflowTemplateID defines model for WorkflowTemplateID.
+type WorkflowTemplateID = string
 
 // Error defines model for Error.
 type Error = ErrorEnvelope
@@ -3857,6 +5409,18 @@ type ListAIGatewayRelayUpstreamsParamsProviderKind string
 // ListAIGatewayRelayUpstreamsParamsStatus defines parameters for ListAIGatewayRelayUpstreams.
 type ListAIGatewayRelayUpstreamsParamsStatus string
 
+// ListApplicationEnvironmentsParams defines parameters for ListApplicationEnvironments.
+type ListApplicationEnvironmentsParams struct {
+	ApplicationID string `form:"applicationId,omitempty" json:"applicationId,omitempty"`
+	EnvironmentID string `form:"environmentId,omitempty" json:"environmentId,omitempty"`
+}
+
+// ListApplicationsParams defines parameters for ListApplications.
+type ListApplicationsParams struct {
+	Search string `form:"search,omitempty" json:"search,omitempty"`
+	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
 // HandleProviderCallbackParams defines parameters for HandleProviderCallback.
 type HandleProviderCallbackParams struct {
 	Code  OIDCCode  `form:"code,omitempty" json:"code,omitempty"`
@@ -3867,6 +5431,36 @@ type HandleProviderCallbackParams struct {
 type HandleOIDCCallbackParams struct {
 	Code  OIDCCode  `form:"code,omitempty" json:"code,omitempty"`
 	State OIDCState `form:"state,omitempty" json:"state,omitempty"`
+}
+
+// ListDeliveryArtifactsParams defines parameters for ListDeliveryArtifacts.
+type ListDeliveryArtifactsParams struct {
+	ApplicationID            string `form:"applicationId,omitempty" json:"applicationId,omitempty"`
+	ApplicationEnvironmentID string `form:"applicationEnvironmentId,omitempty" json:"applicationEnvironmentId,omitempty"`
+	WorkflowRunID            string `form:"workflowRunId,omitempty" json:"workflowRunId,omitempty"`
+	WorkflowNodeID           string `form:"workflowNodeId,omitempty" json:"workflowNodeId,omitempty"`
+	ReleaseBundleID          string `form:"releaseBundleId,omitempty" json:"releaseBundleId,omitempty"`
+	ExecutionTaskID          string `form:"executionTaskId,omitempty" json:"executionTaskId,omitempty"`
+	Kind                     string `form:"kind,omitempty" json:"kind,omitempty"`
+	Status                   string `form:"status,omitempty" json:"status,omitempty"`
+	Limit                    int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListDeliveryExecutionTasksParams defines parameters for ListDeliveryExecutionTasks.
+type ListDeliveryExecutionTasksParams struct {
+	ApplicationID            string `form:"applicationId,omitempty" json:"applicationId,omitempty"`
+	ApplicationEnvironmentID string `form:"applicationEnvironmentId,omitempty" json:"applicationEnvironmentId,omitempty"`
+	ReleaseBundleID          string `form:"releaseBundleId,omitempty" json:"releaseBundleId,omitempty"`
+	Status                   string `form:"status,omitempty" json:"status,omitempty"`
+	ProviderKind             string `form:"providerKind,omitempty" json:"providerKind,omitempty"`
+	Limit                    int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListReleaseBundlesParams defines parameters for ListReleaseBundles.
+type ListReleaseBundlesParams struct {
+	ApplicationID            string `form:"applicationId,omitempty" json:"applicationId,omitempty"`
+	ApplicationEnvironmentID string `form:"applicationEnvironmentId,omitempty" json:"applicationEnvironmentId,omitempty"`
+	Limit                    int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
 // ListMarketplacePluginsParams defines parameters for ListMarketplacePlugins.
@@ -3990,6 +5584,27 @@ type CreateServiceAccountTokenJSONRequestBody = ServiceAccountTokenInput
 // InvokeAIGatewayToolJSONRequestBody defines body for InvokeAIGatewayTool for application/json ContentType.
 type InvokeAIGatewayToolJSONRequestBody = ToolInvocationRequest
 
+// CreateApplicationEnvironmentJSONRequestBody defines body for CreateApplicationEnvironment for application/json ContentType.
+type CreateApplicationEnvironmentJSONRequestBody = ApplicationEnvironmentInput
+
+// UpdateApplicationEnvironmentJSONRequestBody defines body for UpdateApplicationEnvironment for application/json ContentType.
+type UpdateApplicationEnvironmentJSONRequestBody = ApplicationEnvironmentInput
+
+// CreateApplicationJSONRequestBody defines body for CreateApplication for application/json ContentType.
+type CreateApplicationJSONRequestBody = ApplicationInput
+
+// UpdateApplicationJSONRequestBody defines body for UpdateApplication for application/json ContentType.
+type UpdateApplicationJSONRequestBody = ApplicationInput
+
+// TriggerApplicationDeliveryActionJSONRequestBody defines body for TriggerApplicationDeliveryAction for application/json ContentType.
+type TriggerApplicationDeliveryActionJSONRequestBody = ApplicationDeliveryActionRequest
+
+// CreateApplicationServiceJSONRequestBody defines body for CreateApplicationService for application/json ContentType.
+type CreateApplicationServiceJSONRequestBody = ApplicationServiceInput
+
+// UpdateApplicationServiceJSONRequestBody defines body for UpdateApplicationService for application/json ContentType.
+type UpdateApplicationServiceJSONRequestBody = ApplicationServiceInput
+
 // PasswordLoginJSONRequestBody defines body for PasswordLogin for application/json ContentType.
 type PasswordLoginJSONRequestBody = PasswordLoginRequest
 
@@ -4005,6 +5620,12 @@ type RefreshAuthSessionJSONRequestBody = RefreshRequest
 // IssueStreamTicketJSONRequestBody defines body for IssueStreamTicket for application/json ContentType.
 type IssueStreamTicketJSONRequestBody = StreamTicketRequest
 
+// CreateBuildTemplateJSONRequestBody defines body for CreateBuildTemplate for application/json ContentType.
+type CreateBuildTemplateJSONRequestBody = BuildTemplateInput
+
+// UpdateBuildTemplateJSONRequestBody defines body for UpdateBuildTemplate for application/json ContentType.
+type UpdateBuildTemplateJSONRequestBody = BuildTemplateInput
+
 // RecordAgentRunCallbackJSONRequestBody defines body for RecordAgentRunCallback for application/json ContentType.
 type RecordAgentRunCallbackJSONRequestBody = AgentRunCallbackRequest
 
@@ -4014,11 +5635,17 @@ type ClaimAgentRunJSONRequestBody = AgentRunClaimRequest
 // RecordAgentRunToolCallJSONRequestBody defines body for RecordAgentRunToolCall for application/json ContentType.
 type RecordAgentRunToolCallJSONRequestBody = AgentRunToolCallRequest
 
+// StreamWorkbenchSessionMessageJSONRequestBody defines body for StreamWorkbenchSessionMessage for application/json ContentType.
+type StreamWorkbenchSessionMessageJSONRequestBody = WorkbenchSendMessageStreamRequest
+
 // RecordExecutionCallbackJSONRequestBody defines body for RecordExecutionCallback for application/json ContentType.
 type RecordExecutionCallbackJSONRequestBody = ExecutionCallbackRequest
 
 // ClaimExecutionTaskJSONRequestBody defines body for ClaimExecutionTask for application/json ContentType.
 type ClaimExecutionTaskJSONRequestBody = ExecutionTaskClaimRequest
+
+// CreateDeliveryPlanJSONRequestBody defines body for CreateDeliveryPlan for application/json ContentType.
+type CreateDeliveryPlanJSONRequestBody = DeliveryPlanInput
 
 // RecordDockerOperationCallbackJSONRequestBody defines body for RecordDockerOperationCallback for application/json ContentType.
 type RecordDockerOperationCallbackJSONRequestBody = DockerOperationCallbackRequest
@@ -4040,6 +5667,12 @@ type UpdateAISkillsRegistryJSONRequestBody = UpdateAISkillsRequest
 
 // UpdateAIWorkbenchModelSettingsJSONRequestBody defines body for UpdateAIWorkbenchModelSettings for application/json ContentType.
 type UpdateAIWorkbenchModelSettingsJSONRequestBody = UpdateAIWorkbenchModelRequest
+
+// CreateWorkflowTemplateJSONRequestBody defines body for CreateWorkflowTemplate for application/json ContentType.
+type CreateWorkflowTemplateJSONRequestBody = WorkflowTemplateInput
+
+// UpdateWorkflowTemplateJSONRequestBody defines body for UpdateWorkflowTemplate for application/json ContentType.
+type UpdateWorkflowTemplateJSONRequestBody = WorkflowTemplateInput
 
 // Getter for additional properties for AgentRun. Returns the specified
 // element and whether it was found
@@ -5203,6 +6836,22 @@ func (a *ExecutionTask) UnmarshalJSON(b []byte) error {
 		delete(object, "applicationId")
 	}
 
+	if raw, found := object["artifacts"]; found {
+		err = json.Unmarshal(raw, &a.Artifacts)
+		if err != nil {
+			return fmt.Errorf("error reading 'artifacts': %w", err)
+		}
+		delete(object, "artifacts")
+	}
+
+	if raw, found := object["attemptCount"]; found {
+		err = json.Unmarshal(raw, &a.AttemptCount)
+		if err != nil {
+			return fmt.Errorf("error reading 'attemptCount': %w", err)
+		}
+		delete(object, "attemptCount")
+	}
+
 	if raw, found := object["callbackToken"]; found {
 		err = json.Unmarshal(raw, &a.CallbackToken)
 		if err != nil {
@@ -5211,12 +6860,76 @@ func (a *ExecutionTask) UnmarshalJSON(b []byte) error {
 		delete(object, "callbackToken")
 	}
 
+	if raw, found := object["claimedByAgentId"]; found {
+		err = json.Unmarshal(raw, &a.ClaimedByAgentID)
+		if err != nil {
+			return fmt.Errorf("error reading 'claimedByAgentId': %w", err)
+		}
+		delete(object, "claimedByAgentId")
+	}
+
+	if raw, found := object["createdAt"]; found {
+		err = json.Unmarshal(raw, &a.CreatedAt)
+		if err != nil {
+			return fmt.Errorf("error reading 'createdAt': %w", err)
+		}
+		delete(object, "createdAt")
+	}
+
+	if raw, found := object["finishedAt"]; found {
+		err = json.Unmarshal(raw, &a.FinishedAt)
+		if err != nil {
+			return fmt.Errorf("error reading 'finishedAt': %w", err)
+		}
+		delete(object, "finishedAt")
+	}
+
 	if raw, found := object["id"]; found {
 		err = json.Unmarshal(raw, &a.ID)
 		if err != nil {
 			return fmt.Errorf("error reading 'id': %w", err)
 		}
 		delete(object, "id")
+	}
+
+	if raw, found := object["lastHeartbeatAt"]; found {
+		err = json.Unmarshal(raw, &a.LastHeartbeatAt)
+		if err != nil {
+			return fmt.Errorf("error reading 'lastHeartbeatAt': %w", err)
+		}
+		delete(object, "lastHeartbeatAt")
+	}
+
+	if raw, found := object["lastRuntimeSeenAt"]; found {
+		err = json.Unmarshal(raw, &a.LastRuntimeSeenAt)
+		if err != nil {
+			return fmt.Errorf("error reading 'lastRuntimeSeenAt': %w", err)
+		}
+		delete(object, "lastRuntimeSeenAt")
+	}
+
+	if raw, found := object["lockKey"]; found {
+		err = json.Unmarshal(raw, &a.LockKey)
+		if err != nil {
+			return fmt.Errorf("error reading 'lockKey': %w", err)
+		}
+		delete(object, "lockKey")
+	}
+
+	if raw, found := object["maxRetries"]; found {
+		err = json.Unmarshal(raw, &a.MaxRetries)
+		if err != nil {
+			return fmt.Errorf("error reading 'maxRetries': %w", err)
+		}
+		delete(object, "maxRetries")
+	}
+
+	if raw, found := object["operationState"]; found {
+		err = json.Unmarshal(raw, &a.OperationState)
+		if err != nil {
+			return fmt.Errorf("error reading 'operationState': %w", err)
+		}
+		delete(object, "operationState")
 	}
 
 	if raw, found := object["payload"]; found {
@@ -5235,6 +6948,54 @@ func (a *ExecutionTask) UnmarshalJSON(b []byte) error {
 		delete(object, "providerKind")
 	}
 
+	if raw, found := object["queueKey"]; found {
+		err = json.Unmarshal(raw, &a.QueueKey)
+		if err != nil {
+			return fmt.Errorf("error reading 'queueKey': %w", err)
+		}
+		delete(object, "queueKey")
+	}
+
+	if raw, found := object["releaseBundleId"]; found {
+		err = json.Unmarshal(raw, &a.ReleaseBundleID)
+		if err != nil {
+			return fmt.Errorf("error reading 'releaseBundleId': %w", err)
+		}
+		delete(object, "releaseBundleId")
+	}
+
+	if raw, found := object["result"]; found {
+		err = json.Unmarshal(raw, &a.Result)
+		if err != nil {
+			return fmt.Errorf("error reading 'result': %w", err)
+		}
+		delete(object, "result")
+	}
+
+	if raw, found := object["runtimeClusterId"]; found {
+		err = json.Unmarshal(raw, &a.RuntimeClusterID)
+		if err != nil {
+			return fmt.Errorf("error reading 'runtimeClusterId': %w", err)
+		}
+		delete(object, "runtimeClusterId")
+	}
+
+	if raw, found := object["runtimeEndpoint"]; found {
+		err = json.Unmarshal(raw, &a.RuntimeEndpoint)
+		if err != nil {
+			return fmt.Errorf("error reading 'runtimeEndpoint': %w", err)
+		}
+		delete(object, "runtimeEndpoint")
+	}
+
+	if raw, found := object["startedAt"]; found {
+		err = json.Unmarshal(raw, &a.StartedAt)
+		if err != nil {
+			return fmt.Errorf("error reading 'startedAt': %w", err)
+		}
+		delete(object, "startedAt")
+	}
+
 	if raw, found := object["status"]; found {
 		err = json.Unmarshal(raw, &a.Status)
 		if err != nil {
@@ -5243,12 +7004,44 @@ func (a *ExecutionTask) UnmarshalJSON(b []byte) error {
 		delete(object, "status")
 	}
 
+	if raw, found := object["stopTransport"]; found {
+		err = json.Unmarshal(raw, &a.StopTransport)
+		if err != nil {
+			return fmt.Errorf("error reading 'stopTransport': %w", err)
+		}
+		delete(object, "stopTransport")
+	}
+
+	if raw, found := object["targetKind"]; found {
+		err = json.Unmarshal(raw, &a.TargetKind)
+		if err != nil {
+			return fmt.Errorf("error reading 'targetKind': %w", err)
+		}
+		delete(object, "targetKind")
+	}
+
 	if raw, found := object["taskKind"]; found {
 		err = json.Unmarshal(raw, &a.TaskKind)
 		if err != nil {
 			return fmt.Errorf("error reading 'taskKind': %w", err)
 		}
 		delete(object, "taskKind")
+	}
+
+	if raw, found := object["timeoutSeconds"]; found {
+		err = json.Unmarshal(raw, &a.TimeoutSeconds)
+		if err != nil {
+			return fmt.Errorf("error reading 'timeoutSeconds': %w", err)
+		}
+		delete(object, "timeoutSeconds")
+	}
+
+	if raw, found := object["updatedAt"]; found {
+		err = json.Unmarshal(raw, &a.UpdatedAt)
+		if err != nil {
+			return fmt.Errorf("error reading 'updatedAt': %w", err)
+		}
+		delete(object, "updatedAt")
 	}
 
 	if len(object) != 0 {
@@ -5280,14 +7073,76 @@ func (a ExecutionTask) MarshalJSON() ([]byte, error) {
 		return nil, fmt.Errorf("error marshaling 'applicationId': %w", err)
 	}
 
+	if a.Artifacts != nil {
+		object["artifacts"], err = json.Marshal(a.Artifacts)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'artifacts': %w", err)
+		}
+	}
+
+	object["attemptCount"], err = json.Marshal(a.AttemptCount)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'attemptCount': %w", err)
+	}
+
 	object["callbackToken"], err = json.Marshal(a.CallbackToken)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling 'callbackToken': %w", err)
 	}
 
+	object["claimedByAgentId"], err = json.Marshal(a.ClaimedByAgentID)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'claimedByAgentId': %w", err)
+	}
+
+	if a.CreatedAt != nil {
+		object["createdAt"], err = json.Marshal(a.CreatedAt)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'createdAt': %w", err)
+		}
+	}
+
+	if a.FinishedAt != nil {
+		object["finishedAt"], err = json.Marshal(a.FinishedAt)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'finishedAt': %w", err)
+		}
+	}
+
 	object["id"], err = json.Marshal(a.ID)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling 'id': %w", err)
+	}
+
+	if a.LastHeartbeatAt != nil {
+		object["lastHeartbeatAt"], err = json.Marshal(a.LastHeartbeatAt)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'lastHeartbeatAt': %w", err)
+		}
+	}
+
+	if a.LastRuntimeSeenAt != nil {
+		object["lastRuntimeSeenAt"], err = json.Marshal(a.LastRuntimeSeenAt)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'lastRuntimeSeenAt': %w", err)
+		}
+	}
+
+	object["lockKey"], err = json.Marshal(a.LockKey)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'lockKey': %w", err)
+	}
+
+	object["maxRetries"], err = json.Marshal(a.MaxRetries)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'maxRetries': %w", err)
+	}
+
+	if a.OperationState != nil {
+		object["operationState"], err = json.Marshal(a.OperationState)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'operationState': %w", err)
+		}
 	}
 
 	if a.Payload != nil {
@@ -5302,14 +7157,70 @@ func (a ExecutionTask) MarshalJSON() ([]byte, error) {
 		return nil, fmt.Errorf("error marshaling 'providerKind': %w", err)
 	}
 
+	object["queueKey"], err = json.Marshal(a.QueueKey)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'queueKey': %w", err)
+	}
+
+	object["releaseBundleId"], err = json.Marshal(a.ReleaseBundleID)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'releaseBundleId': %w", err)
+	}
+
+	if a.Result != nil {
+		object["result"], err = json.Marshal(a.Result)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'result': %w", err)
+		}
+	}
+
+	object["runtimeClusterId"], err = json.Marshal(a.RuntimeClusterID)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'runtimeClusterId': %w", err)
+	}
+
+	object["runtimeEndpoint"], err = json.Marshal(a.RuntimeEndpoint)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'runtimeEndpoint': %w", err)
+	}
+
+	if a.StartedAt != nil {
+		object["startedAt"], err = json.Marshal(a.StartedAt)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'startedAt': %w", err)
+		}
+	}
+
 	object["status"], err = json.Marshal(a.Status)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling 'status': %w", err)
 	}
 
+	object["stopTransport"], err = json.Marshal(a.StopTransport)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'stopTransport': %w", err)
+	}
+
+	object["targetKind"], err = json.Marshal(a.TargetKind)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'targetKind': %w", err)
+	}
+
 	object["taskKind"], err = json.Marshal(a.TaskKind)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling 'taskKind': %w", err)
+	}
+
+	object["timeoutSeconds"], err = json.Marshal(a.TimeoutSeconds)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'timeoutSeconds': %w", err)
+	}
+
+	if a.UpdatedAt != nil {
+		object["updatedAt"], err = json.Marshal(a.UpdatedAt)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'updatedAt': %w", err)
+		}
 	}
 
 	for fieldName, field := range a.AdditionalProperties {
@@ -8086,6 +9997,328 @@ func (t CohereRerankRequest_Documents_Item) MarshalJSON() ([]byte, error) {
 }
 
 func (t *CohereRerankRequest_Documents_Item) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsWorkbenchMessageDeltaEvent returns the union data inside the WorkbenchStreamEvent as a WorkbenchMessageDeltaEvent
+func (t WorkbenchStreamEvent) AsWorkbenchMessageDeltaEvent() (WorkbenchMessageDeltaEvent, error) {
+	var body WorkbenchMessageDeltaEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromWorkbenchMessageDeltaEvent overwrites any union data inside the WorkbenchStreamEvent as the provided WorkbenchMessageDeltaEvent
+func (t *WorkbenchStreamEvent) FromWorkbenchMessageDeltaEvent(v WorkbenchMessageDeltaEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeWorkbenchMessageDeltaEvent performs a merge with any union data inside the WorkbenchStreamEvent, using the provided WorkbenchMessageDeltaEvent
+func (t *WorkbenchStreamEvent) MergeWorkbenchMessageDeltaEvent(v WorkbenchMessageDeltaEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsWorkbenchMessageDoneEvent returns the union data inside the WorkbenchStreamEvent as a WorkbenchMessageDoneEvent
+func (t WorkbenchStreamEvent) AsWorkbenchMessageDoneEvent() (WorkbenchMessageDoneEvent, error) {
+	var body WorkbenchMessageDoneEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromWorkbenchMessageDoneEvent overwrites any union data inside the WorkbenchStreamEvent as the provided WorkbenchMessageDoneEvent
+func (t *WorkbenchStreamEvent) FromWorkbenchMessageDoneEvent(v WorkbenchMessageDoneEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeWorkbenchMessageDoneEvent performs a merge with any union data inside the WorkbenchStreamEvent, using the provided WorkbenchMessageDoneEvent
+func (t *WorkbenchStreamEvent) MergeWorkbenchMessageDoneEvent(v WorkbenchMessageDoneEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsWorkbenchThinkingDeltaEvent returns the union data inside the WorkbenchStreamEvent as a WorkbenchThinkingDeltaEvent
+func (t WorkbenchStreamEvent) AsWorkbenchThinkingDeltaEvent() (WorkbenchThinkingDeltaEvent, error) {
+	var body WorkbenchThinkingDeltaEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromWorkbenchThinkingDeltaEvent overwrites any union data inside the WorkbenchStreamEvent as the provided WorkbenchThinkingDeltaEvent
+func (t *WorkbenchStreamEvent) FromWorkbenchThinkingDeltaEvent(v WorkbenchThinkingDeltaEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeWorkbenchThinkingDeltaEvent performs a merge with any union data inside the WorkbenchStreamEvent, using the provided WorkbenchThinkingDeltaEvent
+func (t *WorkbenchStreamEvent) MergeWorkbenchThinkingDeltaEvent(v WorkbenchThinkingDeltaEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsWorkbenchThinkingDoneEvent returns the union data inside the WorkbenchStreamEvent as a WorkbenchThinkingDoneEvent
+func (t WorkbenchStreamEvent) AsWorkbenchThinkingDoneEvent() (WorkbenchThinkingDoneEvent, error) {
+	var body WorkbenchThinkingDoneEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromWorkbenchThinkingDoneEvent overwrites any union data inside the WorkbenchStreamEvent as the provided WorkbenchThinkingDoneEvent
+func (t *WorkbenchStreamEvent) FromWorkbenchThinkingDoneEvent(v WorkbenchThinkingDoneEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeWorkbenchThinkingDoneEvent performs a merge with any union data inside the WorkbenchStreamEvent, using the provided WorkbenchThinkingDoneEvent
+func (t *WorkbenchStreamEvent) MergeWorkbenchThinkingDoneEvent(v WorkbenchThinkingDoneEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsWorkbenchAgentStatusEvent returns the union data inside the WorkbenchStreamEvent as a WorkbenchAgentStatusEvent
+func (t WorkbenchStreamEvent) AsWorkbenchAgentStatusEvent() (WorkbenchAgentStatusEvent, error) {
+	var body WorkbenchAgentStatusEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromWorkbenchAgentStatusEvent overwrites any union data inside the WorkbenchStreamEvent as the provided WorkbenchAgentStatusEvent
+func (t *WorkbenchStreamEvent) FromWorkbenchAgentStatusEvent(v WorkbenchAgentStatusEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeWorkbenchAgentStatusEvent performs a merge with any union data inside the WorkbenchStreamEvent, using the provided WorkbenchAgentStatusEvent
+func (t *WorkbenchStreamEvent) MergeWorkbenchAgentStatusEvent(v WorkbenchAgentStatusEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsWorkbenchToolStartedEvent returns the union data inside the WorkbenchStreamEvent as a WorkbenchToolStartedEvent
+func (t WorkbenchStreamEvent) AsWorkbenchToolStartedEvent() (WorkbenchToolStartedEvent, error) {
+	var body WorkbenchToolStartedEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromWorkbenchToolStartedEvent overwrites any union data inside the WorkbenchStreamEvent as the provided WorkbenchToolStartedEvent
+func (t *WorkbenchStreamEvent) FromWorkbenchToolStartedEvent(v WorkbenchToolStartedEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeWorkbenchToolStartedEvent performs a merge with any union data inside the WorkbenchStreamEvent, using the provided WorkbenchToolStartedEvent
+func (t *WorkbenchStreamEvent) MergeWorkbenchToolStartedEvent(v WorkbenchToolStartedEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsWorkbenchToolDeltaEvent returns the union data inside the WorkbenchStreamEvent as a WorkbenchToolDeltaEvent
+func (t WorkbenchStreamEvent) AsWorkbenchToolDeltaEvent() (WorkbenchToolDeltaEvent, error) {
+	var body WorkbenchToolDeltaEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromWorkbenchToolDeltaEvent overwrites any union data inside the WorkbenchStreamEvent as the provided WorkbenchToolDeltaEvent
+func (t *WorkbenchStreamEvent) FromWorkbenchToolDeltaEvent(v WorkbenchToolDeltaEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeWorkbenchToolDeltaEvent performs a merge with any union data inside the WorkbenchStreamEvent, using the provided WorkbenchToolDeltaEvent
+func (t *WorkbenchStreamEvent) MergeWorkbenchToolDeltaEvent(v WorkbenchToolDeltaEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsWorkbenchToolCompletedEvent returns the union data inside the WorkbenchStreamEvent as a WorkbenchToolCompletedEvent
+func (t WorkbenchStreamEvent) AsWorkbenchToolCompletedEvent() (WorkbenchToolCompletedEvent, error) {
+	var body WorkbenchToolCompletedEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromWorkbenchToolCompletedEvent overwrites any union data inside the WorkbenchStreamEvent as the provided WorkbenchToolCompletedEvent
+func (t *WorkbenchStreamEvent) FromWorkbenchToolCompletedEvent(v WorkbenchToolCompletedEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeWorkbenchToolCompletedEvent performs a merge with any union data inside the WorkbenchStreamEvent, using the provided WorkbenchToolCompletedEvent
+func (t *WorkbenchStreamEvent) MergeWorkbenchToolCompletedEvent(v WorkbenchToolCompletedEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsWorkbenchArtifactUpdatedEvent returns the union data inside the WorkbenchStreamEvent as a WorkbenchArtifactUpdatedEvent
+func (t WorkbenchStreamEvent) AsWorkbenchArtifactUpdatedEvent() (WorkbenchArtifactUpdatedEvent, error) {
+	var body WorkbenchArtifactUpdatedEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromWorkbenchArtifactUpdatedEvent overwrites any union data inside the WorkbenchStreamEvent as the provided WorkbenchArtifactUpdatedEvent
+func (t *WorkbenchStreamEvent) FromWorkbenchArtifactUpdatedEvent(v WorkbenchArtifactUpdatedEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeWorkbenchArtifactUpdatedEvent performs a merge with any union data inside the WorkbenchStreamEvent, using the provided WorkbenchArtifactUpdatedEvent
+func (t *WorkbenchStreamEvent) MergeWorkbenchArtifactUpdatedEvent(v WorkbenchArtifactUpdatedEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsWorkbenchSourceUpdatedEvent returns the union data inside the WorkbenchStreamEvent as a WorkbenchSourceUpdatedEvent
+func (t WorkbenchStreamEvent) AsWorkbenchSourceUpdatedEvent() (WorkbenchSourceUpdatedEvent, error) {
+	var body WorkbenchSourceUpdatedEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromWorkbenchSourceUpdatedEvent overwrites any union data inside the WorkbenchStreamEvent as the provided WorkbenchSourceUpdatedEvent
+func (t *WorkbenchStreamEvent) FromWorkbenchSourceUpdatedEvent(v WorkbenchSourceUpdatedEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeWorkbenchSourceUpdatedEvent performs a merge with any union data inside the WorkbenchStreamEvent, using the provided WorkbenchSourceUpdatedEvent
+func (t *WorkbenchStreamEvent) MergeWorkbenchSourceUpdatedEvent(v WorkbenchSourceUpdatedEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsWorkbenchCardCommandEvent returns the union data inside the WorkbenchStreamEvent as a WorkbenchCardCommandEvent
+func (t WorkbenchStreamEvent) AsWorkbenchCardCommandEvent() (WorkbenchCardCommandEvent, error) {
+	var body WorkbenchCardCommandEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromWorkbenchCardCommandEvent overwrites any union data inside the WorkbenchStreamEvent as the provided WorkbenchCardCommandEvent
+func (t *WorkbenchStreamEvent) FromWorkbenchCardCommandEvent(v WorkbenchCardCommandEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeWorkbenchCardCommandEvent performs a merge with any union data inside the WorkbenchStreamEvent, using the provided WorkbenchCardCommandEvent
+func (t *WorkbenchStreamEvent) MergeWorkbenchCardCommandEvent(v WorkbenchCardCommandEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsWorkbenchErrorEvent returns the union data inside the WorkbenchStreamEvent as a WorkbenchErrorEvent
+func (t WorkbenchStreamEvent) AsWorkbenchErrorEvent() (WorkbenchErrorEvent, error) {
+	var body WorkbenchErrorEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromWorkbenchErrorEvent overwrites any union data inside the WorkbenchStreamEvent as the provided WorkbenchErrorEvent
+func (t *WorkbenchStreamEvent) FromWorkbenchErrorEvent(v WorkbenchErrorEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeWorkbenchErrorEvent performs a merge with any union data inside the WorkbenchStreamEvent, using the provided WorkbenchErrorEvent
+func (t *WorkbenchStreamEvent) MergeWorkbenchErrorEvent(v WorkbenchErrorEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t WorkbenchStreamEvent) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *WorkbenchStreamEvent) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }

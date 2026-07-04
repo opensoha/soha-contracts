@@ -15,8 +15,11 @@ tags:
   - name: System
   - name: Auth
   - name: Runner
+  - name: Applications
+  - name: Delivery
   - name: Platform
   - name: Settings
+  - name: AI Workbench
   - name: AI Gateway
   - name: MCP
   - name: Plugins
@@ -295,6 +298,712 @@ paths:
           $ref: "#/components/responses/Error"
         "403":
           $ref: "#/components/responses/Error"
+  /applications:
+    get:
+      tags: [Applications]
+      operationId: listApplications
+      parameters:
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+      responses:
+        "200":
+          description: Applications visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [Applications]
+      operationId: createApplication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApplicationInput"
+      responses:
+        "201":
+          description: Created application.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /applications/{applicationID}:
+    get:
+      tags: [Applications]
+      operationId: getApplication
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+      responses:
+        "200":
+          description: Application detail.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+    put:
+      tags: [Applications]
+      operationId: updateApplication
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApplicationInput"
+      responses:
+        "200":
+          description: Updated application.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags: [Applications]
+      operationId: deleteApplication
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+      responses:
+        "200":
+          description: Deleted application.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationStatus"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /applications/{applicationID}/detail:
+    get:
+      tags: [Applications, Delivery]
+      operationId: getApplicationDeliveryDetail
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+      responses:
+        "200":
+          description: Application delivery rollup.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationDeliveryDetailEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+  /applications/{applicationID}/runtime:
+    get:
+      tags: [Applications, Delivery]
+      operationId: getApplicationRuntimeDetail
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+      responses:
+        "200":
+          description: Application runtime rollup.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationRuntimeDetailEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+  /applications/{applicationID}/services:
+    get:
+      tags: [Applications]
+      operationId: listApplicationServices
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+      responses:
+        "200":
+          description: Application services.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationServiceListEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [Applications]
+      operationId: createApplicationService
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApplicationServiceInput"
+      responses:
+        "201":
+          description: Created application service.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationServiceEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+  /applications/{applicationID}/services/{serviceID}:
+    get:
+      tags: [Applications]
+      operationId: getApplicationService
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+        - $ref: "#/components/parameters/ServiceID"
+      responses:
+        "200":
+          description: Application service.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationServiceEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+    put:
+      tags: [Applications]
+      operationId: updateApplicationService
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+        - $ref: "#/components/parameters/ServiceID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApplicationServiceInput"
+      responses:
+        "200":
+          description: Updated application service.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationServiceEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags: [Applications]
+      operationId: deleteApplicationService
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+        - $ref: "#/components/parameters/ServiceID"
+      responses:
+        "200":
+          description: Deleted application service.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationStatus"
+        "404":
+          $ref: "#/components/responses/Error"
+  /applications/{applicationID}/delivery-actions:
+    post:
+      tags: [Applications, Delivery]
+      operationId: triggerApplicationDeliveryAction
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApplicationDeliveryActionRequest"
+      responses:
+        "200":
+          description: Delivery action result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationDeliveryActionResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /application-environments:
+    get:
+      tags: [Delivery]
+      operationId: listApplicationEnvironments
+      parameters:
+        - name: applicationId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: environmentId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Application environment bindings.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationEnvironmentListEnvelope"
+    post:
+      tags: [Delivery]
+      operationId: createApplicationEnvironment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApplicationEnvironmentInput"
+      responses:
+        "201":
+          description: Created application environment binding.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationEnvironmentEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+  /application-environments/{applicationEnvironmentID}:
+    get:
+      tags: [Delivery]
+      operationId: getApplicationEnvironment
+      parameters:
+        - $ref: "#/components/parameters/ApplicationEnvironmentID"
+      responses:
+        "200":
+          description: Application environment binding.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationEnvironmentEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+    put:
+      tags: [Delivery]
+      operationId: updateApplicationEnvironment
+      parameters:
+        - $ref: "#/components/parameters/ApplicationEnvironmentID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApplicationEnvironmentInput"
+      responses:
+        "200":
+          description: Updated application environment binding.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationEnvironmentEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags: [Delivery]
+      operationId: deleteApplicationEnvironment
+      parameters:
+        - $ref: "#/components/parameters/ApplicationEnvironmentID"
+      responses:
+        "200":
+          description: Deleted application environment binding.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationStatus"
+        "404":
+          $ref: "#/components/responses/Error"
+  /application-environments/{applicationEnvironmentID}/detail:
+    get:
+      tags: [Delivery]
+      operationId: getApplicationEnvironmentDeliveryDetail
+      parameters:
+        - $ref: "#/components/parameters/ApplicationEnvironmentID"
+      responses:
+        "200":
+          description: Application environment delivery detail.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationEnvironmentDeliveryDetailEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+  /build-templates:
+    get:
+      tags: [Delivery]
+      operationId: listBuildTemplates
+      responses:
+        "200":
+          description: Build templates.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BuildTemplateListEnvelope"
+    post:
+      tags: [Delivery]
+      operationId: createBuildTemplate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BuildTemplateInput"
+      responses:
+        "201":
+          description: Created build template.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BuildTemplateEnvelope"
+  /build-templates/{buildTemplateID}:
+    put:
+      tags: [Delivery]
+      operationId: updateBuildTemplate
+      parameters:
+        - $ref: "#/components/parameters/BuildTemplateID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BuildTemplateInput"
+      responses:
+        "200":
+          description: Updated build template.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BuildTemplateEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags: [Delivery]
+      operationId: deleteBuildTemplate
+      parameters:
+        - $ref: "#/components/parameters/BuildTemplateID"
+      responses:
+        "200":
+          description: Deleted build template.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationStatus"
+        "404":
+          $ref: "#/components/responses/Error"
+  /workflow-templates:
+    get:
+      tags: [Delivery]
+      operationId: listWorkflowTemplates
+      responses:
+        "200":
+          description: Workflow templates.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkflowTemplateListEnvelope"
+    post:
+      tags: [Delivery]
+      operationId: createWorkflowTemplate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkflowTemplateInput"
+      responses:
+        "201":
+          description: Created workflow template.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkflowTemplateEnvelope"
+  /workflow-templates/{workflowTemplateID}:
+    put:
+      tags: [Delivery]
+      operationId: updateWorkflowTemplate
+      parameters:
+        - $ref: "#/components/parameters/WorkflowTemplateID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkflowTemplateInput"
+      responses:
+        "200":
+          description: Updated workflow template.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkflowTemplateEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags: [Delivery]
+      operationId: deleteWorkflowTemplate
+      parameters:
+        - $ref: "#/components/parameters/WorkflowTemplateID"
+      responses:
+        "200":
+          description: Deleted workflow template.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationStatus"
+        "404":
+          $ref: "#/components/responses/Error"
+  /delivery/plans:
+    post:
+      tags: [Delivery]
+      operationId: createDeliveryPlan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeliveryPlanInput"
+      responses:
+        "200":
+          description: Created delivery plan draft.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryPlanEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+  /delivery/plans/{planID}:
+    get:
+      tags: [Delivery]
+      operationId: getDeliveryPlan
+      parameters:
+        - $ref: "#/components/parameters/PlanID"
+      responses:
+        "200":
+          description: Delivery plan.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryPlanEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+  /delivery/plans/{planID}/confirm:
+    post:
+      tags: [Delivery]
+      operationId: confirmDeliveryPlan
+      parameters:
+        - $ref: "#/components/parameters/PlanID"
+      responses:
+        "200":
+          description: Confirmed delivery plan and trigger result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryPlanConfirmResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+  /delivery/release-bundles:
+    get:
+      tags: [Delivery]
+      operationId: listReleaseBundles
+      parameters:
+        - name: applicationId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: applicationEnvironmentId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+      responses:
+        "200":
+          description: Release bundles.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReleaseBundleListEnvelope"
+  /delivery/release-bundles/{bundleID}:
+    get:
+      tags: [Delivery]
+      operationId: getReleaseBundle
+      parameters:
+        - $ref: "#/components/parameters/BundleID"
+      responses:
+        "200":
+          description: Release bundle.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReleaseBundleEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+  /delivery/release-bundles/{bundleID}/artifacts:
+    get:
+      tags: [Delivery]
+      operationId: listReleaseBundleArtifacts
+      parameters:
+        - $ref: "#/components/parameters/BundleID"
+      responses:
+        "200":
+          description: Artifacts attached to a release bundle.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExecutionArtifactListEnvelope"
+  /delivery/execution-tasks:
+    get:
+      tags: [Delivery]
+      operationId: listDeliveryExecutionTasks
+      parameters:
+        - name: applicationId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: applicationEnvironmentId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: releaseBundleId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: providerKind
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+      responses:
+        "200":
+          description: Execution tasks.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExecutionTaskListEnvelope"
+  /delivery/execution-tasks/{taskID}:
+    get:
+      tags: [Delivery]
+      operationId: getDeliveryExecutionTask
+      parameters:
+        - $ref: "#/components/parameters/TaskID"
+      responses:
+        "200":
+          description: Execution task.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExecutionTaskEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+  /delivery/execution-tasks/{taskID}/artifacts:
+    get:
+      tags: [Delivery]
+      operationId: listExecutionTaskArtifacts
+      parameters:
+        - $ref: "#/components/parameters/TaskID"
+      responses:
+        "200":
+          description: Artifacts attached to an execution task.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExecutionArtifactListEnvelope"
+  /delivery/artifacts:
+    get:
+      tags: [Delivery]
+      operationId: listDeliveryArtifacts
+      parameters:
+        - name: applicationId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: applicationEnvironmentId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: workflowRunId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: workflowNodeId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: releaseBundleId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: executionTaskId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: kind
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+      responses:
+        "200":
+          description: Delivery artifacts.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExecutionArtifactListEnvelope"
   /delivery/execution-tasks/claim:
     post:
       tags: [Runner]
@@ -468,6 +1177,29 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GenericItemsEnvelope"
+  /copilot/sessions/{sessionID}/messages/stream:
+    post:
+      tags: [AI Workbench]
+      operationId: streamWorkbenchSessionMessage
+      parameters:
+        - $ref: "#/components/parameters/SessionID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkbenchSendMessageStreamRequest"
+      responses:
+        "200":
+          description: Server-sent Workbench stream events. Each SSE data frame is one WorkbenchStreamEvent JSON object.
+          content:
+            text/event-stream:
+              schema:
+                $ref: "#/components/schemas/WorkbenchStreamEvent"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
   /clusters/capabilities:
     get:
       tags: [Platform]
@@ -2866,10 +3598,34 @@ components:
       name: x-api-key
       description: Anthropic-style Soha PAT/SAT credential header for native relay endpoints.
   parameters:
+    ApplicationID:
+      name: applicationID
+      in: path
+      required: true
+      schema:
+        type: string
+    ApplicationEnvironmentID:
+      name: applicationEnvironmentID
+      in: path
+      required: true
+      schema:
+        type: string
     AIClientID:
       name: aiClientId
       in: query
       required: false
+      schema:
+        type: string
+    BuildTemplateID:
+      name: buildTemplateID
+      in: path
+      required: true
+      schema:
+        type: string
+    BundleID:
+      name: bundleID
+      in: path
+      required: true
       schema:
         type: string
     AIClientName:
@@ -2908,6 +3664,24 @@ components:
       required: true
       schema:
         type: string
+    PlanID:
+      name: planID
+      in: path
+      required: true
+      schema:
+        type: string
+    ServiceID:
+      name: serviceID
+      in: path
+      required: true
+      schema:
+        type: string
+    SessionID:
+      name: sessionID
+      in: path
+      required: true
+      schema:
+        type: string
     SkillID:
       name: skillId
       in: query
@@ -2928,6 +3702,12 @@ components:
         type: string
     ToolName:
       name: toolName
+      in: path
+      required: true
+      schema:
+        type: string
+    WorkflowTemplateID:
+      name: workflowTemplateID
       in: path
       required: true
       schema:
@@ -3145,6 +3925,281 @@ components:
           items:
             $ref: "#/components/schemas/AISkillSettings"
       additionalProperties: false
+    WorkbenchSendMessageStreamRequest:
+      type: object
+      required: [content]
+      properties:
+        content:
+          type: string
+        mode:
+          type: string
+        agentProviderId:
+          type: string
+        toolset:
+          $ref: "#/components/schemas/AnyValue"
+        scopeOverrides:
+          $ref: "#/components/schemas/AnyValue"
+      additionalProperties: false
+    WorkbenchStreamEventBase:
+      type: object
+      required: [id, sessionId, sequence, createdAt]
+      properties:
+        id:
+          type: string
+        sessionId:
+          type: string
+        runId:
+          type: string
+        messageId:
+          type: string
+        sequence:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+    WorkbenchToolCall:
+      type: object
+      required: [id, adapterId, toolName, status]
+      properties:
+        id:
+          type: string
+        adapterId:
+          type: string
+        toolName:
+          type: string
+        skillId:
+          type: string
+        skillName:
+          type: string
+        capabilityId:
+          type: string
+        status:
+          type: string
+          enum: [pending, running, success, error, skipped]
+        inputPreview:
+          $ref: "#/components/schemas/AnyValue"
+        outputPreview:
+          $ref: "#/components/schemas/AnyValue"
+        summary:
+          type: string
+        evidenceRefs:
+          type: array
+          items:
+            type: string
+        artifactRefs:
+          type: array
+          items:
+            type: string
+        startedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+        durationMs:
+          type: integer
+      additionalProperties: false
+    WorkbenchSource:
+      type: object
+      required: [id, kind, title]
+      properties:
+        id:
+          type: string
+        kind:
+          type: string
+          enum: [log, metric, trace, event, audit, delivery, document]
+        title:
+          type: string
+        url:
+          type: string
+        summary:
+          type: string
+      additionalProperties: false
+    WorkbenchMessageDeltaEvent:
+      allOf:
+        - $ref: "#/components/schemas/WorkbenchStreamEventBase"
+        - type: object
+          required: [type, role, contentDelta]
+          properties:
+            type:
+              type: string
+              enum: [message.delta]
+            role:
+              type: string
+              enum: [assistant]
+            contentDelta:
+              type: string
+      unevaluatedProperties: false
+    WorkbenchMessageDoneEvent:
+      allOf:
+        - $ref: "#/components/schemas/WorkbenchStreamEventBase"
+        - type: object
+          required: [type, role, content]
+          properties:
+            type:
+              type: string
+              enum: [message.done]
+            role:
+              type: string
+              enum: [assistant]
+            content:
+              type: string
+            metadata:
+              type: object
+              additionalProperties: true
+      unevaluatedProperties: false
+    WorkbenchThinkingDeltaEvent:
+      allOf:
+        - $ref: "#/components/schemas/WorkbenchStreamEventBase"
+        - type: object
+          required: [type, textDelta]
+          properties:
+            type:
+              type: string
+              enum: [thinking.delta]
+            textDelta:
+              type: string
+      unevaluatedProperties: false
+    WorkbenchThinkingDoneEvent:
+      allOf:
+        - $ref: "#/components/schemas/WorkbenchStreamEventBase"
+        - type: object
+          required: [type, summary, collapsed]
+          properties:
+            type:
+              type: string
+              enum: [thinking.done]
+            summary:
+              type: string
+            collapsed:
+              type: boolean
+      unevaluatedProperties: false
+    WorkbenchAgentStatusEvent:
+      allOf:
+        - $ref: "#/components/schemas/WorkbenchStreamEventBase"
+        - type: object
+          required: [type, providerId, providerKind, status]
+          properties:
+            type:
+              type: string
+              enum: [agent.status]
+            providerId:
+              type: string
+            providerKind:
+              type: string
+              enum: [internal, hermes, openclaw, general]
+            status:
+              type: string
+              enum: [queued, running, succeeded, failed, cancelled]
+      unevaluatedProperties: false
+    WorkbenchToolStartedEvent:
+      allOf:
+        - $ref: "#/components/schemas/WorkbenchStreamEventBase"
+        - type: object
+          required: [type, toolCall]
+          properties:
+            type:
+              type: string
+              enum: [tool.started]
+            toolCall:
+              $ref: "#/components/schemas/WorkbenchToolCall"
+      unevaluatedProperties: false
+    WorkbenchToolDeltaEvent:
+      allOf:
+        - $ref: "#/components/schemas/WorkbenchStreamEventBase"
+        - type: object
+          required: [type, toolCallId]
+          properties:
+            type:
+              type: string
+              enum: [tool.delta]
+            toolCallId:
+              type: string
+            outputDelta:
+              type: string
+            logDelta:
+              type: string
+      unevaluatedProperties: false
+    WorkbenchToolCompletedEvent:
+      allOf:
+        - $ref: "#/components/schemas/WorkbenchStreamEventBase"
+        - type: object
+          required: [type, toolCall]
+          properties:
+            type:
+              type: string
+              enum: [tool.completed]
+            toolCall:
+              $ref: "#/components/schemas/WorkbenchToolCall"
+      unevaluatedProperties: false
+    WorkbenchArtifactUpdatedEvent:
+      allOf:
+        - $ref: "#/components/schemas/WorkbenchStreamEventBase"
+        - type: object
+          required: [type, artifact]
+          properties:
+            type:
+              type: string
+              enum: [artifact.updated]
+            artifact:
+              $ref: "#/components/schemas/AnyValue"
+      unevaluatedProperties: false
+    WorkbenchSourceUpdatedEvent:
+      allOf:
+        - $ref: "#/components/schemas/WorkbenchStreamEventBase"
+        - type: object
+          required: [type, source]
+          properties:
+            type:
+              type: string
+              enum: [source.updated]
+            source:
+              $ref: "#/components/schemas/WorkbenchSource"
+      unevaluatedProperties: false
+    WorkbenchCardCommandEvent:
+      allOf:
+        - $ref: "#/components/schemas/WorkbenchStreamEventBase"
+        - type: object
+          required: [type, surfaceId, command]
+          properties:
+            type:
+              type: string
+              enum: [card.command]
+            surfaceId:
+              type: string
+            command:
+              $ref: "#/components/schemas/AnyValue"
+      unevaluatedProperties: false
+    WorkbenchErrorEvent:
+      allOf:
+        - $ref: "#/components/schemas/WorkbenchStreamEventBase"
+        - type: object
+          required: [type, message]
+          properties:
+            type:
+              type: string
+              enum: [error]
+            message:
+              type: string
+            code:
+              type: string
+            retryable:
+              type: boolean
+      unevaluatedProperties: false
+    WorkbenchStreamEvent:
+      oneOf:
+        - $ref: "#/components/schemas/WorkbenchMessageDeltaEvent"
+        - $ref: "#/components/schemas/WorkbenchMessageDoneEvent"
+        - $ref: "#/components/schemas/WorkbenchThinkingDeltaEvent"
+        - $ref: "#/components/schemas/WorkbenchThinkingDoneEvent"
+        - $ref: "#/components/schemas/WorkbenchAgentStatusEvent"
+        - $ref: "#/components/schemas/WorkbenchToolStartedEvent"
+        - $ref: "#/components/schemas/WorkbenchToolDeltaEvent"
+        - $ref: "#/components/schemas/WorkbenchToolCompletedEvent"
+        - $ref: "#/components/schemas/WorkbenchArtifactUpdatedEvent"
+        - $ref: "#/components/schemas/WorkbenchSourceUpdatedEvent"
+        - $ref: "#/components/schemas/WorkbenchCardCommandEvent"
+        - $ref: "#/components/schemas/WorkbenchErrorEvent"
     Principal:
       type: object
       required: [userId, userName, email, roles, teams, projects, tags]
@@ -3378,11 +4433,1423 @@ components:
         data:
           $ref: "#/components/schemas/StreamTicket"
       additionalProperties: false
+    BuildSource:
+      type: object
+      required: [id, name, type, enabled, isDefault]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum: [repo_dockerfile, platform_build_template, external_pipeline]
+        enabled:
+          type: boolean
+        isDefault:
+          type: boolean
+        buildImage:
+          type: string
+        defaultTag:
+          type: string
+        config:
+          type: object
+          additionalProperties: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    BuildSourceInput:
+      type: object
+      required: [name, type, enabled, isDefault]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum: [repo_dockerfile, platform_build_template, external_pipeline]
+        enabled:
+          type: boolean
+        isDefault:
+          type: boolean
+        buildImage:
+          type: string
+        defaultTag:
+          type: string
+        config:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    Application:
+      type: object
+      required: [id, name, key, group, language, enabled, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        key:
+          type: string
+        group:
+          type: string
+        businessLineId:
+          type: string
+        language:
+          type: string
+        description:
+          type: string
+        ownerTeam:
+          type: string
+        repositoryProvider:
+          type: string
+        repositoryProjectId:
+          type: string
+        repositoryPath:
+          type: string
+        defaultBranch:
+          type: string
+        defaultTag:
+          type: string
+        buildImage:
+          type: string
+        buildContextDir:
+          type: string
+        dockerfilePath:
+          type: string
+        enabled:
+          type: boolean
+        metadata:
+          type: object
+          additionalProperties: true
+        buildSources:
+          type: array
+          items:
+            $ref: "#/components/schemas/BuildSource"
+        environmentCount:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ApplicationInput:
+      type: object
+      required: [name, key, group, language, enabled]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        key:
+          type: string
+        group:
+          type: string
+        businessLineId:
+          type: string
+        language:
+          type: string
+        description:
+          type: string
+        ownerTeam:
+          type: string
+        repositoryProvider:
+          type: string
+        repositoryProjectId:
+          type: string
+        repositoryPath:
+          type: string
+        defaultBranch:
+          type: string
+        defaultTag:
+          type: string
+        buildImage:
+          type: string
+        buildContextDir:
+          type: string
+        dockerfilePath:
+          type: string
+        enabled:
+          type: boolean
+        metadata:
+          type: object
+          additionalProperties: true
+        buildSources:
+          type: array
+          items:
+            $ref: "#/components/schemas/BuildSourceInput"
+      additionalProperties: false
+    ApplicationServiceContainer:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: string
+        serviceId:
+          type: string
+        name:
+          type: string
+        imageRepository:
+          type: string
+        defaultTagTemplate:
+          type: string
+        dockerfilePath:
+          type: string
+        buildContextDir:
+          type: string
+        runtimePorts:
+          type: array
+          items:
+            type: integer
+        envSchema:
+          type: object
+          additionalProperties: true
+        resourceProfile:
+          type: object
+          additionalProperties: true
+        healthCheck:
+          type: object
+          additionalProperties: true
+        metadata:
+          type: object
+          additionalProperties: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ApplicationServiceContainerInput:
+      type: object
+      required: [name]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        imageRepository:
+          type: string
+        defaultTagTemplate:
+          type: string
+        dockerfilePath:
+          type: string
+        buildContextDir:
+          type: string
+        runtimePorts:
+          type: array
+          items:
+            type: integer
+        envSchema:
+          type: object
+          additionalProperties: true
+        resourceProfile:
+          type: object
+          additionalProperties: true
+        healthCheck:
+          type: object
+          additionalProperties: true
+        metadata:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    ApplicationService:
+      type: object
+      required: [id, applicationId, key, name, serviceKind, enabled, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        applicationId:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        serviceKind:
+          type: string
+          enum: [kubernetes_workload, helm_release, external_service, job]
+        ownerTeam:
+          type: string
+        repositoryProvider:
+          type: string
+        repositoryProjectId:
+          type: string
+        repositoryPath:
+          type: string
+        defaultBranch:
+          type: string
+        buildSourceId:
+          type: string
+        enabled:
+          type: boolean
+        metadata:
+          type: object
+          additionalProperties: true
+        containers:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApplicationServiceContainer"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ApplicationServiceInput:
+      type: object
+      required: [key, name, serviceKind, enabled]
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        serviceKind:
+          type: string
+          enum: [kubernetes_workload, helm_release, external_service, job]
+        ownerTeam:
+          type: string
+        repositoryProvider:
+          type: string
+        repositoryProjectId:
+          type: string
+        repositoryPath:
+          type: string
+        defaultBranch:
+          type: string
+        buildSourceId:
+          type: string
+        enabled:
+          type: boolean
+        metadata:
+          type: object
+          additionalProperties: true
+        containers:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApplicationServiceContainerInput"
+      additionalProperties: false
+    BuildPolicy:
+      type: object
+      properties:
+        sourceId:
+          type: string
+        refType:
+          type: string
+        refValue:
+          type: string
+        imageTagMode:
+          type: string
+        imageTagTemplate:
+          type: string
+        variables:
+          type: object
+          additionalProperties: true
+        buildArgs:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    ResourceSelector:
+      type: object
+      properties:
+        matchLabels:
+          type: object
+          additionalProperties:
+            type: string
+      additionalProperties: false
+    ReleasePolicy:
+      type: object
+      properties:
+        actionKind:
+          type: string
+        requiresApproval:
+          type: boolean
+        approverRoles:
+          type: array
+          items:
+            type: string
+        autoRollback:
+          type: boolean
+        rolloutTimeoutSeconds:
+          type: integer
+        verificationMode:
+          type: string
+      additionalProperties: false
+    DeliveryEnvironment:
+      type: object
+      required: [id, key, name, stageLevel, sortOrder, isProduction, requiresApproval, enabled, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        tier:
+          type: string
+        stageLevel:
+          type: integer
+        sortOrder:
+          type: integer
+        isProduction:
+          type: boolean
+        requiresApproval:
+          type: boolean
+        enabled:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ReleaseTarget:
+      type: object
+      required: [id, applicationEnvironmentId, clusterId, namespace, workloadKind, workloadName, enabled]
+      properties:
+        id:
+          type: string
+        applicationEnvironmentId:
+          type: string
+        clusterId:
+          type: string
+        namespace:
+          type: string
+        targetKind:
+          type: string
+        executorKind:
+          type: string
+        groupKey:
+          type: string
+        waveKey:
+          type: string
+        regionKey:
+          type: string
+        configRef:
+          type: string
+        workloadKind:
+          type: string
+        workloadName:
+          type: string
+        containerName:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true
+        enabled:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ReleaseTargetInput:
+      type: object
+      required: [clusterId, namespace, workloadKind, workloadName, enabled]
+      properties:
+        id:
+          type: string
+        clusterId:
+          type: string
+        namespace:
+          type: string
+        targetKind:
+          type: string
+        executorKind:
+          type: string
+        groupKey:
+          type: string
+        waveKey:
+          type: string
+        regionKey:
+          type: string
+        configRef:
+          type: string
+        workloadKind:
+          type: string
+        workloadName:
+          type: string
+        containerName:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true
+        enabled:
+          type: boolean
+      additionalProperties: false
+    WorkflowTemplate:
+      type: object
+      required: [id, key, name, enabled, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        definition:
+          type: object
+          additionalProperties: true
+        enabled:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    WorkflowTemplateInput:
+      type: object
+      required: [key, name, enabled]
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        definition:
+          type: object
+          additionalProperties: true
+        enabled:
+          type: boolean
+      additionalProperties: false
+    ApplicationEnvironment:
+      type: object
+      required: [id, applicationId, environmentId, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        applicationId:
+          type: string
+        businessLineId:
+          type: string
+        applicationGroup:
+          type: string
+        environmentId:
+          type: string
+        environmentKey:
+          type: string
+        strategyProfileId:
+          type: string
+        promotionPolicyId:
+          type: string
+        artifactPolicyId:
+          type: string
+        workflowTemplateId:
+          type: string
+        workflowTemplate:
+          $ref: "#/components/schemas/WorkflowTemplate"
+        buildPolicy:
+          $ref: "#/components/schemas/BuildPolicy"
+        releasePolicy:
+          $ref: "#/components/schemas/ReleasePolicy"
+        resourceSelector:
+          $ref: "#/components/schemas/ResourceSelector"
+        targets:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReleaseTarget"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ApplicationEnvironmentInput:
+      type: object
+      required: [applicationId, environmentId]
+      properties:
+        id:
+          type: string
+        applicationId:
+          type: string
+        environmentId:
+          type: string
+        strategyProfileId:
+          type: string
+        promotionPolicyId:
+          type: string
+        artifactPolicyId:
+          type: string
+        workflowTemplateId:
+          type: string
+        buildPolicy:
+          $ref: "#/components/schemas/BuildPolicy"
+        releasePolicy:
+          $ref: "#/components/schemas/ReleasePolicy"
+        resourceSelector:
+          $ref: "#/components/schemas/ResourceSelector"
+        targets:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReleaseTargetInput"
+      additionalProperties: false
+    BuildTemplate:
+      type: object
+      required: [id, key, name, enabled, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        builderKind:
+          type: string
+        dockerfileTemplate:
+          type: string
+        buildCommands:
+          type: array
+          items:
+            type: string
+        variableSchema:
+          type: object
+          additionalProperties: true
+        defaultVariables:
+          type: object
+          additionalProperties: true
+        enabled:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    BuildTemplateInput:
+      type: object
+      required: [key, name, enabled]
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        builderKind:
+          type: string
+        dockerfileTemplate:
+          type: string
+        buildCommands:
+          type: array
+          items:
+            type: string
+        variableSchema:
+          type: object
+          additionalProperties: true
+        defaultVariables:
+          type: object
+          additionalProperties: true
+        enabled:
+          type: boolean
+      additionalProperties: false
+    BuildRecord:
+      type: object
+      required: [id, applicationId, sourceSystem, status, createdAt]
+      properties:
+        id:
+          type: string
+        applicationId:
+          type: string
+        sourceSystem:
+          type: string
+        status:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true
+        startedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ReleaseRecord:
+      type: object
+      required: [id, applicationId, clusterId, namespace, deploymentName, status, createdAt]
+      properties:
+        id:
+          type: string
+        applicationId:
+          type: string
+        clusterId:
+          type: string
+        namespace:
+          type: string
+        deploymentName:
+          type: string
+        status:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true
+        deployedAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    WorkflowStep:
+      type: object
+      required: [name, status]
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+        summary:
+          type: string
+      additionalProperties: false
+    WorkflowNodeRun:
+      type: object
+      required: [nodeId, name, type, status]
+      properties:
+        nodeId:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        status:
+          type: string
+        summary:
+          type: string
+        startedAt:
+          type: string
+        finishedAt:
+          type: string
+      additionalProperties: false
+    WorkflowRun:
+      type: object
+      required: [id, applicationId, workflowName, status, steps, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        applicationId:
+          type: string
+        workflowName:
+          type: string
+        clusterId:
+          type: string
+        namespace:
+          type: string
+        deploymentName:
+          type: string
+        status:
+          type: string
+        steps:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkflowStep"
+        nodeRuns:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkflowNodeRun"
+        metadata:
+          type: object
+          additionalProperties: true
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      additionalProperties: false
+    ExecutionArtifact:
+      type: object
+      required: [kind]
+      properties:
+        id:
+          type: string
+        executionTaskId:
+          type: string
+        releaseBundleId:
+          type: string
+        workflowRunId:
+          type: string
+        workflowNodeId:
+          type: string
+        applicationId:
+          type: string
+        applicationEnvironmentId:
+          type: string
+        kind:
+          type: string
+        name:
+          type: string
+        ref:
+          type: string
+        digest:
+          type: string
+        path:
+          type: string
+        status:
+          type: string
+        sizeBytes:
+          type: integer
+          format: int64
+        metadata:
+          type: object
+          additionalProperties: true
+        retentionUntil:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        modifiedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ReleaseBundle:
+      type: object
+      required: [id, applicationId, version, sourceType, status, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        applicationId:
+          type: string
+        applicationEnvironmentId:
+          type: string
+        version:
+          type: string
+        sourceType:
+          type: string
+        status:
+          type: string
+        artifactRef:
+          type: string
+        artifactDigest:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true
+        artifacts:
+          type: array
+          items:
+            $ref: "#/components/schemas/ExecutionArtifact"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    OperationState:
+      type: object
+      required: [phase, status, terminal, cancelable, retryable, heartbeatRequired, timeoutSeconds, heartbeatStale, runtimeEndpointPresent]
+      properties:
+        phase:
+          type: string
+        status:
+          type: string
+        terminal:
+          type: boolean
+        cancelable:
+          type: boolean
+        retryable:
+          type: boolean
+        heartbeatRequired:
+          type: boolean
+        timeoutSeconds:
+          type: integer
+        heartbeatStale:
+          type: boolean
+        lastHeartbeatAt:
+          type: string
+          format: date-time
+        nextHeartbeatDeadline:
+          type: string
+          format: date-time
+        failureReason:
+          type: string
+        failureMessage:
+          type: string
+        finalStateRecordedAt:
+          type: string
+          format: date-time
+        lastRuntimeSeenAt:
+          type: string
+          format: date-time
+        claimedByAgentId:
+          type: string
+        runtimeEndpointPresent:
+          type: boolean
+        recommendedNextAction:
+          type: string
+      additionalProperties: false
+    ApplicationBindingSummary:
+      type: object
+      required: [applicationEnvironmentId, environmentId, requiresApproval, targetCount]
+      properties:
+        applicationEnvironmentId:
+          type: string
+        environmentId:
+          type: string
+        environmentName:
+          type: string
+        environmentKey:
+          type: string
+        actionKind:
+          type: string
+        requiresApproval:
+          type: boolean
+        workflowTemplateId:
+          type: string
+        workflowTemplateName:
+          type: string
+        workflowTemplate:
+          $ref: "#/components/schemas/WorkflowTemplate"
+        targetCount:
+          type: integer
+        targets:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReleaseTarget"
+        buildSourceId:
+          type: string
+        buildSource:
+          $ref: "#/components/schemas/BuildSource"
+        buildPolicy:
+          $ref: "#/components/schemas/BuildPolicy"
+        latestBundle:
+          $ref: "#/components/schemas/ReleaseBundle"
+        latestExecutionTask:
+          $ref: "#/components/schemas/ExecutionTask"
+        latestBuild:
+          $ref: "#/components/schemas/BuildRecord"
+        latestWorkflow:
+          $ref: "#/components/schemas/WorkflowRun"
+        latestRelease:
+          $ref: "#/components/schemas/ReleaseRecord"
+      additionalProperties: false
+    ApplicationDeliveryDetail:
+      type: object
+      required: [application]
+      properties:
+        application:
+          $ref: "#/components/schemas/Application"
+        bindings:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApplicationBindingSummary"
+        latestBundle:
+          $ref: "#/components/schemas/ReleaseBundle"
+        latestExecutionTask:
+          $ref: "#/components/schemas/ExecutionTask"
+        latestBuild:
+          $ref: "#/components/schemas/BuildRecord"
+        latestWorkflow:
+          $ref: "#/components/schemas/WorkflowRun"
+        latestRelease:
+          $ref: "#/components/schemas/ReleaseRecord"
+      additionalProperties: false
+    ApplicationRuntimeWorkload:
+      type: object
+      required: [applicationEnvironmentId, clusterId, namespace, workloadKind, workloadName, desiredReplicas, readyReplicas, updatedReplicas, availableReplicas]
+      properties:
+        applicationEnvironmentId:
+          type: string
+        clusterId:
+          type: string
+        namespace:
+          type: string
+        workloadKind:
+          type: string
+        workloadName:
+          type: string
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        selector:
+          type: object
+          additionalProperties:
+            type: string
+        desiredReplicas:
+          type: integer
+        readyReplicas:
+          type: integer
+        updatedReplicas:
+          type: integer
+        availableReplicas:
+          type: integer
+        buildSource:
+          $ref: "#/components/schemas/BuildSource"
+        latestBundle:
+          $ref: "#/components/schemas/ReleaseBundle"
+        latestExecutionTask:
+          $ref: "#/components/schemas/ExecutionTask"
+        latestBuild:
+          $ref: "#/components/schemas/BuildRecord"
+        latestWorkflow:
+          $ref: "#/components/schemas/WorkflowRun"
+        latestRelease:
+          $ref: "#/components/schemas/ReleaseRecord"
+      additionalProperties: false
+    ApplicationRuntimeEnvironment:
+      type: object
+      required: [applicationEnvironmentId, environmentId, requiresApproval]
+      properties:
+        applicationEnvironmentId:
+          type: string
+        environmentId:
+          type: string
+        environmentName:
+          type: string
+        environmentKey:
+          type: string
+        actionKind:
+          type: string
+        requiresApproval:
+          type: boolean
+        resourceSelector:
+          $ref: "#/components/schemas/ResourceSelector"
+        targets:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReleaseTarget"
+        workloads:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApplicationRuntimeWorkload"
+      additionalProperties: false
+    ApplicationRuntimeDetail:
+      type: object
+      required: [application]
+      properties:
+        application:
+          $ref: "#/components/schemas/Application"
+        environments:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApplicationRuntimeEnvironment"
+      additionalProperties: false
+    ApplicationEnvironmentDeliveryDetail:
+      type: object
+      required: [binding, application, requiresApproval]
+      properties:
+        binding:
+          $ref: "#/components/schemas/ApplicationEnvironment"
+        application:
+          $ref: "#/components/schemas/Application"
+        environment:
+          $ref: "#/components/schemas/DeliveryEnvironment"
+        actionKind:
+          type: string
+        requiresApproval:
+          type: boolean
+        buildSource:
+          $ref: "#/components/schemas/BuildSource"
+        latestBundle:
+          $ref: "#/components/schemas/ReleaseBundle"
+        latestExecutionTask:
+          $ref: "#/components/schemas/ExecutionTask"
+        latestBuild:
+          $ref: "#/components/schemas/BuildRecord"
+        latestWorkflow:
+          $ref: "#/components/schemas/WorkflowRun"
+        latestRelease:
+          $ref: "#/components/schemas/ReleaseRecord"
+      additionalProperties: false
+    ApplicationDeliveryActionKind:
+      type: string
+      enum: [build, deploy, build_deploy, workflow, verify, rollback]
+    ApplicationDeliveryActionRequest:
+      type: object
+      required: [action, applicationEnvironmentId]
+      properties:
+        action:
+          $ref: "#/components/schemas/ApplicationDeliveryActionKind"
+        applicationEnvironmentId:
+          type: string
+        targetId:
+          type: string
+        buildSourceId:
+          type: string
+        releaseBundleId:
+          type: string
+        refType:
+          type: string
+        refName:
+          type: string
+        imageTag:
+          type: string
+        releaseName:
+          type: string
+        containerName:
+          type: string
+        variables:
+          type: object
+          additionalProperties: true
+        buildArgs:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    ApplicationDeliveryActionRelatedIDs:
+      type: object
+      properties:
+        releaseBundleId:
+          type: string
+        executionTaskId:
+          type: string
+        workflowRunId:
+          type: string
+      additionalProperties: false
+    ApplicationDeliveryActionResult:
+      type: object
+      required: [action, applicationId, applicationEnvironmentId]
+      properties:
+        action:
+          $ref: "#/components/schemas/ApplicationDeliveryActionKind"
+        applicationId:
+          type: string
+        applicationEnvironmentId:
+          type: string
+        target:
+          $ref: "#/components/schemas/ReleaseTarget"
+        build:
+          $ref: "#/components/schemas/BuildRecord"
+        workflow:
+          $ref: "#/components/schemas/WorkflowRun"
+        release:
+          $ref: "#/components/schemas/ReleaseRecord"
+        relatedIds:
+          $ref: "#/components/schemas/ApplicationDeliveryActionRelatedIDs"
+      additionalProperties: false
+    DeliveryPlan:
+      type: object
+      required: [id, source, status, applicationId, applicationEnvironmentId, action, requiresApproval, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        source:
+          type: string
+          enum: [manual, ai]
+        status:
+          type: string
+          enum: [draft, confirming, confirmed]
+        applicationId:
+          type: string
+        applicationName:
+          type: string
+        applicationEnvironmentId:
+          type: string
+        environmentKey:
+          type: string
+        action:
+          $ref: "#/components/schemas/ApplicationDeliveryActionKind"
+        targetId:
+          type: string
+        targetSummary:
+          type: string
+        buildSourceId:
+          type: string
+        releaseBundleId:
+          type: string
+        refType:
+          type: string
+        refName:
+          type: string
+        imageTag:
+          type: string
+        releaseName:
+          type: string
+        containerName:
+          type: string
+        reason:
+          type: string
+        riskLevel:
+          type: string
+        requiresApproval:
+          type: boolean
+        impact:
+          type: object
+          additionalProperties: true
+        rollbackStrategy:
+          type: string
+        variables:
+          type: object
+          additionalProperties: true
+        buildArgs:
+          type: object
+          additionalProperties: true
+        createdBy:
+          type: string
+        confirmedAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    DeliveryPlanInput:
+      type: object
+      required: [applicationId, applicationEnvironmentId, action]
+      properties:
+        id:
+          type: string
+        source:
+          type: string
+          enum: [manual, ai]
+        applicationId:
+          type: string
+        applicationName:
+          type: string
+        applicationEnvironmentId:
+          type: string
+        environmentKey:
+          type: string
+        action:
+          $ref: "#/components/schemas/ApplicationDeliveryActionKind"
+        targetId:
+          type: string
+        targetSummary:
+          type: string
+        buildSourceId:
+          type: string
+        releaseBundleId:
+          type: string
+        refType:
+          type: string
+        refName:
+          type: string
+        imageTag:
+          type: string
+        releaseName:
+          type: string
+        containerName:
+          type: string
+        reason:
+          type: string
+        riskLevel:
+          type: string
+        requiresApproval:
+          type: boolean
+        impact:
+          type: object
+          additionalProperties: true
+        rollbackStrategy:
+          type: string
+        variables:
+          type: object
+          additionalProperties: true
+        buildArgs:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    DeliveryPlanConfirmResult:
+      type: object
+      required: [plan, result]
+      properties:
+        plan:
+          $ref: "#/components/schemas/DeliveryPlan"
+        result:
+          $ref: "#/components/schemas/ApplicationDeliveryActionResult"
+      additionalProperties: false
+    ApplicationEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/Application"
+      additionalProperties: false
+    ApplicationListEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Application"
+      additionalProperties: false
+    ApplicationServiceEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ApplicationService"
+      additionalProperties: false
+    ApplicationServiceListEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApplicationService"
+      additionalProperties: false
+    ApplicationEnvironmentEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ApplicationEnvironment"
+      additionalProperties: false
+    ApplicationEnvironmentListEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApplicationEnvironment"
+      additionalProperties: false
+    BuildTemplateEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/BuildTemplate"
+      additionalProperties: false
+    BuildTemplateListEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/BuildTemplate"
+      additionalProperties: false
+    WorkflowTemplateEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/WorkflowTemplate"
+      additionalProperties: false
+    WorkflowTemplateListEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkflowTemplate"
+      additionalProperties: false
+    ApplicationDeliveryDetailEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ApplicationDeliveryDetail"
+      additionalProperties: false
+    ApplicationRuntimeDetailEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ApplicationRuntimeDetail"
+      additionalProperties: false
+    ApplicationEnvironmentDeliveryDetailEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ApplicationEnvironmentDeliveryDetail"
+      additionalProperties: false
+    ApplicationDeliveryActionResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ApplicationDeliveryActionResult"
+      additionalProperties: false
+    DeliveryPlanEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/DeliveryPlan"
+      additionalProperties: false
+    DeliveryPlanConfirmResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/DeliveryPlanConfirmResult"
+      additionalProperties: false
+    ReleaseBundleEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ReleaseBundle"
+      additionalProperties: false
+    ReleaseBundleListEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReleaseBundle"
+      additionalProperties: false
+    ExecutionArtifactListEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/ExecutionArtifact"
+      additionalProperties: false
+    ExecutionTaskListEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/ExecutionTask"
+      additionalProperties: false
     ExecutionTask:
       type: object
       required: [id, applicationId, applicationEnvironmentId, taskKind, providerKind, status, callbackToken, payload]
       properties:
         id:
+          type: string
+        releaseBundleId:
           type: string
         applicationId:
           type: string
@@ -3392,13 +5859,60 @@ components:
           type: string
         providerKind:
           type: string
+        targetKind:
+          type: string
         status:
           type: string
+        queueKey:
+          type: string
+        lockKey:
+          type: string
+        maxRetries:
+          type: integer
+        attemptCount:
+          type: integer
+        timeoutSeconds:
+          type: integer
         callbackToken:
+          type: string
+        claimedByAgentId:
+          type: string
+        runtimeEndpoint:
+          type: string
+        runtimeClusterId:
+          type: string
+        stopTransport:
           type: string
         payload:
           type: object
           additionalProperties: true
+        result:
+          type: object
+          additionalProperties: true
+        operationState:
+          $ref: "#/components/schemas/OperationState"
+        artifacts:
+          type: array
+          items:
+            $ref: "#/components/schemas/ExecutionArtifact"
+        startedAt:
+          type: string
+          format: date-time
+        lastHeartbeatAt:
+          type: string
+          format: date-time
+        lastRuntimeSeenAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
       additionalProperties: true
     ExecutionTaskClaimRequest:
       type: object

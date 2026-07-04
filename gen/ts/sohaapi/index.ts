@@ -305,6 +305,390 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/applications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listApplications"];
+        put?: never;
+        post: operations["createApplication"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/applications/{applicationID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getApplication"];
+        put: operations["updateApplication"];
+        post?: never;
+        delete: operations["deleteApplication"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/applications/{applicationID}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getApplicationDeliveryDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/applications/{applicationID}/runtime": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getApplicationRuntimeDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/applications/{applicationID}/services": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listApplicationServices"];
+        put?: never;
+        post: operations["createApplicationService"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/applications/{applicationID}/services/{serviceID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getApplicationService"];
+        put: operations["updateApplicationService"];
+        post?: never;
+        delete: operations["deleteApplicationService"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/applications/{applicationID}/delivery-actions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["triggerApplicationDeliveryAction"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/application-environments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listApplicationEnvironments"];
+        put?: never;
+        post: operations["createApplicationEnvironment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/application-environments/{applicationEnvironmentID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getApplicationEnvironment"];
+        put: operations["updateApplicationEnvironment"];
+        post?: never;
+        delete: operations["deleteApplicationEnvironment"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/application-environments/{applicationEnvironmentID}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getApplicationEnvironmentDeliveryDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/build-templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listBuildTemplates"];
+        put?: never;
+        post: operations["createBuildTemplate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/build-templates/{buildTemplateID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateBuildTemplate"];
+        post?: never;
+        delete: operations["deleteBuildTemplate"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/workflow-templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listWorkflowTemplates"];
+        put?: never;
+        post: operations["createWorkflowTemplate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/workflow-templates/{workflowTemplateID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateWorkflowTemplate"];
+        post?: never;
+        delete: operations["deleteWorkflowTemplate"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/plans": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createDeliveryPlan"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/plans/{planID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getDeliveryPlan"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/plans/{planID}/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["confirmDeliveryPlan"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/release-bundles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listReleaseBundles"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/release-bundles/{bundleID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getReleaseBundle"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/release-bundles/{bundleID}/artifacts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listReleaseBundleArtifacts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/execution-tasks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listDeliveryExecutionTasks"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/execution-tasks/{taskID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getDeliveryExecutionTask"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/execution-tasks/{taskID}/artifacts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listExecutionTaskArtifacts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/artifacts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listDeliveryArtifacts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/delivery/execution-tasks/claim": {
         parameters: {
             query?: never;
@@ -459,6 +843,22 @@ export interface paths {
         get: operations["listAgentRuns"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/sessions/{sessionID}/messages/stream": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["streamWorkbenchSessionMessage"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1601,6 +2001,128 @@ export interface components {
         UpdateAISkillsRequest: {
             skillsRegistry: components["schemas"]["AISkillSettings"][];
         };
+        WorkbenchSendMessageStreamRequest: {
+            content: string;
+            mode?: string;
+            agentProviderId?: string;
+            toolset?: components["schemas"]["AnyValue"];
+            scopeOverrides?: components["schemas"]["AnyValue"];
+        };
+        WorkbenchStreamEventBase: {
+            id: string;
+            sessionId: string;
+            runId?: string;
+            messageId?: string;
+            sequence: number;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        WorkbenchToolCall: {
+            id: string;
+            adapterId: string;
+            toolName: string;
+            skillId?: string;
+            skillName?: string;
+            capabilityId?: string;
+            /** @enum {string} */
+            status: "pending" | "running" | "success" | "error" | "skipped";
+            inputPreview?: components["schemas"]["AnyValue"];
+            outputPreview?: components["schemas"]["AnyValue"];
+            summary?: string;
+            evidenceRefs?: string[];
+            artifactRefs?: string[];
+            /** Format: date-time */
+            startedAt?: string;
+            /** Format: date-time */
+            completedAt?: string;
+            durationMs?: number;
+        };
+        WorkbenchSource: {
+            id: string;
+            /** @enum {string} */
+            kind: "log" | "metric" | "trace" | "event" | "audit" | "delivery" | "document";
+            title: string;
+            url?: string;
+            summary?: string;
+        };
+        WorkbenchMessageDeltaEvent: components["schemas"]["WorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "message.delta";
+            /** @enum {string} */
+            role: "assistant";
+            contentDelta: string;
+        };
+        WorkbenchMessageDoneEvent: components["schemas"]["WorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "message.done";
+            /** @enum {string} */
+            role: "assistant";
+            content: string;
+            metadata?: {
+                [key: string]: unknown;
+            };
+        };
+        WorkbenchThinkingDeltaEvent: components["schemas"]["WorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "thinking.delta";
+            textDelta: string;
+        };
+        WorkbenchThinkingDoneEvent: components["schemas"]["WorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "thinking.done";
+            summary: string;
+            collapsed: boolean;
+        };
+        WorkbenchAgentStatusEvent: components["schemas"]["WorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "agent.status";
+            providerId: string;
+            /** @enum {string} */
+            providerKind: "internal" | "hermes" | "openclaw" | "general";
+            /** @enum {string} */
+            status: "queued" | "running" | "succeeded" | "failed" | "cancelled";
+        };
+        WorkbenchToolStartedEvent: components["schemas"]["WorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "tool.started";
+            toolCall: components["schemas"]["WorkbenchToolCall"];
+        };
+        WorkbenchToolDeltaEvent: components["schemas"]["WorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "tool.delta";
+            toolCallId: string;
+            outputDelta?: string;
+            logDelta?: string;
+        };
+        WorkbenchToolCompletedEvent: components["schemas"]["WorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "tool.completed";
+            toolCall: components["schemas"]["WorkbenchToolCall"];
+        };
+        WorkbenchArtifactUpdatedEvent: components["schemas"]["WorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "artifact.updated";
+            artifact: components["schemas"]["AnyValue"];
+        };
+        WorkbenchSourceUpdatedEvent: components["schemas"]["WorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "source.updated";
+            source: components["schemas"]["WorkbenchSource"];
+        };
+        WorkbenchCardCommandEvent: components["schemas"]["WorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "card.command";
+            surfaceId: string;
+            command: components["schemas"]["AnyValue"];
+        };
+        WorkbenchErrorEvent: components["schemas"]["WorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "error";
+            message: string;
+            code?: string;
+            retryable?: boolean;
+        };
+        WorkbenchStreamEvent: components["schemas"]["WorkbenchMessageDeltaEvent"] | components["schemas"]["WorkbenchMessageDoneEvent"] | components["schemas"]["WorkbenchThinkingDeltaEvent"] | components["schemas"]["WorkbenchThinkingDoneEvent"] | components["schemas"]["WorkbenchAgentStatusEvent"] | components["schemas"]["WorkbenchToolStartedEvent"] | components["schemas"]["WorkbenchToolDeltaEvent"] | components["schemas"]["WorkbenchToolCompletedEvent"] | components["schemas"]["WorkbenchArtifactUpdatedEvent"] | components["schemas"]["WorkbenchSourceUpdatedEvent"] | components["schemas"]["WorkbenchCardCommandEvent"] | components["schemas"]["WorkbenchErrorEvent"];
         Principal: {
             userId: string;
             userName: string;
@@ -1710,17 +2232,776 @@ export interface components {
         StreamTicketEnvelope: {
             data: components["schemas"]["StreamTicket"];
         };
+        BuildSource: {
+            id: string;
+            name: string;
+            /** @enum {string} */
+            type: "repo_dockerfile" | "platform_build_template" | "external_pipeline";
+            enabled: boolean;
+            isDefault: boolean;
+            buildImage?: string;
+            defaultTag?: string;
+            config?: {
+                [key: string]: unknown;
+            };
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        BuildSourceInput: {
+            id?: string;
+            name: string;
+            /** @enum {string} */
+            type: "repo_dockerfile" | "platform_build_template" | "external_pipeline";
+            enabled: boolean;
+            isDefault: boolean;
+            buildImage?: string;
+            defaultTag?: string;
+            config?: {
+                [key: string]: unknown;
+            };
+        };
+        Application: {
+            id: string;
+            name: string;
+            key: string;
+            group: string;
+            businessLineId?: string;
+            language: string;
+            description?: string;
+            ownerTeam?: string;
+            repositoryProvider?: string;
+            repositoryProjectId?: string;
+            repositoryPath?: string;
+            defaultBranch?: string;
+            defaultTag?: string;
+            buildImage?: string;
+            buildContextDir?: string;
+            dockerfilePath?: string;
+            enabled: boolean;
+            metadata?: {
+                [key: string]: unknown;
+            };
+            buildSources?: components["schemas"]["BuildSource"][];
+            environmentCount?: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ApplicationInput: {
+            id?: string;
+            name: string;
+            key: string;
+            group: string;
+            businessLineId?: string;
+            language: string;
+            description?: string;
+            ownerTeam?: string;
+            repositoryProvider?: string;
+            repositoryProjectId?: string;
+            repositoryPath?: string;
+            defaultBranch?: string;
+            defaultTag?: string;
+            buildImage?: string;
+            buildContextDir?: string;
+            dockerfilePath?: string;
+            enabled: boolean;
+            metadata?: {
+                [key: string]: unknown;
+            };
+            buildSources?: components["schemas"]["BuildSourceInput"][];
+        };
+        ApplicationServiceContainer: {
+            id: string;
+            serviceId?: string;
+            name: string;
+            imageRepository?: string;
+            defaultTagTemplate?: string;
+            dockerfilePath?: string;
+            buildContextDir?: string;
+            runtimePorts?: number[];
+            envSchema?: {
+                [key: string]: unknown;
+            };
+            resourceProfile?: {
+                [key: string]: unknown;
+            };
+            healthCheck?: {
+                [key: string]: unknown;
+            };
+            metadata?: {
+                [key: string]: unknown;
+            };
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        ApplicationServiceContainerInput: {
+            id?: string;
+            name: string;
+            imageRepository?: string;
+            defaultTagTemplate?: string;
+            dockerfilePath?: string;
+            buildContextDir?: string;
+            runtimePorts?: number[];
+            envSchema?: {
+                [key: string]: unknown;
+            };
+            resourceProfile?: {
+                [key: string]: unknown;
+            };
+            healthCheck?: {
+                [key: string]: unknown;
+            };
+            metadata?: {
+                [key: string]: unknown;
+            };
+        };
+        ApplicationService: {
+            id: string;
+            applicationId: string;
+            key: string;
+            name: string;
+            description?: string;
+            /** @enum {string} */
+            serviceKind: "kubernetes_workload" | "helm_release" | "external_service" | "job";
+            ownerTeam?: string;
+            repositoryProvider?: string;
+            repositoryProjectId?: string;
+            repositoryPath?: string;
+            defaultBranch?: string;
+            buildSourceId?: string;
+            enabled: boolean;
+            metadata?: {
+                [key: string]: unknown;
+            };
+            containers?: components["schemas"]["ApplicationServiceContainer"][];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ApplicationServiceInput: {
+            id?: string;
+            key: string;
+            name: string;
+            description?: string;
+            /** @enum {string} */
+            serviceKind: "kubernetes_workload" | "helm_release" | "external_service" | "job";
+            ownerTeam?: string;
+            repositoryProvider?: string;
+            repositoryProjectId?: string;
+            repositoryPath?: string;
+            defaultBranch?: string;
+            buildSourceId?: string;
+            enabled: boolean;
+            metadata?: {
+                [key: string]: unknown;
+            };
+            containers?: components["schemas"]["ApplicationServiceContainerInput"][];
+        };
+        BuildPolicy: {
+            sourceId?: string;
+            refType?: string;
+            refValue?: string;
+            imageTagMode?: string;
+            imageTagTemplate?: string;
+            variables?: {
+                [key: string]: unknown;
+            };
+            buildArgs?: {
+                [key: string]: unknown;
+            };
+        };
+        ResourceSelector: {
+            matchLabels?: {
+                [key: string]: string;
+            };
+        };
+        ReleasePolicy: {
+            actionKind?: string;
+            requiresApproval?: boolean;
+            approverRoles?: string[];
+            autoRollback?: boolean;
+            rolloutTimeoutSeconds?: number;
+            verificationMode?: string;
+        };
+        DeliveryEnvironment: {
+            id: string;
+            key: string;
+            name: string;
+            tier?: string;
+            stageLevel: number;
+            sortOrder: number;
+            isProduction: boolean;
+            requiresApproval: boolean;
+            enabled: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ReleaseTarget: {
+            id: string;
+            applicationEnvironmentId: string;
+            clusterId: string;
+            namespace: string;
+            targetKind?: string;
+            executorKind?: string;
+            groupKey?: string;
+            waveKey?: string;
+            regionKey?: string;
+            configRef?: string;
+            workloadKind: string;
+            workloadName: string;
+            containerName?: string;
+            metadata?: {
+                [key: string]: unknown;
+            };
+            enabled: boolean;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        ReleaseTargetInput: {
+            id?: string;
+            clusterId: string;
+            namespace: string;
+            targetKind?: string;
+            executorKind?: string;
+            groupKey?: string;
+            waveKey?: string;
+            regionKey?: string;
+            configRef?: string;
+            workloadKind: string;
+            workloadName: string;
+            containerName?: string;
+            metadata?: {
+                [key: string]: unknown;
+            };
+            enabled: boolean;
+        };
+        WorkflowTemplate: {
+            id: string;
+            key: string;
+            name: string;
+            description?: string;
+            category?: string;
+            definition?: {
+                [key: string]: unknown;
+            };
+            enabled: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        WorkflowTemplateInput: {
+            id?: string;
+            key: string;
+            name: string;
+            description?: string;
+            category?: string;
+            definition?: {
+                [key: string]: unknown;
+            };
+            enabled: boolean;
+        };
+        ApplicationEnvironment: {
+            id: string;
+            applicationId: string;
+            businessLineId?: string;
+            applicationGroup?: string;
+            environmentId: string;
+            environmentKey?: string;
+            strategyProfileId?: string;
+            promotionPolicyId?: string;
+            artifactPolicyId?: string;
+            workflowTemplateId?: string;
+            workflowTemplate?: components["schemas"]["WorkflowTemplate"];
+            buildPolicy?: components["schemas"]["BuildPolicy"];
+            releasePolicy?: components["schemas"]["ReleasePolicy"];
+            resourceSelector?: components["schemas"]["ResourceSelector"];
+            targets?: components["schemas"]["ReleaseTarget"][];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ApplicationEnvironmentInput: {
+            id?: string;
+            applicationId: string;
+            environmentId: string;
+            strategyProfileId?: string;
+            promotionPolicyId?: string;
+            artifactPolicyId?: string;
+            workflowTemplateId?: string;
+            buildPolicy?: components["schemas"]["BuildPolicy"];
+            releasePolicy?: components["schemas"]["ReleasePolicy"];
+            resourceSelector?: components["schemas"]["ResourceSelector"];
+            targets?: components["schemas"]["ReleaseTargetInput"][];
+        };
+        BuildTemplate: {
+            id: string;
+            key: string;
+            name: string;
+            description?: string;
+            builderKind?: string;
+            dockerfileTemplate?: string;
+            buildCommands?: string[];
+            variableSchema?: {
+                [key: string]: unknown;
+            };
+            defaultVariables?: {
+                [key: string]: unknown;
+            };
+            enabled: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        BuildTemplateInput: {
+            id?: string;
+            key: string;
+            name: string;
+            description?: string;
+            builderKind?: string;
+            dockerfileTemplate?: string;
+            buildCommands?: string[];
+            variableSchema?: {
+                [key: string]: unknown;
+            };
+            defaultVariables?: {
+                [key: string]: unknown;
+            };
+            enabled: boolean;
+        };
+        BuildRecord: {
+            id: string;
+            applicationId: string;
+            sourceSystem: string;
+            status: string;
+            metadata?: {
+                [key: string]: unknown;
+            };
+            /** Format: date-time */
+            startedAt?: string;
+            /** Format: date-time */
+            finishedAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        ReleaseRecord: {
+            id: string;
+            applicationId: string;
+            clusterId: string;
+            namespace: string;
+            deploymentName: string;
+            status: string;
+            metadata?: {
+                [key: string]: unknown;
+            };
+            /** Format: date-time */
+            deployedAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        WorkflowStep: {
+            name: string;
+            status: string;
+            summary?: string;
+        };
+        WorkflowNodeRun: {
+            nodeId: string;
+            name: string;
+            type: string;
+            status: string;
+            summary?: string;
+            startedAt?: string;
+            finishedAt?: string;
+        };
+        WorkflowRun: {
+            id: string;
+            applicationId: string;
+            workflowName: string;
+            clusterId?: string;
+            namespace?: string;
+            deploymentName?: string;
+            status: string;
+            steps: components["schemas"]["WorkflowStep"][];
+            nodeRuns?: components["schemas"]["WorkflowNodeRun"][];
+            metadata?: {
+                [key: string]: unknown;
+            };
+            createdAt: string;
+            updatedAt: string;
+        };
+        ExecutionArtifact: {
+            id?: string;
+            executionTaskId?: string;
+            releaseBundleId?: string;
+            workflowRunId?: string;
+            workflowNodeId?: string;
+            applicationId?: string;
+            applicationEnvironmentId?: string;
+            kind: string;
+            name?: string;
+            ref?: string;
+            digest?: string;
+            path?: string;
+            status?: string;
+            /** Format: int64 */
+            sizeBytes?: number;
+            metadata?: {
+                [key: string]: unknown;
+            };
+            /** Format: date-time */
+            retentionUntil?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            /** Format: date-time */
+            modifiedAt?: string;
+        };
+        ReleaseBundle: {
+            id: string;
+            applicationId: string;
+            applicationEnvironmentId?: string;
+            version: string;
+            sourceType: string;
+            status: string;
+            artifactRef?: string;
+            artifactDigest?: string;
+            metadata?: {
+                [key: string]: unknown;
+            };
+            artifacts?: components["schemas"]["ExecutionArtifact"][];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        OperationState: {
+            phase: string;
+            status: string;
+            terminal: boolean;
+            cancelable: boolean;
+            retryable: boolean;
+            heartbeatRequired: boolean;
+            timeoutSeconds: number;
+            heartbeatStale: boolean;
+            /** Format: date-time */
+            lastHeartbeatAt?: string;
+            /** Format: date-time */
+            nextHeartbeatDeadline?: string;
+            failureReason?: string;
+            failureMessage?: string;
+            /** Format: date-time */
+            finalStateRecordedAt?: string;
+            /** Format: date-time */
+            lastRuntimeSeenAt?: string;
+            claimedByAgentId?: string;
+            runtimeEndpointPresent: boolean;
+            recommendedNextAction?: string;
+        };
+        ApplicationBindingSummary: {
+            applicationEnvironmentId: string;
+            environmentId: string;
+            environmentName?: string;
+            environmentKey?: string;
+            actionKind?: string;
+            requiresApproval: boolean;
+            workflowTemplateId?: string;
+            workflowTemplateName?: string;
+            workflowTemplate?: components["schemas"]["WorkflowTemplate"];
+            targetCount: number;
+            targets?: components["schemas"]["ReleaseTarget"][];
+            buildSourceId?: string;
+            buildSource?: components["schemas"]["BuildSource"];
+            buildPolicy?: components["schemas"]["BuildPolicy"];
+            latestBundle?: components["schemas"]["ReleaseBundle"];
+            latestExecutionTask?: components["schemas"]["ExecutionTask"];
+            latestBuild?: components["schemas"]["BuildRecord"];
+            latestWorkflow?: components["schemas"]["WorkflowRun"];
+            latestRelease?: components["schemas"]["ReleaseRecord"];
+        };
+        ApplicationDeliveryDetail: {
+            application: components["schemas"]["Application"];
+            bindings?: components["schemas"]["ApplicationBindingSummary"][];
+            latestBundle?: components["schemas"]["ReleaseBundle"];
+            latestExecutionTask?: components["schemas"]["ExecutionTask"];
+            latestBuild?: components["schemas"]["BuildRecord"];
+            latestWorkflow?: components["schemas"]["WorkflowRun"];
+            latestRelease?: components["schemas"]["ReleaseRecord"];
+        };
+        ApplicationRuntimeWorkload: {
+            applicationEnvironmentId: string;
+            clusterId: string;
+            namespace: string;
+            workloadKind: string;
+            workloadName: string;
+            labels?: {
+                [key: string]: string;
+            };
+            selector?: {
+                [key: string]: string;
+            };
+            desiredReplicas: number;
+            readyReplicas: number;
+            updatedReplicas: number;
+            availableReplicas: number;
+            buildSource?: components["schemas"]["BuildSource"];
+            latestBundle?: components["schemas"]["ReleaseBundle"];
+            latestExecutionTask?: components["schemas"]["ExecutionTask"];
+            latestBuild?: components["schemas"]["BuildRecord"];
+            latestWorkflow?: components["schemas"]["WorkflowRun"];
+            latestRelease?: components["schemas"]["ReleaseRecord"];
+        };
+        ApplicationRuntimeEnvironment: {
+            applicationEnvironmentId: string;
+            environmentId: string;
+            environmentName?: string;
+            environmentKey?: string;
+            actionKind?: string;
+            requiresApproval: boolean;
+            resourceSelector?: components["schemas"]["ResourceSelector"];
+            targets?: components["schemas"]["ReleaseTarget"][];
+            workloads?: components["schemas"]["ApplicationRuntimeWorkload"][];
+        };
+        ApplicationRuntimeDetail: {
+            application: components["schemas"]["Application"];
+            environments?: components["schemas"]["ApplicationRuntimeEnvironment"][];
+        };
+        ApplicationEnvironmentDeliveryDetail: {
+            binding: components["schemas"]["ApplicationEnvironment"];
+            application: components["schemas"]["Application"];
+            environment?: components["schemas"]["DeliveryEnvironment"];
+            actionKind?: string;
+            requiresApproval: boolean;
+            buildSource?: components["schemas"]["BuildSource"];
+            latestBundle?: components["schemas"]["ReleaseBundle"];
+            latestExecutionTask?: components["schemas"]["ExecutionTask"];
+            latestBuild?: components["schemas"]["BuildRecord"];
+            latestWorkflow?: components["schemas"]["WorkflowRun"];
+            latestRelease?: components["schemas"]["ReleaseRecord"];
+        };
+        /** @enum {string} */
+        ApplicationDeliveryActionKind: "build" | "deploy" | "build_deploy" | "workflow" | "verify" | "rollback";
+        ApplicationDeliveryActionRequest: {
+            action: components["schemas"]["ApplicationDeliveryActionKind"];
+            applicationEnvironmentId: string;
+            targetId?: string;
+            buildSourceId?: string;
+            releaseBundleId?: string;
+            refType?: string;
+            refName?: string;
+            imageTag?: string;
+            releaseName?: string;
+            containerName?: string;
+            variables?: {
+                [key: string]: unknown;
+            };
+            buildArgs?: {
+                [key: string]: unknown;
+            };
+        };
+        ApplicationDeliveryActionRelatedIDs: {
+            releaseBundleId?: string;
+            executionTaskId?: string;
+            workflowRunId?: string;
+        };
+        ApplicationDeliveryActionResult: {
+            action: components["schemas"]["ApplicationDeliveryActionKind"];
+            applicationId: string;
+            applicationEnvironmentId: string;
+            target?: components["schemas"]["ReleaseTarget"];
+            build?: components["schemas"]["BuildRecord"];
+            workflow?: components["schemas"]["WorkflowRun"];
+            release?: components["schemas"]["ReleaseRecord"];
+            relatedIds?: components["schemas"]["ApplicationDeliveryActionRelatedIDs"];
+        };
+        DeliveryPlan: {
+            id: string;
+            /** @enum {string} */
+            source: "manual" | "ai";
+            /** @enum {string} */
+            status: "draft" | "confirming" | "confirmed";
+            applicationId: string;
+            applicationName?: string;
+            applicationEnvironmentId: string;
+            environmentKey?: string;
+            action: components["schemas"]["ApplicationDeliveryActionKind"];
+            targetId?: string;
+            targetSummary?: string;
+            buildSourceId?: string;
+            releaseBundleId?: string;
+            refType?: string;
+            refName?: string;
+            imageTag?: string;
+            releaseName?: string;
+            containerName?: string;
+            reason?: string;
+            riskLevel?: string;
+            requiresApproval: boolean;
+            impact?: {
+                [key: string]: unknown;
+            };
+            rollbackStrategy?: string;
+            variables?: {
+                [key: string]: unknown;
+            };
+            buildArgs?: {
+                [key: string]: unknown;
+            };
+            createdBy?: string;
+            /** Format: date-time */
+            confirmedAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DeliveryPlanInput: {
+            id?: string;
+            /** @enum {string} */
+            source?: "manual" | "ai";
+            applicationId: string;
+            applicationName?: string;
+            applicationEnvironmentId: string;
+            environmentKey?: string;
+            action: components["schemas"]["ApplicationDeliveryActionKind"];
+            targetId?: string;
+            targetSummary?: string;
+            buildSourceId?: string;
+            releaseBundleId?: string;
+            refType?: string;
+            refName?: string;
+            imageTag?: string;
+            releaseName?: string;
+            containerName?: string;
+            reason?: string;
+            riskLevel?: string;
+            requiresApproval?: boolean;
+            impact?: {
+                [key: string]: unknown;
+            };
+            rollbackStrategy?: string;
+            variables?: {
+                [key: string]: unknown;
+            };
+            buildArgs?: {
+                [key: string]: unknown;
+            };
+        };
+        DeliveryPlanConfirmResult: {
+            plan: components["schemas"]["DeliveryPlan"];
+            result: components["schemas"]["ApplicationDeliveryActionResult"];
+        };
+        ApplicationEnvelope: {
+            data: components["schemas"]["Application"];
+        };
+        ApplicationListEnvelope: {
+            data: components["schemas"]["Application"][];
+        };
+        ApplicationServiceEnvelope: {
+            data: components["schemas"]["ApplicationService"];
+        };
+        ApplicationServiceListEnvelope: {
+            data: components["schemas"]["ApplicationService"][];
+        };
+        ApplicationEnvironmentEnvelope: {
+            data: components["schemas"]["ApplicationEnvironment"];
+        };
+        ApplicationEnvironmentListEnvelope: {
+            data: components["schemas"]["ApplicationEnvironment"][];
+        };
+        BuildTemplateEnvelope: {
+            data: components["schemas"]["BuildTemplate"];
+        };
+        BuildTemplateListEnvelope: {
+            data: components["schemas"]["BuildTemplate"][];
+        };
+        WorkflowTemplateEnvelope: {
+            data: components["schemas"]["WorkflowTemplate"];
+        };
+        WorkflowTemplateListEnvelope: {
+            data: components["schemas"]["WorkflowTemplate"][];
+        };
+        ApplicationDeliveryDetailEnvelope: {
+            data: components["schemas"]["ApplicationDeliveryDetail"];
+        };
+        ApplicationRuntimeDetailEnvelope: {
+            data: components["schemas"]["ApplicationRuntimeDetail"];
+        };
+        ApplicationEnvironmentDeliveryDetailEnvelope: {
+            data: components["schemas"]["ApplicationEnvironmentDeliveryDetail"];
+        };
+        ApplicationDeliveryActionResultEnvelope: {
+            data: components["schemas"]["ApplicationDeliveryActionResult"];
+        };
+        DeliveryPlanEnvelope: {
+            data: components["schemas"]["DeliveryPlan"];
+        };
+        DeliveryPlanConfirmResultEnvelope: {
+            data: components["schemas"]["DeliveryPlanConfirmResult"];
+        };
+        ReleaseBundleEnvelope: {
+            data: components["schemas"]["ReleaseBundle"];
+        };
+        ReleaseBundleListEnvelope: {
+            data: components["schemas"]["ReleaseBundle"][];
+        };
+        ExecutionArtifactListEnvelope: {
+            data: components["schemas"]["ExecutionArtifact"][];
+        };
+        ExecutionTaskListEnvelope: {
+            data: components["schemas"]["ExecutionTask"][];
+        };
         ExecutionTask: {
             id: string;
+            releaseBundleId?: string;
             applicationId: string;
             applicationEnvironmentId: string;
             taskKind: string;
             providerKind: string;
+            targetKind?: string;
             status: string;
+            queueKey?: string;
+            lockKey?: string;
+            maxRetries?: number;
+            attemptCount?: number;
+            timeoutSeconds?: number;
             callbackToken: string;
+            claimedByAgentId?: string;
+            runtimeEndpoint?: string;
+            runtimeClusterId?: string;
+            stopTransport?: string;
             payload: {
                 [key: string]: unknown;
             };
+            result?: {
+                [key: string]: unknown;
+            };
+            operationState?: components["schemas"]["OperationState"];
+            artifacts?: components["schemas"]["ExecutionArtifact"][];
+            /** Format: date-time */
+            startedAt?: string;
+            /** Format: date-time */
+            lastHeartbeatAt?: string;
+            /** Format: date-time */
+            lastRuntimeSeenAt?: string;
+            /** Format: date-time */
+            finishedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
         } & {
             [key: string]: unknown;
         };
@@ -3238,17 +4519,25 @@ export interface components {
         };
     };
     parameters: {
+        ApplicationID: string;
+        ApplicationEnvironmentID: string;
         AIClientID: string;
+        BuildTemplateID: string;
+        BundleID: string;
         AIClientName: string;
         OIDCCode: string;
         OIDCState: string;
         OperationID: string;
         ProviderID: string;
         PluginID: string;
+        PlanID: string;
+        ServiceID: string;
+        SessionID: string;
         SkillID: string;
         Source: string;
         TaskID: string;
         ToolName: string;
+        WorkflowTemplateID: string;
         UpstreamID: string;
         RouteID: string;
         /** @description First-class OpenAI-compatible relay provider kind. Azure OpenAI uses Azure data-plane URL and api-key header adaptation upstream. */
@@ -3298,6 +4587,23 @@ export type AISettings = components['schemas']['AISettings'];
 export type AISettingsEnvelope = components['schemas']['AISettingsEnvelope'];
 export type UpdateAIWorkbenchModelRequest = components['schemas']['UpdateAIWorkbenchModelRequest'];
 export type UpdateAISkillsRequest = components['schemas']['UpdateAISkillsRequest'];
+export type WorkbenchSendMessageStreamRequest = components['schemas']['WorkbenchSendMessageStreamRequest'];
+export type WorkbenchStreamEventBase = components['schemas']['WorkbenchStreamEventBase'];
+export type WorkbenchToolCall = components['schemas']['WorkbenchToolCall'];
+export type WorkbenchSource = components['schemas']['WorkbenchSource'];
+export type WorkbenchMessageDeltaEvent = components['schemas']['WorkbenchMessageDeltaEvent'];
+export type WorkbenchMessageDoneEvent = components['schemas']['WorkbenchMessageDoneEvent'];
+export type WorkbenchThinkingDeltaEvent = components['schemas']['WorkbenchThinkingDeltaEvent'];
+export type WorkbenchThinkingDoneEvent = components['schemas']['WorkbenchThinkingDoneEvent'];
+export type WorkbenchAgentStatusEvent = components['schemas']['WorkbenchAgentStatusEvent'];
+export type WorkbenchToolStartedEvent = components['schemas']['WorkbenchToolStartedEvent'];
+export type WorkbenchToolDeltaEvent = components['schemas']['WorkbenchToolDeltaEvent'];
+export type WorkbenchToolCompletedEvent = components['schemas']['WorkbenchToolCompletedEvent'];
+export type WorkbenchArtifactUpdatedEvent = components['schemas']['WorkbenchArtifactUpdatedEvent'];
+export type WorkbenchSourceUpdatedEvent = components['schemas']['WorkbenchSourceUpdatedEvent'];
+export type WorkbenchCardCommandEvent = components['schemas']['WorkbenchCardCommandEvent'];
+export type WorkbenchErrorEvent = components['schemas']['WorkbenchErrorEvent'];
+export type WorkbenchStreamEvent = components['schemas']['WorkbenchStreamEvent'];
 export type Principal = components['schemas']['Principal'];
 export type UserProfile = components['schemas']['UserProfile'];
 export type TokenSet = components['schemas']['TokenSet'];
@@ -3316,6 +4622,67 @@ export type AuthProviderListEnvelope = components['schemas']['AuthProviderListEn
 export type LoginOptionsEnvelope = components['schemas']['LoginOptionsEnvelope'];
 export type AuthBootstrapEnvelope = components['schemas']['AuthBootstrapEnvelope'];
 export type StreamTicketEnvelope = components['schemas']['StreamTicketEnvelope'];
+export type BuildSource = components['schemas']['BuildSource'];
+export type BuildSourceInput = components['schemas']['BuildSourceInput'];
+export type Application = components['schemas']['Application'];
+export type ApplicationInput = components['schemas']['ApplicationInput'];
+export type ApplicationServiceContainer = components['schemas']['ApplicationServiceContainer'];
+export type ApplicationServiceContainerInput = components['schemas']['ApplicationServiceContainerInput'];
+export type ApplicationService = components['schemas']['ApplicationService'];
+export type ApplicationServiceInput = components['schemas']['ApplicationServiceInput'];
+export type BuildPolicy = components['schemas']['BuildPolicy'];
+export type ResourceSelector = components['schemas']['ResourceSelector'];
+export type ReleasePolicy = components['schemas']['ReleasePolicy'];
+export type DeliveryEnvironment = components['schemas']['DeliveryEnvironment'];
+export type ReleaseTarget = components['schemas']['ReleaseTarget'];
+export type ReleaseTargetInput = components['schemas']['ReleaseTargetInput'];
+export type WorkflowTemplate = components['schemas']['WorkflowTemplate'];
+export type WorkflowTemplateInput = components['schemas']['WorkflowTemplateInput'];
+export type ApplicationEnvironment = components['schemas']['ApplicationEnvironment'];
+export type ApplicationEnvironmentInput = components['schemas']['ApplicationEnvironmentInput'];
+export type BuildTemplate = components['schemas']['BuildTemplate'];
+export type BuildTemplateInput = components['schemas']['BuildTemplateInput'];
+export type BuildRecord = components['schemas']['BuildRecord'];
+export type ReleaseRecord = components['schemas']['ReleaseRecord'];
+export type WorkflowStep = components['schemas']['WorkflowStep'];
+export type WorkflowNodeRun = components['schemas']['WorkflowNodeRun'];
+export type WorkflowRun = components['schemas']['WorkflowRun'];
+export type ExecutionArtifact = components['schemas']['ExecutionArtifact'];
+export type ReleaseBundle = components['schemas']['ReleaseBundle'];
+export type OperationState = components['schemas']['OperationState'];
+export type ApplicationBindingSummary = components['schemas']['ApplicationBindingSummary'];
+export type ApplicationDeliveryDetail = components['schemas']['ApplicationDeliveryDetail'];
+export type ApplicationRuntimeWorkload = components['schemas']['ApplicationRuntimeWorkload'];
+export type ApplicationRuntimeEnvironment = components['schemas']['ApplicationRuntimeEnvironment'];
+export type ApplicationRuntimeDetail = components['schemas']['ApplicationRuntimeDetail'];
+export type ApplicationEnvironmentDeliveryDetail = components['schemas']['ApplicationEnvironmentDeliveryDetail'];
+export type ApplicationDeliveryActionKind = components['schemas']['ApplicationDeliveryActionKind'];
+export type ApplicationDeliveryActionRequest = components['schemas']['ApplicationDeliveryActionRequest'];
+export type ApplicationDeliveryActionRelatedIDs = components['schemas']['ApplicationDeliveryActionRelatedIDs'];
+export type ApplicationDeliveryActionResult = components['schemas']['ApplicationDeliveryActionResult'];
+export type DeliveryPlan = components['schemas']['DeliveryPlan'];
+export type DeliveryPlanInput = components['schemas']['DeliveryPlanInput'];
+export type DeliveryPlanConfirmResult = components['schemas']['DeliveryPlanConfirmResult'];
+export type ApplicationEnvelope = components['schemas']['ApplicationEnvelope'];
+export type ApplicationListEnvelope = components['schemas']['ApplicationListEnvelope'];
+export type ApplicationServiceEnvelope = components['schemas']['ApplicationServiceEnvelope'];
+export type ApplicationServiceListEnvelope = components['schemas']['ApplicationServiceListEnvelope'];
+export type ApplicationEnvironmentEnvelope = components['schemas']['ApplicationEnvironmentEnvelope'];
+export type ApplicationEnvironmentListEnvelope = components['schemas']['ApplicationEnvironmentListEnvelope'];
+export type BuildTemplateEnvelope = components['schemas']['BuildTemplateEnvelope'];
+export type BuildTemplateListEnvelope = components['schemas']['BuildTemplateListEnvelope'];
+export type WorkflowTemplateEnvelope = components['schemas']['WorkflowTemplateEnvelope'];
+export type WorkflowTemplateListEnvelope = components['schemas']['WorkflowTemplateListEnvelope'];
+export type ApplicationDeliveryDetailEnvelope = components['schemas']['ApplicationDeliveryDetailEnvelope'];
+export type ApplicationRuntimeDetailEnvelope = components['schemas']['ApplicationRuntimeDetailEnvelope'];
+export type ApplicationEnvironmentDeliveryDetailEnvelope = components['schemas']['ApplicationEnvironmentDeliveryDetailEnvelope'];
+export type ApplicationDeliveryActionResultEnvelope = components['schemas']['ApplicationDeliveryActionResultEnvelope'];
+export type DeliveryPlanEnvelope = components['schemas']['DeliveryPlanEnvelope'];
+export type DeliveryPlanConfirmResultEnvelope = components['schemas']['DeliveryPlanConfirmResultEnvelope'];
+export type ReleaseBundleEnvelope = components['schemas']['ReleaseBundleEnvelope'];
+export type ReleaseBundleListEnvelope = components['schemas']['ReleaseBundleListEnvelope'];
+export type ExecutionArtifactListEnvelope = components['schemas']['ExecutionArtifactListEnvelope'];
+export type ExecutionTaskListEnvelope = components['schemas']['ExecutionTaskListEnvelope'];
 export type ExecutionTask = components['schemas']['ExecutionTask'];
 export type ExecutionTaskClaimRequest = components['schemas']['ExecutionTaskClaimRequest'];
 export type ExecutionCallbackRequest = components['schemas']['ExecutionCallbackRequest'];
@@ -3467,17 +4834,25 @@ export type GovernanceStatusEnvelope = components['schemas']['GovernanceStatusEn
 export type MCPCapability = components['schemas']['MCPCapability'];
 export type MCPCapabilityListEnvelope = components['schemas']['MCPCapabilityListEnvelope'];
 export type ResponseError = components['responses']['Error'];
+export type ParameterApplicationId = components['parameters']['ApplicationID'];
+export type ParameterApplicationEnvironmentId = components['parameters']['ApplicationEnvironmentID'];
 export type ParameterAiClientId = components['parameters']['AIClientID'];
+export type ParameterBuildTemplateId = components['parameters']['BuildTemplateID'];
+export type ParameterBundleId = components['parameters']['BundleID'];
 export type ParameterAiClientName = components['parameters']['AIClientName'];
 export type ParameterOidcCode = components['parameters']['OIDCCode'];
 export type ParameterOidcState = components['parameters']['OIDCState'];
 export type ParameterOperationId = components['parameters']['OperationID'];
 export type ParameterProviderId = components['parameters']['ProviderID'];
 export type ParameterPluginId = components['parameters']['PluginID'];
+export type ParameterPlanId = components['parameters']['PlanID'];
+export type ParameterServiceId = components['parameters']['ServiceID'];
+export type ParameterSessionId = components['parameters']['SessionID'];
 export type ParameterSkillId = components['parameters']['SkillID'];
 export type ParameterSource = components['parameters']['Source'];
 export type ParameterTaskId = components['parameters']['TaskID'];
 export type ParameterToolName = components['parameters']['ToolName'];
+export type ParameterWorkflowTemplateId = components['parameters']['WorkflowTemplateID'];
 export type ParameterUpstreamId = components['parameters']['UpstreamID'];
 export type ParameterRouteId = components['parameters']['RouteID'];
 export type ParameterOpenAiCompatibleProvider = components['parameters']['OpenAICompatibleProvider'];
@@ -3913,6 +5288,908 @@ export interface operations {
             403: components["responses"]["Error"];
         };
     };
+    listApplications: {
+        parameters: {
+            query?: {
+                search?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Applications visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createApplication: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApplicationInput"];
+            };
+        };
+        responses: {
+            /** @description Created application. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    getApplication: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Application detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    updateApplication: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApplicationInput"];
+            };
+        };
+        responses: {
+            /** @description Updated application. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteApplication: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted application. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    getApplicationDeliveryDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Application delivery rollup. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationDeliveryDetailEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    getApplicationRuntimeDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Application runtime rollup. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationRuntimeDetailEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    listApplicationServices: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Application services. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationServiceListEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    createApplicationService: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApplicationServiceInput"];
+            };
+        };
+        responses: {
+            /** @description Created application service. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationServiceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+        };
+    };
+    getApplicationService: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+                serviceID: components["parameters"]["ServiceID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Application service. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationServiceEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    updateApplicationService: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+                serviceID: components["parameters"]["ServiceID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApplicationServiceInput"];
+            };
+        };
+        responses: {
+            /** @description Updated application service. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationServiceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteApplicationService: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+                serviceID: components["parameters"]["ServiceID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted application service. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    triggerApplicationDeliveryAction: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApplicationDeliveryActionRequest"];
+            };
+        };
+        responses: {
+            /** @description Delivery action result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationDeliveryActionResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listApplicationEnvironments: {
+        parameters: {
+            query?: {
+                applicationId?: string;
+                environmentId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Application environment bindings. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationEnvironmentListEnvelope"];
+                };
+            };
+        };
+    };
+    createApplicationEnvironment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApplicationEnvironmentInput"];
+            };
+        };
+        responses: {
+            /** @description Created application environment binding. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationEnvironmentEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+        };
+    };
+    getApplicationEnvironment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationEnvironmentID: components["parameters"]["ApplicationEnvironmentID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Application environment binding. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationEnvironmentEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    updateApplicationEnvironment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationEnvironmentID: components["parameters"]["ApplicationEnvironmentID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApplicationEnvironmentInput"];
+            };
+        };
+        responses: {
+            /** @description Updated application environment binding. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationEnvironmentEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteApplicationEnvironment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationEnvironmentID: components["parameters"]["ApplicationEnvironmentID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted application environment binding. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    getApplicationEnvironmentDeliveryDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationEnvironmentID: components["parameters"]["ApplicationEnvironmentID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Application environment delivery detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationEnvironmentDeliveryDetailEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    listBuildTemplates: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Build templates. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BuildTemplateListEnvelope"];
+                };
+            };
+        };
+    };
+    createBuildTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BuildTemplateInput"];
+            };
+        };
+        responses: {
+            /** @description Created build template. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BuildTemplateEnvelope"];
+                };
+            };
+        };
+    };
+    updateBuildTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                buildTemplateID: components["parameters"]["BuildTemplateID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BuildTemplateInput"];
+            };
+        };
+        responses: {
+            /** @description Updated build template. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BuildTemplateEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteBuildTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                buildTemplateID: components["parameters"]["BuildTemplateID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted build template. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    listWorkflowTemplates: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Workflow templates. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkflowTemplateListEnvelope"];
+                };
+            };
+        };
+    };
+    createWorkflowTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkflowTemplateInput"];
+            };
+        };
+        responses: {
+            /** @description Created workflow template. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkflowTemplateEnvelope"];
+                };
+            };
+        };
+    };
+    updateWorkflowTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                workflowTemplateID: components["parameters"]["WorkflowTemplateID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkflowTemplateInput"];
+            };
+        };
+        responses: {
+            /** @description Updated workflow template. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkflowTemplateEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteWorkflowTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                workflowTemplateID: components["parameters"]["WorkflowTemplateID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted workflow template. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    createDeliveryPlan: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryPlanInput"];
+            };
+        };
+        responses: {
+            /** @description Created delivery plan draft. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryPlanEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+        };
+    };
+    getDeliveryPlan: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                planID: components["parameters"]["PlanID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Delivery plan. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryPlanEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    confirmDeliveryPlan: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                planID: components["parameters"]["PlanID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Confirmed delivery plan and trigger result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryPlanConfirmResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+        };
+    };
+    listReleaseBundles: {
+        parameters: {
+            query?: {
+                applicationId?: string;
+                applicationEnvironmentId?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Release bundles. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReleaseBundleListEnvelope"];
+                };
+            };
+        };
+    };
+    getReleaseBundle: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bundleID: components["parameters"]["BundleID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Release bundle. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReleaseBundleEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    listReleaseBundleArtifacts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bundleID: components["parameters"]["BundleID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Artifacts attached to a release bundle. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExecutionArtifactListEnvelope"];
+                };
+            };
+        };
+    };
+    listDeliveryExecutionTasks: {
+        parameters: {
+            query?: {
+                applicationId?: string;
+                applicationEnvironmentId?: string;
+                releaseBundleId?: string;
+                status?: string;
+                providerKind?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Execution tasks. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExecutionTaskListEnvelope"];
+                };
+            };
+        };
+    };
+    getDeliveryExecutionTask: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskID: components["parameters"]["TaskID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Execution task. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExecutionTaskEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    listExecutionTaskArtifacts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskID: components["parameters"]["TaskID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Artifacts attached to an execution task. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExecutionArtifactListEnvelope"];
+                };
+            };
+        };
+    };
+    listDeliveryArtifacts: {
+        parameters: {
+            query?: {
+                applicationId?: string;
+                applicationEnvironmentId?: string;
+                workflowRunId?: string;
+                workflowNodeId?: string;
+                releaseBundleId?: string;
+                executionTaskId?: string;
+                kind?: string;
+                status?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Delivery artifacts. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExecutionArtifactListEnvelope"];
+                };
+            };
+        };
+    };
     claimExecutionTask: {
         parameters: {
             query?: never;
@@ -4143,6 +6420,34 @@ export interface operations {
                     "application/json": components["schemas"]["GenericItemsEnvelope"];
                 };
             };
+        };
+    };
+    streamWorkbenchSessionMessage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: components["parameters"]["SessionID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchSendMessageStreamRequest"];
+            };
+        };
+        responses: {
+            /** @description Server-sent Workbench stream events. Each SSE data frame is one WorkbenchStreamEvent JSON object. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": components["schemas"]["WorkbenchStreamEvent"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
         };
     };
     listClusterCapabilityMatrix: {

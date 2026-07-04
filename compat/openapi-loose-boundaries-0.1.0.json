@@ -64,6 +64,14 @@
     },
     {
       "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/AISkillSettings/properties/inputSchema/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/AISkillSettings/properties/outputSchema/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
       "path": "components/schemas/AnthropicMessagesRequest/additionalProperties"
     },
     {
@@ -77,6 +85,62 @@
     {
       "kind": "additionalPropertiesTrue",
       "path": "components/schemas/AnthropicModelsResponse/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/Application/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ApplicationDeliveryActionRequest/properties/buildArgs/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ApplicationDeliveryActionRequest/properties/variables/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ApplicationInput/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ApplicationService/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ApplicationServiceContainer/properties/envSchema/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ApplicationServiceContainer/properties/healthCheck/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ApplicationServiceContainer/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ApplicationServiceContainer/properties/resourceProfile/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ApplicationServiceContainerInput/properties/envSchema/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ApplicationServiceContainerInput/properties/healthCheck/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ApplicationServiceContainerInput/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ApplicationServiceContainerInput/properties/resourceProfile/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ApplicationServiceInput/properties/metadata/additionalProperties"
     },
     {
       "kind": "additionalPropertiesTrue",
@@ -116,11 +180,71 @@
     },
     {
       "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/BuildPolicy/properties/buildArgs/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/BuildPolicy/properties/variables/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/BuildRecord/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/BuildSource/properties/config/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/BuildSourceInput/properties/config/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/BuildTemplate/properties/defaultVariables/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/BuildTemplate/properties/variableSchema/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/BuildTemplateInput/properties/defaultVariables/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/BuildTemplateInput/properties/variableSchema/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
       "path": "components/schemas/CohereRerankRequest/additionalProperties"
     },
     {
       "kind": "additionalPropertiesTrue",
       "path": "components/schemas/CohereRerankRequest/properties/documents/items/oneOf/1/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/DeliveryPlan/properties/buildArgs/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/DeliveryPlan/properties/impact/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/DeliveryPlan/properties/variables/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/DeliveryPlanInput/properties/buildArgs/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/DeliveryPlanInput/properties/impact/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/DeliveryPlanInput/properties/variables/additionalProperties"
     },
     {
       "kind": "additionalPropertiesTrue",
@@ -136,6 +260,10 @@
     },
     {
       "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ExecutionArtifact/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
       "path": "components/schemas/ExecutionCallbackRequest/properties/payload/additionalProperties"
     },
     {
@@ -145,6 +273,10 @@
     {
       "kind": "additionalPropertiesTrue",
       "path": "components/schemas/ExecutionTask/properties/payload/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ExecutionTask/properties/result/additionalProperties"
     },
     {
       "kind": "additionalPropertiesTrue",
@@ -376,6 +508,22 @@
     },
     {
       "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ReleaseBundle/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ReleaseRecord/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ReleaseTarget/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ReleaseTargetInput/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
       "path": "components/schemas/ResourceReadRequest/properties/context/additionalProperties"
     },
     {
@@ -435,6 +583,22 @@
       "path": "components/schemas/UserProfile/properties/sessions/items/additionalProperties"
     },
     {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/WorkbenchMessageDoneEvent/allOf/1/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/WorkflowRun/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/WorkflowTemplate/properties/definition/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/WorkflowTemplateInput/properties/definition/additionalProperties"
+    },
+    {
       "kind": "schemaRef",
       "path": "components/schemas/AnthropicMessagesRequest/properties/system",
       "target": "#/components/schemas/AnyValue"
@@ -472,6 +636,36 @@
     {
       "kind": "schemaRef",
       "path": "components/schemas/ToolInvocationResult/properties/output",
+      "target": "#/components/schemas/AnyValue"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/WorkbenchArtifactUpdatedEvent/allOf/1/properties/artifact",
+      "target": "#/components/schemas/AnyValue"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/WorkbenchCardCommandEvent/allOf/1/properties/command",
+      "target": "#/components/schemas/AnyValue"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/WorkbenchSendMessageStreamRequest/properties/scopeOverrides",
+      "target": "#/components/schemas/AnyValue"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/WorkbenchSendMessageStreamRequest/properties/toolset",
+      "target": "#/components/schemas/AnyValue"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/WorkbenchToolCall/properties/inputPreview",
+      "target": "#/components/schemas/AnyValue"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/WorkbenchToolCall/properties/outputPreview",
       "target": "#/components/schemas/AnyValue"
     },
     {
