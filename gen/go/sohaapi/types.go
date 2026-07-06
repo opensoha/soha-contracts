@@ -18,6 +18,294 @@ const (
 	SohaXAPIKeyScopes       sohaXAPIKeyContextKey       = "sohaXAPIKey.Scopes"
 )
 
+// Defines values for AgentRunCallbackWorkbenchAgentStatusEventProviderKind.
+const (
+	AgentRunCallbackWorkbenchAgentStatusEventProviderKindAnthropic        AgentRunCallbackWorkbenchAgentStatusEventProviderKind = "anthropic"
+	AgentRunCallbackWorkbenchAgentStatusEventProviderKindAzureOpenai      AgentRunCallbackWorkbenchAgentStatusEventProviderKind = "azure-openai"
+	AgentRunCallbackWorkbenchAgentStatusEventProviderKindCohere           AgentRunCallbackWorkbenchAgentStatusEventProviderKind = "cohere"
+	AgentRunCallbackWorkbenchAgentStatusEventProviderKindDeepseek         AgentRunCallbackWorkbenchAgentStatusEventProviderKind = "deepseek"
+	AgentRunCallbackWorkbenchAgentStatusEventProviderKindGemini           AgentRunCallbackWorkbenchAgentStatusEventProviderKind = "gemini"
+	AgentRunCallbackWorkbenchAgentStatusEventProviderKindGeneral          AgentRunCallbackWorkbenchAgentStatusEventProviderKind = "general"
+	AgentRunCallbackWorkbenchAgentStatusEventProviderKindHermes           AgentRunCallbackWorkbenchAgentStatusEventProviderKind = "hermes"
+	AgentRunCallbackWorkbenchAgentStatusEventProviderKindInternal         AgentRunCallbackWorkbenchAgentStatusEventProviderKind = "internal"
+	AgentRunCallbackWorkbenchAgentStatusEventProviderKindOpenai           AgentRunCallbackWorkbenchAgentStatusEventProviderKind = "openai"
+	AgentRunCallbackWorkbenchAgentStatusEventProviderKindOpenaiCompatible AgentRunCallbackWorkbenchAgentStatusEventProviderKind = "openai-compatible"
+	AgentRunCallbackWorkbenchAgentStatusEventProviderKindOpenclaw         AgentRunCallbackWorkbenchAgentStatusEventProviderKind = "openclaw"
+	AgentRunCallbackWorkbenchAgentStatusEventProviderKindOpenrouter       AgentRunCallbackWorkbenchAgentStatusEventProviderKind = "openrouter"
+	AgentRunCallbackWorkbenchAgentStatusEventProviderKindQwen             AgentRunCallbackWorkbenchAgentStatusEventProviderKind = "qwen"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchAgentStatusEventProviderKind enum.
+func (e AgentRunCallbackWorkbenchAgentStatusEventProviderKind) Valid() bool {
+	switch e {
+	case AgentRunCallbackWorkbenchAgentStatusEventProviderKindAnthropic:
+		return true
+	case AgentRunCallbackWorkbenchAgentStatusEventProviderKindAzureOpenai:
+		return true
+	case AgentRunCallbackWorkbenchAgentStatusEventProviderKindCohere:
+		return true
+	case AgentRunCallbackWorkbenchAgentStatusEventProviderKindDeepseek:
+		return true
+	case AgentRunCallbackWorkbenchAgentStatusEventProviderKindGemini:
+		return true
+	case AgentRunCallbackWorkbenchAgentStatusEventProviderKindGeneral:
+		return true
+	case AgentRunCallbackWorkbenchAgentStatusEventProviderKindHermes:
+		return true
+	case AgentRunCallbackWorkbenchAgentStatusEventProviderKindInternal:
+		return true
+	case AgentRunCallbackWorkbenchAgentStatusEventProviderKindOpenai:
+		return true
+	case AgentRunCallbackWorkbenchAgentStatusEventProviderKindOpenaiCompatible:
+		return true
+	case AgentRunCallbackWorkbenchAgentStatusEventProviderKindOpenclaw:
+		return true
+	case AgentRunCallbackWorkbenchAgentStatusEventProviderKindOpenrouter:
+		return true
+	case AgentRunCallbackWorkbenchAgentStatusEventProviderKindQwen:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunCallbackWorkbenchAgentStatusEventStatus.
+const (
+	AgentRunCallbackWorkbenchAgentStatusEventStatusCancelled AgentRunCallbackWorkbenchAgentStatusEventStatus = "cancelled"
+	AgentRunCallbackWorkbenchAgentStatusEventStatusFailed    AgentRunCallbackWorkbenchAgentStatusEventStatus = "failed"
+	AgentRunCallbackWorkbenchAgentStatusEventStatusQueued    AgentRunCallbackWorkbenchAgentStatusEventStatus = "queued"
+	AgentRunCallbackWorkbenchAgentStatusEventStatusRunning   AgentRunCallbackWorkbenchAgentStatusEventStatus = "running"
+	AgentRunCallbackWorkbenchAgentStatusEventStatusSucceeded AgentRunCallbackWorkbenchAgentStatusEventStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchAgentStatusEventStatus enum.
+func (e AgentRunCallbackWorkbenchAgentStatusEventStatus) Valid() bool {
+	switch e {
+	case AgentRunCallbackWorkbenchAgentStatusEventStatusCancelled:
+		return true
+	case AgentRunCallbackWorkbenchAgentStatusEventStatusFailed:
+		return true
+	case AgentRunCallbackWorkbenchAgentStatusEventStatusQueued:
+		return true
+	case AgentRunCallbackWorkbenchAgentStatusEventStatusRunning:
+		return true
+	case AgentRunCallbackWorkbenchAgentStatusEventStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunCallbackWorkbenchAgentStatusEventType.
+const (
+	AgentRunCallbackWorkbenchAgentStatusEventTypeAgentStatus AgentRunCallbackWorkbenchAgentStatusEventType = "agent.status"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchAgentStatusEventType enum.
+func (e AgentRunCallbackWorkbenchAgentStatusEventType) Valid() bool {
+	switch e {
+	case AgentRunCallbackWorkbenchAgentStatusEventTypeAgentStatus:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunCallbackWorkbenchArtifactUpdatedEventType.
+const (
+	AgentRunCallbackWorkbenchArtifactUpdatedEventTypeArtifactUpdated AgentRunCallbackWorkbenchArtifactUpdatedEventType = "artifact.updated"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchArtifactUpdatedEventType enum.
+func (e AgentRunCallbackWorkbenchArtifactUpdatedEventType) Valid() bool {
+	switch e {
+	case AgentRunCallbackWorkbenchArtifactUpdatedEventTypeArtifactUpdated:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunCallbackWorkbenchCardCommandEventType.
+const (
+	AgentRunCallbackWorkbenchCardCommandEventTypeCardCommand AgentRunCallbackWorkbenchCardCommandEventType = "card.command"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchCardCommandEventType enum.
+func (e AgentRunCallbackWorkbenchCardCommandEventType) Valid() bool {
+	switch e {
+	case AgentRunCallbackWorkbenchCardCommandEventTypeCardCommand:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunCallbackWorkbenchErrorEventType.
+const (
+	AgentRunCallbackWorkbenchErrorEventTypeError AgentRunCallbackWorkbenchErrorEventType = "error"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchErrorEventType enum.
+func (e AgentRunCallbackWorkbenchErrorEventType) Valid() bool {
+	switch e {
+	case AgentRunCallbackWorkbenchErrorEventTypeError:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunCallbackWorkbenchMessageDeltaEventRole.
+const (
+	AgentRunCallbackWorkbenchMessageDeltaEventRoleAssistant AgentRunCallbackWorkbenchMessageDeltaEventRole = "assistant"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchMessageDeltaEventRole enum.
+func (e AgentRunCallbackWorkbenchMessageDeltaEventRole) Valid() bool {
+	switch e {
+	case AgentRunCallbackWorkbenchMessageDeltaEventRoleAssistant:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunCallbackWorkbenchMessageDeltaEventType.
+const (
+	AgentRunCallbackWorkbenchMessageDeltaEventTypeMessageDelta AgentRunCallbackWorkbenchMessageDeltaEventType = "message.delta"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchMessageDeltaEventType enum.
+func (e AgentRunCallbackWorkbenchMessageDeltaEventType) Valid() bool {
+	switch e {
+	case AgentRunCallbackWorkbenchMessageDeltaEventTypeMessageDelta:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunCallbackWorkbenchMessageDoneEventRole.
+const (
+	AgentRunCallbackWorkbenchMessageDoneEventRoleAssistant AgentRunCallbackWorkbenchMessageDoneEventRole = "assistant"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchMessageDoneEventRole enum.
+func (e AgentRunCallbackWorkbenchMessageDoneEventRole) Valid() bool {
+	switch e {
+	case AgentRunCallbackWorkbenchMessageDoneEventRoleAssistant:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunCallbackWorkbenchMessageDoneEventType.
+const (
+	AgentRunCallbackWorkbenchMessageDoneEventTypeMessageDone AgentRunCallbackWorkbenchMessageDoneEventType = "message.done"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchMessageDoneEventType enum.
+func (e AgentRunCallbackWorkbenchMessageDoneEventType) Valid() bool {
+	switch e {
+	case AgentRunCallbackWorkbenchMessageDoneEventTypeMessageDone:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunCallbackWorkbenchSourceUpdatedEventType.
+const (
+	AgentRunCallbackWorkbenchSourceUpdatedEventTypeSourceUpdated AgentRunCallbackWorkbenchSourceUpdatedEventType = "source.updated"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchSourceUpdatedEventType enum.
+func (e AgentRunCallbackWorkbenchSourceUpdatedEventType) Valid() bool {
+	switch e {
+	case AgentRunCallbackWorkbenchSourceUpdatedEventTypeSourceUpdated:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunCallbackWorkbenchThinkingDeltaEventType.
+const (
+	AgentRunCallbackWorkbenchThinkingDeltaEventTypeThinkingDelta AgentRunCallbackWorkbenchThinkingDeltaEventType = "thinking.delta"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchThinkingDeltaEventType enum.
+func (e AgentRunCallbackWorkbenchThinkingDeltaEventType) Valid() bool {
+	switch e {
+	case AgentRunCallbackWorkbenchThinkingDeltaEventTypeThinkingDelta:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunCallbackWorkbenchThinkingDoneEventType.
+const (
+	AgentRunCallbackWorkbenchThinkingDoneEventTypeThinkingDone AgentRunCallbackWorkbenchThinkingDoneEventType = "thinking.done"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchThinkingDoneEventType enum.
+func (e AgentRunCallbackWorkbenchThinkingDoneEventType) Valid() bool {
+	switch e {
+	case AgentRunCallbackWorkbenchThinkingDoneEventTypeThinkingDone:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunCallbackWorkbenchToolCompletedEventType.
+const (
+	AgentRunCallbackWorkbenchToolCompletedEventTypeToolCompleted AgentRunCallbackWorkbenchToolCompletedEventType = "tool.completed"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchToolCompletedEventType enum.
+func (e AgentRunCallbackWorkbenchToolCompletedEventType) Valid() bool {
+	switch e {
+	case AgentRunCallbackWorkbenchToolCompletedEventTypeToolCompleted:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunCallbackWorkbenchToolDeltaEventType.
+const (
+	AgentRunCallbackWorkbenchToolDeltaEventTypeToolDelta AgentRunCallbackWorkbenchToolDeltaEventType = "tool.delta"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchToolDeltaEventType enum.
+func (e AgentRunCallbackWorkbenchToolDeltaEventType) Valid() bool {
+	switch e {
+	case AgentRunCallbackWorkbenchToolDeltaEventTypeToolDelta:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunCallbackWorkbenchToolStartedEventType.
+const (
+	AgentRunCallbackWorkbenchToolStartedEventTypeToolStarted AgentRunCallbackWorkbenchToolStartedEventType = "tool.started"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchToolStartedEventType enum.
+func (e AgentRunCallbackWorkbenchToolStartedEventType) Valid() bool {
+	switch e {
+	case AgentRunCallbackWorkbenchToolStartedEventTypeToolStarted:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ApplicationDeliveryActionKind.
 const (
 	Build       ApplicationDeliveryActionKind = "build"
@@ -671,22 +959,49 @@ func (e OpenAIModelsResponseObject) Valid() bool {
 
 // Defines values for WorkbenchAgentStatusEventProviderKind.
 const (
-	General  WorkbenchAgentStatusEventProviderKind = "general"
-	Hermes   WorkbenchAgentStatusEventProviderKind = "hermes"
-	Internal WorkbenchAgentStatusEventProviderKind = "internal"
-	Openclaw WorkbenchAgentStatusEventProviderKind = "openclaw"
+	WorkbenchAgentStatusEventProviderKindAnthropic        WorkbenchAgentStatusEventProviderKind = "anthropic"
+	WorkbenchAgentStatusEventProviderKindAzureOpenai      WorkbenchAgentStatusEventProviderKind = "azure-openai"
+	WorkbenchAgentStatusEventProviderKindCohere           WorkbenchAgentStatusEventProviderKind = "cohere"
+	WorkbenchAgentStatusEventProviderKindDeepseek         WorkbenchAgentStatusEventProviderKind = "deepseek"
+	WorkbenchAgentStatusEventProviderKindGemini           WorkbenchAgentStatusEventProviderKind = "gemini"
+	WorkbenchAgentStatusEventProviderKindGeneral          WorkbenchAgentStatusEventProviderKind = "general"
+	WorkbenchAgentStatusEventProviderKindHermes           WorkbenchAgentStatusEventProviderKind = "hermes"
+	WorkbenchAgentStatusEventProviderKindInternal         WorkbenchAgentStatusEventProviderKind = "internal"
+	WorkbenchAgentStatusEventProviderKindOpenai           WorkbenchAgentStatusEventProviderKind = "openai"
+	WorkbenchAgentStatusEventProviderKindOpenaiCompatible WorkbenchAgentStatusEventProviderKind = "openai-compatible"
+	WorkbenchAgentStatusEventProviderKindOpenclaw         WorkbenchAgentStatusEventProviderKind = "openclaw"
+	WorkbenchAgentStatusEventProviderKindOpenrouter       WorkbenchAgentStatusEventProviderKind = "openrouter"
+	WorkbenchAgentStatusEventProviderKindQwen             WorkbenchAgentStatusEventProviderKind = "qwen"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchAgentStatusEventProviderKind enum.
 func (e WorkbenchAgentStatusEventProviderKind) Valid() bool {
 	switch e {
-	case General:
+	case WorkbenchAgentStatusEventProviderKindAnthropic:
 		return true
-	case Hermes:
+	case WorkbenchAgentStatusEventProviderKindAzureOpenai:
 		return true
-	case Internal:
+	case WorkbenchAgentStatusEventProviderKindCohere:
 		return true
-	case Openclaw:
+	case WorkbenchAgentStatusEventProviderKindDeepseek:
+		return true
+	case WorkbenchAgentStatusEventProviderKindGemini:
+		return true
+	case WorkbenchAgentStatusEventProviderKindGeneral:
+		return true
+	case WorkbenchAgentStatusEventProviderKindHermes:
+		return true
+	case WorkbenchAgentStatusEventProviderKindInternal:
+		return true
+	case WorkbenchAgentStatusEventProviderKindOpenai:
+		return true
+	case WorkbenchAgentStatusEventProviderKindOpenaiCompatible:
+		return true
+	case WorkbenchAgentStatusEventProviderKindOpenclaw:
+		return true
+	case WorkbenchAgentStatusEventProviderKindOpenrouter:
+		return true
+	case WorkbenchAgentStatusEventProviderKindQwen:
 		return true
 	default:
 		return false
@@ -722,13 +1037,13 @@ func (e WorkbenchAgentStatusEventStatus) Valid() bool {
 
 // Defines values for WorkbenchAgentStatusEventType.
 const (
-	AgentStatus WorkbenchAgentStatusEventType = "agent.status"
+	WorkbenchAgentStatusEventTypeAgentStatus WorkbenchAgentStatusEventType = "agent.status"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchAgentStatusEventType enum.
 func (e WorkbenchAgentStatusEventType) Valid() bool {
 	switch e {
-	case AgentStatus:
+	case WorkbenchAgentStatusEventTypeAgentStatus:
 		return true
 	default:
 		return false
@@ -737,13 +1052,13 @@ func (e WorkbenchAgentStatusEventType) Valid() bool {
 
 // Defines values for WorkbenchArtifactUpdatedEventType.
 const (
-	ArtifactUpdated WorkbenchArtifactUpdatedEventType = "artifact.updated"
+	WorkbenchArtifactUpdatedEventTypeArtifactUpdated WorkbenchArtifactUpdatedEventType = "artifact.updated"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchArtifactUpdatedEventType enum.
 func (e WorkbenchArtifactUpdatedEventType) Valid() bool {
 	switch e {
-	case ArtifactUpdated:
+	case WorkbenchArtifactUpdatedEventTypeArtifactUpdated:
 		return true
 	default:
 		return false
@@ -752,13 +1067,13 @@ func (e WorkbenchArtifactUpdatedEventType) Valid() bool {
 
 // Defines values for WorkbenchCardCommandEventType.
 const (
-	CardCommand WorkbenchCardCommandEventType = "card.command"
+	WorkbenchCardCommandEventTypeCardCommand WorkbenchCardCommandEventType = "card.command"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchCardCommandEventType enum.
 func (e WorkbenchCardCommandEventType) Valid() bool {
 	switch e {
-	case CardCommand:
+	case WorkbenchCardCommandEventTypeCardCommand:
 		return true
 	default:
 		return false
@@ -774,6 +1089,63 @@ const (
 func (e WorkbenchErrorEventType) Valid() bool {
 	switch e {
 	case WorkbenchErrorEventTypeError:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchGlobalAssistantOpenRequestAction.
+const (
+	AnalyzePage      WorkbenchGlobalAssistantOpenRequestAction = "analyze-page"
+	AnalyzeResource  WorkbenchGlobalAssistantOpenRequestAction = "analyze-resource"
+	AnalyzeSelection WorkbenchGlobalAssistantOpenRequestAction = "analyze-selection"
+	Open             WorkbenchGlobalAssistantOpenRequestAction = "open"
+	OpenWorkbench    WorkbenchGlobalAssistantOpenRequestAction = "open-workbench"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchGlobalAssistantOpenRequestAction enum.
+func (e WorkbenchGlobalAssistantOpenRequestAction) Valid() bool {
+	switch e {
+	case AnalyzePage:
+		return true
+	case AnalyzeResource:
+		return true
+	case AnalyzeSelection:
+		return true
+	case Open:
+		return true
+	case OpenWorkbench:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchLaunchContextSourceWorkbench.
+const (
+	WorkbenchLaunchContextSourceWorkbenchAI             WorkbenchLaunchContextSourceWorkbench = "ai"
+	WorkbenchLaunchContextSourceWorkbenchDelivery       WorkbenchLaunchContextSourceWorkbench = "delivery"
+	WorkbenchLaunchContextSourceWorkbenchDocker         WorkbenchLaunchContextSourceWorkbench = "docker"
+	WorkbenchLaunchContextSourceWorkbenchMonitoring     WorkbenchLaunchContextSourceWorkbench = "monitoring"
+	WorkbenchLaunchContextSourceWorkbenchPlatform       WorkbenchLaunchContextSourceWorkbench = "platform"
+	WorkbenchLaunchContextSourceWorkbenchVirtualization WorkbenchLaunchContextSourceWorkbench = "virtualization"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchLaunchContextSourceWorkbench enum.
+func (e WorkbenchLaunchContextSourceWorkbench) Valid() bool {
+	switch e {
+	case WorkbenchLaunchContextSourceWorkbenchAI:
+		return true
+	case WorkbenchLaunchContextSourceWorkbenchDelivery:
+		return true
+	case WorkbenchLaunchContextSourceWorkbenchDocker:
+		return true
+	case WorkbenchLaunchContextSourceWorkbenchMonitoring:
+		return true
+	case WorkbenchLaunchContextSourceWorkbenchPlatform:
+		return true
+	case WorkbenchLaunchContextSourceWorkbenchVirtualization:
 		return true
 	default:
 		return false
@@ -797,13 +1169,13 @@ func (e WorkbenchMessageDeltaEventRole) Valid() bool {
 
 // Defines values for WorkbenchMessageDeltaEventType.
 const (
-	MessageDelta WorkbenchMessageDeltaEventType = "message.delta"
+	WorkbenchMessageDeltaEventTypeMessageDelta WorkbenchMessageDeltaEventType = "message.delta"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchMessageDeltaEventType enum.
 func (e WorkbenchMessageDeltaEventType) Valid() bool {
 	switch e {
-	case MessageDelta:
+	case WorkbenchMessageDeltaEventTypeMessageDelta:
 		return true
 	default:
 		return false
@@ -827,13 +1199,43 @@ func (e WorkbenchMessageDoneEventRole) Valid() bool {
 
 // Defines values for WorkbenchMessageDoneEventType.
 const (
-	MessageDone WorkbenchMessageDoneEventType = "message.done"
+	WorkbenchMessageDoneEventTypeMessageDone WorkbenchMessageDoneEventType = "message.done"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchMessageDoneEventType enum.
 func (e WorkbenchMessageDoneEventType) Valid() bool {
 	switch e {
-	case MessageDone:
+	case WorkbenchMessageDoneEventTypeMessageDone:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchSelectionContextKind.
+const (
+	WorkbenchSelectionContextKindError  WorkbenchSelectionContextKind = "error"
+	WorkbenchSelectionContextKindEvent  WorkbenchSelectionContextKind = "event"
+	WorkbenchSelectionContextKindLog    WorkbenchSelectionContextKind = "log"
+	WorkbenchSelectionContextKindMetric WorkbenchSelectionContextKind = "metric"
+	WorkbenchSelectionContextKindPlain  WorkbenchSelectionContextKind = "plain"
+	WorkbenchSelectionContextKindYaml   WorkbenchSelectionContextKind = "yaml"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchSelectionContextKind enum.
+func (e WorkbenchSelectionContextKind) Valid() bool {
+	switch e {
+	case WorkbenchSelectionContextKindError:
+		return true
+	case WorkbenchSelectionContextKindEvent:
+		return true
+	case WorkbenchSelectionContextKindLog:
+		return true
+	case WorkbenchSelectionContextKindMetric:
+		return true
+	case WorkbenchSelectionContextKindPlain:
+		return true
+	case WorkbenchSelectionContextKindYaml:
 		return true
 	default:
 		return false
@@ -842,31 +1244,31 @@ func (e WorkbenchMessageDoneEventType) Valid() bool {
 
 // Defines values for WorkbenchSourceKind.
 const (
-	Audit    WorkbenchSourceKind = "audit"
-	Delivery WorkbenchSourceKind = "delivery"
-	Document WorkbenchSourceKind = "document"
-	Event    WorkbenchSourceKind = "event"
-	Log      WorkbenchSourceKind = "log"
-	Metric   WorkbenchSourceKind = "metric"
-	Trace    WorkbenchSourceKind = "trace"
+	WorkbenchSourceKindAudit    WorkbenchSourceKind = "audit"
+	WorkbenchSourceKindDelivery WorkbenchSourceKind = "delivery"
+	WorkbenchSourceKindDocument WorkbenchSourceKind = "document"
+	WorkbenchSourceKindEvent    WorkbenchSourceKind = "event"
+	WorkbenchSourceKindLog      WorkbenchSourceKind = "log"
+	WorkbenchSourceKindMetric   WorkbenchSourceKind = "metric"
+	WorkbenchSourceKindTrace    WorkbenchSourceKind = "trace"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchSourceKind enum.
 func (e WorkbenchSourceKind) Valid() bool {
 	switch e {
-	case Audit:
+	case WorkbenchSourceKindAudit:
 		return true
-	case Delivery:
+	case WorkbenchSourceKindDelivery:
 		return true
-	case Document:
+	case WorkbenchSourceKindDocument:
 		return true
-	case Event:
+	case WorkbenchSourceKindEvent:
 		return true
-	case Log:
+	case WorkbenchSourceKindLog:
 		return true
-	case Metric:
+	case WorkbenchSourceKindMetric:
 		return true
-	case Trace:
+	case WorkbenchSourceKindTrace:
 		return true
 	default:
 		return false
@@ -875,13 +1277,13 @@ func (e WorkbenchSourceKind) Valid() bool {
 
 // Defines values for WorkbenchSourceUpdatedEventType.
 const (
-	SourceUpdated WorkbenchSourceUpdatedEventType = "source.updated"
+	WorkbenchSourceUpdatedEventTypeSourceUpdated WorkbenchSourceUpdatedEventType = "source.updated"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchSourceUpdatedEventType enum.
 func (e WorkbenchSourceUpdatedEventType) Valid() bool {
 	switch e {
-	case SourceUpdated:
+	case WorkbenchSourceUpdatedEventTypeSourceUpdated:
 		return true
 	default:
 		return false
@@ -890,13 +1292,13 @@ func (e WorkbenchSourceUpdatedEventType) Valid() bool {
 
 // Defines values for WorkbenchThinkingDeltaEventType.
 const (
-	ThinkingDelta WorkbenchThinkingDeltaEventType = "thinking.delta"
+	WorkbenchThinkingDeltaEventTypeThinkingDelta WorkbenchThinkingDeltaEventType = "thinking.delta"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchThinkingDeltaEventType enum.
 func (e WorkbenchThinkingDeltaEventType) Valid() bool {
 	switch e {
-	case ThinkingDelta:
+	case WorkbenchThinkingDeltaEventTypeThinkingDelta:
 		return true
 	default:
 		return false
@@ -905,13 +1307,13 @@ func (e WorkbenchThinkingDeltaEventType) Valid() bool {
 
 // Defines values for WorkbenchThinkingDoneEventType.
 const (
-	ThinkingDone WorkbenchThinkingDoneEventType = "thinking.done"
+	WorkbenchThinkingDoneEventTypeThinkingDone WorkbenchThinkingDoneEventType = "thinking.done"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchThinkingDoneEventType enum.
 func (e WorkbenchThinkingDoneEventType) Valid() bool {
 	switch e {
-	case ThinkingDone:
+	case WorkbenchThinkingDoneEventTypeThinkingDone:
 		return true
 	default:
 		return false
@@ -947,13 +1349,13 @@ func (e WorkbenchToolCallStatus) Valid() bool {
 
 // Defines values for WorkbenchToolCompletedEventType.
 const (
-	ToolCompleted WorkbenchToolCompletedEventType = "tool.completed"
+	WorkbenchToolCompletedEventTypeToolCompleted WorkbenchToolCompletedEventType = "tool.completed"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchToolCompletedEventType enum.
 func (e WorkbenchToolCompletedEventType) Valid() bool {
 	switch e {
-	case ToolCompleted:
+	case WorkbenchToolCompletedEventTypeToolCompleted:
 		return true
 	default:
 		return false
@@ -962,13 +1364,13 @@ func (e WorkbenchToolCompletedEventType) Valid() bool {
 
 // Defines values for WorkbenchToolDeltaEventType.
 const (
-	ToolDelta WorkbenchToolDeltaEventType = "tool.delta"
+	WorkbenchToolDeltaEventTypeToolDelta WorkbenchToolDeltaEventType = "tool.delta"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchToolDeltaEventType enum.
 func (e WorkbenchToolDeltaEventType) Valid() bool {
 	switch e {
-	case ToolDelta:
+	case WorkbenchToolDeltaEventTypeToolDelta:
 		return true
 	default:
 		return false
@@ -977,13 +1379,13 @@ func (e WorkbenchToolDeltaEventType) Valid() bool {
 
 // Defines values for WorkbenchToolStartedEventType.
 const (
-	ToolStarted WorkbenchToolStartedEventType = "tool.started"
+	WorkbenchToolStartedEventTypeToolStarted WorkbenchToolStartedEventType = "tool.started"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchToolStartedEventType enum.
 func (e WorkbenchToolStartedEventType) Valid() bool {
 	switch e {
-	case ToolStarted:
+	case WorkbenchToolStartedEventTypeToolStarted:
 		return true
 	default:
 		return false
@@ -1892,28 +2294,28 @@ func (e ListAIGatewayRelayModelCallsParamsProviderKind) Valid() bool {
 
 // Defines values for ListAIGatewayRelayModelCallsParamsStatus.
 const (
-	Cancelled       ListAIGatewayRelayModelCallsParamsStatus = "cancelled"
-	ClientCancelled ListAIGatewayRelayModelCallsParamsStatus = "client_cancelled"
-	Failure         ListAIGatewayRelayModelCallsParamsStatus = "failure"
-	PolicyDenied    ListAIGatewayRelayModelCallsParamsStatus = "policy_denied"
-	RateLimited     ListAIGatewayRelayModelCallsParamsStatus = "rate_limited"
-	Success         ListAIGatewayRelayModelCallsParamsStatus = "success"
+	ListAIGatewayRelayModelCallsParamsStatusCancelled       ListAIGatewayRelayModelCallsParamsStatus = "cancelled"
+	ListAIGatewayRelayModelCallsParamsStatusClientCancelled ListAIGatewayRelayModelCallsParamsStatus = "client_cancelled"
+	ListAIGatewayRelayModelCallsParamsStatusFailure         ListAIGatewayRelayModelCallsParamsStatus = "failure"
+	ListAIGatewayRelayModelCallsParamsStatusPolicyDenied    ListAIGatewayRelayModelCallsParamsStatus = "policy_denied"
+	ListAIGatewayRelayModelCallsParamsStatusRateLimited     ListAIGatewayRelayModelCallsParamsStatus = "rate_limited"
+	ListAIGatewayRelayModelCallsParamsStatusSuccess         ListAIGatewayRelayModelCallsParamsStatus = "success"
 )
 
 // Valid indicates whether the value is a known member of the ListAIGatewayRelayModelCallsParamsStatus enum.
 func (e ListAIGatewayRelayModelCallsParamsStatus) Valid() bool {
 	switch e {
-	case Cancelled:
+	case ListAIGatewayRelayModelCallsParamsStatusCancelled:
 		return true
-	case ClientCancelled:
+	case ListAIGatewayRelayModelCallsParamsStatusClientCancelled:
 		return true
-	case Failure:
+	case ListAIGatewayRelayModelCallsParamsStatusFailure:
 		return true
-	case PolicyDenied:
+	case ListAIGatewayRelayModelCallsParamsStatusPolicyDenied:
 		return true
-	case RateLimited:
+	case ListAIGatewayRelayModelCallsParamsStatusRateLimited:
 		return true
-	case Success:
+	case ListAIGatewayRelayModelCallsParamsStatusSuccess:
 		return true
 	default:
 		return false
@@ -2108,16 +2510,235 @@ type AgentRun struct {
 
 // AgentRunCallbackRequest defines model for AgentRunCallbackRequest.
 type AgentRunCallbackRequest struct {
-	AgentID           string           `json:"agentId"`
-	AnalysisArtifacts []map[string]any `json:"analysisArtifacts,omitempty"`
-	CallbackToken     string           `json:"callbackToken"`
-	ErrorMessage      string           `json:"errorMessage,omitempty"`
-	ExternalRunID     string           `json:"externalRunId,omitempty"`
-	Payload           map[string]any   `json:"payload"`
-	RunID             string           `json:"runId"`
-	Status            string           `json:"status"`
-	ToolExecutions    []map[string]any `json:"toolExecutions,omitempty"`
+	AgentID           string                                 `json:"agentId"`
+	AnalysisArtifacts []map[string]any                       `json:"analysisArtifacts,omitempty"`
+	CallbackToken     string                                 `json:"callbackToken"`
+	ErrorMessage      string                                 `json:"errorMessage,omitempty"`
+	Events            []AgentRunCallbackWorkbenchStreamEvent `json:"events,omitempty"`
+	ExternalRunID     string                                 `json:"externalRunId,omitempty"`
+	Payload           map[string]any                         `json:"payload"`
+	RunID             string                                 `json:"runId"`
+	Status            string                                 `json:"status"`
+	ToolExecutions    []map[string]any                       `json:"toolExecutions,omitempty"`
 }
+
+// AgentRunCallbackWorkbenchAgentStatusEvent defines model for AgentRunCallbackWorkbenchAgentStatusEvent.
+type AgentRunCallbackWorkbenchAgentStatusEvent struct {
+	CreatedAt    *time.Time                                            `json:"createdAt,omitempty"`
+	ID           string                                                `json:"id,omitempty"`
+	MessageID    string                                                `json:"messageId,omitempty"`
+	ProviderID   string                                                `json:"providerId,omitempty"`
+	ProviderKind AgentRunCallbackWorkbenchAgentStatusEventProviderKind `json:"providerKind,omitempty"`
+	RunID        string                                                `json:"runId,omitempty"`
+	Sequence     int                                                   `json:"sequence,omitempty"`
+	SessionID    string                                                `json:"sessionId,omitempty"`
+	Status       AgentRunCallbackWorkbenchAgentStatusEventStatus       `json:"status"`
+	Type         AgentRunCallbackWorkbenchAgentStatusEventType         `json:"type"`
+}
+
+// AgentRunCallbackWorkbenchAgentStatusEventProviderKind defines model for AgentRunCallbackWorkbenchAgentStatusEvent.ProviderKind.
+type AgentRunCallbackWorkbenchAgentStatusEventProviderKind string
+
+// AgentRunCallbackWorkbenchAgentStatusEventStatus defines model for AgentRunCallbackWorkbenchAgentStatusEvent.Status.
+type AgentRunCallbackWorkbenchAgentStatusEventStatus string
+
+// AgentRunCallbackWorkbenchAgentStatusEventType defines model for AgentRunCallbackWorkbenchAgentStatusEvent.Type.
+type AgentRunCallbackWorkbenchAgentStatusEventType string
+
+// AgentRunCallbackWorkbenchArtifactUpdatedEvent defines model for AgentRunCallbackWorkbenchArtifactUpdatedEvent.
+type AgentRunCallbackWorkbenchArtifactUpdatedEvent struct {
+	Artifact  AnyValue                                          `json:"artifact"`
+	CreatedAt *time.Time                                        `json:"createdAt,omitempty"`
+	ID        string                                            `json:"id,omitempty"`
+	MessageID string                                            `json:"messageId,omitempty"`
+	RunID     string                                            `json:"runId,omitempty"`
+	Sequence  int                                               `json:"sequence,omitempty"`
+	SessionID string                                            `json:"sessionId,omitempty"`
+	Type      AgentRunCallbackWorkbenchArtifactUpdatedEventType `json:"type"`
+}
+
+// AgentRunCallbackWorkbenchArtifactUpdatedEventType defines model for AgentRunCallbackWorkbenchArtifactUpdatedEvent.Type.
+type AgentRunCallbackWorkbenchArtifactUpdatedEventType string
+
+// AgentRunCallbackWorkbenchCardCommandEvent defines model for AgentRunCallbackWorkbenchCardCommandEvent.
+type AgentRunCallbackWorkbenchCardCommandEvent struct {
+	Command   AnyValue                                      `json:"command"`
+	CreatedAt *time.Time                                    `json:"createdAt,omitempty"`
+	ID        string                                        `json:"id,omitempty"`
+	MessageID string                                        `json:"messageId,omitempty"`
+	RunID     string                                        `json:"runId,omitempty"`
+	Sequence  int                                           `json:"sequence,omitempty"`
+	SessionID string                                        `json:"sessionId,omitempty"`
+	SurfaceID string                                        `json:"surfaceId"`
+	Type      AgentRunCallbackWorkbenchCardCommandEventType `json:"type"`
+}
+
+// AgentRunCallbackWorkbenchCardCommandEventType defines model for AgentRunCallbackWorkbenchCardCommandEvent.Type.
+type AgentRunCallbackWorkbenchCardCommandEventType string
+
+// AgentRunCallbackWorkbenchErrorEvent defines model for AgentRunCallbackWorkbenchErrorEvent.
+type AgentRunCallbackWorkbenchErrorEvent struct {
+	Code      string                                  `json:"code,omitempty"`
+	CreatedAt *time.Time                              `json:"createdAt,omitempty"`
+	ID        string                                  `json:"id,omitempty"`
+	Message   string                                  `json:"message"`
+	MessageID string                                  `json:"messageId,omitempty"`
+	Retryable bool                                    `json:"retryable,omitempty"`
+	RunID     string                                  `json:"runId,omitempty"`
+	Sequence  int                                     `json:"sequence,omitempty"`
+	SessionID string                                  `json:"sessionId,omitempty"`
+	Type      AgentRunCallbackWorkbenchErrorEventType `json:"type"`
+}
+
+// AgentRunCallbackWorkbenchErrorEventType defines model for AgentRunCallbackWorkbenchErrorEvent.Type.
+type AgentRunCallbackWorkbenchErrorEventType string
+
+// AgentRunCallbackWorkbenchMessageDeltaEvent defines model for AgentRunCallbackWorkbenchMessageDeltaEvent.
+type AgentRunCallbackWorkbenchMessageDeltaEvent struct {
+	ContentDelta string                                         `json:"contentDelta"`
+	CreatedAt    *time.Time                                     `json:"createdAt,omitempty"`
+	ID           string                                         `json:"id,omitempty"`
+	MessageID    string                                         `json:"messageId,omitempty"`
+	Role         AgentRunCallbackWorkbenchMessageDeltaEventRole `json:"role"`
+	RunID        string                                         `json:"runId,omitempty"`
+	Sequence     int                                            `json:"sequence,omitempty"`
+	SessionID    string                                         `json:"sessionId,omitempty"`
+	Type         AgentRunCallbackWorkbenchMessageDeltaEventType `json:"type"`
+}
+
+// AgentRunCallbackWorkbenchMessageDeltaEventRole defines model for AgentRunCallbackWorkbenchMessageDeltaEvent.Role.
+type AgentRunCallbackWorkbenchMessageDeltaEventRole string
+
+// AgentRunCallbackWorkbenchMessageDeltaEventType defines model for AgentRunCallbackWorkbenchMessageDeltaEvent.Type.
+type AgentRunCallbackWorkbenchMessageDeltaEventType string
+
+// AgentRunCallbackWorkbenchMessageDoneEvent defines model for AgentRunCallbackWorkbenchMessageDoneEvent.
+type AgentRunCallbackWorkbenchMessageDoneEvent struct {
+	Content   string                                        `json:"content"`
+	CreatedAt *time.Time                                    `json:"createdAt,omitempty"`
+	ID        string                                        `json:"id,omitempty"`
+	MessageID string                                        `json:"messageId,omitempty"`
+	Metadata  map[string]any                                `json:"metadata,omitempty"`
+	Role      AgentRunCallbackWorkbenchMessageDoneEventRole `json:"role"`
+	RunID     string                                        `json:"runId,omitempty"`
+	Sequence  int                                           `json:"sequence,omitempty"`
+	SessionID string                                        `json:"sessionId,omitempty"`
+	Type      AgentRunCallbackWorkbenchMessageDoneEventType `json:"type"`
+}
+
+// AgentRunCallbackWorkbenchMessageDoneEventRole defines model for AgentRunCallbackWorkbenchMessageDoneEvent.Role.
+type AgentRunCallbackWorkbenchMessageDoneEventRole string
+
+// AgentRunCallbackWorkbenchMessageDoneEventType defines model for AgentRunCallbackWorkbenchMessageDoneEvent.Type.
+type AgentRunCallbackWorkbenchMessageDoneEventType string
+
+// AgentRunCallbackWorkbenchSourceUpdatedEvent defines model for AgentRunCallbackWorkbenchSourceUpdatedEvent.
+type AgentRunCallbackWorkbenchSourceUpdatedEvent struct {
+	CreatedAt *time.Time                                      `json:"createdAt,omitempty"`
+	ID        string                                          `json:"id,omitempty"`
+	MessageID string                                          `json:"messageId,omitempty"`
+	RunID     string                                          `json:"runId,omitempty"`
+	Sequence  int                                             `json:"sequence,omitempty"`
+	SessionID string                                          `json:"sessionId,omitempty"`
+	Source    WorkbenchSource                                 `json:"source"`
+	Type      AgentRunCallbackWorkbenchSourceUpdatedEventType `json:"type"`
+}
+
+// AgentRunCallbackWorkbenchSourceUpdatedEventType defines model for AgentRunCallbackWorkbenchSourceUpdatedEvent.Type.
+type AgentRunCallbackWorkbenchSourceUpdatedEventType string
+
+// AgentRunCallbackWorkbenchStreamEvent Workbench stream event input accepted from external runners during AgentRunCallbackRequest. Canonical stream/replay events use WorkbenchStreamEvent and keep server-owned base fields required.
+type AgentRunCallbackWorkbenchStreamEvent struct {
+	union json.RawMessage
+}
+
+// AgentRunCallbackWorkbenchStreamEventBase Runner-provided Workbench event fields accepted in an agent run callback. The server owns and may assign or override id, sessionId, runId, sequence, and createdAt.
+type AgentRunCallbackWorkbenchStreamEventBase struct {
+	CreatedAt *time.Time `json:"createdAt,omitempty"`
+	ID        string     `json:"id,omitempty"`
+	MessageID string     `json:"messageId,omitempty"`
+	RunID     string     `json:"runId,omitempty"`
+	Sequence  int        `json:"sequence,omitempty"`
+	SessionID string     `json:"sessionId,omitempty"`
+}
+
+// AgentRunCallbackWorkbenchThinkingDeltaEvent defines model for AgentRunCallbackWorkbenchThinkingDeltaEvent.
+type AgentRunCallbackWorkbenchThinkingDeltaEvent struct {
+	CreatedAt *time.Time                                      `json:"createdAt,omitempty"`
+	ID        string                                          `json:"id,omitempty"`
+	MessageID string                                          `json:"messageId,omitempty"`
+	RunID     string                                          `json:"runId,omitempty"`
+	Sequence  int                                             `json:"sequence,omitempty"`
+	SessionID string                                          `json:"sessionId,omitempty"`
+	TextDelta string                                          `json:"textDelta"`
+	Type      AgentRunCallbackWorkbenchThinkingDeltaEventType `json:"type"`
+}
+
+// AgentRunCallbackWorkbenchThinkingDeltaEventType defines model for AgentRunCallbackWorkbenchThinkingDeltaEvent.Type.
+type AgentRunCallbackWorkbenchThinkingDeltaEventType string
+
+// AgentRunCallbackWorkbenchThinkingDoneEvent defines model for AgentRunCallbackWorkbenchThinkingDoneEvent.
+type AgentRunCallbackWorkbenchThinkingDoneEvent struct {
+	Collapsed bool                                           `json:"collapsed"`
+	CreatedAt *time.Time                                     `json:"createdAt,omitempty"`
+	ID        string                                         `json:"id,omitempty"`
+	MessageID string                                         `json:"messageId,omitempty"`
+	RunID     string                                         `json:"runId,omitempty"`
+	Sequence  int                                            `json:"sequence,omitempty"`
+	SessionID string                                         `json:"sessionId,omitempty"`
+	Summary   string                                         `json:"summary"`
+	Type      AgentRunCallbackWorkbenchThinkingDoneEventType `json:"type"`
+}
+
+// AgentRunCallbackWorkbenchThinkingDoneEventType defines model for AgentRunCallbackWorkbenchThinkingDoneEvent.Type.
+type AgentRunCallbackWorkbenchThinkingDoneEventType string
+
+// AgentRunCallbackWorkbenchToolCompletedEvent defines model for AgentRunCallbackWorkbenchToolCompletedEvent.
+type AgentRunCallbackWorkbenchToolCompletedEvent struct {
+	CreatedAt *time.Time                                      `json:"createdAt,omitempty"`
+	ID        string                                          `json:"id,omitempty"`
+	MessageID string                                          `json:"messageId,omitempty"`
+	RunID     string                                          `json:"runId,omitempty"`
+	Sequence  int                                             `json:"sequence,omitempty"`
+	SessionID string                                          `json:"sessionId,omitempty"`
+	ToolCall  WorkbenchToolCall                               `json:"toolCall"`
+	Type      AgentRunCallbackWorkbenchToolCompletedEventType `json:"type"`
+}
+
+// AgentRunCallbackWorkbenchToolCompletedEventType defines model for AgentRunCallbackWorkbenchToolCompletedEvent.Type.
+type AgentRunCallbackWorkbenchToolCompletedEventType string
+
+// AgentRunCallbackWorkbenchToolDeltaEvent defines model for AgentRunCallbackWorkbenchToolDeltaEvent.
+type AgentRunCallbackWorkbenchToolDeltaEvent struct {
+	CreatedAt   *time.Time                                  `json:"createdAt,omitempty"`
+	ID          string                                      `json:"id,omitempty"`
+	LogDelta    string                                      `json:"logDelta,omitempty"`
+	MessageID   string                                      `json:"messageId,omitempty"`
+	OutputDelta string                                      `json:"outputDelta,omitempty"`
+	RunID       string                                      `json:"runId,omitempty"`
+	Sequence    int                                         `json:"sequence,omitempty"`
+	SessionID   string                                      `json:"sessionId,omitempty"`
+	ToolCallID  string                                      `json:"toolCallId"`
+	Type        AgentRunCallbackWorkbenchToolDeltaEventType `json:"type"`
+}
+
+// AgentRunCallbackWorkbenchToolDeltaEventType defines model for AgentRunCallbackWorkbenchToolDeltaEvent.Type.
+type AgentRunCallbackWorkbenchToolDeltaEventType string
+
+// AgentRunCallbackWorkbenchToolStartedEvent defines model for AgentRunCallbackWorkbenchToolStartedEvent.
+type AgentRunCallbackWorkbenchToolStartedEvent struct {
+	CreatedAt *time.Time                                    `json:"createdAt,omitempty"`
+	ID        string                                        `json:"id,omitempty"`
+	MessageID string                                        `json:"messageId,omitempty"`
+	RunID     string                                        `json:"runId,omitempty"`
+	Sequence  int                                           `json:"sequence,omitempty"`
+	SessionID string                                        `json:"sessionId,omitempty"`
+	ToolCall  WorkbenchToolCall                             `json:"toolCall"`
+	Type      AgentRunCallbackWorkbenchToolStartedEventType `json:"type"`
+}
+
+// AgentRunCallbackWorkbenchToolStartedEventType defines model for AgentRunCallbackWorkbenchToolStartedEvent.Type.
+type AgentRunCallbackWorkbenchToolStartedEventType string
 
 // AgentRunClaimRequest defines model for AgentRunClaimRequest.
 type AgentRunClaimRequest struct {
@@ -4555,6 +5176,52 @@ type WorkbenchErrorEvent struct {
 // WorkbenchErrorEventType defines model for WorkbenchErrorEvent.Type.
 type WorkbenchErrorEventType string
 
+// WorkbenchGlobalAssistantEventEnvelope defines model for WorkbenchGlobalAssistantEventEnvelope.
+type WorkbenchGlobalAssistantEventEnvelope struct {
+	Ok bool `json:"ok"`
+}
+
+// WorkbenchGlobalAssistantOpenRequest defines model for WorkbenchGlobalAssistantOpenRequest.
+type WorkbenchGlobalAssistantOpenRequest struct {
+	Action           WorkbenchGlobalAssistantOpenRequestAction `json:"action"`
+	LaunchContext    WorkbenchLaunchContext                    `json:"launchContext"`
+	Prompt           string                                    `json:"prompt,omitempty"`
+	SelectionContext *WorkbenchSelectionContext                `json:"selectionContext,omitempty"`
+	SessionID        string                                    `json:"sessionId,omitempty"`
+	Source           string                                    `json:"source,omitempty"`
+}
+
+// WorkbenchGlobalAssistantOpenRequestAction defines model for WorkbenchGlobalAssistantOpenRequest.Action.
+type WorkbenchGlobalAssistantOpenRequestAction string
+
+// WorkbenchLaunchContext defines model for WorkbenchLaunchContext.
+type WorkbenchLaunchContext struct {
+	AlertID                    string                                `json:"alertId,omitempty"`
+	ApplicationID              string                                `json:"applicationId,omitempty"`
+	ClusterID                  string                                `json:"clusterId,omitempty"`
+	DockerHostID               string                                `json:"dockerHostId,omitempty"`
+	DockerServiceID            string                                `json:"dockerServiceId,omitempty"`
+	EntityKind                 string                                `json:"entityKind,omitempty"`
+	EntityName                 string                                `json:"entityName,omitempty"`
+	Namespace                  string                                `json:"namespace,omitempty"`
+	Node                       string                                `json:"node,omitempty"`
+	PinnedData                 map[string]any                        `json:"pinnedData,omitempty"`
+	Pod                        string                                `json:"pod,omitempty"`
+	ReleaseBundleID            string                                `json:"releaseBundleId,omitempty"`
+	Service                    string                                `json:"service,omitempty"`
+	SourceRoute                string                                `json:"sourceRoute"`
+	SourceTitle                string                                `json:"sourceTitle,omitempty"`
+	SourceWorkbench            WorkbenchLaunchContextSourceWorkbench `json:"sourceWorkbench"`
+	TimeRangeMinutes           int                                   `json:"timeRangeMinutes,omitempty"`
+	VirtualizationConnectionID string                                `json:"virtualizationConnectionId,omitempty"`
+	VisibleFilters             map[string]any                        `json:"visibleFilters,omitempty"`
+	VMID                       string                                `json:"vmId,omitempty"`
+	Workload                   string                                `json:"workload,omitempty"`
+}
+
+// WorkbenchLaunchContextSourceWorkbench defines model for WorkbenchLaunchContext.SourceWorkbench.
+type WorkbenchLaunchContextSourceWorkbench string
+
 // WorkbenchMessageDeltaEvent defines model for WorkbenchMessageDeltaEvent.
 type WorkbenchMessageDeltaEvent struct {
 	ContentDelta string                         `json:"contentDelta"`
@@ -4594,13 +5261,27 @@ type WorkbenchMessageDoneEventRole string
 // WorkbenchMessageDoneEventType defines model for WorkbenchMessageDoneEvent.Type.
 type WorkbenchMessageDoneEventType string
 
+// WorkbenchSelectionContext defines model for WorkbenchSelectionContext.
+type WorkbenchSelectionContext struct {
+	Kind               WorkbenchSelectionContextKind `json:"kind"`
+	SourceElementLabel string                        `json:"sourceElementLabel,omitempty"`
+	Text               string                        `json:"text"`
+}
+
+// WorkbenchSelectionContextKind defines model for WorkbenchSelectionContext.Kind.
+type WorkbenchSelectionContextKind string
+
 // WorkbenchSendMessageStreamRequest defines model for WorkbenchSendMessageStreamRequest.
 type WorkbenchSendMessageStreamRequest struct {
-	AgentProviderID string   `json:"agentProviderId,omitempty"`
-	Content         string   `json:"content"`
-	Mode            string   `json:"mode,omitempty"`
-	ScopeOverrides  AnyValue `json:"scopeOverrides,omitempty"`
-	Toolset         AnyValue `json:"toolset,omitempty"`
+	AgentProviderID  string                     `json:"agentProviderId,omitempty"`
+	Content          string                     `json:"content"`
+	LaunchContext    *WorkbenchLaunchContext    `json:"launchContext,omitempty"`
+	Mode             string                     `json:"mode,omitempty"`
+	PinnedContext    map[string]any             `json:"pinnedContext,omitempty"`
+	ScopeOverrides   AnyValue                   `json:"scopeOverrides,omitempty"`
+	SelectionContext *WorkbenchSelectionContext `json:"selectionContext,omitempty"`
+	Source           string                     `json:"source,omitempty"`
+	Toolset          AnyValue                   `json:"toolset,omitempty"`
 }
 
 // WorkbenchSource defines model for WorkbenchSource.
@@ -5634,6 +6315,9 @@ type ClaimAgentRunJSONRequestBody = AgentRunClaimRequest
 
 // RecordAgentRunToolCallJSONRequestBody defines body for RecordAgentRunToolCall for application/json ContentType.
 type RecordAgentRunToolCallJSONRequestBody = AgentRunToolCallRequest
+
+// RecordWorkbenchGlobalAssistantEventJSONRequestBody defines body for RecordWorkbenchGlobalAssistantEvent for application/json ContentType.
+type RecordWorkbenchGlobalAssistantEventJSONRequestBody = WorkbenchGlobalAssistantOpenRequest
 
 // StreamWorkbenchSessionMessageJSONRequestBody defines body for StreamWorkbenchSessionMessage for application/json ContentType.
 type StreamWorkbenchSessionMessageJSONRequestBody = WorkbenchSendMessageStreamRequest
@@ -9937,6 +10621,328 @@ func (a UserProfile) MarshalJSON() ([]byte, error) {
 		}
 	}
 	return json.Marshal(object)
+}
+
+// AsAgentRunCallbackWorkbenchMessageDeltaEvent returns the union data inside the AgentRunCallbackWorkbenchStreamEvent as a AgentRunCallbackWorkbenchMessageDeltaEvent
+func (t AgentRunCallbackWorkbenchStreamEvent) AsAgentRunCallbackWorkbenchMessageDeltaEvent() (AgentRunCallbackWorkbenchMessageDeltaEvent, error) {
+	var body AgentRunCallbackWorkbenchMessageDeltaEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromAgentRunCallbackWorkbenchMessageDeltaEvent overwrites any union data inside the AgentRunCallbackWorkbenchStreamEvent as the provided AgentRunCallbackWorkbenchMessageDeltaEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) FromAgentRunCallbackWorkbenchMessageDeltaEvent(v AgentRunCallbackWorkbenchMessageDeltaEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeAgentRunCallbackWorkbenchMessageDeltaEvent performs a merge with any union data inside the AgentRunCallbackWorkbenchStreamEvent, using the provided AgentRunCallbackWorkbenchMessageDeltaEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) MergeAgentRunCallbackWorkbenchMessageDeltaEvent(v AgentRunCallbackWorkbenchMessageDeltaEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsAgentRunCallbackWorkbenchMessageDoneEvent returns the union data inside the AgentRunCallbackWorkbenchStreamEvent as a AgentRunCallbackWorkbenchMessageDoneEvent
+func (t AgentRunCallbackWorkbenchStreamEvent) AsAgentRunCallbackWorkbenchMessageDoneEvent() (AgentRunCallbackWorkbenchMessageDoneEvent, error) {
+	var body AgentRunCallbackWorkbenchMessageDoneEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromAgentRunCallbackWorkbenchMessageDoneEvent overwrites any union data inside the AgentRunCallbackWorkbenchStreamEvent as the provided AgentRunCallbackWorkbenchMessageDoneEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) FromAgentRunCallbackWorkbenchMessageDoneEvent(v AgentRunCallbackWorkbenchMessageDoneEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeAgentRunCallbackWorkbenchMessageDoneEvent performs a merge with any union data inside the AgentRunCallbackWorkbenchStreamEvent, using the provided AgentRunCallbackWorkbenchMessageDoneEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) MergeAgentRunCallbackWorkbenchMessageDoneEvent(v AgentRunCallbackWorkbenchMessageDoneEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsAgentRunCallbackWorkbenchThinkingDeltaEvent returns the union data inside the AgentRunCallbackWorkbenchStreamEvent as a AgentRunCallbackWorkbenchThinkingDeltaEvent
+func (t AgentRunCallbackWorkbenchStreamEvent) AsAgentRunCallbackWorkbenchThinkingDeltaEvent() (AgentRunCallbackWorkbenchThinkingDeltaEvent, error) {
+	var body AgentRunCallbackWorkbenchThinkingDeltaEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromAgentRunCallbackWorkbenchThinkingDeltaEvent overwrites any union data inside the AgentRunCallbackWorkbenchStreamEvent as the provided AgentRunCallbackWorkbenchThinkingDeltaEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) FromAgentRunCallbackWorkbenchThinkingDeltaEvent(v AgentRunCallbackWorkbenchThinkingDeltaEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeAgentRunCallbackWorkbenchThinkingDeltaEvent performs a merge with any union data inside the AgentRunCallbackWorkbenchStreamEvent, using the provided AgentRunCallbackWorkbenchThinkingDeltaEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) MergeAgentRunCallbackWorkbenchThinkingDeltaEvent(v AgentRunCallbackWorkbenchThinkingDeltaEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsAgentRunCallbackWorkbenchThinkingDoneEvent returns the union data inside the AgentRunCallbackWorkbenchStreamEvent as a AgentRunCallbackWorkbenchThinkingDoneEvent
+func (t AgentRunCallbackWorkbenchStreamEvent) AsAgentRunCallbackWorkbenchThinkingDoneEvent() (AgentRunCallbackWorkbenchThinkingDoneEvent, error) {
+	var body AgentRunCallbackWorkbenchThinkingDoneEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromAgentRunCallbackWorkbenchThinkingDoneEvent overwrites any union data inside the AgentRunCallbackWorkbenchStreamEvent as the provided AgentRunCallbackWorkbenchThinkingDoneEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) FromAgentRunCallbackWorkbenchThinkingDoneEvent(v AgentRunCallbackWorkbenchThinkingDoneEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeAgentRunCallbackWorkbenchThinkingDoneEvent performs a merge with any union data inside the AgentRunCallbackWorkbenchStreamEvent, using the provided AgentRunCallbackWorkbenchThinkingDoneEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) MergeAgentRunCallbackWorkbenchThinkingDoneEvent(v AgentRunCallbackWorkbenchThinkingDoneEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsAgentRunCallbackWorkbenchAgentStatusEvent returns the union data inside the AgentRunCallbackWorkbenchStreamEvent as a AgentRunCallbackWorkbenchAgentStatusEvent
+func (t AgentRunCallbackWorkbenchStreamEvent) AsAgentRunCallbackWorkbenchAgentStatusEvent() (AgentRunCallbackWorkbenchAgentStatusEvent, error) {
+	var body AgentRunCallbackWorkbenchAgentStatusEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromAgentRunCallbackWorkbenchAgentStatusEvent overwrites any union data inside the AgentRunCallbackWorkbenchStreamEvent as the provided AgentRunCallbackWorkbenchAgentStatusEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) FromAgentRunCallbackWorkbenchAgentStatusEvent(v AgentRunCallbackWorkbenchAgentStatusEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeAgentRunCallbackWorkbenchAgentStatusEvent performs a merge with any union data inside the AgentRunCallbackWorkbenchStreamEvent, using the provided AgentRunCallbackWorkbenchAgentStatusEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) MergeAgentRunCallbackWorkbenchAgentStatusEvent(v AgentRunCallbackWorkbenchAgentStatusEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsAgentRunCallbackWorkbenchToolStartedEvent returns the union data inside the AgentRunCallbackWorkbenchStreamEvent as a AgentRunCallbackWorkbenchToolStartedEvent
+func (t AgentRunCallbackWorkbenchStreamEvent) AsAgentRunCallbackWorkbenchToolStartedEvent() (AgentRunCallbackWorkbenchToolStartedEvent, error) {
+	var body AgentRunCallbackWorkbenchToolStartedEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromAgentRunCallbackWorkbenchToolStartedEvent overwrites any union data inside the AgentRunCallbackWorkbenchStreamEvent as the provided AgentRunCallbackWorkbenchToolStartedEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) FromAgentRunCallbackWorkbenchToolStartedEvent(v AgentRunCallbackWorkbenchToolStartedEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeAgentRunCallbackWorkbenchToolStartedEvent performs a merge with any union data inside the AgentRunCallbackWorkbenchStreamEvent, using the provided AgentRunCallbackWorkbenchToolStartedEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) MergeAgentRunCallbackWorkbenchToolStartedEvent(v AgentRunCallbackWorkbenchToolStartedEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsAgentRunCallbackWorkbenchToolDeltaEvent returns the union data inside the AgentRunCallbackWorkbenchStreamEvent as a AgentRunCallbackWorkbenchToolDeltaEvent
+func (t AgentRunCallbackWorkbenchStreamEvent) AsAgentRunCallbackWorkbenchToolDeltaEvent() (AgentRunCallbackWorkbenchToolDeltaEvent, error) {
+	var body AgentRunCallbackWorkbenchToolDeltaEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromAgentRunCallbackWorkbenchToolDeltaEvent overwrites any union data inside the AgentRunCallbackWorkbenchStreamEvent as the provided AgentRunCallbackWorkbenchToolDeltaEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) FromAgentRunCallbackWorkbenchToolDeltaEvent(v AgentRunCallbackWorkbenchToolDeltaEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeAgentRunCallbackWorkbenchToolDeltaEvent performs a merge with any union data inside the AgentRunCallbackWorkbenchStreamEvent, using the provided AgentRunCallbackWorkbenchToolDeltaEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) MergeAgentRunCallbackWorkbenchToolDeltaEvent(v AgentRunCallbackWorkbenchToolDeltaEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsAgentRunCallbackWorkbenchToolCompletedEvent returns the union data inside the AgentRunCallbackWorkbenchStreamEvent as a AgentRunCallbackWorkbenchToolCompletedEvent
+func (t AgentRunCallbackWorkbenchStreamEvent) AsAgentRunCallbackWorkbenchToolCompletedEvent() (AgentRunCallbackWorkbenchToolCompletedEvent, error) {
+	var body AgentRunCallbackWorkbenchToolCompletedEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromAgentRunCallbackWorkbenchToolCompletedEvent overwrites any union data inside the AgentRunCallbackWorkbenchStreamEvent as the provided AgentRunCallbackWorkbenchToolCompletedEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) FromAgentRunCallbackWorkbenchToolCompletedEvent(v AgentRunCallbackWorkbenchToolCompletedEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeAgentRunCallbackWorkbenchToolCompletedEvent performs a merge with any union data inside the AgentRunCallbackWorkbenchStreamEvent, using the provided AgentRunCallbackWorkbenchToolCompletedEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) MergeAgentRunCallbackWorkbenchToolCompletedEvent(v AgentRunCallbackWorkbenchToolCompletedEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsAgentRunCallbackWorkbenchArtifactUpdatedEvent returns the union data inside the AgentRunCallbackWorkbenchStreamEvent as a AgentRunCallbackWorkbenchArtifactUpdatedEvent
+func (t AgentRunCallbackWorkbenchStreamEvent) AsAgentRunCallbackWorkbenchArtifactUpdatedEvent() (AgentRunCallbackWorkbenchArtifactUpdatedEvent, error) {
+	var body AgentRunCallbackWorkbenchArtifactUpdatedEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromAgentRunCallbackWorkbenchArtifactUpdatedEvent overwrites any union data inside the AgentRunCallbackWorkbenchStreamEvent as the provided AgentRunCallbackWorkbenchArtifactUpdatedEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) FromAgentRunCallbackWorkbenchArtifactUpdatedEvent(v AgentRunCallbackWorkbenchArtifactUpdatedEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeAgentRunCallbackWorkbenchArtifactUpdatedEvent performs a merge with any union data inside the AgentRunCallbackWorkbenchStreamEvent, using the provided AgentRunCallbackWorkbenchArtifactUpdatedEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) MergeAgentRunCallbackWorkbenchArtifactUpdatedEvent(v AgentRunCallbackWorkbenchArtifactUpdatedEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsAgentRunCallbackWorkbenchSourceUpdatedEvent returns the union data inside the AgentRunCallbackWorkbenchStreamEvent as a AgentRunCallbackWorkbenchSourceUpdatedEvent
+func (t AgentRunCallbackWorkbenchStreamEvent) AsAgentRunCallbackWorkbenchSourceUpdatedEvent() (AgentRunCallbackWorkbenchSourceUpdatedEvent, error) {
+	var body AgentRunCallbackWorkbenchSourceUpdatedEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromAgentRunCallbackWorkbenchSourceUpdatedEvent overwrites any union data inside the AgentRunCallbackWorkbenchStreamEvent as the provided AgentRunCallbackWorkbenchSourceUpdatedEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) FromAgentRunCallbackWorkbenchSourceUpdatedEvent(v AgentRunCallbackWorkbenchSourceUpdatedEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeAgentRunCallbackWorkbenchSourceUpdatedEvent performs a merge with any union data inside the AgentRunCallbackWorkbenchStreamEvent, using the provided AgentRunCallbackWorkbenchSourceUpdatedEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) MergeAgentRunCallbackWorkbenchSourceUpdatedEvent(v AgentRunCallbackWorkbenchSourceUpdatedEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsAgentRunCallbackWorkbenchCardCommandEvent returns the union data inside the AgentRunCallbackWorkbenchStreamEvent as a AgentRunCallbackWorkbenchCardCommandEvent
+func (t AgentRunCallbackWorkbenchStreamEvent) AsAgentRunCallbackWorkbenchCardCommandEvent() (AgentRunCallbackWorkbenchCardCommandEvent, error) {
+	var body AgentRunCallbackWorkbenchCardCommandEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromAgentRunCallbackWorkbenchCardCommandEvent overwrites any union data inside the AgentRunCallbackWorkbenchStreamEvent as the provided AgentRunCallbackWorkbenchCardCommandEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) FromAgentRunCallbackWorkbenchCardCommandEvent(v AgentRunCallbackWorkbenchCardCommandEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeAgentRunCallbackWorkbenchCardCommandEvent performs a merge with any union data inside the AgentRunCallbackWorkbenchStreamEvent, using the provided AgentRunCallbackWorkbenchCardCommandEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) MergeAgentRunCallbackWorkbenchCardCommandEvent(v AgentRunCallbackWorkbenchCardCommandEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsAgentRunCallbackWorkbenchErrorEvent returns the union data inside the AgentRunCallbackWorkbenchStreamEvent as a AgentRunCallbackWorkbenchErrorEvent
+func (t AgentRunCallbackWorkbenchStreamEvent) AsAgentRunCallbackWorkbenchErrorEvent() (AgentRunCallbackWorkbenchErrorEvent, error) {
+	var body AgentRunCallbackWorkbenchErrorEvent
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromAgentRunCallbackWorkbenchErrorEvent overwrites any union data inside the AgentRunCallbackWorkbenchStreamEvent as the provided AgentRunCallbackWorkbenchErrorEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) FromAgentRunCallbackWorkbenchErrorEvent(v AgentRunCallbackWorkbenchErrorEvent) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeAgentRunCallbackWorkbenchErrorEvent performs a merge with any union data inside the AgentRunCallbackWorkbenchStreamEvent, using the provided AgentRunCallbackWorkbenchErrorEvent
+func (t *AgentRunCallbackWorkbenchStreamEvent) MergeAgentRunCallbackWorkbenchErrorEvent(v AgentRunCallbackWorkbenchErrorEvent) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t AgentRunCallbackWorkbenchStreamEvent) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *AgentRunCallbackWorkbenchStreamEvent) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
 }
 
 // AsCohereRerankRequestDocuments0 returns the union data inside the CohereRerankRequest_Documents_Item as a CohereRerankRequestDocuments0

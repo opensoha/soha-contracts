@@ -1301,6 +1301,139 @@ func TestConfigureInstalledPluginEscapesPathPostsBodyAndDecodesData(t *testing.T
 	}
 }
 
+func TestAgentRunCallbackRequestEventsWireShape(t *testing.T) {
+	legacy := AgentRunCallbackRequest{
+		AgentID:       "agent-1",
+		CallbackToken: "agent-run-token",
+		Payload:       map[string]any{"summary": "completed"},
+		RunID:         "run-1",
+		Status:        "succeeded",
+	}
+	raw, err := json.Marshal(legacy)
+	if err != nil {
+		t.Fatalf("marshal legacy callback: %v", err)
+	}
+	var legacyWire map[string]any
+	if err := json.Unmarshal(raw, &legacyWire); err != nil {
+		t.Fatalf("decode legacy callback JSON: %v", err)
+	}
+	if _, ok := legacyWire["events"]; ok {
+		t.Fatal("legacy callback emitted events field, want omitted")
+	}
+
+	var thinkingDelta AgentRunCallbackWorkbenchStreamEvent
+	if err := thinkingDelta.FromAgentRunCallbackWorkbenchThinkingDeltaEvent(AgentRunCallbackWorkbenchThinkingDeltaEvent{
+		TextDelta: "Checking recent deployment events.",
+		Type:      "thinking.delta",
+	}); err != nil {
+		t.Fatalf("build callback thinking.delta event: %v", err)
+	}
+	var toolDelta AgentRunCallbackWorkbenchStreamEvent
+	if err := toolDelta.FromAgentRunCallbackWorkbenchToolDeltaEvent(AgentRunCallbackWorkbenchToolDeltaEvent{
+		LogDelta:   "kubectl get events returned 12 rows",
+		ToolCallID: "tool-1",
+		Type:       "tool.delta",
+	}); err != nil {
+		t.Fatalf("build callback tool.delta event: %v", err)
+	}
+	var toolCompleted AgentRunCallbackWorkbenchStreamEvent
+	if err := toolCompleted.FromAgentRunCallbackWorkbenchToolCompletedEvent(AgentRunCallbackWorkbenchToolCompletedEvent{
+		ToolCall: WorkbenchToolCall{
+			AdapterID: "kubernetes",
+			ID:        "tool-1",
+			Status:    "success",
+			Summary:   "Collected recent warning events",
+			ToolName:  "events.list",
+		},
+		Type: "tool.completed",
+	}); err != nil {
+		t.Fatalf("build callback tool.completed event: %v", err)
+	}
+	var messageDone AgentRunCallbackWorkbenchStreamEvent
+	if err := messageDone.FromAgentRunCallbackWorkbenchMessageDoneEvent(AgentRunCallbackWorkbenchMessageDoneEvent{
+		Content: "The rollout failed because the new pod image could not be pulled.",
+		Role:    "assistant",
+		Type:    "message.done",
+	}); err != nil {
+		t.Fatalf("build callback message.done event: %v", err)
+	}
+
+	withEvents := legacy
+	withEvents.Events = []AgentRunCallbackWorkbenchStreamEvent{
+		thinkingDelta,
+		toolDelta,
+		toolCompleted,
+		messageDone,
+	}
+	raw, err = json.Marshal(withEvents)
+	if err != nil {
+		t.Fatalf("marshal callback with events: %v", err)
+	}
+	var eventWire map[string]any
+	if err := json.Unmarshal(raw, &eventWire); err != nil {
+		t.Fatalf("decode callback with events JSON: %v", err)
+	}
+	events, ok := eventWire["events"].([]any)
+	if !ok || len(events) != 4 {
+		t.Fatalf("events wire value = %#v, want four events", eventWire["events"])
+	}
+	wantTypes := []string{"thinking.delta", "tool.delta", "tool.completed", "message.done"}
+	serverOwnedFields := []string{"id", "sessionId", "runId", "sequence", "createdAt"}
+	for i, rawEvent := range events {
+		event, ok := rawEvent.(map[string]any)
+		if !ok {
+			t.Fatalf("events[%d] = %#v, want object", i, rawEvent)
+		}
+		if got := event["type"]; got != wantTypes[i] {
+			t.Fatalf("events[%d] type = %v, want %s", i, got, wantTypes[i])
+		}
+		for _, field := range serverOwnedFields {
+			if _, ok := event[field]; ok {
+				t.Fatalf("events[%d] emitted server-owned field %q in callback input", i, field)
+			}
+		}
+	}
+
+	var roundTrip AgentRunCallbackRequest
+	if err := json.Unmarshal(raw, &roundTrip); err != nil {
+		t.Fatalf("unmarshal callback with events: %v", err)
+	}
+	if len(roundTrip.Events) != 4 {
+		t.Fatalf("round-trip events length = %d, want 4", len(roundTrip.Events))
+	}
+	thinking, err := roundTrip.Events[0].AsAgentRunCallbackWorkbenchThinkingDeltaEvent()
+	if err != nil {
+		t.Fatalf("decode round-trip thinking.delta event: %v", err)
+	}
+	if got := thinking.TextDelta; got != "Checking recent deployment events." {
+		t.Fatalf("round-trip thinking.delta text = %q", got)
+	}
+	delta, err := roundTrip.Events[1].AsAgentRunCallbackWorkbenchToolDeltaEvent()
+	if err != nil {
+		t.Fatalf("decode round-trip tool.delta event: %v", err)
+	}
+	if got := delta.LogDelta; got != "kubectl get events returned 12 rows" {
+		t.Fatalf("round-trip tool.delta log = %q", got)
+	}
+	completed, err := roundTrip.Events[2].AsAgentRunCallbackWorkbenchToolCompletedEvent()
+	if err != nil {
+		t.Fatalf("decode round-trip tool.completed event: %v", err)
+	}
+	if got := completed.ToolCall.Status; got != "success" {
+		t.Fatalf("round-trip tool.completed status = %q", got)
+	}
+	done, err := roundTrip.Events[3].AsAgentRunCallbackWorkbenchMessageDoneEvent()
+	if err != nil {
+		t.Fatalf("decode round-trip message.done event: %v", err)
+	}
+	if got := done.Content; got != "The rollout failed because the new pod image could not be pulled." {
+		t.Fatalf("round-trip event content = %q", got)
+	}
+	if done.CreatedAt != nil || done.ID != "" || done.SessionID != "" || done.RunID != "" || done.Sequence != 0 {
+		t.Fatalf("round-trip message.done carried server-owned fields: %#v", done)
+	}
+}
+
 func newTestClient(t *testing.T, handler http.HandlerFunc) *Client {
 	t.Helper()
 	server := httptest.NewServer(handler)
