@@ -412,6 +412,14 @@
     },
     {
       "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/MarketplaceCatalog/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/MarketplacePluginVersion/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
       "path": "components/schemas/NativeProviderObject/additionalProperties"
     },
     {
@@ -484,7 +492,15 @@
     },
     {
       "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/PluginExtensionContribution/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
       "path": "components/schemas/PluginManifest/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/PluginRuntimeSpec/properties/metadata/additionalProperties"
     },
     {
       "kind": "additionalPropertiesTrue",

@@ -29,5 +29,48 @@
         "secretRef": "connectors/feishu/app-secret"
       }
     ]
+  },
+  "runtime": {
+    "mode": "external-http",
+    "healthPath": "/healthz",
+    "manifestPath": "/manifest",
+    "actionPath": "/actions/{action}"
+  },
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "endpoint": {
+        "type": "string",
+        "title": "Runtime endpoint",
+        "x-control": "endpoint"
+      },
+      "secretRef": {
+        "type": "string",
+        "title": "Feishu app secret",
+        "x-control": "secret-ref"
+      }
+    },
+    "required": ["endpoint", "secretRef"]
+  },
+  "extensionPoints": {
+    "ai": {
+      "toolProviders": [
+        {
+          "id": "feishu-message-tools",
+          "label": "Feishu Message Tools",
+          "actionRef": "feishu.message.send_text",
+          "permissionKeys": ["ai.gateway.invoke"]
+        }
+      ]
+    },
+    "alerts": {
+      "notificationChannels": [
+        {
+          "id": "feishu-webhook",
+          "label": "Feishu Webhook",
+          "actionRef": "feishu.message.send_text"
+        }
+      ]
+    }
   }
 }
