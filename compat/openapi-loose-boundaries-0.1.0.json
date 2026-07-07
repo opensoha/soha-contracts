@@ -48,6 +48,10 @@
     },
     {
       "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/AgentRunCallbackWorkbenchMessageDoneEvent/allOf/1/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
       "path": "components/schemas/AgentRunToolCallRequest/properties/input/additionalProperties"
     },
     {
@@ -613,6 +617,16 @@
     {
       "kind": "additionalPropertiesTrue",
       "path": "components/schemas/WorkflowTemplateInput/properties/definition/additionalProperties"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/AgentRunCallbackWorkbenchArtifactUpdatedEvent/allOf/1/properties/artifact",
+      "target": "#/components/schemas/AnyValue"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/AgentRunCallbackWorkbenchCardCommandEvent/allOf/1/properties/command",
+      "target": "#/components/schemas/AnyValue"
     },
     {
       "kind": "schemaRef",

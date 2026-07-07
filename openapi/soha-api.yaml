@@ -1177,6 +1177,27 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GenericItemsEnvelope"
+  /copilot/global-assistant/events:
+    post:
+      tags: [AI Workbench]
+      operationId: recordWorkbenchGlobalAssistantEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkbenchGlobalAssistantOpenRequest"
+      responses:
+        "202":
+          description: Global assistant event accepted for audit recording.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchGlobalAssistantEventEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
   /copilot/sessions/{sessionID}/messages/stream:
     post:
       tags: [AI Workbench]
@@ -3986,6 +4007,93 @@ components:
           items:
             $ref: "#/components/schemas/AISkillSettings"
       additionalProperties: false
+    WorkbenchLaunchContext:
+      type: object
+      required: [sourceWorkbench, sourceRoute]
+      properties:
+        sourceWorkbench:
+          type: string
+          enum: [platform, monitoring, delivery, docker, virtualization, ai]
+        sourceRoute:
+          type: string
+        sourceTitle:
+          type: string
+        entityKind:
+          type: string
+        entityName:
+          type: string
+        clusterId:
+          type: string
+        namespace:
+          type: string
+        workload:
+          type: string
+        service:
+          type: string
+        pod:
+          type: string
+        node:
+          type: string
+        alertId:
+          type: string
+        applicationId:
+          type: string
+        releaseBundleId:
+          type: string
+        dockerHostId:
+          type: string
+        dockerServiceId:
+          type: string
+        virtualizationConnectionId:
+          type: string
+        vmId:
+          type: string
+        timeRangeMinutes:
+          type: integer
+        visibleFilters:
+          type: object
+          additionalProperties: {}
+        pinnedData:
+          type: object
+          additionalProperties: {}
+      additionalProperties: false
+    WorkbenchSelectionContext:
+      type: object
+      required: [text, kind]
+      properties:
+        text:
+          type: string
+        kind:
+          type: string
+          enum: [log, event, yaml, error, metric, plain]
+        sourceElementLabel:
+          type: string
+      additionalProperties: false
+    WorkbenchGlobalAssistantOpenRequest:
+      type: object
+      required: [action, launchContext]
+      properties:
+        action:
+          type: string
+          enum: [open, analyze-page, analyze-selection, analyze-resource, open-workbench]
+        launchContext:
+          $ref: "#/components/schemas/WorkbenchLaunchContext"
+        selectionContext:
+          $ref: "#/components/schemas/WorkbenchSelectionContext"
+        prompt:
+          type: string
+        sessionId:
+          type: string
+        source:
+          type: string
+      additionalProperties: false
+    WorkbenchGlobalAssistantEventEnvelope:
+      type: object
+      required: [ok]
+      properties:
+        ok:
+          type: boolean
+      additionalProperties: false
     WorkbenchSendMessageStreamRequest:
       type: object
       required: [content]
@@ -4000,6 +4108,15 @@ components:
           $ref: "#/components/schemas/AnyValue"
         scopeOverrides:
           $ref: "#/components/schemas/AnyValue"
+        source:
+          type: string
+        launchContext:
+          $ref: "#/components/schemas/WorkbenchLaunchContext"
+        selectionContext:
+          $ref: "#/components/schemas/WorkbenchSelectionContext"
+        pinnedContext:
+          type: object
+          additionalProperties: {}
       additionalProperties: false
     WorkbenchStreamEventBase:
       type: object
@@ -4148,7 +4265,7 @@ components:
               type: string
             providerKind:
               type: string
-              enum: [internal, hermes, openclaw, general]
+              enum: [internal, hermes, openclaw, general, openai, anthropic, openai-compatible, deepseek, qwen, openrouter, azure-openai, gemini, cohere]
             status:
               type: string
               enum: [queued, running, succeeded, failed, cancelled]
@@ -4261,6 +4378,209 @@ components:
         - $ref: "#/components/schemas/WorkbenchSourceUpdatedEvent"
         - $ref: "#/components/schemas/WorkbenchCardCommandEvent"
         - $ref: "#/components/schemas/WorkbenchErrorEvent"
+    AgentRunCallbackWorkbenchStreamEventBase:
+      type: object
+      description: Runner-provided Workbench event fields accepted in an agent run callback. The server owns and may assign or override id, sessionId, runId, sequence, and createdAt.
+      properties:
+        id:
+          type: string
+        sessionId:
+          type: string
+        runId:
+          type: string
+        messageId:
+          type: string
+        sequence:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+    AgentRunCallbackWorkbenchMessageDeltaEvent:
+      allOf:
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchStreamEventBase"
+        - type: object
+          required: [type, role, contentDelta]
+          properties:
+            type:
+              type: string
+              enum: [message.delta]
+            role:
+              type: string
+              enum: [assistant]
+            contentDelta:
+              type: string
+      unevaluatedProperties: false
+    AgentRunCallbackWorkbenchMessageDoneEvent:
+      allOf:
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchStreamEventBase"
+        - type: object
+          required: [type, role, content]
+          properties:
+            type:
+              type: string
+              enum: [message.done]
+            role:
+              type: string
+              enum: [assistant]
+            content:
+              type: string
+            metadata:
+              type: object
+              additionalProperties: true
+      unevaluatedProperties: false
+    AgentRunCallbackWorkbenchThinkingDeltaEvent:
+      allOf:
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchStreamEventBase"
+        - type: object
+          required: [type, textDelta]
+          properties:
+            type:
+              type: string
+              enum: [thinking.delta]
+            textDelta:
+              type: string
+      unevaluatedProperties: false
+    AgentRunCallbackWorkbenchThinkingDoneEvent:
+      allOf:
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchStreamEventBase"
+        - type: object
+          required: [type, summary, collapsed]
+          properties:
+            type:
+              type: string
+              enum: [thinking.done]
+            summary:
+              type: string
+            collapsed:
+              type: boolean
+      unevaluatedProperties: false
+    AgentRunCallbackWorkbenchAgentStatusEvent:
+      allOf:
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchStreamEventBase"
+        - type: object
+          required: [type, status]
+          properties:
+            type:
+              type: string
+              enum: [agent.status]
+            providerId:
+              type: string
+            providerKind:
+              type: string
+              enum: [internal, hermes, openclaw, general, openai, anthropic, openai-compatible, deepseek, qwen, openrouter, azure-openai, gemini, cohere]
+            status:
+              type: string
+              enum: [queued, running, succeeded, failed, cancelled]
+      unevaluatedProperties: false
+    AgentRunCallbackWorkbenchToolStartedEvent:
+      allOf:
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchStreamEventBase"
+        - type: object
+          required: [type, toolCall]
+          properties:
+            type:
+              type: string
+              enum: [tool.started]
+            toolCall:
+              $ref: "#/components/schemas/WorkbenchToolCall"
+      unevaluatedProperties: false
+    AgentRunCallbackWorkbenchToolDeltaEvent:
+      allOf:
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchStreamEventBase"
+        - type: object
+          required: [type, toolCallId]
+          properties:
+            type:
+              type: string
+              enum: [tool.delta]
+            toolCallId:
+              type: string
+            outputDelta:
+              type: string
+            logDelta:
+              type: string
+      unevaluatedProperties: false
+    AgentRunCallbackWorkbenchToolCompletedEvent:
+      allOf:
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchStreamEventBase"
+        - type: object
+          required: [type, toolCall]
+          properties:
+            type:
+              type: string
+              enum: [tool.completed]
+            toolCall:
+              $ref: "#/components/schemas/WorkbenchToolCall"
+      unevaluatedProperties: false
+    AgentRunCallbackWorkbenchArtifactUpdatedEvent:
+      allOf:
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchStreamEventBase"
+        - type: object
+          required: [type, artifact]
+          properties:
+            type:
+              type: string
+              enum: [artifact.updated]
+            artifact:
+              $ref: "#/components/schemas/AnyValue"
+      unevaluatedProperties: false
+    AgentRunCallbackWorkbenchSourceUpdatedEvent:
+      allOf:
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchStreamEventBase"
+        - type: object
+          required: [type, source]
+          properties:
+            type:
+              type: string
+              enum: [source.updated]
+            source:
+              $ref: "#/components/schemas/WorkbenchSource"
+      unevaluatedProperties: false
+    AgentRunCallbackWorkbenchCardCommandEvent:
+      allOf:
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchStreamEventBase"
+        - type: object
+          required: [type, surfaceId, command]
+          properties:
+            type:
+              type: string
+              enum: [card.command]
+            surfaceId:
+              type: string
+            command:
+              $ref: "#/components/schemas/AnyValue"
+      unevaluatedProperties: false
+    AgentRunCallbackWorkbenchErrorEvent:
+      allOf:
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchStreamEventBase"
+        - type: object
+          required: [type, message]
+          properties:
+            type:
+              type: string
+              enum: [error]
+            message:
+              type: string
+            code:
+              type: string
+            retryable:
+              type: boolean
+      unevaluatedProperties: false
+    AgentRunCallbackWorkbenchStreamEvent:
+      description: Workbench stream event input accepted from external runners during AgentRunCallbackRequest. Canonical stream/replay events use WorkbenchStreamEvent and keep server-owned base fields required.
+      oneOf:
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchMessageDeltaEvent"
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchMessageDoneEvent"
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchThinkingDeltaEvent"
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchThinkingDoneEvent"
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchAgentStatusEvent"
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchToolStartedEvent"
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchToolDeltaEvent"
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchToolCompletedEvent"
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchArtifactUpdatedEvent"
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchSourceUpdatedEvent"
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchCardCommandEvent"
+        - $ref: "#/components/schemas/AgentRunCallbackWorkbenchErrorEvent"
     Principal:
       type: object
       required: [userId, userName, email, roles, teams, projects, tags]
@@ -6151,6 +6471,10 @@ components:
           items:
             type: object
             additionalProperties: true
+        events:
+          type: array
+          items:
+            $ref: "#/components/schemas/AgentRunCallbackWorkbenchStreamEvent"
         externalRunId:
           type: string
         errorMessage:

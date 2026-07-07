@@ -849,6 +849,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/copilot/global-assistant/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["recordWorkbenchGlobalAssistantEvent"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/copilot/sessions/{sessionID}/messages/stream": {
         parameters: {
             query?: never;
@@ -2033,12 +2049,64 @@ export interface components {
         UpdateAISkillsRequest: {
             skillsRegistry: components["schemas"]["AISkillSettings"][];
         };
+        WorkbenchLaunchContext: {
+            /** @enum {string} */
+            sourceWorkbench: "platform" | "monitoring" | "delivery" | "docker" | "virtualization" | "ai";
+            sourceRoute: string;
+            sourceTitle?: string;
+            entityKind?: string;
+            entityName?: string;
+            clusterId?: string;
+            namespace?: string;
+            workload?: string;
+            service?: string;
+            pod?: string;
+            node?: string;
+            alertId?: string;
+            applicationId?: string;
+            releaseBundleId?: string;
+            dockerHostId?: string;
+            dockerServiceId?: string;
+            virtualizationConnectionId?: string;
+            vmId?: string;
+            timeRangeMinutes?: number;
+            visibleFilters?: {
+                [key: string]: unknown;
+            };
+            pinnedData?: {
+                [key: string]: unknown;
+            };
+        };
+        WorkbenchSelectionContext: {
+            text: string;
+            /** @enum {string} */
+            kind: "log" | "event" | "yaml" | "error" | "metric" | "plain";
+            sourceElementLabel?: string;
+        };
+        WorkbenchGlobalAssistantOpenRequest: {
+            /** @enum {string} */
+            action: "open" | "analyze-page" | "analyze-selection" | "analyze-resource" | "open-workbench";
+            launchContext: components["schemas"]["WorkbenchLaunchContext"];
+            selectionContext?: components["schemas"]["WorkbenchSelectionContext"];
+            prompt?: string;
+            sessionId?: string;
+            source?: string;
+        };
+        WorkbenchGlobalAssistantEventEnvelope: {
+            ok: boolean;
+        };
         WorkbenchSendMessageStreamRequest: {
             content: string;
             mode?: string;
             agentProviderId?: string;
             toolset?: components["schemas"]["AnyValue"];
             scopeOverrides?: components["schemas"]["AnyValue"];
+            source?: string;
+            launchContext?: components["schemas"]["WorkbenchLaunchContext"];
+            selectionContext?: components["schemas"]["WorkbenchSelectionContext"];
+            pinnedContext?: {
+                [key: string]: unknown;
+            };
         };
         WorkbenchStreamEventBase: {
             id: string;
@@ -2110,7 +2178,7 @@ export interface components {
             type: "agent.status";
             providerId: string;
             /** @enum {string} */
-            providerKind: "internal" | "hermes" | "openclaw" | "general";
+            providerKind: "internal" | "hermes" | "openclaw" | "general" | "openai" | "anthropic" | "openai-compatible" | "deepseek" | "qwen" | "openrouter" | "azure-openai" | "gemini" | "cohere";
             /** @enum {string} */
             status: "queued" | "running" | "succeeded" | "failed" | "cancelled";
         };
@@ -2155,6 +2223,95 @@ export interface components {
             retryable?: boolean;
         };
         WorkbenchStreamEvent: components["schemas"]["WorkbenchMessageDeltaEvent"] | components["schemas"]["WorkbenchMessageDoneEvent"] | components["schemas"]["WorkbenchThinkingDeltaEvent"] | components["schemas"]["WorkbenchThinkingDoneEvent"] | components["schemas"]["WorkbenchAgentStatusEvent"] | components["schemas"]["WorkbenchToolStartedEvent"] | components["schemas"]["WorkbenchToolDeltaEvent"] | components["schemas"]["WorkbenchToolCompletedEvent"] | components["schemas"]["WorkbenchArtifactUpdatedEvent"] | components["schemas"]["WorkbenchSourceUpdatedEvent"] | components["schemas"]["WorkbenchCardCommandEvent"] | components["schemas"]["WorkbenchErrorEvent"];
+        /** @description Runner-provided Workbench event fields accepted in an agent run callback. The server owns and may assign or override id, sessionId, runId, sequence, and createdAt. */
+        AgentRunCallbackWorkbenchStreamEventBase: {
+            id?: string;
+            sessionId?: string;
+            runId?: string;
+            messageId?: string;
+            sequence?: number;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        AgentRunCallbackWorkbenchMessageDeltaEvent: components["schemas"]["AgentRunCallbackWorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "message.delta";
+            /** @enum {string} */
+            role: "assistant";
+            contentDelta: string;
+        };
+        AgentRunCallbackWorkbenchMessageDoneEvent: components["schemas"]["AgentRunCallbackWorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "message.done";
+            /** @enum {string} */
+            role: "assistant";
+            content: string;
+            metadata?: {
+                [key: string]: unknown;
+            };
+        };
+        AgentRunCallbackWorkbenchThinkingDeltaEvent: components["schemas"]["AgentRunCallbackWorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "thinking.delta";
+            textDelta: string;
+        };
+        AgentRunCallbackWorkbenchThinkingDoneEvent: components["schemas"]["AgentRunCallbackWorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "thinking.done";
+            summary: string;
+            collapsed: boolean;
+        };
+        AgentRunCallbackWorkbenchAgentStatusEvent: components["schemas"]["AgentRunCallbackWorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "agent.status";
+            providerId?: string;
+            /** @enum {string} */
+            providerKind?: "internal" | "hermes" | "openclaw" | "general" | "openai" | "anthropic" | "openai-compatible" | "deepseek" | "qwen" | "openrouter" | "azure-openai" | "gemini" | "cohere";
+            /** @enum {string} */
+            status: "queued" | "running" | "succeeded" | "failed" | "cancelled";
+        };
+        AgentRunCallbackWorkbenchToolStartedEvent: components["schemas"]["AgentRunCallbackWorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "tool.started";
+            toolCall: components["schemas"]["WorkbenchToolCall"];
+        };
+        AgentRunCallbackWorkbenchToolDeltaEvent: components["schemas"]["AgentRunCallbackWorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "tool.delta";
+            toolCallId: string;
+            outputDelta?: string;
+            logDelta?: string;
+        };
+        AgentRunCallbackWorkbenchToolCompletedEvent: components["schemas"]["AgentRunCallbackWorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "tool.completed";
+            toolCall: components["schemas"]["WorkbenchToolCall"];
+        };
+        AgentRunCallbackWorkbenchArtifactUpdatedEvent: components["schemas"]["AgentRunCallbackWorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "artifact.updated";
+            artifact: components["schemas"]["AnyValue"];
+        };
+        AgentRunCallbackWorkbenchSourceUpdatedEvent: components["schemas"]["AgentRunCallbackWorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "source.updated";
+            source: components["schemas"]["WorkbenchSource"];
+        };
+        AgentRunCallbackWorkbenchCardCommandEvent: components["schemas"]["AgentRunCallbackWorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "card.command";
+            surfaceId: string;
+            command: components["schemas"]["AnyValue"];
+        };
+        AgentRunCallbackWorkbenchErrorEvent: components["schemas"]["AgentRunCallbackWorkbenchStreamEventBase"] & {
+            /** @enum {string} */
+            type: "error";
+            message: string;
+            code?: string;
+            retryable?: boolean;
+        };
+        /** @description Workbench stream event input accepted from external runners during AgentRunCallbackRequest. Canonical stream/replay events use WorkbenchStreamEvent and keep server-owned base fields required. */
+        AgentRunCallbackWorkbenchStreamEvent: components["schemas"]["AgentRunCallbackWorkbenchMessageDeltaEvent"] | components["schemas"]["AgentRunCallbackWorkbenchMessageDoneEvent"] | components["schemas"]["AgentRunCallbackWorkbenchThinkingDeltaEvent"] | components["schemas"]["AgentRunCallbackWorkbenchThinkingDoneEvent"] | components["schemas"]["AgentRunCallbackWorkbenchAgentStatusEvent"] | components["schemas"]["AgentRunCallbackWorkbenchToolStartedEvent"] | components["schemas"]["AgentRunCallbackWorkbenchToolDeltaEvent"] | components["schemas"]["AgentRunCallbackWorkbenchToolCompletedEvent"] | components["schemas"]["AgentRunCallbackWorkbenchArtifactUpdatedEvent"] | components["schemas"]["AgentRunCallbackWorkbenchSourceUpdatedEvent"] | components["schemas"]["AgentRunCallbackWorkbenchCardCommandEvent"] | components["schemas"]["AgentRunCallbackWorkbenchErrorEvent"];
         Principal: {
             userId: string;
             userName: string;
@@ -3132,6 +3289,7 @@ export interface components {
             analysisArtifacts?: {
                 [key: string]: unknown;
             }[];
+            events?: components["schemas"]["AgentRunCallbackWorkbenchStreamEvent"][];
             externalRunId?: string;
             errorMessage?: string;
         };
@@ -4778,6 +4936,10 @@ export type AISettings = components['schemas']['AISettings'];
 export type AISettingsEnvelope = components['schemas']['AISettingsEnvelope'];
 export type UpdateAIWorkbenchModelRequest = components['schemas']['UpdateAIWorkbenchModelRequest'];
 export type UpdateAISkillsRequest = components['schemas']['UpdateAISkillsRequest'];
+export type WorkbenchLaunchContext = components['schemas']['WorkbenchLaunchContext'];
+export type WorkbenchSelectionContext = components['schemas']['WorkbenchSelectionContext'];
+export type WorkbenchGlobalAssistantOpenRequest = components['schemas']['WorkbenchGlobalAssistantOpenRequest'];
+export type WorkbenchGlobalAssistantEventEnvelope = components['schemas']['WorkbenchGlobalAssistantEventEnvelope'];
 export type WorkbenchSendMessageStreamRequest = components['schemas']['WorkbenchSendMessageStreamRequest'];
 export type WorkbenchStreamEventBase = components['schemas']['WorkbenchStreamEventBase'];
 export type WorkbenchToolCall = components['schemas']['WorkbenchToolCall'];
@@ -4795,6 +4957,20 @@ export type WorkbenchSourceUpdatedEvent = components['schemas']['WorkbenchSource
 export type WorkbenchCardCommandEvent = components['schemas']['WorkbenchCardCommandEvent'];
 export type WorkbenchErrorEvent = components['schemas']['WorkbenchErrorEvent'];
 export type WorkbenchStreamEvent = components['schemas']['WorkbenchStreamEvent'];
+export type AgentRunCallbackWorkbenchStreamEventBase = components['schemas']['AgentRunCallbackWorkbenchStreamEventBase'];
+export type AgentRunCallbackWorkbenchMessageDeltaEvent = components['schemas']['AgentRunCallbackWorkbenchMessageDeltaEvent'];
+export type AgentRunCallbackWorkbenchMessageDoneEvent = components['schemas']['AgentRunCallbackWorkbenchMessageDoneEvent'];
+export type AgentRunCallbackWorkbenchThinkingDeltaEvent = components['schemas']['AgentRunCallbackWorkbenchThinkingDeltaEvent'];
+export type AgentRunCallbackWorkbenchThinkingDoneEvent = components['schemas']['AgentRunCallbackWorkbenchThinkingDoneEvent'];
+export type AgentRunCallbackWorkbenchAgentStatusEvent = components['schemas']['AgentRunCallbackWorkbenchAgentStatusEvent'];
+export type AgentRunCallbackWorkbenchToolStartedEvent = components['schemas']['AgentRunCallbackWorkbenchToolStartedEvent'];
+export type AgentRunCallbackWorkbenchToolDeltaEvent = components['schemas']['AgentRunCallbackWorkbenchToolDeltaEvent'];
+export type AgentRunCallbackWorkbenchToolCompletedEvent = components['schemas']['AgentRunCallbackWorkbenchToolCompletedEvent'];
+export type AgentRunCallbackWorkbenchArtifactUpdatedEvent = components['schemas']['AgentRunCallbackWorkbenchArtifactUpdatedEvent'];
+export type AgentRunCallbackWorkbenchSourceUpdatedEvent = components['schemas']['AgentRunCallbackWorkbenchSourceUpdatedEvent'];
+export type AgentRunCallbackWorkbenchCardCommandEvent = components['schemas']['AgentRunCallbackWorkbenchCardCommandEvent'];
+export type AgentRunCallbackWorkbenchErrorEvent = components['schemas']['AgentRunCallbackWorkbenchErrorEvent'];
+export type AgentRunCallbackWorkbenchStreamEvent = components['schemas']['AgentRunCallbackWorkbenchStreamEvent'];
 export type Principal = components['schemas']['Principal'];
 export type UserProfile = components['schemas']['UserProfile'];
 export type TokenSet = components['schemas']['TokenSet'];
@@ -6627,6 +6803,32 @@ export interface operations {
                     "application/json": components["schemas"]["GenericItemsEnvelope"];
                 };
             };
+        };
+    };
+    recordWorkbenchGlobalAssistantEvent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchGlobalAssistantOpenRequest"];
+            };
+        };
+        responses: {
+            /** @description Global assistant event accepted for audit recording. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchGlobalAssistantEventEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
         };
     };
     streamWorkbenchSessionMessage: {
