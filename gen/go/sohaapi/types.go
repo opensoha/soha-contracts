@@ -636,6 +636,54 @@ func (e LLMUpstreamTestResultStatus) Valid() bool {
 	}
 }
 
+// Defines values for MarketplaceAdvisorySeverity.
+const (
+	Critical MarketplaceAdvisorySeverity = "critical"
+	High     MarketplaceAdvisorySeverity = "high"
+	Low      MarketplaceAdvisorySeverity = "low"
+	Medium   MarketplaceAdvisorySeverity = "medium"
+)
+
+// Valid indicates whether the value is a known member of the MarketplaceAdvisorySeverity enum.
+func (e MarketplaceAdvisorySeverity) Valid() bool {
+	switch e {
+	case Critical:
+		return true
+	case High:
+		return true
+	case Low:
+		return true
+	case Medium:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for MarketplacePublisherVerificationLevel.
+const (
+	Community MarketplacePublisherVerificationLevel = "community"
+	Official  MarketplacePublisherVerificationLevel = "official"
+	Private   MarketplacePublisherVerificationLevel = "private"
+	Verified  MarketplacePublisherVerificationLevel = "verified"
+)
+
+// Valid indicates whether the value is a known member of the MarketplacePublisherVerificationLevel enum.
+func (e MarketplacePublisherVerificationLevel) Valid() bool {
+	switch e {
+	case Community:
+		return true
+	case Official:
+		return true
+	case Private:
+		return true
+	case Verified:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for OpenAIAudioTranscriptionRequestTimestampGranularities.
 const (
 	Segment OpenAIAudioTranscriptionRequestTimestampGranularities = "segment"
@@ -663,6 +711,27 @@ const (
 func (e OpenAIModelsResponseObject) Valid() bool {
 	switch e {
 	case List:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PluginRuntimeSpecMode.
+const (
+	ExternalHTTP     PluginRuntimeSpecMode = "external-http"
+	ManagedContainer PluginRuntimeSpecMode = "managed-container"
+	ManifestOnly     PluginRuntimeSpecMode = "manifest-only"
+)
+
+// Valid indicates whether the value is a known member of the PluginRuntimeSpecMode enum.
+func (e PluginRuntimeSpecMode) Valid() bool {
+	switch e {
+	case ExternalHTTP:
+		return true
+	case ManagedContainer:
+		return true
+	case ManifestOnly:
 		return true
 	default:
 		return false
@@ -3780,18 +3849,54 @@ type MCPCapabilityListEnvelope struct {
 	Items []MCPCapability `json:"items"`
 }
 
+// MarketplaceAdvisory defines model for MarketplaceAdvisory.
+type MarketplaceAdvisory struct {
+	AffectedVersions []string                    `json:"affectedVersions,omitempty"`
+	ID               string                      `json:"id"`
+	PublishedAt      *time.Time                  `json:"publishedAt,omitempty"`
+	Severity         MarketplaceAdvisorySeverity `json:"severity"`
+	Summary          string                      `json:"summary"`
+	URL              string                      `json:"url,omitempty"`
+	Withdrawn        bool                        `json:"withdrawn,omitempty"`
+}
+
+// MarketplaceAdvisorySeverity defines model for MarketplaceAdvisory.Severity.
+type MarketplaceAdvisorySeverity string
+
+// MarketplaceCatalog defines model for MarketplaceCatalog.
+type MarketplaceCatalog struct {
+	Advisories    []MarketplaceAdvisory `json:"advisories,omitempty"`
+	GeneratedAt   time.Time             `json:"generatedAt"`
+	Metadata      map[string]any        `json:"metadata,omitempty"`
+	Plugins       []MarketplacePlugin   `json:"plugins"`
+	SchemaVersion string                `json:"schemaVersion"`
+	SourceID      string                `json:"sourceId"`
+	SourceURL     string                `json:"sourceUrl,omitempty"`
+}
+
 // MarketplacePlugin defines model for MarketplacePlugin.
 type MarketplacePlugin struct {
-	ID        string         `json:"id"`
-	Installed bool           `json:"installed,omitempty"`
-	Manifest  PluginManifest `json:"manifest"`
-	Name      string         `json:"name"`
-	Publisher string         `json:"publisher"`
-	RiskLevel string         `json:"riskLevel,omitempty"`
-	Source    string         `json:"source"`
-	Summary   string         `json:"summary,omitempty"`
-	Type      string         `json:"type"`
-	Version   string         `json:"version"`
+	Advisories    []MarketplaceAdvisory      `json:"advisories,omitempty"`
+	Categories    []string                   `json:"categories,omitempty"`
+	Compatibility *PluginCompatibility       `json:"compatibility,omitempty"`
+	Deprecated    bool                       `json:"deprecated,omitempty"`
+	ID            string                     `json:"id"`
+	Installed     bool                       `json:"installed,omitempty"`
+	LatestVersion string                     `json:"latestVersion,omitempty"`
+	Manifest      PluginManifest             `json:"manifest"`
+	Name          string                     `json:"name"`
+	Publisher     string                     `json:"publisher"`
+	PublisherInfo *MarketplacePublisher      `json:"publisherInfo,omitempty"`
+	RiskLevel     string                     `json:"riskLevel,omitempty"`
+	Source        string                     `json:"source"`
+	SourceID      string                     `json:"sourceId,omitempty"`
+	SourceURL     string                     `json:"sourceUrl,omitempty"`
+	Summary       string                     `json:"summary,omitempty"`
+	Suspended     bool                       `json:"suspended,omitempty"`
+	Type          string                     `json:"type"`
+	Verified      bool                       `json:"verified,omitempty"`
+	Version       string                     `json:"version"`
+	Versions      []MarketplacePluginVersion `json:"versions,omitempty"`
 }
 
 // MarketplacePluginEnvelope defines model for MarketplacePluginEnvelope.
@@ -3803,6 +3908,32 @@ type MarketplacePluginEnvelope struct {
 type MarketplacePluginListEnvelope struct {
 	Items []MarketplacePlugin `json:"items"`
 }
+
+// MarketplacePluginVersion defines model for MarketplacePluginVersion.
+type MarketplacePluginVersion struct {
+	Checksum       string         `json:"checksum,omitempty"`
+	Deprecated     bool           `json:"deprecated,omitempty"`
+	ManifestURL    string         `json:"manifestUrl"`
+	Metadata       map[string]any `json:"metadata,omitempty"`
+	MinSohaVersion string         `json:"minSohaVersion,omitempty"`
+	PackageURL     string         `json:"packageUrl,omitempty"`
+	PublishedAt    *time.Time     `json:"publishedAt,omitempty"`
+	Signature      string         `json:"signature,omitempty"`
+	Suspended      bool           `json:"suspended,omitempty"`
+	Version        string         `json:"version"`
+}
+
+// MarketplacePublisher defines model for MarketplacePublisher.
+type MarketplacePublisher struct {
+	ID                string                                `json:"id"`
+	Name              string                                `json:"name"`
+	URL               string                                `json:"url,omitempty"`
+	VerificationLevel MarketplacePublisherVerificationLevel `json:"verificationLevel,omitempty"`
+	Verified          bool                                  `json:"verified,omitempty"`
+}
+
+// MarketplacePublisherVerificationLevel defines model for MarketplacePublisher.VerificationLevel.
+type MarketplacePublisherVerificationLevel string
 
 // NativeProviderObject Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
 type NativeProviderObject map[string]any
@@ -4010,6 +4141,26 @@ type PersonalAccessTokenListEnvelope struct {
 	Items []PersonalAccessToken `json:"items"`
 }
 
+// PluginAIExtensions defines model for PluginAIExtensions.
+type PluginAIExtensions struct {
+	AgentProviders    []PluginExtensionContribution `json:"agentProviders,omitempty"`
+	AnalysisWorkflows []PluginExtensionContribution `json:"analysisWorkflows,omitempty"`
+	ArtifactRenderers []PluginExtensionContribution `json:"artifactRenderers,omitempty"`
+	MCPPresets        []PluginExtensionContribution `json:"mcpPresets,omitempty"`
+	ModelProviders    []PluginExtensionContribution `json:"modelProviders,omitempty"`
+	SkillPacks        []PluginExtensionContribution `json:"skillPacks,omitempty"`
+	ToolProviders     []PluginExtensionContribution `json:"toolProviders,omitempty"`
+}
+
+// PluginAlertExtensions defines model for PluginAlertExtensions.
+type PluginAlertExtensions struct {
+	Enrichers            []PluginExtensionContribution `json:"enrichers,omitempty"`
+	EscalationProviders  []PluginExtensionContribution `json:"escalationProviders,omitempty"`
+	NotificationChannels []PluginExtensionContribution `json:"notificationChannels,omitempty"`
+	Receivers            []PluginExtensionContribution `json:"receivers,omitempty"`
+	SilenceAdapters      []PluginExtensionContribution `json:"silenceAdapters,omitempty"`
+}
+
 // PluginAssetSnapshot defines model for PluginAssetSnapshot.
 type PluginAssetSnapshot struct {
 	AgentProfiles      []string `json:"agentProfiles,omitempty"`
@@ -4018,6 +4169,13 @@ type PluginAssetSnapshot struct {
 	GatewayPolicyPacks []string `json:"gatewayPolicyPacks,omitempty"`
 	MCPPresets         []string `json:"mcpPresets,omitempty"`
 	Skills             []string `json:"skills,omitempty"`
+}
+
+// PluginAuthExtensions defines model for PluginAuthExtensions.
+type PluginAuthExtensions struct {
+	DirectorySync  []PluginExtensionContribution `json:"directorySync,omitempty"`
+	ProfileMappers []PluginExtensionContribution `json:"profileMappers,omitempty"`
+	Sources        []PluginExtensionContribution `json:"sources,omitempty"`
 }
 
 // PluginCapabilityRequest defines model for PluginCapabilityRequest.
@@ -4042,13 +4200,66 @@ type PluginConfigRequest struct {
 	SecretRefs map[string]string `json:"secretRefs,omitempty"`
 }
 
+// PluginDeliveryExtensions defines model for PluginDeliveryExtensions.
+type PluginDeliveryExtensions struct {
+	ArtifactStores   []PluginExtensionContribution `json:"artifactStores,omitempty"`
+	BuildProviders   []PluginExtensionContribution `json:"buildProviders,omitempty"`
+	DeployStrategies []PluginExtensionContribution `json:"deployStrategies,omitempty"`
+	ReleaseGates     []PluginExtensionContribution `json:"releaseGates,omitempty"`
+	ScanProviders    []PluginExtensionContribution `json:"scanProviders,omitempty"`
+}
+
+// PluginExtensionContribution defines model for PluginExtensionContribution.
+type PluginExtensionContribution struct {
+	ActionRef      string         `json:"actionRef,omitempty"`
+	ConfigSchema   JSONSchema     `json:"configSchema,omitempty"`
+	Description    string         `json:"description,omitempty"`
+	ID             string         `json:"id"`
+	Label          string         `json:"label,omitempty"`
+	Match          JSONSchema     `json:"match,omitempty"`
+	Metadata       map[string]any `json:"metadata,omitempty"`
+	PermissionKeys []string       `json:"permissionKeys,omitempty"`
+	ResourceKinds  []string       `json:"resourceKinds,omitempty"`
+	UISchema       JSONSchema     `json:"uiSchema,omitempty"`
+}
+
+// PluginExtensionPoints defines model for PluginExtensionPoints.
+type PluginExtensionPoints struct {
+	AI       *PluginAIExtensions       `json:"ai,omitempty"`
+	Alerts   *PluginAlertExtensions    `json:"alerts,omitempty"`
+	Auth     *PluginAuthExtensions     `json:"auth,omitempty"`
+	Delivery *PluginDeliveryExtensions `json:"delivery,omitempty"`
+	Gateway  *PluginGatewayExtensions  `json:"gateway,omitempty"`
+	Identity *PluginIdentityExtensions `json:"identity,omitempty"`
+	Metrics  *PluginMetricsExtensions  `json:"metrics,omitempty"`
+	Resource *PluginResourceExtensions `json:"resource,omitempty"`
+	UI       *PluginUIExtensions       `json:"ui,omitempty"`
+}
+
+// PluginGatewayExtensions defines model for PluginGatewayExtensions.
+type PluginGatewayExtensions struct {
+	Policies  []PluginExtensionContribution `json:"policies,omitempty"`
+	Prompts   []PluginExtensionContribution `json:"prompts,omitempty"`
+	Resources []PluginExtensionContribution `json:"resources,omitempty"`
+	Tools     []PluginExtensionContribution `json:"tools,omitempty"`
+}
+
+// PluginIdentityExtensions defines model for PluginIdentityExtensions.
+type PluginIdentityExtensions struct {
+	ApplicationTemplates []PluginExtensionContribution `json:"applicationTemplates,omitempty"`
+	ProviderTemplates    []PluginExtensionContribution `json:"providerTemplates,omitempty"`
+}
+
 // PluginInstallRequest defines model for PluginInstallRequest.
 type PluginInstallRequest struct {
 	Enable           bool            `json:"enable,omitempty"`
 	ExpectedChecksum string          `json:"expectedChecksum,omitempty"`
 	Manifest         *PluginManifest `json:"manifest,omitempty"`
+	MarketplaceURL   string          `json:"marketplaceUrl,omitempty"`
 	PluginID         string          `json:"pluginId,omitempty"`
 	Source           string          `json:"source,omitempty"`
+	SourceID         string          `json:"sourceId,omitempty"`
+	Version          string          `json:"version,omitempty"`
 }
 
 // PluginIntegrity defines model for PluginIntegrity.
@@ -4061,18 +4272,21 @@ type PluginIntegrity struct {
 
 // PluginManifest defines model for PluginManifest.
 type PluginManifest struct {
-	Assets        *PluginAssetSnapshot     `json:"assets,omitempty"`
-	Capabilities  *PluginCapabilityRequest `json:"capabilities,omitempty"`
-	Compatibility *PluginCompatibility     `json:"compatibility,omitempty"`
-	Description   string                   `json:"description,omitempty"`
-	Homepage      string                   `json:"homepage,omitempty"`
-	ID            string                   `json:"id"`
-	Integrity     *PluginIntegrity         `json:"integrity,omitempty"`
-	Metadata      map[string]any           `json:"metadata,omitempty"`
-	Name          string                   `json:"name"`
-	Permissions   *PluginPermissionRequest `json:"permissions,omitempty"`
-	Publisher     string                   `json:"publisher"`
-	Secrets       *struct {
+	Assets          *PluginAssetSnapshot     `json:"assets,omitempty"`
+	Capabilities    *PluginCapabilityRequest `json:"capabilities,omitempty"`
+	Compatibility   *PluginCompatibility     `json:"compatibility,omitempty"`
+	ConfigSchema    JSONSchema               `json:"configSchema,omitempty"`
+	Description     string                   `json:"description,omitempty"`
+	ExtensionPoints *PluginExtensionPoints   `json:"extensionPoints,omitempty"`
+	Homepage        string                   `json:"homepage,omitempty"`
+	ID              string                   `json:"id"`
+	Integrity       *PluginIntegrity         `json:"integrity,omitempty"`
+	Metadata        map[string]any           `json:"metadata,omitempty"`
+	Name            string                   `json:"name"`
+	Permissions     *PluginPermissionRequest `json:"permissions,omitempty"`
+	Publisher       string                   `json:"publisher"`
+	Runtime         *PluginRuntimeSpec       `json:"runtime,omitempty"`
+	Secrets         *struct {
 		Required []PluginSecretRequirement `json:"required,omitempty"`
 	} `json:"secrets,omitempty"`
 	Type    string `json:"type"`
@@ -4084,11 +4298,43 @@ type PluginManifestEnvelope struct {
 	Data PluginManifest `json:"data"`
 }
 
+// PluginMetricsExtensions defines model for PluginMetricsExtensions.
+type PluginMetricsExtensions struct {
+	Definitions []PluginExtensionContribution `json:"definitions,omitempty"`
+	Enrichers   []PluginExtensionContribution `json:"enrichers,omitempty"`
+	Panels      []PluginExtensionContribution `json:"panels,omitempty"`
+	Providers   []PluginExtensionContribution `json:"providers,omitempty"`
+}
+
 // PluginPermissionRequest defines model for PluginPermissionRequest.
 type PluginPermissionRequest struct {
 	Domain   []string `json:"domain,omitempty"`
 	Required []string `json:"required,omitempty"`
 }
+
+// PluginResourceExtensions defines model for PluginResourceExtensions.
+type PluginResourceExtensions struct {
+	Actions     []PluginExtensionContribution `json:"actions,omitempty"`
+	Diagnostics []PluginExtensionContribution `json:"diagnostics,omitempty"`
+	Tabs        []PluginExtensionContribution `json:"tabs,omitempty"`
+	Tags        []PluginExtensionContribution `json:"tags,omitempty"`
+}
+
+// PluginRuntimeSpec defines model for PluginRuntimeSpec.
+type PluginRuntimeSpec struct {
+	ActionPath     string                `json:"actionPath,omitempty"`
+	Endpoint       string                `json:"endpoint,omitempty"`
+	HealthPath     string                `json:"healthPath,omitempty"`
+	ManifestPath   string                `json:"manifestPath,omitempty"`
+	Metadata       map[string]any        `json:"metadata,omitempty"`
+	MetricsPath    string                `json:"metricsPath,omitempty"`
+	Mode           PluginRuntimeSpecMode `json:"mode"`
+	TimeoutSeconds int                   `json:"timeoutSeconds,omitempty"`
+	WebhookPath    string                `json:"webhookPath,omitempty"`
+}
+
+// PluginRuntimeSpecMode defines model for PluginRuntimeSpec.Mode.
+type PluginRuntimeSpecMode string
 
 // PluginSecretRequirement defines model for PluginSecretRequirement.
 type PluginSecretRequirement struct {
@@ -4096,6 +4342,15 @@ type PluginSecretRequirement struct {
 	Name        string `json:"name"`
 	Required    bool   `json:"required,omitempty"`
 	SecretRef   string `json:"secretRef,omitempty"`
+}
+
+// PluginUIExtensions defines model for PluginUIExtensions.
+type PluginUIExtensions struct {
+	ActionButtons []PluginExtensionContribution `json:"actionButtons,omitempty"`
+	DetailPanels  []PluginExtensionContribution `json:"detailPanels,omitempty"`
+	Menus         []PluginExtensionContribution `json:"menus,omitempty"`
+	SettingsForms []PluginExtensionContribution `json:"settingsForms,omitempty"`
+	StatusCards   []PluginExtensionContribution `json:"statusCards,omitempty"`
 }
 
 // Principal defines model for Principal.
@@ -5465,9 +5720,19 @@ type ListReleaseBundlesParams struct {
 
 // ListMarketplacePluginsParams defines parameters for ListMarketplacePlugins.
 type ListMarketplacePluginsParams struct {
-	Q         string `form:"q,omitempty" json:"q,omitempty"`
-	Type      string `form:"type,omitempty" json:"type,omitempty"`
-	Publisher string `form:"publisher,omitempty" json:"publisher,omitempty"`
+	Q              string `form:"q,omitempty" json:"q,omitempty"`
+	Type           string `form:"type,omitempty" json:"type,omitempty"`
+	Publisher      string `form:"publisher,omitempty" json:"publisher,omitempty"`
+	SourceID       string `form:"sourceId,omitempty" json:"sourceId,omitempty"`
+	MarketplaceURL string `form:"marketplaceUrl,omitempty" json:"marketplaceUrl,omitempty"`
+	Version        string `form:"version,omitempty" json:"version,omitempty"`
+}
+
+// GetMarketplacePluginParams defines parameters for GetMarketplacePlugin.
+type GetMarketplacePluginParams struct {
+	SourceID       string `form:"sourceId,omitempty" json:"sourceId,omitempty"`
+	MarketplaceURL string `form:"marketplaceUrl,omitempty" json:"marketplaceUrl,omitempty"`
+	Version        string `form:"version,omitempty" json:"version,omitempty"`
 }
 
 // DecideAIGatewayApprovalRequestJSONRequestBody defines body for DecideAIGatewayApprovalRequest for application/json ContentType.

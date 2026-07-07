@@ -30,6 +30,10 @@ const requiredJsonSchemas = [
   },
   { file: "skills/skill-manifest.schema.json", fixtureDir: "fixtures/json-schema/skill-manifest" },
   { file: "plugins/plugin-manifest.schema.json", fixtureDir: "fixtures/json-schema/plugin-manifest" },
+  {
+    file: "plugins/marketplace-catalog.schema.json",
+    fixtureDir: "fixtures/json-schema/marketplace-catalog",
+  },
   { file: "events/event-envelope.schema.json", fixtureDir: "fixtures/json-schema/event-envelope" },
   { file: "auth/token-claims.schema.json", fixtureDir: "fixtures/json-schema/token-claims" },
   {
@@ -72,6 +76,7 @@ const requiredJsonExamples = [
   { file: "examples/token-claims/service-account.json", schemaFile: "auth/token-claims.schema.json" },
   { file: "examples/plugin-manifest/skill-pack.json", schemaFile: "plugins/plugin-manifest.schema.json" },
   { file: "examples/plugin-manifest/connector.json", schemaFile: "plugins/plugin-manifest.schema.json" },
+  { file: "examples/marketplace-catalog/default.json", schemaFile: "plugins/marketplace-catalog.schema.json" },
   { file: "examples/skill-manifest/k8s-sre.json", schemaFile: "skills/skill-manifest.schema.json" },
   {
     file: "examples/connector-event-envelope/feishu-message.json",

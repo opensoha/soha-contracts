@@ -21,6 +21,26 @@
     "required": ["k8s.pods.read"],
     "domain": ["kubernetes"]
   },
+  "runtime": {
+    "mode": "manifest-only"
+  },
+  "extensionPoints": {
+    "ai": {
+      "skillPacks": [
+        {
+          "id": "k8s-sre",
+          "label": "Kubernetes SRE",
+          "permissionKeys": ["ai.gateway.view"]
+        }
+      ],
+      "mcpPresets": [
+        {
+          "id": "k8s-readonly",
+          "label": "Kubernetes readonly MCP preset"
+        }
+      ]
+    }
+  },
   "metadata": {
     "category": "ai-gateway"
   }

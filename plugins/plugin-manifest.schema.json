@@ -21,7 +21,13 @@
         "connector",
         "ai-provider-adapter",
         "agent-profile",
-        "gateway-policy-pack"
+        "gateway-policy-pack",
+        "diagnostic",
+        "resource-extension",
+        "metric-extension",
+        "notification-channel",
+        "identity-template",
+        "ui-extension"
       ]
     },
     "description": { "type": "string" },
@@ -94,9 +100,162 @@
       },
       "additionalProperties": false
     },
+    "runtime": {
+      "type": "object",
+      "required": ["mode"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["manifest-only", "external-http", "managed-container"]
+        },
+        "endpoint": { "type": "string" },
+        "healthPath": { "type": "string" },
+        "manifestPath": { "type": "string" },
+        "actionPath": { "type": "string" },
+        "webhookPath": { "type": "string" },
+        "metricsPath": { "type": "string" },
+        "timeoutSeconds": { "type": "integer", "minimum": 1 },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "configSchema": { "$ref": "#/$defs/jsonSchema" },
+    "extensionPoints": { "$ref": "#/$defs/extensionPoints" },
     "metadata": {
       "type": "object",
       "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "contribution": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string" },
+        "description": { "type": "string" },
+        "actionRef": { "type": "string" },
+        "resourceKinds": { "type": "array", "items": { "type": "string" } },
+        "permissionKeys": { "type": "array", "items": { "type": "string" } },
+        "match": { "$ref": "#/$defs/jsonSchema" },
+        "configSchema": { "$ref": "#/$defs/jsonSchema" },
+        "uiSchema": { "$ref": "#/$defs/jsonSchema" },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "contributionList": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/contribution" }
+    },
+    "extensionPoints": {
+      "type": "object",
+      "properties": {
+        "auth": {
+          "type": "object",
+          "properties": {
+            "sources": { "$ref": "#/$defs/contributionList" },
+            "profileMappers": { "$ref": "#/$defs/contributionList" },
+            "directorySync": { "$ref": "#/$defs/contributionList" }
+          },
+          "additionalProperties": false
+        },
+        "identity": {
+          "type": "object",
+          "properties": {
+            "applicationTemplates": { "$ref": "#/$defs/contributionList" },
+            "providerTemplates": { "$ref": "#/$defs/contributionList" }
+          },
+          "additionalProperties": false
+        },
+        "ui": {
+          "type": "object",
+          "properties": {
+            "menus": { "$ref": "#/$defs/contributionList" },
+            "settingsForms": { "$ref": "#/$defs/contributionList" },
+            "statusCards": { "$ref": "#/$defs/contributionList" },
+            "detailPanels": { "$ref": "#/$defs/contributionList" },
+            "actionButtons": { "$ref": "#/$defs/contributionList" }
+          },
+          "additionalProperties": false
+        },
+        "ai": {
+          "type": "object",
+          "properties": {
+            "agentProviders": { "$ref": "#/$defs/contributionList" },
+            "modelProviders": { "$ref": "#/$defs/contributionList" },
+            "toolProviders": { "$ref": "#/$defs/contributionList" },
+            "skillPacks": { "$ref": "#/$defs/contributionList" },
+            "mcpPresets": { "$ref": "#/$defs/contributionList" },
+            "analysisWorkflows": { "$ref": "#/$defs/contributionList" },
+            "artifactRenderers": { "$ref": "#/$defs/contributionList" }
+          },
+          "additionalProperties": false
+        },
+        "resource": {
+          "type": "object",
+          "properties": {
+            "tags": { "$ref": "#/$defs/contributionList" },
+            "actions": { "$ref": "#/$defs/contributionList" },
+            "tabs": { "$ref": "#/$defs/contributionList" },
+            "diagnostics": { "$ref": "#/$defs/contributionList" }
+          },
+          "additionalProperties": false
+        },
+        "metrics": {
+          "type": "object",
+          "properties": {
+            "providers": { "$ref": "#/$defs/contributionList" },
+            "definitions": { "$ref": "#/$defs/contributionList" },
+            "panels": { "$ref": "#/$defs/contributionList" },
+            "enrichers": { "$ref": "#/$defs/contributionList" }
+          },
+          "additionalProperties": false
+        },
+        "alerts": {
+          "type": "object",
+          "properties": {
+            "notificationChannels": { "$ref": "#/$defs/contributionList" },
+            "receivers": { "$ref": "#/$defs/contributionList" },
+            "enrichers": { "$ref": "#/$defs/contributionList" },
+            "escalationProviders": { "$ref": "#/$defs/contributionList" },
+            "silenceAdapters": { "$ref": "#/$defs/contributionList" }
+          },
+          "additionalProperties": false
+        },
+        "delivery": {
+          "type": "object",
+          "properties": {
+            "buildProviders": { "$ref": "#/$defs/contributionList" },
+            "scanProviders": { "$ref": "#/$defs/contributionList" },
+            "releaseGates": { "$ref": "#/$defs/contributionList" },
+            "deployStrategies": { "$ref": "#/$defs/contributionList" },
+            "artifactStores": { "$ref": "#/$defs/contributionList" }
+          },
+          "additionalProperties": false
+        },
+        "gateway": {
+          "type": "object",
+          "properties": {
+            "tools": { "$ref": "#/$defs/contributionList" },
+            "resources": { "$ref": "#/$defs/contributionList" },
+            "prompts": { "$ref": "#/$defs/contributionList" },
+            "policies": { "$ref": "#/$defs/contributionList" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false

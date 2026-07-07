@@ -1777,6 +1777,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/marketplace/index.json": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPublicMarketplaceCatalog"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/marketplace/plugins/{pluginID}/{version}/plugin.manifest.json": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPublicMarketplacePluginManifest"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/plugins/marketplace": {
         parameters: {
             query?: never;
@@ -3931,13 +3963,155 @@ export interface components {
             verified?: boolean;
             status?: string;
         };
+        PluginRuntimeSpec: {
+            /** @enum {string} */
+            mode: "manifest-only" | "external-http" | "managed-container";
+            endpoint?: string;
+            healthPath?: string;
+            manifestPath?: string;
+            actionPath?: string;
+            webhookPath?: string;
+            metricsPath?: string;
+            timeoutSeconds?: number;
+            metadata?: {
+                [key: string]: unknown;
+            };
+        };
+        PluginExtensionContribution: {
+            id: string;
+            label?: string;
+            description?: string;
+            actionRef?: string;
+            resourceKinds?: string[];
+            permissionKeys?: string[];
+            match?: components["schemas"]["JSONSchema"];
+            configSchema?: components["schemas"]["JSONSchema"];
+            uiSchema?: components["schemas"]["JSONSchema"];
+            metadata?: {
+                [key: string]: unknown;
+            };
+        };
+        PluginAuthExtensions: {
+            sources?: components["schemas"]["PluginExtensionContribution"][];
+            profileMappers?: components["schemas"]["PluginExtensionContribution"][];
+            directorySync?: components["schemas"]["PluginExtensionContribution"][];
+        };
+        PluginIdentityExtensions: {
+            applicationTemplates?: components["schemas"]["PluginExtensionContribution"][];
+            providerTemplates?: components["schemas"]["PluginExtensionContribution"][];
+        };
+        PluginUIExtensions: {
+            menus?: components["schemas"]["PluginExtensionContribution"][];
+            settingsForms?: components["schemas"]["PluginExtensionContribution"][];
+            statusCards?: components["schemas"]["PluginExtensionContribution"][];
+            detailPanels?: components["schemas"]["PluginExtensionContribution"][];
+            actionButtons?: components["schemas"]["PluginExtensionContribution"][];
+        };
+        PluginAIExtensions: {
+            agentProviders?: components["schemas"]["PluginExtensionContribution"][];
+            modelProviders?: components["schemas"]["PluginExtensionContribution"][];
+            toolProviders?: components["schemas"]["PluginExtensionContribution"][];
+            skillPacks?: components["schemas"]["PluginExtensionContribution"][];
+            mcpPresets?: components["schemas"]["PluginExtensionContribution"][];
+            analysisWorkflows?: components["schemas"]["PluginExtensionContribution"][];
+            artifactRenderers?: components["schemas"]["PluginExtensionContribution"][];
+        };
+        PluginResourceExtensions: {
+            tags?: components["schemas"]["PluginExtensionContribution"][];
+            actions?: components["schemas"]["PluginExtensionContribution"][];
+            tabs?: components["schemas"]["PluginExtensionContribution"][];
+            diagnostics?: components["schemas"]["PluginExtensionContribution"][];
+        };
+        PluginMetricsExtensions: {
+            providers?: components["schemas"]["PluginExtensionContribution"][];
+            definitions?: components["schemas"]["PluginExtensionContribution"][];
+            panels?: components["schemas"]["PluginExtensionContribution"][];
+            enrichers?: components["schemas"]["PluginExtensionContribution"][];
+        };
+        PluginAlertExtensions: {
+            notificationChannels?: components["schemas"]["PluginExtensionContribution"][];
+            receivers?: components["schemas"]["PluginExtensionContribution"][];
+            enrichers?: components["schemas"]["PluginExtensionContribution"][];
+            escalationProviders?: components["schemas"]["PluginExtensionContribution"][];
+            silenceAdapters?: components["schemas"]["PluginExtensionContribution"][];
+        };
+        PluginDeliveryExtensions: {
+            buildProviders?: components["schemas"]["PluginExtensionContribution"][];
+            scanProviders?: components["schemas"]["PluginExtensionContribution"][];
+            releaseGates?: components["schemas"]["PluginExtensionContribution"][];
+            deployStrategies?: components["schemas"]["PluginExtensionContribution"][];
+            artifactStores?: components["schemas"]["PluginExtensionContribution"][];
+        };
+        PluginGatewayExtensions: {
+            tools?: components["schemas"]["PluginExtensionContribution"][];
+            resources?: components["schemas"]["PluginExtensionContribution"][];
+            prompts?: components["schemas"]["PluginExtensionContribution"][];
+            policies?: components["schemas"]["PluginExtensionContribution"][];
+        };
+        PluginExtensionPoints: {
+            auth?: components["schemas"]["PluginAuthExtensions"];
+            identity?: components["schemas"]["PluginIdentityExtensions"];
+            ui?: components["schemas"]["PluginUIExtensions"];
+            ai?: components["schemas"]["PluginAIExtensions"];
+            resource?: components["schemas"]["PluginResourceExtensions"];
+            metrics?: components["schemas"]["PluginMetricsExtensions"];
+            alerts?: components["schemas"]["PluginAlertExtensions"];
+            delivery?: components["schemas"]["PluginDeliveryExtensions"];
+            gateway?: components["schemas"]["PluginGatewayExtensions"];
+        };
+        MarketplacePublisher: {
+            id: string;
+            name: string;
+            verified?: boolean;
+            /** @enum {string} */
+            verificationLevel?: "official" | "verified" | "community" | "private";
+            url?: string;
+        };
+        MarketplacePluginVersion: {
+            version: string;
+            manifestUrl: string;
+            packageUrl?: string;
+            checksum?: string;
+            signature?: string;
+            /** Format: date-time */
+            publishedAt?: string;
+            deprecated?: boolean;
+            suspended?: boolean;
+            minSohaVersion?: string;
+            metadata?: {
+                [key: string]: unknown;
+            };
+        };
+        MarketplaceAdvisory: {
+            id: string;
+            /** @enum {string} */
+            severity: "low" | "medium" | "high" | "critical";
+            summary: string;
+            url?: string;
+            /** Format: date-time */
+            publishedAt?: string;
+            affectedVersions?: string[];
+            withdrawn?: boolean;
+        };
+        MarketplaceCatalog: {
+            schemaVersion: string;
+            /** Format: date-time */
+            generatedAt: string;
+            sourceId: string;
+            sourceUrl?: string;
+            plugins: components["schemas"]["MarketplacePlugin"][];
+            advisories?: components["schemas"]["MarketplaceAdvisory"][];
+            metadata?: {
+                [key: string]: unknown;
+            };
+        };
         PluginManifest: {
             id: string;
             name: string;
             version: string;
             publisher: string;
             /** @enum {string} */
-            type: "skill" | "skill-pack" | "mcp-preset" | "connector" | "ai-provider-adapter" | "agent-profile" | "gateway-policy-pack";
+            type: "skill" | "skill-pack" | "mcp-preset" | "connector" | "ai-provider-adapter" | "agent-profile" | "gateway-policy-pack" | "diagnostic" | "resource-extension" | "metric-extension" | "notification-channel" | "identity-template" | "ui-extension";
             description?: string;
             homepage?: string;
             compatibility?: components["schemas"]["PluginCompatibility"];
@@ -3948,6 +4122,9 @@ export interface components {
                 required?: components["schemas"]["PluginSecretRequirement"][];
             };
             integrity?: components["schemas"]["PluginIntegrity"];
+            runtime?: components["schemas"]["PluginRuntimeSpec"];
+            configSchema?: components["schemas"]["JSONSchema"];
+            extensionPoints?: components["schemas"]["PluginExtensionPoints"];
             metadata?: {
                 [key: string]: unknown;
             };
@@ -3981,7 +4158,18 @@ export interface components {
             type: string;
             summary?: string;
             source: string;
+            sourceId?: string;
+            sourceUrl?: string;
             riskLevel?: string;
+            latestVersion?: string;
+            categories?: string[];
+            verified?: boolean;
+            publisherInfo?: components["schemas"]["MarketplacePublisher"];
+            compatibility?: components["schemas"]["PluginCompatibility"];
+            versions?: components["schemas"]["MarketplacePluginVersion"][];
+            advisories?: components["schemas"]["MarketplaceAdvisory"][];
+            deprecated?: boolean;
+            suspended?: boolean;
             manifest: components["schemas"]["PluginManifest"];
             installed?: boolean;
         };
@@ -3992,7 +4180,7 @@ export interface components {
             publisher: string;
             type: string;
             /** @enum {string} */
-            status: "enabled" | "disabled";
+            status: "installed" | "pending_config" | "enabled" | "disabled" | "failed" | "deprecated";
             source: string;
             manifest: components["schemas"]["PluginManifest"];
             checksumStatus: string;
@@ -4017,6 +4205,9 @@ export interface components {
         PluginInstallRequest: {
             pluginId?: string;
             source?: string;
+            sourceId?: string;
+            marketplaceUrl?: string;
+            version?: string;
             manifest?: components["schemas"]["PluginManifest"];
             expectedChecksum?: string;
             enable?: boolean;
@@ -4773,6 +4964,22 @@ export type PluginCapabilityRequest = components['schemas']['PluginCapabilityReq
 export type PluginPermissionRequest = components['schemas']['PluginPermissionRequest'];
 export type PluginSecretRequirement = components['schemas']['PluginSecretRequirement'];
 export type PluginIntegrity = components['schemas']['PluginIntegrity'];
+export type PluginRuntimeSpec = components['schemas']['PluginRuntimeSpec'];
+export type PluginExtensionContribution = components['schemas']['PluginExtensionContribution'];
+export type PluginAuthExtensions = components['schemas']['PluginAuthExtensions'];
+export type PluginIdentityExtensions = components['schemas']['PluginIdentityExtensions'];
+export type PluginUIExtensions = components['schemas']['PluginUIExtensions'];
+export type PluginAIExtensions = components['schemas']['PluginAIExtensions'];
+export type PluginResourceExtensions = components['schemas']['PluginResourceExtensions'];
+export type PluginMetricsExtensions = components['schemas']['PluginMetricsExtensions'];
+export type PluginAlertExtensions = components['schemas']['PluginAlertExtensions'];
+export type PluginDeliveryExtensions = components['schemas']['PluginDeliveryExtensions'];
+export type PluginGatewayExtensions = components['schemas']['PluginGatewayExtensions'];
+export type PluginExtensionPoints = components['schemas']['PluginExtensionPoints'];
+export type MarketplacePublisher = components['schemas']['MarketplacePublisher'];
+export type MarketplacePluginVersion = components['schemas']['MarketplacePluginVersion'];
+export type MarketplaceAdvisory = components['schemas']['MarketplaceAdvisory'];
+export type MarketplaceCatalog = components['schemas']['MarketplaceCatalog'];
 export type PluginManifest = components['schemas']['PluginManifest'];
 export type CloudExtensionPointKind = components['schemas']['CloudExtensionPointKind'];
 export type CloudExtensionBoundary = components['schemas']['CloudExtensionBoundary'];
@@ -8459,12 +8666,58 @@ export interface operations {
             };
         };
     };
+    getPublicMarketplaceCatalog: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Public marketplace catalog generated by Soha Cloud or a private marketplace source. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MarketplaceCatalog"];
+                };
+            };
+        };
+    };
+    getPublicMarketplacePluginManifest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                pluginID: components["parameters"]["PluginID"];
+                version: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Immutable public manifest snapshot for a marketplace plugin version. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PluginManifest"];
+                };
+            };
+        };
+    };
     listMarketplacePlugins: {
         parameters: {
             query?: {
                 q?: string;
                 type?: string;
                 publisher?: string;
+                sourceId?: string;
+                marketplaceUrl?: string;
+                version?: string;
             };
             header?: never;
             path?: never;
@@ -8485,7 +8738,11 @@ export interface operations {
     };
     getMarketplacePlugin: {
         parameters: {
-            query?: never;
+            query?: {
+                sourceId?: string;
+                marketplaceUrl?: string;
+                version?: string;
+            };
             header?: never;
             path: {
                 pluginID: components["parameters"]["PluginID"];
