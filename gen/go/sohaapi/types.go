@@ -3387,6 +3387,7 @@ type AuthBootstrapEnvelope_Data struct {
 // AuthProvider defines model for AuthProvider.
 type AuthProvider struct {
 	Enabled  bool   `json:"enabled"`
+	IconURL  string `json:"iconUrl,omitempty"`
 	ID       string `json:"id,omitempty"`
 	LoginURL string `json:"loginUrl,omitempty"`
 	Name     string `json:"name"`
@@ -4447,7 +4448,8 @@ type LLMUpstreamTestResultEnvelope struct {
 
 // LoginOptions defines model for LoginOptions.
 type LoginOptions struct {
-	Verification struct {
+	LocalPasswordLoginEnabled bool `json:"localPasswordLoginEnabled,omitempty"`
+	Verification              struct {
 		SliderEnabled bool `json:"sliderEnabled"`
 	} `json:"verification"`
 }

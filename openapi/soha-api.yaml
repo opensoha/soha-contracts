@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Soha API
-  version: 0.1.1
+  version: 0.1.2
   description: >
     Public OpenSoha core API contract. This first contract focuses on stable
     cross-repository boundaries: auth, health, runner-facing control-plane
@@ -4698,11 +4698,15 @@ components:
           type: boolean
         loginUrl:
           type: string
+        iconUrl:
+          type: string
       additionalProperties: false
     LoginOptions:
       type: object
       required: [verification]
       properties:
+        localPasswordLoginEnabled:
+          type: boolean
         verification:
           type: object
           required: [sliderEnabled]

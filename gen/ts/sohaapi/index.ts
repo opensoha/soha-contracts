@@ -2365,8 +2365,10 @@ export interface components {
             name: string;
             enabled: boolean;
             loginUrl?: string;
+            iconUrl?: string;
         };
         LoginOptions: {
+            localPasswordLoginEnabled?: boolean;
             verification: {
                 sliderEnabled: boolean;
             };
