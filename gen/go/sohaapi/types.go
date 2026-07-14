@@ -18,6 +18,207 @@ const (
 	SohaXAPIKeyScopes       sohaXAPIKeyContextKey       = "sohaXAPIKey.Scopes"
 )
 
+// Defines values for AIEnvironmentTemplateBackend.
+const (
+	AIEnvironmentTemplateBackendContainer  AIEnvironmentTemplateBackend = "container"
+	AIEnvironmentTemplateBackendKubernetes AIEnvironmentTemplateBackend = "kubernetes"
+)
+
+// Valid indicates whether the value is a known member of the AIEnvironmentTemplateBackend enum.
+func (e AIEnvironmentTemplateBackend) Valid() bool {
+	switch e {
+	case AIEnvironmentTemplateBackendContainer:
+		return true
+	case AIEnvironmentTemplateBackendKubernetes:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AIEnvironmentTemplateIsolationMode.
+const (
+	AIEnvironmentTemplateIsolationModeDisposableWrite AIEnvironmentTemplateIsolationMode = "disposable-write"
+	AIEnvironmentTemplateIsolationModeReadOnly        AIEnvironmentTemplateIsolationMode = "read-only"
+)
+
+// Valid indicates whether the value is a known member of the AIEnvironmentTemplateIsolationMode enum.
+func (e AIEnvironmentTemplateIsolationMode) Valid() bool {
+	switch e {
+	case AIEnvironmentTemplateIsolationModeDisposableWrite:
+		return true
+	case AIEnvironmentTemplateIsolationModeReadOnly:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AIEnvironmentTemplateInputBackend.
+const (
+	AIEnvironmentTemplateInputBackendContainer  AIEnvironmentTemplateInputBackend = "container"
+	AIEnvironmentTemplateInputBackendKubernetes AIEnvironmentTemplateInputBackend = "kubernetes"
+)
+
+// Valid indicates whether the value is a known member of the AIEnvironmentTemplateInputBackend enum.
+func (e AIEnvironmentTemplateInputBackend) Valid() bool {
+	switch e {
+	case AIEnvironmentTemplateInputBackendContainer:
+		return true
+	case AIEnvironmentTemplateInputBackendKubernetes:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AIEnvironmentTemplateInputIsolationMode.
+const (
+	AIEnvironmentTemplateInputIsolationModeDisposableWrite AIEnvironmentTemplateInputIsolationMode = "disposable-write"
+	AIEnvironmentTemplateInputIsolationModeReadOnly        AIEnvironmentTemplateInputIsolationMode = "read-only"
+)
+
+// Valid indicates whether the value is a known member of the AIEnvironmentTemplateInputIsolationMode enum.
+func (e AIEnvironmentTemplateInputIsolationMode) Valid() bool {
+	switch e {
+	case AIEnvironmentTemplateInputIsolationModeDisposableWrite:
+		return true
+	case AIEnvironmentTemplateInputIsolationModeReadOnly:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AIMemoryPolicyInputConsentMode.
+const (
+	AIMemoryPolicyInputConsentModeDisabled AIMemoryPolicyInputConsentMode = "disabled"
+	AIMemoryPolicyInputConsentModeExplicit AIMemoryPolicyInputConsentMode = "explicit"
+)
+
+// Valid indicates whether the value is a known member of the AIMemoryPolicyInputConsentMode enum.
+func (e AIMemoryPolicyInputConsentMode) Valid() bool {
+	switch e {
+	case AIMemoryPolicyInputConsentModeDisabled:
+		return true
+	case AIMemoryPolicyInputConsentModeExplicit:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AIMemoryRecordSourceType.
+const (
+	CuratedExtractor AIMemoryRecordSourceType = "curated_extractor"
+	ExplicitUser     AIMemoryRecordSourceType = "explicit_user"
+)
+
+// Valid indicates whether the value is a known member of the AIMemoryRecordSourceType enum.
+func (e AIMemoryRecordSourceType) Valid() bool {
+	switch e {
+	case CuratedExtractor:
+		return true
+	case ExplicitUser:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AIProductionOperationKind.
+const (
+	AIProductionOperationKindBackup       AIProductionOperationKind = "backup"
+	AIProductionOperationKindDrill        AIProductionOperationKind = "drill"
+	AIProductionOperationKindGc           AIProductionOperationKind = "gc"
+	AIProductionOperationKindIndexRebuild AIProductionOperationKind = "index_rebuild"
+	AIProductionOperationKindRestore      AIProductionOperationKind = "restore"
+)
+
+// Valid indicates whether the value is a known member of the AIProductionOperationKind enum.
+func (e AIProductionOperationKind) Valid() bool {
+	switch e {
+	case AIProductionOperationKindBackup:
+		return true
+	case AIProductionOperationKindDrill:
+		return true
+	case AIProductionOperationKindGc:
+		return true
+	case AIProductionOperationKindIndexRebuild:
+		return true
+	case AIProductionOperationKindRestore:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AIProductionOperationInputKind.
+const (
+	AIProductionOperationInputKindBackup       AIProductionOperationInputKind = "backup"
+	AIProductionOperationInputKindDrill        AIProductionOperationInputKind = "drill"
+	AIProductionOperationInputKindIndexRebuild AIProductionOperationInputKind = "index_rebuild"
+	AIProductionOperationInputKindRestore      AIProductionOperationInputKind = "restore"
+)
+
+// Valid indicates whether the value is a known member of the AIProductionOperationInputKind enum.
+func (e AIProductionOperationInputKind) Valid() bool {
+	switch e {
+	case AIProductionOperationInputKindBackup:
+		return true
+	case AIProductionOperationInputKindDrill:
+		return true
+	case AIProductionOperationInputKindIndexRebuild:
+		return true
+	case AIProductionOperationInputKindRestore:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentProviderRunnerStatusHealth.
+const (
+	Healthy   AgentProviderRunnerStatusHealth = "healthy"
+	Unhealthy AgentProviderRunnerStatusHealth = "unhealthy"
+	Unknown   AgentProviderRunnerStatusHealth = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the AgentProviderRunnerStatusHealth enum.
+func (e AgentProviderRunnerStatusHealth) Valid() bool {
+	switch e {
+	case Healthy:
+		return true
+	case Unhealthy:
+		return true
+	case Unknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentProviderRuntimeDefinitionKind.
+const (
+	Cli       AgentProviderRuntimeDefinitionKind = "cli"
+	Container AgentProviderRuntimeDefinitionKind = "container"
+	Remote    AgentProviderRuntimeDefinitionKind = "remote"
+)
+
+// Valid indicates whether the value is a known member of the AgentProviderRuntimeDefinitionKind enum.
+func (e AgentProviderRuntimeDefinitionKind) Valid() bool {
+	switch e {
+	case Cli:
+		return true
+	case Container:
+		return true
+	case Remote:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for AgentRunCallbackWorkbenchAgentStatusEventProviderKind.
 const (
 	AgentRunCallbackWorkbenchAgentStatusEventProviderKindAnthropic        AgentRunCallbackWorkbenchAgentStatusEventProviderKind = "anthropic"
@@ -308,28 +509,28 @@ func (e AgentRunCallbackWorkbenchToolStartedEventType) Valid() bool {
 
 // Defines values for ApplicationDeliveryActionKind.
 const (
-	Build       ApplicationDeliveryActionKind = "build"
-	BuildDeploy ApplicationDeliveryActionKind = "build_deploy"
-	Deploy      ApplicationDeliveryActionKind = "deploy"
-	Rollback    ApplicationDeliveryActionKind = "rollback"
-	Verify      ApplicationDeliveryActionKind = "verify"
-	Workflow    ApplicationDeliveryActionKind = "workflow"
+	ApplicationDeliveryActionKindBuild       ApplicationDeliveryActionKind = "build"
+	ApplicationDeliveryActionKindBuildDeploy ApplicationDeliveryActionKind = "build_deploy"
+	ApplicationDeliveryActionKindDeploy      ApplicationDeliveryActionKind = "deploy"
+	ApplicationDeliveryActionKindRollback    ApplicationDeliveryActionKind = "rollback"
+	ApplicationDeliveryActionKindVerify      ApplicationDeliveryActionKind = "verify"
+	ApplicationDeliveryActionKindWorkflow    ApplicationDeliveryActionKind = "workflow"
 )
 
 // Valid indicates whether the value is a known member of the ApplicationDeliveryActionKind enum.
 func (e ApplicationDeliveryActionKind) Valid() bool {
 	switch e {
-	case Build:
+	case ApplicationDeliveryActionKindBuild:
 		return true
-	case BuildDeploy:
+	case ApplicationDeliveryActionKindBuildDeploy:
 		return true
-	case Deploy:
+	case ApplicationDeliveryActionKindDeploy:
 		return true
-	case Rollback:
+	case ApplicationDeliveryActionKindRollback:
 		return true
-	case Verify:
+	case ApplicationDeliveryActionKindVerify:
 		return true
-	case Workflow:
+	case ApplicationDeliveryActionKindWorkflow:
 		return true
 	default:
 		return false
@@ -498,6 +699,399 @@ func (e DeliveryPlanInputSource) Valid() bool {
 	case DeliveryPlanInputSourceAI:
 		return true
 	case DeliveryPlanInputSourceManual:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EvaluationExecutorProfileIsolationMode.
+const (
+	EvaluationExecutorProfileIsolationModeDisposableWrite EvaluationExecutorProfileIsolationMode = "disposable-write"
+	EvaluationExecutorProfileIsolationModeReadOnly        EvaluationExecutorProfileIsolationMode = "read-only"
+)
+
+// Valid indicates whether the value is a known member of the EvaluationExecutorProfileIsolationMode enum.
+func (e EvaluationExecutorProfileIsolationMode) Valid() bool {
+	switch e {
+	case EvaluationExecutorProfileIsolationModeDisposableWrite:
+		return true
+	case EvaluationExecutorProfileIsolationModeReadOnly:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EvaluationFeedbackInputDisposition.
+const (
+	EvaluationFeedbackInputDispositionAccepted EvaluationFeedbackInputDisposition = "accepted"
+	EvaluationFeedbackInputDispositionDeleted  EvaluationFeedbackInputDisposition = "deleted"
+	EvaluationFeedbackInputDispositionPending  EvaluationFeedbackInputDisposition = "pending"
+	EvaluationFeedbackInputDispositionRejected EvaluationFeedbackInputDisposition = "rejected"
+)
+
+// Valid indicates whether the value is a known member of the EvaluationFeedbackInputDisposition enum.
+func (e EvaluationFeedbackInputDisposition) Valid() bool {
+	switch e {
+	case EvaluationFeedbackInputDispositionAccepted:
+		return true
+	case EvaluationFeedbackInputDispositionDeleted:
+		return true
+	case EvaluationFeedbackInputDispositionPending:
+		return true
+	case EvaluationFeedbackInputDispositionRejected:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EvaluationRunStatus.
+const (
+	EvaluationRunStatusCancelled EvaluationRunStatus = "cancelled"
+	EvaluationRunStatusCompleted EvaluationRunStatus = "completed"
+	EvaluationRunStatusFailed    EvaluationRunStatus = "failed"
+	EvaluationRunStatusQueued    EvaluationRunStatus = "queued"
+	EvaluationRunStatusRunning   EvaluationRunStatus = "running"
+)
+
+// Valid indicates whether the value is a known member of the EvaluationRunStatus enum.
+func (e EvaluationRunStatus) Valid() bool {
+	switch e {
+	case EvaluationRunStatusCancelled:
+		return true
+	case EvaluationRunStatusCompleted:
+		return true
+	case EvaluationRunStatusFailed:
+		return true
+	case EvaluationRunStatusQueued:
+		return true
+	case EvaluationRunStatusRunning:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KnowledgeAccessScopeVisibility.
+const (
+	KnowledgeAccessScopeVisibilityPrivate KnowledgeAccessScopeVisibility = "private"
+	KnowledgeAccessScopeVisibilityPublic  KnowledgeAccessScopeVisibility = "public"
+	KnowledgeAccessScopeVisibilityScoped  KnowledgeAccessScopeVisibility = "scoped"
+)
+
+// Valid indicates whether the value is a known member of the KnowledgeAccessScopeVisibility enum.
+func (e KnowledgeAccessScopeVisibility) Valid() bool {
+	switch e {
+	case KnowledgeAccessScopeVisibilityPrivate:
+		return true
+	case KnowledgeAccessScopeVisibilityPublic:
+		return true
+	case KnowledgeAccessScopeVisibilityScoped:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KnowledgeBaseStatus.
+const (
+	KnowledgeBaseStatusActive   KnowledgeBaseStatus = "active"
+	KnowledgeBaseStatusDisabled KnowledgeBaseStatus = "disabled"
+)
+
+// Valid indicates whether the value is a known member of the KnowledgeBaseStatus enum.
+func (e KnowledgeBaseStatus) Valid() bool {
+	switch e {
+	case KnowledgeBaseStatusActive:
+		return true
+	case KnowledgeBaseStatusDisabled:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KnowledgeConnectorKind.
+const (
+	KnowledgeConnectorKindGit    KnowledgeConnectorKind = "git"
+	KnowledgeConnectorKindHTTP   KnowledgeConnectorKind = "http"
+	KnowledgeConnectorKindInline KnowledgeConnectorKind = "inline"
+	KnowledgeConnectorKindObject KnowledgeConnectorKind = "object"
+)
+
+// Valid indicates whether the value is a known member of the KnowledgeConnectorKind enum.
+func (e KnowledgeConnectorKind) Valid() bool {
+	switch e {
+	case KnowledgeConnectorKindGit:
+		return true
+	case KnowledgeConnectorKindHTTP:
+		return true
+	case KnowledgeConnectorKindInline:
+		return true
+	case KnowledgeConnectorKindObject:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KnowledgeConnectorInputKind.
+const (
+	KnowledgeConnectorInputKindGit    KnowledgeConnectorInputKind = "git"
+	KnowledgeConnectorInputKindHTTP   KnowledgeConnectorInputKind = "http"
+	KnowledgeConnectorInputKindInline KnowledgeConnectorInputKind = "inline"
+	KnowledgeConnectorInputKindObject KnowledgeConnectorInputKind = "object"
+)
+
+// Valid indicates whether the value is a known member of the KnowledgeConnectorInputKind enum.
+func (e KnowledgeConnectorInputKind) Valid() bool {
+	switch e {
+	case KnowledgeConnectorInputKindGit:
+		return true
+	case KnowledgeConnectorInputKindHTTP:
+		return true
+	case KnowledgeConnectorInputKindInline:
+		return true
+	case KnowledgeConnectorInputKindObject:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KnowledgeConnectorValidationKind.
+const (
+	KnowledgeConnectorValidationKindGit    KnowledgeConnectorValidationKind = "git"
+	KnowledgeConnectorValidationKindHTTP   KnowledgeConnectorValidationKind = "http"
+	KnowledgeConnectorValidationKindInline KnowledgeConnectorValidationKind = "inline"
+	KnowledgeConnectorValidationKindObject KnowledgeConnectorValidationKind = "object"
+)
+
+// Valid indicates whether the value is a known member of the KnowledgeConnectorValidationKind enum.
+func (e KnowledgeConnectorValidationKind) Valid() bool {
+	switch e {
+	case KnowledgeConnectorValidationKindGit:
+		return true
+	case KnowledgeConnectorValidationKindHTTP:
+		return true
+	case KnowledgeConnectorValidationKindInline:
+		return true
+	case KnowledgeConnectorValidationKindObject:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KnowledgeDocumentStatus.
+const (
+	KnowledgeDocumentStatusDeleted KnowledgeDocumentStatus = "deleted"
+	KnowledgeDocumentStatusFailed  KnowledgeDocumentStatus = "failed"
+	KnowledgeDocumentStatusIndexed KnowledgeDocumentStatus = "indexed"
+	KnowledgeDocumentStatusPending KnowledgeDocumentStatus = "pending"
+)
+
+// Valid indicates whether the value is a known member of the KnowledgeDocumentStatus enum.
+func (e KnowledgeDocumentStatus) Valid() bool {
+	switch e {
+	case KnowledgeDocumentStatusDeleted:
+		return true
+	case KnowledgeDocumentStatusFailed:
+		return true
+	case KnowledgeDocumentStatusIndexed:
+		return true
+	case KnowledgeDocumentStatusPending:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KnowledgeIndexRevisionStatus.
+const (
+	KnowledgeIndexRevisionStatusActive     KnowledgeIndexRevisionStatus = "active"
+	KnowledgeIndexRevisionStatusBuilding   KnowledgeIndexRevisionStatus = "building"
+	KnowledgeIndexRevisionStatusFailed     KnowledgeIndexRevisionStatus = "failed"
+	KnowledgeIndexRevisionStatusSuperseded KnowledgeIndexRevisionStatus = "superseded"
+)
+
+// Valid indicates whether the value is a known member of the KnowledgeIndexRevisionStatus enum.
+func (e KnowledgeIndexRevisionStatus) Valid() bool {
+	switch e {
+	case KnowledgeIndexRevisionStatusActive:
+		return true
+	case KnowledgeIndexRevisionStatusBuilding:
+		return true
+	case KnowledgeIndexRevisionStatusFailed:
+		return true
+	case KnowledgeIndexRevisionStatusSuperseded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KnowledgeIngestionJobStatus.
+const (
+	KnowledgeIngestionJobStatusCancelled  KnowledgeIngestionJobStatus = "cancelled"
+	KnowledgeIngestionJobStatusCancelling KnowledgeIngestionJobStatus = "cancelling"
+	KnowledgeIngestionJobStatusFailed     KnowledgeIngestionJobStatus = "failed"
+	KnowledgeIngestionJobStatusQueued     KnowledgeIngestionJobStatus = "queued"
+	KnowledgeIngestionJobStatusRetryWait  KnowledgeIngestionJobStatus = "retry_wait"
+	KnowledgeIngestionJobStatusRunning    KnowledgeIngestionJobStatus = "running"
+	KnowledgeIngestionJobStatusSucceeded  KnowledgeIngestionJobStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the KnowledgeIngestionJobStatus enum.
+func (e KnowledgeIngestionJobStatus) Valid() bool {
+	switch e {
+	case KnowledgeIngestionJobStatusCancelled:
+		return true
+	case KnowledgeIngestionJobStatusCancelling:
+		return true
+	case KnowledgeIngestionJobStatusFailed:
+		return true
+	case KnowledgeIngestionJobStatusQueued:
+		return true
+	case KnowledgeIngestionJobStatusRetryWait:
+		return true
+	case KnowledgeIngestionJobStatusRunning:
+		return true
+	case KnowledgeIngestionJobStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KnowledgeIngestionStage.
+const (
+	Chunking    KnowledgeIngestionStage = "chunking"
+	Discovering KnowledgeIngestionStage = "discovering"
+	Embedding   KnowledgeIngestionStage = "embedding"
+	Fetching    KnowledgeIngestionStage = "fetching"
+	Indexing    KnowledgeIngestionStage = "indexing"
+	Parsing     KnowledgeIngestionStage = "parsing"
+	Publishing  KnowledgeIngestionStage = "publishing"
+	Verifying   KnowledgeIngestionStage = "verifying"
+)
+
+// Valid indicates whether the value is a known member of the KnowledgeIngestionStage enum.
+func (e KnowledgeIngestionStage) Valid() bool {
+	switch e {
+	case Chunking:
+		return true
+	case Discovering:
+		return true
+	case Embedding:
+		return true
+	case Fetching:
+		return true
+	case Indexing:
+		return true
+	case Parsing:
+		return true
+	case Publishing:
+		return true
+	case Verifying:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KnowledgeSourceKind.
+const (
+	KnowledgeSourceKindGit    KnowledgeSourceKind = "git"
+	KnowledgeSourceKindHTTP   KnowledgeSourceKind = "http"
+	KnowledgeSourceKindInline KnowledgeSourceKind = "inline"
+	KnowledgeSourceKindObject KnowledgeSourceKind = "object"
+)
+
+// Valid indicates whether the value is a known member of the KnowledgeSourceKind enum.
+func (e KnowledgeSourceKind) Valid() bool {
+	switch e {
+	case KnowledgeSourceKindGit:
+		return true
+	case KnowledgeSourceKindHTTP:
+		return true
+	case KnowledgeSourceKindInline:
+		return true
+	case KnowledgeSourceKindObject:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KnowledgeSourceStatus.
+const (
+	KnowledgeSourceStatusFailed  KnowledgeSourceStatus = "failed"
+	KnowledgeSourceStatusPending KnowledgeSourceStatus = "pending"
+	KnowledgeSourceStatusReady   KnowledgeSourceStatus = "ready"
+	KnowledgeSourceStatusSyncing KnowledgeSourceStatus = "syncing"
+)
+
+// Valid indicates whether the value is a known member of the KnowledgeSourceStatus enum.
+func (e KnowledgeSourceStatus) Valid() bool {
+	switch e {
+	case KnowledgeSourceStatusFailed:
+		return true
+	case KnowledgeSourceStatusPending:
+		return true
+	case KnowledgeSourceStatusReady:
+		return true
+	case KnowledgeSourceStatusSyncing:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KnowledgeSourceInputKind.
+const (
+	Git    KnowledgeSourceInputKind = "git"
+	HTTP   KnowledgeSourceInputKind = "http"
+	Inline KnowledgeSourceInputKind = "inline"
+	Object KnowledgeSourceInputKind = "object"
+)
+
+// Valid indicates whether the value is a known member of the KnowledgeSourceInputKind enum.
+func (e KnowledgeSourceInputKind) Valid() bool {
+	switch e {
+	case Git:
+		return true
+	case HTTP:
+		return true
+	case Inline:
+		return true
+	case Object:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KnowledgeSyncRunStatus.
+const (
+	KnowledgeSyncRunStatusFailed    KnowledgeSyncRunStatus = "failed"
+	KnowledgeSyncRunStatusQueued    KnowledgeSyncRunStatus = "queued"
+	KnowledgeSyncRunStatusRunning   KnowledgeSyncRunStatus = "running"
+	KnowledgeSyncRunStatusSucceeded KnowledgeSyncRunStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the KnowledgeSyncRunStatus enum.
+func (e KnowledgeSyncRunStatus) Valid() bool {
+	switch e {
+	case KnowledgeSyncRunStatusFailed:
+		return true
+	case KnowledgeSyncRunStatusQueued:
+		return true
+	case KnowledgeSyncRunStatusRunning:
+		return true
+	case KnowledgeSyncRunStatusSucceeded:
 		return true
 	default:
 		return false
@@ -950,22 +1544,22 @@ func (e MarketplaceAdvisorySeverity) Valid() bool {
 
 // Defines values for MarketplacePublisherVerificationLevel.
 const (
-	Community MarketplacePublisherVerificationLevel = "community"
-	Official  MarketplacePublisherVerificationLevel = "official"
-	Private   MarketplacePublisherVerificationLevel = "private"
-	Verified  MarketplacePublisherVerificationLevel = "verified"
+	MarketplacePublisherVerificationLevelCommunity MarketplacePublisherVerificationLevel = "community"
+	MarketplacePublisherVerificationLevelOfficial  MarketplacePublisherVerificationLevel = "official"
+	MarketplacePublisherVerificationLevelPrivate   MarketplacePublisherVerificationLevel = "private"
+	MarketplacePublisherVerificationLevelVerified  MarketplacePublisherVerificationLevel = "verified"
 )
 
 // Valid indicates whether the value is a known member of the MarketplacePublisherVerificationLevel enum.
 func (e MarketplacePublisherVerificationLevel) Valid() bool {
 	switch e {
-	case Community:
+	case MarketplacePublisherVerificationLevelCommunity:
 		return true
-	case Official:
+	case MarketplacePublisherVerificationLevelOfficial:
 		return true
-	case Private:
+	case MarketplacePublisherVerificationLevelPrivate:
 		return true
-	case Verified:
+	case MarketplacePublisherVerificationLevelVerified:
 		return true
 	default:
 		return false
@@ -1455,6 +2049,27 @@ const (
 func (e WorkbenchToolStartedEventType) Valid() bool {
 	switch e {
 	case WorkbenchToolStartedEventTypeToolStarted:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentProviderRolloutAction.
+const (
+	AgentProviderRolloutActionPause    AgentProviderRolloutAction = "pause"
+	AgentProviderRolloutActionResume   AgentProviderRolloutAction = "resume"
+	AgentProviderRolloutActionRollback AgentProviderRolloutAction = "rollback"
+)
+
+// Valid indicates whether the value is a known member of the AgentProviderRolloutAction enum.
+func (e AgentProviderRolloutAction) Valid() bool {
+	switch e {
+	case AgentProviderRolloutActionPause:
+		return true
+	case AgentProviderRolloutActionResume:
+		return true
+	case AgentProviderRolloutActionRollback:
 		return true
 	default:
 		return false
@@ -2276,22 +2891,22 @@ func (e ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProvide
 
 // Defines values for CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode.
 const (
-	Bypass   CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "bypass"
-	Default  CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "default"
-	ReadOnly CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "read-only"
-	Refresh  CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case Bypass:
+	case CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case Default:
+	case CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case ReadOnly:
+	case CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case Refresh:
+	case CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -2363,28 +2978,28 @@ func (e ListAIGatewayRelayModelCallsParamsProviderKind) Valid() bool {
 
 // Defines values for ListAIGatewayRelayModelCallsParamsStatus.
 const (
-	ListAIGatewayRelayModelCallsParamsStatusCancelled       ListAIGatewayRelayModelCallsParamsStatus = "cancelled"
-	ListAIGatewayRelayModelCallsParamsStatusClientCancelled ListAIGatewayRelayModelCallsParamsStatus = "client_cancelled"
-	ListAIGatewayRelayModelCallsParamsStatusFailure         ListAIGatewayRelayModelCallsParamsStatus = "failure"
-	ListAIGatewayRelayModelCallsParamsStatusPolicyDenied    ListAIGatewayRelayModelCallsParamsStatus = "policy_denied"
-	ListAIGatewayRelayModelCallsParamsStatusRateLimited     ListAIGatewayRelayModelCallsParamsStatus = "rate_limited"
-	ListAIGatewayRelayModelCallsParamsStatusSuccess         ListAIGatewayRelayModelCallsParamsStatus = "success"
+	Cancelled       ListAIGatewayRelayModelCallsParamsStatus = "cancelled"
+	ClientCancelled ListAIGatewayRelayModelCallsParamsStatus = "client_cancelled"
+	Failure         ListAIGatewayRelayModelCallsParamsStatus = "failure"
+	PolicyDenied    ListAIGatewayRelayModelCallsParamsStatus = "policy_denied"
+	RateLimited     ListAIGatewayRelayModelCallsParamsStatus = "rate_limited"
+	Success         ListAIGatewayRelayModelCallsParamsStatus = "success"
 )
 
 // Valid indicates whether the value is a known member of the ListAIGatewayRelayModelCallsParamsStatus enum.
 func (e ListAIGatewayRelayModelCallsParamsStatus) Valid() bool {
 	switch e {
-	case ListAIGatewayRelayModelCallsParamsStatusCancelled:
+	case Cancelled:
 		return true
-	case ListAIGatewayRelayModelCallsParamsStatusClientCancelled:
+	case ClientCancelled:
 		return true
-	case ListAIGatewayRelayModelCallsParamsStatusFailure:
+	case Failure:
 		return true
-	case ListAIGatewayRelayModelCallsParamsStatusPolicyDenied:
+	case PolicyDenied:
 		return true
-	case ListAIGatewayRelayModelCallsParamsStatusRateLimited:
+	case RateLimited:
 		return true
-	case ListAIGatewayRelayModelCallsParamsStatusSuccess:
+	case Success:
 		return true
 	default:
 		return false
@@ -2490,6 +3105,214 @@ func (e ListAIGatewayRelayUpstreamsParamsStatus) Valid() bool {
 	}
 }
 
+// Defines values for TransitionAgentProviderRolloutParamsRolloutAction.
+const (
+	Pause    TransitionAgentProviderRolloutParamsRolloutAction = "pause"
+	Resume   TransitionAgentProviderRolloutParamsRolloutAction = "resume"
+	Rollback TransitionAgentProviderRolloutParamsRolloutAction = "rollback"
+)
+
+// Valid indicates whether the value is a known member of the TransitionAgentProviderRolloutParamsRolloutAction enum.
+func (e TransitionAgentProviderRolloutParamsRolloutAction) Valid() bool {
+	switch e {
+	case Pause:
+		return true
+	case Resume:
+		return true
+	case Rollback:
+		return true
+	default:
+		return false
+	}
+}
+
+// AIContextBudgetUsage defines model for AIContextBudgetUsage.
+type AIContextBudgetUsage struct {
+	EvidenceItems  int `json:"evidenceItems"`
+	EvidenceTokens int `json:"evidenceTokens"`
+}
+
+// AIContextBudgets defines model for AIContextBudgets.
+type AIContextBudgets struct {
+	MaxEvidenceTokens int `json:"maxEvidenceTokens,omitempty"`
+	MaxInputTokens    int `json:"maxInputTokens,omitempty"`
+	MaxSteps          int `json:"maxSteps,omitempty"`
+}
+
+// AIContextBuildInput defines model for AIContextBuildInput.
+type AIContextBuildInput struct {
+	AgentRunID  string                  `json:"agentRunId,omitempty"`
+	Budgets     *AIContextBudgets       `json:"budgets,omitempty"`
+	Environment *AIContextEnvironment   `json:"environment,omitempty"`
+	Knowledge   AIContextKnowledgeInput `json:"knowledge"`
+	Prompt      *AIContextVersionRef    `json:"prompt,omitempty"`
+	RequestID   string                  `json:"requestId,omitempty"`
+	Session     *AIContextSession       `json:"session,omitempty"`
+	SessionID   string                  `json:"sessionId,omitempty"`
+	Skills      []AIContextVersionRef   `json:"skills,omitempty"`
+	Task        AIContextTask           `json:"task"`
+	Tools       []AIContextToolRef      `json:"tools,omitempty"`
+}
+
+// AIContextEnvelope defines model for AIContextEnvelope.
+type AIContextEnvelope struct {
+	AgentRunID     string                  `json:"agentRunId,omitempty"`
+	BudgetUsage    AIContextBudgetUsage    `json:"budgetUsage"`
+	Budgets        AIContextBudgets        `json:"budgets"`
+	Citations      []KnowledgeCitation     `json:"citations,omitempty"`
+	ContentHash    string                  `json:"contentHash"`
+	CreatedAt      time.Time               `json:"createdAt"`
+	Environment    *AIContextEnvironment   `json:"environment,omitempty"`
+	Evidence       []AIContextEvidence     `json:"evidence,omitempty"`
+	ID             string                  `json:"id"`
+	PolicySnapshot AIContextPolicySnapshot `json:"policySnapshot"`
+	Principal      AIContextPrincipal      `json:"principal"`
+	Prompt         *AIContextVersionRef    `json:"prompt,omitempty"`
+	RequestID      string                  `json:"requestId"`
+	Session        *AIContextSession       `json:"session,omitempty"`
+	SessionID      string                  `json:"sessionId,omitempty"`
+	Skills         []AIContextVersionRef   `json:"skills,omitempty"`
+	Task           AIContextTask           `json:"task"`
+	Tools          []AIContextToolRef      `json:"tools,omitempty"`
+	Version        string                  `json:"version"`
+}
+
+// AIContextEnvironment defines model for AIContextEnvironment.
+type AIContextEnvironment struct {
+	Mode            string   `json:"mode,omitempty"`
+	ObservationRefs []string `json:"observationRefs,omitempty"`
+}
+
+// AIContextEvidence defines model for AIContextEvidence.
+type AIContextEvidence struct {
+	CitationID string `json:"citationId"`
+	Content    string `json:"content"`
+	TokenCount int    `json:"tokenCount"`
+}
+
+// AIContextInspection defines model for AIContextInspection.
+type AIContextInspection struct {
+	Envelope        AIContextEnvelope `json:"envelope"`
+	RetrievalTimeMs int64             `json:"retrievalTimeMs,omitempty"`
+	Sections        []string          `json:"sections"`
+	Truncations     []string          `json:"truncations,omitempty"`
+}
+
+// AIContextInspectionEnvelope defines model for AIContextInspectionEnvelope.
+type AIContextInspectionEnvelope struct {
+	Data AIContextInspection `json:"data"`
+}
+
+// AIContextKnowledgeInput defines model for AIContextKnowledgeInput.
+type AIContextKnowledgeInput struct {
+	Enabled          bool     `json:"enabled"`
+	KnowledgeBaseIDs []string `json:"knowledgeBaseIds"`
+	Query            string   `json:"query,omitempty"`
+	TopK             int      `json:"topK,omitempty"`
+}
+
+// AIContextPolicySnapshot defines model for AIContextPolicySnapshot.
+type AIContextPolicySnapshot struct {
+	ID      string `json:"id"`
+	Version string `json:"version"`
+}
+
+// AIContextPrincipal defines model for AIContextPrincipal.
+type AIContextPrincipal struct {
+	UserID string `json:"userId"`
+}
+
+// AIContextSession defines model for AIContextSession.
+type AIContextSession struct {
+	RecentMessageRefs []string `json:"recentMessageRefs,omitempty"`
+	Summary           string   `json:"summary,omitempty"`
+}
+
+// AIContextTask defines model for AIContextTask.
+type AIContextTask struct {
+	Goal string `json:"goal"`
+	Mode string `json:"mode,omitempty"`
+}
+
+// AIContextToolRef defines model for AIContextToolRef.
+type AIContextToolRef struct {
+	Name          string `json:"name"`
+	SchemaVersion string `json:"schemaVersion,omitempty"`
+}
+
+// AIContextVersionRef defines model for AIContextVersionRef.
+type AIContextVersionRef struct {
+	ID      string `json:"id,omitempty"`
+	Name    string `json:"name,omitempty"`
+	Version string `json:"version,omitempty"`
+}
+
+// AIEnvironmentLease defines model for AIEnvironmentLease.
+type AIEnvironmentLease struct {
+	CreatedAt  time.Time  `json:"createdAt"`
+	ExpiresAt  *time.Time `json:"expiresAt,omitempty"`
+	ID         string     `json:"id"`
+	OwnerRef   string     `json:"ownerRef"`
+	Status     string     `json:"status"`
+	TemplateID string     `json:"templateId"`
+	UpdatedAt  time.Time  `json:"updatedAt"`
+}
+
+// AIEnvironmentLeaseEnvelope defines model for AIEnvironmentLeaseEnvelope.
+type AIEnvironmentLeaseEnvelope struct {
+	Data AIEnvironmentLease `json:"data"`
+}
+
+// AIEnvironmentLeaseListEnvelope defines model for AIEnvironmentLeaseListEnvelope.
+type AIEnvironmentLeaseListEnvelope struct {
+	Items []AIEnvironmentLease `json:"items"`
+}
+
+// AIEnvironmentTemplate defines model for AIEnvironmentTemplate.
+type AIEnvironmentTemplate struct {
+	Backend        AIEnvironmentTemplateBackend       `json:"backend"`
+	CreatedAt      time.Time                          `json:"createdAt"`
+	ID             string                             `json:"id"`
+	IsolationMode  AIEnvironmentTemplateIsolationMode `json:"isolationMode"`
+	Name           string                             `json:"name"`
+	NetworkPolicy  map[string]any                     `json:"networkPolicy,omitempty"`
+	ResourcePolicy map[string]any                     `json:"resourcePolicy,omitempty"`
+	Status         string                             `json:"status"`
+	UpdatedAt      time.Time                          `json:"updatedAt"`
+}
+
+// AIEnvironmentTemplateBackend defines model for AIEnvironmentTemplate.Backend.
+type AIEnvironmentTemplateBackend string
+
+// AIEnvironmentTemplateIsolationMode defines model for AIEnvironmentTemplate.IsolationMode.
+type AIEnvironmentTemplateIsolationMode string
+
+// AIEnvironmentTemplateEnvelope defines model for AIEnvironmentTemplateEnvelope.
+type AIEnvironmentTemplateEnvelope struct {
+	Data AIEnvironmentTemplate `json:"data"`
+}
+
+// AIEnvironmentTemplateInput defines model for AIEnvironmentTemplateInput.
+type AIEnvironmentTemplateInput struct {
+	Backend        AIEnvironmentTemplateInputBackend       `json:"backend"`
+	ID             string                                  `json:"id"`
+	IsolationMode  AIEnvironmentTemplateInputIsolationMode `json:"isolationMode"`
+	Name           string                                  `json:"name"`
+	NetworkPolicy  map[string]any                          `json:"networkPolicy,omitempty"`
+	ResourcePolicy map[string]any                          `json:"resourcePolicy,omitempty"`
+}
+
+// AIEnvironmentTemplateInputBackend defines model for AIEnvironmentTemplateInput.Backend.
+type AIEnvironmentTemplateInputBackend string
+
+// AIEnvironmentTemplateInputIsolationMode defines model for AIEnvironmentTemplateInput.IsolationMode.
+type AIEnvironmentTemplateInputIsolationMode string
+
+// AIEnvironmentTemplateListEnvelope defines model for AIEnvironmentTemplateListEnvelope.
+type AIEnvironmentTemplateListEnvelope struct {
+	Items []AIEnvironmentTemplate `json:"items"`
+}
+
 // AIGatewayManifest defines model for AIGatewayManifest.
 type AIGatewayManifest struct {
 	Caller         CallerContext        `json:"caller"`
@@ -2514,6 +3337,134 @@ type AIGatewayManifest struct {
 // AIGatewayManifestEnvelope defines model for AIGatewayManifestEnvelope.
 type AIGatewayManifestEnvelope struct {
 	Data AIGatewayManifest `json:"data"`
+}
+
+// AIMemoryPolicy defines model for AIMemoryPolicy.
+type AIMemoryPolicy struct {
+	// DefaultTTL Go time.Duration encoded as nanoseconds.
+	DefaultTTL        int64  `json:"defaultTtl"`
+	Enabled           bool   `json:"enabled"`
+	ExplicitWriteOnly bool   `json:"explicitWriteOnly"`
+	ID                string `json:"id"`
+
+	// MaximumTTL Go time.Duration encoded as nanoseconds.
+	MaximumTTL        int64    `json:"maximumTtl"`
+	MinimumConfidence float32  `json:"minimumConfidence"`
+	OwnerTypes        []string `json:"ownerTypes"`
+	Version           string   `json:"version"`
+}
+
+// AIMemoryPolicyEnvelope defines model for AIMemoryPolicyEnvelope.
+type AIMemoryPolicyEnvelope struct {
+	Data AIMemoryPolicy `json:"data"`
+}
+
+// AIMemoryPolicyInput defines model for AIMemoryPolicyInput.
+type AIMemoryPolicyInput struct {
+	ConsentMode AIMemoryPolicyInputConsentMode `json:"consentMode"`
+	ID          string                         `json:"id"`
+	Name        string                         `json:"name"`
+	TTLDays     int                            `json:"ttlDays"`
+}
+
+// AIMemoryPolicyInputConsentMode defines model for AIMemoryPolicyInput.ConsentMode.
+type AIMemoryPolicyInputConsentMode string
+
+// AIMemoryPolicyListEnvelope defines model for AIMemoryPolicyListEnvelope.
+type AIMemoryPolicyListEnvelope struct {
+	Items []AIMemoryPolicy `json:"items"`
+}
+
+// AIMemoryRecord defines model for AIMemoryRecord.
+type AIMemoryRecord struct {
+	Confidence    float32                  `json:"confidence"`
+	CreatedAt     time.Time                `json:"createdAt"`
+	DeletedAt     *time.Time               `json:"deletedAt,omitempty"`
+	ExpiresAt     *time.Time               `json:"expiresAt,omitempty"`
+	Fact          string                   `json:"fact"`
+	ID            string                   `json:"id"`
+	OwnerID       string                   `json:"ownerId"`
+	OwnerType     string                   `json:"ownerType"`
+	PolicyVersion string                   `json:"policyVersion"`
+	ScopeHash     string                   `json:"scopeHash"`
+	SourceRefs    []string                 `json:"sourceRefs"`
+	SourceType    AIMemoryRecordSourceType `json:"sourceType"`
+	Status        string                   `json:"status"`
+	ValidFrom     time.Time                `json:"validFrom"`
+}
+
+// AIMemoryRecordSourceType defines model for AIMemoryRecord.SourceType.
+type AIMemoryRecordSourceType string
+
+// AIMemoryRecordEnvelope defines model for AIMemoryRecordEnvelope.
+type AIMemoryRecordEnvelope struct {
+	Data AIMemoryRecord `json:"data"`
+}
+
+// AIMemoryRecordListEnvelope defines model for AIMemoryRecordListEnvelope.
+type AIMemoryRecordListEnvelope struct {
+	Items []AIMemoryRecord `json:"items"`
+}
+
+// AIMemoryWriteInput defines model for AIMemoryWriteInput.
+type AIMemoryWriteInput struct {
+	PolicyID      string         `json:"policyId"`
+	PolicyVersion string         `json:"policyVersion"`
+	Record        AIMemoryRecord `json:"record"`
+}
+
+// AIProductionOperation defines model for AIProductionOperation.
+type AIProductionOperation struct {
+	Category     string                    `json:"category"`
+	CreatedAt    time.Time                 `json:"createdAt"`
+	EvidenceRefs []string                  `json:"evidenceRefs,omitempty"`
+	ID           string                    `json:"id"`
+	Kind         AIProductionOperationKind `json:"kind"`
+	RunbookID    string                    `json:"runbookId"`
+	Status       string                    `json:"status"`
+	TargetRef    string                    `json:"targetRef"`
+	UpdatedAt    time.Time                 `json:"updatedAt"`
+}
+
+// AIProductionOperationKind defines model for AIProductionOperation.Kind.
+type AIProductionOperationKind string
+
+// AIProductionOperationEnvelope defines model for AIProductionOperationEnvelope.
+type AIProductionOperationEnvelope struct {
+	Data AIProductionOperation `json:"data"`
+}
+
+// AIProductionOperationInput defines model for AIProductionOperationInput.
+type AIProductionOperationInput struct {
+	EvidenceRefs []string                       `json:"evidenceRefs,omitempty"`
+	ID           string                         `json:"id,omitempty"`
+	Kind         AIProductionOperationInputKind `json:"kind"`
+	RunbookID    string                         `json:"runbookId"`
+	TargetRef    string                         `json:"targetRef"`
+}
+
+// AIProductionOperationInputKind defines model for AIProductionOperationInput.Kind.
+type AIProductionOperationInputKind string
+
+// AIProductionOperationListEnvelope defines model for AIProductionOperationListEnvelope.
+type AIProductionOperationListEnvelope struct {
+	Items []AIProductionOperation `json:"items"`
+}
+
+// AIRunbookEvidence defines model for AIRunbookEvidence.
+type AIRunbookEvidence struct {
+	CreatedAt    time.Time `json:"createdAt"`
+	EvidenceRefs []string  `json:"evidenceRefs,omitempty"`
+	ID           string    `json:"id"`
+	OperationID  string    `json:"operationId"`
+	Outcome      string    `json:"outcome"`
+	RunbookID    string    `json:"runbookId"`
+	Status       string    `json:"status"`
+}
+
+// AIRunbookEvidenceListEnvelope defines model for AIRunbookEvidenceListEnvelope.
+type AIRunbookEvidenceListEnvelope struct {
+	Items []AIRunbookEvidence `json:"items"`
 }
 
 // AISettings defines model for AISettings.
@@ -2554,6 +3505,201 @@ type AIWorkbenchModelSettings struct {
 	// DefaultRouteID Stable AI Gateway model-route ID used as the Workbench default when set.
 	DefaultRouteID string `json:"defaultRouteId,omitempty"`
 	Enabled        bool   `json:"enabled"`
+}
+
+// AgentProviderCatalog defines model for AgentProviderCatalog.
+type AgentProviderCatalog struct {
+	CreatedAt     time.Time                 `json:"createdAt"`
+	Digest        string                    `json:"digest"`
+	Providers     []AgentProviderDefinition `json:"providers"`
+	Revision      int64                     `json:"revision"`
+	SchemaVersion string                    `json:"schemaVersion"`
+}
+
+// AgentProviderCatalogEnvelope defines model for AgentProviderCatalogEnvelope.
+type AgentProviderCatalogEnvelope struct {
+	Data AgentProviderCatalog `json:"data"`
+}
+
+// AgentProviderConformanceResult defines model for AgentProviderConformanceResult.
+type AgentProviderConformanceResult struct {
+	ProviderID string `json:"providerId"`
+	Reason     string `json:"reason,omitempty"`
+	Status     string `json:"status"`
+}
+
+// AgentProviderConformanceRun defines model for AgentProviderConformanceRun.
+type AgentProviderConformanceRun struct {
+	CreatedAt      time.Time        `json:"createdAt"`
+	EnvironmentRef string           `json:"environmentRef"`
+	ID             string           `json:"id"`
+	ProviderRef    string           `json:"providerRef"`
+	Results        []map[string]any `json:"results,omitempty"`
+	Status         string           `json:"status"`
+	SuiteVersion   string           `json:"suiteVersion"`
+	UpdatedAt      time.Time        `json:"updatedAt"`
+}
+
+// AgentProviderConformanceRunEnvelope defines model for AgentProviderConformanceRunEnvelope.
+type AgentProviderConformanceRunEnvelope struct {
+	Data AgentProviderConformanceRun `json:"data"`
+}
+
+// AgentProviderConformanceRunInput defines model for AgentProviderConformanceRunInput.
+type AgentProviderConformanceRunInput struct {
+	EnvironmentRef string `json:"environmentRef"`
+	ID             string `json:"id"`
+	ProviderRef    string `json:"providerRef"`
+	SuiteVersion   string `json:"suiteVersion"`
+}
+
+// AgentProviderConformanceRunListEnvelope defines model for AgentProviderConformanceRunListEnvelope.
+type AgentProviderConformanceRunListEnvelope struct {
+	Items []AgentProviderConformanceRun `json:"items"`
+}
+
+// AgentProviderDefinition defines model for AgentProviderDefinition.
+type AgentProviderDefinition struct {
+	AdapterProtocol             string                         `json:"adapterProtocol"`
+	Capabilities                []string                       `json:"capabilities"`
+	DisplayName                 string                         `json:"displayName"`
+	Draining                    bool                           `json:"draining,omitempty"`
+	ID                          string                         `json:"id"`
+	Kind                        string                         `json:"kind"`
+	PluginID                    string                         `json:"pluginId"`
+	PluginVersion               string                         `json:"pluginVersion"`
+	ProviderVersion             string                         `json:"providerVersion"`
+	RequiredGatewayCapabilities []string                       `json:"requiredGatewayCapabilities,omitempty"`
+	RequiredScopes              []string                       `json:"requiredScopes,omitempty"`
+	Runtime                     AgentProviderRuntimeDefinition `json:"runtime"`
+	SchemaVersion               string                         `json:"schemaVersion"`
+	SecretRefs                  []string                       `json:"secretRefs,omitempty"`
+}
+
+// AgentProviderFleetTarget defines model for AgentProviderFleetTarget.
+type AgentProviderFleetTarget struct {
+	Architectures []string          `json:"architectures,omitempty"`
+	Environments  []string          `json:"environments,omitempty"`
+	Labels        map[string]string `json:"labels,omitempty"`
+	Platforms     []string          `json:"platforms,omitempty"`
+}
+
+// AgentProviderRegistryAcknowledgement defines model for AgentProviderRegistryAcknowledgement.
+type AgentProviderRegistryAcknowledgement struct {
+	Accepted          bool                             `json:"accepted"`
+	ActiveRevision    int64                            `json:"activeRevision"`
+	ConformanceChecks []AgentProviderConformanceResult `json:"conformanceChecks,omitempty"`
+	DesiredRevision   int64                            `json:"desiredRevision,omitempty"`
+	LkgRevision       int64                            `json:"lkgRevision,omitempty"`
+	ObservedAt        time.Time                        `json:"observedAt"`
+	PreviousRevision  int64                            `json:"previousRevision,omitempty"`
+	ProviderStatuses  []AgentProviderRunnerStatus      `json:"providerStatuses,omitempty"`
+	Reason            string                           `json:"reason,omitempty"`
+	Revision          int64                            `json:"revision"`
+	RolledBack        bool                             `json:"rolledBack,omitempty"`
+	RolloutState      string                           `json:"rolloutState,omitempty"`
+	RunnerID          string                           `json:"runnerId"`
+	Targeted          bool                             `json:"targeted"`
+}
+
+// AgentProviderRegistryAcknowledgementEnvelope defines model for AgentProviderRegistryAcknowledgementEnvelope.
+type AgentProviderRegistryAcknowledgementEnvelope struct {
+	Data AgentProviderRegistryAcknowledgement `json:"data"`
+}
+
+// AgentProviderRegistrySnapshot defines model for AgentProviderRegistrySnapshot.
+type AgentProviderRegistrySnapshot struct {
+	Digest        string                    `json:"digest,omitempty"`
+	FleetTarget   *AgentProviderFleetTarget `json:"fleetTarget,omitempty"`
+	IssuedAt      time.Time                 `json:"issuedAt"`
+	Providers     []AgentProviderDefinition `json:"providers"`
+	Revision      int64                     `json:"revision"`
+	SchemaVersion string                    `json:"schemaVersion"`
+}
+
+// AgentProviderRegistrySnapshotEnvelope defines model for AgentProviderRegistrySnapshotEnvelope.
+type AgentProviderRegistrySnapshotEnvelope struct {
+	Data AgentProviderRegistrySnapshot `json:"data"`
+}
+
+// AgentProviderRollout defines model for AgentProviderRollout.
+type AgentProviderRollout struct {
+	CanaryPercent    int                      `json:"canaryPercent"`
+	CreatedAt        time.Time                `json:"createdAt"`
+	DesiredRevision  int64                    `json:"desiredRevision"`
+	ID               string                   `json:"id"`
+	Name             string                   `json:"name,omitempty"`
+	PreviousRevision int64                    `json:"previousRevision"`
+	Status           string                   `json:"status"`
+	Target           AgentProviderFleetTarget `json:"target"`
+	UpdatedAt        time.Time                `json:"updatedAt"`
+}
+
+// AgentProviderRolloutEnvelope defines model for AgentProviderRolloutEnvelope.
+type AgentProviderRolloutEnvelope struct {
+	Data AgentProviderRollout `json:"data"`
+}
+
+// AgentProviderRolloutInput defines model for AgentProviderRolloutInput.
+type AgentProviderRolloutInput struct {
+	Architectures    []string          `json:"architectures,omitempty"`
+	CanaryPercent    int               `json:"canaryPercent"`
+	DesiredRevision  int64             `json:"desiredRevision"`
+	Environments     []string          `json:"environments,omitempty"`
+	ID               string            `json:"id"`
+	Labels           map[string]string `json:"labels,omitempty"`
+	Name             string            `json:"name,omitempty"`
+	Platforms        []string          `json:"platforms,omitempty"`
+	PreviousRevision int64             `json:"previousRevision,omitempty"`
+}
+
+// AgentProviderRolloutListEnvelope defines model for AgentProviderRolloutListEnvelope.
+type AgentProviderRolloutListEnvelope struct {
+	Items []AgentProviderRollout `json:"items"`
+}
+
+// AgentProviderRunnerStatus defines model for AgentProviderRunnerStatus.
+type AgentProviderRunnerStatus struct {
+	ActiveRuns      int                             `json:"activeRuns"`
+	CatalogRevision int64                           `json:"catalogRevision"`
+	Draining        bool                            `json:"draining"`
+	Health          AgentProviderRunnerStatusHealth `json:"health"`
+	ObservedAt      time.Time                       `json:"observedAt"`
+	ProviderID      string                          `json:"providerId"`
+	ProviderVersion string                          `json:"providerVersion"`
+	Reason          string                          `json:"reason,omitempty"`
+}
+
+// AgentProviderRunnerStatusHealth defines model for AgentProviderRunnerStatus.Health.
+type AgentProviderRunnerStatusHealth string
+
+// AgentProviderRuntimeDefinition defines model for AgentProviderRuntimeDefinition.
+type AgentProviderRuntimeDefinition struct {
+	Args             []string                           `json:"args,omitempty"`
+	Command          string                             `json:"command,omitempty"`
+	Endpoint         string                             `json:"endpoint,omitempty"`
+	HealthPath       string                             `json:"healthPath,omitempty"`
+	Image            string                             `json:"image,omitempty"`
+	Kind             AgentProviderRuntimeDefinitionKind `json:"kind"`
+	PromptArg        string                             `json:"promptArg,omitempty"`
+	ProviderSkillArg string                             `json:"providerSkillArg,omitempty"`
+	SkillArg         string                             `json:"skillArg,omitempty"`
+}
+
+// AgentProviderRuntimeDefinitionKind defines model for AgentProviderRuntimeDefinition.Kind.
+type AgentProviderRuntimeDefinitionKind string
+
+// AgentProviderRuntimeStatus defines model for AgentProviderRuntimeStatus.
+type AgentProviderRuntimeStatus struct {
+	Acknowledgements []AgentProviderRegistryAcknowledgement `json:"acknowledgements"`
+	CatalogDigest    string                                 `json:"catalogDigest"`
+	CatalogRevision  int64                                  `json:"catalogRevision"`
+	RunnerCount      int                                    `json:"runnerCount"`
+}
+
+// AgentProviderRuntimeStatusEnvelope defines model for AgentProviderRuntimeStatusEnvelope.
+type AgentProviderRuntimeStatusEnvelope struct {
+	Data AgentProviderRuntimeStatus `json:"data"`
 }
 
 // AgentRun defines model for AgentRun.
@@ -3736,6 +4882,270 @@ type ErrorEnvelope struct {
 	} `json:"error"`
 }
 
+// EvaluationCompleteRunInput defines model for EvaluationCompleteRunInput.
+type EvaluationCompleteRunInput struct {
+	Outputs []EvaluationSampleOutput `json:"outputs"`
+}
+
+// EvaluationDataset defines model for EvaluationDataset.
+type EvaluationDataset struct {
+	CreatedAt     time.Time                 `json:"createdAt"`
+	ID            string                    `json:"id"`
+	Name          string                    `json:"name"`
+	Samples       []EvaluationDatasetSample `json:"samples"`
+	SchemaVersion string                    `json:"schemaVersion"`
+	Version       string                    `json:"version"`
+}
+
+// EvaluationDatasetEnvelope defines model for EvaluationDatasetEnvelope.
+type EvaluationDatasetEnvelope struct {
+	Data EvaluationDataset `json:"data"`
+}
+
+// EvaluationDatasetListEnvelope defines model for EvaluationDatasetListEnvelope.
+type EvaluationDatasetListEnvelope struct {
+	Items []EvaluationDataset `json:"items"`
+}
+
+// EvaluationDatasetSample defines model for EvaluationDatasetSample.
+type EvaluationDatasetSample struct {
+	ExpectedFacts    []string `json:"expectedFacts,omitempty"`
+	ExpectedSources  []string `json:"expectedSources,omitempty"`
+	ForbiddenActions []string `json:"forbiddenActions,omitempty"`
+	ID               string   `json:"id"`
+	Input            string   `json:"input"`
+}
+
+// EvaluationExecuteRunInput defines model for EvaluationExecuteRunInput.
+type EvaluationExecuteRunInput struct {
+	ExecutorProfileID string `json:"executorProfileId"`
+}
+
+// EvaluationExecutorProfile defines model for EvaluationExecutorProfile.
+type EvaluationExecutorProfile struct {
+	EnvironmentPolicy string                                 `json:"environmentPolicy"`
+	ID                string                                 `json:"id"`
+	IsolationMode     EvaluationExecutorProfileIsolationMode `json:"isolationMode"`
+	MaxCost           float32                                `json:"maxCost"`
+
+	// Timeout Go time.Duration encoded as nanoseconds.
+	Timeout         int64  `json:"timeout"`
+	ToolSnapshotRef string `json:"toolSnapshotRef,omitempty"`
+}
+
+// EvaluationExecutorProfileIsolationMode defines model for EvaluationExecutorProfile.IsolationMode.
+type EvaluationExecutorProfileIsolationMode string
+
+// EvaluationExecutorProfileEnvelope defines model for EvaluationExecutorProfileEnvelope.
+type EvaluationExecutorProfileEnvelope struct {
+	Data EvaluationExecutorProfile `json:"data"`
+}
+
+// EvaluationExecutorProfileListEnvelope defines model for EvaluationExecutorProfileListEnvelope.
+type EvaluationExecutorProfileListEnvelope struct {
+	Items []EvaluationExecutorProfile `json:"items"`
+}
+
+// EvaluationFeedback defines model for EvaluationFeedback.
+type EvaluationFeedback struct {
+	CreatedAt      time.Time `json:"createdAt"`
+	DatasetRef     string    `json:"datasetRef,omitempty"`
+	Decision       string    `json:"decision"`
+	ID             string    `json:"id"`
+	LicenseRef     string    `json:"licenseRef"`
+	RedactedInput  string    `json:"redactedInput"`
+	RedactedOutput string    `json:"redactedOutput"`
+	ScopeHash      string    `json:"scopeHash"`
+	TraceRef       string    `json:"traceRef"`
+}
+
+// EvaluationFeedbackEnvelope defines model for EvaluationFeedbackEnvelope.
+type EvaluationFeedbackEnvelope struct {
+	Data EvaluationFeedback `json:"data"`
+}
+
+// EvaluationFeedbackInput defines model for EvaluationFeedbackInput.
+type EvaluationFeedbackInput struct {
+	Disposition EvaluationFeedbackInputDisposition `json:"disposition"`
+	ID          string                             `json:"id"`
+	TraceRef    string                             `json:"traceRef"`
+}
+
+// EvaluationFeedbackInputDisposition defines model for EvaluationFeedbackInput.Disposition.
+type EvaluationFeedbackInputDisposition string
+
+// EvaluationFeedbackListEnvelope defines model for EvaluationFeedbackListEnvelope.
+type EvaluationFeedbackListEnvelope struct {
+	Items []EvaluationFeedback `json:"items"`
+}
+
+// EvaluationGateDecision defines model for EvaluationGateDecision.
+type EvaluationGateDecision struct {
+	BaselineRunID  string                 `json:"baselineRunId"`
+	CandidateRunID string                 `json:"candidateRunId"`
+	Decision       string                 `json:"decision"`
+	EvaluatedAt    time.Time              `json:"evaluatedAt"`
+	EvidenceRefs   []string               `json:"evidenceRefs"`
+	ID             string                 `json:"id"`
+	PolicyID       string                 `json:"policyId"`
+	PolicyVersion  string                 `json:"policyVersion"`
+	Reasons        []EvaluationGateReason `json:"reasons"`
+}
+
+// EvaluationGateDecisionEnvelope defines model for EvaluationGateDecisionEnvelope.
+type EvaluationGateDecisionEnvelope struct {
+	Data EvaluationGateDecision `json:"data"`
+}
+
+// EvaluationGateDecisionListEnvelope defines model for EvaluationGateDecisionListEnvelope.
+type EvaluationGateDecisionListEnvelope struct {
+	Items []EvaluationGateDecision `json:"items"`
+}
+
+// EvaluationGatePolicy defines model for EvaluationGatePolicy.
+type EvaluationGatePolicy struct {
+	Enabled           bool               `json:"enabled"`
+	ID                string             `json:"id"`
+	MaximumCost       float32            `json:"maximumCost,omitempty"`
+	MaximumLatencyMs  int64              `json:"maximumLatencyMs,omitempty"`
+	MaximumRegression map[string]float32 `json:"maximumRegression"`
+	MinimumScores     map[string]float32 `json:"minimumScores"`
+	Version           string             `json:"version"`
+}
+
+// EvaluationGatePolicyEnvelope defines model for EvaluationGatePolicyEnvelope.
+type EvaluationGatePolicyEnvelope struct {
+	Data EvaluationGatePolicy `json:"data"`
+}
+
+// EvaluationGatePolicyInput defines model for EvaluationGatePolicyInput.
+type EvaluationGatePolicyInput struct {
+	ID        string  `json:"id"`
+	Metric    string  `json:"metric"`
+	Name      string  `json:"name,omitempty"`
+	Threshold float32 `json:"threshold"`
+	Version   string  `json:"version"`
+}
+
+// EvaluationGatePolicyListEnvelope defines model for EvaluationGatePolicyListEnvelope.
+type EvaluationGatePolicyListEnvelope struct {
+	Items []EvaluationGatePolicy `json:"items"`
+}
+
+// EvaluationGateReason defines model for EvaluationGateReason.
+type EvaluationGateReason struct {
+	Actual   float32 `json:"actual"`
+	Code     string  `json:"code"`
+	Expected float32 `json:"expected"`
+	Metric   string  `json:"metric"`
+}
+
+// EvaluationGateRequest defines model for EvaluationGateRequest.
+type EvaluationGateRequest struct {
+	BaselineRunID  string `json:"baselineRunId"`
+	CandidateRunID string `json:"candidateRunId"`
+	PolicyID       string `json:"policyId"`
+}
+
+// EvaluationReplayPlan defines model for EvaluationReplayPlan.
+type EvaluationReplayPlan struct {
+	CandidateRefs   map[string]string         `json:"candidateRefs"`
+	CreatedAt       time.Time                 `json:"createdAt"`
+	ID              string                    `json:"id"`
+	Profile         EvaluationExecutorProfile `json:"profile"`
+	ReadOnly        bool                      `json:"readOnly"`
+	SourceTraceRefs []string                  `json:"sourceTraceRefs"`
+}
+
+// EvaluationReplayPlanEnvelope defines model for EvaluationReplayPlanEnvelope.
+type EvaluationReplayPlanEnvelope struct {
+	Data EvaluationReplayPlan `json:"data"`
+}
+
+// EvaluationReplayPlanInput defines model for EvaluationReplayPlanInput.
+type EvaluationReplayPlanInput struct {
+	BaselineRunID     string `json:"baselineRunId"`
+	CandidateRunID    string `json:"candidateRunId"`
+	ExecutorProfileID string `json:"executorProfileId"`
+	ID                string `json:"id"`
+}
+
+// EvaluationReplayPlanListEnvelope defines model for EvaluationReplayPlanListEnvelope.
+type EvaluationReplayPlanListEnvelope struct {
+	Items []EvaluationReplayPlan `json:"items"`
+}
+
+// EvaluationResult defines model for EvaluationResult.
+type EvaluationResult struct {
+	Actions          []string           `json:"actions,omitempty"`
+	FailureReasons   []string           `json:"failureReasons,omitempty"`
+	Passed           bool               `json:"passed"`
+	ProducedFacts    []string           `json:"producedFacts,omitempty"`
+	RetrievedSources []string           `json:"retrievedSources,omitempty"`
+	SampleID         string             `json:"sampleId"`
+	SchemaVersion    string             `json:"schemaVersion"`
+	Scores           map[string]float32 `json:"scores"`
+}
+
+// EvaluationResultListEnvelope defines model for EvaluationResultListEnvelope.
+type EvaluationResultListEnvelope struct {
+	Items []EvaluationResult `json:"items"`
+}
+
+// EvaluationRun defines model for EvaluationRun.
+type EvaluationRun struct {
+	AggregateScores map[string]float32  `json:"aggregateScores,omitempty"`
+	CandidateRefs   map[string]string   `json:"candidateRefs"`
+	CompletedAt     *time.Time          `json:"completedAt,omitempty"`
+	DatasetID       string              `json:"datasetId"`
+	DatasetVersion  string              `json:"datasetVersion"`
+	ID              string              `json:"id"`
+	SchemaVersion   string              `json:"schemaVersion"`
+	StartedAt       time.Time           `json:"startedAt"`
+	Status          EvaluationRunStatus `json:"status"`
+}
+
+// EvaluationRunStatus defines model for EvaluationRun.Status.
+type EvaluationRunStatus string
+
+// EvaluationRunEnvelope defines model for EvaluationRunEnvelope.
+type EvaluationRunEnvelope struct {
+	Data EvaluationRun `json:"data"`
+}
+
+// EvaluationRunListEnvelope defines model for EvaluationRunListEnvelope.
+type EvaluationRunListEnvelope struct {
+	Items []EvaluationRun `json:"items"`
+}
+
+// EvaluationSampleAttempt defines model for EvaluationSampleAttempt.
+type EvaluationSampleAttempt struct {
+	Attempt       int                `json:"attempt"`
+	CandidateRefs map[string]string  `json:"candidateRefs"`
+	CompletedAt   time.Time          `json:"completedAt"`
+	ErrorCode     string             `json:"errorCode,omitempty"`
+	LatencyMillis int64              `json:"latencyMillis"`
+	RunID         string             `json:"runId"`
+	SampleID      string             `json:"sampleId"`
+	Scores        map[string]float32 `json:"scores,omitempty"`
+	Status        string             `json:"status"`
+	TraceRef      string             `json:"traceRef,omitempty"`
+	Usage         map[string]float32 `json:"usage,omitempty"`
+}
+
+// EvaluationSampleAttemptListEnvelope defines model for EvaluationSampleAttemptListEnvelope.
+type EvaluationSampleAttemptListEnvelope struct {
+	Items []EvaluationSampleAttempt `json:"items"`
+}
+
+// EvaluationSampleOutput defines model for EvaluationSampleOutput.
+type EvaluationSampleOutput struct {
+	Actions          []string `json:"actions,omitempty"`
+	ProducedFacts    []string `json:"producedFacts,omitempty"`
+	RetrievedSources []string `json:"retrievedSources,omitempty"`
+	SampleID         string   `json:"sampleId"`
+}
+
 // ExecutionArtifact defines model for ExecutionArtifact.
 type ExecutionArtifact struct {
 	ApplicationEnvironmentID string         `json:"applicationEnvironmentId,omitempty"`
@@ -4095,6 +5505,449 @@ type InstalledPluginListEnvelope struct {
 
 // JSONSchema defines model for JSONSchema.
 type JSONSchema map[string]any
+
+// KnowledgeAccessScope defines model for KnowledgeAccessScope.
+type KnowledgeAccessScope struct {
+	Projects   []string                       `json:"projects,omitempty"`
+	Roles      []string                       `json:"roles,omitempty"`
+	Teams      []string                       `json:"teams,omitempty"`
+	Users      []string                       `json:"users,omitempty"`
+	Visibility KnowledgeAccessScopeVisibility `json:"visibility"`
+}
+
+// KnowledgeAccessScopeVisibility defines model for KnowledgeAccessScope.Visibility.
+type KnowledgeAccessScopeVisibility string
+
+// KnowledgeBase defines model for KnowledgeBase.
+type KnowledgeBase struct {
+	CreatedAt       time.Time                `json:"createdAt"`
+	Description     string                   `json:"description,omitempty"`
+	ID              string                   `json:"id"`
+	Name            string                   `json:"name"`
+	OwnerID         string                   `json:"ownerId"`
+	RetrievalPolicy KnowledgeRetrievalPolicy `json:"retrievalPolicy"`
+	Scope           KnowledgeAccessScope     `json:"scope"`
+	Status          KnowledgeBaseStatus      `json:"status"`
+	TenantID        string                   `json:"tenantId,omitempty"`
+	UpdatedAt       time.Time                `json:"updatedAt"`
+	WorkspaceID     string                   `json:"workspaceId,omitempty"`
+}
+
+// KnowledgeBaseStatus defines model for KnowledgeBase.Status.
+type KnowledgeBaseStatus string
+
+// KnowledgeBaseEnvelope defines model for KnowledgeBaseEnvelope.
+type KnowledgeBaseEnvelope struct {
+	Data KnowledgeBase `json:"data"`
+}
+
+// KnowledgeBaseInput defines model for KnowledgeBaseInput.
+type KnowledgeBaseInput struct {
+	Description     string                   `json:"description,omitempty"`
+	Name            string                   `json:"name"`
+	RetrievalPolicy KnowledgeRetrievalPolicy `json:"retrievalPolicy"`
+	Scope           KnowledgeAccessScope     `json:"scope"`
+	TenantID        string                   `json:"tenantId,omitempty"`
+	WorkspaceID     string                   `json:"workspaceId,omitempty"`
+}
+
+// KnowledgeBaseListEnvelope defines model for KnowledgeBaseListEnvelope.
+type KnowledgeBaseListEnvelope struct {
+	Items []KnowledgeBase `json:"items"`
+}
+
+// KnowledgeCitation defines model for KnowledgeCitation.
+type KnowledgeCitation struct {
+	ChunkID         string                  `json:"chunkId"`
+	ContentHash     string                  `json:"contentHash"`
+	DocumentID      string                  `json:"documentId"`
+	DocumentTitle   string                  `json:"documentTitle"`
+	ID              string                  `json:"id"`
+	KnowledgeBaseID string                  `json:"knowledgeBaseId"`
+	Location        KnowledgeSourceLocation `json:"location"`
+	Score           float32                 `json:"score"`
+	URI             string                  `json:"uri,omitempty"`
+}
+
+// KnowledgeConnector defines model for KnowledgeConnector.
+type KnowledgeConnector struct {
+	Config          map[string]any         `json:"config"`
+	CreatedAt       time.Time              `json:"createdAt"`
+	ID              string                 `json:"id"`
+	Kind            KnowledgeConnectorKind `json:"kind"`
+	KnowledgeBaseID string                 `json:"knowledgeBaseId"`
+	Name            string                 `json:"name"`
+	SecretRef       string                 `json:"secretRef"`
+	Status          string                 `json:"status"`
+	SyncPolicy      KnowledgeSyncPolicy    `json:"syncPolicy"`
+	UpdatedAt       time.Time              `json:"updatedAt"`
+	Version         string                 `json:"version,omitempty"`
+}
+
+// KnowledgeConnectorKind defines model for KnowledgeConnector.Kind.
+type KnowledgeConnectorKind string
+
+// KnowledgeConnectorEnvelope defines model for KnowledgeConnectorEnvelope.
+type KnowledgeConnectorEnvelope struct {
+	Data KnowledgeConnector `json:"data"`
+}
+
+// KnowledgeConnectorInput defines model for KnowledgeConnectorInput.
+type KnowledgeConnectorInput struct {
+	Config          map[string]any              `json:"config"`
+	Kind            KnowledgeConnectorInputKind `json:"kind"`
+	KnowledgeBaseID string                      `json:"knowledgeBaseId"`
+	Name            string                      `json:"name"`
+	SecretRef       string                      `json:"secretRef"`
+	SyncPolicy      KnowledgeSyncPolicy         `json:"syncPolicy"`
+	Version         string                      `json:"version,omitempty"`
+}
+
+// KnowledgeConnectorInputKind defines model for KnowledgeConnectorInput.Kind.
+type KnowledgeConnectorInputKind string
+
+// KnowledgeConnectorListEnvelope defines model for KnowledgeConnectorListEnvelope.
+type KnowledgeConnectorListEnvelope struct {
+	Items []KnowledgeConnector `json:"items"`
+}
+
+// KnowledgeConnectorValidation defines model for KnowledgeConnectorValidation.
+type KnowledgeConnectorValidation struct {
+	ConfigHash  string                           `json:"configHash"`
+	Host        string                           `json:"host,omitempty"`
+	Kind        KnowledgeConnectorValidationKind `json:"kind"`
+	Resource    string                           `json:"resource,omitempty"`
+	SecretRef   string                           `json:"secretRef"`
+	Valid       bool                             `json:"valid"`
+	ValidatedAt time.Time                        `json:"validatedAt"`
+	Warnings    []string                         `json:"warnings"`
+}
+
+// KnowledgeConnectorValidationKind defines model for KnowledgeConnectorValidation.Kind.
+type KnowledgeConnectorValidationKind string
+
+// KnowledgeConnectorValidationEnvelope defines model for KnowledgeConnectorValidationEnvelope.
+type KnowledgeConnectorValidationEnvelope struct {
+	Data KnowledgeConnectorValidation `json:"data"`
+}
+
+// KnowledgeDocument defines model for KnowledgeDocument.
+type KnowledgeDocument struct {
+	ACL             KnowledgeAccessScope    `json:"acl"`
+	ChunkCount      int                     `json:"chunkCount"`
+	ContentHash     string                  `json:"contentHash"`
+	CreatedAt       time.Time               `json:"createdAt"`
+	ExternalID      string                  `json:"externalId"`
+	ID              string                  `json:"id"`
+	KnowledgeBaseID string                  `json:"knowledgeBaseId"`
+	SourceID        string                  `json:"sourceId"`
+	Status          KnowledgeDocumentStatus `json:"status"`
+	Title           string                  `json:"title"`
+	UpdatedAt       time.Time               `json:"updatedAt"`
+	URI             string                  `json:"uri,omitempty"`
+	Version         string                  `json:"version"`
+}
+
+// KnowledgeDocumentStatus defines model for KnowledgeDocument.Status.
+type KnowledgeDocumentStatus string
+
+// KnowledgeDocumentListEnvelope defines model for KnowledgeDocumentListEnvelope.
+type KnowledgeDocumentListEnvelope struct {
+	Items []KnowledgeDocument `json:"items"`
+}
+
+// KnowledgeGraphCommunity defines model for KnowledgeGraphCommunity.
+type KnowledgeGraphCommunity struct {
+	EntityIDs  []string `json:"entityIds"`
+	ID         string   `json:"id"`
+	SourceRefs []string `json:"sourceRefs"`
+	Summary    string   `json:"summary"`
+}
+
+// KnowledgeGraphEntity defines model for KnowledgeGraphEntity.
+type KnowledgeGraphEntity struct {
+	ContentHash string   `json:"contentHash"`
+	ID          string   `json:"id"`
+	Kind        string   `json:"kind"`
+	Name        string   `json:"name"`
+	SourceRefs  []string `json:"sourceRefs"`
+}
+
+// KnowledgeGraphQueryInput defines model for KnowledgeGraphQueryInput.
+type KnowledgeGraphQueryInput struct {
+	Limit int    `json:"limit"`
+	Mode  string `json:"mode"`
+	Query string `json:"query"`
+}
+
+// KnowledgeGraphQueryResult defines model for KnowledgeGraphQueryResult.
+type KnowledgeGraphQueryResult struct {
+	Entities   []KnowledgeGraphEntity    `json:"entities"`
+	Mode       string                    `json:"mode"`
+	NoAnswer   bool                      `json:"noAnswer"`
+	Relations  []KnowledgeGraphRelation  `json:"relations"`
+	RevisionID string                    `json:"revisionId"`
+	Summaries  []KnowledgeGraphCommunity `json:"summaries"`
+}
+
+// KnowledgeGraphQueryResultEnvelope defines model for KnowledgeGraphQueryResultEnvelope.
+type KnowledgeGraphQueryResultEnvelope struct {
+	Data KnowledgeGraphQueryResult `json:"data"`
+}
+
+// KnowledgeGraphRelation defines model for KnowledgeGraphRelation.
+type KnowledgeGraphRelation struct {
+	Confidence   float32  `json:"confidence"`
+	FromEntityID string   `json:"fromEntityId"`
+	ID           string   `json:"id"`
+	Kind         string   `json:"kind"`
+	SourceRefs   []string `json:"sourceRefs"`
+	ToEntityID   string   `json:"toEntityId"`
+}
+
+// KnowledgeGraphRevision defines model for KnowledgeGraphRevision.
+type KnowledgeGraphRevision struct {
+	Communities      []KnowledgeGraphCommunity `json:"communities"`
+	CreatedAt        time.Time                 `json:"createdAt"`
+	Entities         []KnowledgeGraphEntity    `json:"entities"`
+	ExtractorVersion string                    `json:"extractorVersion"`
+	ID               string                    `json:"id"`
+	KnowledgeBaseID  string                    `json:"knowledgeBaseId"`
+	PublishedAt      *time.Time                `json:"publishedAt,omitempty"`
+	Relations        []KnowledgeGraphRelation  `json:"relations"`
+	SourceIndexRef   string                    `json:"sourceIndexRef"`
+	Status           string                    `json:"status"`
+}
+
+// KnowledgeGraphRevisionEnvelope defines model for KnowledgeGraphRevisionEnvelope.
+type KnowledgeGraphRevisionEnvelope struct {
+	Data KnowledgeGraphRevision `json:"data"`
+}
+
+// KnowledgeGraphRevisionListEnvelope defines model for KnowledgeGraphRevisionListEnvelope.
+type KnowledgeGraphRevisionListEnvelope struct {
+	Items []KnowledgeGraphRevision `json:"items"`
+}
+
+// KnowledgeIndexRevision defines model for KnowledgeIndexRevision.
+type KnowledgeIndexRevision struct {
+	ActivatedAt     *time.Time                   `json:"activatedAt,omitempty"`
+	ChunkCount      int                          `json:"chunkCount"`
+	ChunkerVersion  string                       `json:"chunkerVersion"`
+	CreatedAt       time.Time                    `json:"createdAt"`
+	DocumentCount   int                          `json:"documentCount"`
+	EmbeddingModel  string                       `json:"embeddingModel,omitempty"`
+	ID              string                       `json:"id"`
+	KnowledgeBaseID string                       `json:"knowledgeBaseId"`
+	Revision        int                          `json:"revision"`
+	Status          KnowledgeIndexRevisionStatus `json:"status"`
+}
+
+// KnowledgeIndexRevisionStatus defines model for KnowledgeIndexRevision.Status.
+type KnowledgeIndexRevisionStatus string
+
+// KnowledgeIndexRevisionListEnvelope defines model for KnowledgeIndexRevisionListEnvelope.
+type KnowledgeIndexRevisionListEnvelope struct {
+	Items []KnowledgeIndexRevision `json:"items"`
+}
+
+// KnowledgeIngestionCheckpoint defines model for KnowledgeIngestionCheckpoint.
+type KnowledgeIngestionCheckpoint struct {
+	ChunksStored    int                     `json:"chunksStored"`
+	ContentHash     string                  `json:"contentHash,omitempty"`
+	Cursor          string                  `json:"cursor,omitempty"`
+	DocumentsSeen   int                     `json:"documentsSeen"`
+	DocumentsStored int                     `json:"documentsStored"`
+	RecordedAt      time.Time               `json:"recordedAt"`
+	Stage           KnowledgeIngestionStage `json:"stage"`
+}
+
+// KnowledgeIngestionJob defines model for KnowledgeIngestionJob.
+type KnowledgeIngestionJob struct {
+	Attempt         int                          `json:"attempt"`
+	CancelRequested bool                         `json:"cancelRequested"`
+	Checkpoint      KnowledgeIngestionCheckpoint `json:"checkpoint"`
+	CompletedAt     *time.Time                   `json:"completedAt,omitempty"`
+	CreatedAt       time.Time                    `json:"createdAt"`
+	Error           string                       `json:"error,omitempty"`
+	ErrorCode       string                       `json:"errorCode,omitempty"`
+	ID              string                       `json:"id"`
+	KnowledgeBaseID string                       `json:"knowledgeBaseId"`
+	MaxAttempts     int                          `json:"maxAttempts"`
+	NextAttemptAt   *time.Time                   `json:"nextAttemptAt,omitempty"`
+	SourceID        string                       `json:"sourceId"`
+	Stage           KnowledgeIngestionStage      `json:"stage"`
+	Status          KnowledgeIngestionJobStatus  `json:"status"`
+	TargetRevision  int64                        `json:"targetRevision"`
+	UpdatedAt       time.Time                    `json:"updatedAt"`
+}
+
+// KnowledgeIngestionJobStatus defines model for KnowledgeIngestionJob.Status.
+type KnowledgeIngestionJobStatus string
+
+// KnowledgeIngestionJobEnvelope defines model for KnowledgeIngestionJobEnvelope.
+type KnowledgeIngestionJobEnvelope struct {
+	Data KnowledgeIngestionJob `json:"data"`
+}
+
+// KnowledgeIngestionJobInput defines model for KnowledgeIngestionJobInput.
+type KnowledgeIngestionJobInput struct {
+	SourceID string `json:"sourceId"`
+}
+
+// KnowledgeIngestionStage defines model for KnowledgeIngestionStage.
+type KnowledgeIngestionStage string
+
+// KnowledgeRetrievalPolicy defines model for KnowledgeRetrievalPolicy.
+type KnowledgeRetrievalPolicy struct {
+	DefaultTopK   int     `json:"defaultTopK"`
+	LexicalWeight float32 `json:"lexicalWeight"`
+	MaxTopK       int     `json:"maxTopK"`
+	MinScore      float32 `json:"minScore"`
+	VectorWeight  float32 `json:"vectorWeight"`
+}
+
+// KnowledgeSearchFilters defines model for KnowledgeSearchFilters.
+type KnowledgeSearchFilters struct {
+	DocumentIDs []string `json:"documentIds,omitempty"`
+	SourceIDs   []string `json:"sourceIds,omitempty"`
+}
+
+// KnowledgeSearchHit defines model for KnowledgeSearchHit.
+type KnowledgeSearchHit struct {
+	ChunkID         string            `json:"chunkId"`
+	Citation        KnowledgeCitation `json:"citation"`
+	Content         string            `json:"content"`
+	DocumentID      string            `json:"documentId"`
+	KnowledgeBaseID string            `json:"knowledgeBaseId"`
+	LexicalScore    float32           `json:"lexicalScore"`
+	Score           float32           `json:"score"`
+	Title           string            `json:"title"`
+	VectorScore     float32           `json:"vectorScore"`
+}
+
+// KnowledgeSearchRequest defines model for KnowledgeSearchRequest.
+type KnowledgeSearchRequest struct {
+	Filters          *KnowledgeSearchFilters `json:"filters,omitempty"`
+	KnowledgeBaseIDs []string                `json:"knowledgeBaseIds"`
+	Query            string                  `json:"query"`
+	TopK             int                     `json:"topK,omitempty"`
+}
+
+// KnowledgeSearchResult defines model for KnowledgeSearchResult.
+type KnowledgeSearchResult struct {
+	CandidateCount int                  `json:"candidateCount"`
+	Citations      []KnowledgeCitation  `json:"citations"`
+	Hits           []KnowledgeSearchHit `json:"hits"`
+	NoAnswer       bool                 `json:"noAnswer"`
+	Query          string               `json:"query"`
+	TimingMs       int64                `json:"timingMs"`
+	TraceID        string               `json:"traceId"`
+}
+
+// KnowledgeSearchResultEnvelope defines model for KnowledgeSearchResultEnvelope.
+type KnowledgeSearchResultEnvelope struct {
+	Data KnowledgeSearchResult `json:"data"`
+}
+
+// KnowledgeSource defines model for KnowledgeSource.
+type KnowledgeSource struct {
+	ConfigRef       string                `json:"configRef,omitempty"`
+	CreatedAt       time.Time             `json:"createdAt"`
+	Cursor          string                `json:"cursor,omitempty"`
+	ID              string                `json:"id"`
+	Kind            KnowledgeSourceKind   `json:"kind"`
+	KnowledgeBaseID string                `json:"knowledgeBaseId"`
+	LastError       string                `json:"lastError,omitempty"`
+	LastSyncedAt    *time.Time            `json:"lastSyncedAt,omitempty"`
+	Name            string                `json:"name"`
+	Status          KnowledgeSourceStatus `json:"status"`
+	SyncPolicy      KnowledgeSyncPolicy   `json:"syncPolicy"`
+	UpdatedAt       time.Time             `json:"updatedAt"`
+}
+
+// KnowledgeSourceKind defines model for KnowledgeSource.Kind.
+type KnowledgeSourceKind string
+
+// KnowledgeSourceStatus defines model for KnowledgeSource.Status.
+type KnowledgeSourceStatus string
+
+// KnowledgeSourceConfig defines model for KnowledgeSourceConfig.
+type KnowledgeSourceConfig struct {
+	Documents []KnowledgeSourceDocument `json:"documents,omitempty"`
+}
+
+// KnowledgeSourceDocument defines model for KnowledgeSourceDocument.
+type KnowledgeSourceDocument struct {
+	ACL        KnowledgeAccessScope `json:"acl"`
+	Content    string               `json:"content"`
+	ExternalID string               `json:"externalId"`
+	Title      string               `json:"title"`
+	URI        string               `json:"uri,omitempty"`
+	Version    string               `json:"version,omitempty"`
+}
+
+// KnowledgeSourceEnvelope defines model for KnowledgeSourceEnvelope.
+type KnowledgeSourceEnvelope struct {
+	Data KnowledgeSource `json:"data"`
+}
+
+// KnowledgeSourceInput defines model for KnowledgeSourceInput.
+type KnowledgeSourceInput struct {
+	Config     *KnowledgeSourceConfig   `json:"config,omitempty"`
+	ConfigRef  string                   `json:"configRef,omitempty"`
+	Kind       KnowledgeSourceInputKind `json:"kind"`
+	Name       string                   `json:"name"`
+	SyncPolicy KnowledgeSyncPolicy      `json:"syncPolicy"`
+}
+
+// KnowledgeSourceInputKind defines model for KnowledgeSourceInput.Kind.
+type KnowledgeSourceInputKind string
+
+// KnowledgeSourceListEnvelope defines model for KnowledgeSourceListEnvelope.
+type KnowledgeSourceListEnvelope struct {
+	Items []KnowledgeSource `json:"items"`
+}
+
+// KnowledgeSourceLocation defines model for KnowledgeSourceLocation.
+type KnowledgeSourceLocation struct {
+	EndByte   int    `json:"endByte,omitempty"`
+	StartByte int    `json:"startByte,omitempty"`
+	URI       string `json:"uri,omitempty"`
+}
+
+// KnowledgeSyncPolicy defines model for KnowledgeSyncPolicy.
+type KnowledgeSyncPolicy struct {
+	Mode     string `json:"mode"`
+	Schedule string `json:"schedule,omitempty"`
+}
+
+// KnowledgeSyncRun defines model for KnowledgeSyncRun.
+type KnowledgeSyncRun struct {
+	ChunksStored    int                    `json:"chunksStored"`
+	CompletedAt     *time.Time             `json:"completedAt,omitempty"`
+	DocumentsSeen   int                    `json:"documentsSeen"`
+	DocumentsStored int                    `json:"documentsStored"`
+	Error           string                 `json:"error,omitempty"`
+	ID              string                 `json:"id"`
+	KnowledgeBaseID string                 `json:"knowledgeBaseId"`
+	SourceID        string                 `json:"sourceId"`
+	StartedAt       time.Time              `json:"startedAt"`
+	Status          KnowledgeSyncRunStatus `json:"status"`
+}
+
+// KnowledgeSyncRunStatus defines model for KnowledgeSyncRun.Status.
+type KnowledgeSyncRunStatus string
+
+// KnowledgeSyncRunEnvelope defines model for KnowledgeSyncRunEnvelope.
+type KnowledgeSyncRunEnvelope struct {
+	Data KnowledgeSyncRun `json:"data"`
+}
+
+// KnowledgeSyncRunListEnvelope defines model for KnowledgeSyncRunListEnvelope.
+type KnowledgeSyncRunListEnvelope struct {
+	Items []KnowledgeSyncRun `json:"items"`
+}
 
 // LLMCallLog defines model for LLMCallLog.
 type LLMCallLog struct {
@@ -4557,6 +6410,55 @@ type MarketplacePublisher struct {
 
 // MarketplacePublisherVerificationLevel defines model for MarketplacePublisher.VerificationLevel.
 type MarketplacePublisherVerificationLevel string
+
+// MultiAgentBudget defines model for MultiAgentBudget.
+type MultiAgentBudget struct {
+	DeadlineSeconds int     `json:"deadlineSeconds"`
+	MaxCost         float32 `json:"maxCost"`
+	MaxSteps        int     `json:"maxSteps"`
+	MaxTokens       int     `json:"maxTokens"`
+}
+
+// MultiAgentPlan defines model for MultiAgentPlan.
+type MultiAgentPlan struct {
+	CompletedAt          *time.Time          `json:"completedAt,omitempty"`
+	CoordinatorRef       string              `json:"coordinatorRef"`
+	CreatedAt            time.Time           `json:"createdAt"`
+	ID                   string              `json:"id"`
+	MergedOutputRefs     []string            `json:"mergedOutputRefs,omitempty"`
+	PrincipalPermissions []string            `json:"principalPermissions"`
+	SharedBudget         MultiAgentBudget    `json:"sharedBudget"`
+	Status               string              `json:"status"`
+	Subtasks             []MultiAgentSubtask `json:"subtasks"`
+}
+
+// MultiAgentPlanEnvelope defines model for MultiAgentPlanEnvelope.
+type MultiAgentPlanEnvelope struct {
+	Data MultiAgentPlan `json:"data"`
+}
+
+// MultiAgentPlanListEnvelope defines model for MultiAgentPlanListEnvelope.
+type MultiAgentPlanListEnvelope struct {
+	Items []MultiAgentPlan `json:"items"`
+}
+
+// MultiAgentSubtask defines model for MultiAgentSubtask.
+type MultiAgentSubtask struct {
+	AgentProfileRef string           `json:"agentProfileRef"`
+	Budget          MultiAgentBudget `json:"budget"`
+	DependsOn       []string         `json:"dependsOn,omitempty"`
+	ErrorCode       string           `json:"errorCode,omitempty"`
+	ID              string           `json:"id"`
+	Input           string           `json:"input"`
+	OutputRef       string           `json:"outputRef,omitempty"`
+	PermissionKeys  []string         `json:"permissionKeys"`
+	Status          string           `json:"status"`
+}
+
+// MultiAgentSubtaskCompletionInput defines model for MultiAgentSubtaskCompletionInput.
+type MultiAgentSubtaskCompletionInput struct {
+	OutputRef string `json:"outputRef"`
+}
 
 // NativeProviderObject Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
 type NativeProviderObject map[string]any
@@ -5757,6 +7659,18 @@ type AIClientID = string
 // AIClientName defines model for AIClientName.
 type AIClientName = string
 
+// AIEnvironmentLeaseID defines model for AIEnvironmentLeaseID.
+type AIEnvironmentLeaseID = string
+
+// AIMemoryID defines model for AIMemoryID.
+type AIMemoryID = string
+
+// AgentProviderRolloutAction defines model for AgentProviderRolloutAction.
+type AgentProviderRolloutAction string
+
+// AgentProviderRolloutID defines model for AgentProviderRolloutID.
+type AgentProviderRolloutID = string
+
 // ApplicationEnvironmentID defines model for ApplicationEnvironmentID.
 type ApplicationEnvironmentID = string
 
@@ -5768,6 +7682,33 @@ type BuildTemplateID = string
 
 // BundleID defines model for BundleID.
 type BundleID = string
+
+// EvaluationRunID defines model for EvaluationRunID.
+type EvaluationRunID = string
+
+// KnowledgeBaseID defines model for KnowledgeBaseID.
+type KnowledgeBaseID = string
+
+// KnowledgeConnectorID defines model for KnowledgeConnectorID.
+type KnowledgeConnectorID = string
+
+// KnowledgeGraphRevisionID defines model for KnowledgeGraphRevisionID.
+type KnowledgeGraphRevisionID = string
+
+// KnowledgeIngestionJobID defines model for KnowledgeIngestionJobID.
+type KnowledgeIngestionJobID = string
+
+// KnowledgeListLimit defines model for KnowledgeListLimit.
+type KnowledgeListLimit = int
+
+// KnowledgeSourceID defines model for KnowledgeSourceID.
+type KnowledgeSourceID = string
+
+// MultiAgentPlanID defines model for MultiAgentPlanID.
+type MultiAgentPlanID = string
+
+// MultiAgentSubtaskID defines model for MultiAgentSubtaskID.
+type MultiAgentSubtaskID = string
 
 // OIDCCode defines model for OIDCCode.
 type OIDCCode = string
@@ -6347,6 +8288,40 @@ type ListAIGatewayRelayUpstreamsParamsProviderKind string
 // ListAIGatewayRelayUpstreamsParamsStatus defines parameters for ListAIGatewayRelayUpstreams.
 type ListAIGatewayRelayUpstreamsParamsStatus string
 
+// GetAgentProviderRegistrySnapshotParams defines parameters for GetAgentProviderRegistrySnapshot.
+type GetAgentProviderRegistrySnapshotParams struct {
+	RunnerID string `form:"runnerId" json:"runnerId"`
+}
+
+// TransitionAgentProviderRolloutParamsRolloutAction defines parameters for TransitionAgentProviderRollout.
+type TransitionAgentProviderRolloutParamsRolloutAction string
+
+// ListKnowledgeDocumentsParams defines parameters for ListKnowledgeDocuments.
+type ListKnowledgeDocumentsParams struct {
+	Limit KnowledgeListLimit `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListKnowledgeIndexRevisionsParams defines parameters for ListKnowledgeIndexRevisions.
+type ListKnowledgeIndexRevisionsParams struct {
+	Limit KnowledgeListLimit `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListKnowledgeSyncRunsParams defines parameters for ListKnowledgeSyncRuns.
+type ListKnowledgeSyncRunsParams struct {
+	Limit KnowledgeListLimit `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListKnowledgeConnectorsParams defines parameters for ListKnowledgeConnectors.
+type ListKnowledgeConnectorsParams struct {
+	Limit KnowledgeListLimit `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListAIMemoryRecordsParams defines parameters for ListAIMemoryRecords.
+type ListAIMemoryRecordsParams struct {
+	OwnerType string `form:"ownerType,omitempty" json:"ownerType,omitempty"`
+	OwnerID   string `form:"ownerId,omitempty" json:"ownerId,omitempty"`
+}
+
 // ListApplicationEnvironmentsParams defines parameters for ListApplicationEnvironments.
 type ListApplicationEnvironmentsParams struct {
 	ApplicationID string `form:"applicationId,omitempty" json:"applicationId,omitempty"`
@@ -6531,6 +8506,87 @@ type CreateServiceAccountTokenJSONRequestBody = ServiceAccountTokenInput
 
 // InvokeAIGatewayToolJSONRequestBody defines body for InvokeAIGatewayTool for application/json ContentType.
 type InvokeAIGatewayToolJSONRequestBody = ToolInvocationRequest
+
+// CreateAgentProviderConformanceRunJSONRequestBody defines body for CreateAgentProviderConformanceRun for application/json ContentType.
+type CreateAgentProviderConformanceRunJSONRequestBody = AgentProviderConformanceRunInput
+
+// AcknowledgeAgentProviderRegistryJSONRequestBody defines body for AcknowledgeAgentProviderRegistry for application/json ContentType.
+type AcknowledgeAgentProviderRegistryJSONRequestBody = AgentProviderRegistryAcknowledgement
+
+// CreateAgentProviderRolloutJSONRequestBody defines body for CreateAgentProviderRollout for application/json ContentType.
+type CreateAgentProviderRolloutJSONRequestBody = AgentProviderRolloutInput
+
+// CreateMultiAgentPlanJSONRequestBody defines body for CreateMultiAgentPlan for application/json ContentType.
+type CreateMultiAgentPlanJSONRequestBody = MultiAgentPlan
+
+// CompleteMultiAgentSubtaskJSONRequestBody defines body for CompleteMultiAgentSubtask for application/json ContentType.
+type CompleteMultiAgentSubtaskJSONRequestBody = MultiAgentSubtaskCompletionInput
+
+// InspectAIContextJSONRequestBody defines body for InspectAIContext for application/json ContentType.
+type InspectAIContextJSONRequestBody = AIContextBuildInput
+
+// PutAIEnvironmentTemplateJSONRequestBody defines body for PutAIEnvironmentTemplate for application/json ContentType.
+type PutAIEnvironmentTemplateJSONRequestBody = AIEnvironmentTemplateInput
+
+// CreateEvaluationDatasetJSONRequestBody defines body for CreateEvaluationDataset for application/json ContentType.
+type CreateEvaluationDatasetJSONRequestBody = EvaluationDataset
+
+// PutEvaluationExecutorProfileJSONRequestBody defines body for PutEvaluationExecutorProfile for application/json ContentType.
+type PutEvaluationExecutorProfileJSONRequestBody = EvaluationExecutorProfile
+
+// PutEvaluationFeedbackJSONRequestBody defines body for PutEvaluationFeedback for application/json ContentType.
+type PutEvaluationFeedbackJSONRequestBody = EvaluationFeedbackInput
+
+// PutEvaluationGatePolicyJSONRequestBody defines body for PutEvaluationGatePolicy for application/json ContentType.
+type PutEvaluationGatePolicyJSONRequestBody = EvaluationGatePolicyInput
+
+// EvaluateEvaluationGateJSONRequestBody defines body for EvaluateEvaluationGate for application/json ContentType.
+type EvaluateEvaluationGateJSONRequestBody = EvaluationGateRequest
+
+// PutEvaluationReplayPlanJSONRequestBody defines body for PutEvaluationReplayPlan for application/json ContentType.
+type PutEvaluationReplayPlanJSONRequestBody = EvaluationReplayPlanInput
+
+// StartEvaluationRunJSONRequestBody defines body for StartEvaluationRun for application/json ContentType.
+type StartEvaluationRunJSONRequestBody = EvaluationRun
+
+// CompleteEvaluationRunJSONRequestBody defines body for CompleteEvaluationRun for application/json ContentType.
+type CompleteEvaluationRunJSONRequestBody = EvaluationCompleteRunInput
+
+// ExecuteEvaluationRunJSONRequestBody defines body for ExecuteEvaluationRun for application/json ContentType.
+type ExecuteEvaluationRunJSONRequestBody = EvaluationExecuteRunInput
+
+// CreateKnowledgeBaseJSONRequestBody defines body for CreateKnowledgeBase for application/json ContentType.
+type CreateKnowledgeBaseJSONRequestBody = KnowledgeBaseInput
+
+// UpdateKnowledgeBaseJSONRequestBody defines body for UpdateKnowledgeBase for application/json ContentType.
+type UpdateKnowledgeBaseJSONRequestBody = KnowledgeBaseInput
+
+// PutKnowledgeGraphRevisionJSONRequestBody defines body for PutKnowledgeGraphRevision for application/json ContentType.
+type PutKnowledgeGraphRevisionJSONRequestBody = KnowledgeGraphRevision
+
+// QueryKnowledgeGraphRevisionJSONRequestBody defines body for QueryKnowledgeGraphRevision for application/json ContentType.
+type QueryKnowledgeGraphRevisionJSONRequestBody = KnowledgeGraphQueryInput
+
+// CreateKnowledgeSourceJSONRequestBody defines body for CreateKnowledgeSource for application/json ContentType.
+type CreateKnowledgeSourceJSONRequestBody = KnowledgeSourceInput
+
+// CreateKnowledgeIngestionJobJSONRequestBody defines body for CreateKnowledgeIngestionJob for application/json ContentType.
+type CreateKnowledgeIngestionJobJSONRequestBody = KnowledgeIngestionJobInput
+
+// CreateKnowledgeConnectorJSONRequestBody defines body for CreateKnowledgeConnector for application/json ContentType.
+type CreateKnowledgeConnectorJSONRequestBody = KnowledgeConnectorInput
+
+// SearchKnowledgeJSONRequestBody defines body for SearchKnowledge for application/json ContentType.
+type SearchKnowledgeJSONRequestBody = KnowledgeSearchRequest
+
+// PutAIMemoryRecordJSONRequestBody defines body for PutAIMemoryRecord for application/json ContentType.
+type PutAIMemoryRecordJSONRequestBody = AIMemoryWriteInput
+
+// PutAIMemoryPolicyJSONRequestBody defines body for PutAIMemoryPolicy for application/json ContentType.
+type PutAIMemoryPolicyJSONRequestBody = AIMemoryPolicyInput
+
+// StartAIProductionOperationJSONRequestBody defines body for StartAIProductionOperation for application/json ContentType.
+type StartAIProductionOperationJSONRequestBody = AIProductionOperationInput
 
 // CreateApplicationEnvironmentJSONRequestBody defines body for CreateApplicationEnvironment for application/json ContentType.
 type CreateApplicationEnvironmentJSONRequestBody = ApplicationEnvironmentInput

@@ -68,6 +68,30 @@
     },
     {
       "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/AgentProviderConformanceRun/properties/results/items/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/AIEnvironmentTemplate/properties/networkPolicy/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/AIEnvironmentTemplate/properties/resourcePolicy/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/AIEnvironmentTemplateInput/properties/networkPolicy/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/AIEnvironmentTemplateInput/properties/resourcePolicy/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/KnowledgeConnectorInput/properties/config/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
       "path": "components/schemas/AISkillSettings/properties/inputSchema/additionalProperties"
     },
     {

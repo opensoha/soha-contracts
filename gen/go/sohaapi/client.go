@@ -72,6 +72,216 @@ func (c *Client) GetReadyz(ctx context.Context) (GenericObject, error) {
 	return out, nil
 }
 
+func (c *Client) GetAgentProviderCatalog(ctx context.Context) (AgentProviderCatalog, error) {
+	var out AgentProviderCatalogEnvelope
+	if err := c.doJSON(ctx, http.MethodGet, "/ai/agent-providers/catalog", true, nil, &out); err != nil {
+		return AgentProviderCatalog{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) GetAgentProviderRuntimeStatus(ctx context.Context) (AgentProviderRuntimeStatus, error) {
+	var out AgentProviderRuntimeStatusEnvelope
+	if err := c.doJSON(ctx, http.MethodGet, "/ai/agent-providers/runtime-status", true, nil, &out); err != nil {
+		return AgentProviderRuntimeStatus{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) GetAgentProviderRegistrySnapshot(ctx context.Context, runnerID string) (AgentProviderRegistrySnapshot, error) {
+	var out AgentProviderRegistrySnapshotEnvelope
+	query := url.Values{"runnerId": []string{strings.TrimSpace(runnerID)}}
+	path := "/ai/agent-providers/registry-snapshot?" + query.Encode()
+	if err := c.doJSON(ctx, http.MethodGet, path, true, nil, &out); err != nil {
+		return AgentProviderRegistrySnapshot{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) AcknowledgeAgentProviderRegistry(ctx context.Context, req AgentProviderRegistryAcknowledgement) (AgentProviderRegistryAcknowledgement, error) {
+	var out AgentProviderRegistryAcknowledgementEnvelope
+	if err := c.doJSON(ctx, http.MethodPost, "/ai/agent-providers/registry-acks", true, req, &out); err != nil {
+		return AgentProviderRegistryAcknowledgement{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) ListKnowledgeBases(ctx context.Context) ([]KnowledgeBase, error) {
+	var out KnowledgeBaseListEnvelope
+	if err := c.doJSON(ctx, http.MethodGet, "/ai/knowledge-bases", true, nil, &out); err != nil {
+		return nil, err
+	}
+	return out.Items, nil
+}
+
+func (c *Client) GetKnowledgeBase(ctx context.Context, baseID string) (KnowledgeBase, error) {
+	var out KnowledgeBaseEnvelope
+	path := "/ai/knowledge-bases/" + url.PathEscape(strings.TrimSpace(baseID))
+	if err := c.doJSON(ctx, http.MethodGet, path, true, nil, &out); err != nil {
+		return KnowledgeBase{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) CreateKnowledgeBase(ctx context.Context, req KnowledgeBaseInput) (KnowledgeBase, error) {
+	var out KnowledgeBaseEnvelope
+	if err := c.doJSON(ctx, http.MethodPost, "/ai/knowledge-bases", true, req, &out); err != nil {
+		return KnowledgeBase{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) UpdateKnowledgeBase(ctx context.Context, baseID string, req KnowledgeBaseInput) (KnowledgeBase, error) {
+	var out KnowledgeBaseEnvelope
+	path := "/ai/knowledge-bases/" + url.PathEscape(strings.TrimSpace(baseID))
+	if err := c.doJSON(ctx, http.MethodPatch, path, true, req, &out); err != nil {
+		return KnowledgeBase{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) DeleteKnowledgeBase(ctx context.Context, baseID string) error {
+	path := "/ai/knowledge-bases/" + url.PathEscape(strings.TrimSpace(baseID))
+	return c.doJSON(ctx, http.MethodDelete, path, true, nil, nil)
+}
+
+func (c *Client) ListKnowledgeSources(ctx context.Context, baseID string) ([]KnowledgeSource, error) {
+	var out KnowledgeSourceListEnvelope
+	path := "/ai/knowledge-bases/" + url.PathEscape(strings.TrimSpace(baseID)) + "/sources"
+	if err := c.doJSON(ctx, http.MethodGet, path, true, nil, &out); err != nil {
+		return nil, err
+	}
+	return out.Items, nil
+}
+
+func (c *Client) CreateKnowledgeSource(ctx context.Context, baseID string, req KnowledgeSourceInput) (KnowledgeSource, error) {
+	var out KnowledgeSourceEnvelope
+	path := "/ai/knowledge-bases/" + url.PathEscape(strings.TrimSpace(baseID)) + "/sources"
+	if err := c.doJSON(ctx, http.MethodPost, path, true, req, &out); err != nil {
+		return KnowledgeSource{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) SyncKnowledgeSource(ctx context.Context, baseID, sourceID string) (KnowledgeSyncRun, error) {
+	var out KnowledgeSyncRunEnvelope
+	path := "/ai/knowledge-bases/" + url.PathEscape(strings.TrimSpace(baseID)) + "/sources/" + url.PathEscape(strings.TrimSpace(sourceID)) + "/sync"
+	if err := c.doJSON(ctx, http.MethodPost, path, true, nil, &out); err != nil {
+		return KnowledgeSyncRun{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) ListKnowledgeDocuments(ctx context.Context, baseID string, limit int) ([]KnowledgeDocument, error) {
+	var out KnowledgeDocumentListEnvelope
+	path := knowledgeListPath(baseID, "documents", limit)
+	if err := c.doJSON(ctx, http.MethodGet, path, true, nil, &out); err != nil {
+		return nil, err
+	}
+	return out.Items, nil
+}
+
+func (c *Client) ListKnowledgeSyncRuns(ctx context.Context, baseID string, limit int) ([]KnowledgeSyncRun, error) {
+	var out KnowledgeSyncRunListEnvelope
+	path := knowledgeListPath(baseID, "sync-runs", limit)
+	if err := c.doJSON(ctx, http.MethodGet, path, true, nil, &out); err != nil {
+		return nil, err
+	}
+	return out.Items, nil
+}
+
+func (c *Client) ListKnowledgeIndexRevisions(ctx context.Context, baseID string, limit int) ([]KnowledgeIndexRevision, error) {
+	var out KnowledgeIndexRevisionListEnvelope
+	path := knowledgeListPath(baseID, "index-revisions", limit)
+	if err := c.doJSON(ctx, http.MethodGet, path, true, nil, &out); err != nil {
+		return nil, err
+	}
+	return out.Items, nil
+}
+
+func (c *Client) SearchKnowledge(ctx context.Context, req KnowledgeSearchRequest) (KnowledgeSearchResult, error) {
+	var out KnowledgeSearchResultEnvelope
+	if err := c.doJSON(ctx, http.MethodPost, "/ai/knowledge/search", true, req, &out); err != nil {
+		return KnowledgeSearchResult{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) InspectAIContext(ctx context.Context, req AIContextBuildInput) (AIContextInspection, error) {
+	var out AIContextInspectionEnvelope
+	if err := c.doJSON(ctx, http.MethodPost, "/ai/context/inspect", true, req, &out); err != nil {
+		return AIContextInspection{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) ListEvaluationDatasets(ctx context.Context) ([]EvaluationDataset, error) {
+	var out EvaluationDatasetListEnvelope
+	if err := c.doJSON(ctx, http.MethodGet, "/ai/evaluations/datasets", true, nil, &out); err != nil {
+		return nil, err
+	}
+	return out.Items, nil
+}
+
+func (c *Client) CreateEvaluationDataset(ctx context.Context, req EvaluationDataset) (EvaluationDataset, error) {
+	var out EvaluationDatasetEnvelope
+	if err := c.doJSON(ctx, http.MethodPost, "/ai/evaluations/datasets", true, req, &out); err != nil {
+		return EvaluationDataset{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) ListEvaluationRuns(ctx context.Context) ([]EvaluationRun, error) {
+	var out EvaluationRunListEnvelope
+	if err := c.doJSON(ctx, http.MethodGet, "/ai/evaluations/runs", true, nil, &out); err != nil {
+		return nil, err
+	}
+	return out.Items, nil
+}
+
+func (c *Client) StartEvaluationRun(ctx context.Context, req EvaluationRun) (EvaluationRun, error) {
+	var out EvaluationRunEnvelope
+	if err := c.doJSON(ctx, http.MethodPost, "/ai/evaluations/runs", true, req, &out); err != nil {
+		return EvaluationRun{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) GetEvaluationRun(ctx context.Context, runID string) (EvaluationRun, error) {
+	var out EvaluationRunEnvelope
+	path := "/ai/evaluations/runs/" + url.PathEscape(strings.TrimSpace(runID))
+	if err := c.doJSON(ctx, http.MethodGet, path, true, nil, &out); err != nil {
+		return EvaluationRun{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) ListEvaluationRunResults(ctx context.Context, runID string) ([]EvaluationResult, error) {
+	var out EvaluationResultListEnvelope
+	path := "/ai/evaluations/runs/" + url.PathEscape(strings.TrimSpace(runID)) + "/results"
+	if err := c.doJSON(ctx, http.MethodGet, path, true, nil, &out); err != nil {
+		return nil, err
+	}
+	return out.Items, nil
+}
+
+func (c *Client) CompleteEvaluationRun(ctx context.Context, runID string, req EvaluationCompleteRunInput) (EvaluationRun, error) {
+	var out EvaluationRunEnvelope
+	path := "/ai/evaluations/runs/" + url.PathEscape(strings.TrimSpace(runID)) + "/complete"
+	if err := c.doJSON(ctx, http.MethodPost, path, true, req, &out); err != nil {
+		return EvaluationRun{}, err
+	}
+	return out.Data, nil
+}
+
+func knowledgeListPath(baseID, collection string, limit int) string {
+	path := "/ai/knowledge-bases/" + url.PathEscape(strings.TrimSpace(baseID)) + "/" + collection
+	if limit > 0 {
+		path += "?limit=" + strconv.Itoa(limit)
+	}
+	return path
+}
+
 func (c *Client) ListAuthProviders(ctx context.Context) ([]AuthProvider, error) {
 	var out AuthProviderListEnvelope
 	if err := c.doJSON(ctx, http.MethodGet, "/auth/providers", false, nil, &out); err != nil {

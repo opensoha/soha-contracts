@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensoha.dev/schemas/knowledge/connector-definition.schema.json",
+  "title": "Knowledge Connector Definition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "kind", "version", "configRef", "enabled"],
+  "properties": {
+    "schemaVersion": { "const": "opensoha.dev/knowledge-connector-definition/v1" },
+    "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "kind": { "enum": ["http", "git", "object-store"] },
+    "version": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "configRef": { "type": "string", "pattern": "^secret:[^\\s]{1,240}$" },
+    "allowedHosts": { "type": "array", "maxItems": 64, "uniqueItems": true, "items": { "type": "string", "minLength": 1, "maxLength": 253 } },
+    "pathPrefixes": { "type": "array", "maxItems": 64, "uniqueItems": true, "items": { "type": "string", "maxLength": 1024 } },
+    "enabled": { "type": "boolean" }
+  }
+}

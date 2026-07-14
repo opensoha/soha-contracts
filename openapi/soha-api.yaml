@@ -20,6 +20,12 @@ tags:
   - name: Platform
   - name: Settings
   - name: AI Workbench
+  - name: Knowledge
+  - name: Context
+  - name: Evaluation
+  - name: Agent Providers
+  - name: Agent Fleet
+  - name: Memory
   - name: AI Gateway
   - name: MCP
   - name: Plugins
@@ -3664,6 +3670,1164 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InstalledPluginEnvelope"
+  /ai/agent-providers/catalog:
+    get:
+      tags: [Agent Providers]
+      operationId: getAgentProviderCatalog
+      responses:
+        "200":
+          description: Agent provider catalog reconciled from installed plugin extensions.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentProviderCatalogEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /ai/agent-providers/runtime-status:
+    get:
+      tags: [Agent Providers]
+      operationId: getAgentProviderRuntimeStatus
+      responses:
+        "200":
+          description: Latest runner acknowledgements and active provider catalog revision.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentProviderRuntimeStatusEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /ai/agent-providers/registry-snapshot:
+    get:
+      tags: [Agent Providers, Runner]
+      operationId: getAgentProviderRegistrySnapshot
+      security:
+        - runtimeBearerAuth: []
+      parameters:
+        - name: runnerId
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 160
+      responses:
+        "200":
+          description: Versioned provider registry snapshot projected for a runner.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentProviderRegistrySnapshotEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /ai/agent-providers/registry-acks:
+    post:
+      tags: [Agent Providers, Runner]
+      operationId: acknowledgeAgentProviderRegistry
+      security:
+        - runtimeBearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentProviderRegistryAcknowledgement"
+      responses:
+        "202":
+          description: Runner registry acknowledgement accepted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentProviderRegistryAcknowledgementEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /ai/knowledge-bases:
+    get:
+      tags: [Knowledge]
+      operationId: listKnowledgeBases
+      responses:
+        "200":
+          description: Knowledge bases visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KnowledgeBaseListEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Knowledge]
+      operationId: createKnowledgeBase
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KnowledgeBaseInput"
+      responses:
+        "201":
+          description: Created knowledge base.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KnowledgeBaseEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /ai/knowledge-bases/{baseID}:
+    get:
+      tags: [Knowledge]
+      operationId: getKnowledgeBase
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeBaseID"
+      responses:
+        "200":
+          description: Knowledge base detail.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KnowledgeBaseEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    patch:
+      tags: [Knowledge]
+      operationId: updateKnowledgeBase
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeBaseID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KnowledgeBaseInput"
+      responses:
+        "200":
+          description: Updated knowledge base.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KnowledgeBaseEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [Knowledge]
+      operationId: deleteKnowledgeBase
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeBaseID"
+      responses:
+        "200":
+          description: Knowledge base deleted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationStatus"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /ai/knowledge-bases/{baseID}/sources:
+    get:
+      tags: [Knowledge]
+      operationId: listKnowledgeSources
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeBaseID"
+      responses:
+        "200":
+          description: Sources attached to a knowledge base.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KnowledgeSourceListEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Knowledge]
+      operationId: createKnowledgeSource
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeBaseID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KnowledgeSourceInput"
+      responses:
+        "201":
+          description: Created knowledge source.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KnowledgeSourceEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /ai/knowledge-bases/{baseID}/sources/{sourceID}/sync:
+    post:
+      tags: [Knowledge]
+      operationId: syncKnowledgeSource
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeBaseID"
+        - $ref: "#/components/parameters/KnowledgeSourceID"
+      responses:
+        "202":
+          description: Accepted source synchronization run.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KnowledgeSyncRunEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /ai/knowledge-bases/{baseID}/documents:
+    get:
+      tags: [Knowledge]
+      operationId: listKnowledgeDocuments
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeBaseID"
+        - $ref: "#/components/parameters/KnowledgeListLimit"
+      responses:
+        "200":
+          description: Indexed documents in a knowledge base.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KnowledgeDocumentListEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /ai/knowledge-bases/{baseID}/sync-runs:
+    get:
+      tags: [Knowledge]
+      operationId: listKnowledgeSyncRuns
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeBaseID"
+        - $ref: "#/components/parameters/KnowledgeListLimit"
+      responses:
+        "200":
+          description: Recent source synchronization runs.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KnowledgeSyncRunListEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /ai/knowledge-bases/{baseID}/index-revisions:
+    get:
+      tags: [Knowledge]
+      operationId: listKnowledgeIndexRevisions
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeBaseID"
+        - $ref: "#/components/parameters/KnowledgeListLimit"
+      responses:
+        "200":
+          description: Index revisions for a knowledge base.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KnowledgeIndexRevisionListEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /ai/knowledge/search:
+    post:
+      tags: [Knowledge]
+      operationId: searchKnowledge
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KnowledgeSearchRequest"
+      responses:
+        "200":
+          description: ACL-filtered hybrid retrieval result with citations.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KnowledgeSearchResultEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /ai/context/inspect:
+    post:
+      tags: [Context]
+      operationId: inspectAIContext
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AIContextBuildInput"
+      responses:
+        "200":
+          description: Built context envelope and explainability metadata.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AIContextInspectionEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /ai/evaluations/datasets:
+    get:
+      tags: [Evaluation]
+      operationId: listEvaluationDatasets
+      responses:
+        "200":
+          description: Versioned evaluation datasets visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvaluationDatasetListEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Evaluation]
+      operationId: createEvaluationDataset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EvaluationDataset"
+      responses:
+        "201":
+          description: Created immutable evaluation dataset version.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvaluationDatasetEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /ai/evaluations/runs:
+    get:
+      tags: [Evaluation]
+      operationId: listEvaluationRuns
+      responses:
+        "200":
+          description: Evaluation runs visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvaluationRunListEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Evaluation]
+      operationId: startEvaluationRun
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EvaluationRun"
+      responses:
+        "202":
+          description: Accepted evaluation run.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvaluationRunEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /ai/evaluations/runs/{runID}:
+    get:
+      tags: [Evaluation]
+      operationId: getEvaluationRun
+      parameters:
+        - $ref: "#/components/parameters/EvaluationRunID"
+      responses:
+        "200":
+          description: Evaluation run detail.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvaluationRunEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /ai/evaluations/runs/{runID}/results:
+    get:
+      tags: [Evaluation]
+      operationId: listEvaluationRunResults
+      parameters:
+        - $ref: "#/components/parameters/EvaluationRunID"
+      responses:
+        "200":
+          description: Per-sample evaluation results for a run.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvaluationResultListEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /ai/evaluations/runs/{runID}/complete:
+    post:
+      tags: [Evaluation]
+      operationId: completeEvaluationRun
+      parameters:
+        - $ref: "#/components/parameters/EvaluationRunID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EvaluationCompleteRunInput"
+      responses:
+        "200":
+          description: Completed evaluation run with aggregate scores.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvaluationRunEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /ai/knowledge/connectors:
+    get:
+      tags: [Knowledge]
+      operationId: listKnowledgeConnectors
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeListLimit"
+      responses:
+        "200":
+          description: Available knowledge connectors.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/KnowledgeConnectorListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Knowledge]
+      operationId: createKnowledgeConnector
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/KnowledgeConnectorInput" }
+      responses:
+        "201":
+          description: Created knowledge connector.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/KnowledgeConnectorEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /ai/knowledge/connectors/{connectorID}/validate:
+    post:
+      tags: [Knowledge]
+      operationId: validateKnowledgeConnector
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeConnectorID"
+      responses:
+        "200":
+          description: Connector validation result.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/KnowledgeConnectorValidationEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /ai/knowledge-bases/{baseID}/sync-jobs:
+    post:
+      tags: [Knowledge]
+      operationId: createKnowledgeIngestionJob
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeBaseID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/KnowledgeIngestionJobInput" }
+      responses:
+        "202":
+          description: Accepted ingestion job.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/KnowledgeIngestionJobEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /ai/knowledge/sync-jobs/{jobID}:
+    get:
+      tags: [Knowledge]
+      operationId: getKnowledgeIngestionJob
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeIngestionJobID"
+      responses:
+        "200":
+          description: Ingestion job status.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/KnowledgeIngestionJobEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /ai/knowledge/sync-jobs/{jobID}/cancel:
+    post:
+      tags: [Knowledge]
+      operationId: cancelKnowledgeIngestionJob
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeIngestionJobID"
+      responses:
+        "202":
+          description: Ingestion job cancellation accepted.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/KnowledgeIngestionJobEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /ai/knowledge/sync-jobs/{jobID}/retry:
+    post:
+      tags: [Knowledge]
+      operationId: retryKnowledgeIngestionJob
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeIngestionJobID"
+      responses:
+        "202":
+          description: Ingestion job retry accepted.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/KnowledgeIngestionJobEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /ai/evaluations/executor-profiles:
+    get:
+      tags: [Evaluation]
+      operationId: listEvaluationExecutorProfiles
+      responses:
+        "200":
+          description: Evaluation executor profiles.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EvaluationExecutorProfileListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Evaluation]
+      operationId: putEvaluationExecutorProfile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/EvaluationExecutorProfile" }
+      responses:
+        "201":
+          description: Stored executor profile.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EvaluationExecutorProfileEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /ai/evaluations/runs/{runID}/execute:
+    post:
+      tags: [Evaluation]
+      operationId: executeEvaluationRun
+      parameters:
+        - $ref: "#/components/parameters/EvaluationRunID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/EvaluationExecuteRunInput" }
+      responses:
+        "202":
+          description: Evaluation execution accepted.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EvaluationRunEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /ai/evaluations/runs/{runID}/attempts:
+    get:
+      tags: [Evaluation]
+      operationId: listEvaluationSampleAttempts
+      parameters:
+        - $ref: "#/components/parameters/EvaluationRunID"
+      responses:
+        "200":
+          description: Evaluation sample attempts.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EvaluationSampleAttemptListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /ai/evaluations/replays:
+    get:
+      tags: [Evaluation]
+      operationId: listEvaluationReplayPlans
+      responses:
+        "200":
+          description: Evaluation replay plans.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EvaluationReplayPlanListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Evaluation]
+      operationId: putEvaluationReplayPlan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/EvaluationReplayPlanInput" }
+      responses:
+        "202":
+          description: Evaluation replay plan accepted.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EvaluationReplayPlanEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /ai/evaluations/gate-policies:
+    get:
+      tags: [Evaluation]
+      operationId: listEvaluationGatePolicies
+      responses:
+        "200":
+          description: Evaluation gate policies.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EvaluationGatePolicyListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Evaluation]
+      operationId: putEvaluationGatePolicy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/EvaluationGatePolicyInput" }
+      responses:
+        "201":
+          description: Stored evaluation gate policy.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EvaluationGatePolicyEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /ai/evaluations/gate-decisions:
+    get:
+      tags: [Evaluation]
+      operationId: listEvaluationGateDecisions
+      responses:
+        "200":
+          description: Evaluation gate decisions.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EvaluationGateDecisionListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /ai/evaluations/gates/evaluate:
+    post:
+      tags: [Evaluation]
+      operationId: evaluateEvaluationGate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/EvaluationGateRequest" }
+      responses:
+        "200":
+          description: Evaluation gate decision.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EvaluationGateDecisionEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /ai/evaluations/feedback:
+    get:
+      tags: [Evaluation]
+      operationId: listEvaluationFeedback
+      responses:
+        "200":
+          description: Curated evaluation feedback.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EvaluationFeedbackListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Evaluation]
+      operationId: putEvaluationFeedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/EvaluationFeedbackInput" }
+      responses:
+        "201":
+          description: Stored evaluation feedback.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EvaluationFeedbackEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /ai/memory/policies:
+    get:
+      tags: [Memory]
+      operationId: listAIMemoryPolicies
+      responses:
+        "200":
+          description: Long-term memory policies.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AIMemoryPolicyListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Memory]
+      operationId: putAIMemoryPolicy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AIMemoryPolicyInput" }
+      responses:
+        "201":
+          description: Stored memory policy.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AIMemoryPolicyEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /ai/memory:
+    get:
+      tags: [Memory]
+      operationId: listAIMemoryRecords
+      parameters:
+        - name: ownerType
+          in: query
+          schema: { type: string, default: user }
+        - name: ownerId
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Active long-term memory records.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AIMemoryRecordListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Memory]
+      operationId: putAIMemoryRecord
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AIMemoryWriteInput" }
+      responses:
+        "201":
+          description: Stored memory record.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AIMemoryRecordEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /ai/memory/{memoryID}:
+    delete:
+      tags: [Memory]
+      operationId: deleteAIMemoryRecord
+      parameters:
+        - $ref: "#/components/parameters/AIMemoryID"
+      responses:
+        "204": { description: Memory record deleted. }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /ai/knowledge-bases/{baseID}/graph-revisions:
+    get:
+      tags: [Knowledge]
+      operationId: listKnowledgeGraphRevisions
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeBaseID"
+      responses:
+        "200":
+          description: Knowledge graph revisions.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/KnowledgeGraphRevisionListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Knowledge]
+      operationId: putKnowledgeGraphRevision
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeBaseID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/KnowledgeGraphRevision" }
+      responses:
+        "201":
+          description: Stored knowledge graph revision.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/KnowledgeGraphRevisionEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /ai/knowledge-bases/{baseID}/graph-revisions/{revisionID}/publish:
+    post:
+      tags: [Knowledge]
+      operationId: publishKnowledgeGraphRevision
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeBaseID"
+        - $ref: "#/components/parameters/KnowledgeGraphRevisionID"
+      responses:
+        "200":
+          description: Published knowledge graph revision.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/KnowledgeGraphRevisionEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /ai/knowledge-bases/{baseID}/graph-revisions/{revisionID}/query:
+    post:
+      tags: [Knowledge]
+      operationId: queryKnowledgeGraphRevision
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeBaseID"
+        - $ref: "#/components/parameters/KnowledgeGraphRevisionID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/KnowledgeGraphQueryInput" }
+      responses:
+        "200":
+          description: Knowledge graph query result.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/KnowledgeGraphQueryResultEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /ai/agent-runs/multi-agent:
+    get:
+      tags: [AI Workbench]
+      operationId: listMultiAgentPlans
+      responses:
+        "200":
+          description: Bounded multi-agent plans.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MultiAgentPlanListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [AI Workbench]
+      operationId: createMultiAgentPlan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MultiAgentPlan" }
+      responses:
+        "202":
+          description: Multi-agent plan accepted.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MultiAgentPlanEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /ai/agent-runs/multi-agent/{planID}/subtasks/{subtaskID}/complete:
+    post:
+      tags: [AI Workbench]
+      operationId: completeMultiAgentSubtask
+      parameters:
+        - $ref: "#/components/parameters/MultiAgentPlanID"
+        - $ref: "#/components/parameters/MultiAgentSubtaskID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MultiAgentSubtaskCompletionInput" }
+      responses:
+        "200":
+          description: Updated multi-agent plan.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MultiAgentPlanEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /ai/agent-runs/multi-agent/{planID}/cancel:
+    post:
+      tags: [AI Workbench]
+      operationId: cancelMultiAgentPlan
+      parameters:
+        - $ref: "#/components/parameters/MultiAgentPlanID"
+      responses:
+        "200":
+          description: Cancelled multi-agent plan.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MultiAgentPlanEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /ai/agent-providers/rollouts:
+    get:
+      tags: [Agent Fleet]
+      operationId: listAgentProviderRollouts
+      responses:
+        "200":
+          description: Agent provider rollouts.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AgentProviderRolloutListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Agent Fleet]
+      operationId: createAgentProviderRollout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AgentProviderRolloutInput" }
+      responses:
+        "202":
+          description: Created agent provider rollout.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AgentProviderRolloutEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /ai/agent-providers/rollouts/{rolloutID}/{rolloutAction}:
+    post:
+      tags: [Agent Fleet]
+      operationId: transitionAgentProviderRollout
+      parameters:
+        - $ref: "#/components/parameters/AgentProviderRolloutID"
+        - $ref: "#/components/parameters/AgentProviderRolloutAction"
+      responses:
+        "200":
+          description: Transitioned agent provider rollout.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AgentProviderRolloutEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /ai/agent-providers/conformance-runs:
+    get:
+      tags: [Agent Fleet]
+      operationId: listAgentProviderConformanceRuns
+      responses:
+        "200":
+          description: Agent provider conformance runs.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AgentProviderConformanceRunListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Agent Fleet]
+      operationId: createAgentProviderConformanceRun
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AgentProviderConformanceRunInput" }
+      responses:
+        "202":
+          description: Created agent provider conformance run.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AgentProviderConformanceRunEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /ai/environments/templates:
+    get:
+      tags: [Agent Fleet]
+      operationId: listAIEnvironmentTemplates
+      responses:
+        "200":
+          description: Agent environment templates.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AIEnvironmentTemplateListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Agent Fleet]
+      operationId: putAIEnvironmentTemplate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AIEnvironmentTemplateInput" }
+      responses:
+        "201":
+          description: Stored agent environment template.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AIEnvironmentTemplateEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /ai/environments/leases:
+    get:
+      tags: [Agent Fleet]
+      operationId: listAIEnvironmentLeases
+      responses:
+        "200":
+          description: Agent environment leases.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AIEnvironmentLeaseListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /ai/environments/leases/{leaseID}/release:
+    post:
+      tags: [Agent Fleet]
+      operationId: releaseAIEnvironmentLease
+      parameters:
+        - $ref: "#/components/parameters/AIEnvironmentLeaseID"
+      responses:
+        "200":
+          description: Released agent environment lease.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AIEnvironmentLeaseEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /ai/environments/gc:
+    post:
+      tags: [Agent Fleet]
+      operationId: collectExpiredAIEnvironmentLeases
+      responses:
+        "202":
+          description: Environment lease collection operation.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AIProductionOperationEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /ai/operations:
+    get:
+      tags: [Agent Fleet]
+      operationId: listAIProductionOperations
+      responses:
+        "200":
+          description: AI production operations.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AIProductionOperationListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Agent Fleet]
+      operationId: startAIProductionOperation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AIProductionOperationInput" }
+      responses:
+        "202":
+          description: AI production operation accepted.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AIProductionOperationEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /ai/operations/runbook-evidence:
+    get:
+      tags: [Agent Fleet]
+      operationId: listAIProductionRunbookEvidence
+      responses:
+        "200":
+          description: AI production runbook evidence.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AIRunbookEvidenceListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /ai/knowledge-bases/{baseID}/rebuild:
+    post:
+      tags: [Knowledge]
+      operationId: rebuildKnowledgeBaseIndex
+      parameters:
+        - $ref: "#/components/parameters/KnowledgeBaseID"
+      responses:
+        "202":
+          description: Knowledge base index rebuild accepted.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AIProductionOperationEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
 components:
   securitySchemes:
     bearerAuth:
@@ -3746,6 +4910,82 @@ components:
       required: true
       schema:
         type: string
+    KnowledgeBaseID:
+      name: baseID
+      in: path
+      required: true
+      schema:
+        type: string
+    KnowledgeSourceID:
+      name: sourceID
+      in: path
+      required: true
+      schema:
+        type: string
+    KnowledgeConnectorID:
+      name: connectorID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    KnowledgeIngestionJobID:
+      name: jobID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    KnowledgeGraphRevisionID:
+      name: revisionID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    KnowledgeListLimit:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 200
+        default: 50
+    EvaluationRunID:
+      name: runID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+    AIMemoryID:
+      name: memoryID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    MultiAgentPlanID:
+      name: planID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    MultiAgentSubtaskID:
+      name: subtaskID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    AgentProviderRolloutID:
+      name: rolloutID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    AgentProviderRolloutAction:
+      name: rolloutAction
+      in: path
+      required: true
+      schema:
+        type: string
+        enum: [pause, resume, rollback]
+    AIEnvironmentLeaseID:
+      name: leaseID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
     PlanID:
       name: planID
       in: path
@@ -3916,6 +5156,1611 @@ components:
             request_id:
               type: string
           additionalProperties: false
+      additionalProperties: false
+    AgentProviderRuntimeDefinition:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string
+          enum: [cli, container, remote]
+        command: { type: string, maxLength: 1024 }
+        args:
+          type: array
+          maxItems: 64
+          items: { type: string, maxLength: 2048 }
+        promptArg: { type: string, maxLength: 128 }
+        skillArg: { type: string, maxLength: 128 }
+        providerSkillArg: { type: string, maxLength: 128 }
+        image: { type: string, maxLength: 1024 }
+        endpoint: { type: string, format: uri, maxLength: 2048 }
+        healthPath: { type: string, maxLength: 512 }
+      additionalProperties: false
+    AgentProviderDefinition:
+      type: object
+      required: [schemaVersion, id, kind, displayName, pluginId, pluginVersion, providerVersion, adapterProtocol, runtime, capabilities]
+      properties:
+        schemaVersion:
+          type: string
+          const: opensoha.dev/agent-provider-definition/v1
+        id: { type: string, minLength: 1, maxLength: 128 }
+        kind: { type: string, minLength: 1, maxLength: 64 }
+        displayName: { type: string, maxLength: 160 }
+        pluginId: { type: string, minLength: 1, maxLength: 128 }
+        pluginVersion: { type: string, minLength: 1, maxLength: 64 }
+        providerVersion: { type: string, minLength: 1, maxLength: 64 }
+        adapterProtocol: { type: string, minLength: 1, maxLength: 128 }
+        runtime: { $ref: "#/components/schemas/AgentProviderRuntimeDefinition" }
+        capabilities:
+          type: array
+          minItems: 1
+          maxItems: 128
+          items: { type: string, minLength: 1, maxLength: 128 }
+        requiredGatewayCapabilities:
+          type: array
+          maxItems: 128
+          items: { type: string, minLength: 1, maxLength: 128 }
+        requiredScopes:
+          type: array
+          maxItems: 64
+          items: { type: string, minLength: 1, maxLength: 128 }
+        secretRefs:
+          type: array
+          maxItems: 64
+          items: { type: string, minLength: 1, maxLength: 247 }
+        draining: { type: boolean }
+      additionalProperties: false
+    AgentProviderCatalog:
+      type: object
+      required: [schemaVersion, revision, digest, createdAt, providers]
+      properties:
+        schemaVersion:
+          type: string
+          const: opensoha.dev/agent-provider-catalog/v1
+        revision: { type: integer, format: int64, minimum: 1 }
+        digest: { type: string, minLength: 1, maxLength: 80 }
+        createdAt: { type: string, format: date-time }
+        providers:
+          type: array
+          maxItems: 256
+          items: { $ref: "#/components/schemas/AgentProviderDefinition" }
+      additionalProperties: false
+    AgentProviderFleetTarget:
+      type: object
+      properties:
+        environments:
+          type: array
+          maxItems: 32
+          items: { type: string, maxLength: 64 }
+        platforms:
+          type: array
+          maxItems: 16
+          items: { type: string, maxLength: 32 }
+        architectures:
+          type: array
+          maxItems: 16
+          items: { type: string, maxLength: 32 }
+        labels:
+          type: object
+          maxProperties: 32
+          additionalProperties: { type: string, maxLength: 128 }
+      additionalProperties: false
+    AgentProviderRegistrySnapshot:
+      type: object
+      required: [schemaVersion, revision, issuedAt, providers]
+      properties:
+        schemaVersion:
+          type: string
+          const: opensoha.dev/agent-provider-registry/v1
+        revision: { type: integer, format: int64, minimum: 1 }
+        digest: { type: string, maxLength: 80 }
+        issuedAt: { type: string, format: date-time }
+        providers:
+          type: array
+          maxItems: 256
+          items: { $ref: "#/components/schemas/AgentProviderDefinition" }
+        fleetTarget: { $ref: "#/components/schemas/AgentProviderFleetTarget" }
+      additionalProperties: false
+    AgentProviderRunnerStatus:
+      type: object
+      required: [providerId, providerVersion, catalogRevision, health, draining, activeRuns, observedAt]
+      properties:
+        providerId: { type: string, minLength: 1, maxLength: 160 }
+        providerVersion: { type: string, maxLength: 64 }
+        catalogRevision: { type: integer, format: int64, minimum: 0 }
+        health:
+          type: string
+          enum: [unknown, healthy, unhealthy]
+        draining: { type: boolean }
+        activeRuns: { type: integer, minimum: 0 }
+        reason: { type: string, maxLength: 2048 }
+        observedAt: { type: string, format: date-time }
+      additionalProperties: false
+    AgentProviderRegistryAcknowledgement:
+      type: object
+      required: [runnerId, revision, activeRevision, accepted, targeted, observedAt]
+      properties:
+        runnerId: { type: string, minLength: 1, maxLength: 160 }
+        revision: { type: integer, format: int64, minimum: 1 }
+        desiredRevision: { type: integer, format: int64, minimum: 0 }
+        activeRevision: { type: integer, format: int64, minimum: 0 }
+        lkgRevision: { type: integer, format: int64, minimum: 0 }
+        previousRevision: { type: integer, format: int64, minimum: 0 }
+        accepted: { type: boolean }
+        targeted: { type: boolean }
+        rolloutState: { type: string, maxLength: 128 }
+        rolledBack: { type: boolean }
+        reason: { type: string, maxLength: 2048 }
+        observedAt: { type: string, format: date-time }
+        providerStatuses:
+          type: array
+          maxItems: 256
+          items: { $ref: "#/components/schemas/AgentProviderRunnerStatus" }
+        conformanceChecks:
+          type: array
+          maxItems: 256
+          items: { $ref: "#/components/schemas/AgentProviderConformanceResult" }
+      additionalProperties: false
+    AgentProviderConformanceResult:
+      type: object
+      required: [providerId, status]
+      properties:
+        providerId: { type: string, minLength: 1, maxLength: 160 }
+        status: { type: string, minLength: 1, maxLength: 64 }
+        reason: { type: string, maxLength: 2048 }
+      additionalProperties: false
+    AgentProviderRuntimeStatus:
+      type: object
+      required: [catalogRevision, catalogDigest, runnerCount, acknowledgements]
+      properties:
+        catalogRevision: { type: integer, format: int64, minimum: 0 }
+        catalogDigest: { type: string, maxLength: 80 }
+        runnerCount: { type: integer, minimum: 0 }
+        acknowledgements:
+          type: array
+          maxItems: 1000
+          items: { $ref: "#/components/schemas/AgentProviderRegistryAcknowledgement" }
+      additionalProperties: false
+    AgentProviderCatalogEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/AgentProviderCatalog" }
+      additionalProperties: false
+    AgentProviderRegistrySnapshotEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/AgentProviderRegistrySnapshot" }
+      additionalProperties: false
+    AgentProviderRegistryAcknowledgementEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/AgentProviderRegistryAcknowledgement" }
+      additionalProperties: false
+    AgentProviderRuntimeStatusEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/AgentProviderRuntimeStatus" }
+      additionalProperties: false
+    KnowledgeConnectorInput:
+      type: object
+      required: [knowledgeBaseId, name, kind, secretRef, config, syncPolicy]
+      properties:
+        knowledgeBaseId: { type: string, minLength: 1, maxLength: 128 }
+        name: { type: string, minLength: 1, maxLength: 160 }
+        kind: { type: string, enum: [inline, http, git, object] }
+        version: { type: string, maxLength: 64 }
+        secretRef: { type: string, maxLength: 512 }
+        config:
+          type: object
+          additionalProperties: true
+        syncPolicy: { $ref: "#/components/schemas/KnowledgeSyncPolicy" }
+      additionalProperties: false
+    KnowledgeConnector:
+      allOf:
+        - $ref: "#/components/schemas/KnowledgeConnectorInput"
+        - type: object
+          required: [id, status, createdAt, updatedAt]
+          properties:
+            id: { type: string, minLength: 1, maxLength: 128 }
+            status: { type: string }
+            createdAt: { type: string, format: date-time }
+            updatedAt: { type: string, format: date-time }
+    KnowledgeConnectorValidation:
+      type: object
+      required: [kind, valid, secretRef, configHash, warnings, validatedAt]
+      properties:
+        kind: { type: string, enum: [inline, http, git, object] }
+        valid: { type: boolean }
+        host: { type: string }
+        resource: { type: string }
+        secretRef: { type: string }
+        configHash: { type: string }
+        warnings:
+          type: array
+          items: { type: string }
+        validatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    KnowledgeIngestionJobInput:
+      type: object
+      required: [sourceId]
+      properties:
+        sourceId: { type: string, minLength: 1, maxLength: 128 }
+      additionalProperties: false
+    KnowledgeIngestionCheckpoint:
+      type: object
+      required: [stage, documentsSeen, documentsStored, chunksStored, recordedAt]
+      properties:
+        stage: { $ref: "#/components/schemas/KnowledgeIngestionStage" }
+        cursor: { type: string }
+        documentsSeen: { type: integer, minimum: 0 }
+        documentsStored: { type: integer, minimum: 0 }
+        chunksStored: { type: integer, minimum: 0 }
+        contentHash: { type: string }
+        recordedAt: { type: string, format: date-time }
+      additionalProperties: false
+    KnowledgeIngestionStage:
+      type: string
+      enum: [discovering, fetching, parsing, chunking, embedding, indexing, verifying, publishing]
+    KnowledgeIngestionJob:
+      type: object
+      required: [id, knowledgeBaseId, sourceId, targetRevision, stage, status, attempt, maxAttempts, cancelRequested, checkpoint, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        knowledgeBaseId: { type: string, minLength: 1, maxLength: 128 }
+        sourceId: { type: string, minLength: 1, maxLength: 128 }
+        targetRevision: { type: integer, format: int64, minimum: 0 }
+        stage: { $ref: "#/components/schemas/KnowledgeIngestionStage" }
+        status:
+          type: string
+          enum: [queued, running, retry_wait, cancelling, cancelled, failed, succeeded]
+        attempt: { type: integer, minimum: 0 }
+        maxAttempts: { type: integer, minimum: 0 }
+        cancelRequested: { type: boolean }
+        checkpoint: { $ref: "#/components/schemas/KnowledgeIngestionCheckpoint" }
+        errorCode: { type: string }
+        error: { type: string }
+        nextAttemptAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+        completedAt: { type: string, format: date-time }
+      additionalProperties: false
+    KnowledgeConnectorEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KnowledgeConnector" }
+      additionalProperties: false
+    KnowledgeConnectorListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/KnowledgeConnector" }
+      additionalProperties: false
+    KnowledgeConnectorValidationEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KnowledgeConnectorValidation" }
+      additionalProperties: false
+    KnowledgeIngestionJobEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KnowledgeIngestionJob" }
+      additionalProperties: false
+    EvaluationExecutorProfile:
+      type: object
+      required: [id, environmentPolicy, isolationMode, timeout, maxCost]
+      properties:
+        id: { type: string, minLength: 1 }
+        environmentPolicy: { type: string, minLength: 1 }
+        toolSnapshotRef: { type: string }
+        isolationMode: { type: string, enum: [read-only, disposable-write] }
+        timeout:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Go time.Duration encoded as nanoseconds.
+        maxCost: { type: number, minimum: 0 }
+      additionalProperties: false
+    EvaluationExecuteRunInput:
+      type: object
+      required: [executorProfileId]
+      properties:
+        executorProfileId: { type: string, minLength: 1 }
+      additionalProperties: false
+    EvaluationSampleAttempt:
+      type: object
+      required: [runId, sampleId, attempt, candidateRefs, latencyMillis, status, completedAt]
+      properties:
+        runId: { type: string }
+        sampleId: { type: string }
+        attempt: { type: integer, minimum: 1 }
+        candidateRefs:
+          type: object
+          additionalProperties: { type: string }
+        traceRef: { type: string }
+        scores:
+          type: object
+          additionalProperties: { type: number }
+        usage:
+          type: object
+          additionalProperties: { type: number }
+        latencyMillis: { type: integer, format: int64, minimum: 0 }
+        status: { type: string }
+        errorCode: { type: string }
+        completedAt: { type: string, format: date-time }
+      additionalProperties: false
+    EvaluationReplayPlan:
+      type: object
+      required: [id, sourceTraceRefs, candidateRefs, profile, readOnly, createdAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        sourceTraceRefs:
+          type: array
+          items: { type: string }
+        candidateRefs:
+          type: object
+          additionalProperties: { type: string }
+        profile: { $ref: "#/components/schemas/EvaluationExecutorProfile" }
+        readOnly: { type: boolean }
+        createdAt: { type: string, format: date-time }
+      additionalProperties: false
+    EvaluationReplayPlanInput:
+      type: object
+      required: [id, baselineRunId, candidateRunId, executorProfileId]
+      properties:
+        id: { type: string, minLength: 1 }
+        baselineRunId: { type: string, minLength: 1 }
+        candidateRunId: { type: string, minLength: 1 }
+        executorProfileId: { type: string, minLength: 1 }
+      additionalProperties: false
+    EvaluationGatePolicy:
+      type: object
+      required: [id, version, minimumScores, maximumRegression, enabled]
+      properties:
+        id: { type: string, minLength: 1 }
+        version: { type: string, minLength: 1 }
+        minimumScores:
+          type: object
+          additionalProperties: { type: number }
+        maximumRegression:
+          type: object
+          additionalProperties: { type: number }
+        maximumCost: { type: number, minimum: 0 }
+        maximumLatencyMs: { type: integer, format: int64, minimum: 0 }
+        enabled: { type: boolean }
+      additionalProperties: false
+    EvaluationGatePolicyInput:
+      type: object
+      required: [id, version, metric, threshold]
+      properties:
+        id: { type: string, minLength: 1 }
+        name: { type: string }
+        version: { type: string, minLength: 1 }
+        metric: { type: string, minLength: 1 }
+        threshold: { type: number, minimum: 0, maximum: 1 }
+      additionalProperties: false
+    EvaluationGateReason:
+      type: object
+      required: [metric, expected, actual, code]
+      properties:
+        metric: { type: string }
+        expected: { type: number }
+        actual: { type: number }
+        code: { type: string }
+      additionalProperties: false
+    EvaluationGateDecision:
+      type: object
+      required: [id, policyId, policyVersion, baselineRunId, candidateRunId, decision, reasons, evidenceRefs, evaluatedAt]
+      properties:
+        id: { type: string }
+        policyId: { type: string }
+        policyVersion: { type: string }
+        baselineRunId: { type: string }
+        candidateRunId: { type: string }
+        decision: { type: string }
+        reasons:
+          type: array
+          items: { $ref: "#/components/schemas/EvaluationGateReason" }
+        evidenceRefs:
+          type: array
+          items: { type: string }
+        evaluatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    EvaluationGateRequest:
+      type: object
+      required: [policyId, baselineRunId, candidateRunId]
+      properties:
+        policyId: { type: string, minLength: 1 }
+        baselineRunId: { type: string, minLength: 1 }
+        candidateRunId: { type: string, minLength: 1 }
+      additionalProperties: false
+    EvaluationFeedback:
+      type: object
+      required: [id, traceRef, scopeHash, redactedInput, redactedOutput, licenseRef, decision, createdAt]
+      properties:
+        id: { type: string }
+        traceRef: { type: string }
+        scopeHash: { type: string }
+        redactedInput: { type: string }
+        redactedOutput: { type: string }
+        licenseRef: { type: string }
+        decision: { type: string }
+        datasetRef: { type: string }
+        createdAt: { type: string, format: date-time }
+      additionalProperties: false
+    EvaluationFeedbackInput:
+      type: object
+      required: [id, traceRef, disposition]
+      properties:
+        id: { type: string, minLength: 1 }
+        traceRef: { type: string, minLength: 1 }
+        disposition: { type: string, enum: [pending, accepted, rejected, deleted] }
+      additionalProperties: false
+    EvaluationExecutorProfileEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/EvaluationExecutorProfile" }
+      additionalProperties: false
+    EvaluationExecutorProfileListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/EvaluationExecutorProfile" } }
+      additionalProperties: false
+    EvaluationSampleAttemptListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/EvaluationSampleAttempt" } }
+      additionalProperties: false
+    EvaluationReplayPlanEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/EvaluationReplayPlan" }
+      additionalProperties: false
+    EvaluationReplayPlanListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/EvaluationReplayPlan" } }
+      additionalProperties: false
+    EvaluationGatePolicyEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/EvaluationGatePolicy" }
+      additionalProperties: false
+    EvaluationGatePolicyListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/EvaluationGatePolicy" } }
+      additionalProperties: false
+    EvaluationGateDecisionEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/EvaluationGateDecision" }
+      additionalProperties: false
+    EvaluationGateDecisionListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/EvaluationGateDecision" } }
+      additionalProperties: false
+    EvaluationFeedbackEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/EvaluationFeedback" }
+      additionalProperties: false
+    EvaluationFeedbackListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/EvaluationFeedback" } }
+      additionalProperties: false
+    AIMemoryPolicy:
+      type: object
+      required: [id, version, ownerTypes, defaultTtl, maximumTtl, minimumConfidence, explicitWriteOnly, enabled]
+      properties:
+        id: { type: string, minLength: 1 }
+        version: { type: string, minLength: 1 }
+        ownerTypes:
+          type: array
+          maxItems: 8
+          items: { type: string }
+        defaultTtl:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Go time.Duration encoded as nanoseconds.
+        maximumTtl:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Go time.Duration encoded as nanoseconds.
+        minimumConfidence: { type: number, minimum: 0, maximum: 1 }
+        explicitWriteOnly: { type: boolean }
+        enabled: { type: boolean }
+      additionalProperties: false
+    AIMemoryPolicyInput:
+      type: object
+      required: [id, name, consentMode, ttlDays]
+      properties:
+        id: { type: string, minLength: 1 }
+        name: { type: string, minLength: 1 }
+        consentMode: { type: string, enum: [explicit, disabled] }
+        ttlDays: { type: integer, minimum: 1, maximum: 3650 }
+      additionalProperties: false
+    AIMemoryRecord:
+      type: object
+      required: [id, ownerType, ownerId, scopeHash, fact, sourceType, sourceRefs, confidence, validFrom, policyVersion, status, createdAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        ownerType: { type: string }
+        ownerId: { type: string, minLength: 1 }
+        scopeHash: { type: string }
+        fact: { type: string, minLength: 1, maxLength: 8000 }
+        sourceType: { type: string, enum: [explicit_user, curated_extractor] }
+        sourceRefs:
+          type: array
+          maxItems: 32
+          items: { type: string }
+        confidence: { type: number, minimum: 0, maximum: 1 }
+        validFrom: { type: string, format: date-time }
+        expiresAt: { type: string, format: date-time }
+        policyVersion: { type: string }
+        status: { type: string }
+        createdAt: { type: string, format: date-time }
+        deletedAt: { type: string, format: date-time }
+      additionalProperties: false
+    AIMemoryWriteInput:
+      type: object
+      required: [record, policyId, policyVersion]
+      properties:
+        record: { $ref: "#/components/schemas/AIMemoryRecord" }
+        policyId: { type: string, minLength: 1 }
+        policyVersion: { type: string, minLength: 1 }
+      additionalProperties: false
+    AIMemoryPolicyEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/AIMemoryPolicy" }
+      additionalProperties: false
+    AIMemoryPolicyListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/AIMemoryPolicy" } }
+      additionalProperties: false
+    AIMemoryRecordEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/AIMemoryRecord" }
+      additionalProperties: false
+    AIMemoryRecordListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/AIMemoryRecord" } }
+      additionalProperties: false
+    KnowledgeGraphEntity:
+      type: object
+      required: [id, name, kind, sourceRefs, contentHash]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        kind: { type: string }
+        sourceRefs:
+          type: array
+          items: { type: string }
+        contentHash: { type: string }
+      additionalProperties: false
+    KnowledgeGraphRelation:
+      type: object
+      required: [id, fromEntityId, toEntityId, kind, sourceRefs, confidence]
+      properties:
+        id: { type: string }
+        fromEntityId: { type: string }
+        toEntityId: { type: string }
+        kind: { type: string }
+        sourceRefs:
+          type: array
+          items: { type: string }
+        confidence: { type: number, minimum: 0, maximum: 1 }
+      additionalProperties: false
+    KnowledgeGraphCommunity:
+      type: object
+      required: [id, entityIds, summary, sourceRefs]
+      properties:
+        id: { type: string }
+        entityIds:
+          type: array
+          items: { type: string }
+        summary: { type: string }
+        sourceRefs:
+          type: array
+          items: { type: string }
+      additionalProperties: false
+    KnowledgeGraphRevision:
+      type: object
+      required: [id, knowledgeBaseId, sourceIndexRef, extractorVersion, status, entities, relations, communities, createdAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        knowledgeBaseId: { type: string }
+        sourceIndexRef: { type: string, minLength: 1 }
+        extractorVersion: { type: string, minLength: 1 }
+        status: { type: string }
+        entities:
+          type: array
+          maxItems: 50000
+          items: { $ref: "#/components/schemas/KnowledgeGraphEntity" }
+        relations:
+          type: array
+          maxItems: 200000
+          items: { $ref: "#/components/schemas/KnowledgeGraphRelation" }
+        communities:
+          type: array
+          maxItems: 5000
+          items: { $ref: "#/components/schemas/KnowledgeGraphCommunity" }
+        createdAt: { type: string, format: date-time }
+        publishedAt: { type: string, format: date-time }
+      additionalProperties: false
+    KnowledgeGraphQueryInput:
+      type: object
+      required: [query, mode, limit]
+      properties:
+        query: { type: string, minLength: 1 }
+        mode: { type: string }
+        limit: { type: integer, minimum: 0, maximum: 50 }
+      additionalProperties: false
+    KnowledgeGraphQueryResult:
+      type: object
+      required: [revisionId, mode, entities, relations, summaries, noAnswer]
+      properties:
+        revisionId: { type: string }
+        mode: { type: string }
+        entities: { type: array, items: { $ref: "#/components/schemas/KnowledgeGraphEntity" } }
+        relations: { type: array, items: { $ref: "#/components/schemas/KnowledgeGraphRelation" } }
+        summaries: { type: array, items: { $ref: "#/components/schemas/KnowledgeGraphCommunity" } }
+        noAnswer: { type: boolean }
+      additionalProperties: false
+    KnowledgeGraphRevisionEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KnowledgeGraphRevision" }
+      additionalProperties: false
+    KnowledgeGraphRevisionListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/KnowledgeGraphRevision" } }
+      additionalProperties: false
+    KnowledgeGraphQueryResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KnowledgeGraphQueryResult" }
+      additionalProperties: false
+    MultiAgentBudget:
+      type: object
+      required: [maxSteps, maxTokens, maxCost, deadlineSeconds]
+      properties:
+        maxSteps: { type: integer, minimum: 1, maximum: 100 }
+        maxTokens: { type: integer, minimum: 1, maximum: 2000000 }
+        maxCost: { type: number, minimum: 0 }
+        deadlineSeconds: { type: integer, minimum: 1, maximum: 86400 }
+      additionalProperties: false
+    MultiAgentSubtask:
+      type: object
+      required: [id, agentProfileRef, input, permissionKeys, budget, status]
+      properties:
+        id: { type: string, minLength: 1 }
+        agentProfileRef: { type: string, minLength: 1 }
+        input: { type: string, minLength: 1 }
+        dependsOn:
+          type: array
+          items: { type: string }
+        permissionKeys:
+          type: array
+          items: { type: string }
+        budget: { $ref: "#/components/schemas/MultiAgentBudget" }
+        status: { type: string }
+        outputRef: { type: string }
+        errorCode: { type: string }
+      additionalProperties: false
+    MultiAgentPlan:
+      type: object
+      required: [id, coordinatorRef, principalPermissions, subtasks, sharedBudget, status, createdAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        coordinatorRef: { type: string, minLength: 1 }
+        principalPermissions:
+          type: array
+          items: { type: string }
+        subtasks:
+          type: array
+          minItems: 1
+          maxItems: 8
+          items: { $ref: "#/components/schemas/MultiAgentSubtask" }
+        sharedBudget: { $ref: "#/components/schemas/MultiAgentBudget" }
+        status: { type: string }
+        mergedOutputRefs:
+          type: array
+          items: { type: string }
+        createdAt: { type: string, format: date-time }
+        completedAt: { type: string, format: date-time }
+      additionalProperties: false
+    MultiAgentSubtaskCompletionInput:
+      type: object
+      required: [outputRef]
+      properties:
+        outputRef: { type: string, minLength: 1 }
+      additionalProperties: false
+    MultiAgentPlanEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/MultiAgentPlan" }
+      additionalProperties: false
+    MultiAgentPlanListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/MultiAgentPlan" } }
+      additionalProperties: false
+    AgentProviderRolloutInput:
+      type: object
+      required: [id, desiredRevision, canaryPercent]
+      properties:
+        id: { type: string, minLength: 1 }
+        name: { type: string }
+        desiredRevision: { type: integer, format: int64, minimum: 1 }
+        previousRevision: { type: integer, format: int64, minimum: 0 }
+        environments: { type: array, maxItems: 64, items: { type: string } }
+        platforms: { type: array, maxItems: 16, items: { type: string } }
+        architectures: { type: array, maxItems: 16, items: { type: string } }
+        labels:
+          type: object
+          maxProperties: 64
+          additionalProperties: { type: string }
+        canaryPercent: { type: integer, minimum: 1, maximum: 100 }
+      additionalProperties: false
+    AgentProviderRollout:
+      type: object
+      required: [id, desiredRevision, previousRevision, target, canaryPercent, status, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        name: { type: string }
+        desiredRevision: { type: integer, format: int64, minimum: 1 }
+        previousRevision: { type: integer, format: int64, minimum: 0 }
+        target: { $ref: "#/components/schemas/AgentProviderFleetTarget" }
+        canaryPercent: { type: integer, minimum: 1, maximum: 100 }
+        status: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    AgentProviderConformanceRunInput:
+      type: object
+      required: [id, providerRef, environmentRef, suiteVersion]
+      properties:
+        id: { type: string, minLength: 1 }
+        providerRef: { type: string, minLength: 1 }
+        environmentRef: { type: string, minLength: 1 }
+        suiteVersion: { type: string, minLength: 1 }
+      additionalProperties: false
+    AgentProviderConformanceRun:
+      type: object
+      required: [id, providerRef, environmentRef, suiteVersion, status, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        providerRef: { type: string, minLength: 1 }
+        environmentRef: { type: string, minLength: 1 }
+        suiteVersion: { type: string, minLength: 1 }
+        status: { type: string }
+        results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    AIEnvironmentTemplateInput:
+      type: object
+      required: [id, name, backend, isolationMode]
+      properties:
+        id: { type: string, minLength: 1 }
+        name: { type: string, minLength: 1 }
+        backend: { type: string, enum: [container, kubernetes] }
+        isolationMode: { type: string, enum: [read-only, disposable-write] }
+        resourcePolicy:
+          type: object
+          additionalProperties: true
+        networkPolicy:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    AIEnvironmentTemplate:
+      type: object
+      required: [id, name, backend, isolationMode, status, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        name: { type: string, minLength: 1 }
+        backend: { type: string, enum: [container, kubernetes] }
+        isolationMode: { type: string, enum: [read-only, disposable-write] }
+        resourcePolicy:
+          type: object
+          additionalProperties: true
+        networkPolicy:
+          type: object
+          additionalProperties: true
+        status: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    AIEnvironmentLease:
+      type: object
+      required: [id, templateId, ownerRef, status, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        templateId: { type: string }
+        ownerRef: { type: string }
+        status: { type: string }
+        expiresAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    AIProductionOperationInput:
+      type: object
+      required: [kind, targetRef, runbookId]
+      properties:
+        id: { type: string }
+        kind: { type: string, enum: [backup, restore, index_rebuild, drill] }
+        targetRef: { type: string, minLength: 1 }
+        runbookId: { type: string, minLength: 1 }
+        evidenceRefs:
+          type: array
+          items: { type: string }
+      additionalProperties: false
+    AIProductionOperation:
+      type: object
+      required: [id, kind, category, targetRef, runbookId, status, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        kind: { type: string, enum: [backup, restore, index_rebuild, drill, gc] }
+        category: { type: string }
+        targetRef: { type: string }
+        runbookId: { type: string }
+        status: { type: string }
+        evidenceRefs:
+          type: array
+          items: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    AIRunbookEvidence:
+      type: object
+      required: [id, runbookId, operationId, outcome, status, createdAt]
+      properties:
+        id: { type: string }
+        runbookId: { type: string }
+        operationId: { type: string }
+        outcome: { type: string }
+        status: { type: string }
+        evidenceRefs:
+          type: array
+          items: { type: string }
+        createdAt: { type: string, format: date-time }
+      additionalProperties: false
+    AgentProviderRolloutEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/AgentProviderRollout" }
+      additionalProperties: false
+    AgentProviderRolloutListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/AgentProviderRollout" } }
+      additionalProperties: false
+    AgentProviderConformanceRunEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/AgentProviderConformanceRun" }
+      additionalProperties: false
+    AgentProviderConformanceRunListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/AgentProviderConformanceRun" } }
+      additionalProperties: false
+    AIEnvironmentTemplateEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/AIEnvironmentTemplate" }
+      additionalProperties: false
+    AIEnvironmentTemplateListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/AIEnvironmentTemplate" } }
+      additionalProperties: false
+    AIEnvironmentLeaseEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/AIEnvironmentLease" }
+      additionalProperties: false
+    AIEnvironmentLeaseListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/AIEnvironmentLease" } }
+      additionalProperties: false
+    AIProductionOperationEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/AIProductionOperation" }
+      additionalProperties: false
+    AIProductionOperationListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/AIProductionOperation" } }
+      additionalProperties: false
+    AIRunbookEvidenceListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/AIRunbookEvidence" } }
+      additionalProperties: false
+    KnowledgeAccessScope:
+      type: object
+      required: [visibility]
+      properties:
+        visibility:
+          type: string
+          enum: [private, scoped, public]
+        users:
+          type: array
+          items: { type: string }
+        roles:
+          type: array
+          items: { type: string }
+        teams:
+          type: array
+          items: { type: string }
+        projects:
+          type: array
+          items: { type: string }
+      additionalProperties: false
+    KnowledgeRetrievalPolicy:
+      type: object
+      required: [defaultTopK, maxTopK, lexicalWeight, vectorWeight, minScore]
+      properties:
+        defaultTopK: { type: integer, minimum: 0, maximum: 50 }
+        maxTopK: { type: integer, minimum: 0, maximum: 50 }
+        lexicalWeight: { type: number, minimum: 0, maximum: 1 }
+        vectorWeight: { type: number, minimum: 0, maximum: 1 }
+        minScore: { type: number, minimum: 0, maximum: 1 }
+      additionalProperties: false
+    KnowledgeBase:
+      type: object
+      required: [id, name, status, ownerId, scope, retrievalPolicy, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        tenantId: { type: string }
+        workspaceId: { type: string }
+        name: { type: string }
+        description: { type: string }
+        status:
+          type: string
+          enum: [active, disabled]
+        ownerId: { type: string }
+        scope: { $ref: "#/components/schemas/KnowledgeAccessScope" }
+        retrievalPolicy: { $ref: "#/components/schemas/KnowledgeRetrievalPolicy" }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    KnowledgeBaseInput:
+      type: object
+      required: [name, scope, retrievalPolicy]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 160 }
+        description: { type: string }
+        tenantId: { type: string }
+        workspaceId: { type: string }
+        scope: { $ref: "#/components/schemas/KnowledgeAccessScope" }
+        retrievalPolicy: { $ref: "#/components/schemas/KnowledgeRetrievalPolicy" }
+      additionalProperties: false
+    KnowledgeSyncPolicy:
+      type: object
+      required: [mode]
+      properties:
+        mode: { type: string }
+        schedule: { type: string }
+      additionalProperties: false
+    KnowledgeSource:
+      type: object
+      required: [id, knowledgeBaseId, name, kind, syncPolicy, status, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        knowledgeBaseId: { type: string }
+        name: { type: string }
+        kind:
+          type: string
+          enum: [inline, http, git, object]
+        configRef: { type: string }
+        syncPolicy: { $ref: "#/components/schemas/KnowledgeSyncPolicy" }
+        cursor: { type: string }
+        status:
+          type: string
+          enum: [pending, ready, syncing, failed]
+        lastError: { type: string }
+        lastSyncedAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    KnowledgeSourceInput:
+      type: object
+      required: [name, kind, syncPolicy]
+      properties:
+        name: { type: string, minLength: 1 }
+        kind:
+          type: string
+          enum: [inline, http, git, object]
+        configRef: { type: string }
+        config:
+          $ref: "#/components/schemas/KnowledgeSourceConfig"
+        syncPolicy: { $ref: "#/components/schemas/KnowledgeSyncPolicy" }
+      additionalProperties: false
+    KnowledgeSourceConfig:
+      type: object
+      properties:
+        documents:
+          type: array
+          items: { $ref: "#/components/schemas/KnowledgeSourceDocument" }
+      additionalProperties: false
+    KnowledgeSourceDocument:
+      type: object
+      required: [externalId, title, content, acl]
+      properties:
+        externalId: { type: string, minLength: 1 }
+        title: { type: string, minLength: 1 }
+        content: { type: string }
+        uri: { type: string }
+        version: { type: string }
+        acl: { $ref: "#/components/schemas/KnowledgeAccessScope" }
+      additionalProperties: false
+    KnowledgeDocument:
+      type: object
+      required: [id, knowledgeBaseId, sourceId, externalId, title, version, contentHash, acl, status, chunkCount, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        knowledgeBaseId: { type: string }
+        sourceId: { type: string }
+        externalId: { type: string }
+        title: { type: string }
+        uri: { type: string }
+        version: { type: string }
+        contentHash: { type: string }
+        acl: { $ref: "#/components/schemas/KnowledgeAccessScope" }
+        status:
+          type: string
+          enum: [pending, indexed, failed, deleted]
+        chunkCount: { type: integer, minimum: 0 }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    KnowledgeSourceLocation:
+      type: object
+      properties:
+        uri: { type: string }
+        startByte: { type: integer, minimum: 0 }
+        endByte: { type: integer, minimum: 0 }
+      additionalProperties: false
+    KnowledgeIndexRevision:
+      type: object
+      required: [id, knowledgeBaseId, revision, chunkerVersion, documentCount, chunkCount, status, createdAt]
+      properties:
+        id: { type: string }
+        knowledgeBaseId: { type: string }
+        revision: { type: integer, minimum: 0 }
+        embeddingModel: { type: string }
+        chunkerVersion: { type: string }
+        documentCount: { type: integer, minimum: 0 }
+        chunkCount: { type: integer, minimum: 0 }
+        status:
+          type: string
+          enum: [building, active, failed, superseded]
+        createdAt: { type: string, format: date-time }
+        activatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    KnowledgeSyncRun:
+      type: object
+      required: [id, knowledgeBaseId, sourceId, status, documentsSeen, documentsStored, chunksStored, startedAt]
+      properties:
+        id: { type: string }
+        knowledgeBaseId: { type: string }
+        sourceId: { type: string }
+        status:
+          type: string
+          enum: [queued, running, succeeded, failed]
+        documentsSeen: { type: integer, minimum: 0 }
+        documentsStored: { type: integer, minimum: 0 }
+        chunksStored: { type: integer, minimum: 0 }
+        error: { type: string }
+        startedAt: { type: string, format: date-time }
+        completedAt: { type: string, format: date-time }
+      additionalProperties: false
+    KnowledgeSearchFilters:
+      type: object
+      properties:
+        sourceIds:
+          type: array
+          items: { type: string }
+        documentIds:
+          type: array
+          items: { type: string }
+      additionalProperties: false
+    KnowledgeSearchRequest:
+      type: object
+      required: [knowledgeBaseIds, query]
+      properties:
+        knowledgeBaseIds:
+          type: array
+          minItems: 1
+          items: { type: string }
+        query: { type: string, minLength: 1 }
+        topK: { type: integer, minimum: 1, maximum: 50 }
+        filters: { $ref: "#/components/schemas/KnowledgeSearchFilters" }
+      additionalProperties: false
+    KnowledgeCitation:
+      type: object
+      required: [id, knowledgeBaseId, documentId, documentTitle, chunkId, location, score, contentHash]
+      properties:
+        id: { type: string }
+        knowledgeBaseId: { type: string }
+        documentId: { type: string }
+        documentTitle: { type: string }
+        chunkId: { type: string }
+        location: { $ref: "#/components/schemas/KnowledgeSourceLocation" }
+        uri: { type: string }
+        score: { type: number }
+        contentHash: { type: string }
+      additionalProperties: false
+    KnowledgeSearchHit:
+      type: object
+      required: [chunkId, documentId, knowledgeBaseId, title, content, score, lexicalScore, vectorScore, citation]
+      properties:
+        chunkId: { type: string }
+        documentId: { type: string }
+        knowledgeBaseId: { type: string }
+        title: { type: string }
+        content: { type: string }
+        score: { type: number }
+        lexicalScore: { type: number }
+        vectorScore: { type: number }
+        citation: { $ref: "#/components/schemas/KnowledgeCitation" }
+      additionalProperties: false
+    KnowledgeSearchResult:
+      type: object
+      required: [query, hits, citations, candidateCount, timingMs, noAnswer, traceId]
+      properties:
+        query: { type: string }
+        hits:
+          type: array
+          items: { $ref: "#/components/schemas/KnowledgeSearchHit" }
+        citations:
+          type: array
+          items: { $ref: "#/components/schemas/KnowledgeCitation" }
+        candidateCount: { type: integer, minimum: 0 }
+        timingMs: { type: integer, format: int64, minimum: 0 }
+        noAnswer: { type: boolean }
+        traceId: { type: string }
+      additionalProperties: false
+    EvaluationDatasetSample:
+      type: object
+      required: [id, input]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        input: { type: string, minLength: 1, maxLength: 65536 }
+        expectedSources:
+          type: array
+          maxItems: 256
+          items: { type: string, maxLength: 512 }
+        expectedFacts:
+          type: array
+          maxItems: 256
+          items: { type: string, maxLength: 4096 }
+        forbiddenActions:
+          type: array
+          maxItems: 128
+          items: { type: string, maxLength: 256 }
+      additionalProperties: false
+    EvaluationDataset:
+      type: object
+      required: [schemaVersion, id, name, version, samples, createdAt]
+      properties:
+        schemaVersion:
+          type: string
+          const: opensoha.dev/evaluation-dataset/v1
+        id:
+          type: string
+          pattern: "^[a-z][a-z0-9._-]{1,127}$"
+        name: { type: string, minLength: 1, maxLength: 160 }
+        version: { type: string, minLength: 1, maxLength: 64 }
+        samples:
+          type: array
+          minItems: 1
+          maxItems: 10000
+          items: { $ref: "#/components/schemas/EvaluationDatasetSample" }
+        createdAt: { type: string, format: date-time }
+      additionalProperties: false
+    EvaluationRun:
+      type: object
+      required: [schemaVersion, id, datasetId, datasetVersion, candidateRefs, status, startedAt]
+      properties:
+        schemaVersion:
+          type: string
+          const: opensoha.dev/evaluation-run/v1
+        id: { type: string, minLength: 1, maxLength: 128 }
+        datasetId: { type: string, minLength: 1, maxLength: 128 }
+        datasetVersion: { type: string, minLength: 1, maxLength: 64 }
+        candidateRefs:
+          type: object
+          minProperties: 1
+          maxProperties: 32
+          additionalProperties:
+            type: string
+            minLength: 1
+            maxLength: 512
+        status:
+          type: string
+          enum: [queued, running, completed, failed, cancelled]
+        startedAt: { type: string, format: date-time }
+        completedAt: { type: string, format: date-time }
+        aggregateScores:
+          type: object
+          maxProperties: 128
+          additionalProperties:
+            type: number
+            minimum: 0
+            maximum: 1
+      additionalProperties: false
+    EvaluationResult:
+      type: object
+      required: [schemaVersion, sampleId, scores, passed]
+      properties:
+        schemaVersion:
+          type: string
+          const: opensoha.dev/evaluation-result/v1
+        sampleId: { type: string, minLength: 1, maxLength: 128 }
+        retrievedSources:
+          type: array
+          maxItems: 512
+          items: { type: string, maxLength: 512 }
+        producedFacts:
+          type: array
+          maxItems: 512
+          items: { type: string, maxLength: 4096 }
+        actions:
+          type: array
+          maxItems: 256
+          items: { type: string, maxLength: 256 }
+        scores:
+          type: object
+          maxProperties: 128
+          additionalProperties:
+            type: number
+            minimum: 0
+            maximum: 1
+        passed: { type: boolean }
+        failureReasons:
+          type: array
+          maxItems: 128
+          items: { type: string, maxLength: 256 }
+      additionalProperties: false
+    EvaluationSampleOutput:
+      type: object
+      required: [sampleId]
+      properties:
+        sampleId: { type: string, minLength: 1, maxLength: 128 }
+        retrievedSources:
+          type: array
+          maxItems: 512
+          items: { type: string, maxLength: 512 }
+        producedFacts:
+          type: array
+          maxItems: 512
+          items: { type: string, maxLength: 4096 }
+        actions:
+          type: array
+          maxItems: 256
+          items: { type: string, maxLength: 256 }
+      additionalProperties: false
+    EvaluationCompleteRunInput:
+      type: object
+      required: [outputs]
+      properties:
+        outputs:
+          type: array
+          minItems: 1
+          maxItems: 10000
+          items: { $ref: "#/components/schemas/EvaluationSampleOutput" }
+      additionalProperties: false
+    EvaluationDatasetEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/EvaluationDataset" }
+      additionalProperties: false
+    EvaluationDatasetListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/EvaluationDataset" }
+      additionalProperties: false
+    EvaluationRunEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/EvaluationRun" }
+      additionalProperties: false
+    EvaluationRunListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/EvaluationRun" }
+      additionalProperties: false
+    EvaluationResultListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/EvaluationResult" }
+      additionalProperties: false
+    AIContextTask:
+      type: object
+      required: [goal]
+      properties:
+        mode: { type: string }
+        goal: { type: string, minLength: 1 }
+      additionalProperties: false
+    AIContextVersionRef:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        version: { type: string }
+      additionalProperties: false
+    AIContextKnowledgeInput:
+      type: object
+      required: [enabled, knowledgeBaseIds]
+      properties:
+        enabled: { type: boolean }
+        knowledgeBaseIds:
+          type: array
+          items: { type: string }
+        query: { type: string }
+        topK: { type: integer, minimum: 0, maximum: 50 }
+      additionalProperties: false
+    AIContextSession:
+      type: object
+      properties:
+        summary: { type: string }
+        recentMessageRefs:
+          type: array
+          items: { type: string }
+      additionalProperties: false
+    AIContextToolRef:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string }
+        schemaVersion: { type: string }
+      additionalProperties: false
+    AIContextEnvironment:
+      type: object
+      properties:
+        mode: { type: string }
+        observationRefs:
+          type: array
+          items: { type: string }
+      additionalProperties: false
+    AIContextBudgets:
+      type: object
+      properties:
+        maxInputTokens: { type: integer, minimum: 0 }
+        maxEvidenceTokens: { type: integer, minimum: 0 }
+        maxSteps: { type: integer, minimum: 0 }
+      additionalProperties: false
+    AIContextBuildInput:
+      type: object
+      required: [task, knowledge]
+      properties:
+        requestId: { type: string }
+        sessionId: { type: string }
+        agentRunId: { type: string }
+        task: { $ref: "#/components/schemas/AIContextTask" }
+        prompt: { $ref: "#/components/schemas/AIContextVersionRef" }
+        skills:
+          type: array
+          items: { $ref: "#/components/schemas/AIContextVersionRef" }
+        session: { $ref: "#/components/schemas/AIContextSession" }
+        knowledge: { $ref: "#/components/schemas/AIContextKnowledgeInput" }
+        tools:
+          type: array
+          items: { $ref: "#/components/schemas/AIContextToolRef" }
+        environment: { $ref: "#/components/schemas/AIContextEnvironment" }
+        budgets: { $ref: "#/components/schemas/AIContextBudgets" }
+      additionalProperties: false
+    AIContextPrincipal:
+      type: object
+      required: [userId]
+      properties:
+        userId: { type: string }
+      additionalProperties: false
+    AIContextEvidence:
+      type: object
+      required: [citationId, content, tokenCount]
+      properties:
+        citationId: { type: string }
+        content: { type: string }
+        tokenCount: { type: integer, minimum: 0 }
+      additionalProperties: false
+    AIContextBudgetUsage:
+      type: object
+      required: [evidenceTokens, evidenceItems]
+      properties:
+        evidenceTokens: { type: integer, minimum: 0 }
+        evidenceItems: { type: integer, minimum: 0 }
+      additionalProperties: false
+    AIContextPolicySnapshot:
+      type: object
+      required: [id, version]
+      properties:
+        id: { type: string }
+        version: { type: string }
+      additionalProperties: false
+    AIContextEnvelope:
+      type: object
+      required: [version, id, requestId, principal, task, budgets, budgetUsage, policySnapshot, contentHash, createdAt]
+      properties:
+        version: { type: string }
+        id: { type: string }
+        requestId: { type: string }
+        sessionId: { type: string }
+        agentRunId: { type: string }
+        principal: { $ref: "#/components/schemas/AIContextPrincipal" }
+        task: { $ref: "#/components/schemas/AIContextTask" }
+        prompt: { $ref: "#/components/schemas/AIContextVersionRef" }
+        skills:
+          type: array
+          items: { $ref: "#/components/schemas/AIContextVersionRef" }
+        session: { $ref: "#/components/schemas/AIContextSession" }
+        evidence:
+          type: array
+          items: { $ref: "#/components/schemas/AIContextEvidence" }
+        citations:
+          type: array
+          items: { $ref: "#/components/schemas/KnowledgeCitation" }
+        tools:
+          type: array
+          items: { $ref: "#/components/schemas/AIContextToolRef" }
+        environment: { $ref: "#/components/schemas/AIContextEnvironment" }
+        budgets: { $ref: "#/components/schemas/AIContextBudgets" }
+        budgetUsage: { $ref: "#/components/schemas/AIContextBudgetUsage" }
+        policySnapshot: { $ref: "#/components/schemas/AIContextPolicySnapshot" }
+        contentHash: { type: string }
+        createdAt: { type: string, format: date-time }
+      additionalProperties: false
+    AIContextInspection:
+      type: object
+      required: [envelope, sections]
+      properties:
+        envelope: { $ref: "#/components/schemas/AIContextEnvelope" }
+        sections:
+          type: array
+          items: { type: string }
+        truncations:
+          type: array
+          items: { type: string }
+        retrievalTimeMs: { type: integer, format: int64, minimum: 0 }
+      additionalProperties: false
+    KnowledgeBaseEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KnowledgeBase" }
+      additionalProperties: false
+    KnowledgeBaseListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/KnowledgeBase" }
+      additionalProperties: false
+    KnowledgeSourceEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KnowledgeSource" }
+      additionalProperties: false
+    KnowledgeSourceListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/KnowledgeSource" }
+      additionalProperties: false
+    KnowledgeDocumentListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/KnowledgeDocument" }
+      additionalProperties: false
+    KnowledgeSyncRunEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KnowledgeSyncRun" }
+      additionalProperties: false
+    KnowledgeSyncRunListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/KnowledgeSyncRun" }
+      additionalProperties: false
+    KnowledgeIndexRevisionListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/KnowledgeIndexRevision" }
+      additionalProperties: false
+    KnowledgeSearchResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KnowledgeSearchResult" }
+      additionalProperties: false
+    AIContextInspectionEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/AIContextInspection" }
       additionalProperties: false
     AIWorkbenchModelSettings:
       type: object

@@ -81,6 +81,200 @@ func TestListAuthProvidersBuildsPublicRequestAndDecodesItems(t *testing.T) {
 	}
 }
 
+func TestKnowledgeClientSearchAndListPaths(t *testing.T) {
+	requests := 0
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		requests++
+		switch requests {
+		case 1:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/ai/knowledge-bases/base%2Fone/documents")
+			assertQuery(t, r, map[string]string{"limit": "25"})
+			writeJSON(t, w, map[string]any{"items": []any{}})
+		case 2:
+			assertCommonRequest(t, r, http.MethodPost, "/api/v1/ai/knowledge/search")
+			body := decodeJSONRequestBody[KnowledgeSearchRequest](t, r)
+			if body.Query != "rollback" || len(body.KnowledgeBaseIDs) != 1 || body.KnowledgeBaseIDs[0] != "base/one" {
+				t.Fatalf("unexpected knowledge search body %#v", body)
+			}
+			writeJSON(t, w, map[string]any{"data": map[string]any{
+				"query": "rollback", "hits": []any{}, "citations": []any{}, "candidateCount": 0,
+				"timingMs": 2, "noAnswer": true, "traceId": "trace-1",
+			}})
+		default:
+			t.Fatalf("unexpected request %s %s", r.Method, r.URL.Path)
+		}
+	})
+
+	items, err := client.ListKnowledgeDocuments(context.Background(), "base/one", 25)
+	if err != nil || len(items) != 0 {
+		t.Fatalf("ListKnowledgeDocuments = %#v, %v", items, err)
+	}
+	result, err := client.SearchKnowledge(context.Background(), KnowledgeSearchRequest{
+		KnowledgeBaseIDs: []string{"base/one"}, Query: "rollback", TopK: 5,
+	})
+	if err != nil {
+		t.Fatalf("SearchKnowledge returned error: %v", err)
+	}
+	if !result.NoAnswer || result.TraceID != "trace-1" {
+		t.Fatalf("unexpected knowledge result %#v", result)
+	}
+}
+
+func TestAgentProviderControlPlaneClientSurface(t *testing.T) {
+	observedAt := time.Date(2026, 7, 14, 9, 0, 0, 0, time.UTC)
+	catalog := AgentProviderCatalog{
+		SchemaVersion: "opensoha.dev/agent-provider-catalog/v1",
+		Revision:      3,
+		Digest:        "sha256:catalog",
+		CreatedAt:     observedAt,
+		Providers:     []AgentProviderDefinition{},
+	}
+	ack := AgentProviderRegistryAcknowledgement{
+		RunnerID: "runner/one", Revision: 3, ActiveRevision: 3, Accepted: true, ObservedAt: observedAt,
+	}
+	snapshot := AgentProviderRegistrySnapshot{
+		SchemaVersion: "opensoha.dev/agent-provider-registry/v1",
+		Revision:      3,
+		Digest:        "sha256:snapshot",
+		IssuedAt:      observedAt,
+		Providers:     []AgentProviderDefinition{},
+	}
+
+	requests := 0
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		requests++
+		switch requests {
+		case 1:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/ai/agent-providers/catalog")
+			writeJSON(t, w, map[string]any{"data": catalog})
+		case 2:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/ai/agent-providers/runtime-status")
+			writeJSON(t, w, map[string]any{"data": AgentProviderRuntimeStatus{
+				CatalogRevision: 3, CatalogDigest: catalog.Digest, RunnerCount: 1,
+				Acknowledgements: []AgentProviderRegistryAcknowledgement{ack},
+			}})
+		case 3:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/ai/agent-providers/registry-snapshot")
+			assertQuery(t, r, map[string]string{"runnerId": "runner/one"})
+			writeJSON(t, w, map[string]any{"data": snapshot})
+		case 4:
+			assertCommonRequest(t, r, http.MethodPost, "/api/v1/ai/agent-providers/registry-acks")
+			body := decodeJSONRequestBody[AgentProviderRegistryAcknowledgement](t, r)
+			if body.RunnerID != ack.RunnerID || body.Revision != ack.Revision || !body.Accepted {
+				t.Fatalf("unexpected registry acknowledgement %#v", body)
+			}
+			writeJSON(t, w, map[string]any{"data": ack})
+		default:
+			t.Fatalf("unexpected request %s %s", r.Method, r.URL.Path)
+		}
+	})
+
+	if item, err := client.GetAgentProviderCatalog(context.Background()); err != nil || item.Revision != 3 {
+		t.Fatalf("GetAgentProviderCatalog = %#v, %v", item, err)
+	}
+	if item, err := client.GetAgentProviderRuntimeStatus(context.Background()); err != nil || item.RunnerCount != 1 {
+		t.Fatalf("GetAgentProviderRuntimeStatus = %#v, %v", item, err)
+	}
+	if item, err := client.GetAgentProviderRegistrySnapshot(context.Background(), ack.RunnerID); err != nil || item.Revision != 3 {
+		t.Fatalf("GetAgentProviderRegistrySnapshot = %#v, %v", item, err)
+	}
+	if item, err := client.AcknowledgeAgentProviderRegistry(context.Background(), ack); err != nil || item.RunnerID != ack.RunnerID {
+		t.Fatalf("AcknowledgeAgentProviderRegistry = %#v, %v", item, err)
+	}
+}
+
+func TestEvaluationClientSurface(t *testing.T) {
+	createdAt := time.Date(2026, 7, 14, 8, 0, 0, 0, time.UTC)
+	dataset := EvaluationDataset{
+		SchemaVersion: "opensoha.dev/evaluation-dataset/v1",
+		ID:            "rag-regression",
+		Name:          "RAG regression",
+		Version:       "v1",
+		Samples:       []EvaluationDatasetSample{{ID: "sample-1", Input: "What failed?"}},
+		CreatedAt:     createdAt,
+	}
+	run := EvaluationRun{
+		SchemaVersion:  "opensoha.dev/evaluation-run/v1",
+		ID:             "run/1",
+		DatasetID:      dataset.ID,
+		DatasetVersion: dataset.Version,
+		CandidateRefs:  map[string]string{"prompt": "prompt:v2"},
+		Status:         EvaluationRunStatus("running"),
+		StartedAt:      createdAt,
+	}
+
+	requests := 0
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		requests++
+		switch requests {
+		case 1:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/ai/evaluations/datasets")
+			writeJSON(t, w, map[string]any{"items": []EvaluationDataset{dataset}})
+		case 2:
+			assertCommonRequest(t, r, http.MethodPost, "/api/v1/ai/evaluations/datasets")
+			if body := decodeJSONRequestBody[EvaluationDataset](t, r); body.ID != dataset.ID {
+				t.Fatalf("dataset id = %q", body.ID)
+			}
+			writeJSON(t, w, map[string]any{"data": dataset})
+		case 3:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/ai/evaluations/runs")
+			writeJSON(t, w, map[string]any{"items": []EvaluationRun{run}})
+		case 4:
+			assertCommonRequest(t, r, http.MethodPost, "/api/v1/ai/evaluations/runs")
+			if body := decodeJSONRequestBody[EvaluationRun](t, r); body.CandidateRefs["prompt"] != "prompt:v2" {
+				t.Fatalf("candidate refs = %#v", body.CandidateRefs)
+			}
+			writeJSON(t, w, map[string]any{"data": run})
+		case 5:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/ai/evaluations/runs/run%2F1")
+			writeJSON(t, w, map[string]any{"data": run})
+		case 6:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/ai/evaluations/runs/run%2F1/results")
+			writeJSON(t, w, map[string]any{"items": []EvaluationResult{{
+				SchemaVersion: "opensoha.dev/evaluation-result/v1", SampleID: "sample-1",
+				Scores: map[string]float32{"fact_recall": 1}, Passed: true,
+			}}})
+		case 7:
+			assertCommonRequest(t, r, http.MethodPost, "/api/v1/ai/evaluations/runs/run%2F1/complete")
+			body := decodeJSONRequestBody[EvaluationCompleteRunInput](t, r)
+			if len(body.Outputs) != 1 || body.Outputs[0].SampleID != "sample-1" {
+				t.Fatalf("completion input = %#v", body)
+			}
+			completed := run
+			completed.Status = EvaluationRunStatus("completed")
+			completed.AggregateScores = map[string]float32{"fact_recall": 1}
+			writeJSON(t, w, map[string]any{"data": completed})
+		default:
+			t.Fatalf("unexpected request %s %s", r.Method, r.URL.Path)
+		}
+	})
+
+	if items, err := client.ListEvaluationDatasets(context.Background()); err != nil || len(items) != 1 {
+		t.Fatalf("ListEvaluationDatasets = %#v, %v", items, err)
+	}
+	if item, err := client.CreateEvaluationDataset(context.Background(), dataset); err != nil || item.ID != dataset.ID {
+		t.Fatalf("CreateEvaluationDataset = %#v, %v", item, err)
+	}
+	if items, err := client.ListEvaluationRuns(context.Background()); err != nil || len(items) != 1 {
+		t.Fatalf("ListEvaluationRuns = %#v, %v", items, err)
+	}
+	if item, err := client.StartEvaluationRun(context.Background(), run); err != nil || item.ID != run.ID {
+		t.Fatalf("StartEvaluationRun = %#v, %v", item, err)
+	}
+	if item, err := client.GetEvaluationRun(context.Background(), run.ID); err != nil || item.ID != run.ID {
+		t.Fatalf("GetEvaluationRun = %#v, %v", item, err)
+	}
+	if items, err := client.ListEvaluationRunResults(context.Background(), run.ID); err != nil || len(items) != 1 || !items[0].Passed {
+		t.Fatalf("ListEvaluationRunResults = %#v, %v", items, err)
+	}
+	completed, err := client.CompleteEvaluationRun(context.Background(), run.ID, EvaluationCompleteRunInput{
+		Outputs: []EvaluationSampleOutput{{SampleID: "sample-1", ProducedFacts: []string{"fact"}}},
+	})
+	if err != nil || completed.Status != EvaluationRunStatus("completed") {
+		t.Fatalf("CompleteEvaluationRun = %#v, %v", completed, err)
+	}
+}
+
 func TestGetAuthLoginOptionsBuildsPublicRequestAndDecodesData(t *testing.T) {
 	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
 		assertPublicRequest(t, r, http.MethodGet, "/api/v1/auth/login-options")

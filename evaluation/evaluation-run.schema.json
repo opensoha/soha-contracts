@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensoha.dev/schemas/evaluation-run.schema.json",
+  "title": "Evaluation Run",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "datasetId", "datasetVersion", "candidateRefs", "status", "startedAt"],
+  "properties": {
+    "schemaVersion": { "const": "opensoha.dev/evaluation-run/v1" },
+    "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "datasetId": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "datasetVersion": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "candidateRefs": { "type": "object", "minProperties": 1, "maxProperties": 32, "additionalProperties": { "type": "string", "minLength": 1, "maxLength": 512 } },
+    "status": { "enum": ["queued", "running", "completed", "failed", "cancelled"] },
+    "startedAt": { "type": "string", "format": "date-time" },
+    "completedAt": { "type": "string", "format": "date-time" },
+    "aggregateScores": { "type": "object", "maxProperties": 128, "additionalProperties": { "type": "number", "minimum": 0, "maximum": 1 } }
+  }
+}

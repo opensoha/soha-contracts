@@ -1985,6 +1985,822 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ai/agent-providers/catalog": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAgentProviderCatalog"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/agent-providers/runtime-status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAgentProviderRuntimeStatus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/agent-providers/registry-snapshot": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAgentProviderRegistrySnapshot"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/agent-providers/registry-acks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["acknowledgeAgentProviderRegistry"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/knowledge-bases": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKnowledgeBases"];
+        put?: never;
+        post: operations["createKnowledgeBase"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/knowledge-bases/{baseID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKnowledgeBase"];
+        put?: never;
+        post?: never;
+        delete: operations["deleteKnowledgeBase"];
+        options?: never;
+        head?: never;
+        patch: operations["updateKnowledgeBase"];
+        trace?: never;
+    };
+    "/ai/knowledge-bases/{baseID}/sources": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKnowledgeSources"];
+        put?: never;
+        post: operations["createKnowledgeSource"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/knowledge-bases/{baseID}/sources/{sourceID}/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["syncKnowledgeSource"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/knowledge-bases/{baseID}/documents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKnowledgeDocuments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/knowledge-bases/{baseID}/sync-runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKnowledgeSyncRuns"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/knowledge-bases/{baseID}/index-revisions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKnowledgeIndexRevisions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/knowledge/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["searchKnowledge"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/context/inspect": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["inspectAIContext"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/evaluations/datasets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listEvaluationDatasets"];
+        put?: never;
+        post: operations["createEvaluationDataset"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/evaluations/runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listEvaluationRuns"];
+        put?: never;
+        post: operations["startEvaluationRun"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/evaluations/runs/{runID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getEvaluationRun"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/evaluations/runs/{runID}/results": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listEvaluationRunResults"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/evaluations/runs/{runID}/complete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["completeEvaluationRun"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/knowledge/connectors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKnowledgeConnectors"];
+        put?: never;
+        post: operations["createKnowledgeConnector"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/knowledge/connectors/{connectorID}/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["validateKnowledgeConnector"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/knowledge-bases/{baseID}/sync-jobs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createKnowledgeIngestionJob"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/knowledge/sync-jobs/{jobID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKnowledgeIngestionJob"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/knowledge/sync-jobs/{jobID}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["cancelKnowledgeIngestionJob"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/knowledge/sync-jobs/{jobID}/retry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["retryKnowledgeIngestionJob"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/evaluations/executor-profiles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listEvaluationExecutorProfiles"];
+        put?: never;
+        post: operations["putEvaluationExecutorProfile"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/evaluations/runs/{runID}/execute": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["executeEvaluationRun"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/evaluations/runs/{runID}/attempts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listEvaluationSampleAttempts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/evaluations/replays": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listEvaluationReplayPlans"];
+        put?: never;
+        post: operations["putEvaluationReplayPlan"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/evaluations/gate-policies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listEvaluationGatePolicies"];
+        put?: never;
+        post: operations["putEvaluationGatePolicy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/evaluations/gate-decisions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listEvaluationGateDecisions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/evaluations/gates/evaluate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["evaluateEvaluationGate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/evaluations/feedback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listEvaluationFeedback"];
+        put?: never;
+        post: operations["putEvaluationFeedback"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/memory/policies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAIMemoryPolicies"];
+        put?: never;
+        post: operations["putAIMemoryPolicy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/memory": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAIMemoryRecords"];
+        put?: never;
+        post: operations["putAIMemoryRecord"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/memory/{memoryID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["deleteAIMemoryRecord"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/knowledge-bases/{baseID}/graph-revisions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKnowledgeGraphRevisions"];
+        put?: never;
+        post: operations["putKnowledgeGraphRevision"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/knowledge-bases/{baseID}/graph-revisions/{revisionID}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["publishKnowledgeGraphRevision"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/knowledge-bases/{baseID}/graph-revisions/{revisionID}/query": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["queryKnowledgeGraphRevision"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/agent-runs/multi-agent": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listMultiAgentPlans"];
+        put?: never;
+        post: operations["createMultiAgentPlan"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/agent-runs/multi-agent/{planID}/subtasks/{subtaskID}/complete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["completeMultiAgentSubtask"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/agent-runs/multi-agent/{planID}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["cancelMultiAgentPlan"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/agent-providers/rollouts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAgentProviderRollouts"];
+        put?: never;
+        post: operations["createAgentProviderRollout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/agent-providers/rollouts/{rolloutID}/{rolloutAction}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["transitionAgentProviderRollout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/agent-providers/conformance-runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAgentProviderConformanceRuns"];
+        put?: never;
+        post: operations["createAgentProviderConformanceRun"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/environments/templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAIEnvironmentTemplates"];
+        put?: never;
+        post: operations["putAIEnvironmentTemplate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/environments/leases": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAIEnvironmentLeases"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/environments/leases/{leaseID}/release": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["releaseAIEnvironmentLease"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/environments/gc": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["collectExpiredAIEnvironmentLeases"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/operations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAIProductionOperations"];
+        put?: never;
+        post: operations["startAIProductionOperation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/operations/runbook-evidence": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAIProductionRunbookEvidence"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/knowledge-bases/{baseID}/rebuild": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["rebuildKnowledgeBaseIndex"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -2005,6 +2821,1044 @@ export interface components {
                 message: string;
                 request_id?: string;
             };
+        };
+        AgentProviderRuntimeDefinition: {
+            /** @enum {string} */
+            kind: "cli" | "container" | "remote";
+            command?: string;
+            args?: string[];
+            promptArg?: string;
+            skillArg?: string;
+            providerSkillArg?: string;
+            image?: string;
+            /** Format: uri */
+            endpoint?: string;
+            healthPath?: string;
+        };
+        AgentProviderDefinition: {
+            /** @constant */
+            schemaVersion: "opensoha.dev/agent-provider-definition/v1";
+            id: string;
+            kind: string;
+            displayName: string;
+            pluginId: string;
+            pluginVersion: string;
+            providerVersion: string;
+            adapterProtocol: string;
+            runtime: components["schemas"]["AgentProviderRuntimeDefinition"];
+            capabilities: string[];
+            requiredGatewayCapabilities?: string[];
+            requiredScopes?: string[];
+            secretRefs?: string[];
+            draining?: boolean;
+        };
+        AgentProviderCatalog: {
+            /** @constant */
+            schemaVersion: "opensoha.dev/agent-provider-catalog/v1";
+            /** Format: int64 */
+            revision: number;
+            digest: string;
+            /** Format: date-time */
+            createdAt: string;
+            providers: components["schemas"]["AgentProviderDefinition"][];
+        };
+        AgentProviderFleetTarget: {
+            environments?: string[];
+            platforms?: string[];
+            architectures?: string[];
+            labels?: {
+                [key: string]: string;
+            };
+        };
+        AgentProviderRegistrySnapshot: {
+            /** @constant */
+            schemaVersion: "opensoha.dev/agent-provider-registry/v1";
+            /** Format: int64 */
+            revision: number;
+            digest?: string;
+            /** Format: date-time */
+            issuedAt: string;
+            providers: components["schemas"]["AgentProviderDefinition"][];
+            fleetTarget?: components["schemas"]["AgentProviderFleetTarget"];
+        };
+        AgentProviderRunnerStatus: {
+            providerId: string;
+            providerVersion: string;
+            /** Format: int64 */
+            catalogRevision: number;
+            /** @enum {string} */
+            health: "unknown" | "healthy" | "unhealthy";
+            draining: boolean;
+            activeRuns: number;
+            reason?: string;
+            /** Format: date-time */
+            observedAt: string;
+        };
+        AgentProviderRegistryAcknowledgement: {
+            runnerId: string;
+            /** Format: int64 */
+            revision: number;
+            /** Format: int64 */
+            desiredRevision?: number;
+            /** Format: int64 */
+            activeRevision: number;
+            /** Format: int64 */
+            lkgRevision?: number;
+            /** Format: int64 */
+            previousRevision?: number;
+            accepted: boolean;
+            targeted: boolean;
+            rolloutState?: string;
+            rolledBack?: boolean;
+            reason?: string;
+            /** Format: date-time */
+            observedAt: string;
+            providerStatuses?: components["schemas"]["AgentProviderRunnerStatus"][];
+            conformanceChecks?: components["schemas"]["AgentProviderConformanceResult"][];
+        };
+        AgentProviderConformanceResult: {
+            providerId: string;
+            status: string;
+            reason?: string;
+        };
+        AgentProviderRuntimeStatus: {
+            /** Format: int64 */
+            catalogRevision: number;
+            catalogDigest: string;
+            runnerCount: number;
+            acknowledgements: components["schemas"]["AgentProviderRegistryAcknowledgement"][];
+        };
+        AgentProviderCatalogEnvelope: {
+            data: components["schemas"]["AgentProviderCatalog"];
+        };
+        AgentProviderRegistrySnapshotEnvelope: {
+            data: components["schemas"]["AgentProviderRegistrySnapshot"];
+        };
+        AgentProviderRegistryAcknowledgementEnvelope: {
+            data: components["schemas"]["AgentProviderRegistryAcknowledgement"];
+        };
+        AgentProviderRuntimeStatusEnvelope: {
+            data: components["schemas"]["AgentProviderRuntimeStatus"];
+        };
+        KnowledgeConnectorInput: {
+            knowledgeBaseId: string;
+            name: string;
+            /** @enum {string} */
+            kind: "inline" | "http" | "git" | "object";
+            version?: string;
+            secretRef: string;
+            config: {
+                [key: string]: unknown;
+            };
+            syncPolicy: components["schemas"]["KnowledgeSyncPolicy"];
+        };
+        KnowledgeConnector: components["schemas"]["KnowledgeConnectorInput"] & {
+            id: string;
+            status: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        KnowledgeConnectorValidation: {
+            /** @enum {string} */
+            kind: "inline" | "http" | "git" | "object";
+            valid: boolean;
+            host?: string;
+            resource?: string;
+            secretRef: string;
+            configHash: string;
+            warnings: string[];
+            /** Format: date-time */
+            validatedAt: string;
+        };
+        KnowledgeIngestionJobInput: {
+            sourceId: string;
+        };
+        KnowledgeIngestionCheckpoint: {
+            stage: components["schemas"]["KnowledgeIngestionStage"];
+            cursor?: string;
+            documentsSeen: number;
+            documentsStored: number;
+            chunksStored: number;
+            contentHash?: string;
+            /** Format: date-time */
+            recordedAt: string;
+        };
+        /** @enum {string} */
+        KnowledgeIngestionStage: "discovering" | "fetching" | "parsing" | "chunking" | "embedding" | "indexing" | "verifying" | "publishing";
+        KnowledgeIngestionJob: {
+            id: string;
+            knowledgeBaseId: string;
+            sourceId: string;
+            /** Format: int64 */
+            targetRevision: number;
+            stage: components["schemas"]["KnowledgeIngestionStage"];
+            /** @enum {string} */
+            status: "queued" | "running" | "retry_wait" | "cancelling" | "cancelled" | "failed" | "succeeded";
+            attempt: number;
+            maxAttempts: number;
+            cancelRequested: boolean;
+            checkpoint: components["schemas"]["KnowledgeIngestionCheckpoint"];
+            errorCode?: string;
+            error?: string;
+            /** Format: date-time */
+            nextAttemptAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            /** Format: date-time */
+            completedAt?: string;
+        };
+        KnowledgeConnectorEnvelope: {
+            data: components["schemas"]["KnowledgeConnector"];
+        };
+        KnowledgeConnectorListEnvelope: {
+            items: components["schemas"]["KnowledgeConnector"][];
+        };
+        KnowledgeConnectorValidationEnvelope: {
+            data: components["schemas"]["KnowledgeConnectorValidation"];
+        };
+        KnowledgeIngestionJobEnvelope: {
+            data: components["schemas"]["KnowledgeIngestionJob"];
+        };
+        EvaluationExecutorProfile: {
+            id: string;
+            environmentPolicy: string;
+            toolSnapshotRef?: string;
+            /** @enum {string} */
+            isolationMode: "read-only" | "disposable-write";
+            /**
+             * Format: int64
+             * @description Go time.Duration encoded as nanoseconds.
+             */
+            timeout: number;
+            maxCost: number;
+        };
+        EvaluationExecuteRunInput: {
+            executorProfileId: string;
+        };
+        EvaluationSampleAttempt: {
+            runId: string;
+            sampleId: string;
+            attempt: number;
+            candidateRefs: {
+                [key: string]: string;
+            };
+            traceRef?: string;
+            scores?: {
+                [key: string]: number;
+            };
+            usage?: {
+                [key: string]: number;
+            };
+            /** Format: int64 */
+            latencyMillis: number;
+            status: string;
+            errorCode?: string;
+            /** Format: date-time */
+            completedAt: string;
+        };
+        EvaluationReplayPlan: {
+            id: string;
+            sourceTraceRefs: string[];
+            candidateRefs: {
+                [key: string]: string;
+            };
+            profile: components["schemas"]["EvaluationExecutorProfile"];
+            readOnly: boolean;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        EvaluationReplayPlanInput: {
+            id: string;
+            baselineRunId: string;
+            candidateRunId: string;
+            executorProfileId: string;
+        };
+        EvaluationGatePolicy: {
+            id: string;
+            version: string;
+            minimumScores: {
+                [key: string]: number;
+            };
+            maximumRegression: {
+                [key: string]: number;
+            };
+            maximumCost?: number;
+            /** Format: int64 */
+            maximumLatencyMs?: number;
+            enabled: boolean;
+        };
+        EvaluationGatePolicyInput: {
+            id: string;
+            name?: string;
+            version: string;
+            metric: string;
+            threshold: number;
+        };
+        EvaluationGateReason: {
+            metric: string;
+            expected: number;
+            actual: number;
+            code: string;
+        };
+        EvaluationGateDecision: {
+            id: string;
+            policyId: string;
+            policyVersion: string;
+            baselineRunId: string;
+            candidateRunId: string;
+            decision: string;
+            reasons: components["schemas"]["EvaluationGateReason"][];
+            evidenceRefs: string[];
+            /** Format: date-time */
+            evaluatedAt: string;
+        };
+        EvaluationGateRequest: {
+            policyId: string;
+            baselineRunId: string;
+            candidateRunId: string;
+        };
+        EvaluationFeedback: {
+            id: string;
+            traceRef: string;
+            scopeHash: string;
+            redactedInput: string;
+            redactedOutput: string;
+            licenseRef: string;
+            decision: string;
+            datasetRef?: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        EvaluationFeedbackInput: {
+            id: string;
+            traceRef: string;
+            /** @enum {string} */
+            disposition: "pending" | "accepted" | "rejected" | "deleted";
+        };
+        EvaluationExecutorProfileEnvelope: {
+            data: components["schemas"]["EvaluationExecutorProfile"];
+        };
+        EvaluationExecutorProfileListEnvelope: {
+            items: components["schemas"]["EvaluationExecutorProfile"][];
+        };
+        EvaluationSampleAttemptListEnvelope: {
+            items: components["schemas"]["EvaluationSampleAttempt"][];
+        };
+        EvaluationReplayPlanEnvelope: {
+            data: components["schemas"]["EvaluationReplayPlan"];
+        };
+        EvaluationReplayPlanListEnvelope: {
+            items: components["schemas"]["EvaluationReplayPlan"][];
+        };
+        EvaluationGatePolicyEnvelope: {
+            data: components["schemas"]["EvaluationGatePolicy"];
+        };
+        EvaluationGatePolicyListEnvelope: {
+            items: components["schemas"]["EvaluationGatePolicy"][];
+        };
+        EvaluationGateDecisionEnvelope: {
+            data: components["schemas"]["EvaluationGateDecision"];
+        };
+        EvaluationGateDecisionListEnvelope: {
+            items: components["schemas"]["EvaluationGateDecision"][];
+        };
+        EvaluationFeedbackEnvelope: {
+            data: components["schemas"]["EvaluationFeedback"];
+        };
+        EvaluationFeedbackListEnvelope: {
+            items: components["schemas"]["EvaluationFeedback"][];
+        };
+        AIMemoryPolicy: {
+            id: string;
+            version: string;
+            ownerTypes: string[];
+            /**
+             * Format: int64
+             * @description Go time.Duration encoded as nanoseconds.
+             */
+            defaultTtl: number;
+            /**
+             * Format: int64
+             * @description Go time.Duration encoded as nanoseconds.
+             */
+            maximumTtl: number;
+            minimumConfidence: number;
+            explicitWriteOnly: boolean;
+            enabled: boolean;
+        };
+        AIMemoryPolicyInput: {
+            id: string;
+            name: string;
+            /** @enum {string} */
+            consentMode: "explicit" | "disabled";
+            ttlDays: number;
+        };
+        AIMemoryRecord: {
+            id: string;
+            ownerType: string;
+            ownerId: string;
+            scopeHash: string;
+            fact: string;
+            /** @enum {string} */
+            sourceType: "explicit_user" | "curated_extractor";
+            sourceRefs: string[];
+            confidence: number;
+            /** Format: date-time */
+            validFrom: string;
+            /** Format: date-time */
+            expiresAt?: string;
+            policyVersion: string;
+            status: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            deletedAt?: string;
+        };
+        AIMemoryWriteInput: {
+            record: components["schemas"]["AIMemoryRecord"];
+            policyId: string;
+            policyVersion: string;
+        };
+        AIMemoryPolicyEnvelope: {
+            data: components["schemas"]["AIMemoryPolicy"];
+        };
+        AIMemoryPolicyListEnvelope: {
+            items: components["schemas"]["AIMemoryPolicy"][];
+        };
+        AIMemoryRecordEnvelope: {
+            data: components["schemas"]["AIMemoryRecord"];
+        };
+        AIMemoryRecordListEnvelope: {
+            items: components["schemas"]["AIMemoryRecord"][];
+        };
+        KnowledgeGraphEntity: {
+            id: string;
+            name: string;
+            kind: string;
+            sourceRefs: string[];
+            contentHash: string;
+        };
+        KnowledgeGraphRelation: {
+            id: string;
+            fromEntityId: string;
+            toEntityId: string;
+            kind: string;
+            sourceRefs: string[];
+            confidence: number;
+        };
+        KnowledgeGraphCommunity: {
+            id: string;
+            entityIds: string[];
+            summary: string;
+            sourceRefs: string[];
+        };
+        KnowledgeGraphRevision: {
+            id: string;
+            knowledgeBaseId: string;
+            sourceIndexRef: string;
+            extractorVersion: string;
+            status: string;
+            entities: components["schemas"]["KnowledgeGraphEntity"][];
+            relations: components["schemas"]["KnowledgeGraphRelation"][];
+            communities: components["schemas"]["KnowledgeGraphCommunity"][];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            publishedAt?: string;
+        };
+        KnowledgeGraphQueryInput: {
+            query: string;
+            mode: string;
+            limit: number;
+        };
+        KnowledgeGraphQueryResult: {
+            revisionId: string;
+            mode: string;
+            entities: components["schemas"]["KnowledgeGraphEntity"][];
+            relations: components["schemas"]["KnowledgeGraphRelation"][];
+            summaries: components["schemas"]["KnowledgeGraphCommunity"][];
+            noAnswer: boolean;
+        };
+        KnowledgeGraphRevisionEnvelope: {
+            data: components["schemas"]["KnowledgeGraphRevision"];
+        };
+        KnowledgeGraphRevisionListEnvelope: {
+            items: components["schemas"]["KnowledgeGraphRevision"][];
+        };
+        KnowledgeGraphQueryResultEnvelope: {
+            data: components["schemas"]["KnowledgeGraphQueryResult"];
+        };
+        MultiAgentBudget: {
+            maxSteps: number;
+            maxTokens: number;
+            maxCost: number;
+            deadlineSeconds: number;
+        };
+        MultiAgentSubtask: {
+            id: string;
+            agentProfileRef: string;
+            input: string;
+            dependsOn?: string[];
+            permissionKeys: string[];
+            budget: components["schemas"]["MultiAgentBudget"];
+            status: string;
+            outputRef?: string;
+            errorCode?: string;
+        };
+        MultiAgentPlan: {
+            id: string;
+            coordinatorRef: string;
+            principalPermissions: string[];
+            subtasks: components["schemas"]["MultiAgentSubtask"][];
+            sharedBudget: components["schemas"]["MultiAgentBudget"];
+            status: string;
+            mergedOutputRefs?: string[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            completedAt?: string;
+        };
+        MultiAgentSubtaskCompletionInput: {
+            outputRef: string;
+        };
+        MultiAgentPlanEnvelope: {
+            data: components["schemas"]["MultiAgentPlan"];
+        };
+        MultiAgentPlanListEnvelope: {
+            items: components["schemas"]["MultiAgentPlan"][];
+        };
+        AgentProviderRolloutInput: {
+            id: string;
+            name?: string;
+            /** Format: int64 */
+            desiredRevision: number;
+            /** Format: int64 */
+            previousRevision?: number;
+            environments?: string[];
+            platforms?: string[];
+            architectures?: string[];
+            labels?: {
+                [key: string]: string;
+            };
+            canaryPercent: number;
+        };
+        AgentProviderRollout: {
+            id: string;
+            name?: string;
+            /** Format: int64 */
+            desiredRevision: number;
+            /** Format: int64 */
+            previousRevision: number;
+            target: components["schemas"]["AgentProviderFleetTarget"];
+            canaryPercent: number;
+            status: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        AgentProviderConformanceRunInput: {
+            id: string;
+            providerRef: string;
+            environmentRef: string;
+            suiteVersion: string;
+        };
+        AgentProviderConformanceRun: {
+            id: string;
+            providerRef: string;
+            environmentRef: string;
+            suiteVersion: string;
+            status: string;
+            results?: {
+                [key: string]: unknown;
+            }[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        AIEnvironmentTemplateInput: {
+            id: string;
+            name: string;
+            /** @enum {string} */
+            backend: "container" | "kubernetes";
+            /** @enum {string} */
+            isolationMode: "read-only" | "disposable-write";
+            resourcePolicy?: {
+                [key: string]: unknown;
+            };
+            networkPolicy?: {
+                [key: string]: unknown;
+            };
+        };
+        AIEnvironmentTemplate: {
+            id: string;
+            name: string;
+            /** @enum {string} */
+            backend: "container" | "kubernetes";
+            /** @enum {string} */
+            isolationMode: "read-only" | "disposable-write";
+            resourcePolicy?: {
+                [key: string]: unknown;
+            };
+            networkPolicy?: {
+                [key: string]: unknown;
+            };
+            status: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        AIEnvironmentLease: {
+            id: string;
+            templateId: string;
+            ownerRef: string;
+            status: string;
+            /** Format: date-time */
+            expiresAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        AIProductionOperationInput: {
+            id?: string;
+            /** @enum {string} */
+            kind: "backup" | "restore" | "index_rebuild" | "drill";
+            targetRef: string;
+            runbookId: string;
+            evidenceRefs?: string[];
+        };
+        AIProductionOperation: {
+            id: string;
+            /** @enum {string} */
+            kind: "backup" | "restore" | "index_rebuild" | "drill" | "gc";
+            category: string;
+            targetRef: string;
+            runbookId: string;
+            status: string;
+            evidenceRefs?: string[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        AIRunbookEvidence: {
+            id: string;
+            runbookId: string;
+            operationId: string;
+            outcome: string;
+            status: string;
+            evidenceRefs?: string[];
+            /** Format: date-time */
+            createdAt: string;
+        };
+        AgentProviderRolloutEnvelope: {
+            data: components["schemas"]["AgentProviderRollout"];
+        };
+        AgentProviderRolloutListEnvelope: {
+            items: components["schemas"]["AgentProviderRollout"][];
+        };
+        AgentProviderConformanceRunEnvelope: {
+            data: components["schemas"]["AgentProviderConformanceRun"];
+        };
+        AgentProviderConformanceRunListEnvelope: {
+            items: components["schemas"]["AgentProviderConformanceRun"][];
+        };
+        AIEnvironmentTemplateEnvelope: {
+            data: components["schemas"]["AIEnvironmentTemplate"];
+        };
+        AIEnvironmentTemplateListEnvelope: {
+            items: components["schemas"]["AIEnvironmentTemplate"][];
+        };
+        AIEnvironmentLeaseEnvelope: {
+            data: components["schemas"]["AIEnvironmentLease"];
+        };
+        AIEnvironmentLeaseListEnvelope: {
+            items: components["schemas"]["AIEnvironmentLease"][];
+        };
+        AIProductionOperationEnvelope: {
+            data: components["schemas"]["AIProductionOperation"];
+        };
+        AIProductionOperationListEnvelope: {
+            items: components["schemas"]["AIProductionOperation"][];
+        };
+        AIRunbookEvidenceListEnvelope: {
+            items: components["schemas"]["AIRunbookEvidence"][];
+        };
+        KnowledgeAccessScope: {
+            /** @enum {string} */
+            visibility: "private" | "scoped" | "public";
+            users?: string[];
+            roles?: string[];
+            teams?: string[];
+            projects?: string[];
+        };
+        KnowledgeRetrievalPolicy: {
+            defaultTopK: number;
+            maxTopK: number;
+            lexicalWeight: number;
+            vectorWeight: number;
+            minScore: number;
+        };
+        KnowledgeBase: {
+            id: string;
+            tenantId?: string;
+            workspaceId?: string;
+            name: string;
+            description?: string;
+            /** @enum {string} */
+            status: "active" | "disabled";
+            ownerId: string;
+            scope: components["schemas"]["KnowledgeAccessScope"];
+            retrievalPolicy: components["schemas"]["KnowledgeRetrievalPolicy"];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        KnowledgeBaseInput: {
+            name: string;
+            description?: string;
+            tenantId?: string;
+            workspaceId?: string;
+            scope: components["schemas"]["KnowledgeAccessScope"];
+            retrievalPolicy: components["schemas"]["KnowledgeRetrievalPolicy"];
+        };
+        KnowledgeSyncPolicy: {
+            mode: string;
+            schedule?: string;
+        };
+        KnowledgeSource: {
+            id: string;
+            knowledgeBaseId: string;
+            name: string;
+            /** @enum {string} */
+            kind: "inline" | "http" | "git" | "object";
+            configRef?: string;
+            syncPolicy: components["schemas"]["KnowledgeSyncPolicy"];
+            cursor?: string;
+            /** @enum {string} */
+            status: "pending" | "ready" | "syncing" | "failed";
+            lastError?: string;
+            /** Format: date-time */
+            lastSyncedAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        KnowledgeSourceInput: {
+            name: string;
+            /** @enum {string} */
+            kind: "inline" | "http" | "git" | "object";
+            configRef?: string;
+            config?: components["schemas"]["KnowledgeSourceConfig"];
+            syncPolicy: components["schemas"]["KnowledgeSyncPolicy"];
+        };
+        KnowledgeSourceConfig: {
+            documents?: components["schemas"]["KnowledgeSourceDocument"][];
+        };
+        KnowledgeSourceDocument: {
+            externalId: string;
+            title: string;
+            content: string;
+            uri?: string;
+            version?: string;
+            acl: components["schemas"]["KnowledgeAccessScope"];
+        };
+        KnowledgeDocument: {
+            id: string;
+            knowledgeBaseId: string;
+            sourceId: string;
+            externalId: string;
+            title: string;
+            uri?: string;
+            version: string;
+            contentHash: string;
+            acl: components["schemas"]["KnowledgeAccessScope"];
+            /** @enum {string} */
+            status: "pending" | "indexed" | "failed" | "deleted";
+            chunkCount: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        KnowledgeSourceLocation: {
+            uri?: string;
+            startByte?: number;
+            endByte?: number;
+        };
+        KnowledgeIndexRevision: {
+            id: string;
+            knowledgeBaseId: string;
+            revision: number;
+            embeddingModel?: string;
+            chunkerVersion: string;
+            documentCount: number;
+            chunkCount: number;
+            /** @enum {string} */
+            status: "building" | "active" | "failed" | "superseded";
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            activatedAt?: string;
+        };
+        KnowledgeSyncRun: {
+            id: string;
+            knowledgeBaseId: string;
+            sourceId: string;
+            /** @enum {string} */
+            status: "queued" | "running" | "succeeded" | "failed";
+            documentsSeen: number;
+            documentsStored: number;
+            chunksStored: number;
+            error?: string;
+            /** Format: date-time */
+            startedAt: string;
+            /** Format: date-time */
+            completedAt?: string;
+        };
+        KnowledgeSearchFilters: {
+            sourceIds?: string[];
+            documentIds?: string[];
+        };
+        KnowledgeSearchRequest: {
+            knowledgeBaseIds: string[];
+            query: string;
+            topK?: number;
+            filters?: components["schemas"]["KnowledgeSearchFilters"];
+        };
+        KnowledgeCitation: {
+            id: string;
+            knowledgeBaseId: string;
+            documentId: string;
+            documentTitle: string;
+            chunkId: string;
+            location: components["schemas"]["KnowledgeSourceLocation"];
+            uri?: string;
+            score: number;
+            contentHash: string;
+        };
+        KnowledgeSearchHit: {
+            chunkId: string;
+            documentId: string;
+            knowledgeBaseId: string;
+            title: string;
+            content: string;
+            score: number;
+            lexicalScore: number;
+            vectorScore: number;
+            citation: components["schemas"]["KnowledgeCitation"];
+        };
+        KnowledgeSearchResult: {
+            query: string;
+            hits: components["schemas"]["KnowledgeSearchHit"][];
+            citations: components["schemas"]["KnowledgeCitation"][];
+            candidateCount: number;
+            /** Format: int64 */
+            timingMs: number;
+            noAnswer: boolean;
+            traceId: string;
+        };
+        EvaluationDatasetSample: {
+            id: string;
+            input: string;
+            expectedSources?: string[];
+            expectedFacts?: string[];
+            forbiddenActions?: string[];
+        };
+        EvaluationDataset: {
+            /** @constant */
+            schemaVersion: "opensoha.dev/evaluation-dataset/v1";
+            id: string;
+            name: string;
+            version: string;
+            samples: components["schemas"]["EvaluationDatasetSample"][];
+            /** Format: date-time */
+            createdAt: string;
+        };
+        EvaluationRun: {
+            /** @constant */
+            schemaVersion: "opensoha.dev/evaluation-run/v1";
+            id: string;
+            datasetId: string;
+            datasetVersion: string;
+            candidateRefs: {
+                [key: string]: string;
+            };
+            /** @enum {string} */
+            status: "queued" | "running" | "completed" | "failed" | "cancelled";
+            /** Format: date-time */
+            startedAt: string;
+            /** Format: date-time */
+            completedAt?: string;
+            aggregateScores?: {
+                [key: string]: number;
+            };
+        };
+        EvaluationResult: {
+            /** @constant */
+            schemaVersion: "opensoha.dev/evaluation-result/v1";
+            sampleId: string;
+            retrievedSources?: string[];
+            producedFacts?: string[];
+            actions?: string[];
+            scores: {
+                [key: string]: number;
+            };
+            passed: boolean;
+            failureReasons?: string[];
+        };
+        EvaluationSampleOutput: {
+            sampleId: string;
+            retrievedSources?: string[];
+            producedFacts?: string[];
+            actions?: string[];
+        };
+        EvaluationCompleteRunInput: {
+            outputs: components["schemas"]["EvaluationSampleOutput"][];
+        };
+        EvaluationDatasetEnvelope: {
+            data: components["schemas"]["EvaluationDataset"];
+        };
+        EvaluationDatasetListEnvelope: {
+            items: components["schemas"]["EvaluationDataset"][];
+        };
+        EvaluationRunEnvelope: {
+            data: components["schemas"]["EvaluationRun"];
+        };
+        EvaluationRunListEnvelope: {
+            items: components["schemas"]["EvaluationRun"][];
+        };
+        EvaluationResultListEnvelope: {
+            items: components["schemas"]["EvaluationResult"][];
+        };
+        AIContextTask: {
+            mode?: string;
+            goal: string;
+        };
+        AIContextVersionRef: {
+            id?: string;
+            name?: string;
+            version?: string;
+        };
+        AIContextKnowledgeInput: {
+            enabled: boolean;
+            knowledgeBaseIds: string[];
+            query?: string;
+            topK?: number;
+        };
+        AIContextSession: {
+            summary?: string;
+            recentMessageRefs?: string[];
+        };
+        AIContextToolRef: {
+            name: string;
+            schemaVersion?: string;
+        };
+        AIContextEnvironment: {
+            mode?: string;
+            observationRefs?: string[];
+        };
+        AIContextBudgets: {
+            maxInputTokens?: number;
+            maxEvidenceTokens?: number;
+            maxSteps?: number;
+        };
+        AIContextBuildInput: {
+            requestId?: string;
+            sessionId?: string;
+            agentRunId?: string;
+            task: components["schemas"]["AIContextTask"];
+            prompt?: components["schemas"]["AIContextVersionRef"];
+            skills?: components["schemas"]["AIContextVersionRef"][];
+            session?: components["schemas"]["AIContextSession"];
+            knowledge: components["schemas"]["AIContextKnowledgeInput"];
+            tools?: components["schemas"]["AIContextToolRef"][];
+            environment?: components["schemas"]["AIContextEnvironment"];
+            budgets?: components["schemas"]["AIContextBudgets"];
+        };
+        AIContextPrincipal: {
+            userId: string;
+        };
+        AIContextEvidence: {
+            citationId: string;
+            content: string;
+            tokenCount: number;
+        };
+        AIContextBudgetUsage: {
+            evidenceTokens: number;
+            evidenceItems: number;
+        };
+        AIContextPolicySnapshot: {
+            id: string;
+            version: string;
+        };
+        AIContextEnvelope: {
+            version: string;
+            id: string;
+            requestId: string;
+            sessionId?: string;
+            agentRunId?: string;
+            principal: components["schemas"]["AIContextPrincipal"];
+            task: components["schemas"]["AIContextTask"];
+            prompt?: components["schemas"]["AIContextVersionRef"];
+            skills?: components["schemas"]["AIContextVersionRef"][];
+            session?: components["schemas"]["AIContextSession"];
+            evidence?: components["schemas"]["AIContextEvidence"][];
+            citations?: components["schemas"]["KnowledgeCitation"][];
+            tools?: components["schemas"]["AIContextToolRef"][];
+            environment?: components["schemas"]["AIContextEnvironment"];
+            budgets: components["schemas"]["AIContextBudgets"];
+            budgetUsage: components["schemas"]["AIContextBudgetUsage"];
+            policySnapshot: components["schemas"]["AIContextPolicySnapshot"];
+            contentHash: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        AIContextInspection: {
+            envelope: components["schemas"]["AIContextEnvelope"];
+            sections: string[];
+            truncations?: string[];
+            /** Format: int64 */
+            retrievalTimeMs?: number;
+        };
+        KnowledgeBaseEnvelope: {
+            data: components["schemas"]["KnowledgeBase"];
+        };
+        KnowledgeBaseListEnvelope: {
+            items: components["schemas"]["KnowledgeBase"][];
+        };
+        KnowledgeSourceEnvelope: {
+            data: components["schemas"]["KnowledgeSource"];
+        };
+        KnowledgeSourceListEnvelope: {
+            items: components["schemas"]["KnowledgeSource"][];
+        };
+        KnowledgeDocumentListEnvelope: {
+            items: components["schemas"]["KnowledgeDocument"][];
+        };
+        KnowledgeSyncRunEnvelope: {
+            data: components["schemas"]["KnowledgeSyncRun"];
+        };
+        KnowledgeSyncRunListEnvelope: {
+            items: components["schemas"]["KnowledgeSyncRun"][];
+        };
+        KnowledgeIndexRevisionListEnvelope: {
+            items: components["schemas"]["KnowledgeIndexRevision"][];
+        };
+        KnowledgeSearchResultEnvelope: {
+            data: components["schemas"]["KnowledgeSearchResult"];
+        };
+        AIContextInspectionEnvelope: {
+            data: components["schemas"]["AIContextInspection"];
         };
         AIWorkbenchModelSettings: {
             /** @description Public model name exposed by AI Gateway model routes and used as the Workbench default. */
@@ -4881,6 +6735,19 @@ export interface components {
         OperationID: string;
         ProviderID: string;
         PluginID: string;
+        KnowledgeBaseID: string;
+        KnowledgeSourceID: string;
+        KnowledgeConnectorID: string;
+        KnowledgeIngestionJobID: string;
+        KnowledgeGraphRevisionID: string;
+        KnowledgeListLimit: number;
+        EvaluationRunID: string;
+        AIMemoryID: string;
+        MultiAgentPlanID: string;
+        MultiAgentSubtaskID: string;
+        AgentProviderRolloutID: string;
+        AgentProviderRolloutAction: "pause" | "resume" | "rollback";
+        AIEnvironmentLeaseID: string;
         PlanID: string;
         ServiceID: string;
         SessionID: string;
@@ -4932,6 +6799,150 @@ export type GenericObject = components['schemas']['GenericObject'];
 export type GenericDataEnvelope = components['schemas']['GenericDataEnvelope'];
 export type GenericItemsEnvelope = components['schemas']['GenericItemsEnvelope'];
 export type ErrorEnvelope = components['schemas']['ErrorEnvelope'];
+export type AgentProviderRuntimeDefinition = components['schemas']['AgentProviderRuntimeDefinition'];
+export type AgentProviderDefinition = components['schemas']['AgentProviderDefinition'];
+export type AgentProviderCatalog = components['schemas']['AgentProviderCatalog'];
+export type AgentProviderFleetTarget = components['schemas']['AgentProviderFleetTarget'];
+export type AgentProviderRegistrySnapshot = components['schemas']['AgentProviderRegistrySnapshot'];
+export type AgentProviderRunnerStatus = components['schemas']['AgentProviderRunnerStatus'];
+export type AgentProviderRegistryAcknowledgement = components['schemas']['AgentProviderRegistryAcknowledgement'];
+export type AgentProviderConformanceResult = components['schemas']['AgentProviderConformanceResult'];
+export type AgentProviderRuntimeStatus = components['schemas']['AgentProviderRuntimeStatus'];
+export type AgentProviderCatalogEnvelope = components['schemas']['AgentProviderCatalogEnvelope'];
+export type AgentProviderRegistrySnapshotEnvelope = components['schemas']['AgentProviderRegistrySnapshotEnvelope'];
+export type AgentProviderRegistryAcknowledgementEnvelope = components['schemas']['AgentProviderRegistryAcknowledgementEnvelope'];
+export type AgentProviderRuntimeStatusEnvelope = components['schemas']['AgentProviderRuntimeStatusEnvelope'];
+export type KnowledgeConnectorInput = components['schemas']['KnowledgeConnectorInput'];
+export type KnowledgeConnector = components['schemas']['KnowledgeConnector'];
+export type KnowledgeConnectorValidation = components['schemas']['KnowledgeConnectorValidation'];
+export type KnowledgeIngestionJobInput = components['schemas']['KnowledgeIngestionJobInput'];
+export type KnowledgeIngestionCheckpoint = components['schemas']['KnowledgeIngestionCheckpoint'];
+export type KnowledgeIngestionStage = components['schemas']['KnowledgeIngestionStage'];
+export type KnowledgeIngestionJob = components['schemas']['KnowledgeIngestionJob'];
+export type KnowledgeConnectorEnvelope = components['schemas']['KnowledgeConnectorEnvelope'];
+export type KnowledgeConnectorListEnvelope = components['schemas']['KnowledgeConnectorListEnvelope'];
+export type KnowledgeConnectorValidationEnvelope = components['schemas']['KnowledgeConnectorValidationEnvelope'];
+export type KnowledgeIngestionJobEnvelope = components['schemas']['KnowledgeIngestionJobEnvelope'];
+export type EvaluationExecutorProfile = components['schemas']['EvaluationExecutorProfile'];
+export type EvaluationExecuteRunInput = components['schemas']['EvaluationExecuteRunInput'];
+export type EvaluationSampleAttempt = components['schemas']['EvaluationSampleAttempt'];
+export type EvaluationReplayPlan = components['schemas']['EvaluationReplayPlan'];
+export type EvaluationReplayPlanInput = components['schemas']['EvaluationReplayPlanInput'];
+export type EvaluationGatePolicy = components['schemas']['EvaluationGatePolicy'];
+export type EvaluationGatePolicyInput = components['schemas']['EvaluationGatePolicyInput'];
+export type EvaluationGateReason = components['schemas']['EvaluationGateReason'];
+export type EvaluationGateDecision = components['schemas']['EvaluationGateDecision'];
+export type EvaluationGateRequest = components['schemas']['EvaluationGateRequest'];
+export type EvaluationFeedback = components['schemas']['EvaluationFeedback'];
+export type EvaluationFeedbackInput = components['schemas']['EvaluationFeedbackInput'];
+export type EvaluationExecutorProfileEnvelope = components['schemas']['EvaluationExecutorProfileEnvelope'];
+export type EvaluationExecutorProfileListEnvelope = components['schemas']['EvaluationExecutorProfileListEnvelope'];
+export type EvaluationSampleAttemptListEnvelope = components['schemas']['EvaluationSampleAttemptListEnvelope'];
+export type EvaluationReplayPlanEnvelope = components['schemas']['EvaluationReplayPlanEnvelope'];
+export type EvaluationReplayPlanListEnvelope = components['schemas']['EvaluationReplayPlanListEnvelope'];
+export type EvaluationGatePolicyEnvelope = components['schemas']['EvaluationGatePolicyEnvelope'];
+export type EvaluationGatePolicyListEnvelope = components['schemas']['EvaluationGatePolicyListEnvelope'];
+export type EvaluationGateDecisionEnvelope = components['schemas']['EvaluationGateDecisionEnvelope'];
+export type EvaluationGateDecisionListEnvelope = components['schemas']['EvaluationGateDecisionListEnvelope'];
+export type EvaluationFeedbackEnvelope = components['schemas']['EvaluationFeedbackEnvelope'];
+export type EvaluationFeedbackListEnvelope = components['schemas']['EvaluationFeedbackListEnvelope'];
+export type AIMemoryPolicy = components['schemas']['AIMemoryPolicy'];
+export type AIMemoryPolicyInput = components['schemas']['AIMemoryPolicyInput'];
+export type AIMemoryRecord = components['schemas']['AIMemoryRecord'];
+export type AIMemoryWriteInput = components['schemas']['AIMemoryWriteInput'];
+export type AIMemoryPolicyEnvelope = components['schemas']['AIMemoryPolicyEnvelope'];
+export type AIMemoryPolicyListEnvelope = components['schemas']['AIMemoryPolicyListEnvelope'];
+export type AIMemoryRecordEnvelope = components['schemas']['AIMemoryRecordEnvelope'];
+export type AIMemoryRecordListEnvelope = components['schemas']['AIMemoryRecordListEnvelope'];
+export type KnowledgeGraphEntity = components['schemas']['KnowledgeGraphEntity'];
+export type KnowledgeGraphRelation = components['schemas']['KnowledgeGraphRelation'];
+export type KnowledgeGraphCommunity = components['schemas']['KnowledgeGraphCommunity'];
+export type KnowledgeGraphRevision = components['schemas']['KnowledgeGraphRevision'];
+export type KnowledgeGraphQueryInput = components['schemas']['KnowledgeGraphQueryInput'];
+export type KnowledgeGraphQueryResult = components['schemas']['KnowledgeGraphQueryResult'];
+export type KnowledgeGraphRevisionEnvelope = components['schemas']['KnowledgeGraphRevisionEnvelope'];
+export type KnowledgeGraphRevisionListEnvelope = components['schemas']['KnowledgeGraphRevisionListEnvelope'];
+export type KnowledgeGraphQueryResultEnvelope = components['schemas']['KnowledgeGraphQueryResultEnvelope'];
+export type MultiAgentBudget = components['schemas']['MultiAgentBudget'];
+export type MultiAgentSubtask = components['schemas']['MultiAgentSubtask'];
+export type MultiAgentPlan = components['schemas']['MultiAgentPlan'];
+export type MultiAgentSubtaskCompletionInput = components['schemas']['MultiAgentSubtaskCompletionInput'];
+export type MultiAgentPlanEnvelope = components['schemas']['MultiAgentPlanEnvelope'];
+export type MultiAgentPlanListEnvelope = components['schemas']['MultiAgentPlanListEnvelope'];
+export type AgentProviderRolloutInput = components['schemas']['AgentProviderRolloutInput'];
+export type AgentProviderRollout = components['schemas']['AgentProviderRollout'];
+export type AgentProviderConformanceRunInput = components['schemas']['AgentProviderConformanceRunInput'];
+export type AgentProviderConformanceRun = components['schemas']['AgentProviderConformanceRun'];
+export type AIEnvironmentTemplateInput = components['schemas']['AIEnvironmentTemplateInput'];
+export type AIEnvironmentTemplate = components['schemas']['AIEnvironmentTemplate'];
+export type AIEnvironmentLease = components['schemas']['AIEnvironmentLease'];
+export type AIProductionOperationInput = components['schemas']['AIProductionOperationInput'];
+export type AIProductionOperation = components['schemas']['AIProductionOperation'];
+export type AIRunbookEvidence = components['schemas']['AIRunbookEvidence'];
+export type AgentProviderRolloutEnvelope = components['schemas']['AgentProviderRolloutEnvelope'];
+export type AgentProviderRolloutListEnvelope = components['schemas']['AgentProviderRolloutListEnvelope'];
+export type AgentProviderConformanceRunEnvelope = components['schemas']['AgentProviderConformanceRunEnvelope'];
+export type AgentProviderConformanceRunListEnvelope = components['schemas']['AgentProviderConformanceRunListEnvelope'];
+export type AIEnvironmentTemplateEnvelope = components['schemas']['AIEnvironmentTemplateEnvelope'];
+export type AIEnvironmentTemplateListEnvelope = components['schemas']['AIEnvironmentTemplateListEnvelope'];
+export type AIEnvironmentLeaseEnvelope = components['schemas']['AIEnvironmentLeaseEnvelope'];
+export type AIEnvironmentLeaseListEnvelope = components['schemas']['AIEnvironmentLeaseListEnvelope'];
+export type AIProductionOperationEnvelope = components['schemas']['AIProductionOperationEnvelope'];
+export type AIProductionOperationListEnvelope = components['schemas']['AIProductionOperationListEnvelope'];
+export type AIRunbookEvidenceListEnvelope = components['schemas']['AIRunbookEvidenceListEnvelope'];
+export type KnowledgeAccessScope = components['schemas']['KnowledgeAccessScope'];
+export type KnowledgeRetrievalPolicy = components['schemas']['KnowledgeRetrievalPolicy'];
+export type KnowledgeBase = components['schemas']['KnowledgeBase'];
+export type KnowledgeBaseInput = components['schemas']['KnowledgeBaseInput'];
+export type KnowledgeSyncPolicy = components['schemas']['KnowledgeSyncPolicy'];
+export type KnowledgeSource = components['schemas']['KnowledgeSource'];
+export type KnowledgeSourceInput = components['schemas']['KnowledgeSourceInput'];
+export type KnowledgeSourceConfig = components['schemas']['KnowledgeSourceConfig'];
+export type KnowledgeSourceDocument = components['schemas']['KnowledgeSourceDocument'];
+export type KnowledgeDocument = components['schemas']['KnowledgeDocument'];
+export type KnowledgeSourceLocation = components['schemas']['KnowledgeSourceLocation'];
+export type KnowledgeIndexRevision = components['schemas']['KnowledgeIndexRevision'];
+export type KnowledgeSyncRun = components['schemas']['KnowledgeSyncRun'];
+export type KnowledgeSearchFilters = components['schemas']['KnowledgeSearchFilters'];
+export type KnowledgeSearchRequest = components['schemas']['KnowledgeSearchRequest'];
+export type KnowledgeCitation = components['schemas']['KnowledgeCitation'];
+export type KnowledgeSearchHit = components['schemas']['KnowledgeSearchHit'];
+export type KnowledgeSearchResult = components['schemas']['KnowledgeSearchResult'];
+export type EvaluationDatasetSample = components['schemas']['EvaluationDatasetSample'];
+export type EvaluationDataset = components['schemas']['EvaluationDataset'];
+export type EvaluationRun = components['schemas']['EvaluationRun'];
+export type EvaluationResult = components['schemas']['EvaluationResult'];
+export type EvaluationSampleOutput = components['schemas']['EvaluationSampleOutput'];
+export type EvaluationCompleteRunInput = components['schemas']['EvaluationCompleteRunInput'];
+export type EvaluationDatasetEnvelope = components['schemas']['EvaluationDatasetEnvelope'];
+export type EvaluationDatasetListEnvelope = components['schemas']['EvaluationDatasetListEnvelope'];
+export type EvaluationRunEnvelope = components['schemas']['EvaluationRunEnvelope'];
+export type EvaluationRunListEnvelope = components['schemas']['EvaluationRunListEnvelope'];
+export type EvaluationResultListEnvelope = components['schemas']['EvaluationResultListEnvelope'];
+export type AIContextTask = components['schemas']['AIContextTask'];
+export type AIContextVersionRef = components['schemas']['AIContextVersionRef'];
+export type AIContextKnowledgeInput = components['schemas']['AIContextKnowledgeInput'];
+export type AIContextSession = components['schemas']['AIContextSession'];
+export type AIContextToolRef = components['schemas']['AIContextToolRef'];
+export type AIContextEnvironment = components['schemas']['AIContextEnvironment'];
+export type AIContextBudgets = components['schemas']['AIContextBudgets'];
+export type AIContextBuildInput = components['schemas']['AIContextBuildInput'];
+export type AIContextPrincipal = components['schemas']['AIContextPrincipal'];
+export type AIContextEvidence = components['schemas']['AIContextEvidence'];
+export type AIContextBudgetUsage = components['schemas']['AIContextBudgetUsage'];
+export type AIContextPolicySnapshot = components['schemas']['AIContextPolicySnapshot'];
+export type AIContextEnvelope = components['schemas']['AIContextEnvelope'];
+export type AIContextInspection = components['schemas']['AIContextInspection'];
+export type KnowledgeBaseEnvelope = components['schemas']['KnowledgeBaseEnvelope'];
+export type KnowledgeBaseListEnvelope = components['schemas']['KnowledgeBaseListEnvelope'];
+export type KnowledgeSourceEnvelope = components['schemas']['KnowledgeSourceEnvelope'];
+export type KnowledgeSourceListEnvelope = components['schemas']['KnowledgeSourceListEnvelope'];
+export type KnowledgeDocumentListEnvelope = components['schemas']['KnowledgeDocumentListEnvelope'];
+export type KnowledgeSyncRunEnvelope = components['schemas']['KnowledgeSyncRunEnvelope'];
+export type KnowledgeSyncRunListEnvelope = components['schemas']['KnowledgeSyncRunListEnvelope'];
+export type KnowledgeIndexRevisionListEnvelope = components['schemas']['KnowledgeIndexRevisionListEnvelope'];
+export type KnowledgeSearchResultEnvelope = components['schemas']['KnowledgeSearchResultEnvelope'];
+export type AIContextInspectionEnvelope = components['schemas']['AIContextInspectionEnvelope'];
 export type AIWorkbenchModelSettings = components['schemas']['AIWorkbenchModelSettings'];
 export type AISkillSettings = components['schemas']['AISkillSettings'];
 export type AISettings = components['schemas']['AISettings'];
@@ -5230,6 +7241,19 @@ export type ParameterOidcState = components['parameters']['OIDCState'];
 export type ParameterOperationId = components['parameters']['OperationID'];
 export type ParameterProviderId = components['parameters']['ProviderID'];
 export type ParameterPluginId = components['parameters']['PluginID'];
+export type ParameterKnowledgeBaseId = components['parameters']['KnowledgeBaseID'];
+export type ParameterKnowledgeSourceId = components['parameters']['KnowledgeSourceID'];
+export type ParameterKnowledgeConnectorId = components['parameters']['KnowledgeConnectorID'];
+export type ParameterKnowledgeIngestionJobId = components['parameters']['KnowledgeIngestionJobID'];
+export type ParameterKnowledgeGraphRevisionId = components['parameters']['KnowledgeGraphRevisionID'];
+export type ParameterKnowledgeListLimit = components['parameters']['KnowledgeListLimit'];
+export type ParameterEvaluationRunId = components['parameters']['EvaluationRunID'];
+export type ParameterAiMemoryId = components['parameters']['AIMemoryID'];
+export type ParameterMultiAgentPlanId = components['parameters']['MultiAgentPlanID'];
+export type ParameterMultiAgentSubtaskId = components['parameters']['MultiAgentSubtaskID'];
+export type ParameterAgentProviderRolloutId = components['parameters']['AgentProviderRolloutID'];
+export type ParameterAgentProviderRolloutAction = components['parameters']['AgentProviderRolloutAction'];
+export type ParameterAiEnvironmentLeaseId = components['parameters']['AIEnvironmentLeaseID'];
 export type ParameterPlanId = components['parameters']['PlanID'];
 export type ParameterServiceId = components['parameters']['ServiceID'];
 export type ParameterSessionId = components['parameters']['SessionID'];
@@ -9170,6 +11194,1814 @@ export interface operations {
                     "application/json": components["schemas"]["InstalledPluginEnvelope"];
                 };
             };
+        };
+    };
+    getAgentProviderCatalog: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Agent provider catalog reconciled from installed plugin extensions. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentProviderCatalogEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getAgentProviderRuntimeStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Latest runner acknowledgements and active provider catalog revision. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentProviderRuntimeStatusEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getAgentProviderRegistrySnapshot: {
+        parameters: {
+            query: {
+                runnerId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Versioned provider registry snapshot projected for a runner. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentProviderRegistrySnapshotEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    acknowledgeAgentProviderRegistry: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AgentProviderRegistryAcknowledgement"];
+            };
+        };
+        responses: {
+            /** @description Runner registry acknowledgement accepted. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentProviderRegistryAcknowledgementEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKnowledgeBases: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Knowledge bases visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeBaseListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createKnowledgeBase: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KnowledgeBaseInput"];
+            };
+        };
+        responses: {
+            /** @description Created knowledge base. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeBaseEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    getKnowledgeBase: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                baseID: components["parameters"]["KnowledgeBaseID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Knowledge base detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeBaseEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteKnowledgeBase: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                baseID: components["parameters"]["KnowledgeBaseID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Knowledge base deleted. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateKnowledgeBase: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                baseID: components["parameters"]["KnowledgeBaseID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KnowledgeBaseInput"];
+            };
+        };
+        responses: {
+            /** @description Updated knowledge base. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeBaseEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listKnowledgeSources: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                baseID: components["parameters"]["KnowledgeBaseID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Sources attached to a knowledge base. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeSourceListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    createKnowledgeSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                baseID: components["parameters"]["KnowledgeBaseID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KnowledgeSourceInput"];
+            };
+        };
+        responses: {
+            /** @description Created knowledge source. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeSourceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    syncKnowledgeSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                baseID: components["parameters"]["KnowledgeBaseID"];
+                sourceID: components["parameters"]["KnowledgeSourceID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Accepted source synchronization run. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeSyncRunEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listKnowledgeDocuments: {
+        parameters: {
+            query?: {
+                limit?: components["parameters"]["KnowledgeListLimit"];
+            };
+            header?: never;
+            path: {
+                baseID: components["parameters"]["KnowledgeBaseID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Indexed documents in a knowledge base. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeDocumentListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listKnowledgeSyncRuns: {
+        parameters: {
+            query?: {
+                limit?: components["parameters"]["KnowledgeListLimit"];
+            };
+            header?: never;
+            path: {
+                baseID: components["parameters"]["KnowledgeBaseID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Recent source synchronization runs. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeSyncRunListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listKnowledgeIndexRevisions: {
+        parameters: {
+            query?: {
+                limit?: components["parameters"]["KnowledgeListLimit"];
+            };
+            header?: never;
+            path: {
+                baseID: components["parameters"]["KnowledgeBaseID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Index revisions for a knowledge base. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeIndexRevisionListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    searchKnowledge: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KnowledgeSearchRequest"];
+            };
+        };
+        responses: {
+            /** @description ACL-filtered hybrid retrieval result with citations. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeSearchResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    inspectAIContext: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AIContextBuildInput"];
+            };
+        };
+        responses: {
+            /** @description Built context envelope and explainability metadata. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AIContextInspectionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listEvaluationDatasets: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Versioned evaluation datasets visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationDatasetListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    createEvaluationDataset: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EvaluationDataset"];
+            };
+        };
+        responses: {
+            /** @description Created immutable evaluation dataset version. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationDatasetEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listEvaluationRuns: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Evaluation runs visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationRunListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    startEvaluationRun: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EvaluationRun"];
+            };
+        };
+        responses: {
+            /** @description Accepted evaluation run. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationRunEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getEvaluationRun: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                runID: components["parameters"]["EvaluationRunID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Evaluation run detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationRunEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listEvaluationRunResults: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                runID: components["parameters"]["EvaluationRunID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Per-sample evaluation results for a run. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationResultListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    completeEvaluationRun: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                runID: components["parameters"]["EvaluationRunID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EvaluationCompleteRunInput"];
+            };
+        };
+        responses: {
+            /** @description Completed evaluation run with aggregate scores. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationRunEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKnowledgeConnectors: {
+        parameters: {
+            query?: {
+                limit?: components["parameters"]["KnowledgeListLimit"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Available knowledge connectors. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeConnectorListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    createKnowledgeConnector: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KnowledgeConnectorInput"];
+            };
+        };
+        responses: {
+            /** @description Created knowledge connector. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeConnectorEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    validateKnowledgeConnector: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                connectorID: components["parameters"]["KnowledgeConnectorID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Connector validation result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeConnectorValidationEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    createKnowledgeIngestionJob: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                baseID: components["parameters"]["KnowledgeBaseID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KnowledgeIngestionJobInput"];
+            };
+        };
+        responses: {
+            /** @description Accepted ingestion job. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeIngestionJobEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKnowledgeIngestionJob: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                jobID: components["parameters"]["KnowledgeIngestionJobID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ingestion job status. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeIngestionJobEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    cancelKnowledgeIngestionJob: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                jobID: components["parameters"]["KnowledgeIngestionJobID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ingestion job cancellation accepted. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeIngestionJobEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    retryKnowledgeIngestionJob: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                jobID: components["parameters"]["KnowledgeIngestionJobID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ingestion job retry accepted. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeIngestionJobEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listEvaluationExecutorProfiles: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Evaluation executor profiles. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationExecutorProfileListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    putEvaluationExecutorProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EvaluationExecutorProfile"];
+            };
+        };
+        responses: {
+            /** @description Stored executor profile. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationExecutorProfileEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    executeEvaluationRun: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                runID: components["parameters"]["EvaluationRunID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EvaluationExecuteRunInput"];
+            };
+        };
+        responses: {
+            /** @description Evaluation execution accepted. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationRunEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listEvaluationSampleAttempts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                runID: components["parameters"]["EvaluationRunID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Evaluation sample attempts. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationSampleAttemptListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listEvaluationReplayPlans: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Evaluation replay plans. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationReplayPlanListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    putEvaluationReplayPlan: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EvaluationReplayPlanInput"];
+            };
+        };
+        responses: {
+            /** @description Evaluation replay plan accepted. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationReplayPlanEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listEvaluationGatePolicies: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Evaluation gate policies. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationGatePolicyListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    putEvaluationGatePolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EvaluationGatePolicyInput"];
+            };
+        };
+        responses: {
+            /** @description Stored evaluation gate policy. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationGatePolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listEvaluationGateDecisions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Evaluation gate decisions. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationGateDecisionListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    evaluateEvaluationGate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EvaluationGateRequest"];
+            };
+        };
+        responses: {
+            /** @description Evaluation gate decision. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationGateDecisionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listEvaluationFeedback: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Curated evaluation feedback. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationFeedbackListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    putEvaluationFeedback: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EvaluationFeedbackInput"];
+            };
+        };
+        responses: {
+            /** @description Stored evaluation feedback. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvaluationFeedbackEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listAIMemoryPolicies: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Long-term memory policies. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AIMemoryPolicyListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    putAIMemoryPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AIMemoryPolicyInput"];
+            };
+        };
+        responses: {
+            /** @description Stored memory policy. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AIMemoryPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listAIMemoryRecords: {
+        parameters: {
+            query?: {
+                ownerType?: string;
+                ownerId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Active long-term memory records. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AIMemoryRecordListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    putAIMemoryRecord: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AIMemoryWriteInput"];
+            };
+        };
+        responses: {
+            /** @description Stored memory record. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AIMemoryRecordEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteAIMemoryRecord: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                memoryID: components["parameters"]["AIMemoryID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Memory record deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listKnowledgeGraphRevisions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                baseID: components["parameters"]["KnowledgeBaseID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Knowledge graph revisions. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeGraphRevisionListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    putKnowledgeGraphRevision: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                baseID: components["parameters"]["KnowledgeBaseID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KnowledgeGraphRevision"];
+            };
+        };
+        responses: {
+            /** @description Stored knowledge graph revision. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeGraphRevisionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    publishKnowledgeGraphRevision: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                baseID: components["parameters"]["KnowledgeBaseID"];
+                revisionID: components["parameters"]["KnowledgeGraphRevisionID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Published knowledge graph revision. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeGraphRevisionEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    queryKnowledgeGraphRevision: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                baseID: components["parameters"]["KnowledgeBaseID"];
+                revisionID: components["parameters"]["KnowledgeGraphRevisionID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KnowledgeGraphQueryInput"];
+            };
+        };
+        responses: {
+            /** @description Knowledge graph query result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnowledgeGraphQueryResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listMultiAgentPlans: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded multi-agent plans. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MultiAgentPlanListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createMultiAgentPlan: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MultiAgentPlan"];
+            };
+        };
+        responses: {
+            /** @description Multi-agent plan accepted. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MultiAgentPlanEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    completeMultiAgentSubtask: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                planID: components["parameters"]["MultiAgentPlanID"];
+                subtaskID: components["parameters"]["MultiAgentSubtaskID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MultiAgentSubtaskCompletionInput"];
+            };
+        };
+        responses: {
+            /** @description Updated multi-agent plan. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MultiAgentPlanEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    cancelMultiAgentPlan: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                planID: components["parameters"]["MultiAgentPlanID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Cancelled multi-agent plan. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MultiAgentPlanEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listAgentProviderRollouts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Agent provider rollouts. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentProviderRolloutListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAgentProviderRollout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AgentProviderRolloutInput"];
+            };
+        };
+        responses: {
+            /** @description Created agent provider rollout. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentProviderRolloutEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    transitionAgentProviderRollout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                rolloutID: components["parameters"]["AgentProviderRolloutID"];
+                rolloutAction: components["parameters"]["AgentProviderRolloutAction"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Transitioned agent provider rollout. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentProviderRolloutEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listAgentProviderConformanceRuns: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Agent provider conformance runs. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentProviderConformanceRunListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAgentProviderConformanceRun: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AgentProviderConformanceRunInput"];
+            };
+        };
+        responses: {
+            /** @description Created agent provider conformance run. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentProviderConformanceRunEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listAIEnvironmentTemplates: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Agent environment templates. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AIEnvironmentTemplateListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    putAIEnvironmentTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AIEnvironmentTemplateInput"];
+            };
+        };
+        responses: {
+            /** @description Stored agent environment template. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AIEnvironmentTemplateEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listAIEnvironmentLeases: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Agent environment leases. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AIEnvironmentLeaseListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    releaseAIEnvironmentLease: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                leaseID: components["parameters"]["AIEnvironmentLeaseID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Released agent environment lease. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AIEnvironmentLeaseEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    collectExpiredAIEnvironmentLeases: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Environment lease collection operation. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AIProductionOperationEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listAIProductionOperations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description AI production operations. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AIProductionOperationListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    startAIProductionOperation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AIProductionOperationInput"];
+            };
+        };
+        responses: {
+            /** @description AI production operation accepted. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AIProductionOperationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listAIProductionRunbookEvidence: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description AI production runbook evidence. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AIRunbookEvidenceListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    rebuildKnowledgeBaseIndex: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                baseID: components["parameters"]["KnowledgeBaseID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Knowledge base index rebuild accepted. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AIProductionOperationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
         };
     };
 }
