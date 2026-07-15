@@ -1777,6 +1777,102 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/compute/overview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getComputeOverview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/compute/access-sources": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listComputeAccessSources"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/compute/providers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listComputeProviders"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/compute/resources/{domain}/{kind}/{id}/relations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listComputeResourceRelations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/compute/tasks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listComputeTasks"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/compute/tasks/{domain}/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getComputeTask"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/mcp/capabilities": {
         parameters: {
             query?: never;
@@ -1999,6 +2095,272 @@ export interface components {
         GenericItemsEnvelope: {
             items: components["schemas"]["AnyValue"][];
         };
+        /** @enum {string} */
+        ComputeDomain: "virtualization" | "container_runtime" | "agent";
+        /** @enum {string} */
+        ComputeProviderDomain: "virtualization" | "container_runtime";
+        /** @enum {string} */
+        ComputeTaskDomain: "virtualization" | "container_runtime";
+        /** @enum {string} */
+        ComputeResourceKind: "connection" | "cluster" | "vm" | "image" | "flavor" | "agent_host" | "runtime_host" | "project" | "container" | "service" | "port" | "template";
+        /** @enum {string} */
+        ComputeProviderSource: "builtin" | "plugin";
+        /** @enum {string} */
+        ComputeAccessMode: "direct" | "agent_proxy";
+        /** @enum {string} */
+        ComputePluginRuntimeMode: "builtin" | "manifest_only" | "external" | "managed";
+        /** @enum {string} */
+        ComputeProviderActivationLevel: "descriptor" | "read" | "write";
+        /** @enum {string} */
+        ComputeSectionStatus: "ok" | "degraded" | "unavailable";
+        /** @enum {string} */
+        ComputeHealthStatus: "healthy" | "degraded" | "unavailable" | "pending" | "unknown";
+        ComputeWarning: {
+            code: string;
+            /** @description Redacted user-facing warning. Internal errors and credentials are excluded. */
+            message?: string;
+        };
+        ComputeVirtualizationSummary: {
+            connectionsTotal: number;
+            connectionsHealthy: number;
+            connectionsDegraded: number;
+            connectionsUnsynced: number;
+            vmsTotal: number;
+            vmsRunning: number;
+            vmsStopped: number;
+            vmsError: number;
+        };
+        ComputeAgentSummary: {
+            total: number;
+            online: number;
+            offline: number;
+            versionMismatch: number;
+        };
+        ComputeRuntimeSummary: {
+            total: number;
+            available: number;
+            waitingAgent: number;
+            error: number;
+        };
+        ComputeRuntimeWorkloadSummary: {
+            projects: number;
+            containers: number;
+            services: number;
+            ports: number;
+            expiring: number;
+        };
+        ComputeTaskSummary: {
+            queued: number;
+            running: number;
+            failed: number;
+        };
+        ComputeVirtualizationOverviewSection: {
+            status: components["schemas"]["ComputeSectionStatus"];
+            summary?: components["schemas"]["ComputeVirtualizationSummary"];
+            warnings?: components["schemas"]["ComputeWarning"][];
+        };
+        ComputeAgentOverviewSection: {
+            status: components["schemas"]["ComputeSectionStatus"];
+            summary?: components["schemas"]["ComputeAgentSummary"];
+            warnings?: components["schemas"]["ComputeWarning"][];
+        };
+        ComputeRuntimeOverviewSection: {
+            status: components["schemas"]["ComputeSectionStatus"];
+            summary?: components["schemas"]["ComputeRuntimeSummary"];
+            warnings?: components["schemas"]["ComputeWarning"][];
+        };
+        ComputeRuntimeWorkloadOverviewSection: {
+            status: components["schemas"]["ComputeSectionStatus"];
+            summary?: components["schemas"]["ComputeRuntimeWorkloadSummary"];
+            warnings?: components["schemas"]["ComputeWarning"][];
+        };
+        ComputeTaskOverviewSection: {
+            status: components["schemas"]["ComputeSectionStatus"];
+            summary?: components["schemas"]["ComputeTaskSummary"];
+            warnings?: components["schemas"]["ComputeWarning"][];
+        };
+        ComputeAttention: {
+            code: string;
+            /** @enum {string} */
+            severity: "info" | "warning" | "critical";
+            summary: string;
+            resources?: components["schemas"]["ComputeResourceRef"][];
+        };
+        ComputeProviderHealth: {
+            domain: components["schemas"]["ComputeProviderDomain"];
+            providerKey: string;
+            status: components["schemas"]["ComputeHealthStatus"];
+            /** Format: int64 */
+            generation: number;
+            code?: string;
+            /** @description Redacted health summary. */
+            message?: string;
+            /** Format: date-time */
+            checkedAt?: string;
+        };
+        ComputeOverview: {
+            virtualization?: components["schemas"]["ComputeVirtualizationOverviewSection"];
+            agents?: components["schemas"]["ComputeAgentOverviewSection"];
+            runtimes?: components["schemas"]["ComputeRuntimeOverviewSection"];
+            runtimeWorkloads?: components["schemas"]["ComputeRuntimeWorkloadOverviewSection"];
+            tasks?: components["schemas"]["ComputeTaskOverviewSection"];
+            attention: components["schemas"]["ComputeAttention"][];
+            providerHealth: components["schemas"]["ComputeProviderHealth"][];
+            partial: boolean;
+            warnings: components["schemas"]["ComputeWarning"][];
+        };
+        ComputeOverviewEnvelope: {
+            data: components["schemas"]["ComputeOverview"];
+        };
+        ComputeResourceRef: {
+            domain: components["schemas"]["ComputeDomain"];
+            kind: components["schemas"]["ComputeResourceKind"];
+            id: string;
+            displayName: string;
+            scope?: string;
+            providerKey?: string;
+            providerSource?: components["schemas"]["ComputeProviderSource"];
+            providerInstanceRef?: string;
+            pluginId?: string;
+            pluginVersion?: string;
+            /** Format: int64 */
+            providerGeneration?: number;
+            accessMode?: components["schemas"]["ComputeAccessMode"];
+        };
+        /** @enum {string} */
+        ComputeAccessSourceType: "virtualization_connection" | "agent_host" | "runtime_host";
+        ComputeAccessSource: {
+            id: string;
+            sourceType: components["schemas"]["ComputeAccessSourceType"];
+            resource: components["schemas"]["ComputeResourceRef"];
+            status: components["schemas"]["ComputeHealthStatus"];
+            providerKey?: string;
+            providerSource?: components["schemas"]["ComputeProviderSource"];
+            pluginId?: string;
+            pluginVersion?: string;
+            /** Format: int64 */
+            providerGeneration?: number;
+            accessMode?: components["schemas"]["ComputeAccessMode"];
+            relatedResources?: components["schemas"]["ComputeResourceRef"][];
+            availableActions?: string[];
+            /** Format: date-time */
+            lastObservedAt?: string;
+        };
+        ComputeAccessSourceListEnvelope: {
+            items: components["schemas"]["ComputeAccessSource"][];
+            nextCursor?: string;
+        };
+        ComputeProviderCapability: {
+            id: string;
+            level: components["schemas"]["ComputeProviderActivationLevel"];
+            resourceKinds: components["schemas"]["ComputeResourceKind"][];
+            enabled: boolean;
+            reason?: string;
+        };
+        ComputeProviderResourceSchema: {
+            kind: components["schemas"]["ComputeResourceKind"];
+            schema: components["schemas"]["JSONSchema"];
+        };
+        ComputeProviderStatusMapping: {
+            providerStatus: string;
+            normalizedStatus: string;
+        };
+        ComputeProviderDescriptor: {
+            providerKey: string;
+            domain: components["schemas"]["ComputeProviderDomain"];
+            displayName: string;
+            version: string;
+            source: components["schemas"]["ComputeProviderSource"];
+            pluginId?: string;
+            pluginVersion?: string;
+            contractVersion: string;
+            activationLevel: components["schemas"]["ComputeProviderActivationLevel"];
+            resourceKinds: components["schemas"]["ComputeResourceKind"][];
+            capabilities: components["schemas"]["ComputeProviderCapability"][];
+            configSchema?: components["schemas"]["JSONSchema"];
+            resourceSchemas?: components["schemas"]["ComputeProviderResourceSchema"][];
+            statusMappings?: components["schemas"]["ComputeProviderStatusMapping"][];
+            runtimeMode: components["schemas"]["ComputePluginRuntimeMode"];
+            /** Format: int64 */
+            generation: number;
+            health: components["schemas"]["ComputeProviderHealth"];
+        };
+        ComputeProviderListEnvelope: {
+            items: components["schemas"]["ComputeProviderDescriptor"][];
+            nextCursor?: string;
+        };
+        /** @enum {string} */
+        ComputeRelationType: "provisions" | "runs_on" | "connected_by" | "manages" | "contains" | "exposes" | "derived_from";
+        /** @enum {string} */
+        ComputeRelationSource: "persisted" | "derived" | "provider";
+        ComputeMetadataEntry: {
+            key: string;
+            value: string;
+        };
+        ComputeResourceRelation: {
+            from: components["schemas"]["ComputeResourceRef"];
+            type: components["schemas"]["ComputeRelationType"];
+            to: components["schemas"]["ComputeResourceRef"];
+            source: components["schemas"]["ComputeRelationSource"];
+            /** Format: date-time */
+            observedAt: string;
+            stale?: boolean;
+            /** Format: int64 */
+            providerGeneration?: number;
+            metadata?: components["schemas"]["ComputeMetadataEntry"][];
+        };
+        ComputeResourceRelations: {
+            resource: components["schemas"]["ComputeResourceRef"];
+            relations: components["schemas"]["ComputeResourceRelation"][];
+            nextCursor?: string;
+        };
+        ComputeResourceRelationListEnvelope: {
+            data: components["schemas"]["ComputeResourceRelations"];
+        };
+        /** @enum {string} */
+        ComputeTaskCategory: "sync" | "build" | "lifecycle" | "operation";
+        /** @enum {string} */
+        ComputeTaskStatus: "queued" | "running" | "succeeded" | "failed" | "canceled" | "timeout" | "unknown";
+        /** @enum {string} */
+        ComputeTaskAction: "logs" | "cancel" | "retry";
+        ComputeTaskView: {
+            id: string;
+            domain: components["schemas"]["ComputeTaskDomain"];
+            sourceType: string;
+            sourceId: string;
+            providerKey?: string;
+            providerSource?: components["schemas"]["ComputeProviderSource"];
+            pluginId?: string;
+            pluginVersion?: string;
+            /** Format: int64 */
+            providerGeneration?: number;
+            kind: string;
+            category: components["schemas"]["ComputeTaskCategory"];
+            normalizedStatus: components["schemas"]["ComputeTaskStatus"];
+            rawStatus: string;
+            resources: components["schemas"]["ComputeResourceRef"][];
+            requestedBy?: string;
+            worker?: string;
+            attemptCount: number;
+            cancelable: boolean;
+            retryable: boolean;
+            availableActions: components["schemas"]["ComputeTaskAction"][];
+            errorCode?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            startedAt?: string;
+            /** Format: date-time */
+            finishedAt?: string;
+            summary?: string;
+        };
+        ComputeTaskListEnvelope: {
+            items: components["schemas"]["ComputeTaskView"][];
+            nextCursor?: string;
+        };
+        ComputeTaskEnvelope: {
+            data: components["schemas"]["ComputeTaskView"];
+        };
         ErrorEnvelope: {
             error: {
                 code: string;
@@ -2051,7 +2413,7 @@ export interface components {
         };
         WorkbenchLaunchContext: {
             /** @enum {string} */
-            sourceWorkbench: "platform" | "monitoring" | "delivery" | "docker" | "virtualization" | "ai";
+            sourceWorkbench: "platform" | "monitoring" | "delivery" | "docker" | "virtualization" | "compute" | "ai";
             sourceRoute: string;
             sourceTitle?: string;
             entityKind?: string;
@@ -4151,6 +4513,34 @@ export interface components {
                 [key: string]: unknown;
             };
         };
+        PluginComputeVirtualizationProvider: {
+            providerKey: string;
+            displayName: string;
+            description?: string;
+            activationLevel: components["schemas"]["ComputeProviderActivationLevel"];
+            resourceKinds: ("connection" | "cluster" | "vm" | "image" | "flavor")[];
+            capabilities: string[];
+            configSchemaRef?: string;
+            actionRefs?: {
+                [key: string]: string;
+            };
+        };
+        PluginComputeContainerRuntimeProvider: {
+            providerKey: string;
+            displayName: string;
+            description?: string;
+            activationLevel: components["schemas"]["ComputeProviderActivationLevel"];
+            resourceKinds: ("runtime_host" | "container" | "project" | "service" | "port" | "template")[];
+            capabilities: string[];
+            configSchemaRef?: string;
+            actionRefs?: {
+                [key: string]: string;
+            };
+        };
+        PluginComputeExtensions: {
+            virtualizationProviders?: components["schemas"]["PluginComputeVirtualizationProvider"][];
+            containerRuntimeProviders?: components["schemas"]["PluginComputeContainerRuntimeProvider"][];
+        };
         PluginAuthExtensions: {
             sources?: components["schemas"]["PluginExtensionContribution"][];
             profileMappers?: components["schemas"]["PluginExtensionContribution"][];
@@ -4218,6 +4608,7 @@ export interface components {
             alerts?: components["schemas"]["PluginAlertExtensions"];
             delivery?: components["schemas"]["PluginDeliveryExtensions"];
             gateway?: components["schemas"]["PluginGatewayExtensions"];
+            compute?: components["schemas"]["PluginComputeExtensions"];
         };
         MarketplacePublisher: {
             id: string;
@@ -4870,6 +5261,13 @@ export interface components {
         };
     };
     parameters: {
+        ComputeCursor: string;
+        ComputeLimit: number;
+        ComputeDomain: components["schemas"]["ComputeDomain"];
+        ComputeResourceKind: components["schemas"]["ComputeResourceKind"];
+        ComputeResourceID: string;
+        ComputeTaskDomain: components["schemas"]["ComputeTaskDomain"];
+        ComputeTaskID: string;
         ApplicationID: string;
         ApplicationEnvironmentID: string;
         AIClientID: string;
@@ -4931,6 +5329,52 @@ export type AnyValue = components['schemas']['AnyValue'];
 export type GenericObject = components['schemas']['GenericObject'];
 export type GenericDataEnvelope = components['schemas']['GenericDataEnvelope'];
 export type GenericItemsEnvelope = components['schemas']['GenericItemsEnvelope'];
+export type ComputeDomain = components['schemas']['ComputeDomain'];
+export type ComputeProviderDomain = components['schemas']['ComputeProviderDomain'];
+export type ComputeTaskDomain = components['schemas']['ComputeTaskDomain'];
+export type ComputeResourceKind = components['schemas']['ComputeResourceKind'];
+export type ComputeProviderSource = components['schemas']['ComputeProviderSource'];
+export type ComputeAccessMode = components['schemas']['ComputeAccessMode'];
+export type ComputePluginRuntimeMode = components['schemas']['ComputePluginRuntimeMode'];
+export type ComputeProviderActivationLevel = components['schemas']['ComputeProviderActivationLevel'];
+export type ComputeSectionStatus = components['schemas']['ComputeSectionStatus'];
+export type ComputeHealthStatus = components['schemas']['ComputeHealthStatus'];
+export type ComputeWarning = components['schemas']['ComputeWarning'];
+export type ComputeVirtualizationSummary = components['schemas']['ComputeVirtualizationSummary'];
+export type ComputeAgentSummary = components['schemas']['ComputeAgentSummary'];
+export type ComputeRuntimeSummary = components['schemas']['ComputeRuntimeSummary'];
+export type ComputeRuntimeWorkloadSummary = components['schemas']['ComputeRuntimeWorkloadSummary'];
+export type ComputeTaskSummary = components['schemas']['ComputeTaskSummary'];
+export type ComputeVirtualizationOverviewSection = components['schemas']['ComputeVirtualizationOverviewSection'];
+export type ComputeAgentOverviewSection = components['schemas']['ComputeAgentOverviewSection'];
+export type ComputeRuntimeOverviewSection = components['schemas']['ComputeRuntimeOverviewSection'];
+export type ComputeRuntimeWorkloadOverviewSection = components['schemas']['ComputeRuntimeWorkloadOverviewSection'];
+export type ComputeTaskOverviewSection = components['schemas']['ComputeTaskOverviewSection'];
+export type ComputeAttention = components['schemas']['ComputeAttention'];
+export type ComputeProviderHealth = components['schemas']['ComputeProviderHealth'];
+export type ComputeOverview = components['schemas']['ComputeOverview'];
+export type ComputeOverviewEnvelope = components['schemas']['ComputeOverviewEnvelope'];
+export type ComputeResourceRef = components['schemas']['ComputeResourceRef'];
+export type ComputeAccessSourceType = components['schemas']['ComputeAccessSourceType'];
+export type ComputeAccessSource = components['schemas']['ComputeAccessSource'];
+export type ComputeAccessSourceListEnvelope = components['schemas']['ComputeAccessSourceListEnvelope'];
+export type ComputeProviderCapability = components['schemas']['ComputeProviderCapability'];
+export type ComputeProviderResourceSchema = components['schemas']['ComputeProviderResourceSchema'];
+export type ComputeProviderStatusMapping = components['schemas']['ComputeProviderStatusMapping'];
+export type ComputeProviderDescriptor = components['schemas']['ComputeProviderDescriptor'];
+export type ComputeProviderListEnvelope = components['schemas']['ComputeProviderListEnvelope'];
+export type ComputeRelationType = components['schemas']['ComputeRelationType'];
+export type ComputeRelationSource = components['schemas']['ComputeRelationSource'];
+export type ComputeMetadataEntry = components['schemas']['ComputeMetadataEntry'];
+export type ComputeResourceRelation = components['schemas']['ComputeResourceRelation'];
+export type ComputeResourceRelations = components['schemas']['ComputeResourceRelations'];
+export type ComputeResourceRelationListEnvelope = components['schemas']['ComputeResourceRelationListEnvelope'];
+export type ComputeTaskCategory = components['schemas']['ComputeTaskCategory'];
+export type ComputeTaskStatus = components['schemas']['ComputeTaskStatus'];
+export type ComputeTaskAction = components['schemas']['ComputeTaskAction'];
+export type ComputeTaskView = components['schemas']['ComputeTaskView'];
+export type ComputeTaskListEnvelope = components['schemas']['ComputeTaskListEnvelope'];
+export type ComputeTaskEnvelope = components['schemas']['ComputeTaskEnvelope'];
 export type ErrorEnvelope = components['schemas']['ErrorEnvelope'];
 export type AIWorkbenchModelSettings = components['schemas']['AIWorkbenchModelSettings'];
 export type AISkillSettings = components['schemas']['AISkillSettings'];
@@ -5144,6 +5588,9 @@ export type PluginSecretRequirement = components['schemas']['PluginSecretRequire
 export type PluginIntegrity = components['schemas']['PluginIntegrity'];
 export type PluginRuntimeSpec = components['schemas']['PluginRuntimeSpec'];
 export type PluginExtensionContribution = components['schemas']['PluginExtensionContribution'];
+export type PluginComputeVirtualizationProvider = components['schemas']['PluginComputeVirtualizationProvider'];
+export type PluginComputeContainerRuntimeProvider = components['schemas']['PluginComputeContainerRuntimeProvider'];
+export type PluginComputeExtensions = components['schemas']['PluginComputeExtensions'];
 export type PluginAuthExtensions = components['schemas']['PluginAuthExtensions'];
 export type PluginIdentityExtensions = components['schemas']['PluginIdentityExtensions'];
 export type PluginUIExtensions = components['schemas']['PluginUIExtensions'];
@@ -5219,6 +5666,13 @@ export type GovernanceStatusEnvelope = components['schemas']['GovernanceStatusEn
 export type MCPCapability = components['schemas']['MCPCapability'];
 export type MCPCapabilityListEnvelope = components['schemas']['MCPCapabilityListEnvelope'];
 export type ResponseError = components['responses']['Error'];
+export type ParameterComputeCursor = components['parameters']['ComputeCursor'];
+export type ParameterComputeLimit = components['parameters']['ComputeLimit'];
+export type ParameterComputeDomain = components['parameters']['ComputeDomain'];
+export type ParameterComputeResourceKind = components['parameters']['ComputeResourceKind'];
+export type ParameterComputeResourceId = components['parameters']['ComputeResourceID'];
+export type ParameterComputeTaskDomain = components['parameters']['ComputeTaskDomain'];
+export type ParameterComputeTaskId = components['parameters']['ComputeTaskID'];
 export type ParameterApplicationId = components['parameters']['ApplicationID'];
 export type ParameterApplicationEnvironmentId = components['parameters']['ApplicationEnvironmentID'];
 export type ParameterAiClientId = components['parameters']['AIClientID'];
@@ -8848,6 +9302,161 @@ export interface operations {
             };
             401: components["responses"]["Error"];
             403: components["responses"]["Error"];
+        };
+    };
+    getComputeOverview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Permission-filtered compute overview. Unauthorized sections are omitted. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ComputeOverviewEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    listComputeAccessSources: {
+        parameters: {
+            query?: {
+                sourceType?: components["schemas"]["ComputeAccessSourceType"];
+                providerKey?: string;
+                cursor?: components["parameters"]["ComputeCursor"];
+                limit?: components["parameters"]["ComputeLimit"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Permission-filtered virtualization connections, Agent hosts, and runtime hosts. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ComputeAccessSourceListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    listComputeProviders: {
+        parameters: {
+            query?: {
+                domain?: components["schemas"]["ComputeProviderDomain"];
+                source?: components["schemas"]["ComputeProviderSource"];
+                cursor?: components["parameters"]["ComputeCursor"];
+                limit?: components["parameters"]["ComputeLimit"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Effective Provider descriptors visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ComputeProviderListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    listComputeResourceRelations: {
+        parameters: {
+            query?: {
+                cursor?: components["parameters"]["ComputeCursor"];
+                limit?: components["parameters"]["ComputeLimit"];
+            };
+            header?: never;
+            path: {
+                domain: components["parameters"]["ComputeDomain"];
+                kind: components["parameters"]["ComputeResourceKind"];
+                id: components["parameters"]["ComputeResourceID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Relations whose source and target are both visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ComputeResourceRelationListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listComputeTasks: {
+        parameters: {
+            query?: {
+                domain?: components["schemas"]["ComputeTaskDomain"];
+                providerKey?: string;
+                status?: components["schemas"]["ComputeTaskStatus"];
+                category?: components["schemas"]["ComputeTaskCategory"];
+                cursor?: components["parameters"]["ComputeCursor"];
+                limit?: components["parameters"]["ComputeLimit"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Stable cursor-paginated projection of virtualization and container runtime tasks. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ComputeTaskListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    getComputeTask: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                domain: components["parameters"]["ComputeTaskDomain"];
+                id: components["parameters"]["ComputeTaskID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Unified task projection. Mutations remain owned by the source domain. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ComputeTaskEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
         };
     };
     listMCPCapabilities: {
