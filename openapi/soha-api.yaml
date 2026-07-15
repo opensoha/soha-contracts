@@ -27,6 +27,7 @@ tags:
   - name: Agent Fleet
   - name: Memory
   - name: AI Gateway
+  - name: Compute
   - name: MCP
   - name: Plugins
 paths:
@@ -3428,6 +3429,376 @@ paths:
           $ref: "#/components/responses/Error"
         "403":
           $ref: "#/components/responses/Error"
+  /compute/capabilities:
+    get:
+      tags: [Compute]
+      operationId: getComputeCapabilities
+      responses:
+        "200":
+          description: Effective feature and rollout gates for the current principal. Disabled invocation features do not hide historical resources or tasks.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComputeCapabilityManifestEnvelope"
+        "403":
+          $ref: "#/components/responses/ComputeError"
+  /compute/overview:
+    get:
+      tags: [Compute]
+      operationId: getComputeOverview
+      responses:
+        "200":
+          description: Permission-filtered compute overview. Unauthorized sections are omitted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComputeOverviewEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /compute/access-sources:
+    get:
+      tags: [Compute]
+      operationId: listComputeAccessSources
+      parameters:
+        - name: sourceType
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/ComputeAccessSourceType"
+        - name: providerKey
+          in: query
+          required: false
+          schema:
+            type: string
+        - $ref: "#/components/parameters/ComputeCursor"
+        - $ref: "#/components/parameters/ComputeLimit"
+      responses:
+        "200":
+          description: Permission-filtered virtualization connections, Agent hosts, and runtime hosts.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComputeAccessSourceListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /compute/providers:
+    get:
+      tags: [Compute]
+      operationId: listComputeProviders
+      parameters:
+        - name: domain
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/ComputeProviderDomain"
+        - name: source
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/ComputeProviderSource"
+        - $ref: "#/components/parameters/ComputeCursor"
+        - $ref: "#/components/parameters/ComputeLimit"
+      responses:
+        "200":
+          description: Effective Provider descriptors visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComputeProviderListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /compute/provider-instances:
+    get:
+      tags: [Compute]
+      operationId: listComputeProviderInstances
+      parameters:
+        - name: domain
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/ComputeProviderDomain"
+        - name: providerKey
+          in: query
+          required: false
+          schema:
+            type: string
+        - $ref: "#/components/parameters/ComputeCursor"
+        - $ref: "#/components/parameters/ComputeLimit"
+      responses:
+        "200":
+          description: Permission-filtered configured Provider instances. Configuration values and credentials are excluded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComputeProviderInstanceListEnvelope"
+        "403":
+          $ref: "#/components/responses/ComputeError"
+  /compute/provider-instances/{domain}/{providerKey}/{instanceRef}:
+    get:
+      tags: [Compute]
+      operationId: getComputeProviderInstance
+      parameters:
+        - $ref: "#/components/parameters/ComputeProviderDomain"
+        - $ref: "#/components/parameters/ComputeProviderKey"
+        - $ref: "#/components/parameters/ComputeProviderInstanceRef"
+      responses:
+        "200":
+          description: Configured Provider instance identity, effective capability, generation snapshot, and cached health.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComputeProviderInstanceEnvelope"
+        "403":
+          $ref: "#/components/responses/ComputeError"
+        "404":
+          $ref: "#/components/responses/ComputeError"
+  /compute/provider-instances/{domain}/{providerKey}/{instanceRef}/health-checks:
+    post:
+      tags: [Compute]
+      operationId: checkComputeProviderInstanceHealth
+      parameters:
+        - $ref: "#/components/parameters/ComputeProviderDomain"
+        - $ref: "#/components/parameters/ComputeProviderKey"
+        - $ref: "#/components/parameters/ComputeProviderInstanceRef"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ComputeProviderReadRequest"
+      responses:
+        "202":
+          description: Health check accepted as a source-domain task. The request never returns the Provider raw response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComputeTaskEnvelope"
+        "400":
+          $ref: "#/components/responses/ComputeError"
+        "403":
+          $ref: "#/components/responses/ComputeError"
+        "404":
+          $ref: "#/components/responses/ComputeError"
+        "409":
+          $ref: "#/components/responses/ComputeError"
+        "503":
+          $ref: "#/components/responses/ComputeError"
+  /compute/provider-instances/{domain}/{providerKey}/{instanceRef}/discoveries:
+    post:
+      tags: [Compute]
+      operationId: discoverComputeProviderInstance
+      parameters:
+        - $ref: "#/components/parameters/ComputeProviderDomain"
+        - $ref: "#/components/parameters/ComputeProviderKey"
+        - $ref: "#/components/parameters/ComputeProviderInstanceRef"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ComputeProviderDiscoverRequest"
+      responses:
+        "202":
+          description: Read-only discovery accepted as a source-domain task. Normalized assets are persisted only by that domain task.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComputeTaskEnvelope"
+        "400":
+          $ref: "#/components/responses/ComputeError"
+        "403":
+          $ref: "#/components/responses/ComputeError"
+        "404":
+          $ref: "#/components/responses/ComputeError"
+        "409":
+          $ref: "#/components/responses/ComputeError"
+        "503":
+          $ref: "#/components/responses/ComputeError"
+  /compute/resources/{domain}/{kind}/{id}:
+    get:
+      tags: [Compute]
+      operationId: getComputeResource
+      parameters:
+        - $ref: "#/components/parameters/ComputeDomain"
+        - $ref: "#/components/parameters/ComputeResourceKind"
+        - $ref: "#/components/parameters/ComputeResourceID"
+      responses:
+        "200":
+          description: Normalized resource identity, Provider snapshot, relationship summary, and authorized actions.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericDataEnvelope"
+        "403":
+          $ref: "#/components/responses/ComputeError"
+        "404":
+          $ref: "#/components/responses/ComputeError"
+  /compute/resources/{domain}/{kind}/{id}/relations:
+    get:
+      tags: [Compute]
+      operationId: listComputeResourceRelations
+      parameters:
+        - $ref: "#/components/parameters/ComputeDomain"
+        - $ref: "#/components/parameters/ComputeResourceKind"
+        - $ref: "#/components/parameters/ComputeResourceID"
+        - $ref: "#/components/parameters/ComputeCursor"
+        - $ref: "#/components/parameters/ComputeLimit"
+      responses:
+        "200":
+          description: Relations whose source and target are both visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComputeResourceRelationListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /compute/resources/{domain}/{kind}/{id}/actions/{action}:
+    post:
+      tags: [Compute]
+      operationId: executeComputeResourceAction
+      parameters:
+        - $ref: "#/components/parameters/ComputeDomain"
+        - $ref: "#/components/parameters/ComputeResourceKind"
+        - $ref: "#/components/parameters/ComputeResourceID"
+        - $ref: "#/components/parameters/ComputeActionID"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ComputeResourceActionRequest"
+      responses:
+        "202":
+          description: Authorized white-listed action accepted after the source domain persists its task and Provider snapshot.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComputeTaskEnvelope"
+        "400":
+          $ref: "#/components/responses/ComputeError"
+        "403":
+          $ref: "#/components/responses/ComputeError"
+        "404":
+          $ref: "#/components/responses/ComputeError"
+        "409":
+          $ref: "#/components/responses/ComputeError"
+        "422":
+          $ref: "#/components/responses/ComputeError"
+        "503":
+          $ref: "#/components/responses/ComputeError"
+  /compute/tasks:
+    get:
+      tags: [Compute]
+      operationId: listComputeTasks
+      parameters:
+        - name: domain
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/ComputeTaskDomain"
+        - name: providerKey
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/ComputeTaskStatus"
+        - name: category
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/ComputeTaskCategory"
+        - $ref: "#/components/parameters/ComputeCursor"
+        - $ref: "#/components/parameters/ComputeLimit"
+      responses:
+        "200":
+          description: Stable cursor-paginated projection of virtualization and container runtime tasks.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComputeTaskListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /compute/tasks/{domain}/{id}:
+    get:
+      tags: [Compute]
+      operationId: getComputeTask
+      parameters:
+        - $ref: "#/components/parameters/ComputeTaskDomain"
+        - $ref: "#/components/parameters/ComputeTaskID"
+      responses:
+        "200":
+          description: Unified task detail with immutable Provider snapshot and source-domain action links.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComputeTaskEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /compute/tasks/{domain}/{id}/cancel:
+    post:
+      tags: [Compute]
+      operationId: cancelComputeTask
+      parameters:
+        - $ref: "#/components/parameters/ComputeTaskDomain"
+        - $ref: "#/components/parameters/ComputeTaskID"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ComputeTaskMutationRequest"
+      responses:
+        "202":
+          description: Cancellation delegated to the source domain after permission and task-state checks.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComputeTaskEnvelope"
+        "403":
+          $ref: "#/components/responses/ComputeError"
+        "404":
+          $ref: "#/components/responses/ComputeError"
+        "409":
+          $ref: "#/components/responses/ComputeError"
+  /compute/tasks/{domain}/{id}/retry:
+    post:
+      tags: [Compute]
+      operationId: retryComputeTask
+      parameters:
+        - $ref: "#/components/parameters/ComputeTaskDomain"
+        - $ref: "#/components/parameters/ComputeTaskID"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ComputeTaskMutationRequest"
+      responses:
+        "202":
+          description: Retry delegated to the source domain and returned as a new task with a new immutable Provider snapshot.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComputeTaskEnvelope"
+        "403":
+          $ref: "#/components/responses/ComputeError"
+        "404":
+          $ref: "#/components/responses/ComputeError"
+        "409":
+          $ref: "#/components/responses/ComputeError"
   /mcp/capabilities:
     get:
       tags: [MCP]
@@ -4844,6 +5215,88 @@ components:
       name: x-api-key
       description: Anthropic-style Soha PAT/SAT credential header for native relay endpoints.
   parameters:
+    ComputeCursor:
+      name: cursor
+      in: query
+      required: false
+      schema:
+        type: string
+    ComputeLimit:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 200
+        default: 50
+    ComputeDomain:
+      name: domain
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/ComputeDomain"
+    ComputeResourceKind:
+      name: kind
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/ComputeResourceKind"
+    ComputeResourceID:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    ComputeTaskDomain:
+      name: domain
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/ComputeTaskDomain"
+    ComputeTaskID:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    ComputeProviderDomain:
+      name: domain
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/ComputeProviderDomain"
+    ComputeProviderKey:
+      name: providerKey
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: "^[a-z][a-z0-9._-]*$"
+    ComputeProviderInstanceRef:
+      name: instanceRef
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    ComputeActionID:
+      name: action
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: "^[a-z][a-z0-9._-]*$"
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 8
+        maxLength: 128
     ApplicationID:
       name: applicationID
       in: path
@@ -5120,6 +5573,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorEnvelope"
+    ComputeError:
+      description: Stable redacted Compute API error. Provider raw responses, endpoints, and credentials are excluded.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
   schemas:
     AnyValue: {}
     GenericObject:
@@ -5140,6 +5599,544 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/AnyValue"
+      additionalProperties: false
+    ComputeDomain:
+      type: string
+      enum: [virtualization, container_runtime, agent]
+      x-enum-varnames: [ComputeDomainVirtualization, ComputeDomainContainerRuntime, ComputeDomainAgent]
+    ComputeProviderDomain:
+      type: string
+      enum: [virtualization, container_runtime]
+      x-enum-varnames: [ComputeProviderDomainVirtualization, ComputeProviderDomainContainerRuntime]
+    ComputeTaskDomain:
+      type: string
+      enum: [virtualization, container_runtime]
+      x-enum-varnames: [ComputeTaskDomainVirtualization, ComputeTaskDomainContainerRuntime]
+    ComputeResourceKind:
+      type: string
+      enum: [connection, cluster, vm, image, flavor, agent_host, runtime_host, project, container, service, port, template]
+      x-enum-varnames: [ComputeResourceKindConnection, ComputeResourceKindCluster, ComputeResourceKindVM, ComputeResourceKindImage, ComputeResourceKindFlavor, ComputeResourceKindAgentHost, ComputeResourceKindRuntimeHost, ComputeResourceKindProject, ComputeResourceKindContainer, ComputeResourceKindService, ComputeResourceKindPort, ComputeResourceKindTemplate]
+    ComputeProviderSource:
+      type: string
+      enum: [builtin, plugin]
+      x-enum-varnames: [ComputeProviderSourceBuiltin, ComputeProviderSourcePlugin]
+    ComputeAccessMode:
+      type: string
+      enum: [direct, agent_proxy]
+      x-enum-varnames: [ComputeAccessModeDirect, ComputeAccessModeAgentProxy]
+    ComputePluginRuntimeMode:
+      type: string
+      enum: [builtin, manifest_only, external, managed]
+      x-enum-varnames: [ComputePluginRuntimeModeBuiltin, ComputePluginRuntimeModeManifestOnly, ComputePluginRuntimeModeExternal, ComputePluginRuntimeModeManaged]
+    ComputeProviderActivationLevel:
+      type: string
+      enum: [descriptor, read, write]
+      x-enum-varnames: [ComputeProviderActivationLevelDescriptor, ComputeProviderActivationLevelRead, ComputeProviderActivationLevelWrite]
+    ComputeFeatureID:
+      type: string
+      enum: [workbench, plugin_providers, provider_read, provider_write, relations, task_actions]
+      x-enum-varnames: [ComputeFeatureWorkbench, ComputeFeaturePluginProviders, ComputeFeatureProviderRead, ComputeFeatureProviderWrite, ComputeFeatureRelations, ComputeFeatureTaskActions]
+    ComputeRolloutStage:
+      type: string
+      enum: [disabled, hidden, admin_preview, default]
+      x-enum-varnames: [ComputeRolloutStageDisabled, ComputeRolloutStageHidden, ComputeRolloutStageAdminPreview, ComputeRolloutStageDefault]
+    ComputeFeatureCapability:
+      type: object
+      required: [id, enabled, rolloutStage]
+      properties:
+        id: { $ref: "#/components/schemas/ComputeFeatureID" }
+        enabled: { type: boolean }
+        rolloutStage: { $ref: "#/components/schemas/ComputeRolloutStage" }
+        maxActivationLevel: { $ref: "#/components/schemas/ComputeProviderActivationLevel" }
+        reason:
+          type: string
+          description: Redacted explanation when a capability is unavailable to the current principal.
+      additionalProperties: false
+    ComputeCapabilityManifest:
+      type: object
+      required: [generation, features]
+      properties:
+        generation: { type: integer, format: int64, minimum: 0 }
+        features:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeFeatureCapability" }
+      additionalProperties: false
+    ComputeCapabilityManifestEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ComputeCapabilityManifest" }
+      additionalProperties: false
+    ComputeSectionStatus:
+      type: string
+      enum: [ok, degraded, unavailable]
+      x-enum-varnames: [ComputeSectionStatusOK, ComputeSectionStatusDegraded, ComputeSectionStatusUnavailable]
+    ComputeHealthStatus:
+      type: string
+      enum: [healthy, degraded, unavailable, pending, unknown]
+      x-enum-varnames: [ComputeHealthStatusHealthy, ComputeHealthStatusDegraded, ComputeHealthStatusUnavailable, ComputeHealthStatusPending, ComputeHealthStatusUnknown]
+    ComputeWarning:
+      type: object
+      required: [code]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+          description: Redacted user-facing warning. Internal errors and credentials are excluded.
+      additionalProperties: false
+    ComputeVirtualizationSummary:
+      type: object
+      required: [connectionsTotal, connectionsHealthy, connectionsDegraded, connectionsUnsynced, vmsTotal, vmsRunning, vmsStopped, vmsError]
+      properties:
+        connectionsTotal: { type: integer, minimum: 0 }
+        connectionsHealthy: { type: integer, minimum: 0 }
+        connectionsDegraded: { type: integer, minimum: 0 }
+        connectionsUnsynced: { type: integer, minimum: 0 }
+        vmsTotal: { type: integer, minimum: 0 }
+        vmsRunning: { type: integer, minimum: 0 }
+        vmsStopped: { type: integer, minimum: 0 }
+        vmsError: { type: integer, minimum: 0 }
+      additionalProperties: false
+    ComputeAgentSummary:
+      type: object
+      required: [total, online, offline, versionMismatch]
+      properties:
+        total: { type: integer, minimum: 0 }
+        online: { type: integer, minimum: 0 }
+        offline: { type: integer, minimum: 0 }
+        versionMismatch: { type: integer, minimum: 0 }
+      additionalProperties: false
+    ComputeRuntimeSummary:
+      type: object
+      required: [total, available, waitingAgent, error]
+      properties:
+        total: { type: integer, minimum: 0 }
+        available: { type: integer, minimum: 0 }
+        waitingAgent: { type: integer, minimum: 0 }
+        error: { type: integer, minimum: 0 }
+      additionalProperties: false
+    ComputeRuntimeWorkloadSummary:
+      type: object
+      required: [projects, containers, services, ports, expiring]
+      properties:
+        projects: { type: integer, minimum: 0 }
+        containers: { type: integer, minimum: 0 }
+        services: { type: integer, minimum: 0 }
+        ports: { type: integer, minimum: 0 }
+        expiring: { type: integer, minimum: 0 }
+      additionalProperties: false
+    ComputeTaskSummary:
+      type: object
+      required: [queued, running, failed]
+      properties:
+        queued: { type: integer, minimum: 0 }
+        running: { type: integer, minimum: 0 }
+        failed: { type: integer, minimum: 0 }
+      additionalProperties: false
+    ComputeVirtualizationOverviewSection:
+      type: object
+      required: [status]
+      properties:
+        status: { $ref: "#/components/schemas/ComputeSectionStatus" }
+        summary: { $ref: "#/components/schemas/ComputeVirtualizationSummary" }
+        warnings:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeWarning" }
+      additionalProperties: false
+    ComputeAgentOverviewSection:
+      type: object
+      required: [status]
+      properties:
+        status: { $ref: "#/components/schemas/ComputeSectionStatus" }
+        summary: { $ref: "#/components/schemas/ComputeAgentSummary" }
+        warnings:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeWarning" }
+      additionalProperties: false
+    ComputeRuntimeOverviewSection:
+      type: object
+      required: [status]
+      properties:
+        status: { $ref: "#/components/schemas/ComputeSectionStatus" }
+        summary: { $ref: "#/components/schemas/ComputeRuntimeSummary" }
+        warnings:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeWarning" }
+      additionalProperties: false
+    ComputeRuntimeWorkloadOverviewSection:
+      type: object
+      required: [status]
+      properties:
+        status: { $ref: "#/components/schemas/ComputeSectionStatus" }
+        summary: { $ref: "#/components/schemas/ComputeRuntimeWorkloadSummary" }
+        warnings:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeWarning" }
+      additionalProperties: false
+    ComputeTaskOverviewSection:
+      type: object
+      required: [status]
+      properties:
+        status: { $ref: "#/components/schemas/ComputeSectionStatus" }
+        summary: { $ref: "#/components/schemas/ComputeTaskSummary" }
+        warnings:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeWarning" }
+      additionalProperties: false
+    ComputeAttention:
+      type: object
+      required: [code, severity, summary]
+      properties:
+        code: { type: string }
+        severity:
+          type: string
+          enum: [info, warning, critical]
+          x-enum-varnames: [ComputeAttentionSeverityInfo, ComputeAttentionSeverityWarning, ComputeAttentionSeverityCritical]
+        summary: { type: string }
+        resources:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeResourceRef" }
+      additionalProperties: false
+    ComputeProviderHealth:
+      type: object
+      required: [domain, providerKey, status, generation]
+      properties:
+        domain: { $ref: "#/components/schemas/ComputeProviderDomain" }
+        providerKey: { type: string, minLength: 1 }
+        status: { $ref: "#/components/schemas/ComputeHealthStatus" }
+        generation: { type: integer, format: int64, minimum: 0 }
+        code: { type: string }
+        message:
+          type: string
+          description: Redacted health summary.
+        checkedAt: { type: string, format: date-time }
+      additionalProperties: false
+    ComputeOverview:
+      type: object
+      required: [partial, attention, providerHealth, warnings]
+      properties:
+        virtualization: { $ref: "#/components/schemas/ComputeVirtualizationOverviewSection" }
+        agents: { $ref: "#/components/schemas/ComputeAgentOverviewSection" }
+        runtimes: { $ref: "#/components/schemas/ComputeRuntimeOverviewSection" }
+        runtimeWorkloads: { $ref: "#/components/schemas/ComputeRuntimeWorkloadOverviewSection" }
+        tasks: { $ref: "#/components/schemas/ComputeTaskOverviewSection" }
+        attention:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeAttention" }
+        providerHealth:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeProviderHealth" }
+        partial: { type: boolean }
+        warnings:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeWarning" }
+      additionalProperties: false
+    ComputeOverviewEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ComputeOverview" }
+      additionalProperties: false
+    ComputeResourceRef:
+      type: object
+      required: [domain, kind, id, displayName]
+      properties:
+        domain: { $ref: "#/components/schemas/ComputeDomain" }
+        kind: { $ref: "#/components/schemas/ComputeResourceKind" }
+        id: { type: string, minLength: 1 }
+        displayName: { type: string }
+        scope: { type: string }
+        providerKey: { type: string }
+        providerSource: { $ref: "#/components/schemas/ComputeProviderSource" }
+        providerInstanceRef: { type: string }
+        pluginId: { type: string }
+        pluginVersion: { type: string }
+        providerGeneration: { type: integer, format: int64, minimum: 0 }
+        accessMode: { $ref: "#/components/schemas/ComputeAccessMode" }
+      additionalProperties: false
+    ComputeAccessSourceType:
+      type: string
+      enum: [virtualization_connection, agent_host, runtime_host]
+      x-enum-varnames: [ComputeAccessSourceTypeVirtualizationConnection, ComputeAccessSourceTypeAgentHost, ComputeAccessSourceTypeRuntimeHost]
+    ComputeAccessSource:
+      type: object
+      required: [id, sourceType, resource, status]
+      properties:
+        id: { type: string, minLength: 1 }
+        sourceType: { $ref: "#/components/schemas/ComputeAccessSourceType" }
+        resource: { $ref: "#/components/schemas/ComputeResourceRef" }
+        status: { $ref: "#/components/schemas/ComputeHealthStatus" }
+        providerKey: { type: string }
+        providerSource: { $ref: "#/components/schemas/ComputeProviderSource" }
+        pluginId: { type: string }
+        pluginVersion: { type: string }
+        providerGeneration: { type: integer, format: int64, minimum: 0 }
+        accessMode: { $ref: "#/components/schemas/ComputeAccessMode" }
+        relatedResources:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeResourceRef" }
+        availableActions:
+          type: array
+          items: { type: string }
+        lastObservedAt: { type: string, format: date-time }
+      additionalProperties: false
+    ComputeAccessSourceListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeAccessSource" }
+        nextCursor: { type: string }
+      additionalProperties: false
+    ComputeProviderCapability:
+      type: object
+      required: [id, level, resourceKinds, enabled]
+      properties:
+        id: { type: string, minLength: 1 }
+        level: { $ref: "#/components/schemas/ComputeProviderActivationLevel" }
+        resourceKinds:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeResourceKind" }
+        enabled: { type: boolean }
+        reason: { type: string }
+      additionalProperties: false
+    ComputeProviderResourceSchema:
+      type: object
+      required: [kind, schema]
+      properties:
+        kind: { $ref: "#/components/schemas/ComputeResourceKind" }
+        schema: { $ref: "#/components/schemas/JSONSchema" }
+      additionalProperties: false
+    ComputeProviderStatusMapping:
+      type: object
+      required: [providerStatus, normalizedStatus]
+      properties:
+        providerStatus: { type: string }
+        normalizedStatus: { type: string }
+      additionalProperties: false
+    ComputeProviderDescriptor:
+      type: object
+      required: [providerKey, domain, displayName, version, source, contractVersion, activationLevel, resourceKinds, capabilities, runtimeMode, generation, health]
+      properties:
+        providerKey: { type: string, minLength: 1 }
+        domain: { $ref: "#/components/schemas/ComputeProviderDomain" }
+        displayName: { type: string, minLength: 1 }
+        version: { type: string, minLength: 1 }
+        source: { $ref: "#/components/schemas/ComputeProviderSource" }
+        pluginId: { type: string }
+        pluginVersion: { type: string }
+        contractVersion: { type: string, minLength: 1 }
+        activationLevel: { $ref: "#/components/schemas/ComputeProviderActivationLevel" }
+        resourceKinds:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeResourceKind" }
+        capabilities:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeProviderCapability" }
+        configSchema: { $ref: "#/components/schemas/JSONSchema" }
+        resourceSchemas:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeProviderResourceSchema" }
+        statusMappings:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeProviderStatusMapping" }
+        runtimeMode: { $ref: "#/components/schemas/ComputePluginRuntimeMode" }
+        generation: { type: integer, format: int64, minimum: 0 }
+        health: { $ref: "#/components/schemas/ComputeProviderHealth" }
+      additionalProperties: false
+    ComputeProviderSnapshot:
+      type: object
+      required: [domain, providerKey, source, version, contractVersion, runtimeMode, generation]
+      properties:
+        domain: { $ref: "#/components/schemas/ComputeProviderDomain" }
+        providerKey: { type: string, minLength: 1 }
+        source: { $ref: "#/components/schemas/ComputeProviderSource" }
+        version: { type: string, minLength: 1 }
+        contractVersion: { type: string, minLength: 1 }
+        runtimeMode: { $ref: "#/components/schemas/ComputePluginRuntimeMode" }
+        pluginId: { type: string }
+        pluginVersion: { type: string }
+        generation: { type: integer, format: int64, minimum: 0 }
+      additionalProperties: false
+    ComputeProviderInstance:
+      type: object
+      required: [instanceRef, displayName, accessMode, enabled, snapshot, health, effectiveCapabilities]
+      properties:
+        instanceRef: { type: string, minLength: 1 }
+        displayName: { type: string, minLength: 1 }
+        accessMode: { $ref: "#/components/schemas/ComputeAccessMode" }
+        enabled: { type: boolean }
+        snapshot: { $ref: "#/components/schemas/ComputeProviderSnapshot" }
+        health: { $ref: "#/components/schemas/ComputeProviderHealth" }
+        effectiveCapabilities:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeProviderCapability" }
+        resource: { $ref: "#/components/schemas/ComputeResourceRef" }
+        lastObservedAt: { type: string, format: date-time }
+      additionalProperties: false
+    ComputeProviderInstanceEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ComputeProviderInstance" }
+      additionalProperties: false
+    ComputeProviderInstanceListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeProviderInstance" }
+        nextCursor: { type: string }
+      additionalProperties: false
+    ComputeProviderReadRequest:
+      type: object
+      required: [expectedGeneration]
+      properties:
+        expectedGeneration: { type: integer, format: int64, minimum: 0 }
+        scope: { type: string }
+      additionalProperties: false
+    ComputeProviderDiscoverRequest:
+      type: object
+      required: [expectedGeneration]
+      properties:
+        expectedGeneration: { type: integer, format: int64, minimum: 0 }
+        scope: { type: string }
+        cursor: { type: string }
+        maxItems: { type: integer, minimum: 1, maximum: 10000 }
+      additionalProperties: false
+    ComputeProviderListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeProviderDescriptor" }
+        nextCursor: { type: string }
+      additionalProperties: false
+    ComputeRelationType:
+      type: string
+      enum: [provisions, runs_on, connected_by, manages, contains, exposes, derived_from]
+      x-enum-varnames: [ComputeRelationTypeProvisions, ComputeRelationTypeRunsOn, ComputeRelationTypeConnectedBy, ComputeRelationTypeManages, ComputeRelationTypeContains, ComputeRelationTypeExposes, ComputeRelationTypeDerivedFrom]
+    ComputeRelationSource:
+      type: string
+      enum: [persisted, derived, provider]
+      x-enum-varnames: [ComputeRelationSourcePersisted, ComputeRelationSourceDerived, ComputeRelationSourceProvider]
+    ComputeMetadataEntry:
+      type: object
+      required: [key, value]
+      properties:
+        key: { type: string }
+        value: { type: string }
+      additionalProperties: false
+    ComputeResourceRelation:
+      type: object
+      required: [from, type, to, source, observedAt]
+      properties:
+        from: { $ref: "#/components/schemas/ComputeResourceRef" }
+        type: { $ref: "#/components/schemas/ComputeRelationType" }
+        to: { $ref: "#/components/schemas/ComputeResourceRef" }
+        source: { $ref: "#/components/schemas/ComputeRelationSource" }
+        observedAt: { type: string, format: date-time }
+        stale: { type: boolean }
+        providerGeneration: { type: integer, format: int64, minimum: 0 }
+        metadata:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeMetadataEntry" }
+      additionalProperties: false
+    ComputeResourceRelations:
+      type: object
+      required: [resource, relations]
+      properties:
+        resource: { $ref: "#/components/schemas/ComputeResourceRef" }
+        relations:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeResourceRelation" }
+        nextCursor: { type: string }
+      additionalProperties: false
+    ComputeResourceRelationListEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ComputeResourceRelations" }
+      additionalProperties: false
+    ComputeResourceActionRequest:
+      type: object
+      properties:
+        reason:
+          type: string
+        metadata:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeMetadataEntry" }
+      additionalProperties: false
+    ComputeTaskMutationRequest:
+      type: object
+      properties:
+        reason:
+          type: string
+      additionalProperties: false
+    ComputeTaskCategory:
+      type: string
+      enum: [sync, build, lifecycle, operation]
+      x-enum-varnames: [ComputeTaskCategorySync, ComputeTaskCategoryBuild, ComputeTaskCategoryLifecycle, ComputeTaskCategoryOperation]
+    ComputeTaskStatus:
+      type: string
+      enum: [queued, running, succeeded, failed, canceled, timeout, unknown]
+      x-enum-varnames: [ComputeTaskStatusQueued, ComputeTaskStatusRunning, ComputeTaskStatusSucceeded, ComputeTaskStatusFailed, ComputeTaskStatusCanceled, ComputeTaskStatusTimeout, ComputeTaskStatusUnknown]
+    ComputeTaskAction:
+      type: string
+      enum: [logs, cancel, retry]
+      x-enum-varnames: [ComputeTaskActionLogs, ComputeTaskActionCancel, ComputeTaskActionRetry]
+    ComputeTaskView:
+      type: object
+      required: [id, domain, sourceType, sourceId, kind, category, normalizedStatus, rawStatus, resources, attemptCount, cancelable, retryable, availableActions, createdAt]
+      properties:
+        id: { type: string }
+        domain: { $ref: "#/components/schemas/ComputeTaskDomain" }
+        sourceType: { type: string }
+        sourceId: { type: string }
+        providerKey: { type: string }
+        providerSource: { $ref: "#/components/schemas/ComputeProviderSource" }
+        pluginId: { type: string }
+        pluginVersion: { type: string }
+        providerGeneration: { type: integer, format: int64, minimum: 0 }
+        kind: { type: string }
+        category: { $ref: "#/components/schemas/ComputeTaskCategory" }
+        normalizedStatus: { $ref: "#/components/schemas/ComputeTaskStatus" }
+        rawStatus: { type: string }
+        resources:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeResourceRef" }
+        requestedBy: { type: string }
+        worker: { type: string }
+        attemptCount: { type: integer, minimum: 0 }
+        cancelable: { type: boolean }
+        retryable: { type: boolean }
+        availableActions:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeTaskAction" }
+        errorCode: { type: string }
+        createdAt: { type: string, format: date-time }
+        startedAt: { type: string, format: date-time }
+        finishedAt: { type: string, format: date-time }
+        summary: { type: string }
+      additionalProperties: false
+    ComputeTaskListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeTaskView" }
+        nextCursor: { type: string }
+      additionalProperties: false
+    ComputeTaskEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ComputeTaskView" }
       additionalProperties: false
     ErrorEnvelope:
       type: object
@@ -6858,7 +7855,7 @@ components:
       properties:
         sourceWorkbench:
           type: string
-          enum: [platform, monitoring, delivery, docker, virtualization, ai]
+          enum: [platform, monitoring, delivery, docker, virtualization, compute, ai]
         sourceRoute:
           type: string
         sourceTitle:
@@ -10939,6 +11936,90 @@ components:
           type: object
           additionalProperties: true
       additionalProperties: false
+    PluginComputeVirtualizationProvider:
+      type: object
+      required: [providerKey, displayName, activationLevel, resourceKinds, capabilities]
+      properties:
+        providerKey:
+          type: string
+          pattern: "^[a-z][a-z0-9._-]*$"
+        displayName:
+          type: string
+          minLength: 1
+        description:
+          type: string
+        activationLevel:
+          $ref: "#/components/schemas/ComputeProviderActivationLevel"
+        resourceKinds:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items:
+            type: string
+            enum: [connection, cluster, vm, image, flavor]
+            x-enum-varnames: [PluginComputeVirtualizationResourceKindConnection, PluginComputeVirtualizationResourceKindCluster, PluginComputeVirtualizationResourceKindVM, PluginComputeVirtualizationResourceKindImage, PluginComputeVirtualizationResourceKindFlavor]
+        capabilities:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+        configSchemaRef:
+          type: string
+        actionRefs:
+          type: object
+          additionalProperties:
+            type: string
+            minLength: 1
+      additionalProperties: false
+    PluginComputeContainerRuntimeProvider:
+      type: object
+      required: [providerKey, displayName, activationLevel, resourceKinds, capabilities]
+      properties:
+        providerKey:
+          type: string
+          pattern: "^[a-z][a-z0-9._-]*$"
+        displayName:
+          type: string
+          minLength: 1
+        description:
+          type: string
+        activationLevel:
+          $ref: "#/components/schemas/ComputeProviderActivationLevel"
+        resourceKinds:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items:
+            type: string
+            enum: [runtime_host, container, project, service, port, template]
+            x-enum-varnames: [PluginComputeContainerRuntimeResourceKindRuntimeHost, PluginComputeContainerRuntimeResourceKindContainer, PluginComputeContainerRuntimeResourceKindProject, PluginComputeContainerRuntimeResourceKindService, PluginComputeContainerRuntimeResourceKindPort, PluginComputeContainerRuntimeResourceKindTemplate]
+        capabilities:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+        configSchemaRef:
+          type: string
+        actionRefs:
+          type: object
+          additionalProperties:
+            type: string
+            minLength: 1
+      additionalProperties: false
+    PluginComputeExtensions:
+      type: object
+      properties:
+        virtualizationProviders:
+          type: array
+          items:
+            $ref: "#/components/schemas/PluginComputeVirtualizationProvider"
+        containerRuntimeProviders:
+          type: array
+          items:
+            $ref: "#/components/schemas/PluginComputeContainerRuntimeProvider"
+      additionalProperties: false
     PluginAuthExtensions:
       type: object
       properties:
@@ -11152,6 +12233,8 @@ components:
           $ref: "#/components/schemas/PluginDeliveryExtensions"
         gateway:
           $ref: "#/components/schemas/PluginGatewayExtensions"
+        compute:
+          $ref: "#/components/schemas/PluginComputeExtensions"
       additionalProperties: false
     MarketplacePublisher:
       type: object

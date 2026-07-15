@@ -94,6 +94,11 @@ const requiredOpenapiFixtureSchemas = [
   "AgentProviderRegistryAcknowledgement",
   "KnowledgeIngestionJobInput",
   "EvaluationGateRequest",
+  "ComputeOverviewEnvelope",
+  "ComputeAccessSourceListEnvelope",
+  "ComputeProviderListEnvelope",
+  "ComputeResourceRelationListEnvelope",
+  "ComputeTaskListEnvelope",
   "ErrorEnvelope",
 ];
 
@@ -114,6 +119,7 @@ const requiredJsonExamples = [
   { file: "examples/token-claims/service-account.json", schemaFile: "auth/token-claims.schema.json" },
   { file: "examples/plugin-manifest/skill-pack.json", schemaFile: "plugins/plugin-manifest.schema.json" },
   { file: "examples/plugin-manifest/connector.json", schemaFile: "plugins/plugin-manifest.schema.json" },
+  { file: "examples/plugin-manifest/compute-provider.json", schemaFile: "plugins/plugin-manifest.schema.json" },
   { file: "examples/marketplace-catalog/default.json", schemaFile: "plugins/marketplace-catalog.schema.json" },
   { file: "examples/skill-manifest/k8s-sre.json", schemaFile: "skills/skill-manifest.schema.json" },
   {

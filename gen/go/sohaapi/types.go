@@ -648,6 +648,468 @@ func (e ClusterCapabilityStatus) Valid() bool {
 	}
 }
 
+// Defines values for ComputeAccessMode.
+const (
+	ComputeAccessModeAgentProxy ComputeAccessMode = "agent_proxy"
+	ComputeAccessModeDirect     ComputeAccessMode = "direct"
+)
+
+// Valid indicates whether the value is a known member of the ComputeAccessMode enum.
+func (e ComputeAccessMode) Valid() bool {
+	switch e {
+	case ComputeAccessModeAgentProxy:
+		return true
+	case ComputeAccessModeDirect:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeAccessSourceType.
+const (
+	ComputeAccessSourceTypeAgentHost                ComputeAccessSourceType = "agent_host"
+	ComputeAccessSourceTypeRuntimeHost              ComputeAccessSourceType = "runtime_host"
+	ComputeAccessSourceTypeVirtualizationConnection ComputeAccessSourceType = "virtualization_connection"
+)
+
+// Valid indicates whether the value is a known member of the ComputeAccessSourceType enum.
+func (e ComputeAccessSourceType) Valid() bool {
+	switch e {
+	case ComputeAccessSourceTypeAgentHost:
+		return true
+	case ComputeAccessSourceTypeRuntimeHost:
+		return true
+	case ComputeAccessSourceTypeVirtualizationConnection:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeAttentionSeverity.
+const (
+	ComputeAttentionSeverityCritical ComputeAttentionSeverity = "critical"
+	ComputeAttentionSeverityInfo     ComputeAttentionSeverity = "info"
+	ComputeAttentionSeverityWarning  ComputeAttentionSeverity = "warning"
+)
+
+// Valid indicates whether the value is a known member of the ComputeAttentionSeverity enum.
+func (e ComputeAttentionSeverity) Valid() bool {
+	switch e {
+	case ComputeAttentionSeverityCritical:
+		return true
+	case ComputeAttentionSeverityInfo:
+		return true
+	case ComputeAttentionSeverityWarning:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeDomain.
+const (
+	ComputeDomainAgent            ComputeDomain = "agent"
+	ComputeDomainContainerRuntime ComputeDomain = "container_runtime"
+	ComputeDomainVirtualization   ComputeDomain = "virtualization"
+)
+
+// Valid indicates whether the value is a known member of the ComputeDomain enum.
+func (e ComputeDomain) Valid() bool {
+	switch e {
+	case ComputeDomainAgent:
+		return true
+	case ComputeDomainContainerRuntime:
+		return true
+	case ComputeDomainVirtualization:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeFeatureID.
+const (
+	ComputeFeaturePluginProviders ComputeFeatureID = "plugin_providers"
+	ComputeFeatureProviderRead    ComputeFeatureID = "provider_read"
+	ComputeFeatureProviderWrite   ComputeFeatureID = "provider_write"
+	ComputeFeatureRelations       ComputeFeatureID = "relations"
+	ComputeFeatureTaskActions     ComputeFeatureID = "task_actions"
+	ComputeFeatureWorkbench       ComputeFeatureID = "workbench"
+)
+
+// Valid indicates whether the value is a known member of the ComputeFeatureID enum.
+func (e ComputeFeatureID) Valid() bool {
+	switch e {
+	case ComputeFeaturePluginProviders:
+		return true
+	case ComputeFeatureProviderRead:
+		return true
+	case ComputeFeatureProviderWrite:
+		return true
+	case ComputeFeatureRelations:
+		return true
+	case ComputeFeatureTaskActions:
+		return true
+	case ComputeFeatureWorkbench:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeHealthStatus.
+const (
+	ComputeHealthStatusDegraded    ComputeHealthStatus = "degraded"
+	ComputeHealthStatusHealthy     ComputeHealthStatus = "healthy"
+	ComputeHealthStatusPending     ComputeHealthStatus = "pending"
+	ComputeHealthStatusUnavailable ComputeHealthStatus = "unavailable"
+	ComputeHealthStatusUnknown     ComputeHealthStatus = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the ComputeHealthStatus enum.
+func (e ComputeHealthStatus) Valid() bool {
+	switch e {
+	case ComputeHealthStatusDegraded:
+		return true
+	case ComputeHealthStatusHealthy:
+		return true
+	case ComputeHealthStatusPending:
+		return true
+	case ComputeHealthStatusUnavailable:
+		return true
+	case ComputeHealthStatusUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputePluginRuntimeMode.
+const (
+	ComputePluginRuntimeModeBuiltin      ComputePluginRuntimeMode = "builtin"
+	ComputePluginRuntimeModeExternal     ComputePluginRuntimeMode = "external"
+	ComputePluginRuntimeModeManaged      ComputePluginRuntimeMode = "managed"
+	ComputePluginRuntimeModeManifestOnly ComputePluginRuntimeMode = "manifest_only"
+)
+
+// Valid indicates whether the value is a known member of the ComputePluginRuntimeMode enum.
+func (e ComputePluginRuntimeMode) Valid() bool {
+	switch e {
+	case ComputePluginRuntimeModeBuiltin:
+		return true
+	case ComputePluginRuntimeModeExternal:
+		return true
+	case ComputePluginRuntimeModeManaged:
+		return true
+	case ComputePluginRuntimeModeManifestOnly:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeProviderActivationLevel.
+const (
+	ComputeProviderActivationLevelDescriptor ComputeProviderActivationLevel = "descriptor"
+	ComputeProviderActivationLevelRead       ComputeProviderActivationLevel = "read"
+	ComputeProviderActivationLevelWrite      ComputeProviderActivationLevel = "write"
+)
+
+// Valid indicates whether the value is a known member of the ComputeProviderActivationLevel enum.
+func (e ComputeProviderActivationLevel) Valid() bool {
+	switch e {
+	case ComputeProviderActivationLevelDescriptor:
+		return true
+	case ComputeProviderActivationLevelRead:
+		return true
+	case ComputeProviderActivationLevelWrite:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeProviderDomain.
+const (
+	ComputeProviderDomainContainerRuntime ComputeProviderDomain = "container_runtime"
+	ComputeProviderDomainVirtualization   ComputeProviderDomain = "virtualization"
+)
+
+// Valid indicates whether the value is a known member of the ComputeProviderDomain enum.
+func (e ComputeProviderDomain) Valid() bool {
+	switch e {
+	case ComputeProviderDomainContainerRuntime:
+		return true
+	case ComputeProviderDomainVirtualization:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeProviderSource.
+const (
+	ComputeProviderSourceBuiltin ComputeProviderSource = "builtin"
+	ComputeProviderSourcePlugin  ComputeProviderSource = "plugin"
+)
+
+// Valid indicates whether the value is a known member of the ComputeProviderSource enum.
+func (e ComputeProviderSource) Valid() bool {
+	switch e {
+	case ComputeProviderSourceBuiltin:
+		return true
+	case ComputeProviderSourcePlugin:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeRelationSource.
+const (
+	ComputeRelationSourceDerived   ComputeRelationSource = "derived"
+	ComputeRelationSourcePersisted ComputeRelationSource = "persisted"
+	ComputeRelationSourceProvider  ComputeRelationSource = "provider"
+)
+
+// Valid indicates whether the value is a known member of the ComputeRelationSource enum.
+func (e ComputeRelationSource) Valid() bool {
+	switch e {
+	case ComputeRelationSourceDerived:
+		return true
+	case ComputeRelationSourcePersisted:
+		return true
+	case ComputeRelationSourceProvider:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeRelationType.
+const (
+	ComputeRelationTypeConnectedBy ComputeRelationType = "connected_by"
+	ComputeRelationTypeContains    ComputeRelationType = "contains"
+	ComputeRelationTypeDerivedFrom ComputeRelationType = "derived_from"
+	ComputeRelationTypeExposes     ComputeRelationType = "exposes"
+	ComputeRelationTypeManages     ComputeRelationType = "manages"
+	ComputeRelationTypeProvisions  ComputeRelationType = "provisions"
+	ComputeRelationTypeRunsOn      ComputeRelationType = "runs_on"
+)
+
+// Valid indicates whether the value is a known member of the ComputeRelationType enum.
+func (e ComputeRelationType) Valid() bool {
+	switch e {
+	case ComputeRelationTypeConnectedBy:
+		return true
+	case ComputeRelationTypeContains:
+		return true
+	case ComputeRelationTypeDerivedFrom:
+		return true
+	case ComputeRelationTypeExposes:
+		return true
+	case ComputeRelationTypeManages:
+		return true
+	case ComputeRelationTypeProvisions:
+		return true
+	case ComputeRelationTypeRunsOn:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeResourceKind.
+const (
+	ComputeResourceKindAgentHost   ComputeResourceKind = "agent_host"
+	ComputeResourceKindCluster     ComputeResourceKind = "cluster"
+	ComputeResourceKindConnection  ComputeResourceKind = "connection"
+	ComputeResourceKindContainer   ComputeResourceKind = "container"
+	ComputeResourceKindFlavor      ComputeResourceKind = "flavor"
+	ComputeResourceKindImage       ComputeResourceKind = "image"
+	ComputeResourceKindPort        ComputeResourceKind = "port"
+	ComputeResourceKindProject     ComputeResourceKind = "project"
+	ComputeResourceKindRuntimeHost ComputeResourceKind = "runtime_host"
+	ComputeResourceKindService     ComputeResourceKind = "service"
+	ComputeResourceKindTemplate    ComputeResourceKind = "template"
+	ComputeResourceKindVM          ComputeResourceKind = "vm"
+)
+
+// Valid indicates whether the value is a known member of the ComputeResourceKind enum.
+func (e ComputeResourceKind) Valid() bool {
+	switch e {
+	case ComputeResourceKindAgentHost:
+		return true
+	case ComputeResourceKindCluster:
+		return true
+	case ComputeResourceKindConnection:
+		return true
+	case ComputeResourceKindContainer:
+		return true
+	case ComputeResourceKindFlavor:
+		return true
+	case ComputeResourceKindImage:
+		return true
+	case ComputeResourceKindPort:
+		return true
+	case ComputeResourceKindProject:
+		return true
+	case ComputeResourceKindRuntimeHost:
+		return true
+	case ComputeResourceKindService:
+		return true
+	case ComputeResourceKindTemplate:
+		return true
+	case ComputeResourceKindVM:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeRolloutStage.
+const (
+	ComputeRolloutStageAdminPreview ComputeRolloutStage = "admin_preview"
+	ComputeRolloutStageDefault      ComputeRolloutStage = "default"
+	ComputeRolloutStageDisabled     ComputeRolloutStage = "disabled"
+	ComputeRolloutStageHidden       ComputeRolloutStage = "hidden"
+)
+
+// Valid indicates whether the value is a known member of the ComputeRolloutStage enum.
+func (e ComputeRolloutStage) Valid() bool {
+	switch e {
+	case ComputeRolloutStageAdminPreview:
+		return true
+	case ComputeRolloutStageDefault:
+		return true
+	case ComputeRolloutStageDisabled:
+		return true
+	case ComputeRolloutStageHidden:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeSectionStatus.
+const (
+	ComputeSectionStatusDegraded    ComputeSectionStatus = "degraded"
+	ComputeSectionStatusOK          ComputeSectionStatus = "ok"
+	ComputeSectionStatusUnavailable ComputeSectionStatus = "unavailable"
+)
+
+// Valid indicates whether the value is a known member of the ComputeSectionStatus enum.
+func (e ComputeSectionStatus) Valid() bool {
+	switch e {
+	case ComputeSectionStatusDegraded:
+		return true
+	case ComputeSectionStatusOK:
+		return true
+	case ComputeSectionStatusUnavailable:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeTaskAction.
+const (
+	ComputeTaskActionCancel ComputeTaskAction = "cancel"
+	ComputeTaskActionLogs   ComputeTaskAction = "logs"
+	ComputeTaskActionRetry  ComputeTaskAction = "retry"
+)
+
+// Valid indicates whether the value is a known member of the ComputeTaskAction enum.
+func (e ComputeTaskAction) Valid() bool {
+	switch e {
+	case ComputeTaskActionCancel:
+		return true
+	case ComputeTaskActionLogs:
+		return true
+	case ComputeTaskActionRetry:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeTaskCategory.
+const (
+	ComputeTaskCategoryBuild     ComputeTaskCategory = "build"
+	ComputeTaskCategoryLifecycle ComputeTaskCategory = "lifecycle"
+	ComputeTaskCategoryOperation ComputeTaskCategory = "operation"
+	ComputeTaskCategorySync      ComputeTaskCategory = "sync"
+)
+
+// Valid indicates whether the value is a known member of the ComputeTaskCategory enum.
+func (e ComputeTaskCategory) Valid() bool {
+	switch e {
+	case ComputeTaskCategoryBuild:
+		return true
+	case ComputeTaskCategoryLifecycle:
+		return true
+	case ComputeTaskCategoryOperation:
+		return true
+	case ComputeTaskCategorySync:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeTaskDomain.
+const (
+	ComputeTaskDomainContainerRuntime ComputeTaskDomain = "container_runtime"
+	ComputeTaskDomainVirtualization   ComputeTaskDomain = "virtualization"
+)
+
+// Valid indicates whether the value is a known member of the ComputeTaskDomain enum.
+func (e ComputeTaskDomain) Valid() bool {
+	switch e {
+	case ComputeTaskDomainContainerRuntime:
+		return true
+	case ComputeTaskDomainVirtualization:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeTaskStatus.
+const (
+	ComputeTaskStatusCanceled  ComputeTaskStatus = "canceled"
+	ComputeTaskStatusFailed    ComputeTaskStatus = "failed"
+	ComputeTaskStatusQueued    ComputeTaskStatus = "queued"
+	ComputeTaskStatusRunning   ComputeTaskStatus = "running"
+	ComputeTaskStatusSucceeded ComputeTaskStatus = "succeeded"
+	ComputeTaskStatusTimeout   ComputeTaskStatus = "timeout"
+	ComputeTaskStatusUnknown   ComputeTaskStatus = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the ComputeTaskStatus enum.
+func (e ComputeTaskStatus) Valid() bool {
+	switch e {
+	case ComputeTaskStatusCanceled:
+		return true
+	case ComputeTaskStatusFailed:
+		return true
+	case ComputeTaskStatusQueued:
+		return true
+	case ComputeTaskStatusRunning:
+		return true
+	case ComputeTaskStatusSucceeded:
+		return true
+	case ComputeTaskStatusTimeout:
+		return true
+	case ComputeTaskStatusUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for DeliveryPlanSource.
 const (
 	DeliveryPlanSourceAI     DeliveryPlanSource = "ai"
@@ -1599,6 +2061,63 @@ func (e OpenAIModelsResponseObject) Valid() bool {
 	}
 }
 
+// Defines values for PluginComputeContainerRuntimeProviderResourceKinds.
+const (
+	PluginComputeContainerRuntimeResourceKindContainer   PluginComputeContainerRuntimeProviderResourceKinds = "container"
+	PluginComputeContainerRuntimeResourceKindPort        PluginComputeContainerRuntimeProviderResourceKinds = "port"
+	PluginComputeContainerRuntimeResourceKindProject     PluginComputeContainerRuntimeProviderResourceKinds = "project"
+	PluginComputeContainerRuntimeResourceKindRuntimeHost PluginComputeContainerRuntimeProviderResourceKinds = "runtime_host"
+	PluginComputeContainerRuntimeResourceKindService     PluginComputeContainerRuntimeProviderResourceKinds = "service"
+	PluginComputeContainerRuntimeResourceKindTemplate    PluginComputeContainerRuntimeProviderResourceKinds = "template"
+)
+
+// Valid indicates whether the value is a known member of the PluginComputeContainerRuntimeProviderResourceKinds enum.
+func (e PluginComputeContainerRuntimeProviderResourceKinds) Valid() bool {
+	switch e {
+	case PluginComputeContainerRuntimeResourceKindContainer:
+		return true
+	case PluginComputeContainerRuntimeResourceKindPort:
+		return true
+	case PluginComputeContainerRuntimeResourceKindProject:
+		return true
+	case PluginComputeContainerRuntimeResourceKindRuntimeHost:
+		return true
+	case PluginComputeContainerRuntimeResourceKindService:
+		return true
+	case PluginComputeContainerRuntimeResourceKindTemplate:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PluginComputeVirtualizationProviderResourceKinds.
+const (
+	PluginComputeVirtualizationResourceKindCluster    PluginComputeVirtualizationProviderResourceKinds = "cluster"
+	PluginComputeVirtualizationResourceKindConnection PluginComputeVirtualizationProviderResourceKinds = "connection"
+	PluginComputeVirtualizationResourceKindFlavor     PluginComputeVirtualizationProviderResourceKinds = "flavor"
+	PluginComputeVirtualizationResourceKindImage      PluginComputeVirtualizationProviderResourceKinds = "image"
+	PluginComputeVirtualizationResourceKindVM         PluginComputeVirtualizationProviderResourceKinds = "vm"
+)
+
+// Valid indicates whether the value is a known member of the PluginComputeVirtualizationProviderResourceKinds enum.
+func (e PluginComputeVirtualizationProviderResourceKinds) Valid() bool {
+	switch e {
+	case PluginComputeVirtualizationResourceKindCluster:
+		return true
+	case PluginComputeVirtualizationResourceKindConnection:
+		return true
+	case PluginComputeVirtualizationResourceKindFlavor:
+		return true
+	case PluginComputeVirtualizationResourceKindImage:
+		return true
+	case PluginComputeVirtualizationResourceKindVM:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for PluginRuntimeSpecMode.
 const (
 	ExternalHTTP     PluginRuntimeSpecMode = "external-http"
@@ -1788,6 +2307,7 @@ func (e WorkbenchGlobalAssistantOpenRequestAction) Valid() bool {
 // Defines values for WorkbenchLaunchContextSourceWorkbench.
 const (
 	WorkbenchLaunchContextSourceWorkbenchAI             WorkbenchLaunchContextSourceWorkbench = "ai"
+	WorkbenchLaunchContextSourceWorkbenchCompute        WorkbenchLaunchContextSourceWorkbench = "compute"
 	WorkbenchLaunchContextSourceWorkbenchDelivery       WorkbenchLaunchContextSourceWorkbench = "delivery"
 	WorkbenchLaunchContextSourceWorkbenchDocker         WorkbenchLaunchContextSourceWorkbench = "docker"
 	WorkbenchLaunchContextSourceWorkbenchMonitoring     WorkbenchLaunchContextSourceWorkbench = "monitoring"
@@ -1799,6 +2319,8 @@ const (
 func (e WorkbenchLaunchContextSourceWorkbench) Valid() bool {
 	switch e {
 	case WorkbenchLaunchContextSourceWorkbenchAI:
+		return true
+	case WorkbenchLaunchContextSourceWorkbenchCompute:
 		return true
 	case WorkbenchLaunchContextSourceWorkbenchDelivery:
 		return true
@@ -4716,6 +5238,430 @@ type CohereRerankRequest_Documents_Item struct {
 	union json.RawMessage
 }
 
+// ComputeAccessMode defines model for ComputeAccessMode.
+type ComputeAccessMode string
+
+// ComputeAccessSource defines model for ComputeAccessSource.
+type ComputeAccessSource struct {
+	AccessMode         ComputeAccessMode       `json:"accessMode,omitempty"`
+	AvailableActions   []string                `json:"availableActions,omitempty"`
+	ID                 string                  `json:"id"`
+	LastObservedAt     *time.Time              `json:"lastObservedAt,omitempty"`
+	PluginID           string                  `json:"pluginId,omitempty"`
+	PluginVersion      string                  `json:"pluginVersion,omitempty"`
+	ProviderGeneration int64                   `json:"providerGeneration,omitempty"`
+	ProviderKey        string                  `json:"providerKey,omitempty"`
+	ProviderSource     ComputeProviderSource   `json:"providerSource,omitempty"`
+	RelatedResources   []ComputeResourceRef    `json:"relatedResources,omitempty"`
+	Resource           ComputeResourceRef      `json:"resource"`
+	SourceType         ComputeAccessSourceType `json:"sourceType"`
+	Status             ComputeHealthStatus     `json:"status"`
+}
+
+// ComputeAccessSourceListEnvelope defines model for ComputeAccessSourceListEnvelope.
+type ComputeAccessSourceListEnvelope struct {
+	Items      []ComputeAccessSource `json:"items"`
+	NextCursor string                `json:"nextCursor,omitempty"`
+}
+
+// ComputeAccessSourceType defines model for ComputeAccessSourceType.
+type ComputeAccessSourceType string
+
+// ComputeAgentOverviewSection defines model for ComputeAgentOverviewSection.
+type ComputeAgentOverviewSection struct {
+	Status   ComputeSectionStatus `json:"status"`
+	Summary  *ComputeAgentSummary `json:"summary,omitempty"`
+	Warnings []ComputeWarning     `json:"warnings,omitempty"`
+}
+
+// ComputeAgentSummary defines model for ComputeAgentSummary.
+type ComputeAgentSummary struct {
+	Offline         int `json:"offline"`
+	Online          int `json:"online"`
+	Total           int `json:"total"`
+	VersionMismatch int `json:"versionMismatch"`
+}
+
+// ComputeAttention defines model for ComputeAttention.
+type ComputeAttention struct {
+	Code      string                   `json:"code"`
+	Resources []ComputeResourceRef     `json:"resources,omitempty"`
+	Severity  ComputeAttentionSeverity `json:"severity"`
+	Summary   string                   `json:"summary"`
+}
+
+// ComputeAttentionSeverity defines model for ComputeAttention.Severity.
+type ComputeAttentionSeverity string
+
+// ComputeCapabilityManifest defines model for ComputeCapabilityManifest.
+type ComputeCapabilityManifest struct {
+	Features   []ComputeFeatureCapability `json:"features"`
+	Generation int64                      `json:"generation"`
+}
+
+// ComputeCapabilityManifestEnvelope defines model for ComputeCapabilityManifestEnvelope.
+type ComputeCapabilityManifestEnvelope struct {
+	Data ComputeCapabilityManifest `json:"data"`
+}
+
+// ComputeDomain defines model for ComputeDomain.
+type ComputeDomain string
+
+// ComputeFeatureCapability defines model for ComputeFeatureCapability.
+type ComputeFeatureCapability struct {
+	Enabled            bool                           `json:"enabled"`
+	ID                 ComputeFeatureID               `json:"id"`
+	MaxActivationLevel ComputeProviderActivationLevel `json:"maxActivationLevel,omitempty"`
+
+	// Reason Redacted explanation when a capability is unavailable to the current principal.
+	Reason       string              `json:"reason,omitempty"`
+	RolloutStage ComputeRolloutStage `json:"rolloutStage"`
+}
+
+// ComputeFeatureID defines model for ComputeFeatureID.
+type ComputeFeatureID string
+
+// ComputeHealthStatus defines model for ComputeHealthStatus.
+type ComputeHealthStatus string
+
+// ComputeMetadataEntry defines model for ComputeMetadataEntry.
+type ComputeMetadataEntry struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
+// ComputeOverview defines model for ComputeOverview.
+type ComputeOverview struct {
+	Agents           *ComputeAgentOverviewSection           `json:"agents,omitempty"`
+	Attention        []ComputeAttention                     `json:"attention"`
+	Partial          bool                                   `json:"partial"`
+	ProviderHealth   []ComputeProviderHealth                `json:"providerHealth"`
+	RuntimeWorkloads *ComputeRuntimeWorkloadOverviewSection `json:"runtimeWorkloads,omitempty"`
+	Runtimes         *ComputeRuntimeOverviewSection         `json:"runtimes,omitempty"`
+	Tasks            *ComputeTaskOverviewSection            `json:"tasks,omitempty"`
+	Virtualization   *ComputeVirtualizationOverviewSection  `json:"virtualization,omitempty"`
+	Warnings         []ComputeWarning                       `json:"warnings"`
+}
+
+// ComputeOverviewEnvelope defines model for ComputeOverviewEnvelope.
+type ComputeOverviewEnvelope struct {
+	Data ComputeOverview `json:"data"`
+}
+
+// ComputePluginRuntimeMode defines model for ComputePluginRuntimeMode.
+type ComputePluginRuntimeMode string
+
+// ComputeProviderActivationLevel defines model for ComputeProviderActivationLevel.
+type ComputeProviderActivationLevel string
+
+// ComputeProviderCapability defines model for ComputeProviderCapability.
+type ComputeProviderCapability struct {
+	Enabled       bool                           `json:"enabled"`
+	ID            string                         `json:"id"`
+	Level         ComputeProviderActivationLevel `json:"level"`
+	Reason        string                         `json:"reason,omitempty"`
+	ResourceKinds []ComputeResourceKind          `json:"resourceKinds"`
+}
+
+// ComputeProviderDescriptor defines model for ComputeProviderDescriptor.
+type ComputeProviderDescriptor struct {
+	ActivationLevel ComputeProviderActivationLevel  `json:"activationLevel"`
+	Capabilities    []ComputeProviderCapability     `json:"capabilities"`
+	ConfigSchema    JSONSchema                      `json:"configSchema,omitempty"`
+	ContractVersion string                          `json:"contractVersion"`
+	DisplayName     string                          `json:"displayName"`
+	Domain          ComputeProviderDomain           `json:"domain"`
+	Generation      int64                           `json:"generation"`
+	Health          ComputeProviderHealth           `json:"health"`
+	PluginID        string                          `json:"pluginId,omitempty"`
+	PluginVersion   string                          `json:"pluginVersion,omitempty"`
+	ProviderKey     string                          `json:"providerKey"`
+	ResourceKinds   []ComputeResourceKind           `json:"resourceKinds"`
+	ResourceSchemas []ComputeProviderResourceSchema `json:"resourceSchemas,omitempty"`
+	RuntimeMode     ComputePluginRuntimeMode        `json:"runtimeMode"`
+	Source          ComputeProviderSource           `json:"source"`
+	StatusMappings  []ComputeProviderStatusMapping  `json:"statusMappings,omitempty"`
+	Version         string                          `json:"version"`
+}
+
+// ComputeProviderDiscoverRequest defines model for ComputeProviderDiscoverRequest.
+type ComputeProviderDiscoverRequest struct {
+	Cursor             string `json:"cursor,omitempty"`
+	ExpectedGeneration int64  `json:"expectedGeneration"`
+	MaxItems           int    `json:"maxItems,omitempty"`
+	Scope              string `json:"scope,omitempty"`
+}
+
+// ComputeProviderDomain defines model for ComputeProviderDomain.
+type ComputeProviderDomain string
+
+// ComputeProviderHealth defines model for ComputeProviderHealth.
+type ComputeProviderHealth struct {
+	CheckedAt  *time.Time            `json:"checkedAt,omitempty"`
+	Code       string                `json:"code,omitempty"`
+	Domain     ComputeProviderDomain `json:"domain"`
+	Generation int64                 `json:"generation"`
+
+	// Message Redacted health summary.
+	Message     string              `json:"message,omitempty"`
+	ProviderKey string              `json:"providerKey"`
+	Status      ComputeHealthStatus `json:"status"`
+}
+
+// ComputeProviderInstance defines model for ComputeProviderInstance.
+type ComputeProviderInstance struct {
+	AccessMode            ComputeAccessMode           `json:"accessMode"`
+	DisplayName           string                      `json:"displayName"`
+	EffectiveCapabilities []ComputeProviderCapability `json:"effectiveCapabilities"`
+	Enabled               bool                        `json:"enabled"`
+	Health                ComputeProviderHealth       `json:"health"`
+	InstanceRef           string                      `json:"instanceRef"`
+	LastObservedAt        *time.Time                  `json:"lastObservedAt,omitempty"`
+	Resource              *ComputeResourceRef         `json:"resource,omitempty"`
+	Snapshot              ComputeProviderSnapshot     `json:"snapshot"`
+}
+
+// ComputeProviderInstanceEnvelope defines model for ComputeProviderInstanceEnvelope.
+type ComputeProviderInstanceEnvelope struct {
+	Data ComputeProviderInstance `json:"data"`
+}
+
+// ComputeProviderInstanceListEnvelope defines model for ComputeProviderInstanceListEnvelope.
+type ComputeProviderInstanceListEnvelope struct {
+	Items      []ComputeProviderInstance `json:"items"`
+	NextCursor string                    `json:"nextCursor,omitempty"`
+}
+
+// ComputeProviderListEnvelope defines model for ComputeProviderListEnvelope.
+type ComputeProviderListEnvelope struct {
+	Items      []ComputeProviderDescriptor `json:"items"`
+	NextCursor string                      `json:"nextCursor,omitempty"`
+}
+
+// ComputeProviderReadRequest defines model for ComputeProviderReadRequest.
+type ComputeProviderReadRequest struct {
+	ExpectedGeneration int64  `json:"expectedGeneration"`
+	Scope              string `json:"scope,omitempty"`
+}
+
+// ComputeProviderResourceSchema defines model for ComputeProviderResourceSchema.
+type ComputeProviderResourceSchema struct {
+	Kind   ComputeResourceKind `json:"kind"`
+	Schema JSONSchema          `json:"schema"`
+}
+
+// ComputeProviderSnapshot defines model for ComputeProviderSnapshot.
+type ComputeProviderSnapshot struct {
+	ContractVersion string                   `json:"contractVersion"`
+	Domain          ComputeProviderDomain    `json:"domain"`
+	Generation      int64                    `json:"generation"`
+	PluginID        string                   `json:"pluginId,omitempty"`
+	PluginVersion   string                   `json:"pluginVersion,omitempty"`
+	ProviderKey     string                   `json:"providerKey"`
+	RuntimeMode     ComputePluginRuntimeMode `json:"runtimeMode"`
+	Source          ComputeProviderSource    `json:"source"`
+	Version         string                   `json:"version"`
+}
+
+// ComputeProviderSource defines model for ComputeProviderSource.
+type ComputeProviderSource string
+
+// ComputeProviderStatusMapping defines model for ComputeProviderStatusMapping.
+type ComputeProviderStatusMapping struct {
+	NormalizedStatus string `json:"normalizedStatus"`
+	ProviderStatus   string `json:"providerStatus"`
+}
+
+// ComputeRelationSource defines model for ComputeRelationSource.
+type ComputeRelationSource string
+
+// ComputeRelationType defines model for ComputeRelationType.
+type ComputeRelationType string
+
+// ComputeResourceActionRequest defines model for ComputeResourceActionRequest.
+type ComputeResourceActionRequest struct {
+	Metadata []ComputeMetadataEntry `json:"metadata,omitempty"`
+	Reason   string                 `json:"reason,omitempty"`
+}
+
+// ComputeResourceKind defines model for ComputeResourceKind.
+type ComputeResourceKind string
+
+// ComputeResourceRef defines model for ComputeResourceRef.
+type ComputeResourceRef struct {
+	AccessMode          ComputeAccessMode     `json:"accessMode,omitempty"`
+	DisplayName         string                `json:"displayName"`
+	Domain              ComputeDomain         `json:"domain"`
+	ID                  string                `json:"id"`
+	Kind                ComputeResourceKind   `json:"kind"`
+	PluginID            string                `json:"pluginId,omitempty"`
+	PluginVersion       string                `json:"pluginVersion,omitempty"`
+	ProviderGeneration  int64                 `json:"providerGeneration,omitempty"`
+	ProviderInstanceRef string                `json:"providerInstanceRef,omitempty"`
+	ProviderKey         string                `json:"providerKey,omitempty"`
+	ProviderSource      ComputeProviderSource `json:"providerSource,omitempty"`
+	Scope               string                `json:"scope,omitempty"`
+}
+
+// ComputeResourceRelation defines model for ComputeResourceRelation.
+type ComputeResourceRelation struct {
+	From               ComputeResourceRef     `json:"from"`
+	Metadata           []ComputeMetadataEntry `json:"metadata,omitempty"`
+	ObservedAt         time.Time              `json:"observedAt"`
+	ProviderGeneration int64                  `json:"providerGeneration,omitempty"`
+	Source             ComputeRelationSource  `json:"source"`
+	Stale              bool                   `json:"stale,omitempty"`
+	To                 ComputeResourceRef     `json:"to"`
+	Type               ComputeRelationType    `json:"type"`
+}
+
+// ComputeResourceRelationListEnvelope defines model for ComputeResourceRelationListEnvelope.
+type ComputeResourceRelationListEnvelope struct {
+	Data ComputeResourceRelations `json:"data"`
+}
+
+// ComputeResourceRelations defines model for ComputeResourceRelations.
+type ComputeResourceRelations struct {
+	NextCursor string                    `json:"nextCursor,omitempty"`
+	Relations  []ComputeResourceRelation `json:"relations"`
+	Resource   ComputeResourceRef        `json:"resource"`
+}
+
+// ComputeRolloutStage defines model for ComputeRolloutStage.
+type ComputeRolloutStage string
+
+// ComputeRuntimeOverviewSection defines model for ComputeRuntimeOverviewSection.
+type ComputeRuntimeOverviewSection struct {
+	Status   ComputeSectionStatus   `json:"status"`
+	Summary  *ComputeRuntimeSummary `json:"summary,omitempty"`
+	Warnings []ComputeWarning       `json:"warnings,omitempty"`
+}
+
+// ComputeRuntimeSummary defines model for ComputeRuntimeSummary.
+type ComputeRuntimeSummary struct {
+	Available    int `json:"available"`
+	Error        int `json:"error"`
+	Total        int `json:"total"`
+	WaitingAgent int `json:"waitingAgent"`
+}
+
+// ComputeRuntimeWorkloadOverviewSection defines model for ComputeRuntimeWorkloadOverviewSection.
+type ComputeRuntimeWorkloadOverviewSection struct {
+	Status   ComputeSectionStatus           `json:"status"`
+	Summary  *ComputeRuntimeWorkloadSummary `json:"summary,omitempty"`
+	Warnings []ComputeWarning               `json:"warnings,omitempty"`
+}
+
+// ComputeRuntimeWorkloadSummary defines model for ComputeRuntimeWorkloadSummary.
+type ComputeRuntimeWorkloadSummary struct {
+	Containers int `json:"containers"`
+	Expiring   int `json:"expiring"`
+	Ports      int `json:"ports"`
+	Projects   int `json:"projects"`
+	Services   int `json:"services"`
+}
+
+// ComputeSectionStatus defines model for ComputeSectionStatus.
+type ComputeSectionStatus string
+
+// ComputeTaskAction defines model for ComputeTaskAction.
+type ComputeTaskAction string
+
+// ComputeTaskCategory defines model for ComputeTaskCategory.
+type ComputeTaskCategory string
+
+// ComputeTaskDomain defines model for ComputeTaskDomain.
+type ComputeTaskDomain string
+
+// ComputeTaskEnvelope defines model for ComputeTaskEnvelope.
+type ComputeTaskEnvelope struct {
+	Data ComputeTaskView `json:"data"`
+}
+
+// ComputeTaskListEnvelope defines model for ComputeTaskListEnvelope.
+type ComputeTaskListEnvelope struct {
+	Items      []ComputeTaskView `json:"items"`
+	NextCursor string            `json:"nextCursor,omitempty"`
+}
+
+// ComputeTaskMutationRequest defines model for ComputeTaskMutationRequest.
+type ComputeTaskMutationRequest struct {
+	Reason string `json:"reason,omitempty"`
+}
+
+// ComputeTaskOverviewSection defines model for ComputeTaskOverviewSection.
+type ComputeTaskOverviewSection struct {
+	Status   ComputeSectionStatus `json:"status"`
+	Summary  *ComputeTaskSummary  `json:"summary,omitempty"`
+	Warnings []ComputeWarning     `json:"warnings,omitempty"`
+}
+
+// ComputeTaskStatus defines model for ComputeTaskStatus.
+type ComputeTaskStatus string
+
+// ComputeTaskSummary defines model for ComputeTaskSummary.
+type ComputeTaskSummary struct {
+	Failed  int `json:"failed"`
+	Queued  int `json:"queued"`
+	Running int `json:"running"`
+}
+
+// ComputeTaskView defines model for ComputeTaskView.
+type ComputeTaskView struct {
+	AttemptCount       int                   `json:"attemptCount"`
+	AvailableActions   []ComputeTaskAction   `json:"availableActions"`
+	Cancelable         bool                  `json:"cancelable"`
+	Category           ComputeTaskCategory   `json:"category"`
+	CreatedAt          time.Time             `json:"createdAt"`
+	Domain             ComputeTaskDomain     `json:"domain"`
+	ErrorCode          string                `json:"errorCode,omitempty"`
+	FinishedAt         *time.Time            `json:"finishedAt,omitempty"`
+	ID                 string                `json:"id"`
+	Kind               string                `json:"kind"`
+	NormalizedStatus   ComputeTaskStatus     `json:"normalizedStatus"`
+	PluginID           string                `json:"pluginId,omitempty"`
+	PluginVersion      string                `json:"pluginVersion,omitempty"`
+	ProviderGeneration int64                 `json:"providerGeneration,omitempty"`
+	ProviderKey        string                `json:"providerKey,omitempty"`
+	ProviderSource     ComputeProviderSource `json:"providerSource,omitempty"`
+	RawStatus          string                `json:"rawStatus"`
+	RequestedBy        string                `json:"requestedBy,omitempty"`
+	Resources          []ComputeResourceRef  `json:"resources"`
+	Retryable          bool                  `json:"retryable"`
+	SourceID           string                `json:"sourceId"`
+	SourceType         string                `json:"sourceType"`
+	StartedAt          *time.Time            `json:"startedAt,omitempty"`
+	Summary            string                `json:"summary,omitempty"`
+	Worker             string                `json:"worker,omitempty"`
+}
+
+// ComputeVirtualizationOverviewSection defines model for ComputeVirtualizationOverviewSection.
+type ComputeVirtualizationOverviewSection struct {
+	Status   ComputeSectionStatus          `json:"status"`
+	Summary  *ComputeVirtualizationSummary `json:"summary,omitempty"`
+	Warnings []ComputeWarning              `json:"warnings,omitempty"`
+}
+
+// ComputeVirtualizationSummary defines model for ComputeVirtualizationSummary.
+type ComputeVirtualizationSummary struct {
+	ConnectionsDegraded int `json:"connectionsDegraded"`
+	ConnectionsHealthy  int `json:"connectionsHealthy"`
+	ConnectionsTotal    int `json:"connectionsTotal"`
+	ConnectionsUnsynced int `json:"connectionsUnsynced"`
+	VmsError            int `json:"vmsError"`
+	VmsRunning          int `json:"vmsRunning"`
+	VmsStopped          int `json:"vmsStopped"`
+	VmsTotal            int `json:"vmsTotal"`
+}
+
+// ComputeWarning defines model for ComputeWarning.
+type ComputeWarning struct {
+	Code string `json:"code"`
+
+	// Message Redacted user-facing warning. Internal errors and credentials are excluded.
+	Message string `json:"message,omitempty"`
+}
+
 // CreatedPersonalAccessToken defines model for CreatedPersonalAccessToken.
 type CreatedPersonalAccessToken struct {
 	Token PersonalAccessToken `json:"token"`
@@ -5270,6 +6216,11 @@ type GeminiModel struct {
 type GeminiModelsResponse struct {
 	Models               []GeminiModel  `json:"models"`
 	AdditionalProperties map[string]any `json:"-"`
+}
+
+// GenericDataEnvelope defines model for GenericDataEnvelope.
+type GenericDataEnvelope struct {
+	Data AnyValue `json:"data"`
 }
 
 // GenericItemsEnvelope defines model for GenericItemsEnvelope.
@@ -6718,6 +7669,42 @@ type PluginCompatibility struct {
 	AdditionalProperties map[string]any `json:"-"`
 }
 
+// PluginComputeContainerRuntimeProvider defines model for PluginComputeContainerRuntimeProvider.
+type PluginComputeContainerRuntimeProvider struct {
+	ActionRefs      map[string]string                                    `json:"actionRefs,omitempty"`
+	ActivationLevel ComputeProviderActivationLevel                       `json:"activationLevel"`
+	Capabilities    []string                                             `json:"capabilities"`
+	ConfigSchemaRef string                                               `json:"configSchemaRef,omitempty"`
+	Description     string                                               `json:"description,omitempty"`
+	DisplayName     string                                               `json:"displayName"`
+	ProviderKey     string                                               `json:"providerKey"`
+	ResourceKinds   []PluginComputeContainerRuntimeProviderResourceKinds `json:"resourceKinds"`
+}
+
+// PluginComputeContainerRuntimeProviderResourceKinds defines model for PluginComputeContainerRuntimeProvider.ResourceKinds.
+type PluginComputeContainerRuntimeProviderResourceKinds string
+
+// PluginComputeExtensions defines model for PluginComputeExtensions.
+type PluginComputeExtensions struct {
+	ContainerRuntimeProviders []PluginComputeContainerRuntimeProvider `json:"containerRuntimeProviders,omitempty"`
+	VirtualizationProviders   []PluginComputeVirtualizationProvider   `json:"virtualizationProviders,omitempty"`
+}
+
+// PluginComputeVirtualizationProvider defines model for PluginComputeVirtualizationProvider.
+type PluginComputeVirtualizationProvider struct {
+	ActionRefs      map[string]string                                  `json:"actionRefs,omitempty"`
+	ActivationLevel ComputeProviderActivationLevel                     `json:"activationLevel"`
+	Capabilities    []string                                           `json:"capabilities"`
+	ConfigSchemaRef string                                             `json:"configSchemaRef,omitempty"`
+	Description     string                                             `json:"description,omitempty"`
+	DisplayName     string                                             `json:"displayName"`
+	ProviderKey     string                                             `json:"providerKey"`
+	ResourceKinds   []PluginComputeVirtualizationProviderResourceKinds `json:"resourceKinds"`
+}
+
+// PluginComputeVirtualizationProviderResourceKinds defines model for PluginComputeVirtualizationProvider.ResourceKinds.
+type PluginComputeVirtualizationProviderResourceKinds string
+
 // PluginConfigRequest defines model for PluginConfigRequest.
 type PluginConfigRequest struct {
 	Enabled    *bool             `json:"enabled,omitempty"`
@@ -6753,6 +7740,7 @@ type PluginExtensionPoints struct {
 	AI       *PluginAIExtensions       `json:"ai,omitempty"`
 	Alerts   *PluginAlertExtensions    `json:"alerts,omitempty"`
 	Auth     *PluginAuthExtensions     `json:"auth,omitempty"`
+	Compute  *PluginComputeExtensions  `json:"compute,omitempty"`
 	Delivery *PluginDeliveryExtensions `json:"delivery,omitempty"`
 	Gateway  *PluginGatewayExtensions  `json:"gateway,omitempty"`
 	Identity *PluginIdentityExtensions `json:"identity,omitempty"`
@@ -7683,8 +8671,32 @@ type BuildTemplateID = string
 // BundleID defines model for BundleID.
 type BundleID = string
 
+// ComputeActionID defines model for ComputeActionID.
+type ComputeActionID = string
+
+// ComputeCursor defines model for ComputeCursor.
+type ComputeCursor = string
+
+// ComputeLimit defines model for ComputeLimit.
+type ComputeLimit = int
+
+// ComputeProviderInstanceRef defines model for ComputeProviderInstanceRef.
+type ComputeProviderInstanceRef = string
+
+// ComputeProviderKey defines model for ComputeProviderKey.
+type ComputeProviderKey = string
+
+// ComputeResourceID defines model for ComputeResourceID.
+type ComputeResourceID = string
+
+// ComputeTaskID defines model for ComputeTaskID.
+type ComputeTaskID = string
+
 // EvaluationRunID defines model for EvaluationRunID.
 type EvaluationRunID = string
+
+// IdempotencyKey defines model for IdempotencyKey.
+type IdempotencyKey = string
 
 // KnowledgeBaseID defines model for KnowledgeBaseID.
 type KnowledgeBaseID = string
@@ -7766,6 +8778,9 @@ type UpstreamID = string
 
 // WorkflowTemplateID defines model for WorkflowTemplateID.
 type WorkflowTemplateID = string
+
+// ComputeError defines model for ComputeError.
+type ComputeError = ErrorEnvelope
 
 // Error defines model for Error.
 type Error = ErrorEnvelope
@@ -8346,6 +9361,71 @@ type HandleOIDCCallbackParams struct {
 	State OIDCState `form:"state,omitempty" json:"state,omitempty"`
 }
 
+// ListComputeAccessSourcesParams defines parameters for ListComputeAccessSources.
+type ListComputeAccessSourcesParams struct {
+	SourceType  ComputeAccessSourceType `form:"sourceType,omitempty" json:"sourceType,omitempty"`
+	ProviderKey string                  `form:"providerKey,omitempty" json:"providerKey,omitempty"`
+	Cursor      ComputeCursor           `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit       ComputeLimit            `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListComputeProviderInstancesParams defines parameters for ListComputeProviderInstances.
+type ListComputeProviderInstancesParams struct {
+	Domain      ComputeProviderDomain `form:"domain,omitempty" json:"domain,omitempty"`
+	ProviderKey string                `form:"providerKey,omitempty" json:"providerKey,omitempty"`
+	Cursor      ComputeCursor         `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit       ComputeLimit          `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// DiscoverComputeProviderInstanceParams defines parameters for DiscoverComputeProviderInstance.
+type DiscoverComputeProviderInstanceParams struct {
+	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
+// CheckComputeProviderInstanceHealthParams defines parameters for CheckComputeProviderInstanceHealth.
+type CheckComputeProviderInstanceHealthParams struct {
+	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
+// ListComputeProvidersParams defines parameters for ListComputeProviders.
+type ListComputeProvidersParams struct {
+	Domain ComputeProviderDomain `form:"domain,omitempty" json:"domain,omitempty"`
+	Source ComputeProviderSource `form:"source,omitempty" json:"source,omitempty"`
+	Cursor ComputeCursor         `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit  ComputeLimit          `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ExecuteComputeResourceActionParams defines parameters for ExecuteComputeResourceAction.
+type ExecuteComputeResourceActionParams struct {
+	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
+// ListComputeResourceRelationsParams defines parameters for ListComputeResourceRelations.
+type ListComputeResourceRelationsParams struct {
+	Cursor ComputeCursor `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit  ComputeLimit  `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListComputeTasksParams defines parameters for ListComputeTasks.
+type ListComputeTasksParams struct {
+	Domain      ComputeTaskDomain   `form:"domain,omitempty" json:"domain,omitempty"`
+	ProviderKey string              `form:"providerKey,omitempty" json:"providerKey,omitempty"`
+	Status      ComputeTaskStatus   `form:"status,omitempty" json:"status,omitempty"`
+	Category    ComputeTaskCategory `form:"category,omitempty" json:"category,omitempty"`
+	Cursor      ComputeCursor       `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit       ComputeLimit        `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// CancelComputeTaskParams defines parameters for CancelComputeTask.
+type CancelComputeTaskParams struct {
+	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
+// RetryComputeTaskParams defines parameters for RetryComputeTask.
+type RetryComputeTaskParams struct {
+	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
 // ListDeliveryArtifactsParams defines parameters for ListDeliveryArtifacts.
 type ListDeliveryArtifactsParams struct {
 	ApplicationID            string `form:"applicationId,omitempty" json:"applicationId,omitempty"`
@@ -8629,6 +9709,21 @@ type CreateBuildTemplateJSONRequestBody = BuildTemplateInput
 
 // UpdateBuildTemplateJSONRequestBody defines body for UpdateBuildTemplate for application/json ContentType.
 type UpdateBuildTemplateJSONRequestBody = BuildTemplateInput
+
+// DiscoverComputeProviderInstanceJSONRequestBody defines body for DiscoverComputeProviderInstance for application/json ContentType.
+type DiscoverComputeProviderInstanceJSONRequestBody = ComputeProviderDiscoverRequest
+
+// CheckComputeProviderInstanceHealthJSONRequestBody defines body for CheckComputeProviderInstanceHealth for application/json ContentType.
+type CheckComputeProviderInstanceHealthJSONRequestBody = ComputeProviderReadRequest
+
+// ExecuteComputeResourceActionJSONRequestBody defines body for ExecuteComputeResourceAction for application/json ContentType.
+type ExecuteComputeResourceActionJSONRequestBody = ComputeResourceActionRequest
+
+// CancelComputeTaskJSONRequestBody defines body for CancelComputeTask for application/json ContentType.
+type CancelComputeTaskJSONRequestBody = ComputeTaskMutationRequest
+
+// RetryComputeTaskJSONRequestBody defines body for RetryComputeTask for application/json ContentType.
+type RetryComputeTaskJSONRequestBody = ComputeTaskMutationRequest
 
 // RecordAgentRunCallbackJSONRequestBody defines body for RecordAgentRunCallback for application/json ContentType.
 type RecordAgentRunCallbackJSONRequestBody = AgentRunCallbackRequest
