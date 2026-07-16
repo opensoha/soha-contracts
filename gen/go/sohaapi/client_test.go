@@ -49,6 +49,68 @@ func TestSystemHealthAndReadinessUsePublicRequests(t *testing.T) {
 	}
 }
 
+func TestComputeTaskCenterClientSurface(t *testing.T) {
+	requests := 0
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		requests++
+		switch requests {
+		case 1:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/compute/tasks")
+			assertQuery(t, r, map[string]string{
+				"domain": "virtualization", "resourceKind": "cluster", "resourceId": "cluster-1", "limit": "1",
+			})
+			writeJSON(t, w, map[string]any{"items": []any{}})
+		case 2:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/compute/tasks/virtualization/task%2Fone")
+			writeJSON(t, w, computeTaskEnvelopeFixture("task/one"))
+		case 3:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/compute/tasks/virtualization/task%2Fone/logs")
+			writeJSON(t, w, map[string]any{"items": []map[string]any{{
+				"id": "log-1", "taskId": "task/one", "logLevel": "info", "message": "started", "createdAt": "2026-07-16T08:00:00Z",
+			}}})
+		case 4:
+			assertCommonRequest(t, r, http.MethodPost, "/api/v1/compute/tasks/virtualization/task%2Fone/cancel")
+			if body := decodeJSONRequestBody[ComputeTaskMutationRequest](t, r); body.Reason != "operator request" {
+				t.Fatalf("cancel reason = %q", body.Reason)
+			}
+			writeJSON(t, w, computeTaskEnvelopeFixture("task/one"))
+		case 5:
+			assertCommonRequest(t, r, http.MethodPost, "/api/v1/compute/tasks/virtualization/task%2Fone/retry")
+			writeJSON(t, w, computeTaskEnvelopeFixture("task/two"))
+		default:
+			t.Fatalf("unexpected request %s %s", r.Method, r.URL.Path)
+		}
+	})
+
+	items, err := client.ListComputeTasks(context.Background(), ListComputeTasksParams{
+		Domain: ComputeTaskDomainVirtualization, ResourceKind: "cluster", ResourceID: "cluster-1", Limit: 1,
+	})
+	if err != nil || len(items.Items) != 0 {
+		t.Fatalf("ListComputeTasks = %#v, %v", items, err)
+	}
+	if task, err := client.GetComputeTask(context.Background(), ComputeTaskDomainVirtualization, "task/one"); err != nil || task.ID != "task/one" {
+		t.Fatalf("GetComputeTask = %#v, %v", task, err)
+	}
+	if logs, err := client.ListComputeTaskLogs(context.Background(), ComputeTaskDomainVirtualization, "task/one"); err != nil || len(logs) != 1 {
+		t.Fatalf("ListComputeTaskLogs = %#v, %v", logs, err)
+	}
+	if _, err := client.CancelComputeTask(context.Background(), ComputeTaskDomainVirtualization, "task/one", ComputeTaskMutationRequest{Reason: "operator request"}); err != nil {
+		t.Fatalf("CancelComputeTask returned error: %v", err)
+	}
+	if task, err := client.RetryComputeTask(context.Background(), ComputeTaskDomainVirtualization, "task/one", ComputeTaskMutationRequest{}); err != nil || task.ID != "task/two" {
+		t.Fatalf("RetryComputeTask = %#v, %v", task, err)
+	}
+}
+
+func computeTaskEnvelopeFixture(id string) map[string]any {
+	return map[string]any{"data": map[string]any{
+		"id": id, "domain": "virtualization", "sourceType": "operation", "sourceId": id,
+		"kind": "sync", "category": "sync", "normalizedStatus": "running", "rawStatus": "running",
+		"resources": []any{}, "attemptCount": 1, "cancelable": true, "retryable": false,
+		"availableActions": []string{"logs", "cancel"}, "createdAt": "2026-07-16T08:00:00Z",
+	}}
+}
+
 func TestListAuthProvidersBuildsPublicRequestAndDecodesItems(t *testing.T) {
 	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
 		assertPublicRequest(t, r, http.MethodGet, "/api/v1/auth/providers")

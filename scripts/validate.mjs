@@ -305,6 +305,8 @@ function validateOpenapiStructure(openapi) {
     throw new Error(`OpenAPI paths must use {param} syntax: ${invalidColonParams.join(", ")}`);
   }
 
+  validateComputeTaskCenterContract(openapi);
+
   for (const [path, pathItem] of Object.entries(openapi.paths)) {
     for (const [method, operation] of Object.entries(pathItem ?? {})) {
       if (!isHttpMethod(method)) {
@@ -317,6 +319,24 @@ function validateOpenapiStructure(openapi) {
         throw new Error(`${method.toUpperCase()} ${path} is missing responses`);
       }
     }
+  }
+}
+
+function validateComputeTaskCenterContract(openapi) {
+  const listParameters = openapi.paths?.["/compute/tasks"]?.get?.parameters ?? [];
+  const parameterNames = new Set(listParameters.map((parameter) => parameter?.name).filter(Boolean));
+  for (const name of ["resourceKind", "resourceId"]) {
+    if (!parameterNames.has(name)) {
+      throw new Error(`GET /compute/tasks must declare ${name} query parameter`);
+    }
+  }
+
+  const logOperation = openapi.paths?.["/compute/tasks/{domain}/{id}/logs"]?.get;
+  if (logOperation?.operationId !== "listComputeTaskLogs") {
+    throw new Error("GET /compute/tasks/{domain}/{id}/logs must declare listComputeTaskLogs");
+  }
+  if (!openapi.components.schemas.ComputeTaskLogListEnvelope) {
+    throw new Error("OpenAPI schemas must declare ComputeTaskLogListEnvelope");
   }
 }
 

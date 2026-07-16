@@ -5584,6 +5584,23 @@ type ComputeTaskListEnvelope struct {
 	NextCursor string            `json:"nextCursor,omitempty"`
 }
 
+// ComputeTaskLog defines model for ComputeTaskLog.
+type ComputeTaskLog struct {
+	CreatedAt time.Time `json:"createdAt"`
+	ID        string    `json:"id"`
+	LogLevel  string    `json:"logLevel"`
+	Message   string    `json:"message"`
+
+	// Payload Compact JSON representation of optional source-domain log metadata.
+	Payload string `json:"payload,omitempty"`
+	TaskID  string `json:"taskId"`
+}
+
+// ComputeTaskLogListEnvelope defines model for ComputeTaskLogListEnvelope.
+type ComputeTaskLogListEnvelope struct {
+	Items []ComputeTaskLog `json:"items"`
+}
+
 // ComputeTaskMutationRequest defines model for ComputeTaskMutationRequest.
 type ComputeTaskMutationRequest struct {
 	Reason string `json:"reason,omitempty"`
@@ -9412,8 +9429,14 @@ type ListComputeTasksParams struct {
 	ProviderKey string              `form:"providerKey,omitempty" json:"providerKey,omitempty"`
 	Status      ComputeTaskStatus   `form:"status,omitempty" json:"status,omitempty"`
 	Category    ComputeTaskCategory `form:"category,omitempty" json:"category,omitempty"`
-	Cursor      ComputeCursor       `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit       ComputeLimit        `form:"limit,omitempty" json:"limit,omitempty"`
+
+	// ResourceKind Exact normalized resource kind referenced by the task.
+	ResourceKind string `form:"resourceKind,omitempty" json:"resourceKind,omitempty"`
+
+	// ResourceID Exact normalized resource identifier referenced by the task.
+	ResourceID string        `form:"resourceId,omitempty" json:"resourceId,omitempty"`
+	Cursor     ComputeCursor `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit      ComputeLimit  `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
 // CancelComputeTaskParams defines parameters for CancelComputeTask.

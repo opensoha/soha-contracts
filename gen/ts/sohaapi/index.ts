@@ -1985,6 +1985,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/compute/tasks/{domain}/{id}/logs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listComputeTaskLogs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/compute/tasks/{domain}/{id}/cancel": {
         parameters: {
             query?: never;
@@ -3390,6 +3406,19 @@ export interface components {
         };
         ComputeTaskEnvelope: {
             data: components["schemas"]["ComputeTaskView"];
+        };
+        ComputeTaskLog: {
+            id: string;
+            taskId: string;
+            logLevel: string;
+            message: string;
+            /** @description Compact JSON representation of optional source-domain log metadata. */
+            payload?: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        ComputeTaskLogListEnvelope: {
+            items: components["schemas"]["ComputeTaskLog"][];
         };
         ErrorEnvelope: {
             error: {
@@ -7483,6 +7512,8 @@ export type ComputeTaskAction = components['schemas']['ComputeTaskAction'];
 export type ComputeTaskView = components['schemas']['ComputeTaskView'];
 export type ComputeTaskListEnvelope = components['schemas']['ComputeTaskListEnvelope'];
 export type ComputeTaskEnvelope = components['schemas']['ComputeTaskEnvelope'];
+export type ComputeTaskLog = components['schemas']['ComputeTaskLog'];
+export type ComputeTaskLogListEnvelope = components['schemas']['ComputeTaskLogListEnvelope'];
 export type ErrorEnvelope = components['schemas']['ErrorEnvelope'];
 export type AgentProviderRuntimeDefinition = components['schemas']['AgentProviderRuntimeDefinition'];
 export type AgentProviderDefinition = components['schemas']['AgentProviderDefinition'];
@@ -11890,6 +11921,10 @@ export interface operations {
                 providerKey?: string;
                 status?: components["schemas"]["ComputeTaskStatus"];
                 category?: components["schemas"]["ComputeTaskCategory"];
+                /** @description Exact normalized resource kind referenced by the task. */
+                resourceKind?: string;
+                /** @description Exact normalized resource identifier referenced by the task. */
+                resourceId?: string;
                 cursor?: components["parameters"]["ComputeCursor"];
                 limit?: components["parameters"]["ComputeLimit"];
             };
@@ -11930,6 +11965,31 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ComputeTaskEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listComputeTaskLogs: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                domain: components["parameters"]["ComputeTaskDomain"];
+                id: components["parameters"]["ComputeTaskID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Chronological normalized log entries delegated from the task source domain. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ComputeTaskLogListEnvelope"];
                 };
             };
             403: components["responses"]["Error"];

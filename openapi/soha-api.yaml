@@ -3716,6 +3716,18 @@ paths:
           required: false
           schema:
             $ref: "#/components/schemas/ComputeTaskCategory"
+        - name: resourceKind
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Exact normalized resource kind referenced by the task.
+        - name: resourceId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Exact normalized resource identifier referenced by the task.
         - $ref: "#/components/parameters/ComputeCursor"
         - $ref: "#/components/parameters/ComputeLimit"
       responses:
@@ -3741,6 +3753,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ComputeTaskEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /compute/tasks/{domain}/{id}/logs:
+    get:
+      tags: [Compute]
+      operationId: listComputeTaskLogs
+      parameters:
+        - $ref: "#/components/parameters/ComputeTaskDomain"
+        - $ref: "#/components/parameters/ComputeTaskID"
+      responses:
+        "200":
+          description: Chronological normalized log entries delegated from the task source domain.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComputeTaskLogListEnvelope"
         "403":
           $ref: "#/components/responses/Error"
         "404":
@@ -6137,6 +6167,27 @@ components:
       required: [data]
       properties:
         data: { $ref: "#/components/schemas/ComputeTaskView" }
+      additionalProperties: false
+    ComputeTaskLog:
+      type: object
+      required: [id, taskId, logLevel, message, createdAt]
+      properties:
+        id: { type: string }
+        taskId: { type: string }
+        logLevel: { type: string }
+        message: { type: string }
+        payload:
+          type: string
+          description: Compact JSON representation of optional source-domain log metadata.
+        createdAt: { type: string, format: date-time }
+      additionalProperties: false
+    ComputeTaskLogListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeTaskLog" }
       additionalProperties: false
     ErrorEnvelope:
       type: object
