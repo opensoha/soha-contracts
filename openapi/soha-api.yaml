@@ -1025,11 +1025,19 @@ paths:
               $ref: "#/components/schemas/ExecutionTaskClaimRequest"
       responses:
         "200":
-          description: Claimed execution task, or empty data when none is available.
+          description: Legacy claimed-task response retained for client compatibility.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ExecutionTaskEnvelope"
+        "202":
+          description: Execution task claimed for the runner.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExecutionTaskEnvelope"
+        "204":
+          description: No execution task is currently available to claim.
   /delivery/execution-tasks/{taskID}/runner-status:
     get:
       tags: [Runner]
@@ -1077,11 +1085,19 @@ paths:
               $ref: "#/components/schemas/DockerOperationClaimRequest"
       responses:
         "200":
-          description: Claimed Docker operation, or empty data when none is available.
+          description: Legacy claimed-operation response retained for client compatibility.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/DockerOperationEnvelope"
+        "202":
+          description: Docker operation claimed for the runner.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerOperationEnvelope"
+        "204":
+          description: No Docker operation is currently available to claim.
   /docker/operations/{operationID}/runner-status:
     get:
       tags: [Runner]
