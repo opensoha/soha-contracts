@@ -1560,6 +1560,216 @@ func (e KnowledgeSyncRunStatus) Valid() bool {
 	}
 }
 
+// Defines values for KubernetesResourceAction.
+const (
+	KubernetesResourceActionCreate KubernetesResourceAction = "create"
+	KubernetesResourceActionDelete KubernetesResourceAction = "delete"
+	KubernetesResourceActionExec   KubernetesResourceAction = "exec"
+	KubernetesResourceActionList   KubernetesResourceAction = "list"
+	KubernetesResourceActionUpdate KubernetesResourceAction = "update"
+	KubernetesResourceActionView   KubernetesResourceAction = "view"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesResourceAction enum.
+func (e KubernetesResourceAction) Valid() bool {
+	switch e {
+	case KubernetesResourceActionCreate:
+		return true
+	case KubernetesResourceActionDelete:
+		return true
+	case KubernetesResourceActionExec:
+		return true
+	case KubernetesResourceActionList:
+		return true
+	case KubernetesResourceActionUpdate:
+		return true
+	case KubernetesResourceActionView:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesResourceCapabilityMode.
+const (
+	Agent  KubernetesResourceCapabilityMode = "agent"
+	Direct KubernetesResourceCapabilityMode = "direct"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesResourceCapabilityMode enum.
+func (e KubernetesResourceCapabilityMode) Valid() bool {
+	switch e {
+	case Agent:
+		return true
+	case Direct:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesResourceCreateBatchStatus.
+const (
+	KubernetesResourceCreateBatchStatusFailed    KubernetesResourceCreateBatchStatus = "failed"
+	KubernetesResourceCreateBatchStatusPartial   KubernetesResourceCreateBatchStatus = "partial"
+	KubernetesResourceCreateBatchStatusSucceeded KubernetesResourceCreateBatchStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesResourceCreateBatchStatus enum.
+func (e KubernetesResourceCreateBatchStatus) Valid() bool {
+	switch e {
+	case KubernetesResourceCreateBatchStatusFailed:
+		return true
+	case KubernetesResourceCreateBatchStatusPartial:
+		return true
+	case KubernetesResourceCreateBatchStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesResourceCreateErrorCode.
+const (
+	KubernetesResourceCreateErrorCodeClusterScopedNamespaceIgnored KubernetesResourceCreateErrorCode = "cluster_scoped_namespace_ignored"
+	KubernetesResourceCreateErrorCodeHighRiskPermissionRequired    KubernetesResourceCreateErrorCode = "high_risk_permission_required"
+	KubernetesResourceCreateErrorCodeMultiDocumentNotAllowed       KubernetesResourceCreateErrorCode = "multi_document_not_allowed"
+	KubernetesResourceCreateErrorCodeNamespaceMismatch             KubernetesResourceCreateErrorCode = "namespace_mismatch"
+	KubernetesResourceCreateErrorCodeNamespaceRequired             KubernetesResourceCreateErrorCode = "namespace_required"
+	KubernetesResourceCreateErrorCodeResourceAlreadyExists         KubernetesResourceCreateErrorCode = "resource_already_exists"
+	KubernetesResourceCreateErrorCodeResourceCapabilityUnsupported KubernetesResourceCreateErrorCode = "resource_capability_unsupported"
+	KubernetesResourceCreateErrorCodeResourceCreateDenied          KubernetesResourceCreateErrorCode = "resource_create_denied"
+	KubernetesResourceCreateErrorCodeResourceCreateFailed          KubernetesResourceCreateErrorCode = "resource_create_failed"
+	KubernetesResourceCreateErrorCodeResourceDryRunFailed          KubernetesResourceCreateErrorCode = "resource_dry_run_failed"
+	KubernetesResourceCreateErrorCodeResourceKindMismatch          KubernetesResourceCreateErrorCode = "resource_kind_mismatch"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesResourceCreateErrorCode enum.
+func (e KubernetesResourceCreateErrorCode) Valid() bool {
+	switch e {
+	case KubernetesResourceCreateErrorCodeClusterScopedNamespaceIgnored:
+		return true
+	case KubernetesResourceCreateErrorCodeHighRiskPermissionRequired:
+		return true
+	case KubernetesResourceCreateErrorCodeMultiDocumentNotAllowed:
+		return true
+	case KubernetesResourceCreateErrorCodeNamespaceMismatch:
+		return true
+	case KubernetesResourceCreateErrorCodeNamespaceRequired:
+		return true
+	case KubernetesResourceCreateErrorCodeResourceAlreadyExists:
+		return true
+	case KubernetesResourceCreateErrorCodeResourceCapabilityUnsupported:
+		return true
+	case KubernetesResourceCreateErrorCodeResourceCreateDenied:
+		return true
+	case KubernetesResourceCreateErrorCodeResourceCreateFailed:
+		return true
+	case KubernetesResourceCreateErrorCodeResourceDryRunFailed:
+		return true
+	case KubernetesResourceCreateErrorCodeResourceKindMismatch:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesResourceCreateResultStatus.
+const (
+	KubernetesResourceCreateResultStatusFailed     KubernetesResourceCreateResultStatus = "failed"
+	KubernetesResourceCreateResultStatusNotStarted KubernetesResourceCreateResultStatus = "not_started"
+	KubernetesResourceCreateResultStatusSucceeded  KubernetesResourceCreateResultStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesResourceCreateResultStatus enum.
+func (e KubernetesResourceCreateResultStatus) Valid() bool {
+	switch e {
+	case KubernetesResourceCreateResultStatusFailed:
+		return true
+	case KubernetesResourceCreateResultStatusNotStarted:
+		return true
+	case KubernetesResourceCreateResultStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesResourceCreateScopeDecisionRequestAction.
+const (
+	Create KubernetesResourceCreateScopeDecisionRequestAction = "create"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesResourceCreateScopeDecisionRequestAction enum.
+func (e KubernetesResourceCreateScopeDecisionRequestAction) Valid() bool {
+	switch e {
+	case Create:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesResourceCreateSource.
+const (
+	KubernetesResourceCreateSourceForm       KubernetesResourceCreateSource = "form"
+	KubernetesResourceCreateSourceGlobalYAML KubernetesResourceCreateSource = "global_yaml"
+	KubernetesResourceCreateSourceList       KubernetesResourceCreateSource = "list"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesResourceCreateSource enum.
+func (e KubernetesResourceCreateSource) Valid() bool {
+	switch e {
+	case KubernetesResourceCreateSourceForm:
+		return true
+	case KubernetesResourceCreateSourceGlobalYAML:
+		return true
+	case KubernetesResourceCreateSourceList:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesResourceDryRunStatus.
+const (
+	KubernetesResourceDryRunStatusFailed  KubernetesResourceDryRunStatus = "failed"
+	KubernetesResourceDryRunStatusPassed  KubernetesResourceDryRunStatus = "passed"
+	KubernetesResourceDryRunStatusSkipped KubernetesResourceDryRunStatus = "skipped"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesResourceDryRunStatus enum.
+func (e KubernetesResourceDryRunStatus) Valid() bool {
+	switch e {
+	case KubernetesResourceDryRunStatusFailed:
+		return true
+	case KubernetesResourceDryRunStatusPassed:
+		return true
+	case KubernetesResourceDryRunStatusSkipped:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesResourceScopeMode.
+const (
+	KubernetesResourceScopeModeCluster   KubernetesResourceScopeMode = "cluster"
+	KubernetesResourceScopeModeNamespace KubernetesResourceScopeMode = "namespace"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesResourceScopeMode enum.
+func (e KubernetesResourceScopeMode) Valid() bool {
+	switch e {
+	case KubernetesResourceScopeModeCluster:
+		return true
+	case KubernetesResourceScopeModeNamespace:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for LLMCallLogCacheStatus.
 const (
 	LLMCallLogCacheStatusBypass       LLMCallLogCacheStatus = "bypass"
@@ -6917,6 +7127,249 @@ type KnowledgeSyncRunListEnvelope struct {
 	Items []KnowledgeSyncRun `json:"items"`
 }
 
+// KubernetesResourceAction defines model for KubernetesResourceAction.
+type KubernetesResourceAction string
+
+// KubernetesResourceAgentCreateDocument defines model for KubernetesResourceAgentCreateDocument.
+type KubernetesResourceAgentCreateDocument struct {
+	// Content Exactly one YAML or JSON document. The Agent must verify its hash, GVK, name, and namespace against document and resourceRef before using discovery or the dynamic client.
+	Content     string                     `json:"content"`
+	Document    KubernetesResourceDocument `json:"document"`
+	ResourceRef KubernetesResourceRef      `json:"resourceRef"`
+}
+
+// KubernetesResourceAgentCreateRequest defines model for KubernetesResourceAgentCreateRequest.
+type KubernetesResourceAgentCreateRequest struct {
+	Documents   []KubernetesResourceAgentCreateDocument `json:"documents"`
+	OperationID string                                  `json:"operationId"`
+}
+
+// KubernetesResourceAgentCreateResult defines model for KubernetesResourceAgentCreateResult.
+type KubernetesResourceAgentCreateResult struct {
+	Items       []KubernetesResourceCreateResultItem `json:"items"`
+	OperationID string                               `json:"operationId"`
+	Status      KubernetesResourceCreateBatchStatus  `json:"status"`
+}
+
+// KubernetesResourceAgentPreflightItem defines model for KubernetesResourceAgentPreflightItem.
+type KubernetesResourceAgentPreflightItem struct {
+	Document    KubernetesResourceDocument       `json:"document"`
+	DryRun      KubernetesResourceDryRunDecision `json:"dryRun"`
+	Errors      []KubernetesResourceCreateError  `json:"errors"`
+	ResourceRef KubernetesResourceRef            `json:"resourceRef"`
+	Warnings    []KubernetesResourceWarning      `json:"warnings"`
+}
+
+// KubernetesResourceAgentPreflightResult defines model for KubernetesResourceAgentPreflightResult.
+type KubernetesResourceAgentPreflightResult struct {
+	Items []KubernetesResourceAgentPreflightItem `json:"items"`
+	Ready bool                                   `json:"ready"`
+}
+
+// KubernetesResourceAuthorizationDecision defines model for KubernetesResourceAuthorizationDecision.
+type KubernetesResourceAuthorizationDecision struct {
+	Allowed        bool                           `json:"allowed"`
+	AllowedActions []KubernetesResourceAction     `json:"allowedActions"`
+	Error          *KubernetesResourceCreateError `json:"error,omitempty"`
+
+	// Reason Redacted explanation when create is denied.
+	Reason        string                  `json:"reason,omitempty"`
+	ResourceScope KubernetesResourceScope `json:"resourceScope"`
+}
+
+// KubernetesResourceCapability defines model for KubernetesResourceCapability.
+type KubernetesResourceCapability struct {
+	Key  string                           `json:"key"`
+	Mode KubernetesResourceCapabilityMode `json:"mode"`
+
+	// Reason Redacted explanation when the capability is partial or unsupported.
+	Reason string                  `json:"reason,omitempty"`
+	Status ClusterCapabilityStatus `json:"status"`
+}
+
+// KubernetesResourceCapabilityMode defines model for KubernetesResourceCapability.Mode.
+type KubernetesResourceCapabilityMode string
+
+// KubernetesResourceCreateBatchStatus defines model for KubernetesResourceCreateBatchStatus.
+type KubernetesResourceCreateBatchStatus string
+
+// KubernetesResourceCreateError defines model for KubernetesResourceCreateError.
+type KubernetesResourceCreateError struct {
+	Code KubernetesResourceCreateErrorCode `json:"code"`
+
+	// Field Optional manifest or request field associated with the diagnostic.
+	Field string `json:"field,omitempty"`
+
+	// Message Redacted user-facing diagnostic. Manifest contents and Kubernetes credentials are excluded.
+	Message string `json:"message"`
+}
+
+// KubernetesResourceCreateErrorCode defines model for KubernetesResourceCreateErrorCode.
+type KubernetesResourceCreateErrorCode string
+
+// KubernetesResourceCreateRequest defines model for KubernetesResourceCreateRequest.
+type KubernetesResourceCreateRequest struct {
+	// Content YAML or JSON manifest content. The server performs bounded multi-document decoding and assigns stable zero-based document indexes.
+	Content string `json:"content"`
+
+	// DefaultNamespace Fallback namespace for namespace-scoped global YAML documents that omit metadata.namespace; list and form sources use it as their enforced namespace context.
+	DefaultNamespace string `json:"defaultNamespace,omitempty"`
+
+	// ExpectedAPIVersion Optional list or form context API version. The server still resolves the manifest GVK.
+	ExpectedAPIVersion string `json:"expectedApiVersion,omitempty"`
+
+	// ExpectedKind Required by list and form callers to enforce the single-kind context boundary.
+	ExpectedKind string `json:"expectedKind,omitempty"`
+
+	// ResourceGroup Product resource family used for authorization and list-context validation.
+	ResourceGroup string                         `json:"resourceGroup,omitempty"`
+	Source        KubernetesResourceCreateSource `json:"source"`
+}
+
+// KubernetesResourceCreateResult defines model for KubernetesResourceCreateResult.
+type KubernetesResourceCreateResult struct {
+	ContentHash string                               `json:"contentHash"`
+	Items       []KubernetesResourceCreateResultItem `json:"items"`
+	OperationID string                               `json:"operationId"`
+	Status      KubernetesResourceCreateBatchStatus  `json:"status"`
+}
+
+// KubernetesResourceCreateResultEnvelope defines model for KubernetesResourceCreateResultEnvelope.
+type KubernetesResourceCreateResultEnvelope struct {
+	Data KubernetesResourceCreateResult `json:"data"`
+}
+
+// KubernetesResourceCreateResultItem defines model for KubernetesResourceCreateResultItem.
+type KubernetesResourceCreateResultItem struct {
+	Document KubernetesResourceDocument     `json:"document"`
+	Error    *KubernetesResourceCreateError `json:"error,omitempty"`
+
+	// OperationID Optional child operation associated with this resource result.
+	OperationID string                               `json:"operationId,omitempty"`
+	ResourceRef *KubernetesResourceRef               `json:"resourceRef,omitempty"`
+	Status      KubernetesResourceCreateResultStatus `json:"status"`
+	Warnings    []KubernetesResourceWarning          `json:"warnings"`
+}
+
+// KubernetesResourceCreateResultStatus defines model for KubernetesResourceCreateResultStatus.
+type KubernetesResourceCreateResultStatus string
+
+// KubernetesResourceCreateScopeDecision defines model for KubernetesResourceCreateScopeDecision.
+type KubernetesResourceCreateScopeDecision struct {
+	Allowed        bool                         `json:"allowed"`
+	AllowedActions []KubernetesResourceAction   `json:"allowedActions"`
+	Capability     KubernetesResourceCapability `json:"capability"`
+	Reason         string                       `json:"reason,omitempty"`
+	ResourceScope  KubernetesResourceScope      `json:"resourceScope"`
+}
+
+// KubernetesResourceCreateScopeDecisionEnvelope defines model for KubernetesResourceCreateScopeDecisionEnvelope.
+type KubernetesResourceCreateScopeDecisionEnvelope struct {
+	Data KubernetesResourceCreateScopeDecision `json:"data"`
+}
+
+// KubernetesResourceCreateScopeDecisionRequest defines model for KubernetesResourceCreateScopeDecisionRequest.
+type KubernetesResourceCreateScopeDecisionRequest struct {
+	Action        KubernetesResourceCreateScopeDecisionRequestAction `json:"action"`
+	APIVersion    string                                             `json:"apiVersion,omitempty"`
+	Kind          string                                             `json:"kind"`
+	Namespace     string                                             `json:"namespace,omitempty"`
+	ResourceGroup string                                             `json:"resourceGroup"`
+}
+
+// KubernetesResourceCreateScopeDecisionRequestAction defines model for KubernetesResourceCreateScopeDecisionRequest.Action.
+type KubernetesResourceCreateScopeDecisionRequestAction string
+
+// KubernetesResourceCreateSource defines model for KubernetesResourceCreateSource.
+type KubernetesResourceCreateSource string
+
+// KubernetesResourceDocument defines model for KubernetesResourceDocument.
+type KubernetesResourceDocument struct {
+	APIVersion string `json:"apiVersion,omitempty"`
+
+	// ContentHash SHA-256 of the normalized individual document; the document body is never returned.
+	ContentHash string `json:"contentHash"`
+
+	// Index Stable zero-based index after empty YAML documents are removed.
+	Index int    `json:"index"`
+	Kind  string `json:"kind,omitempty"`
+	Name  string `json:"name,omitempty"`
+
+	// Namespace Explicit metadata.namespace from the submitted manifest, before scope normalization.
+	Namespace string                      `json:"namespace,omitempty"`
+	ScopeMode KubernetesResourceScopeMode `json:"scopeMode,omitempty"`
+}
+
+// KubernetesResourceDryRunDecision defines model for KubernetesResourceDryRunDecision.
+type KubernetesResourceDryRunDecision struct {
+	Error  *KubernetesResourceCreateError `json:"error,omitempty"`
+	Status KubernetesResourceDryRunStatus `json:"status"`
+}
+
+// KubernetesResourceDryRunStatus defines model for KubernetesResourceDryRunStatus.
+type KubernetesResourceDryRunStatus string
+
+// KubernetesResourcePreflight defines model for KubernetesResourcePreflight.
+type KubernetesResourcePreflight struct {
+	// ContentHash SHA-256 of the normalized complete request content, for matching UI state only; it is not an authorization token.
+	ContentHash string                            `json:"contentHash"`
+	Items       []KubernetesResourcePreflightItem `json:"items"`
+	Ready       bool                              `json:"ready"`
+}
+
+// KubernetesResourcePreflightEnvelope defines model for KubernetesResourcePreflightEnvelope.
+type KubernetesResourcePreflightEnvelope struct {
+	Data KubernetesResourcePreflight `json:"data"`
+}
+
+// KubernetesResourcePreflightItem defines model for KubernetesResourcePreflightItem.
+type KubernetesResourcePreflightItem struct {
+	Authorization KubernetesResourceAuthorizationDecision `json:"authorization"`
+	Capability    KubernetesResourceCapability            `json:"capability"`
+	Document      KubernetesResourceDocument              `json:"document"`
+	DryRun        KubernetesResourceDryRunDecision        `json:"dryRun"`
+	Errors        []KubernetesResourceCreateError         `json:"errors"`
+
+	// ResolvedNamespace Final namespace used for authorization and creation; omitted for cluster-scoped resources.
+	ResolvedNamespace string                      `json:"resolvedNamespace,omitempty"`
+	Warnings          []KubernetesResourceWarning `json:"warnings"`
+}
+
+// KubernetesResourceRef defines model for KubernetesResourceRef.
+type KubernetesResourceRef struct {
+	APIVersion string                      `json:"apiVersion"`
+	ClusterID  string                      `json:"clusterId"`
+	Kind       string                      `json:"kind"`
+	Name       string                      `json:"name"`
+	Namespace  string                      `json:"namespace,omitempty"`
+	ScopeMode  KubernetesResourceScopeMode `json:"scopeMode"`
+	UID        string                      `json:"uid,omitempty"`
+}
+
+// KubernetesResourceScope defines model for KubernetesResourceScope.
+type KubernetesResourceScope struct {
+	ClusterIDs []string `json:"clusterIds"`
+
+	// Namespaces Authorized namespace names. Empty for cluster-scoped decisions.
+	Namespaces     []string `json:"namespaces"`
+	ResourceGroups []string `json:"resourceGroups"`
+
+	// ResourceKinds Kind restrictions applied after resource-group authorization; empty means no additional kind restriction.
+	ResourceKinds []string `json:"resourceKinds"`
+}
+
+// KubernetesResourceScopeMode defines model for KubernetesResourceScopeMode.
+type KubernetesResourceScopeMode string
+
+// KubernetesResourceWarning defines model for KubernetesResourceWarning.
+type KubernetesResourceWarning struct {
+	Code  KubernetesResourceCreateErrorCode `json:"code"`
+	Field string                            `json:"field,omitempty"`
+
+	// Message Redacted user-facing warning describing a non-fatal normalization.
+	Message string `json:"message"`
+}
+
 // LLMCallLog defines model for LLMCallLog.
 type LLMCallLog struct {
 	ActorID           string                `json:"actorId,omitempty"`
@@ -8688,6 +9141,9 @@ type BuildTemplateID = string
 // BundleID defines model for BundleID.
 type BundleID = string
 
+// ClusterID defines model for ClusterID.
+type ClusterID = string
+
 // ComputeActionID defines model for ComputeActionID.
 type ComputeActionID = string
 
@@ -9378,6 +9834,11 @@ type HandleOIDCCallbackParams struct {
 	State OIDCState `form:"state,omitempty" json:"state,omitempty"`
 }
 
+// ExecuteKubernetesResourceCreateParams defines parameters for ExecuteKubernetesResourceCreate.
+type ExecuteKubernetesResourceCreateParams struct {
+	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
 // ListComputeAccessSourcesParams defines parameters for ListComputeAccessSources.
 type ListComputeAccessSourcesParams struct {
 	SourceType  ComputeAccessSourceType `form:"sourceType,omitempty" json:"sourceType,omitempty"`
@@ -9732,6 +10193,15 @@ type CreateBuildTemplateJSONRequestBody = BuildTemplateInput
 
 // UpdateBuildTemplateJSONRequestBody defines body for UpdateBuildTemplate for application/json ContentType.
 type UpdateBuildTemplateJSONRequestBody = BuildTemplateInput
+
+// ExecuteKubernetesResourceCreateJSONRequestBody defines body for ExecuteKubernetesResourceCreate for application/json ContentType.
+type ExecuteKubernetesResourceCreateJSONRequestBody = KubernetesResourceCreateRequest
+
+// PreflightKubernetesResourceCreateJSONRequestBody defines body for PreflightKubernetesResourceCreate for application/json ContentType.
+type PreflightKubernetesResourceCreateJSONRequestBody = KubernetesResourceCreateRequest
+
+// DecideKubernetesResourceCreateScopeJSONRequestBody defines body for DecideKubernetesResourceCreateScope for application/json ContentType.
+type DecideKubernetesResourceCreateScopeJSONRequestBody = KubernetesResourceCreateScopeDecisionRequest
 
 // DiscoverComputeProviderInstanceJSONRequestBody defines body for DiscoverComputeProviderInstance for application/json ContentType.
 type DiscoverComputeProviderInstanceJSONRequestBody = ComputeProviderDiscoverRequest

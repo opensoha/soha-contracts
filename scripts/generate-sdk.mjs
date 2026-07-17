@@ -127,6 +127,14 @@ async function writeGoCompatibilitySpec() {
 function applyGoCompatibility(spec) {
   const schemas = spec?.components?.schemas ?? {};
 
+  anchorGoSdkSchemas(spec, [
+    "KubernetesResourceAgentCreateDocument",
+    "KubernetesResourceAgentCreateRequest",
+    "KubernetesResourceAgentCreateResult",
+    "KubernetesResourceAgentPreflightItem",
+    "KubernetesResourceAgentPreflightResult",
+  ]);
+
   const riskLevel = schemas.RiskLevel;
   if (isObject(riskLevel)) {
     riskLevel["x-go-type"] = "string";
@@ -138,6 +146,28 @@ function applyGoCompatibility(spec) {
   for (const schema of Object.values(schemas)) {
     markOptionalPointerFields(schema, schemas);
   }
+}
+
+function anchorGoSdkSchemas(spec, schemaNames) {
+  spec.paths ??= {};
+  const responses = {};
+  const responseCodes = ["200", "201", "202", "206", "207"];
+  schemaNames.forEach((schemaName, index) => {
+    responses[responseCodes[index]] = {
+      description: "Go SDK model generation anchor.",
+      content: {
+        "application/json": {
+          schema: { $ref: `#/components/schemas/${schemaName}` },
+        },
+      },
+    };
+  });
+  spec.paths["/__go-sdk-model-anchors"] = {
+    get: {
+      operationId: "anchorGoSdkModels",
+      responses,
+    },
+  };
 }
 
 function setPropertyGoType(schemas, schemaName, propertyName, typeName) {

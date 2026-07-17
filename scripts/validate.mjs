@@ -99,6 +99,11 @@ const requiredOpenapiFixtureSchemas = [
   "ComputeProviderListEnvelope",
   "ComputeResourceRelationListEnvelope",
   "ComputeTaskListEnvelope",
+  "KubernetesResourceCreateRequest",
+  "KubernetesResourceCreateScopeDecisionEnvelope",
+  "KubernetesResourcePreflightEnvelope",
+  "KubernetesResourceCreateResultEnvelope",
+  "KubernetesResourceAgentCreateRequest",
   "ErrorEnvelope",
 ];
 
