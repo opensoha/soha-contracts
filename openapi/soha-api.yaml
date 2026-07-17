@@ -1257,6 +1257,88 @@ paths:
                 $ref: "#/components/schemas/ClusterCapabilityMatrixEnvelope"
         "403":
           $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/resource-creation/scope-decision:
+    post:
+      tags: [Platform]
+      operationId: decideKubernetesResourceCreateScope
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesResourceCreateScopeDecisionRequest"
+      responses:
+        "200":
+          description: Effective create authorization and runtime capability for an empty or populated resource list.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceCreateScopeDecisionEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/resource-creation/preflight:
+    post:
+      tags: [Platform]
+      operationId: preflightKubernetesResourceCreate
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesResourceCreateRequest"
+      responses:
+        "200":
+          description: Per-document parse, scope, authorization, capability, and dry-run diagnostics. This operation never creates Kubernetes resources.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourcePreflightEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "413":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/resource-creation/execute:
+    post:
+      tags: [Platform]
+      operationId: executeKubernetesResourceCreate
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesResourceCreateRequest"
+      responses:
+        "200":
+          description: Ordered per-document creation results after the server repeats parsing, scope resolution, authorization, capability checks, and dry-run.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceCreateResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "413":
+          $ref: "#/components/responses/Error"
   /ai-gateway/capabilities:
     get:
       tags: [AI Gateway]
@@ -3732,6 +3814,18 @@ paths:
           required: false
           schema:
             $ref: "#/components/schemas/ComputeTaskCategory"
+        - name: resourceKind
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Exact normalized resource kind referenced by the task.
+        - name: resourceId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Exact normalized resource identifier referenced by the task.
         - $ref: "#/components/parameters/ComputeCursor"
         - $ref: "#/components/parameters/ComputeLimit"
       responses:
@@ -3757,6 +3851,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ComputeTaskEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /compute/tasks/{domain}/{id}/logs:
+    get:
+      tags: [Compute]
+      operationId: listComputeTaskLogs
+      parameters:
+        - $ref: "#/components/parameters/ComputeTaskDomain"
+        - $ref: "#/components/parameters/ComputeTaskID"
+      responses:
+        "200":
+          description: Chronological normalized log entries delegated from the task source domain.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComputeTaskLogListEnvelope"
         "403":
           $ref: "#/components/responses/Error"
         "404":
@@ -5231,6 +5343,13 @@ components:
       name: x-api-key
       description: Anthropic-style Soha PAT/SAT credential header for native relay endpoints.
   parameters:
+    ClusterID:
+      name: clusterID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
     ComputeCursor:
       name: cursor
       in: query
@@ -6153,6 +6272,27 @@ components:
       required: [data]
       properties:
         data: { $ref: "#/components/schemas/ComputeTaskView" }
+      additionalProperties: false
+    ComputeTaskLog:
+      type: object
+      required: [id, taskId, logLevel, message, createdAt]
+      properties:
+        id: { type: string }
+        taskId: { type: string }
+        logLevel: { type: string }
+        message: { type: string }
+        payload:
+          type: string
+          description: Compact JSON representation of optional source-domain log metadata.
+        createdAt: { type: string, format: date-time }
+      additionalProperties: false
+    ComputeTaskLogListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeTaskLog" }
       additionalProperties: false
     ErrorEnvelope:
       type: object
@@ -10455,6 +10595,373 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ClusterCapabilityMatrixEntry"
+      additionalProperties: false
+    KubernetesResourceCreateSource:
+      type: string
+      enum: [list, global_yaml, form]
+      x-enum-varnames: [KubernetesResourceCreateSourceList, KubernetesResourceCreateSourceGlobalYAML, KubernetesResourceCreateSourceForm]
+    KubernetesResourceScopeMode:
+      type: string
+      enum: [namespace, cluster]
+      x-enum-varnames: [KubernetesResourceScopeModeNamespace, KubernetesResourceScopeModeCluster]
+    KubernetesResourceAction:
+      type: string
+      enum: [list, view, create, update, delete, exec]
+      x-enum-varnames: [KubernetesResourceActionList, KubernetesResourceActionView, KubernetesResourceActionCreate, KubernetesResourceActionUpdate, KubernetesResourceActionDelete, KubernetesResourceActionExec]
+    KubernetesResourceCreateErrorCode:
+      type: string
+      enum:
+        - resource_kind_mismatch
+        - namespace_mismatch
+        - namespace_required
+        - cluster_scoped_namespace_ignored
+        - multi_document_not_allowed
+        - resource_create_denied
+        - resource_capability_unsupported
+        - resource_dry_run_failed
+        - high_risk_permission_required
+        - resource_already_exists
+        - resource_create_failed
+      x-enum-varnames:
+        - KubernetesResourceCreateErrorCodeResourceKindMismatch
+        - KubernetesResourceCreateErrorCodeNamespaceMismatch
+        - KubernetesResourceCreateErrorCodeNamespaceRequired
+        - KubernetesResourceCreateErrorCodeClusterScopedNamespaceIgnored
+        - KubernetesResourceCreateErrorCodeMultiDocumentNotAllowed
+        - KubernetesResourceCreateErrorCodeResourceCreateDenied
+        - KubernetesResourceCreateErrorCodeResourceCapabilityUnsupported
+        - KubernetesResourceCreateErrorCodeResourceDryRunFailed
+        - KubernetesResourceCreateErrorCodeHighRiskPermissionRequired
+        - KubernetesResourceCreateErrorCodeResourceAlreadyExists
+        - KubernetesResourceCreateErrorCodeResourceCreateFailed
+    KubernetesResourceCreateError:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          $ref: "#/components/schemas/KubernetesResourceCreateErrorCode"
+        message:
+          type: string
+          description: Redacted user-facing diagnostic. Manifest contents and Kubernetes credentials are excluded.
+        field:
+          type: string
+          description: Optional manifest or request field associated with the diagnostic.
+      additionalProperties: false
+    KubernetesResourceWarning:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          $ref: "#/components/schemas/KubernetesResourceCreateErrorCode"
+        message:
+          type: string
+          description: Redacted user-facing warning describing a non-fatal normalization.
+        field:
+          type: string
+      additionalProperties: false
+    KubernetesResourceCreateRequest:
+      type: object
+      required: [source, content]
+      properties:
+        source:
+          $ref: "#/components/schemas/KubernetesResourceCreateSource"
+        defaultNamespace:
+          type: string
+          minLength: 1
+          description: Fallback namespace for namespace-scoped global YAML documents that omit metadata.namespace; list and form sources use it as their enforced namespace context.
+        resourceGroup:
+          type: string
+          minLength: 1
+          description: Product resource family used for authorization and list-context validation.
+        expectedApiVersion:
+          type: string
+          minLength: 1
+          description: Optional list or form context API version. The server still resolves the manifest GVK.
+        expectedKind:
+          type: string
+          minLength: 1
+          description: Required by list and form callers to enforce the single-kind context boundary.
+        content:
+          type: string
+          minLength: 1
+          maxLength: 1048576
+          description: YAML or JSON manifest content. The server performs bounded multi-document decoding and assigns stable zero-based document indexes.
+      additionalProperties: false
+    KubernetesResourceDocument:
+      type: object
+      required: [index, contentHash]
+      properties:
+        index:
+          type: integer
+          minimum: 0
+          description: Stable zero-based index after empty YAML documents are removed.
+        apiVersion:
+          type: string
+        kind:
+          type: string
+        name:
+          type: string
+        namespace:
+          type: string
+          description: Explicit metadata.namespace from the submitted manifest, before scope normalization.
+        scopeMode:
+          $ref: "#/components/schemas/KubernetesResourceScopeMode"
+        contentHash:
+          type: string
+          pattern: "^[a-f0-9]{64}$"
+          description: SHA-256 of the normalized individual document; the document body is never returned.
+      additionalProperties: false
+    KubernetesResourceRef:
+      type: object
+      required: [clusterId, apiVersion, kind, name, scopeMode]
+      properties:
+        clusterId: { type: string, minLength: 1 }
+        apiVersion: { type: string, minLength: 1 }
+        kind: { type: string, minLength: 1 }
+        name: { type: string, minLength: 1 }
+        namespace: { type: string, minLength: 1 }
+        scopeMode: { $ref: "#/components/schemas/KubernetesResourceScopeMode" }
+        uid: { type: string }
+      additionalProperties: false
+    KubernetesResourceScope:
+      type: object
+      required: [clusterIds, namespaces, resourceGroups, resourceKinds]
+      properties:
+        clusterIds:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+        namespaces:
+          type: array
+          uniqueItems: true
+          description: Authorized namespace names. Empty for cluster-scoped decisions.
+          items: { type: string, minLength: 1 }
+        resourceGroups:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+        resourceKinds:
+          type: array
+          uniqueItems: true
+          description: Kind restrictions applied after resource-group authorization; empty means no additional kind restriction.
+          items: { type: string, minLength: 1 }
+      additionalProperties: false
+    KubernetesResourceCapability:
+      type: object
+      required: [key, status, mode]
+      properties:
+        key:
+          type: string
+          minLength: 1
+        status:
+          $ref: "#/components/schemas/ClusterCapabilityStatus"
+        mode:
+          type: string
+          enum: [direct, agent]
+        reason:
+          type: string
+          description: Redacted explanation when the capability is partial or unsupported.
+      additionalProperties: false
+    KubernetesResourceAuthorizationDecision:
+      type: object
+      required: [allowed, allowedActions, resourceScope]
+      properties:
+        allowed: { type: boolean }
+        reason:
+          type: string
+          description: Redacted explanation when create is denied.
+        allowedActions:
+          type: array
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/KubernetesResourceAction" }
+        resourceScope:
+          $ref: "#/components/schemas/KubernetesResourceScope"
+        error:
+          $ref: "#/components/schemas/KubernetesResourceCreateError"
+      additionalProperties: false
+    KubernetesResourceCreateScopeDecisionRequest:
+      type: object
+      required: [resourceGroup, kind, action]
+      properties:
+        namespace: { type: string, minLength: 1 }
+        resourceGroup: { type: string, minLength: 1 }
+        apiVersion: { type: string, minLength: 1 }
+        kind: { type: string, minLength: 1 }
+        action:
+          type: string
+          enum: [create]
+      additionalProperties: false
+    KubernetesResourceCreateScopeDecision:
+      type: object
+      required: [allowed, allowedActions, resourceScope, capability]
+      properties:
+        allowed: { type: boolean }
+        reason: { type: string }
+        allowedActions:
+          type: array
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/KubernetesResourceAction" }
+        resourceScope: { $ref: "#/components/schemas/KubernetesResourceScope" }
+        capability: { $ref: "#/components/schemas/KubernetesResourceCapability" }
+      additionalProperties: false
+    KubernetesResourceCreateScopeDecisionEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KubernetesResourceCreateScopeDecision" }
+      additionalProperties: false
+    KubernetesResourceDryRunStatus:
+      type: string
+      enum: [passed, failed, skipped]
+      x-enum-varnames: [KubernetesResourceDryRunStatusPassed, KubernetesResourceDryRunStatusFailed, KubernetesResourceDryRunStatusSkipped]
+    KubernetesResourceDryRunDecision:
+      type: object
+      required: [status]
+      properties:
+        status: { $ref: "#/components/schemas/KubernetesResourceDryRunStatus" }
+        error: { $ref: "#/components/schemas/KubernetesResourceCreateError" }
+      additionalProperties: false
+    KubernetesResourcePreflightItem:
+      type: object
+      required: [document, warnings, authorization, capability, dryRun, errors]
+      properties:
+        document: { $ref: "#/components/schemas/KubernetesResourceDocument" }
+        resolvedNamespace:
+          type: string
+          minLength: 1
+          description: Final namespace used for authorization and creation; omitted for cluster-scoped resources.
+        warnings:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesResourceWarning" }
+        authorization: { $ref: "#/components/schemas/KubernetesResourceAuthorizationDecision" }
+        capability: { $ref: "#/components/schemas/KubernetesResourceCapability" }
+        dryRun: { $ref: "#/components/schemas/KubernetesResourceDryRunDecision" }
+        errors:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesResourceCreateError" }
+      additionalProperties: false
+    KubernetesResourcePreflight:
+      type: object
+      required: [ready, contentHash, items]
+      properties:
+        ready: { type: boolean }
+        contentHash:
+          type: string
+          pattern: "^[a-f0-9]{64}$"
+          description: SHA-256 of the normalized complete request content, for matching UI state only; it is not an authorization token.
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesResourcePreflightItem" }
+      additionalProperties: false
+    KubernetesResourcePreflightEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KubernetesResourcePreflight" }
+      additionalProperties: false
+    KubernetesResourceCreateResultStatus:
+      type: string
+      enum: [succeeded, failed, not_started]
+      x-enum-varnames: [KubernetesResourceCreateResultStatusSucceeded, KubernetesResourceCreateResultStatusFailed, KubernetesResourceCreateResultStatusNotStarted]
+    KubernetesResourceCreateResultItem:
+      type: object
+      required: [document, status, warnings]
+      properties:
+        document: { $ref: "#/components/schemas/KubernetesResourceDocument" }
+        status: { $ref: "#/components/schemas/KubernetesResourceCreateResultStatus" }
+        resourceRef: { $ref: "#/components/schemas/KubernetesResourceRef" }
+        warnings:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesResourceWarning" }
+        error: { $ref: "#/components/schemas/KubernetesResourceCreateError" }
+        operationId:
+          type: string
+          description: Optional child operation associated with this resource result.
+      additionalProperties: false
+    KubernetesResourceCreateBatchStatus:
+      type: string
+      enum: [succeeded, partial, failed]
+      x-enum-varnames: [KubernetesResourceCreateBatchStatusSucceeded, KubernetesResourceCreateBatchStatusPartial, KubernetesResourceCreateBatchStatusFailed]
+    KubernetesResourceCreateResult:
+      type: object
+      required: [operationId, status, contentHash, items]
+      properties:
+        operationId: { type: string, minLength: 1 }
+        status: { $ref: "#/components/schemas/KubernetesResourceCreateBatchStatus" }
+        contentHash: { type: string, pattern: "^[a-f0-9]{64}$" }
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesResourceCreateResultItem" }
+      additionalProperties: false
+    KubernetesResourceCreateResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KubernetesResourceCreateResult" }
+      additionalProperties: false
+    KubernetesResourceAgentCreateDocument:
+      type: object
+      required: [document, resourceRef, content]
+      properties:
+        document:
+          $ref: "#/components/schemas/KubernetesResourceDocument"
+        resourceRef:
+          $ref: "#/components/schemas/KubernetesResourceRef"
+        content:
+          type: string
+          minLength: 1
+          maxLength: 524288
+          description: Exactly one YAML or JSON document. The Agent must verify its hash, GVK, name, and namespace against document and resourceRef before using discovery or the dynamic client.
+      additionalProperties: false
+    KubernetesResourceAgentCreateRequest:
+      type: object
+      required: [operationId, documents]
+      properties:
+        operationId:
+          type: string
+          minLength: 1
+        documents:
+          type: array
+          minItems: 1
+          maxItems: 50
+          items:
+            $ref: "#/components/schemas/KubernetesResourceAgentCreateDocument"
+      additionalProperties: false
+    KubernetesResourceAgentPreflightItem:
+      type: object
+      required: [document, resourceRef, warnings, dryRun, errors]
+      properties:
+        document:
+          $ref: "#/components/schemas/KubernetesResourceDocument"
+        resourceRef:
+          $ref: "#/components/schemas/KubernetesResourceRef"
+        warnings:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesResourceWarning" }
+        dryRun:
+          $ref: "#/components/schemas/KubernetesResourceDryRunDecision"
+        errors:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesResourceCreateError" }
+      additionalProperties: false
+    KubernetesResourceAgentPreflightResult:
+      type: object
+      required: [ready, items]
+      properties:
+        ready: { type: boolean }
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesResourceAgentPreflightItem" }
+      additionalProperties: false
+    KubernetesResourceAgentCreateResult:
+      type: object
+      required: [operationId, status, items]
+      properties:
+        operationId: { type: string, minLength: 1 }
+        status: { $ref: "#/components/schemas/KubernetesResourceCreateBatchStatus" }
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesResourceCreateResultItem" }
       additionalProperties: false
     JSONSchema:
       type: object

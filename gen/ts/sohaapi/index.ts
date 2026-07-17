@@ -897,6 +897,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/clusters/{clusterID}/resource-creation/scope-decision": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["decideKubernetesResourceCreateScope"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/resource-creation/preflight": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["preflightKubernetesResourceCreate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/resource-creation/execute": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["executeKubernetesResourceCreate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/ai-gateway/capabilities": {
         parameters: {
             query?: never;
@@ -1977,6 +2025,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["getComputeTask"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/compute/tasks/{domain}/{id}/logs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listComputeTaskLogs"];
         put?: never;
         post?: never;
         delete?: never;
@@ -3390,6 +3454,19 @@ export interface components {
         };
         ComputeTaskEnvelope: {
             data: components["schemas"]["ComputeTaskView"];
+        };
+        ComputeTaskLog: {
+            id: string;
+            taskId: string;
+            logLevel: string;
+            message: string;
+            /** @description Compact JSON representation of optional source-domain log metadata. */
+            payload?: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        ComputeTaskLogListEnvelope: {
+            items: components["schemas"]["ComputeTaskLog"][];
         };
         ErrorEnvelope: {
             error: {
@@ -5782,6 +5859,176 @@ export interface components {
         ClusterCapabilityMatrixEnvelope: {
             items: components["schemas"]["ClusterCapabilityMatrixEntry"][];
         };
+        /** @enum {string} */
+        KubernetesResourceCreateSource: "list" | "global_yaml" | "form";
+        /** @enum {string} */
+        KubernetesResourceScopeMode: "namespace" | "cluster";
+        /** @enum {string} */
+        KubernetesResourceAction: "list" | "view" | "create" | "update" | "delete" | "exec";
+        /** @enum {string} */
+        KubernetesResourceCreateErrorCode: "resource_kind_mismatch" | "namespace_mismatch" | "namespace_required" | "cluster_scoped_namespace_ignored" | "multi_document_not_allowed" | "resource_create_denied" | "resource_capability_unsupported" | "resource_dry_run_failed" | "high_risk_permission_required" | "resource_already_exists" | "resource_create_failed";
+        KubernetesResourceCreateError: {
+            code: components["schemas"]["KubernetesResourceCreateErrorCode"];
+            /** @description Redacted user-facing diagnostic. Manifest contents and Kubernetes credentials are excluded. */
+            message: string;
+            /** @description Optional manifest or request field associated with the diagnostic. */
+            field?: string;
+        };
+        KubernetesResourceWarning: {
+            code: components["schemas"]["KubernetesResourceCreateErrorCode"];
+            /** @description Redacted user-facing warning describing a non-fatal normalization. */
+            message: string;
+            field?: string;
+        };
+        KubernetesResourceCreateRequest: {
+            source: components["schemas"]["KubernetesResourceCreateSource"];
+            /** @description Fallback namespace for namespace-scoped global YAML documents that omit metadata.namespace; list and form sources use it as their enforced namespace context. */
+            defaultNamespace?: string;
+            /** @description Product resource family used for authorization and list-context validation. */
+            resourceGroup?: string;
+            /** @description Optional list or form context API version. The server still resolves the manifest GVK. */
+            expectedApiVersion?: string;
+            /** @description Required by list and form callers to enforce the single-kind context boundary. */
+            expectedKind?: string;
+            /** @description YAML or JSON manifest content. The server performs bounded multi-document decoding and assigns stable zero-based document indexes. */
+            content: string;
+        };
+        KubernetesResourceDocument: {
+            /** @description Stable zero-based index after empty YAML documents are removed. */
+            index: number;
+            apiVersion?: string;
+            kind?: string;
+            name?: string;
+            /** @description Explicit metadata.namespace from the submitted manifest, before scope normalization. */
+            namespace?: string;
+            scopeMode?: components["schemas"]["KubernetesResourceScopeMode"];
+            /** @description SHA-256 of the normalized individual document; the document body is never returned. */
+            contentHash: string;
+        };
+        KubernetesResourceRef: {
+            clusterId: string;
+            apiVersion: string;
+            kind: string;
+            name: string;
+            namespace?: string;
+            scopeMode: components["schemas"]["KubernetesResourceScopeMode"];
+            uid?: string;
+        };
+        KubernetesResourceScope: {
+            clusterIds: string[];
+            /** @description Authorized namespace names. Empty for cluster-scoped decisions. */
+            namespaces: string[];
+            resourceGroups: string[];
+            /** @description Kind restrictions applied after resource-group authorization; empty means no additional kind restriction. */
+            resourceKinds: string[];
+        };
+        KubernetesResourceCapability: {
+            key: string;
+            status: components["schemas"]["ClusterCapabilityStatus"];
+            /** @enum {string} */
+            mode: "direct" | "agent";
+            /** @description Redacted explanation when the capability is partial or unsupported. */
+            reason?: string;
+        };
+        KubernetesResourceAuthorizationDecision: {
+            allowed: boolean;
+            /** @description Redacted explanation when create is denied. */
+            reason?: string;
+            allowedActions: components["schemas"]["KubernetesResourceAction"][];
+            resourceScope: components["schemas"]["KubernetesResourceScope"];
+            error?: components["schemas"]["KubernetesResourceCreateError"];
+        };
+        KubernetesResourceCreateScopeDecisionRequest: {
+            namespace?: string;
+            resourceGroup: string;
+            apiVersion?: string;
+            kind: string;
+            /** @enum {string} */
+            action: "create";
+        };
+        KubernetesResourceCreateScopeDecision: {
+            allowed: boolean;
+            reason?: string;
+            allowedActions: components["schemas"]["KubernetesResourceAction"][];
+            resourceScope: components["schemas"]["KubernetesResourceScope"];
+            capability: components["schemas"]["KubernetesResourceCapability"];
+        };
+        KubernetesResourceCreateScopeDecisionEnvelope: {
+            data: components["schemas"]["KubernetesResourceCreateScopeDecision"];
+        };
+        /** @enum {string} */
+        KubernetesResourceDryRunStatus: "passed" | "failed" | "skipped";
+        KubernetesResourceDryRunDecision: {
+            status: components["schemas"]["KubernetesResourceDryRunStatus"];
+            error?: components["schemas"]["KubernetesResourceCreateError"];
+        };
+        KubernetesResourcePreflightItem: {
+            document: components["schemas"]["KubernetesResourceDocument"];
+            /** @description Final namespace used for authorization and creation; omitted for cluster-scoped resources. */
+            resolvedNamespace?: string;
+            warnings: components["schemas"]["KubernetesResourceWarning"][];
+            authorization: components["schemas"]["KubernetesResourceAuthorizationDecision"];
+            capability: components["schemas"]["KubernetesResourceCapability"];
+            dryRun: components["schemas"]["KubernetesResourceDryRunDecision"];
+            errors: components["schemas"]["KubernetesResourceCreateError"][];
+        };
+        KubernetesResourcePreflight: {
+            ready: boolean;
+            /** @description SHA-256 of the normalized complete request content, for matching UI state only; it is not an authorization token. */
+            contentHash: string;
+            items: components["schemas"]["KubernetesResourcePreflightItem"][];
+        };
+        KubernetesResourcePreflightEnvelope: {
+            data: components["schemas"]["KubernetesResourcePreflight"];
+        };
+        /** @enum {string} */
+        KubernetesResourceCreateResultStatus: "succeeded" | "failed" | "not_started";
+        KubernetesResourceCreateResultItem: {
+            document: components["schemas"]["KubernetesResourceDocument"];
+            status: components["schemas"]["KubernetesResourceCreateResultStatus"];
+            resourceRef?: components["schemas"]["KubernetesResourceRef"];
+            warnings: components["schemas"]["KubernetesResourceWarning"][];
+            error?: components["schemas"]["KubernetesResourceCreateError"];
+            /** @description Optional child operation associated with this resource result. */
+            operationId?: string;
+        };
+        /** @enum {string} */
+        KubernetesResourceCreateBatchStatus: "succeeded" | "partial" | "failed";
+        KubernetesResourceCreateResult: {
+            operationId: string;
+            status: components["schemas"]["KubernetesResourceCreateBatchStatus"];
+            contentHash: string;
+            items: components["schemas"]["KubernetesResourceCreateResultItem"][];
+        };
+        KubernetesResourceCreateResultEnvelope: {
+            data: components["schemas"]["KubernetesResourceCreateResult"];
+        };
+        KubernetesResourceAgentCreateDocument: {
+            document: components["schemas"]["KubernetesResourceDocument"];
+            resourceRef: components["schemas"]["KubernetesResourceRef"];
+            /** @description Exactly one YAML or JSON document. The Agent must verify its hash, GVK, name, and namespace against document and resourceRef before using discovery or the dynamic client. */
+            content: string;
+        };
+        KubernetesResourceAgentCreateRequest: {
+            operationId: string;
+            documents: components["schemas"]["KubernetesResourceAgentCreateDocument"][];
+        };
+        KubernetesResourceAgentPreflightItem: {
+            document: components["schemas"]["KubernetesResourceDocument"];
+            resourceRef: components["schemas"]["KubernetesResourceRef"];
+            warnings: components["schemas"]["KubernetesResourceWarning"][];
+            dryRun: components["schemas"]["KubernetesResourceDryRunDecision"];
+            errors: components["schemas"]["KubernetesResourceCreateError"][];
+        };
+        KubernetesResourceAgentPreflightResult: {
+            ready: boolean;
+            items: components["schemas"]["KubernetesResourceAgentPreflightItem"][];
+        };
+        KubernetesResourceAgentCreateResult: {
+            operationId: string;
+            status: components["schemas"]["KubernetesResourceCreateBatchStatus"];
+            items: components["schemas"]["KubernetesResourceCreateResultItem"][];
+        };
         JSONSchema: {
             [key: string]: unknown;
         };
@@ -7338,6 +7585,7 @@ export interface components {
         };
     };
     parameters: {
+        ClusterID: string;
         ComputeCursor: string;
         ComputeLimit: number;
         ComputeDomain: components["schemas"]["ComputeDomain"];
@@ -7483,6 +7731,8 @@ export type ComputeTaskAction = components['schemas']['ComputeTaskAction'];
 export type ComputeTaskView = components['schemas']['ComputeTaskView'];
 export type ComputeTaskListEnvelope = components['schemas']['ComputeTaskListEnvelope'];
 export type ComputeTaskEnvelope = components['schemas']['ComputeTaskEnvelope'];
+export type ComputeTaskLog = components['schemas']['ComputeTaskLog'];
+export type ComputeTaskLogListEnvelope = components['schemas']['ComputeTaskLogListEnvelope'];
 export type ErrorEnvelope = components['schemas']['ErrorEnvelope'];
 export type AgentProviderRuntimeDefinition = components['schemas']['AgentProviderRuntimeDefinition'];
 export type AgentProviderDefinition = components['schemas']['AgentProviderDefinition'];
@@ -7768,6 +8018,36 @@ export type ClusterCapabilityStatus = components['schemas']['ClusterCapabilitySt
 export type ClusterCapabilityModeSupport = components['schemas']['ClusterCapabilityModeSupport'];
 export type ClusterCapabilityMatrixEntry = components['schemas']['ClusterCapabilityMatrixEntry'];
 export type ClusterCapabilityMatrixEnvelope = components['schemas']['ClusterCapabilityMatrixEnvelope'];
+export type KubernetesResourceCreateSource = components['schemas']['KubernetesResourceCreateSource'];
+export type KubernetesResourceScopeMode = components['schemas']['KubernetesResourceScopeMode'];
+export type KubernetesResourceAction = components['schemas']['KubernetesResourceAction'];
+export type KubernetesResourceCreateErrorCode = components['schemas']['KubernetesResourceCreateErrorCode'];
+export type KubernetesResourceCreateError = components['schemas']['KubernetesResourceCreateError'];
+export type KubernetesResourceWarning = components['schemas']['KubernetesResourceWarning'];
+export type KubernetesResourceCreateRequest = components['schemas']['KubernetesResourceCreateRequest'];
+export type KubernetesResourceDocument = components['schemas']['KubernetesResourceDocument'];
+export type KubernetesResourceRef = components['schemas']['KubernetesResourceRef'];
+export type KubernetesResourceScope = components['schemas']['KubernetesResourceScope'];
+export type KubernetesResourceCapability = components['schemas']['KubernetesResourceCapability'];
+export type KubernetesResourceAuthorizationDecision = components['schemas']['KubernetesResourceAuthorizationDecision'];
+export type KubernetesResourceCreateScopeDecisionRequest = components['schemas']['KubernetesResourceCreateScopeDecisionRequest'];
+export type KubernetesResourceCreateScopeDecision = components['schemas']['KubernetesResourceCreateScopeDecision'];
+export type KubernetesResourceCreateScopeDecisionEnvelope = components['schemas']['KubernetesResourceCreateScopeDecisionEnvelope'];
+export type KubernetesResourceDryRunStatus = components['schemas']['KubernetesResourceDryRunStatus'];
+export type KubernetesResourceDryRunDecision = components['schemas']['KubernetesResourceDryRunDecision'];
+export type KubernetesResourcePreflightItem = components['schemas']['KubernetesResourcePreflightItem'];
+export type KubernetesResourcePreflight = components['schemas']['KubernetesResourcePreflight'];
+export type KubernetesResourcePreflightEnvelope = components['schemas']['KubernetesResourcePreflightEnvelope'];
+export type KubernetesResourceCreateResultStatus = components['schemas']['KubernetesResourceCreateResultStatus'];
+export type KubernetesResourceCreateResultItem = components['schemas']['KubernetesResourceCreateResultItem'];
+export type KubernetesResourceCreateBatchStatus = components['schemas']['KubernetesResourceCreateBatchStatus'];
+export type KubernetesResourceCreateResult = components['schemas']['KubernetesResourceCreateResult'];
+export type KubernetesResourceCreateResultEnvelope = components['schemas']['KubernetesResourceCreateResultEnvelope'];
+export type KubernetesResourceAgentCreateDocument = components['schemas']['KubernetesResourceAgentCreateDocument'];
+export type KubernetesResourceAgentCreateRequest = components['schemas']['KubernetesResourceAgentCreateRequest'];
+export type KubernetesResourceAgentPreflightItem = components['schemas']['KubernetesResourceAgentPreflightItem'];
+export type KubernetesResourceAgentPreflightResult = components['schemas']['KubernetesResourceAgentPreflightResult'];
+export type KubernetesResourceAgentCreateResult = components['schemas']['KubernetesResourceAgentCreateResult'];
 export type JSONSchema = components['schemas']['JSONSchema'];
 export type ToolCapability = components['schemas']['ToolCapability'];
 export type ResourceCapability = components['schemas']['ResourceCapability'];
@@ -7919,6 +8199,7 @@ export type MCPCapability = components['schemas']['MCPCapability'];
 export type MCPCapabilityListEnvelope = components['schemas']['MCPCapabilityListEnvelope'];
 export type ResponseError = components['responses']['Error'];
 export type ResponseComputeError = components['responses']['ComputeError'];
+export type ParameterClusterId = components['parameters']['ClusterID'];
 export type ParameterComputeCursor = components['parameters']['ComputeCursor'];
 export type ParameterComputeLimit = components['parameters']['ComputeLimit'];
 export type ParameterComputeDomain = components['parameters']['ComputeDomain'];
@@ -9637,6 +9918,98 @@ export interface operations {
                 };
             };
             403: components["responses"]["Error"];
+        };
+    };
+    decideKubernetesResourceCreateScope: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesResourceCreateScopeDecisionRequest"];
+            };
+        };
+        responses: {
+            /** @description Effective create authorization and runtime capability for an empty or populated resource list. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceCreateScopeDecisionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    preflightKubernetesResourceCreate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesResourceCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description Per-document parse, scope, authorization, capability, and dry-run diagnostics. This operation never creates Kubernetes resources. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourcePreflightEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            413: components["responses"]["Error"];
+        };
+    };
+    executeKubernetesResourceCreate: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
+            };
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesResourceCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description Ordered per-document creation results after the server repeats parsing, scope resolution, authorization, capability checks, and dry-run. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceCreateResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            413: components["responses"]["Error"];
         };
     };
     getAIGatewayCapabilities: {
@@ -11922,6 +12295,10 @@ export interface operations {
                 providerKey?: string;
                 status?: components["schemas"]["ComputeTaskStatus"];
                 category?: components["schemas"]["ComputeTaskCategory"];
+                /** @description Exact normalized resource kind referenced by the task. */
+                resourceKind?: string;
+                /** @description Exact normalized resource identifier referenced by the task. */
+                resourceId?: string;
                 cursor?: components["parameters"]["ComputeCursor"];
                 limit?: components["parameters"]["ComputeLimit"];
             };
@@ -11962,6 +12339,31 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ComputeTaskEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listComputeTaskLogs: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                domain: components["parameters"]["ComputeTaskDomain"];
+                id: components["parameters"]["ComputeTaskID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Chronological normalized log entries delegated from the task source domain. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ComputeTaskLogListEnvelope"];
                 };
             };
             403: components["responses"]["Error"];

@@ -432,6 +432,47 @@ func (c *Client) RecordAgentRunToolCall(ctx context.Context, req AgentRunToolCal
 	return out.Data, nil
 }
 
+func (c *Client) ListComputeTasks(ctx context.Context, params ListComputeTasksParams) (ComputeTaskListEnvelope, error) {
+	var out ComputeTaskListEnvelope
+	if err := c.doJSON(ctx, http.MethodGet, "/compute/tasks"+computeTaskQuery(params), true, nil, &out); err != nil {
+		return ComputeTaskListEnvelope{}, err
+	}
+	return out, nil
+}
+
+func (c *Client) GetComputeTask(ctx context.Context, domain ComputeTaskDomain, taskID string) (ComputeTaskView, error) {
+	var out ComputeTaskEnvelope
+	if err := c.doJSON(ctx, http.MethodGet, computeTaskPath(domain, taskID), true, nil, &out); err != nil {
+		return ComputeTaskView{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) ListComputeTaskLogs(ctx context.Context, domain ComputeTaskDomain, taskID string) ([]ComputeTaskLog, error) {
+	var out ComputeTaskLogListEnvelope
+	if err := c.doJSON(ctx, http.MethodGet, computeTaskPath(domain, taskID)+"/logs", true, nil, &out); err != nil {
+		return nil, err
+	}
+	return out.Items, nil
+}
+
+func (c *Client) CancelComputeTask(ctx context.Context, domain ComputeTaskDomain, taskID string, req ComputeTaskMutationRequest) (ComputeTaskView, error) {
+	return c.mutateComputeTask(ctx, domain, taskID, "cancel", req)
+}
+
+func (c *Client) RetryComputeTask(ctx context.Context, domain ComputeTaskDomain, taskID string, req ComputeTaskMutationRequest) (ComputeTaskView, error) {
+	return c.mutateComputeTask(ctx, domain, taskID, "retry", req)
+}
+
+func (c *Client) mutateComputeTask(ctx context.Context, domain ComputeTaskDomain, taskID, action string, req ComputeTaskMutationRequest) (ComputeTaskView, error) {
+	var out ComputeTaskEnvelope
+	path := computeTaskPath(domain, taskID) + "/" + action
+	if err := c.doJSON(ctx, http.MethodPost, path, true, req, &out); err != nil {
+		return ComputeTaskView{}, err
+	}
+	return out.Data, nil
+}
+
 func (c *Client) ListAIGatewayAuditLogs(ctx context.Context, params ListAIGatewayAuditLogsParams) ([]AuditLog, error) {
 	var out AuditLogListEnvelope
 	if err := c.doJSON(ctx, http.MethodGet, "/ai-gateway/audit-logs"+auditLogQuery(params), true, nil, &out); err != nil {
@@ -790,6 +831,23 @@ func marketplacePluginQuery(params ListMarketplacePluginsParams) string {
 	addQueryString(values, "q", params.Q)
 	addQueryString(values, "type", params.Type)
 	addQueryString(values, "publisher", params.Publisher)
+	return encodeQuery(values)
+}
+
+func computeTaskPath(domain ComputeTaskDomain, taskID string) string {
+	return "/compute/tasks/" + url.PathEscape(string(domain)) + "/" + url.PathEscape(strings.TrimSpace(taskID))
+}
+
+func computeTaskQuery(params ListComputeTasksParams) string {
+	values := url.Values{}
+	addQueryString(values, "domain", string(params.Domain))
+	addQueryString(values, "providerKey", params.ProviderKey)
+	addQueryString(values, "status", string(params.Status))
+	addQueryString(values, "category", string(params.Category))
+	addQueryString(values, "resourceKind", params.ResourceKind)
+	addQueryString(values, "resourceId", params.ResourceID)
+	addQueryString(values, "cursor", string(params.Cursor))
+	addQueryInt(values, "limit", int(params.Limit))
 	return encodeQuery(values)
 }
 
