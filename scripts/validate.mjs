@@ -316,6 +316,13 @@ function validateOpenapiStructure(openapi) {
       if (!operation.responses || Object.keys(operation.responses).length === 0) {
         throw new Error(`${method.toUpperCase()} ${path} is missing responses`);
       }
+      if (["claimExecutionTask", "claimDockerOperation"].includes(operation.operationId)) {
+        for (const status of ["202", "204"]) {
+          if (!operation.responses[status]) {
+            throw new Error(`${operation.operationId} must declare a ${status} response`);
+          }
+        }
+      }
     }
   }
 }

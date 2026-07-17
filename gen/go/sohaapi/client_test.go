@@ -49,6 +49,52 @@ func TestSystemHealthAndReadinessUsePublicRequests(t *testing.T) {
 	}
 }
 
+func TestRunnerClaimClientsAcceptNoContent(t *testing.T) {
+	cases := []struct {
+		name string
+		path string
+		call func(*Client) (string, error)
+	}{
+		{
+			name: "execution task",
+			path: "/api/v1/delivery/execution-tasks/claim",
+			call: func(client *Client) (string, error) {
+				item, err := client.ClaimExecutionTask(context.Background(), ExecutionTaskClaimRequest{
+					AgentID: "agent-1", ProviderKinds: []string{"ci_agent_runner"},
+				})
+				return item.ID, err
+			},
+		},
+		{
+			name: "docker operation",
+			path: "/api/v1/docker/operations/claim",
+			call: func(client *Client) (string, error) {
+				item, err := client.ClaimDockerOperation(context.Background(), DockerOperationClaimRequest{
+					AgentID: "agent-1", WorkerID: "worker-1", OperationKinds: []string{"host_sync"},
+				})
+				return item.ID, err
+			},
+		},
+	}
+
+	for _, tt := range cases {
+		t.Run(tt.name, func(t *testing.T) {
+			client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+				assertCommonRequest(t, r, http.MethodPost, tt.path)
+				w.WriteHeader(http.StatusNoContent)
+			})
+
+			id, err := tt.call(client)
+			if err != nil {
+				t.Fatalf("claim returned error: %v", err)
+			}
+			if id != "" {
+				t.Fatalf("claim ID = %q, want empty", id)
+			}
+		})
+	}
+}
+
 func TestListAuthProvidersBuildsPublicRequestAndDecodesItems(t *testing.T) {
 	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
 		assertPublicRequest(t, r, http.MethodGet, "/api/v1/auth/providers")

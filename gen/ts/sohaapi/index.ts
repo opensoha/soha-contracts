@@ -9313,7 +9313,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Claimed execution task, or empty data when none is available. */
+            /** @description Legacy claimed-task response retained for client compatibility. */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -9321,6 +9321,22 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ExecutionTaskEnvelope"];
                 };
+            };
+            /** @description Execution task claimed for the runner. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExecutionTaskEnvelope"];
+                };
+            };
+            /** @description No execution task is currently available to claim. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
@@ -9383,7 +9399,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Claimed Docker operation, or empty data when none is available. */
+            /** @description Legacy claimed-operation response retained for client compatibility. */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -9391,6 +9407,22 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["DockerOperationEnvelope"];
                 };
+            };
+            /** @description Docker operation claimed for the runner. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerOperationEnvelope"];
+                };
+            };
+            /** @description No Docker operation is currently available to claim. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
