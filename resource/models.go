@@ -3,6 +3,7 @@ package resource
 const (
 	PodLogsMaxContentBytes = 256 * 1024
 	PodExecMaxOutputBytes  = 128 * 1024
+	StorageRelationLimit   = 200
 )
 
 type NamespaceView struct {
@@ -85,6 +86,7 @@ type WorkloadConditionView struct {
 type WorkloadContainerView struct {
 	Name         string `json:"name"`
 	Image        string `json:"image"`
+	Role         string `json:"role,omitempty"`
 	Ready        bool   `json:"ready"`
 	RestartCount int32  `json:"restartCount"`
 	State        string `json:"state,omitempty"`
@@ -121,6 +123,13 @@ type PodRelatedResourceView struct {
 	Namespace string   `json:"namespace,omitempty"`
 	Relations []string `json:"relations,omitempty"`
 	Details   []string `json:"details,omitempty"`
+}
+
+type WorkloadRelationView struct {
+	Kind      string `json:"kind"`
+	Name      string `json:"name"`
+	Namespace string `json:"namespace,omitempty"`
+	Relation  string `json:"relation,omitempty"`
 }
 
 type ResourceQuantityView struct {
@@ -273,6 +282,8 @@ type DeploymentDetailView struct {
 	Selector           map[string]string       `json:"selector,omitempty"`
 	Containers         []WorkloadContainerView `json:"containers,omitempty"`
 	Conditions         []WorkloadConditionView `json:"conditions,omitempty"`
+	Pods               []PodView               `json:"pods,omitempty"`
+	RelatedResources   []WorkloadRelationView  `json:"relatedResources,omitempty"`
 	AllowedActions     []string                `json:"allowedActions,omitempty"`
 }
 
@@ -320,20 +331,22 @@ type StatefulSetView struct {
 }
 
 type StatefulSetDetailView struct {
-	Name            string            `json:"name"`
-	Namespace       string            `json:"namespace"`
-	ServiceName     string            `json:"serviceName,omitempty"`
-	DesiredReplicas int32             `json:"desiredReplicas"`
-	ReadyReplicas   int32             `json:"readyReplicas"`
-	CurrentReplicas int32             `json:"currentReplicas"`
-	UpdateStrategy  string            `json:"updateStrategy,omitempty"`
-	CurrentRevision string            `json:"currentRevision,omitempty"`
-	UpdateRevision  string            `json:"updateRevision,omitempty"`
-	CreatedAt       string            `json:"createdAt,omitempty"`
-	Labels          map[string]string `json:"labels,omitempty"`
-	Annotations     map[string]string `json:"annotations,omitempty"`
-	Selector        map[string]string `json:"selector,omitempty"`
-	AllowedActions  []string          `json:"allowedActions,omitempty"`
+	Name             string                 `json:"name"`
+	Namespace        string                 `json:"namespace"`
+	ServiceName      string                 `json:"serviceName,omitempty"`
+	DesiredReplicas  int32                  `json:"desiredReplicas"`
+	ReadyReplicas    int32                  `json:"readyReplicas"`
+	CurrentReplicas  int32                  `json:"currentReplicas"`
+	UpdateStrategy   string                 `json:"updateStrategy,omitempty"`
+	CurrentRevision  string                 `json:"currentRevision,omitempty"`
+	UpdateRevision   string                 `json:"updateRevision,omitempty"`
+	CreatedAt        string                 `json:"createdAt,omitempty"`
+	Labels           map[string]string      `json:"labels,omitempty"`
+	Annotations      map[string]string      `json:"annotations,omitempty"`
+	Selector         map[string]string      `json:"selector,omitempty"`
+	Pods             []PodView              `json:"pods,omitempty"`
+	RelatedResources []WorkloadRelationView `json:"relatedResources,omitempty"`
+	AllowedActions   []string               `json:"allowedActions,omitempty"`
 }
 
 type DaemonSetView struct {
@@ -349,19 +362,21 @@ type DaemonSetView struct {
 }
 
 type DaemonSetDetailView struct {
-	Name            string            `json:"name"`
-	Namespace       string            `json:"namespace"`
-	DesiredNumber   int32             `json:"desiredNumber"`
-	CurrentNumber   int32             `json:"currentNumber"`
-	ReadyNumber     int32             `json:"readyNumber"`
-	AvailableNumber int32             `json:"availableNumber"`
-	UpdatedNumber   int32             `json:"updatedNumber"`
-	UpdateStrategy  string            `json:"updateStrategy,omitempty"`
-	CreatedAt       string            `json:"createdAt,omitempty"`
-	Labels          map[string]string `json:"labels,omitempty"`
-	Annotations     map[string]string `json:"annotations,omitempty"`
-	Selector        map[string]string `json:"selector,omitempty"`
-	AllowedActions  []string          `json:"allowedActions,omitempty"`
+	Name             string                 `json:"name"`
+	Namespace        string                 `json:"namespace"`
+	DesiredNumber    int32                  `json:"desiredNumber"`
+	CurrentNumber    int32                  `json:"currentNumber"`
+	ReadyNumber      int32                  `json:"readyNumber"`
+	AvailableNumber  int32                  `json:"availableNumber"`
+	UpdatedNumber    int32                  `json:"updatedNumber"`
+	UpdateStrategy   string                 `json:"updateStrategy,omitempty"`
+	CreatedAt        string                 `json:"createdAt,omitempty"`
+	Labels           map[string]string      `json:"labels,omitempty"`
+	Annotations      map[string]string      `json:"annotations,omitempty"`
+	Selector         map[string]string      `json:"selector,omitempty"`
+	Pods             []PodView              `json:"pods,omitempty"`
+	RelatedResources []WorkloadRelationView `json:"relatedResources,omitempty"`
+	AllowedActions   []string               `json:"allowedActions,omitempty"`
 }
 
 type JobView struct {
@@ -377,20 +392,22 @@ type JobView struct {
 }
 
 type JobDetailView struct {
-	Name           string            `json:"name"`
-	Namespace      string            `json:"namespace"`
-	Completions    int32             `json:"completions"`
-	Parallelism    int32             `json:"parallelism"`
-	Succeeded      int32             `json:"succeeded"`
-	Failed         int32             `json:"failed"`
-	Active         int32             `json:"active"`
-	CompletionMode string            `json:"completionMode,omitempty"`
-	CreatedAt      string            `json:"createdAt,omitempty"`
-	StartTime      string            `json:"startTime,omitempty"`
-	CompletionTime string            `json:"completionTime,omitempty"`
-	Labels         map[string]string `json:"labels,omitempty"`
-	Annotations    map[string]string `json:"annotations,omitempty"`
-	AllowedActions []string          `json:"allowedActions,omitempty"`
+	Name             string                 `json:"name"`
+	Namespace        string                 `json:"namespace"`
+	Completions      int32                  `json:"completions"`
+	Parallelism      int32                  `json:"parallelism"`
+	Succeeded        int32                  `json:"succeeded"`
+	Failed           int32                  `json:"failed"`
+	Active           int32                  `json:"active"`
+	CompletionMode   string                 `json:"completionMode,omitempty"`
+	CreatedAt        string                 `json:"createdAt,omitempty"`
+	StartTime        string                 `json:"startTime,omitempty"`
+	CompletionTime   string                 `json:"completionTime,omitempty"`
+	Labels           map[string]string      `json:"labels,omitempty"`
+	Annotations      map[string]string      `json:"annotations,omitempty"`
+	Pods             []PodView              `json:"pods,omitempty"`
+	RelatedResources []WorkloadRelationView `json:"relatedResources,omitempty"`
+	AllowedActions   []string               `json:"allowedActions,omitempty"`
 }
 
 type CronJobView struct {
@@ -405,18 +422,20 @@ type CronJobView struct {
 }
 
 type CronJobDetailView struct {
-	Name              string            `json:"name"`
-	Namespace         string            `json:"namespace"`
-	Schedule          string            `json:"schedule"`
-	Suspend           bool              `json:"suspend"`
-	ActiveJobs        int32             `json:"activeJobs"`
-	LastScheduleTime  string            `json:"lastScheduleTime,omitempty"`
-	ConcurrencyPolicy string            `json:"concurrencyPolicy,omitempty"`
-	TimeZone          string            `json:"timeZone,omitempty"`
-	CreatedAt         string            `json:"createdAt,omitempty"`
-	Labels            map[string]string `json:"labels,omitempty"`
-	Annotations       map[string]string `json:"annotations,omitempty"`
-	AllowedActions    []string          `json:"allowedActions,omitempty"`
+	Name              string                 `json:"name"`
+	Namespace         string                 `json:"namespace"`
+	Schedule          string                 `json:"schedule"`
+	Suspend           bool                   `json:"suspend"`
+	ActiveJobs        int32                  `json:"activeJobs"`
+	LastScheduleTime  string                 `json:"lastScheduleTime,omitempty"`
+	ConcurrencyPolicy string                 `json:"concurrencyPolicy,omitempty"`
+	TimeZone          string                 `json:"timeZone,omitempty"`
+	CreatedAt         string                 `json:"createdAt,omitempty"`
+	Labels            map[string]string      `json:"labels,omitempty"`
+	Annotations       map[string]string      `json:"annotations,omitempty"`
+	Jobs              []JobView              `json:"jobs,omitempty"`
+	RelatedResources  []WorkloadRelationView `json:"relatedResources,omitempty"`
+	AllowedActions    []string               `json:"allowedActions,omitempty"`
 }
 
 type ServiceView struct {
@@ -430,6 +449,31 @@ type ServiceView struct {
 	AllowedActions []string          `json:"allowedActions,omitempty"`
 }
 
+type ServiceEndpointView struct {
+	Address     string `json:"address"`
+	Ready       *bool  `json:"ready,omitempty"`
+	Serving     *bool  `json:"serving,omitempty"`
+	Terminating *bool  `json:"terminating,omitempty"`
+	TargetRef   string `json:"targetRef,omitempty"`
+	NodeName    string `json:"nodeName,omitempty"`
+	Zone        string `json:"zone,omitempty"`
+}
+
+type ServiceDetailView struct {
+	Name           string                `json:"name"`
+	Namespace      string                `json:"namespace"`
+	Type           string                `json:"type"`
+	ClusterIP      string                `json:"clusterIp,omitempty"`
+	Ports          []string              `json:"ports,omitempty"`
+	Selector       map[string]string     `json:"selector,omitempty"`
+	Labels         map[string]string     `json:"labels,omitempty"`
+	Annotations    map[string]string     `json:"annotations,omitempty"`
+	Endpoints      []ServiceEndpointView `json:"endpoints,omitempty"`
+	BackendPods    []PodView             `json:"backendPods,omitempty"`
+	AgeSeconds     int64                 `json:"ageSeconds"`
+	AllowedActions []string              `json:"allowedActions,omitempty"`
+}
+
 type IngressView struct {
 	Name            string   `json:"name"`
 	Namespace       string   `json:"namespace"`
@@ -439,6 +483,39 @@ type IngressView struct {
 	BackendServices []string `json:"backendServices,omitempty"`
 	AgeSeconds      int64    `json:"ageSeconds"`
 	AllowedActions  []string `json:"allowedActions,omitempty"`
+}
+
+type IngressRouteView struct {
+	Host        string `json:"host,omitempty"`
+	Path        string `json:"path,omitempty"`
+	PathType    string `json:"pathType,omitempty"`
+	TLS         bool   `json:"tls"`
+	ServiceName string `json:"serviceName"`
+	ServicePort string `json:"servicePort,omitempty"`
+}
+
+type NetworkRelatedPodView struct {
+	PodView
+	Workloads []PodRelatedResourceView `json:"workloads,omitempty"`
+}
+
+type IngressBackendView struct {
+	ServiceName string                  `json:"serviceName"`
+	Endpoints   []ServiceEndpointView   `json:"endpoints,omitempty"`
+	Pods        []NetworkRelatedPodView `json:"pods,omitempty"`
+}
+
+type IngressDetailView struct {
+	Name           string               `json:"name"`
+	Namespace      string               `json:"namespace"`
+	ClassName      string               `json:"className,omitempty"`
+	Address        string               `json:"address,omitempty"`
+	Labels         map[string]string    `json:"labels,omitempty"`
+	Annotations    map[string]string    `json:"annotations,omitempty"`
+	Routes         []IngressRouteView   `json:"routes,omitempty"`
+	Backends       []IngressBackendView `json:"backends,omitempty"`
+	AgeSeconds     int64                `json:"ageSeconds"`
+	AllowedActions []string             `json:"allowedActions,omitempty"`
 }
 
 type GatewayView struct {
@@ -460,6 +537,65 @@ type GatewayClassView struct {
 	AllowedActions []string `json:"allowedActions,omitempty"`
 }
 
+type GatewayClassDetailView struct {
+	GatewayClassView
+	Labels      map[string]string       `json:"labels,omitempty"`
+	Annotations map[string]string       `json:"annotations,omitempty"`
+	Conditions  []WorkloadConditionView `json:"conditions,omitempty"`
+	Gateways    []GatewayView           `json:"gateways,omitempty"`
+}
+
+type GatewayListenerView struct {
+	Name              string                  `json:"name"`
+	Protocol          string                  `json:"protocol"`
+	Port              int32                   `json:"port"`
+	Hostname          string                  `json:"hostname,omitempty"`
+	TLSMode           string                  `json:"tlsMode,omitempty"`
+	CertificateRefs   []string                `json:"certificateRefs,omitempty"`
+	AllowedRouteKinds []string                `json:"allowedRouteKinds,omitempty"`
+	AttachedRoutes    int32                   `json:"attachedRoutes"`
+	Conditions        []WorkloadConditionView `json:"conditions,omitempty"`
+}
+
+type GatewayRouteReferenceView struct {
+	Kind      string   `json:"kind"`
+	Namespace string   `json:"namespace,omitempty"`
+	Name      string   `json:"name"`
+	Hostnames []string `json:"hostnames,omitempty"`
+	Accepted  string   `json:"accepted,omitempty"`
+}
+
+type GatewayDetailView struct {
+	GatewayView
+	Labels      map[string]string           `json:"labels,omitempty"`
+	Annotations map[string]string           `json:"annotations,omitempty"`
+	Conditions  []WorkloadConditionView     `json:"conditions,omitempty"`
+	Listeners   []GatewayListenerView       `json:"listeners,omitempty"`
+	Routes      []GatewayRouteReferenceView `json:"routes,omitempty"`
+}
+
+type GatewayRouteBackendView struct {
+	Kind        string                `json:"kind,omitempty"`
+	Namespace   string                `json:"namespace,omitempty"`
+	Name        string                `json:"name"`
+	Port        int32                 `json:"port,omitempty"`
+	Weight      int32                 `json:"weight,omitempty"`
+	Endpoints   []ServiceEndpointView `json:"endpoints,omitempty"`
+	BackendPods []PodView             `json:"backendPods,omitempty"`
+}
+
+type GatewayRouteRuleView struct {
+	Matches  []string                  `json:"matches,omitempty"`
+	Filters  []string                  `json:"filters,omitempty"`
+	Backends []GatewayRouteBackendView `json:"backends,omitempty"`
+}
+
+type GatewayRouteParentStatusView struct {
+	ParentRef      string                  `json:"parentRef"`
+	ControllerName string                  `json:"controllerName,omitempty"`
+	Conditions     []WorkloadConditionView `json:"conditions,omitempty"`
+}
+
 type HTTPRouteView struct {
 	Name            string   `json:"name"`
 	Namespace       string   `json:"namespace"`
@@ -468,6 +604,15 @@ type HTTPRouteView struct {
 	BackendServices []string `json:"backendServices,omitempty"`
 	AgeSeconds      int64    `json:"ageSeconds"`
 	AllowedActions  []string `json:"allowedActions,omitempty"`
+}
+
+type HTTPRouteDetailView struct {
+	HTTPRouteView
+	Labels         map[string]string              `json:"labels,omitempty"`
+	Annotations    map[string]string              `json:"annotations,omitempty"`
+	Conditions     []WorkloadConditionView        `json:"conditions,omitempty"`
+	ParentStatuses []GatewayRouteParentStatusView `json:"parentStatuses,omitempty"`
+	Rules          []GatewayRouteRuleView         `json:"rules,omitempty"`
 }
 
 type BackendTLSPolicyView struct {
@@ -481,6 +626,13 @@ type BackendTLSPolicyView struct {
 	AllowedActions          []string `json:"allowedActions,omitempty"`
 }
 
+type BackendTLSPolicyDetailView struct {
+	BackendTLSPolicyView
+	Labels      map[string]string       `json:"labels,omitempty"`
+	Annotations map[string]string       `json:"annotations,omitempty"`
+	Conditions  []WorkloadConditionView `json:"conditions,omitempty"`
+}
+
 type GRPCRouteView struct {
 	Name            string   `json:"name"`
 	Namespace       string   `json:"namespace"`
@@ -492,6 +644,15 @@ type GRPCRouteView struct {
 	AllowedActions  []string `json:"allowedActions,omitempty"`
 }
 
+type GRPCRouteDetailView struct {
+	GRPCRouteView
+	Labels         map[string]string              `json:"labels,omitempty"`
+	Annotations    map[string]string              `json:"annotations,omitempty"`
+	Conditions     []WorkloadConditionView        `json:"conditions,omitempty"`
+	ParentStatuses []GatewayRouteParentStatusView `json:"parentStatuses,omitempty"`
+	Rules          []GatewayRouteRuleView         `json:"rules,omitempty"`
+}
+
 type ReferenceGrantView struct {
 	Name           string   `json:"name"`
 	Namespace      string   `json:"namespace"`
@@ -499,6 +660,26 @@ type ReferenceGrantView struct {
 	To             []string `json:"to,omitempty"`
 	AgeSeconds     int64    `json:"ageSeconds"`
 	AllowedActions []string `json:"allowedActions,omitempty"`
+}
+
+type ReferenceGrantFromView struct {
+	Group     string `json:"group"`
+	Kind      string `json:"kind"`
+	Namespace string `json:"namespace"`
+}
+
+type ReferenceGrantToView struct {
+	Group string `json:"group"`
+	Kind  string `json:"kind"`
+	Name  string `json:"name,omitempty"`
+}
+
+type ReferenceGrantDetailView struct {
+	ReferenceGrantView
+	Labels      map[string]string        `json:"labels,omitempty"`
+	Annotations map[string]string        `json:"annotations,omitempty"`
+	FromRefs    []ReferenceGrantFromView `json:"fromRefs,omitempty"`
+	ToRefs      []ReferenceGrantToView   `json:"toRefs,omitempty"`
 }
 
 type NetworkTopologySummaryView struct {
@@ -539,11 +720,6 @@ type NetworkTopologyView struct {
 	GeneratedAt string                     `json:"generatedAt"`
 	Summary     NetworkTopologySummaryView `json:"summary"`
 	Traces      []NetworkTopologyTraceView `json:"traces,omitempty"`
-	Services    []ServiceView              `json:"services"`
-	Ingresses   []IngressView              `json:"ingresses"`
-	HTTPRoutes  []HTTPRouteView            `json:"httpRoutes"`
-	Gateways    []GatewayView              `json:"gateways"`
-	Pods        []PodView                  `json:"pods"`
 	Warnings    []string                   `json:"warnings,omitempty"`
 }
 
@@ -634,6 +810,8 @@ type PersistentVolumeView struct {
 	Status         string   `json:"status"`
 	StorageClass   string   `json:"storageClass,omitempty"`
 	ClaimRef       string   `json:"claimRef,omitempty"`
+	ClaimNamespace string   `json:"claimNamespace,omitempty"`
+	ClaimName      string   `json:"claimName,omitempty"`
 	AccessModes    []string `json:"accessModes,omitempty"`
 	Capacity       string   `json:"capacity,omitempty"`
 	ReclaimPolicy  string   `json:"reclaimPolicy,omitempty"`
@@ -643,31 +821,39 @@ type PersistentVolumeView struct {
 }
 
 type StorageClassView struct {
-	Name                 string            `json:"name"`
-	Provisioner          string            `json:"provisioner"`
-	ReclaimPolicy        string            `json:"reclaimPolicy,omitempty"`
-	VolumeBindingMode    string            `json:"volumeBindingMode,omitempty"`
-	AllowVolumeExpansion bool              `json:"allowVolumeExpansion"`
-	Parameters           map[string]string `json:"parameters,omitempty"`
-	AgeSeconds           int64             `json:"ageSeconds"`
-	AllowedActions       []string          `json:"allowedActions,omitempty"`
+	Name                 string   `json:"name"`
+	Provisioner          string   `json:"provisioner"`
+	ReclaimPolicy        string   `json:"reclaimPolicy,omitempty"`
+	VolumeBindingMode    string   `json:"volumeBindingMode,omitempty"`
+	AllowVolumeExpansion bool     `json:"allowVolumeExpansion"`
+	AgeSeconds           int64    `json:"ageSeconds"`
+	AllowedActions       []string `json:"allowedActions,omitempty"`
+}
+
+type StoragePodReferenceView struct {
+	Name      string `json:"name"`
+	Namespace string `json:"namespace"`
+	Phase     string `json:"phase,omitempty"`
+	NodeName  string `json:"nodeName,omitempty"`
 }
 
 type PersistentVolumeClaimDetailView struct {
-	Name           string            `json:"name"`
-	Namespace      string            `json:"namespace"`
-	Status         string            `json:"status"`
-	VolumeName     string            `json:"volumeName,omitempty"`
-	StorageClass   string            `json:"storageClass,omitempty"`
-	AccessModes    []string          `json:"accessModes,omitempty"`
-	Requested      string            `json:"requested,omitempty"`
-	VolumeMode     string            `json:"volumeMode,omitempty"`
-	Capacity       string            `json:"capacity,omitempty"`
-	Labels         map[string]string `json:"labels,omitempty"`
-	Annotations    map[string]string `json:"annotations,omitempty"`
-	CreatedAt      string            `json:"createdAt,omitempty"`
-	AgeSeconds     int64             `json:"ageSeconds"`
-	AllowedActions []string          `json:"allowedActions,omitempty"`
+	Name           string                    `json:"name"`
+	Namespace      string                    `json:"namespace"`
+	Status         string                    `json:"status"`
+	VolumeName     string                    `json:"volumeName,omitempty"`
+	StorageClass   string                    `json:"storageClass,omitempty"`
+	AccessModes    []string                  `json:"accessModes,omitempty"`
+	Requested      string                    `json:"requested,omitempty"`
+	VolumeMode     string                    `json:"volumeMode,omitempty"`
+	Capacity       string                    `json:"capacity,omitempty"`
+	Labels         map[string]string         `json:"labels,omitempty"`
+	Annotations    map[string]string         `json:"annotations,omitempty"`
+	CreatedAt      string                    `json:"createdAt,omitempty"`
+	AgeSeconds     int64                     `json:"ageSeconds"`
+	Pods           []StoragePodReferenceView `json:"pods,omitempty"`
+	PodsTruncated  bool                      `json:"podsTruncated,omitempty"`
+	AllowedActions []string                  `json:"allowedActions,omitempty"`
 }
 
 type PersistentVolumeDetailView struct {
@@ -675,6 +861,8 @@ type PersistentVolumeDetailView struct {
 	Status         string            `json:"status"`
 	StorageClass   string            `json:"storageClass,omitempty"`
 	ClaimRef       string            `json:"claimRef,omitempty"`
+	ClaimNamespace string            `json:"claimNamespace,omitempty"`
+	ClaimName      string            `json:"claimName,omitempty"`
 	AccessModes    []string          `json:"accessModes,omitempty"`
 	Capacity       string            `json:"capacity,omitempty"`
 	ReclaimPolicy  string            `json:"reclaimPolicy,omitempty"`
@@ -687,17 +875,21 @@ type PersistentVolumeDetailView struct {
 }
 
 type StorageClassDetailView struct {
-	Name                 string            `json:"name"`
-	Provisioner          string            `json:"provisioner"`
-	ReclaimPolicy        string            `json:"reclaimPolicy,omitempty"`
-	VolumeBindingMode    string            `json:"volumeBindingMode,omitempty"`
-	AllowVolumeExpansion bool              `json:"allowVolumeExpansion"`
-	Parameters           map[string]string `json:"parameters,omitempty"`
-	Labels               map[string]string `json:"labels,omitempty"`
-	Annotations          map[string]string `json:"annotations,omitempty"`
-	CreatedAt            string            `json:"createdAt,omitempty"`
-	AgeSeconds           int64             `json:"ageSeconds"`
-	AllowedActions       []string          `json:"allowedActions,omitempty"`
+	Name                 string                      `json:"name"`
+	Provisioner          string                      `json:"provisioner"`
+	ReclaimPolicy        string                      `json:"reclaimPolicy,omitempty"`
+	VolumeBindingMode    string                      `json:"volumeBindingMode,omitempty"`
+	AllowVolumeExpansion bool                        `json:"allowVolumeExpansion"`
+	Parameters           map[string]string           `json:"parameters,omitempty"`
+	Labels               map[string]string           `json:"labels,omitempty"`
+	Annotations          map[string]string           `json:"annotations,omitempty"`
+	CreatedAt            string                      `json:"createdAt,omitempty"`
+	AgeSeconds           int64                       `json:"ageSeconds"`
+	Volumes              []PersistentVolumeView      `json:"volumes,omitempty"`
+	Claims               []PersistentVolumeClaimView `json:"claims,omitempty"`
+	VolumesTruncated     bool                        `json:"volumesTruncated,omitempty"`
+	ClaimsTruncated      bool                        `json:"claimsTruncated,omitempty"`
+	AllowedActions       []string                    `json:"allowedActions,omitempty"`
 }
 
 type CRDView struct {
@@ -929,8 +1121,6 @@ type ConfigMapView struct {
 	Name           string   `json:"name"`
 	Namespace      string   `json:"namespace"`
 	DataEntries    int      `json:"dataEntries"`
-	BinaryEntries  int      `json:"binaryEntries"`
-	Immutable      bool     `json:"immutable"`
 	AgeSeconds     int64    `json:"ageSeconds"`
 	AllowedActions []string `json:"allowedActions,omitempty"`
 }
@@ -952,7 +1142,7 @@ type SecretView struct {
 	Namespace      string   `json:"namespace"`
 	Type           string   `json:"type"`
 	DataEntries    int      `json:"dataEntries"`
-	Immutable      bool     `json:"immutable"`
+	Immutable      *bool    `json:"immutable"`
 	AgeSeconds     int64    `json:"ageSeconds"`
 	AllowedActions []string `json:"allowedActions,omitempty"`
 }
@@ -970,13 +1160,10 @@ type SecretDetailView struct {
 }
 
 type ServiceAccountView struct {
-	Name             string   `json:"name"`
-	Namespace        string   `json:"namespace"`
-	Secrets          int      `json:"secrets"`
-	ImagePullSecrets int      `json:"imagePullSecrets"`
-	AutomountSAToken bool     `json:"automountServiceAccountToken"`
-	AgeSeconds       int64    `json:"ageSeconds"`
-	AllowedActions   []string `json:"allowedActions,omitempty"`
+	Name           string   `json:"name"`
+	Namespace      string   `json:"namespace"`
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
 }
 
 type ServiceAccountDetailView struct {
@@ -995,7 +1182,6 @@ type ServiceAccountDetailView struct {
 type RoleView struct {
 	Name           string   `json:"name"`
 	Namespace      string   `json:"namespace"`
-	Rules          int      `json:"rules"`
 	AgeSeconds     int64    `json:"ageSeconds"`
 	AllowedActions []string `json:"allowedActions,omitempty"`
 }
@@ -1016,7 +1202,6 @@ type RoleBindingView struct {
 	Name           string   `json:"name"`
 	Namespace      string   `json:"namespace"`
 	RoleRef        string   `json:"roleRef"`
-	Subjects       []string `json:"subjects,omitempty"`
 	AgeSeconds     int64    `json:"ageSeconds"`
 	AllowedActions []string `json:"allowedActions,omitempty"`
 }
@@ -1043,6 +1228,21 @@ type ReplicaSetView struct {
 	AllowedActions    []string `json:"allowedActions,omitempty"`
 }
 
+type ReplicaSetDetailView struct {
+	Name              string                 `json:"name"`
+	Namespace         string                 `json:"namespace"`
+	DesiredReplicas   int32                  `json:"desiredReplicas"`
+	ReadyReplicas     int32                  `json:"readyReplicas"`
+	AvailableReplicas int32                  `json:"availableReplicas"`
+	CreatedAt         string                 `json:"createdAt,omitempty"`
+	Labels            map[string]string      `json:"labels,omitempty"`
+	Annotations       map[string]string      `json:"annotations,omitempty"`
+	Selector          map[string]string      `json:"selector,omitempty"`
+	Pods              []PodView              `json:"pods,omitempty"`
+	RelatedResources  []WorkloadRelationView `json:"relatedResources,omitempty"`
+	AllowedActions    []string               `json:"allowedActions,omitempty"`
+}
+
 type EndpointSliceView struct {
 	Name           string   `json:"name"`
 	Namespace      string   `json:"namespace"`
@@ -1053,6 +1253,19 @@ type EndpointSliceView struct {
 	AllowedActions []string `json:"allowedActions,omitempty"`
 }
 
+type EndpointSliceDetailView struct {
+	Name           string                `json:"name"`
+	Namespace      string                `json:"namespace"`
+	AddressType    string                `json:"addressType"`
+	ServiceName    string                `json:"serviceName,omitempty"`
+	Ports          []string              `json:"ports,omitempty"`
+	Labels         map[string]string     `json:"labels,omitempty"`
+	Annotations    map[string]string     `json:"annotations,omitempty"`
+	Endpoints      []ServiceEndpointView `json:"endpoints,omitempty"`
+	AgeSeconds     int64                 `json:"ageSeconds"`
+	AllowedActions []string              `json:"allowedActions,omitempty"`
+}
+
 type NetworkPolicyView struct {
 	Name           string   `json:"name"`
 	Namespace      string   `json:"namespace"`
@@ -1061,6 +1274,37 @@ type NetworkPolicyView struct {
 	EgressRules    int      `json:"egressRules"`
 	AgeSeconds     int64    `json:"ageSeconds"`
 	AllowedActions []string `json:"allowedActions,omitempty"`
+}
+
+type NetworkPolicyPeerView struct {
+	PodSelector       string `json:"podSelector,omitempty"`
+	NamespaceSelector string `json:"namespaceSelector,omitempty"`
+	IPBlock           string `json:"ipBlock,omitempty"`
+}
+
+type NetworkPolicyPortView struct {
+	Protocol string `json:"protocol,omitempty"`
+	Port     string `json:"port,omitempty"`
+	EndPort  int32  `json:"endPort,omitempty"`
+}
+
+type NetworkPolicyRuleView struct {
+	Direction string                  `json:"direction"`
+	Peers     []NetworkPolicyPeerView `json:"peers,omitempty"`
+	Ports     []NetworkPolicyPortView `json:"ports,omitempty"`
+}
+
+type NetworkPolicyDetailView struct {
+	Name           string                  `json:"name"`
+	Namespace      string                  `json:"namespace"`
+	PolicyTypes    []string                `json:"policyTypes,omitempty"`
+	PodSelector    string                  `json:"podSelector,omitempty"`
+	Labels         map[string]string       `json:"labels,omitempty"`
+	Annotations    map[string]string       `json:"annotations,omitempty"`
+	Rules          []NetworkPolicyRuleView `json:"rules,omitempty"`
+	MatchingPods   []PodView               `json:"matchingPods,omitempty"`
+	AgeSeconds     int64                   `json:"ageSeconds"`
+	AllowedActions []string                `json:"allowedActions,omitempty"`
 }
 
 type HorizontalPodAutoscalerView struct {
@@ -1075,6 +1319,22 @@ type HorizontalPodAutoscalerView struct {
 	AllowedActions  []string `json:"allowedActions,omitempty"`
 }
 
+type HorizontalPodAutoscalerMetricView struct {
+	Type    string `json:"type"`
+	Name    string `json:"name,omitempty"`
+	Target  string `json:"target,omitempty"`
+	Current string `json:"current,omitempty"`
+}
+
+type HorizontalPodAutoscalerDetailView struct {
+	HorizontalPodAutoscalerView
+	Labels      map[string]string                   `json:"labels,omitempty"`
+	Annotations map[string]string                   `json:"annotations,omitempty"`
+	CreatedAt   string                              `json:"createdAt,omitempty"`
+	Metrics     []HorizontalPodAutoscalerMetricView `json:"metrics,omitempty"`
+	Conditions  []WorkloadConditionView             `json:"conditions,omitempty"`
+}
+
 type PodDisruptionBudgetView struct {
 	Name               string   `json:"name"`
 	Namespace          string   `json:"namespace"`
@@ -1087,6 +1347,17 @@ type PodDisruptionBudgetView struct {
 	AllowedActions     []string `json:"allowedActions,omitempty"`
 }
 
+type PodDisruptionBudgetDetailView struct {
+	PodDisruptionBudgetView
+	Labels      map[string]string       `json:"labels,omitempty"`
+	Annotations map[string]string       `json:"annotations,omitempty"`
+	CreatedAt   string                  `json:"createdAt,omitempty"`
+	Selector    string                  `json:"selector,omitempty"`
+	Pods        []PodView               `json:"pods,omitempty"`
+	Workload    *PodRelatedResourceView `json:"workload,omitempty"`
+	Conditions  []WorkloadConditionView `json:"conditions,omitempty"`
+}
+
 type IngressClassView struct {
 	Name           string   `json:"name"`
 	Controller     string   `json:"controller"`
@@ -1094,6 +1365,13 @@ type IngressClassView struct {
 	Parameters     string   `json:"parameters,omitempty"`
 	AgeSeconds     int64    `json:"ageSeconds"`
 	AllowedActions []string `json:"allowedActions,omitempty"`
+}
+
+type IngressClassDetailView struct {
+	IngressClassView
+	Labels      map[string]string `json:"labels,omitempty"`
+	Annotations map[string]string `json:"annotations,omitempty"`
+	Ingresses   []IngressView     `json:"ingresses,omitempty"`
 }
 
 type PriorityClassView struct {
@@ -1114,11 +1392,9 @@ type RuntimeClassView struct {
 }
 
 type ClusterRoleView struct {
-	Name             string   `json:"name"`
-	Rules            int      `json:"rules"`
-	AggregationRules int      `json:"aggregationRules"`
-	AgeSeconds       int64    `json:"ageSeconds"`
-	AllowedActions   []string `json:"allowedActions,omitempty"`
+	Name           string   `json:"name"`
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
 }
 
 type ClusterRoleDetailView struct {
@@ -1136,7 +1412,6 @@ type ClusterRoleDetailView struct {
 type ClusterRoleBindingView struct {
 	Name           string   `json:"name"`
 	RoleRef        string   `json:"roleRef"`
-	Subjects       []string `json:"subjects,omitempty"`
 	AgeSeconds     int64    `json:"ageSeconds"`
 	AllowedActions []string `json:"allowedActions,omitempty"`
 }
@@ -1166,6 +1441,42 @@ type ValidatingWebhookConfigurationView struct {
 	AllowedActions []string `json:"allowedActions,omitempty"`
 }
 
+type AdmissionWebhookRuleView struct {
+	Operations  []string `json:"operations,omitempty"`
+	APIGroups   []string `json:"apiGroups,omitempty"`
+	APIVersions []string `json:"apiVersions,omitempty"`
+	Resources   []string `json:"resources,omitempty"`
+	Scope       string   `json:"scope,omitempty"`
+}
+
+type AdmissionWebhookView struct {
+	Name                    string                     `json:"name"`
+	ClientTarget            string                     `json:"clientTarget"`
+	URL                     string                     `json:"url,omitempty"`
+	ServiceName             string                     `json:"serviceName,omitempty"`
+	ServiceNamespace        string                     `json:"serviceNamespace,omitempty"`
+	ServicePath             string                     `json:"servicePath,omitempty"`
+	ServicePort             int32                      `json:"servicePort,omitempty"`
+	CABundleConfigured      bool                       `json:"caBundleConfigured"`
+	FailurePolicy           string                     `json:"failurePolicy,omitempty"`
+	MatchPolicy             string                     `json:"matchPolicy,omitempty"`
+	SideEffects             string                     `json:"sideEffects,omitempty"`
+	TimeoutSeconds          int32                      `json:"timeoutSeconds,omitempty"`
+	AdmissionReviewVersions []string                   `json:"admissionReviewVersions,omitempty"`
+	NamespaceSelector       string                     `json:"namespaceSelector,omitempty"`
+	ObjectSelector          string                     `json:"objectSelector,omitempty"`
+	Rules                   []AdmissionWebhookRuleView `json:"rules,omitempty"`
+}
+
+type AdmissionWebhookConfigurationDetailView struct {
+	Name        string                 `json:"name"`
+	Labels      map[string]string      `json:"labels,omitempty"`
+	Annotations map[string]string      `json:"annotations,omitempty"`
+	CreatedAt   string                 `json:"createdAt,omitempty"`
+	AgeSeconds  int64                  `json:"ageSeconds"`
+	Webhooks    []AdmissionWebhookView `json:"webhooks,omitempty"`
+}
+
 type ResourceQuotaView struct {
 	Name           string            `json:"name"`
 	Namespace      string            `json:"namespace"`
@@ -1176,12 +1487,36 @@ type ResourceQuotaView struct {
 	AllowedActions []string          `json:"allowedActions,omitempty"`
 }
 
+type ResourceQuotaDetailView struct {
+	ResourceQuotaView
+	Labels      map[string]string `json:"labels,omitempty"`
+	Annotations map[string]string `json:"annotations,omitempty"`
+	CreatedAt   string            `json:"createdAt,omitempty"`
+}
+
 type LimitRangeView struct {
 	Name           string   `json:"name"`
 	Namespace      string   `json:"namespace"`
 	Limits         int      `json:"limits"`
 	AgeSeconds     int64    `json:"ageSeconds"`
 	AllowedActions []string `json:"allowedActions,omitempty"`
+}
+
+type LimitRangeRuleView struct {
+	Type                 string            `json:"type"`
+	Min                  map[string]string `json:"min,omitempty"`
+	Max                  map[string]string `json:"max,omitempty"`
+	Default              map[string]string `json:"default,omitempty"`
+	DefaultRequest       map[string]string `json:"defaultRequest,omitempty"`
+	MaxLimitRequestRatio map[string]string `json:"maxLimitRequestRatio,omitempty"`
+}
+
+type LimitRangeDetailView struct {
+	LimitRangeView
+	Labels      map[string]string    `json:"labels,omitempty"`
+	Annotations map[string]string    `json:"annotations,omitempty"`
+	CreatedAt   string               `json:"createdAt,omitempty"`
+	Rules       []LimitRangeRuleView `json:"rules,omitempty"`
 }
 
 type LeaseView struct {
@@ -1204,6 +1539,22 @@ type ReplicationControllerView struct {
 	AvailableReplicas int32    `json:"availableReplicas"`
 	AgeSeconds        int64    `json:"ageSeconds"`
 	AllowedActions    []string `json:"allowedActions,omitempty"`
+}
+
+type ReplicationControllerDetailView struct {
+	Name              string                 `json:"name"`
+	Namespace         string                 `json:"namespace"`
+	DesiredReplicas   int32                  `json:"desiredReplicas"`
+	CurrentReplicas   int32                  `json:"currentReplicas"`
+	ReadyReplicas     int32                  `json:"readyReplicas"`
+	AvailableReplicas int32                  `json:"availableReplicas"`
+	CreatedAt         string                 `json:"createdAt,omitempty"`
+	Labels            map[string]string      `json:"labels,omitempty"`
+	Annotations       map[string]string      `json:"annotations,omitempty"`
+	Selector          map[string]string      `json:"selector,omitempty"`
+	Pods              []PodView              `json:"pods,omitempty"`
+	RelatedResources  []WorkloadRelationView `json:"relatedResources,omitempty"`
+	AllowedActions    []string               `json:"allowedActions,omitempty"`
 }
 
 type PortForwardSessionView struct {
