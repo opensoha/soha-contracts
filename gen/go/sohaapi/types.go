@@ -606,6 +606,27 @@ func (e BuildSourceType) Valid() bool {
 	}
 }
 
+// Defines values for BuildSourceConfigBuilderKind.
+const (
+	BuildSourceConfigBuilderKindBuildx BuildSourceConfigBuilderKind = "buildx"
+	BuildSourceConfigBuilderKindDocker BuildSourceConfigBuilderKind = "docker"
+	BuildSourceConfigBuilderKindKaniko BuildSourceConfigBuilderKind = "kaniko"
+)
+
+// Valid indicates whether the value is a known member of the BuildSourceConfigBuilderKind enum.
+func (e BuildSourceConfigBuilderKind) Valid() bool {
+	switch e {
+	case BuildSourceConfigBuilderKindBuildx:
+		return true
+	case BuildSourceConfigBuilderKindDocker:
+		return true
+	case BuildSourceConfigBuilderKindKaniko:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for BuildSourceInputType.
 const (
 	BuildSourceInputTypeExternalPipeline      BuildSourceInputType = "external_pipeline"
@@ -1130,9 +1151,10 @@ func (e DeliveryPlanSource) Valid() bool {
 
 // Defines values for DeliveryPlanStatus.
 const (
-	Confirmed  DeliveryPlanStatus = "confirmed"
-	Confirming DeliveryPlanStatus = "confirming"
-	Draft      DeliveryPlanStatus = "draft"
+	Confirmed       DeliveryPlanStatus = "confirmed"
+	Confirming      DeliveryPlanStatus = "confirming"
+	Draft           DeliveryPlanStatus = "draft"
+	WaitingApproval DeliveryPlanStatus = "waiting_approval"
 )
 
 // Valid indicates whether the value is a known member of the DeliveryPlanStatus enum.
@@ -1143,6 +1165,8 @@ func (e DeliveryPlanStatus) Valid() bool {
 	case Confirming:
 		return true
 	case Draft:
+		return true
+	case WaitingApproval:
 		return true
 	default:
 		return false
@@ -1514,22 +1538,22 @@ func (e KnowledgeSourceStatus) Valid() bool {
 
 // Defines values for KnowledgeSourceInputKind.
 const (
-	Git    KnowledgeSourceInputKind = "git"
-	HTTP   KnowledgeSourceInputKind = "http"
-	Inline KnowledgeSourceInputKind = "inline"
-	Object KnowledgeSourceInputKind = "object"
+	KnowledgeSourceInputKindGit    KnowledgeSourceInputKind = "git"
+	KnowledgeSourceInputKindHTTP   KnowledgeSourceInputKind = "http"
+	KnowledgeSourceInputKindInline KnowledgeSourceInputKind = "inline"
+	KnowledgeSourceInputKindObject KnowledgeSourceInputKind = "object"
 )
 
 // Valid indicates whether the value is a known member of the KnowledgeSourceInputKind enum.
 func (e KnowledgeSourceInputKind) Valid() bool {
 	switch e {
-	case Git:
+	case KnowledgeSourceInputKindGit:
 		return true
-	case HTTP:
+	case KnowledgeSourceInputKindHTTP:
 		return true
-	case Inline:
+	case KnowledgeSourceInputKindInline:
 		return true
-	case Object:
+	case KnowledgeSourceInputKindObject:
 		return true
 	default:
 		return false
@@ -2343,6 +2367,42 @@ func (e PluginRuntimeSpecMode) Valid() bool {
 	case ManagedContainer:
 		return true
 	case ManifestOnly:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for RepositoryProtocol.
+const (
+	HTTPS RepositoryProtocol = "https"
+	SSH   RepositoryProtocol = "ssh"
+)
+
+// Valid indicates whether the value is a known member of the RepositoryProtocol enum.
+func (e RepositoryProtocol) Valid() bool {
+	switch e {
+	case HTTPS:
+		return true
+	case SSH:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for RepositoryProvider.
+const (
+	RepositoryProviderGit    RepositoryProvider = "git"
+	RepositoryProviderGitlab RepositoryProvider = "gitlab"
+)
+
+// Valid indicates whether the value is a known member of the RepositoryProvider enum.
+func (e RepositoryProvider) Valid() bool {
+	switch e {
+	case RepositoryProviderGit:
+		return true
+	case RepositoryProviderGitlab:
 		return true
 	default:
 		return false
@@ -4774,6 +4834,7 @@ type Application struct {
 	Metadata            map[string]any `json:"metadata,omitempty"`
 	Name                string         `json:"name"`
 	OwnerTeam           string         `json:"ownerTeam,omitempty"`
+	RepositoryIDs       []string       `json:"repositoryIds,omitempty"`
 	RepositoryPath      string         `json:"repositoryPath,omitempty"`
 	RepositoryProjectID string         `json:"repositoryProjectId,omitempty"`
 	RepositoryProvider  string         `json:"repositoryProvider,omitempty"`
@@ -4951,6 +5012,7 @@ type ApplicationInput struct {
 	Metadata            map[string]any     `json:"metadata,omitempty"`
 	Name                string             `json:"name"`
 	OwnerTeam           string             `json:"ownerTeam,omitempty"`
+	RepositoryIDs       []string           `json:"repositoryIds,omitempty"`
 	RepositoryPath      string             `json:"repositoryPath,omitempty"`
 	RepositoryProjectID string             `json:"repositoryProjectId,omitempty"`
 	RepositoryProvider  string             `json:"repositoryProvider,omitempty"`
@@ -5020,6 +5082,7 @@ type ApplicationService struct {
 	Metadata            map[string]any                `json:"metadata,omitempty"`
 	Name                string                        `json:"name"`
 	OwnerTeam           string                        `json:"ownerTeam,omitempty"`
+	RepositoryID        string                        `json:"repositoryId,omitempty"`
 	RepositoryPath      string                        `json:"repositoryPath,omitempty"`
 	RepositoryProjectID string                        `json:"repositoryProjectId,omitempty"`
 	RepositoryProvider  string                        `json:"repositoryProvider,omitempty"`
@@ -5080,6 +5143,7 @@ type ApplicationServiceInput struct {
 	Metadata            map[string]any                     `json:"metadata,omitempty"`
 	Name                string                             `json:"name"`
 	OwnerTeam           string                             `json:"ownerTeam,omitempty"`
+	RepositoryID        string                             `json:"repositoryId,omitempty"`
 	RepositoryPath      string                             `json:"repositoryPath,omitempty"`
 	RepositoryProjectID string                             `json:"repositoryProjectId,omitempty"`
 	RepositoryProvider  string                             `json:"repositoryProvider,omitempty"`
@@ -5313,25 +5377,71 @@ type BuildRecord struct {
 
 // BuildSource defines model for BuildSource.
 type BuildSource struct {
-	BuildImage string          `json:"buildImage,omitempty"`
-	Config     map[string]any  `json:"config,omitempty"`
-	CreatedAt  *time.Time      `json:"createdAt,omitempty"`
-	DefaultTag string          `json:"defaultTag,omitempty"`
-	Enabled    bool            `json:"enabled"`
-	ID         string          `json:"id"`
-	IsDefault  bool            `json:"isDefault"`
-	Name       string          `json:"name"`
-	Type       BuildSourceType `json:"type"`
-	UpdatedAt  *time.Time      `json:"updatedAt,omitempty"`
+	BuildImage string             `json:"buildImage,omitempty"`
+	Config     *BuildSourceConfig `json:"config,omitempty"`
+	CreatedAt  *time.Time         `json:"createdAt,omitempty"`
+	DefaultTag string             `json:"defaultTag,omitempty"`
+	Enabled    bool               `json:"enabled"`
+	ID         string             `json:"id"`
+	IsDefault  bool               `json:"isDefault"`
+	Name       string             `json:"name"`
+	Type       BuildSourceType    `json:"type"`
+	UpdatedAt  *time.Time         `json:"updatedAt,omitempty"`
 }
 
 // BuildSourceType defines model for BuildSource.Type.
 type BuildSourceType string
 
+// BuildSourceConfig defines model for BuildSourceConfig.
+type BuildSourceConfig struct {
+	BuildArgs       map[string]BuildSourceConfig_BuildArgs_AdditionalProperties `json:"buildArgs,omitempty"`
+	BuildImage      string                                                      `json:"buildImage,omitempty"`
+	BuildTemplateID string                                                      `json:"buildTemplateId,omitempty"`
+	BuilderKind     BuildSourceConfigBuilderKind                                `json:"builderKind,omitempty"`
+	ContextDir      string                                                      `json:"contextDir,omitempty"`
+	DefaultTag      string                                                      `json:"defaultTag,omitempty"`
+	DockerfilePath  string                                                      `json:"dockerfilePath,omitempty"`
+	PipelineRef     string                                                      `json:"pipelineRef,omitempty"`
+	ProviderKind    string                                                      `json:"providerKind,omitempty"`
+	RepositoryID    string                                                      `json:"repositoryId,omitempty"`
+	Variables       map[string]BuildSourceConfig_Variables_AdditionalProperties `json:"variables,omitempty"`
+}
+
+// BuildSourceConfigBuildArgs0 defines model for .
+type BuildSourceConfigBuildArgs0 = string
+
+// BuildSourceConfigBuildArgs1 defines model for .
+type BuildSourceConfigBuildArgs1 = float32
+
+// BuildSourceConfigBuildArgs2 defines model for .
+type BuildSourceConfigBuildArgs2 = bool
+
+// BuildSourceConfig_BuildArgs_AdditionalProperties defines model for BuildSourceConfig.buildArgs.AdditionalProperties.
+type BuildSourceConfig_BuildArgs_AdditionalProperties struct {
+	union json.RawMessage
+}
+
+// BuildSourceConfigBuilderKind defines model for BuildSourceConfig.BuilderKind.
+type BuildSourceConfigBuilderKind string
+
+// BuildSourceConfigVariables0 defines model for .
+type BuildSourceConfigVariables0 = string
+
+// BuildSourceConfigVariables1 defines model for .
+type BuildSourceConfigVariables1 = float32
+
+// BuildSourceConfigVariables2 defines model for .
+type BuildSourceConfigVariables2 = bool
+
+// BuildSourceConfig_Variables_AdditionalProperties defines model for BuildSourceConfig.variables.AdditionalProperties.
+type BuildSourceConfig_Variables_AdditionalProperties struct {
+	union json.RawMessage
+}
+
 // BuildSourceInput defines model for BuildSourceInput.
 type BuildSourceInput struct {
 	BuildImage string               `json:"buildImage,omitempty"`
-	Config     map[string]any       `json:"config,omitempty"`
+	Config     *BuildSourceConfig   `json:"config,omitempty"`
 	DefaultTag string               `json:"defaultTag,omitempty"`
 	Enabled    bool                 `json:"enabled"`
 	ID         string               `json:"id,omitempty"`
@@ -6457,6 +6567,54 @@ type GenericItemsEnvelope struct {
 
 // GenericObject defines model for GenericObject.
 type GenericObject map[string]any
+
+// GitCommit defines model for GitCommit.
+type GitCommit struct {
+	AuthorEmail openapi_types.Email `json:"authorEmail,omitempty"`
+	AuthorName  string              `json:"authorName,omitempty"`
+	CommittedAt time.Time           `json:"committedAt"`
+	ID          string              `json:"id"`
+	Message     string              `json:"message,omitempty"`
+	ShortID     string              `json:"shortId"`
+	Title       string              `json:"title"`
+	WebURL      string              `json:"webUrl,omitempty"`
+}
+
+// GitCommitPageEnvelope defines model for GitCommitPageEnvelope.
+type GitCommitPageEnvelope struct {
+	HasMore bool        `json:"hasMore"`
+	Items   []GitCommit `json:"items"`
+	Limit   int         `json:"limit"`
+	Page    int         `json:"page"`
+}
+
+// GitProject defines model for GitProject.
+type GitProject struct {
+	DefaultBranch     string `json:"defaultBranch,omitempty"`
+	ID                string `json:"id"`
+	Name              string `json:"name"`
+	Path              string `json:"path"`
+	PathWithNamespace string `json:"pathWithNamespace"`
+	WebURL            string `json:"webUrl,omitempty"`
+}
+
+// GitProjectListEnvelope defines model for GitProjectListEnvelope.
+type GitProjectListEnvelope struct {
+	Items []GitProject `json:"items"`
+}
+
+// GitReference defines model for GitReference.
+type GitReference struct {
+	CommitSha string     `json:"commitSha,omitempty"`
+	Name      string     `json:"name"`
+	Protected bool       `json:"protected"`
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+}
+
+// GitReferenceListEnvelope defines model for GitReferenceListEnvelope.
+type GitReferenceListEnvelope struct {
+	Items []GitReference `json:"items"`
+}
 
 // GovernanceApprovalSummary defines model for GovernanceApprovalSummary.
 type GovernanceApprovalSummary struct {
@@ -8489,6 +8647,59 @@ type ReleaseTargetInput struct {
 	WorkloadName  string         `json:"workloadName"`
 }
 
+// Repository defines model for Repository.
+type Repository struct {
+	ApplicationIDs []string  `json:"applicationIds,omitempty"`
+	CreatedAt      time.Time `json:"createdAt"`
+
+	// CredentialRef Opaque server-side credential reference; never a token or private key.
+	CredentialRef   string             `json:"credentialRef,omitempty"`
+	DefaultBranch   string             `json:"defaultBranch"`
+	GitlabProjectID string             `json:"gitlabProjectId,omitempty"`
+	ID              string             `json:"id"`
+	Name            string             `json:"name"`
+	Path            string             `json:"path"`
+	Protocol        RepositoryProtocol `json:"protocol"`
+	Provider        RepositoryProvider `json:"provider"`
+	UpdatedAt       time.Time          `json:"updatedAt"`
+
+	// URL HTTPS or SSH Git URL. Credentials are resolved only through credentialRef.
+	URL string `json:"url"`
+}
+
+// RepositoryEnvelope defines model for RepositoryEnvelope.
+type RepositoryEnvelope struct {
+	Data Repository `json:"data"`
+}
+
+// RepositoryInput defines model for RepositoryInput.
+type RepositoryInput struct {
+	ApplicationIDs []string `json:"applicationIds,omitempty"`
+
+	// CredentialRef Opaque server-side credential reference; never a token or private key.
+	CredentialRef   string             `json:"credentialRef,omitempty"`
+	DefaultBranch   string             `json:"defaultBranch"`
+	GitlabProjectID string             `json:"gitlabProjectId,omitempty"`
+	Name            string             `json:"name"`
+	Path            string             `json:"path"`
+	Protocol        RepositoryProtocol `json:"protocol"`
+	Provider        RepositoryProvider `json:"provider"`
+
+	// URL HTTPS or SSH Git URL without embedded credentials.
+	URL string `json:"url"`
+}
+
+// RepositoryListEnvelope defines model for RepositoryListEnvelope.
+type RepositoryListEnvelope struct {
+	Data []Repository `json:"data"`
+}
+
+// RepositoryProtocol defines model for RepositoryProtocol.
+type RepositoryProtocol string
+
+// RepositoryProvider defines model for RepositoryProvider.
+type RepositoryProvider string
+
 // ResourceCapability defines model for ResourceCapability.
 type ResourceCapability struct {
 	ContextSchema  JSONSchema `json:"contextSchema,omitempty"`
@@ -9168,6 +9379,9 @@ type ComputeTaskID = string
 // EvaluationRunID defines model for EvaluationRunID.
 type EvaluationRunID = string
 
+// GitLabProjectIDQuery defines model for GitLabProjectIDQuery.
+type GitLabProjectIDQuery = string
+
 // IdempotencyKey defines model for IdempotencyKey.
 type IdempotencyKey = string
 
@@ -9215,6 +9429,9 @@ type PluginID = string
 
 // ProviderID defines model for ProviderID.
 type ProviderID = string
+
+// RepositoryID defines model for RepositoryID.
+type RepositoryID = string
 
 // RouteID defines model for RouteID.
 type RouteID = string
@@ -9940,6 +10157,34 @@ type ListReleaseBundlesParams struct {
 	Limit                    int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
+// ListGitLabBranchesParams defines parameters for ListGitLabBranches.
+type ListGitLabBranchesParams struct {
+	ProjectID GitLabProjectIDQuery `form:"projectId" json:"projectId"`
+	Search    string               `form:"search,omitempty" json:"search,omitempty"`
+	Limit     int                  `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListGitLabCommitsParams defines parameters for ListGitLabCommits.
+type ListGitLabCommitsParams struct {
+	ProjectID GitLabProjectIDQuery `form:"projectId" json:"projectId"`
+	Search    string               `form:"search,omitempty" json:"search,omitempty"`
+	Page      int                  `form:"page,omitempty" json:"page,omitempty"`
+	Limit     int                  `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListGitLabProjectsParams defines parameters for ListGitLabProjects.
+type ListGitLabProjectsParams struct {
+	Search string `form:"search,omitempty" json:"search,omitempty"`
+	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListGitLabTagsParams defines parameters for ListGitLabTags.
+type ListGitLabTagsParams struct {
+	ProjectID GitLabProjectIDQuery `form:"projectId" json:"projectId"`
+	Search    string               `form:"search,omitempty" json:"search,omitempty"`
+	Limit     int                  `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
 // ListMarketplacePluginsParams defines parameters for ListMarketplacePlugins.
 type ListMarketplacePluginsParams struct {
 	Q              string `form:"q,omitempty" json:"q,omitempty"`
@@ -9955,6 +10200,13 @@ type GetMarketplacePluginParams struct {
 	SourceID       string `form:"sourceId,omitempty" json:"sourceId,omitempty"`
 	MarketplaceURL string `form:"marketplaceUrl,omitempty" json:"marketplaceUrl,omitempty"`
 	Version        string `form:"version,omitempty" json:"version,omitempty"`
+}
+
+// ListRepositoriesParams defines parameters for ListRepositories.
+type ListRepositoriesParams struct {
+	ApplicationID string `form:"applicationId,omitempty" json:"applicationId,omitempty"`
+	Search        string `form:"search,omitempty" json:"search,omitempty"`
+	Limit         int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
 // DecideAIGatewayApprovalRequestJSONRequestBody defines body for DecideAIGatewayApprovalRequest for application/json ContentType.
@@ -10256,6 +10508,12 @@ type ConfigureInstalledPluginJSONRequestBody = PluginConfigRequest
 
 // UpgradeInstalledPluginJSONRequestBody defines body for UpgradeInstalledPlugin for application/json ContentType.
 type UpgradeInstalledPluginJSONRequestBody = PluginInstallRequest
+
+// CreateRepositoryJSONRequestBody defines body for CreateRepository for application/json ContentType.
+type CreateRepositoryJSONRequestBody = RepositoryInput
+
+// UpdateRepositoryJSONRequestBody defines body for UpdateRepository for application/json ContentType.
+type UpdateRepositoryJSONRequestBody = RepositoryInput
 
 // UpdateAISkillsRegistryJSONRequestBody defines body for UpdateAISkillsRegistry for application/json ContentType.
 type UpdateAISkillsRegistryJSONRequestBody = UpdateAISkillsRequest
@@ -14852,6 +15110,182 @@ func (t AgentRunCallbackWorkbenchStreamEvent) MarshalJSON() ([]byte, error) {
 }
 
 func (t *AgentRunCallbackWorkbenchStreamEvent) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsBuildSourceConfigBuildArgs0 returns the union data inside the BuildSourceConfig_BuildArgs_AdditionalProperties as a BuildSourceConfigBuildArgs0
+func (t BuildSourceConfig_BuildArgs_AdditionalProperties) AsBuildSourceConfigBuildArgs0() (BuildSourceConfigBuildArgs0, error) {
+	var body BuildSourceConfigBuildArgs0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromBuildSourceConfigBuildArgs0 overwrites any union data inside the BuildSourceConfig_BuildArgs_AdditionalProperties as the provided BuildSourceConfigBuildArgs0
+func (t *BuildSourceConfig_BuildArgs_AdditionalProperties) FromBuildSourceConfigBuildArgs0(v BuildSourceConfigBuildArgs0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeBuildSourceConfigBuildArgs0 performs a merge with any union data inside the BuildSourceConfig_BuildArgs_AdditionalProperties, using the provided BuildSourceConfigBuildArgs0
+func (t *BuildSourceConfig_BuildArgs_AdditionalProperties) MergeBuildSourceConfigBuildArgs0(v BuildSourceConfigBuildArgs0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsBuildSourceConfigBuildArgs1 returns the union data inside the BuildSourceConfig_BuildArgs_AdditionalProperties as a BuildSourceConfigBuildArgs1
+func (t BuildSourceConfig_BuildArgs_AdditionalProperties) AsBuildSourceConfigBuildArgs1() (BuildSourceConfigBuildArgs1, error) {
+	var body BuildSourceConfigBuildArgs1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromBuildSourceConfigBuildArgs1 overwrites any union data inside the BuildSourceConfig_BuildArgs_AdditionalProperties as the provided BuildSourceConfigBuildArgs1
+func (t *BuildSourceConfig_BuildArgs_AdditionalProperties) FromBuildSourceConfigBuildArgs1(v BuildSourceConfigBuildArgs1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeBuildSourceConfigBuildArgs1 performs a merge with any union data inside the BuildSourceConfig_BuildArgs_AdditionalProperties, using the provided BuildSourceConfigBuildArgs1
+func (t *BuildSourceConfig_BuildArgs_AdditionalProperties) MergeBuildSourceConfigBuildArgs1(v BuildSourceConfigBuildArgs1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsBuildSourceConfigBuildArgs2 returns the union data inside the BuildSourceConfig_BuildArgs_AdditionalProperties as a BuildSourceConfigBuildArgs2
+func (t BuildSourceConfig_BuildArgs_AdditionalProperties) AsBuildSourceConfigBuildArgs2() (BuildSourceConfigBuildArgs2, error) {
+	var body BuildSourceConfigBuildArgs2
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromBuildSourceConfigBuildArgs2 overwrites any union data inside the BuildSourceConfig_BuildArgs_AdditionalProperties as the provided BuildSourceConfigBuildArgs2
+func (t *BuildSourceConfig_BuildArgs_AdditionalProperties) FromBuildSourceConfigBuildArgs2(v BuildSourceConfigBuildArgs2) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeBuildSourceConfigBuildArgs2 performs a merge with any union data inside the BuildSourceConfig_BuildArgs_AdditionalProperties, using the provided BuildSourceConfigBuildArgs2
+func (t *BuildSourceConfig_BuildArgs_AdditionalProperties) MergeBuildSourceConfigBuildArgs2(v BuildSourceConfigBuildArgs2) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t BuildSourceConfig_BuildArgs_AdditionalProperties) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *BuildSourceConfig_BuildArgs_AdditionalProperties) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsBuildSourceConfigVariables0 returns the union data inside the BuildSourceConfig_Variables_AdditionalProperties as a BuildSourceConfigVariables0
+func (t BuildSourceConfig_Variables_AdditionalProperties) AsBuildSourceConfigVariables0() (BuildSourceConfigVariables0, error) {
+	var body BuildSourceConfigVariables0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromBuildSourceConfigVariables0 overwrites any union data inside the BuildSourceConfig_Variables_AdditionalProperties as the provided BuildSourceConfigVariables0
+func (t *BuildSourceConfig_Variables_AdditionalProperties) FromBuildSourceConfigVariables0(v BuildSourceConfigVariables0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeBuildSourceConfigVariables0 performs a merge with any union data inside the BuildSourceConfig_Variables_AdditionalProperties, using the provided BuildSourceConfigVariables0
+func (t *BuildSourceConfig_Variables_AdditionalProperties) MergeBuildSourceConfigVariables0(v BuildSourceConfigVariables0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsBuildSourceConfigVariables1 returns the union data inside the BuildSourceConfig_Variables_AdditionalProperties as a BuildSourceConfigVariables1
+func (t BuildSourceConfig_Variables_AdditionalProperties) AsBuildSourceConfigVariables1() (BuildSourceConfigVariables1, error) {
+	var body BuildSourceConfigVariables1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromBuildSourceConfigVariables1 overwrites any union data inside the BuildSourceConfig_Variables_AdditionalProperties as the provided BuildSourceConfigVariables1
+func (t *BuildSourceConfig_Variables_AdditionalProperties) FromBuildSourceConfigVariables1(v BuildSourceConfigVariables1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeBuildSourceConfigVariables1 performs a merge with any union data inside the BuildSourceConfig_Variables_AdditionalProperties, using the provided BuildSourceConfigVariables1
+func (t *BuildSourceConfig_Variables_AdditionalProperties) MergeBuildSourceConfigVariables1(v BuildSourceConfigVariables1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsBuildSourceConfigVariables2 returns the union data inside the BuildSourceConfig_Variables_AdditionalProperties as a BuildSourceConfigVariables2
+func (t BuildSourceConfig_Variables_AdditionalProperties) AsBuildSourceConfigVariables2() (BuildSourceConfigVariables2, error) {
+	var body BuildSourceConfigVariables2
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromBuildSourceConfigVariables2 overwrites any union data inside the BuildSourceConfig_Variables_AdditionalProperties as the provided BuildSourceConfigVariables2
+func (t *BuildSourceConfig_Variables_AdditionalProperties) FromBuildSourceConfigVariables2(v BuildSourceConfigVariables2) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeBuildSourceConfigVariables2 performs a merge with any union data inside the BuildSourceConfig_Variables_AdditionalProperties, using the provided BuildSourceConfigVariables2
+func (t *BuildSourceConfig_Variables_AdditionalProperties) MergeBuildSourceConfigVariables2(v BuildSourceConfigVariables2) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t BuildSourceConfig_Variables_AdditionalProperties) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *BuildSourceConfig_Variables_AdditionalProperties) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }

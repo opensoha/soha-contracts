@@ -220,14 +220,6 @@
     },
     {
       "kind": "additionalPropertiesTrue",
-      "path": "components/schemas/BuildSource/properties/config/additionalProperties"
-    },
-    {
-      "kind": "additionalPropertiesTrue",
-      "path": "components/schemas/BuildSourceInput/properties/config/additionalProperties"
-    },
-    {
-      "kind": "additionalPropertiesTrue",
       "path": "components/schemas/BuildTemplate/properties/defaultVariables/additionalProperties"
     },
     {

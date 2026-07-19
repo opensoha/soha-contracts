@@ -524,6 +524,233 @@ paths:
                 $ref: "#/components/schemas/OperationStatus"
         "404":
           $ref: "#/components/responses/Error"
+  /repositories:
+    get:
+      tags: [Applications]
+      operationId: listRepositories
+      parameters:
+        - name: applicationId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+      responses:
+        "200":
+          description: Repositories visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RepositoryListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [Applications]
+      operationId: createRepository
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RepositoryInput"
+      responses:
+        "201":
+          description: Created repository.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RepositoryEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /repositories/{repositoryID}:
+    get:
+      tags: [Applications]
+      operationId: getRepository
+      parameters:
+        - $ref: "#/components/parameters/RepositoryID"
+      responses:
+        "200":
+          description: Repository detail.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RepositoryEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+    put:
+      tags: [Applications]
+      operationId: updateRepository
+      parameters:
+        - $ref: "#/components/parameters/RepositoryID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RepositoryInput"
+      responses:
+        "200":
+          description: Updated repository.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RepositoryEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags: [Applications]
+      operationId: deleteRepository
+      parameters:
+        - $ref: "#/components/parameters/RepositoryID"
+      responses:
+        "200":
+          description: Deleted repository.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationStatus"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /integrations/gitlab/projects:
+    get:
+      tags: [Applications]
+      operationId: listGitLabProjects
+      parameters:
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+      responses:
+        "200":
+          description: GitLab projects available through the server-side integration.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GitProjectListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /integrations/gitlab/branches:
+    get:
+      tags: [Applications]
+      operationId: listGitLabBranches
+      parameters:
+        - $ref: "#/components/parameters/GitLabProjectIDQuery"
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+      responses:
+        "200":
+          description: GitLab branches for the selected project.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GitReferenceListEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /integrations/gitlab/tags:
+    get:
+      tags: [Applications]
+      operationId: listGitLabTags
+      parameters:
+        - $ref: "#/components/parameters/GitLabProjectIDQuery"
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+      responses:
+        "200":
+          description: GitLab tags for the selected project.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GitReferenceListEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /integrations/gitlab/commits:
+    get:
+      tags: [Applications]
+      operationId: listGitLabCommits
+      parameters:
+        - $ref: "#/components/parameters/GitLabProjectIDQuery"
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+      responses:
+        "200":
+          description: A searchable page of GitLab commits for the selected project.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GitCommitPageEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
   /applications/{applicationID}/delivery-actions:
     post:
       tags: [Applications, Delivery]
@@ -5444,6 +5671,20 @@ components:
       required: true
       schema:
         type: string
+    RepositoryID:
+      name: repositoryID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    GitLabProjectIDQuery:
+      name: projectId
+      in: query
+      required: true
+      schema:
+        type: string
+        minLength: 1
     AIClientID:
       name: aiClientId
       in: query
@@ -8816,6 +9057,188 @@ components:
         data:
           $ref: "#/components/schemas/StreamTicket"
       additionalProperties: false
+    RepositoryProvider:
+      type: string
+      enum: [gitlab, git]
+    RepositoryProtocol:
+      type: string
+      enum: [https, ssh]
+    Repository:
+      type: object
+      required: [id, name, provider, url, protocol, path, defaultBranch, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        provider:
+          $ref: "#/components/schemas/RepositoryProvider"
+        url:
+          type: string
+          description: HTTPS or SSH Git URL. Credentials are resolved only through credentialRef.
+          pattern: '^(https://(?![^/]*@)[^\s]+|ssh://[^\s]+|git@[^\s:]+:[^\s]+)$'
+        protocol:
+          $ref: "#/components/schemas/RepositoryProtocol"
+        gitlabProjectId:
+          type: string
+        path:
+          type: string
+        credentialRef:
+          type: string
+          description: Opaque server-side credential reference; never a token or private key.
+        defaultBranch:
+          type: string
+        applicationIds:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    RepositoryInput:
+      type: object
+      required: [name, provider, url, protocol, path, defaultBranch]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        provider:
+          $ref: "#/components/schemas/RepositoryProvider"
+        url:
+          type: string
+          description: HTTPS or SSH Git URL without embedded credentials.
+          pattern: '^(https://(?![^/]*@)[^\s]+|ssh://[^\s]+|git@[^\s:]+:[^\s]+)$'
+        protocol:
+          $ref: "#/components/schemas/RepositoryProtocol"
+        gitlabProjectId:
+          type: string
+        path:
+          type: string
+          minLength: 1
+        credentialRef:
+          type: string
+          description: Opaque server-side credential reference; never a token or private key.
+        defaultBranch:
+          type: string
+          minLength: 1
+        applicationIds:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+      additionalProperties: false
+    GitProject:
+      type: object
+      required: [id, name, path, pathWithNamespace]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        path:
+          type: string
+        pathWithNamespace:
+          type: string
+        defaultBranch:
+          type: string
+        webUrl:
+          type: string
+          format: uri
+      additionalProperties: false
+    GitReference:
+      type: object
+      required: [name, protected]
+      properties:
+        name:
+          type: string
+        commitSha:
+          type: string
+        protected:
+          type: boolean
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    GitCommit:
+      type: object
+      required: [id, shortId, title, committedAt]
+      properties:
+        id:
+          type: string
+        shortId:
+          type: string
+        title:
+          type: string
+        message:
+          type: string
+        authorName:
+          type: string
+        authorEmail:
+          type: string
+          format: email
+        committedAt:
+          type: string
+          format: date-time
+        webUrl:
+          type: string
+          format: uri
+      additionalProperties: false
+    RepositoryEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/Repository"
+      additionalProperties: false
+    RepositoryListEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Repository"
+      additionalProperties: false
+    GitProjectListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitProject"
+      additionalProperties: false
+    GitReferenceListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitReference"
+      additionalProperties: false
+    GitCommitPageEnvelope:
+      type: object
+      required: [items, page, limit, hasMore]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/GitCommit"
+        page:
+          type: integer
+          minimum: 1
+        limit:
+          type: integer
+          minimum: 1
+        hasMore:
+          type: boolean
+      additionalProperties: false
     BuildSource:
       type: object
       required: [id, name, type, enabled, isDefault]
@@ -8836,8 +9259,7 @@ components:
         defaultTag:
           type: string
         config:
-          type: object
-          additionalProperties: true
+          $ref: "#/components/schemas/BuildSourceConfig"
         createdAt:
           type: string
           format: date-time
@@ -8865,8 +9287,44 @@ components:
         defaultTag:
           type: string
         config:
+          $ref: "#/components/schemas/BuildSourceConfig"
+      additionalProperties: false
+    BuildSourceConfig:
+      type: object
+      properties:
+        repositoryId:
+          type: string
+        dockerfilePath:
+          type: string
+        contextDir:
+          type: string
+        buildTemplateId:
+          type: string
+        pipelineRef:
+          type: string
+        buildImage:
+          type: string
+        defaultTag:
+          type: string
+        builderKind:
+          type: string
+          enum: [docker, buildx, kaniko]
+        providerKind:
+          type: string
+        variables:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            oneOf:
+              - type: string
+              - type: number
+              - type: boolean
+        buildArgs:
+          type: object
+          additionalProperties:
+            oneOf:
+              - type: string
+              - type: number
+              - type: boolean
       additionalProperties: false
     Application:
       type: object
@@ -8888,6 +9346,11 @@ components:
           type: string
         ownerTeam:
           type: string
+        repositoryIds:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
         repositoryProvider:
           type: string
         repositoryProjectId:
@@ -8942,6 +9405,11 @@ components:
           type: string
         ownerTeam:
           type: string
+        repositoryIds:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
         repositoryProvider:
           type: string
         repositoryProjectId:
@@ -9061,6 +9529,8 @@ components:
           enum: [kubernetes_workload, helm_release, external_service, job]
         ownerTeam:
           type: string
+        repositoryId:
+          type: string
         repositoryProvider:
           type: string
         repositoryProjectId:
@@ -9103,6 +9573,8 @@ components:
           type: string
           enum: [kubernetes_workload, helm_release, external_service, job]
         ownerTeam:
+          type: string
+        repositoryId:
           type: string
         repositoryProvider:
           type: string
@@ -9948,7 +10420,7 @@ components:
           enum: [manual, ai]
         status:
           type: string
-          enum: [draft, confirming, confirmed]
+          enum: [draft, waiting_approval, confirming, confirmed]
         applicationId:
           type: string
         applicationName:

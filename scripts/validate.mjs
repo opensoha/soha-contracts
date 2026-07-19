@@ -105,6 +105,7 @@ const requiredOpenapiFixtureSchemas = [
   "KubernetesResourceCreateResultEnvelope",
   "KubernetesResourceAgentCreateRequest",
   "ErrorEnvelope",
+  "RepositoryInput",
 ];
 
 const requiredJsonExamples = [

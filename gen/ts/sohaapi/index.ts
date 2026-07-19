@@ -401,6 +401,102 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/repositories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listRepositories"];
+        put?: never;
+        post: operations["createRepository"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/repositories/{repositoryID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getRepository"];
+        put: operations["updateRepository"];
+        post?: never;
+        delete: operations["deleteRepository"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/integrations/gitlab/projects": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listGitLabProjects"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/integrations/gitlab/branches": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listGitLabBranches"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/integrations/gitlab/tags": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listGitLabTags"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/integrations/gitlab/commits": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listGitLabCommits"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/applications/{applicationID}/delivery-actions": {
         parameters: {
             query?: never;
@@ -4930,6 +5026,88 @@ export interface components {
         StreamTicketEnvelope: {
             data: components["schemas"]["StreamTicket"];
         };
+        /** @enum {string} */
+        RepositoryProvider: "gitlab" | "git";
+        /** @enum {string} */
+        RepositoryProtocol: "https" | "ssh";
+        Repository: {
+            id: string;
+            name: string;
+            provider: components["schemas"]["RepositoryProvider"];
+            /** @description HTTPS or SSH Git URL. Credentials are resolved only through credentialRef. */
+            url: string;
+            protocol: components["schemas"]["RepositoryProtocol"];
+            gitlabProjectId?: string;
+            path: string;
+            /** @description Opaque server-side credential reference; never a token or private key. */
+            credentialRef?: string;
+            defaultBranch: string;
+            applicationIds?: string[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        RepositoryInput: {
+            name: string;
+            provider: components["schemas"]["RepositoryProvider"];
+            /** @description HTTPS or SSH Git URL without embedded credentials. */
+            url: string;
+            protocol: components["schemas"]["RepositoryProtocol"];
+            gitlabProjectId?: string;
+            path: string;
+            /** @description Opaque server-side credential reference; never a token or private key. */
+            credentialRef?: string;
+            defaultBranch: string;
+            applicationIds?: string[];
+        };
+        GitProject: {
+            id: string;
+            name: string;
+            path: string;
+            pathWithNamespace: string;
+            defaultBranch?: string;
+            /** Format: uri */
+            webUrl?: string;
+        };
+        GitReference: {
+            name: string;
+            commitSha?: string;
+            protected: boolean;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        GitCommit: {
+            id: string;
+            shortId: string;
+            title: string;
+            message?: string;
+            authorName?: string;
+            /** Format: email */
+            authorEmail?: string;
+            /** Format: date-time */
+            committedAt: string;
+            /** Format: uri */
+            webUrl?: string;
+        };
+        RepositoryEnvelope: {
+            data: components["schemas"]["Repository"];
+        };
+        RepositoryListEnvelope: {
+            data: components["schemas"]["Repository"][];
+        };
+        GitProjectListEnvelope: {
+            items: components["schemas"]["GitProject"][];
+        };
+        GitReferenceListEnvelope: {
+            items: components["schemas"]["GitReference"][];
+        };
+        GitCommitPageEnvelope: {
+            items: components["schemas"]["GitCommit"][];
+            page: number;
+            limit: number;
+            hasMore: boolean;
+        };
         BuildSource: {
             id: string;
             name: string;
@@ -4939,9 +5117,7 @@ export interface components {
             isDefault: boolean;
             buildImage?: string;
             defaultTag?: string;
-            config?: {
-                [key: string]: unknown;
-            };
+            config?: components["schemas"]["BuildSourceConfig"];
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -4956,8 +5132,24 @@ export interface components {
             isDefault: boolean;
             buildImage?: string;
             defaultTag?: string;
-            config?: {
-                [key: string]: unknown;
+            config?: components["schemas"]["BuildSourceConfig"];
+        };
+        BuildSourceConfig: {
+            repositoryId?: string;
+            dockerfilePath?: string;
+            contextDir?: string;
+            buildTemplateId?: string;
+            pipelineRef?: string;
+            buildImage?: string;
+            defaultTag?: string;
+            /** @enum {string} */
+            builderKind?: "docker" | "buildx" | "kaniko";
+            providerKind?: string;
+            variables?: {
+                [key: string]: string | number | boolean;
+            };
+            buildArgs?: {
+                [key: string]: string | number | boolean;
             };
         };
         Application: {
@@ -4969,6 +5161,7 @@ export interface components {
             language: string;
             description?: string;
             ownerTeam?: string;
+            repositoryIds?: string[];
             repositoryProvider?: string;
             repositoryProjectId?: string;
             repositoryPath?: string;
@@ -4997,6 +5190,7 @@ export interface components {
             language: string;
             description?: string;
             ownerTeam?: string;
+            repositoryIds?: string[];
             repositoryProvider?: string;
             repositoryProjectId?: string;
             repositoryPath?: string;
@@ -5067,6 +5261,7 @@ export interface components {
             /** @enum {string} */
             serviceKind: "kubernetes_workload" | "helm_release" | "external_service" | "job";
             ownerTeam?: string;
+            repositoryId?: string;
             repositoryProvider?: string;
             repositoryProjectId?: string;
             repositoryPath?: string;
@@ -5090,6 +5285,7 @@ export interface components {
             /** @enum {string} */
             serviceKind: "kubernetes_workload" | "helm_release" | "external_service" | "job";
             ownerTeam?: string;
+            repositoryId?: string;
             repositoryProvider?: string;
             repositoryProjectId?: string;
             repositoryPath?: string;
@@ -5529,7 +5725,7 @@ export interface components {
             /** @enum {string} */
             source: "manual" | "ai";
             /** @enum {string} */
-            status: "draft" | "confirming" | "confirmed";
+            status: "draft" | "waiting_approval" | "confirming" | "confirmed";
             applicationId: string;
             applicationName?: string;
             applicationEnvironmentId: string;
@@ -7600,6 +7796,8 @@ export interface components {
         IdempotencyKey: string;
         ApplicationID: string;
         ApplicationEnvironmentID: string;
+        RepositoryID: string;
+        GitLabProjectIDQuery: string;
         AIClientID: string;
         BuildTemplateID: string;
         BundleID: string;
@@ -7937,8 +8135,21 @@ export type AuthProviderListEnvelope = components['schemas']['AuthProviderListEn
 export type LoginOptionsEnvelope = components['schemas']['LoginOptionsEnvelope'];
 export type AuthBootstrapEnvelope = components['schemas']['AuthBootstrapEnvelope'];
 export type StreamTicketEnvelope = components['schemas']['StreamTicketEnvelope'];
+export type RepositoryProvider = components['schemas']['RepositoryProvider'];
+export type RepositoryProtocol = components['schemas']['RepositoryProtocol'];
+export type Repository = components['schemas']['Repository'];
+export type RepositoryInput = components['schemas']['RepositoryInput'];
+export type GitProject = components['schemas']['GitProject'];
+export type GitReference = components['schemas']['GitReference'];
+export type GitCommit = components['schemas']['GitCommit'];
+export type RepositoryEnvelope = components['schemas']['RepositoryEnvelope'];
+export type RepositoryListEnvelope = components['schemas']['RepositoryListEnvelope'];
+export type GitProjectListEnvelope = components['schemas']['GitProjectListEnvelope'];
+export type GitReferenceListEnvelope = components['schemas']['GitReferenceListEnvelope'];
+export type GitCommitPageEnvelope = components['schemas']['GitCommitPageEnvelope'];
 export type BuildSource = components['schemas']['BuildSource'];
 export type BuildSourceInput = components['schemas']['BuildSourceInput'];
+export type BuildSourceConfig = components['schemas']['BuildSourceConfig'];
 export type Application = components['schemas']['Application'];
 export type ApplicationInput = components['schemas']['ApplicationInput'];
 export type ApplicationServiceContainer = components['schemas']['ApplicationServiceContainer'];
@@ -8214,6 +8425,8 @@ export type ParameterComputeActionId = components['parameters']['ComputeActionID
 export type ParameterIdempotencyKey = components['parameters']['IdempotencyKey'];
 export type ParameterApplicationId = components['parameters']['ApplicationID'];
 export type ParameterApplicationEnvironmentId = components['parameters']['ApplicationEnvironmentID'];
+export type ParameterRepositoryId = components['parameters']['RepositoryID'];
+export type ParameterGitLabProjectIdQuery = components['parameters']['GitLabProjectIDQuery'];
 export type ParameterAiClientId = components['parameters']['AIClientID'];
 export type ParameterBuildTemplateId = components['parameters']['BuildTemplateID'];
 export type ParameterBundleId = components['parameters']['BundleID'];
@@ -8976,6 +9189,236 @@ export interface operations {
                 };
             };
             404: components["responses"]["Error"];
+        };
+    };
+    listRepositories: {
+        parameters: {
+            query?: {
+                applicationId?: string;
+                search?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Repositories visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RepositoryListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createRepository: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RepositoryInput"];
+            };
+        };
+        responses: {
+            /** @description Created repository. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RepositoryEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    getRepository: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                repositoryID: components["parameters"]["RepositoryID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Repository detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RepositoryEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    updateRepository: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                repositoryID: components["parameters"]["RepositoryID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RepositoryInput"];
+            };
+        };
+        responses: {
+            /** @description Updated repository. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RepositoryEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteRepository: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                repositoryID: components["parameters"]["RepositoryID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted repository. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listGitLabProjects: {
+        parameters: {
+            query?: {
+                search?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description GitLab projects available through the server-side integration. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GitProjectListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    listGitLabBranches: {
+        parameters: {
+            query: {
+                projectId: components["parameters"]["GitLabProjectIDQuery"];
+                search?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description GitLab branches for the selected project. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GitReferenceListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listGitLabTags: {
+        parameters: {
+            query: {
+                projectId: components["parameters"]["GitLabProjectIDQuery"];
+                search?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description GitLab tags for the selected project. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GitReferenceListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listGitLabCommits: {
+        parameters: {
+            query: {
+                projectId: components["parameters"]["GitLabProjectIDQuery"];
+                search?: string;
+                page?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description A searchable page of GitLab commits for the selected project. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GitCommitPageEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
         };
     };
     triggerApplicationDeliveryAction: {
