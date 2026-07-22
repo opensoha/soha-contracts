@@ -139,9 +139,21 @@ function applyGoCompatibility(spec) {
   if (isObject(riskLevel)) {
     riskLevel["x-go-type"] = "string";
   }
+  const runtimeConfigValue = schemas.RuntimeConfigValue;
+  if (isObject(runtimeConfigValue)) {
+    runtimeConfigValue["x-go-type"] = "any";
+  }
+  const runtimeConfigItem = schemas.RuntimeConfigItem;
+  if (isObject(runtimeConfigItem)) {
+    // oapi-codegen v2.7 cannot model OpenAPI 3.1 conditional validation.
+    delete runtimeConfigItem.allOf;
+  }
 
   setPropertyGoType(schemas, "PluginManifest", "type", "string");
   setPropertyGoType(schemas, "InstalledPlugin", "status", "string");
+  for (const propertyName of ["description", "enabled", "configuration"]) {
+    keepOptionalPropertyPointer(schemas, "SystemIntegrationUpdateRequest", propertyName);
+  }
 
   for (const schema of Object.values(schemas)) {
     markOptionalPointerFields(schema, schemas);
@@ -174,6 +186,13 @@ function setPropertyGoType(schemas, schemaName, propertyName, typeName) {
   const property = schemas?.[schemaName]?.properties?.[propertyName];
   if (isObject(property)) {
     property["x-go-type"] = typeName;
+  }
+}
+
+function keepOptionalPropertyPointer(schemas, schemaName, propertyName) {
+  const property = schemas?.[schemaName]?.properties?.[propertyName];
+  if (isObject(property)) {
+    property["x-go-type-skip-optional-pointer"] = false;
   }
 }
 

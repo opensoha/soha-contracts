@@ -19,6 +19,8 @@ tags:
   - name: Delivery
   - name: Platform
   - name: Settings
+  - name: System Integrations
+  - name: Source Control
   - name: AI Workbench
   - name: Knowledge
   - name: Context
@@ -304,6 +306,432 @@ paths:
         "400":
           $ref: "#/components/responses/Error"
         "403":
+          $ref: "#/components/responses/Error"
+  /settings/runtime-config:
+    get:
+      tags: [Settings]
+      operationId: getRuntimeConfig
+      responses:
+        "200":
+          description: Effective runtime configuration, its provenance, and editability metadata.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RuntimeConfigSnapshotEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /settings/runtime-config/resources:
+    get:
+      tags: [Settings]
+      operationId: getRuntimeResourceSnapshot
+      responses:
+        "200":
+          description: Current Soha process, filesystem, network namespace, Go runtime, and background service resource snapshot.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RuntimeResourceSnapshotEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /settings/runtime-config/validate:
+    post:
+      tags: [Settings]
+      operationId: validateRuntimeConfig
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RuntimeConfigChangeRequest"
+      responses:
+        "200":
+          description: Dry-run validation result without persisting or applying changes.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RuntimeConfigValidationEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /settings/runtime-config/apply:
+    post:
+      tags: [Settings]
+      operationId: applyRuntimeConfig
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RuntimeConfigChangeRequest"
+      responses:
+        "202":
+          description: Configuration revision accepted for application.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RuntimeConfigApplyResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /settings/runtime-config/history:
+    get:
+      tags: [Settings]
+      operationId: listRuntimeConfigHistory
+      responses:
+        "200":
+          description: Runtime configuration revision history, newest first.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RuntimeConfigRevisionListEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /settings/runtime-config/rollback:
+    post:
+      tags: [Settings]
+      operationId: rollbackRuntimeConfig
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RuntimeConfigRollbackRequest"
+      responses:
+        "202":
+          description: Rollback revision accepted for application.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RuntimeConfigApplyResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /settings/runtime-config/applications/{runtimeConfigApplicationID}:
+    get:
+      tags: [Settings]
+      operationId: getRuntimeConfigApplication
+      parameters:
+        - $ref: "#/components/parameters/RuntimeConfigApplicationID"
+      responses:
+        "200":
+          description: Current application status for an accepted configuration revision.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RuntimeConfigApplicationEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /system-integrations:
+    get:
+      tags: [System Integrations]
+      operationId: listSystemIntegrations
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/SystemIntegrationCategory"
+        - name: providerType
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: enabled
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: Permission-filtered global system integrations with credentials redacted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemIntegrationListEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [System Integrations]
+      operationId: createSystemIntegration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SystemIntegrationCreateRequest"
+      responses:
+        "201":
+          description: Global system integration created with credentials redacted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemIntegrationEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /system-integrations/{integrationID}:
+    get:
+      tags: [System Integrations]
+      operationId: getSystemIntegration
+      parameters:
+        - $ref: "#/components/parameters/SystemIntegrationID"
+      responses:
+        "200":
+          description: Global system integration detail with credentials redacted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemIntegrationEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    patch:
+      tags: [System Integrations]
+      operationId: updateSystemIntegration
+      parameters:
+        - $ref: "#/components/parameters/SystemIntegrationID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SystemIntegrationUpdateRequest"
+      responses:
+        "200":
+          description: Updated global system integration with credentials redacted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemIntegrationEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags: [System Integrations]
+      operationId: deleteSystemIntegration
+      parameters:
+        - $ref: "#/components/parameters/SystemIntegrationID"
+      responses:
+        "204":
+          description: Global system integration deleted.
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /system-integrations/{integrationID}/test:
+    post:
+      tags: [System Integrations]
+      operationId: testSystemIntegration
+      parameters:
+        - $ref: "#/components/parameters/SystemIntegrationID"
+      responses:
+        "200":
+          description: Redacted connection test result for the integration.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemIntegrationTestResultEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "422":
+          $ref: "#/components/responses/Error"
+  /source-connections:
+    get:
+      tags: [Source Control]
+      operationId: listSourceConnections
+      responses:
+        "200":
+          description: Enabled source-control projections of global integrations available to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SourceConnectionListEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /source-connections/{sourceConnectionID}:
+    get:
+      tags: [Source Control]
+      operationId: getSourceConnection
+      parameters:
+        - $ref: "#/components/parameters/SourceConnectionID"
+      responses:
+        "200":
+          description: Source-control connection projection without configuration secrets.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SourceConnectionEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /source-connections/{sourceConnectionID}/repositories:
+    get:
+      tags: [Source Control]
+      operationId: listSourceRepositories
+      parameters:
+        - $ref: "#/components/parameters/SourceConnectionID"
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 200
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 50
+      responses:
+        "200":
+          description: Provider-neutral repositories visible through the source connection.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SourceRepositoryListEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /source-connections/{sourceConnectionID}/repositories/{repositoryID}/branches:
+    get:
+      tags: [Source Control]
+      operationId: listSourceRepositoryBranches
+      parameters:
+        - $ref: "#/components/parameters/SourceConnectionID"
+        - $ref: "#/components/parameters/SourceRepositoryID"
+      responses:
+        "200":
+          description: Provider-neutral branches for a repository.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SourceBranchListEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /source-connections/{sourceConnectionID}/repositories/{repositoryID}/tags:
+    get:
+      tags: [Source Control]
+      operationId: listSourceRepositoryTags
+      parameters:
+        - $ref: "#/components/parameters/SourceConnectionID"
+        - $ref: "#/components/parameters/SourceRepositoryID"
+      responses:
+        "200":
+          description: Provider-neutral tags for a repository.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SourceTagListEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /source-connections/{sourceConnectionID}/repositories/{repositoryID}/files:
+    get:
+      tags: [Source Control]
+      operationId: getSourceRepositoryFile
+      parameters:
+        - $ref: "#/components/parameters/SourceConnectionID"
+        - $ref: "#/components/parameters/SourceRepositoryID"
+        - name: ref
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 512
+        - name: path
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 4096
+      responses:
+        "200":
+          description: Provider-neutral repository file content at the requested ref.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SourceFileEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
           $ref: "#/components/responses/Error"
   /applications:
     get:
@@ -5570,6 +5998,38 @@ components:
       name: x-api-key
       description: Anthropic-style Soha PAT/SAT credential header for native relay endpoints.
   parameters:
+    SystemIntegrationID:
+      name: integrationID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+    SourceConnectionID:
+      name: sourceConnectionID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+    SourceRepositoryID:
+      name: repositoryID
+      in: path
+      required: true
+      description: Opaque provider-neutral repository identifier. Clients must URL-encode it and must not infer a provider path format.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 1024
+    RuntimeConfigApplicationID:
+      name: runtimeConfigApplicationID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
     ClusterID:
       name: clusterID
       in: path
@@ -5957,6 +6417,851 @@ components:
             $ref: "#/components/schemas/ErrorEnvelope"
   schemas:
     AnyValue: {}
+    SystemIntegrationCategory:
+      type: string
+      enum: [identity, source_control, project_management, configuration, ci_cd, code_quality, api_gateway, monitoring, messaging, ai, cloud, other]
+      x-enum-varnames:
+        - SystemIntegrationCategoryIdentity
+        - SystemIntegrationCategorySourceControl
+        - SystemIntegrationCategoryProjectManagement
+        - SystemIntegrationCategoryConfiguration
+        - SystemIntegrationCategoryCICD
+        - SystemIntegrationCategoryCodeQuality
+        - SystemIntegrationCategoryAPIGateway
+        - SystemIntegrationCategoryMonitoring
+        - SystemIntegrationCategoryMessaging
+        - SystemIntegrationCategoryAI
+        - SystemIntegrationCategoryCloud
+        - SystemIntegrationCategoryOther
+    SystemIntegrationHealthStatus:
+      type: string
+      enum: [unknown, healthy, unhealthy]
+      x-enum-varnames:
+        - SystemIntegrationHealthStatusUnknown
+        - SystemIntegrationHealthStatusHealthy
+        - SystemIntegrationHealthStatusUnhealthy
+    SystemIntegrationTestStatus:
+      type: string
+      enum: [succeeded, failed]
+      x-enum-varnames:
+        - SystemIntegrationTestStatusSucceeded
+        - SystemIntegrationTestStatusFailed
+    SystemIntegrationConfigurationField:
+      type: object
+      required: [key, value]
+      properties:
+        key:
+          type: string
+          pattern: "^[a-z][a-z0-9._-]*$"
+          maxLength: 128
+        value:
+          type: string
+          maxLength: 8192
+      additionalProperties: false
+    SystemIntegrationCredentialInput:
+      type: object
+      required: [key, value]
+      properties:
+        key:
+          type: string
+          pattern: "^[a-z][a-z0-9._-]*$"
+          maxLength: 128
+        value:
+          type: string
+          minLength: 1
+          maxLength: 16384
+          writeOnly: true
+      additionalProperties: false
+    SystemIntegrationCreateRequest:
+      type: object
+      required: [category, providerType, name, enabled]
+      properties:
+        category:
+          $ref: "#/components/schemas/SystemIntegrationCategory"
+        providerType:
+          type: string
+          pattern: "^[a-z][a-z0-9._-]*$"
+          maxLength: 128
+          description: Extensible provider key such as gitlab, github, gitea, or zadig.
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 1000
+        enabled:
+          type: boolean
+        configuration:
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/SystemIntegrationConfigurationField"
+        credentials:
+          type: array
+          maxItems: 20
+          writeOnly: true
+          items:
+            $ref: "#/components/schemas/SystemIntegrationCredentialInput"
+      additionalProperties: false
+    SystemIntegrationUpdateRequest:
+      type: object
+      required: [expectedVersion]
+      properties:
+        expectedVersion:
+          type: integer
+          format: int64
+          minimum: 1
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 1000
+        enabled:
+          type: boolean
+        configuration:
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/SystemIntegrationConfigurationField"
+        credentials:
+          type: array
+          maxItems: 20
+          writeOnly: true
+          description: Credential values to add or replace. Omitted credential keys remain unchanged.
+          items:
+            $ref: "#/components/schemas/SystemIntegrationCredentialInput"
+        clearCredentialKeys:
+          type: array
+          maxItems: 20
+          uniqueItems: true
+          items:
+            type: string
+            pattern: "^[a-z][a-z0-9._-]*$"
+            maxLength: 128
+      additionalProperties: false
+    SystemIntegration:
+      type: object
+      required: [id, category, providerType, name, enabled, configuration, credentialKeys, healthStatus, version, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        category:
+          $ref: "#/components/schemas/SystemIntegrationCategory"
+        providerType:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        configuration:
+          type: array
+          items:
+            $ref: "#/components/schemas/SystemIntegrationConfigurationField"
+        credentialKeys:
+          type: array
+          uniqueItems: true
+          description: Names of configured credentials. Credential values are never returned.
+          items:
+            type: string
+        healthStatus:
+          $ref: "#/components/schemas/SystemIntegrationHealthStatus"
+        lastCheckedAt:
+          type: string
+          format: date-time
+        version:
+          type: integer
+          format: int64
+          minimum: 1
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    SystemIntegrationEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/SystemIntegration"
+      additionalProperties: false
+    SystemIntegrationListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SystemIntegration"
+      additionalProperties: false
+    SystemIntegrationTestResult:
+      type: object
+      required: [integrationId, status, checkedAt, latencyMs, capabilities]
+      properties:
+        integrationId:
+          type: string
+        status:
+          $ref: "#/components/schemas/SystemIntegrationTestStatus"
+        checkedAt:
+          type: string
+          format: date-time
+        latencyMs:
+          type: integer
+          format: int64
+          minimum: 0
+        capabilities:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        message:
+          type: string
+          maxLength: 1000
+      additionalProperties: false
+    SystemIntegrationTestResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/SystemIntegrationTestResult"
+      additionalProperties: false
+    SourceConnection:
+      type: object
+      required: [id, integrationId, providerType, name, enabled, defaultConnection, capabilities]
+      properties:
+        id:
+          type: string
+        integrationId:
+          type: string
+        providerType:
+          type: string
+        name:
+          type: string
+        displayEndpoint:
+          type: string
+          format: uri
+          description: Redacted human-readable provider endpoint when one is configured.
+        enabled:
+          type: boolean
+        defaultConnection:
+          type: boolean
+        capabilities:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum: [repositories, branches, tags, files]
+      additionalProperties: false
+    SourceConnectionEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/SourceConnection"
+      additionalProperties: false
+    SourceConnectionListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SourceConnection"
+      additionalProperties: false
+    SourceRepository:
+      type: object
+      required: [id, name, fullName, defaultBranch, archived]
+      properties:
+        id:
+          type: string
+          description: Opaque identifier scoped to the source connection.
+        name:
+          type: string
+        fullName:
+          type: string
+        namespace:
+          type: string
+        webUrl:
+          type: string
+          format: uri
+        defaultBranch:
+          type: string
+        archived:
+          type: boolean
+      additionalProperties: false
+    SourceRepositoryListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SourceRepository"
+        nextCursor:
+          type: string
+      additionalProperties: false
+    SourceBranch:
+      type: object
+      required: [name, commitId, defaultBranch]
+      properties:
+        name:
+          type: string
+        commitId:
+          type: string
+        defaultBranch:
+          type: boolean
+      additionalProperties: false
+    SourceBranchListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SourceBranch"
+      additionalProperties: false
+    SourceTag:
+      type: object
+      required: [name, commitId]
+      properties:
+        name:
+          type: string
+        commitId:
+          type: string
+      additionalProperties: false
+    SourceTagListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SourceTag"
+      additionalProperties: false
+    SourceFileEncoding:
+      type: string
+      enum: [utf8, base64]
+      x-enum-varnames:
+        - SourceFileEncodingUTF8
+        - SourceFileEncodingBase64
+    SourceFile:
+      type: object
+      required: [repositoryId, path, ref, encoding, content, sizeBytes]
+      properties:
+        repositoryId:
+          type: string
+        path:
+          type: string
+        ref:
+          type: string
+        blobId:
+          type: string
+        encoding:
+          $ref: "#/components/schemas/SourceFileEncoding"
+        content:
+          type: string
+          description: UTF-8 text or base64 content according to encoding. This API does not expose checkout credentials.
+        sizeBytes:
+          type: integer
+          format: int64
+          minimum: 0
+      additionalProperties: false
+    SourceFileEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/SourceFile"
+      additionalProperties: false
+    RuntimeConfigValue:
+      anyOf:
+        - type: boolean
+        - type: integer
+          format: int64
+        - type: number
+          format: double
+        - type: string
+        - type: array
+          items:
+            type: string
+    RuntimeConfigValueType:
+      type: string
+      enum: [boolean, integer, number, string, string_list, duration, url]
+      x-enum-varnames:
+        - RuntimeConfigValueTypeBoolean
+        - RuntimeConfigValueTypeInteger
+        - RuntimeConfigValueTypeNumber
+        - RuntimeConfigValueTypeString
+        - RuntimeConfigValueTypeStringList
+        - RuntimeConfigValueTypeDuration
+        - RuntimeConfigValueTypeURL
+    RuntimeConfigApplyMode:
+      type: string
+      enum: [hot, reconfigure, lifecycle, restart]
+      x-enum-varnames:
+        - RuntimeConfigApplyModeHot
+        - RuntimeConfigApplyModeReconfigure
+        - RuntimeConfigApplyModeLifecycle
+        - RuntimeConfigApplyModeRestart
+    RuntimeConfigSource:
+      type: string
+      enum: [default, config_file, runtime_override, environment, secret]
+      x-enum-varnames:
+        - RuntimeConfigSourceDefault
+        - RuntimeConfigSourceConfigFile
+        - RuntimeConfigSourceRuntimeOverride
+        - RuntimeConfigSourceEnvironment
+        - RuntimeConfigSourceSecret
+    RuntimeConfigApplicationStatus:
+      type: string
+      enum: [pending, applying, applied, partially_applied, failed, restart_required, rolled_back]
+      x-enum-varnames:
+        - RuntimeConfigApplicationStatusPending
+        - RuntimeConfigApplicationStatusApplying
+        - RuntimeConfigApplicationStatusApplied
+        - RuntimeConfigApplicationStatusPartiallyApplied
+        - RuntimeConfigApplicationStatusFailed
+        - RuntimeConfigApplicationStatusRestartRequired
+        - RuntimeConfigApplicationStatusRolledBack
+    RuntimeConfigIssueSeverity:
+      type: string
+      enum: [warning, error]
+      x-enum-varnames:
+        - RuntimeConfigIssueSeverityWarning
+        - RuntimeConfigIssueSeverityError
+    RuntimeConfigItem:
+      type: object
+      required: [key, valueType, source, applyMode, editable, sensitive, pendingRestart]
+      properties:
+        key:
+          type: string
+          pattern: "^[a-z][a-z0-9._-]*$"
+        category:
+          type: string
+        label:
+          type: string
+        description:
+          type: string
+        valueType:
+          $ref: "#/components/schemas/RuntimeConfigValueType"
+        effectiveValue:
+          $ref: "#/components/schemas/RuntimeConfigValue"
+        defaultValue:
+          $ref: "#/components/schemas/RuntimeConfigValue"
+        source:
+          $ref: "#/components/schemas/RuntimeConfigSource"
+        applyMode:
+          $ref: "#/components/schemas/RuntimeConfigApplyMode"
+        editable:
+          type: boolean
+        sensitive:
+          type: boolean
+        pendingRestart:
+          type: boolean
+      additionalProperties: false
+      allOf:
+        - if:
+            properties:
+              sensitive:
+                const: true
+            required: [sensitive]
+          then:
+            properties:
+              editable:
+                const: false
+            not:
+              anyOf:
+                - required: [effectiveValue]
+                - required: [defaultValue]
+    RuntimeConfigSnapshot:
+      type: object
+      required: [version, items, pendingRestart]
+      properties:
+        version:
+          type: integer
+          format: int64
+          minimum: 0
+        activeRevisionId:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/RuntimeConfigItem"
+        pendingRestart:
+          type: boolean
+      additionalProperties: false
+    RuntimeConfigSnapshotEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/RuntimeConfigSnapshot"
+      additionalProperties: false
+    RuntimeCPUUsage:
+      type: object
+      required: [usagePercent, logicalCores]
+      properties:
+        usagePercent:
+          type: number
+          format: double
+          minimum: 0
+        logicalCores:
+          type: integer
+          minimum: 1
+      additionalProperties: false
+    RuntimeMemoryUsage:
+      type: object
+      required: [goReservedBytes, heapAllocBytes, heapSysBytes, heapUsagePercent]
+      properties:
+        goReservedBytes:
+          type: integer
+          format: int64
+          minimum: 0
+        heapAllocBytes:
+          type: integer
+          format: int64
+          minimum: 0
+        heapSysBytes:
+          type: integer
+          format: int64
+          minimum: 0
+        heapUsagePercent:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+      additionalProperties: false
+    RuntimeDiskUsage:
+      type: object
+      required: [available, path, totalBytes, usedBytes, availableBytes, usagePercent]
+      properties:
+        available:
+          type: boolean
+        path:
+          type: string
+        totalBytes:
+          type: integer
+          format: int64
+          minimum: 0
+        usedBytes:
+          type: integer
+          format: int64
+          minimum: 0
+        availableBytes:
+          type: integer
+          format: int64
+          minimum: 0
+        usagePercent:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+      additionalProperties: false
+    RuntimeNetworkUsage:
+      type: object
+      required: [available, scope, rxBytes, txBytes, rxBytesPerSecond, txBytesPerSecond]
+      properties:
+        available:
+          type: boolean
+        scope:
+          type: string
+          enum: [process, network_namespace, unavailable]
+        rxBytes:
+          type: integer
+          format: int64
+          minimum: 0
+        txBytes:
+          type: integer
+          format: int64
+          minimum: 0
+        rxBytesPerSecond:
+          type: number
+          format: double
+          minimum: 0
+        txBytesPerSecond:
+          type: number
+          format: double
+          minimum: 0
+      additionalProperties: false
+    RuntimeGoUsage:
+      type: object
+      required: [goroutines, gcCycles, gomaxprocs]
+      properties:
+        goroutines:
+          type: integer
+          minimum: 0
+        gcCycles:
+          type: integer
+          format: int64
+          minimum: 0
+        gomaxprocs:
+          type: integer
+          minimum: 1
+      additionalProperties: false
+    RuntimeServiceUsage:
+      type: object
+      required: [started, succeeded, failed, canceled, queueDepth]
+      properties:
+        started:
+          type: integer
+          format: int64
+          minimum: 0
+        succeeded:
+          type: integer
+          format: int64
+          minimum: 0
+        failed:
+          type: integer
+          format: int64
+          minimum: 0
+        canceled:
+          type: integer
+          format: int64
+          minimum: 0
+        queueDepth:
+          type: integer
+          minimum: 0
+      additionalProperties: false
+    RuntimeResourceSnapshot:
+      type: object
+      required: [generatedAt, uptimeSeconds, cpu, memory, disk, network, goRuntime, services]
+      properties:
+        generatedAt:
+          type: string
+          format: date-time
+        uptimeSeconds:
+          type: integer
+          format: int64
+          minimum: 0
+        cpu:
+          $ref: "#/components/schemas/RuntimeCPUUsage"
+        memory:
+          $ref: "#/components/schemas/RuntimeMemoryUsage"
+        disk:
+          $ref: "#/components/schemas/RuntimeDiskUsage"
+        network:
+          $ref: "#/components/schemas/RuntimeNetworkUsage"
+        goRuntime:
+          $ref: "#/components/schemas/RuntimeGoUsage"
+        services:
+          $ref: "#/components/schemas/RuntimeServiceUsage"
+      additionalProperties: false
+    RuntimeResourceSnapshotEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/RuntimeResourceSnapshot"
+      additionalProperties: false
+    RuntimeConfigChange:
+      type: object
+      required: [key]
+      properties:
+        key:
+          type: string
+          pattern: "^[a-z][a-z0-9._-]*$"
+        value:
+          $ref: "#/components/schemas/RuntimeConfigValue"
+        reset:
+          type: boolean
+          description: Removes the runtime override so the next lower-precedence source becomes effective.
+      additionalProperties: false
+    RuntimeConfigChangeRequest:
+      type: object
+      required: [expectedVersion, changes]
+      properties:
+        expectedVersion:
+          type: integer
+          format: int64
+          minimum: 0
+        changes:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items:
+            $ref: "#/components/schemas/RuntimeConfigChange"
+        reason:
+          type: string
+          maxLength: 1000
+      additionalProperties: false
+    RuntimeConfigValidationIssue:
+      type: object
+      required: [severity, code, message]
+      properties:
+        key:
+          type: string
+        severity:
+          $ref: "#/components/schemas/RuntimeConfigIssueSeverity"
+        code:
+          type: string
+        message:
+          type: string
+      additionalProperties: false
+    RuntimeConfigValidatedChange:
+      type: object
+      required: [key, currentValue, proposedValue, applyMode]
+      properties:
+        key:
+          type: string
+        currentValue:
+          $ref: "#/components/schemas/RuntimeConfigValue"
+        proposedValue:
+          $ref: "#/components/schemas/RuntimeConfigValue"
+        applyMode:
+          $ref: "#/components/schemas/RuntimeConfigApplyMode"
+      additionalProperties: false
+    RuntimeConfigValidationResult:
+      type: object
+      required: [valid, expectedVersion, currentVersion, changes, issues, requiresRestart]
+      properties:
+        valid:
+          type: boolean
+        expectedVersion:
+          type: integer
+          format: int64
+          minimum: 0
+        currentVersion:
+          type: integer
+          format: int64
+          minimum: 0
+        changes:
+          type: array
+          items:
+            $ref: "#/components/schemas/RuntimeConfigValidatedChange"
+        issues:
+          type: array
+          items:
+            $ref: "#/components/schemas/RuntimeConfigValidationIssue"
+        requiresRestart:
+          type: boolean
+      additionalProperties: false
+    RuntimeConfigValidationEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/RuntimeConfigValidationResult"
+      additionalProperties: false
+    RuntimeConfigAppliedItem:
+      type: object
+      required: [key, applyMode, status]
+      properties:
+        key:
+          type: string
+        applyMode:
+          $ref: "#/components/schemas/RuntimeConfigApplyMode"
+        status:
+          $ref: "#/components/schemas/RuntimeConfigApplicationStatus"
+        message:
+          type: string
+      additionalProperties: false
+    RuntimeConfigApplication:
+      type: object
+      required: [id, revisionId, version, status, items, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        revisionId:
+          type: string
+        version:
+          type: integer
+          format: int64
+          minimum: 1
+        status:
+          $ref: "#/components/schemas/RuntimeConfigApplicationStatus"
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/RuntimeConfigAppliedItem"
+        error:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    RuntimeConfigApplicationEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/RuntimeConfigApplication"
+      additionalProperties: false
+    RuntimeConfigRevision:
+      type: object
+      required: [id, version, status, changes, actor, createdAt]
+      properties:
+        id:
+          type: string
+        version:
+          type: integer
+          format: int64
+          minimum: 1
+        status:
+          $ref: "#/components/schemas/RuntimeConfigApplicationStatus"
+        changes:
+          type: array
+          items:
+            $ref: "#/components/schemas/RuntimeConfigChange"
+        actor:
+          type: string
+        reason:
+          type: string
+        rollbackOfRevisionId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    RuntimeConfigRevisionListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/RuntimeConfigRevision"
+      additionalProperties: false
+    RuntimeConfigApplyResult:
+      type: object
+      required: [revision, application]
+      properties:
+        revision:
+          $ref: "#/components/schemas/RuntimeConfigRevision"
+        application:
+          $ref: "#/components/schemas/RuntimeConfigApplication"
+      additionalProperties: false
+    RuntimeConfigApplyResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/RuntimeConfigApplyResult"
+      additionalProperties: false
+    RuntimeConfigRollbackRequest:
+      type: object
+      required: [expectedVersion, targetVersion]
+      properties:
+        expectedVersion:
+          type: integer
+          format: int64
+          minimum: 0
+        targetVersion:
+          type: integer
+          format: int64
+          minimum: 1
+        reason:
+          type: string
+          maxLength: 1000
+      additionalProperties: false
     GenericObject:
       type: object
       additionalProperties: true
@@ -12956,6 +14261,10 @@ components:
         capabilities:
           type: array
           uniqueItems: true
+          description: >-
+            Provider-declared VM capabilities. Standard resource mutation keys are
+            vm.resource.cpu.resize, vm.resource.memory.resize, vm.resource.disk.add,
+            vm.resource.disk.resize, vm.resource.network.add, and vm.resource.network.remove.
           items:
             type: string
             minLength: 1

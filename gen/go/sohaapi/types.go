@@ -2409,6 +2409,291 @@ func (e RepositoryProvider) Valid() bool {
 	}
 }
 
+// Defines values for RuntimeConfigApplicationStatus.
+const (
+	RuntimeConfigApplicationStatusApplied          RuntimeConfigApplicationStatus = "applied"
+	RuntimeConfigApplicationStatusApplying         RuntimeConfigApplicationStatus = "applying"
+	RuntimeConfigApplicationStatusFailed           RuntimeConfigApplicationStatus = "failed"
+	RuntimeConfigApplicationStatusPartiallyApplied RuntimeConfigApplicationStatus = "partially_applied"
+	RuntimeConfigApplicationStatusPending          RuntimeConfigApplicationStatus = "pending"
+	RuntimeConfigApplicationStatusRestartRequired  RuntimeConfigApplicationStatus = "restart_required"
+	RuntimeConfigApplicationStatusRolledBack       RuntimeConfigApplicationStatus = "rolled_back"
+)
+
+// Valid indicates whether the value is a known member of the RuntimeConfigApplicationStatus enum.
+func (e RuntimeConfigApplicationStatus) Valid() bool {
+	switch e {
+	case RuntimeConfigApplicationStatusApplied:
+		return true
+	case RuntimeConfigApplicationStatusApplying:
+		return true
+	case RuntimeConfigApplicationStatusFailed:
+		return true
+	case RuntimeConfigApplicationStatusPartiallyApplied:
+		return true
+	case RuntimeConfigApplicationStatusPending:
+		return true
+	case RuntimeConfigApplicationStatusRestartRequired:
+		return true
+	case RuntimeConfigApplicationStatusRolledBack:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for RuntimeConfigApplyMode.
+const (
+	RuntimeConfigApplyModeHot         RuntimeConfigApplyMode = "hot"
+	RuntimeConfigApplyModeLifecycle   RuntimeConfigApplyMode = "lifecycle"
+	RuntimeConfigApplyModeReconfigure RuntimeConfigApplyMode = "reconfigure"
+	RuntimeConfigApplyModeRestart     RuntimeConfigApplyMode = "restart"
+)
+
+// Valid indicates whether the value is a known member of the RuntimeConfigApplyMode enum.
+func (e RuntimeConfigApplyMode) Valid() bool {
+	switch e {
+	case RuntimeConfigApplyModeHot:
+		return true
+	case RuntimeConfigApplyModeLifecycle:
+		return true
+	case RuntimeConfigApplyModeReconfigure:
+		return true
+	case RuntimeConfigApplyModeRestart:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for RuntimeConfigIssueSeverity.
+const (
+	RuntimeConfigIssueSeverityError   RuntimeConfigIssueSeverity = "error"
+	RuntimeConfigIssueSeverityWarning RuntimeConfigIssueSeverity = "warning"
+)
+
+// Valid indicates whether the value is a known member of the RuntimeConfigIssueSeverity enum.
+func (e RuntimeConfigIssueSeverity) Valid() bool {
+	switch e {
+	case RuntimeConfigIssueSeverityError:
+		return true
+	case RuntimeConfigIssueSeverityWarning:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for RuntimeConfigSource.
+const (
+	RuntimeConfigSourceConfigFile      RuntimeConfigSource = "config_file"
+	RuntimeConfigSourceDefault         RuntimeConfigSource = "default"
+	RuntimeConfigSourceEnvironment     RuntimeConfigSource = "environment"
+	RuntimeConfigSourceRuntimeOverride RuntimeConfigSource = "runtime_override"
+	RuntimeConfigSourceSecret          RuntimeConfigSource = "secret"
+)
+
+// Valid indicates whether the value is a known member of the RuntimeConfigSource enum.
+func (e RuntimeConfigSource) Valid() bool {
+	switch e {
+	case RuntimeConfigSourceConfigFile:
+		return true
+	case RuntimeConfigSourceDefault:
+		return true
+	case RuntimeConfigSourceEnvironment:
+		return true
+	case RuntimeConfigSourceRuntimeOverride:
+		return true
+	case RuntimeConfigSourceSecret:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for RuntimeConfigValueType.
+const (
+	RuntimeConfigValueTypeBoolean    RuntimeConfigValueType = "boolean"
+	RuntimeConfigValueTypeDuration   RuntimeConfigValueType = "duration"
+	RuntimeConfigValueTypeInteger    RuntimeConfigValueType = "integer"
+	RuntimeConfigValueTypeNumber     RuntimeConfigValueType = "number"
+	RuntimeConfigValueTypeString     RuntimeConfigValueType = "string"
+	RuntimeConfigValueTypeStringList RuntimeConfigValueType = "string_list"
+	RuntimeConfigValueTypeURL        RuntimeConfigValueType = "url"
+)
+
+// Valid indicates whether the value is a known member of the RuntimeConfigValueType enum.
+func (e RuntimeConfigValueType) Valid() bool {
+	switch e {
+	case RuntimeConfigValueTypeBoolean:
+		return true
+	case RuntimeConfigValueTypeDuration:
+		return true
+	case RuntimeConfigValueTypeInteger:
+		return true
+	case RuntimeConfigValueTypeNumber:
+		return true
+	case RuntimeConfigValueTypeString:
+		return true
+	case RuntimeConfigValueTypeStringList:
+		return true
+	case RuntimeConfigValueTypeURL:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for RuntimeNetworkUsageScope.
+const (
+	NetworkNamespace RuntimeNetworkUsageScope = "network_namespace"
+	Process          RuntimeNetworkUsageScope = "process"
+	Unavailable      RuntimeNetworkUsageScope = "unavailable"
+)
+
+// Valid indicates whether the value is a known member of the RuntimeNetworkUsageScope enum.
+func (e RuntimeNetworkUsageScope) Valid() bool {
+	switch e {
+	case NetworkNamespace:
+		return true
+	case Process:
+		return true
+	case Unavailable:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SourceConnectionCapabilities.
+const (
+	Branches     SourceConnectionCapabilities = "branches"
+	Files        SourceConnectionCapabilities = "files"
+	Repositories SourceConnectionCapabilities = "repositories"
+	Tags         SourceConnectionCapabilities = "tags"
+)
+
+// Valid indicates whether the value is a known member of the SourceConnectionCapabilities enum.
+func (e SourceConnectionCapabilities) Valid() bool {
+	switch e {
+	case Branches:
+		return true
+	case Files:
+		return true
+	case Repositories:
+		return true
+	case Tags:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SourceFileEncoding.
+const (
+	SourceFileEncodingBase64 SourceFileEncoding = "base64"
+	SourceFileEncodingUTF8   SourceFileEncoding = "utf8"
+)
+
+// Valid indicates whether the value is a known member of the SourceFileEncoding enum.
+func (e SourceFileEncoding) Valid() bool {
+	switch e {
+	case SourceFileEncodingBase64:
+		return true
+	case SourceFileEncodingUTF8:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SystemIntegrationCategory.
+const (
+	SystemIntegrationCategoryAI                SystemIntegrationCategory = "ai"
+	SystemIntegrationCategoryAPIGateway        SystemIntegrationCategory = "api_gateway"
+	SystemIntegrationCategoryCICD              SystemIntegrationCategory = "ci_cd"
+	SystemIntegrationCategoryCloud             SystemIntegrationCategory = "cloud"
+	SystemIntegrationCategoryCodeQuality       SystemIntegrationCategory = "code_quality"
+	SystemIntegrationCategoryConfiguration     SystemIntegrationCategory = "configuration"
+	SystemIntegrationCategoryIdentity          SystemIntegrationCategory = "identity"
+	SystemIntegrationCategoryMessaging         SystemIntegrationCategory = "messaging"
+	SystemIntegrationCategoryMonitoring        SystemIntegrationCategory = "monitoring"
+	SystemIntegrationCategoryOther             SystemIntegrationCategory = "other"
+	SystemIntegrationCategoryProjectManagement SystemIntegrationCategory = "project_management"
+	SystemIntegrationCategorySourceControl     SystemIntegrationCategory = "source_control"
+)
+
+// Valid indicates whether the value is a known member of the SystemIntegrationCategory enum.
+func (e SystemIntegrationCategory) Valid() bool {
+	switch e {
+	case SystemIntegrationCategoryAI:
+		return true
+	case SystemIntegrationCategoryAPIGateway:
+		return true
+	case SystemIntegrationCategoryCICD:
+		return true
+	case SystemIntegrationCategoryCloud:
+		return true
+	case SystemIntegrationCategoryCodeQuality:
+		return true
+	case SystemIntegrationCategoryConfiguration:
+		return true
+	case SystemIntegrationCategoryIdentity:
+		return true
+	case SystemIntegrationCategoryMessaging:
+		return true
+	case SystemIntegrationCategoryMonitoring:
+		return true
+	case SystemIntegrationCategoryOther:
+		return true
+	case SystemIntegrationCategoryProjectManagement:
+		return true
+	case SystemIntegrationCategorySourceControl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SystemIntegrationHealthStatus.
+const (
+	SystemIntegrationHealthStatusHealthy   SystemIntegrationHealthStatus = "healthy"
+	SystemIntegrationHealthStatusUnhealthy SystemIntegrationHealthStatus = "unhealthy"
+	SystemIntegrationHealthStatusUnknown   SystemIntegrationHealthStatus = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the SystemIntegrationHealthStatus enum.
+func (e SystemIntegrationHealthStatus) Valid() bool {
+	switch e {
+	case SystemIntegrationHealthStatusHealthy:
+		return true
+	case SystemIntegrationHealthStatusUnhealthy:
+		return true
+	case SystemIntegrationHealthStatusUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SystemIntegrationTestStatus.
+const (
+	SystemIntegrationTestStatusFailed    SystemIntegrationTestStatus = "failed"
+	SystemIntegrationTestStatusSucceeded SystemIntegrationTestStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the SystemIntegrationTestStatus enum.
+func (e SystemIntegrationTestStatus) Valid() bool {
+	switch e {
+	case SystemIntegrationTestStatusFailed:
+		return true
+	case SystemIntegrationTestStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for WorkbenchAgentStatusEventProviderKind.
 const (
 	WorkbenchAgentStatusEventProviderKindAnthropic        WorkbenchAgentStatusEventProviderKind = "anthropic"
@@ -8320,8 +8605,10 @@ type PluginComputeExtensions struct {
 
 // PluginComputeVirtualizationProvider defines model for PluginComputeVirtualizationProvider.
 type PluginComputeVirtualizationProvider struct {
-	ActionRefs      map[string]string                                  `json:"actionRefs,omitempty"`
-	ActivationLevel ComputeProviderActivationLevel                     `json:"activationLevel"`
+	ActionRefs      map[string]string              `json:"actionRefs,omitempty"`
+	ActivationLevel ComputeProviderActivationLevel `json:"activationLevel"`
+
+	// Capabilities Provider-declared VM capabilities. Standard resource mutation keys are vm.resource.cpu.resize, vm.resource.memory.resize, vm.resource.disk.add, vm.resource.disk.resize, vm.resource.network.add, and vm.resource.network.remove.
 	Capabilities    []string                                           `json:"capabilities"`
 	ConfigSchemaRef string                                             `json:"configSchemaRef,omitempty"`
 	Description     string                                             `json:"description,omitempty"`
@@ -8745,6 +9032,230 @@ type ResourceSelector struct {
 // RiskLevel defines model for RiskLevel.
 type RiskLevel = string
 
+// RuntimeCPUUsage defines model for RuntimeCPUUsage.
+type RuntimeCPUUsage struct {
+	LogicalCores int     `json:"logicalCores"`
+	UsagePercent float64 `json:"usagePercent"`
+}
+
+// RuntimeConfigApplication defines model for RuntimeConfigApplication.
+type RuntimeConfigApplication struct {
+	CreatedAt  time.Time                      `json:"createdAt"`
+	Error      string                         `json:"error,omitempty"`
+	ID         string                         `json:"id"`
+	Items      []RuntimeConfigAppliedItem     `json:"items"`
+	RevisionID string                         `json:"revisionId"`
+	Status     RuntimeConfigApplicationStatus `json:"status"`
+	UpdatedAt  time.Time                      `json:"updatedAt"`
+	Version    int64                          `json:"version"`
+}
+
+// RuntimeConfigApplicationEnvelope defines model for RuntimeConfigApplicationEnvelope.
+type RuntimeConfigApplicationEnvelope struct {
+	Data RuntimeConfigApplication `json:"data"`
+}
+
+// RuntimeConfigApplicationStatus defines model for RuntimeConfigApplicationStatus.
+type RuntimeConfigApplicationStatus string
+
+// RuntimeConfigAppliedItem defines model for RuntimeConfigAppliedItem.
+type RuntimeConfigAppliedItem struct {
+	ApplyMode RuntimeConfigApplyMode         `json:"applyMode"`
+	Key       string                         `json:"key"`
+	Message   string                         `json:"message,omitempty"`
+	Status    RuntimeConfigApplicationStatus `json:"status"`
+}
+
+// RuntimeConfigApplyMode defines model for RuntimeConfigApplyMode.
+type RuntimeConfigApplyMode string
+
+// RuntimeConfigApplyResult defines model for RuntimeConfigApplyResult.
+type RuntimeConfigApplyResult struct {
+	Application RuntimeConfigApplication `json:"application"`
+	Revision    RuntimeConfigRevision    `json:"revision"`
+}
+
+// RuntimeConfigApplyResultEnvelope defines model for RuntimeConfigApplyResultEnvelope.
+type RuntimeConfigApplyResultEnvelope struct {
+	Data RuntimeConfigApplyResult `json:"data"`
+}
+
+// RuntimeConfigChange defines model for RuntimeConfigChange.
+type RuntimeConfigChange struct {
+	Key string `json:"key"`
+
+	// Reset Removes the runtime override so the next lower-precedence source becomes effective.
+	Reset bool               `json:"reset,omitempty"`
+	Value RuntimeConfigValue `json:"value,omitempty"`
+}
+
+// RuntimeConfigChangeRequest defines model for RuntimeConfigChangeRequest.
+type RuntimeConfigChangeRequest struct {
+	Changes         []RuntimeConfigChange `json:"changes"`
+	ExpectedVersion int64                 `json:"expectedVersion"`
+	Reason          string                `json:"reason,omitempty"`
+}
+
+// RuntimeConfigIssueSeverity defines model for RuntimeConfigIssueSeverity.
+type RuntimeConfigIssueSeverity string
+
+// RuntimeConfigItem defines model for RuntimeConfigItem.
+type RuntimeConfigItem struct {
+	ApplyMode      RuntimeConfigApplyMode `json:"applyMode"`
+	Category       string                 `json:"category,omitempty"`
+	DefaultValue   RuntimeConfigValue     `json:"defaultValue,omitempty"`
+	Description    string                 `json:"description,omitempty"`
+	Editable       bool                   `json:"editable"`
+	EffectiveValue RuntimeConfigValue     `json:"effectiveValue,omitempty"`
+	Key            string                 `json:"key"`
+	Label          string                 `json:"label,omitempty"`
+	PendingRestart bool                   `json:"pendingRestart"`
+	Sensitive      bool                   `json:"sensitive"`
+	Source         RuntimeConfigSource    `json:"source"`
+	ValueType      RuntimeConfigValueType `json:"valueType"`
+}
+
+// RuntimeConfigRevision defines model for RuntimeConfigRevision.
+type RuntimeConfigRevision struct {
+	Actor                string                         `json:"actor"`
+	Changes              []RuntimeConfigChange          `json:"changes"`
+	CreatedAt            time.Time                      `json:"createdAt"`
+	ID                   string                         `json:"id"`
+	Reason               string                         `json:"reason,omitempty"`
+	RollbackOfRevisionID string                         `json:"rollbackOfRevisionId,omitempty"`
+	Status               RuntimeConfigApplicationStatus `json:"status"`
+	Version              int64                          `json:"version"`
+}
+
+// RuntimeConfigRevisionListEnvelope defines model for RuntimeConfigRevisionListEnvelope.
+type RuntimeConfigRevisionListEnvelope struct {
+	Items []RuntimeConfigRevision `json:"items"`
+}
+
+// RuntimeConfigRollbackRequest defines model for RuntimeConfigRollbackRequest.
+type RuntimeConfigRollbackRequest struct {
+	ExpectedVersion int64  `json:"expectedVersion"`
+	Reason          string `json:"reason,omitempty"`
+	TargetVersion   int64  `json:"targetVersion"`
+}
+
+// RuntimeConfigSnapshot defines model for RuntimeConfigSnapshot.
+type RuntimeConfigSnapshot struct {
+	ActiveRevisionID string              `json:"activeRevisionId,omitempty"`
+	Items            []RuntimeConfigItem `json:"items"`
+	PendingRestart   bool                `json:"pendingRestart"`
+	Version          int64               `json:"version"`
+}
+
+// RuntimeConfigSnapshotEnvelope defines model for RuntimeConfigSnapshotEnvelope.
+type RuntimeConfigSnapshotEnvelope struct {
+	Data RuntimeConfigSnapshot `json:"data"`
+}
+
+// RuntimeConfigSource defines model for RuntimeConfigSource.
+type RuntimeConfigSource string
+
+// RuntimeConfigValidatedChange defines model for RuntimeConfigValidatedChange.
+type RuntimeConfigValidatedChange struct {
+	ApplyMode     RuntimeConfigApplyMode `json:"applyMode"`
+	CurrentValue  RuntimeConfigValue     `json:"currentValue"`
+	Key           string                 `json:"key"`
+	ProposedValue RuntimeConfigValue     `json:"proposedValue"`
+}
+
+// RuntimeConfigValidationEnvelope defines model for RuntimeConfigValidationEnvelope.
+type RuntimeConfigValidationEnvelope struct {
+	Data RuntimeConfigValidationResult `json:"data"`
+}
+
+// RuntimeConfigValidationIssue defines model for RuntimeConfigValidationIssue.
+type RuntimeConfigValidationIssue struct {
+	Code     string                     `json:"code"`
+	Key      string                     `json:"key,omitempty"`
+	Message  string                     `json:"message"`
+	Severity RuntimeConfigIssueSeverity `json:"severity"`
+}
+
+// RuntimeConfigValidationResult defines model for RuntimeConfigValidationResult.
+type RuntimeConfigValidationResult struct {
+	Changes         []RuntimeConfigValidatedChange `json:"changes"`
+	CurrentVersion  int64                          `json:"currentVersion"`
+	ExpectedVersion int64                          `json:"expectedVersion"`
+	Issues          []RuntimeConfigValidationIssue `json:"issues"`
+	RequiresRestart bool                           `json:"requiresRestart"`
+	Valid           bool                           `json:"valid"`
+}
+
+// RuntimeConfigValue defines model for RuntimeConfigValue.
+type RuntimeConfigValue = any
+
+// RuntimeConfigValueType defines model for RuntimeConfigValueType.
+type RuntimeConfigValueType string
+
+// RuntimeDiskUsage defines model for RuntimeDiskUsage.
+type RuntimeDiskUsage struct {
+	Available      bool    `json:"available"`
+	AvailableBytes int64   `json:"availableBytes"`
+	Path           string  `json:"path"`
+	TotalBytes     int64   `json:"totalBytes"`
+	UsagePercent   float64 `json:"usagePercent"`
+	UsedBytes      int64   `json:"usedBytes"`
+}
+
+// RuntimeGoUsage defines model for RuntimeGoUsage.
+type RuntimeGoUsage struct {
+	GcCycles   int64 `json:"gcCycles"`
+	Gomaxprocs int   `json:"gomaxprocs"`
+	Goroutines int   `json:"goroutines"`
+}
+
+// RuntimeMemoryUsage defines model for RuntimeMemoryUsage.
+type RuntimeMemoryUsage struct {
+	GoReservedBytes  int64   `json:"goReservedBytes"`
+	HeapAllocBytes   int64   `json:"heapAllocBytes"`
+	HeapSysBytes     int64   `json:"heapSysBytes"`
+	HeapUsagePercent float64 `json:"heapUsagePercent"`
+}
+
+// RuntimeNetworkUsage defines model for RuntimeNetworkUsage.
+type RuntimeNetworkUsage struct {
+	Available        bool                     `json:"available"`
+	RxBytes          int64                    `json:"rxBytes"`
+	RxBytesPerSecond float64                  `json:"rxBytesPerSecond"`
+	Scope            RuntimeNetworkUsageScope `json:"scope"`
+	TxBytes          int64                    `json:"txBytes"`
+	TxBytesPerSecond float64                  `json:"txBytesPerSecond"`
+}
+
+// RuntimeNetworkUsageScope defines model for RuntimeNetworkUsage.Scope.
+type RuntimeNetworkUsageScope string
+
+// RuntimeResourceSnapshot defines model for RuntimeResourceSnapshot.
+type RuntimeResourceSnapshot struct {
+	CPU           RuntimeCPUUsage     `json:"cpu"`
+	Disk          RuntimeDiskUsage    `json:"disk"`
+	GeneratedAt   time.Time           `json:"generatedAt"`
+	GoRuntime     RuntimeGoUsage      `json:"goRuntime"`
+	Memory        RuntimeMemoryUsage  `json:"memory"`
+	Network       RuntimeNetworkUsage `json:"network"`
+	Services      RuntimeServiceUsage `json:"services"`
+	UptimeSeconds int64               `json:"uptimeSeconds"`
+}
+
+// RuntimeResourceSnapshotEnvelope defines model for RuntimeResourceSnapshotEnvelope.
+type RuntimeResourceSnapshotEnvelope struct {
+	Data RuntimeResourceSnapshot `json:"data"`
+}
+
+// RuntimeServiceUsage defines model for RuntimeServiceUsage.
+type RuntimeServiceUsage struct {
+	Canceled   int64 `json:"canceled"`
+	Failed     int64 `json:"failed"`
+	QueueDepth int   `json:"queueDepth"`
+	Started    int64 `json:"started"`
+	Succeeded  int64 `json:"succeeded"`
+}
+
 // ServiceAccount defines model for ServiceAccount.
 type ServiceAccount struct {
 	CreatedAt     time.Time      `json:"createdAt"`
@@ -8826,6 +9337,96 @@ type SkillCapability struct {
 	RequiredScopes []string `json:"requiredScopes,omitempty"`
 }
 
+// SourceBranch defines model for SourceBranch.
+type SourceBranch struct {
+	CommitID      string `json:"commitId"`
+	DefaultBranch bool   `json:"defaultBranch"`
+	Name          string `json:"name"`
+}
+
+// SourceBranchListEnvelope defines model for SourceBranchListEnvelope.
+type SourceBranchListEnvelope struct {
+	Items []SourceBranch `json:"items"`
+}
+
+// SourceConnection defines model for SourceConnection.
+type SourceConnection struct {
+	Capabilities      []SourceConnectionCapabilities `json:"capabilities"`
+	DefaultConnection bool                           `json:"defaultConnection"`
+
+	// DisplayEndpoint Redacted human-readable provider endpoint when one is configured.
+	DisplayEndpoint string `json:"displayEndpoint,omitempty"`
+	Enabled         bool   `json:"enabled"`
+	ID              string `json:"id"`
+	IntegrationID   string `json:"integrationId"`
+	Name            string `json:"name"`
+	ProviderType    string `json:"providerType"`
+}
+
+// SourceConnectionCapabilities defines model for SourceConnection.Capabilities.
+type SourceConnectionCapabilities string
+
+// SourceConnectionEnvelope defines model for SourceConnectionEnvelope.
+type SourceConnectionEnvelope struct {
+	Data SourceConnection `json:"data"`
+}
+
+// SourceConnectionListEnvelope defines model for SourceConnectionListEnvelope.
+type SourceConnectionListEnvelope struct {
+	Items []SourceConnection `json:"items"`
+}
+
+// SourceFile defines model for SourceFile.
+type SourceFile struct {
+	BlobID string `json:"blobId,omitempty"`
+
+	// Content UTF-8 text or base64 content according to encoding. This API does not expose checkout credentials.
+	Content      string             `json:"content"`
+	Encoding     SourceFileEncoding `json:"encoding"`
+	Path         string             `json:"path"`
+	Ref          string             `json:"ref"`
+	RepositoryID string             `json:"repositoryId"`
+	SizeBytes    int64              `json:"sizeBytes"`
+}
+
+// SourceFileEncoding defines model for SourceFileEncoding.
+type SourceFileEncoding string
+
+// SourceFileEnvelope defines model for SourceFileEnvelope.
+type SourceFileEnvelope struct {
+	Data SourceFile `json:"data"`
+}
+
+// SourceRepository defines model for SourceRepository.
+type SourceRepository struct {
+	Archived      bool   `json:"archived"`
+	DefaultBranch string `json:"defaultBranch"`
+	FullName      string `json:"fullName"`
+
+	// ID Opaque identifier scoped to the source connection.
+	ID        string `json:"id"`
+	Name      string `json:"name"`
+	Namespace string `json:"namespace,omitempty"`
+	WebURL    string `json:"webUrl,omitempty"`
+}
+
+// SourceRepositoryListEnvelope defines model for SourceRepositoryListEnvelope.
+type SourceRepositoryListEnvelope struct {
+	Items      []SourceRepository `json:"items"`
+	NextCursor string             `json:"nextCursor,omitempty"`
+}
+
+// SourceTag defines model for SourceTag.
+type SourceTag struct {
+	CommitID string `json:"commitId"`
+	Name     string `json:"name"`
+}
+
+// SourceTagListEnvelope defines model for SourceTagListEnvelope.
+type SourceTagListEnvelope struct {
+	Items []SourceTag `json:"items"`
+}
+
 // StreamTicket defines model for StreamTicket.
 type StreamTicket struct {
 	ExpiresAt time.Time `json:"expiresAt"`
@@ -8840,6 +9441,97 @@ type StreamTicketEnvelope struct {
 // StreamTicketRequest defines model for StreamTicketRequest.
 type StreamTicketRequest struct {
 	Path string `json:"path"`
+}
+
+// SystemIntegration defines model for SystemIntegration.
+type SystemIntegration struct {
+	Category      SystemIntegrationCategory             `json:"category"`
+	Configuration []SystemIntegrationConfigurationField `json:"configuration"`
+	CreatedAt     time.Time                             `json:"createdAt"`
+
+	// CredentialKeys Names of configured credentials. Credential values are never returned.
+	CredentialKeys []string                      `json:"credentialKeys"`
+	Description    string                        `json:"description,omitempty"`
+	Enabled        bool                          `json:"enabled"`
+	HealthStatus   SystemIntegrationHealthStatus `json:"healthStatus"`
+	ID             string                        `json:"id"`
+	LastCheckedAt  *time.Time                    `json:"lastCheckedAt,omitempty"`
+	Name           string                        `json:"name"`
+	ProviderType   string                        `json:"providerType"`
+	UpdatedAt      time.Time                     `json:"updatedAt"`
+	Version        int64                         `json:"version"`
+}
+
+// SystemIntegrationCategory defines model for SystemIntegrationCategory.
+type SystemIntegrationCategory string
+
+// SystemIntegrationConfigurationField defines model for SystemIntegrationConfigurationField.
+type SystemIntegrationConfigurationField struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
+// SystemIntegrationCreateRequest defines model for SystemIntegrationCreateRequest.
+type SystemIntegrationCreateRequest struct {
+	Category      SystemIntegrationCategory             `json:"category"`
+	Configuration []SystemIntegrationConfigurationField `json:"configuration,omitempty"`
+	Credentials   []SystemIntegrationCredentialInput    `json:"credentials,omitempty"`
+	Description   string                                `json:"description,omitempty"`
+	Enabled       bool                                  `json:"enabled"`
+	Name          string                                `json:"name"`
+
+	// ProviderType Extensible provider key such as gitlab, github, gitea, or zadig.
+	ProviderType string `json:"providerType"`
+}
+
+// SystemIntegrationCredentialInput defines model for SystemIntegrationCredentialInput.
+type SystemIntegrationCredentialInput struct {
+	Key   string `json:"key"`
+	Value string `json:"value,omitempty"`
+}
+
+// SystemIntegrationEnvelope defines model for SystemIntegrationEnvelope.
+type SystemIntegrationEnvelope struct {
+	Data SystemIntegration `json:"data"`
+}
+
+// SystemIntegrationHealthStatus defines model for SystemIntegrationHealthStatus.
+type SystemIntegrationHealthStatus string
+
+// SystemIntegrationListEnvelope defines model for SystemIntegrationListEnvelope.
+type SystemIntegrationListEnvelope struct {
+	Items []SystemIntegration `json:"items"`
+}
+
+// SystemIntegrationTestResult defines model for SystemIntegrationTestResult.
+type SystemIntegrationTestResult struct {
+	Capabilities  []string                    `json:"capabilities"`
+	CheckedAt     time.Time                   `json:"checkedAt"`
+	IntegrationID string                      `json:"integrationId"`
+	LatencyMs     int64                       `json:"latencyMs"`
+	Message       string                      `json:"message,omitempty"`
+	Status        SystemIntegrationTestStatus `json:"status"`
+}
+
+// SystemIntegrationTestResultEnvelope defines model for SystemIntegrationTestResultEnvelope.
+type SystemIntegrationTestResultEnvelope struct {
+	Data SystemIntegrationTestResult `json:"data"`
+}
+
+// SystemIntegrationTestStatus defines model for SystemIntegrationTestStatus.
+type SystemIntegrationTestStatus string
+
+// SystemIntegrationUpdateRequest defines model for SystemIntegrationUpdateRequest.
+type SystemIntegrationUpdateRequest struct {
+	ClearCredentialKeys []string                               `json:"clearCredentialKeys,omitempty"`
+	Configuration       *[]SystemIntegrationConfigurationField `json:"configuration,omitempty"`
+
+	// Credentials Credential values to add or replace. Omitted credential keys remain unchanged.
+	Credentials     []SystemIntegrationCredentialInput `json:"credentials,omitempty"`
+	Description     *string                            `json:"description,omitempty"`
+	Enabled         *bool                              `json:"enabled,omitempty"`
+	ExpectedVersion int64                              `json:"expectedVersion"`
+	Name            string                             `json:"name,omitempty"`
 }
 
 // TokenRotationInput defines model for TokenRotationInput.
@@ -9436,6 +10128,9 @@ type RepositoryID = string
 // RouteID defines model for RouteID.
 type RouteID = string
 
+// RuntimeConfigApplicationID defines model for RuntimeConfigApplicationID.
+type RuntimeConfigApplicationID = string
+
 // ServiceID defines model for ServiceID.
 type ServiceID = string
 
@@ -9456,6 +10151,15 @@ type SohaUpstreamIDHeader = string
 
 // Source defines model for Source.
 type Source = string
+
+// SourceConnectionID defines model for SourceConnectionID.
+type SourceConnectionID = string
+
+// SourceRepositoryID defines model for SourceRepositoryID.
+type SourceRepositoryID = string
+
+// SystemIntegrationID defines model for SystemIntegrationID.
+type SystemIntegrationID = string
 
 // TaskID defines model for TaskID.
 type TaskID = string
@@ -10209,6 +10913,26 @@ type ListRepositoriesParams struct {
 	Limit         int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
+// ListSourceRepositoriesParams defines parameters for ListSourceRepositories.
+type ListSourceRepositoriesParams struct {
+	Search string `form:"search,omitempty" json:"search,omitempty"`
+	Cursor string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// GetSourceRepositoryFileParams defines parameters for GetSourceRepositoryFile.
+type GetSourceRepositoryFileParams struct {
+	Ref  string `form:"ref" json:"ref"`
+	Path string `form:"path" json:"path"`
+}
+
+// ListSystemIntegrationsParams defines parameters for ListSystemIntegrations.
+type ListSystemIntegrationsParams struct {
+	Category     SystemIntegrationCategory `form:"category,omitempty" json:"category,omitempty"`
+	ProviderType string                    `form:"providerType,omitempty" json:"providerType,omitempty"`
+	Enabled      bool                      `form:"enabled,omitempty" json:"enabled,omitempty"`
+}
+
 // DecideAIGatewayApprovalRequestJSONRequestBody defines body for DecideAIGatewayApprovalRequest for application/json ContentType.
 type DecideAIGatewayApprovalRequestJSONRequestBody = ApprovalDecisionInput
 
@@ -10520,6 +11244,21 @@ type UpdateAISkillsRegistryJSONRequestBody = UpdateAISkillsRequest
 
 // UpdateAIWorkbenchModelSettingsJSONRequestBody defines body for UpdateAIWorkbenchModelSettings for application/json ContentType.
 type UpdateAIWorkbenchModelSettingsJSONRequestBody = UpdateAIWorkbenchModelRequest
+
+// ApplyRuntimeConfigJSONRequestBody defines body for ApplyRuntimeConfig for application/json ContentType.
+type ApplyRuntimeConfigJSONRequestBody = RuntimeConfigChangeRequest
+
+// RollbackRuntimeConfigJSONRequestBody defines body for RollbackRuntimeConfig for application/json ContentType.
+type RollbackRuntimeConfigJSONRequestBody = RuntimeConfigRollbackRequest
+
+// ValidateRuntimeConfigJSONRequestBody defines body for ValidateRuntimeConfig for application/json ContentType.
+type ValidateRuntimeConfigJSONRequestBody = RuntimeConfigChangeRequest
+
+// CreateSystemIntegrationJSONRequestBody defines body for CreateSystemIntegration for application/json ContentType.
+type CreateSystemIntegrationJSONRequestBody = SystemIntegrationCreateRequest
+
+// UpdateSystemIntegrationJSONRequestBody defines body for UpdateSystemIntegration for application/json ContentType.
+type UpdateSystemIntegrationJSONRequestBody = SystemIntegrationUpdateRequest
 
 // CreateWorkflowTemplateJSONRequestBody defines body for CreateWorkflowTemplate for application/json ContentType.
 type CreateWorkflowTemplateJSONRequestBody = WorkflowTemplateInput

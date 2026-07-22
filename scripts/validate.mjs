@@ -104,6 +104,8 @@ const requiredOpenapiFixtureSchemas = [
   "KubernetesResourcePreflightEnvelope",
   "KubernetesResourceCreateResultEnvelope",
   "KubernetesResourceAgentCreateRequest",
+  "RuntimeConfigSnapshotEnvelope",
+  "RuntimeConfigChangeRequest",
   "ErrorEnvelope",
   "RepositoryInput",
 ];
@@ -312,6 +314,7 @@ function validateOpenapiStructure(openapi) {
   }
 
   validateComputeTaskCenterContract(openapi);
+  validateRuntimeConfigContract(openapi);
 
   for (const [path, pathItem] of Object.entries(openapi.paths)) {
     for (const [method, operation] of Object.entries(pathItem ?? {})) {
@@ -331,6 +334,44 @@ function validateOpenapiStructure(openapi) {
           }
         }
       }
+    }
+  }
+}
+
+function validateRuntimeConfigContract(openapi) {
+  const operations = {
+    "/settings/runtime-config": ["get", "getRuntimeConfig"],
+    "/settings/runtime-config/validate": ["post", "validateRuntimeConfig"],
+    "/settings/runtime-config/apply": ["post", "applyRuntimeConfig"],
+    "/settings/runtime-config/history": ["get", "listRuntimeConfigHistory"],
+    "/settings/runtime-config/rollback": ["post", "rollbackRuntimeConfig"],
+    "/settings/runtime-config/applications/{runtimeConfigApplicationID}": ["get", "getRuntimeConfigApplication"],
+  };
+  for (const [path, [method, operationId]] of Object.entries(operations)) {
+    if (openapi.paths?.[path]?.[method]?.operationId !== operationId) {
+      throw new Error(`${method.toUpperCase()} ${path} must declare ${operationId}`);
+    }
+  }
+
+  const applyModes = openapi.components.schemas.RuntimeConfigApplyMode?.enum ?? [];
+  for (const mode of ["hot", "reconfigure", "lifecycle", "restart"]) {
+    if (!applyModes.includes(mode)) {
+      throw new Error(`RuntimeConfigApplyMode must include ${mode}`);
+    }
+  }
+
+  const changeRequestRequired = openapi.components.schemas.RuntimeConfigChangeRequest?.required ?? [];
+  if (!changeRequestRequired.includes("expectedVersion")) {
+    throw new Error("RuntimeConfigChangeRequest must require expectedVersion");
+  }
+  const changeRequired = openapi.components.schemas.RuntimeConfigChange?.required ?? [];
+  if (changeRequired.includes("reset") || openapi.components.schemas.RuntimeConfigChange?.properties?.reset?.default !== undefined) {
+    throw new Error("RuntimeConfigChange.reset must remain optional without a schema default");
+  }
+  const rollbackRequired = openapi.components.schemas.RuntimeConfigRollbackRequest?.required ?? [];
+  for (const field of ["expectedVersion", "targetVersion"]) {
+    if (!rollbackRequired.includes(field)) {
+      throw new Error(`RuntimeConfigRollbackRequest must require ${field}`);
     }
   }
 }

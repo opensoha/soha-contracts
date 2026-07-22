@@ -305,6 +305,262 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/settings/runtime-config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getRuntimeConfig"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/settings/runtime-config/resources": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getRuntimeResourceSnapshot"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/settings/runtime-config/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["validateRuntimeConfig"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/settings/runtime-config/apply": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["applyRuntimeConfig"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/settings/runtime-config/history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listRuntimeConfigHistory"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/settings/runtime-config/rollback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["rollbackRuntimeConfig"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/settings/runtime-config/applications/{runtimeConfigApplicationID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getRuntimeConfigApplication"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system-integrations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listSystemIntegrations"];
+        put?: never;
+        post: operations["createSystemIntegration"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system-integrations/{integrationID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getSystemIntegration"];
+        put?: never;
+        post?: never;
+        delete: operations["deleteSystemIntegration"];
+        options?: never;
+        head?: never;
+        patch: operations["updateSystemIntegration"];
+        trace?: never;
+    };
+    "/system-integrations/{integrationID}/test": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["testSystemIntegration"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/source-connections": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listSourceConnections"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/source-connections/{sourceConnectionID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getSourceConnection"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/source-connections/{sourceConnectionID}/repositories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listSourceRepositories"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/source-connections/{sourceConnectionID}/repositories/{repositoryID}/branches": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listSourceRepositoryBranches"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/source-connections/{sourceConnectionID}/repositories/{repositoryID}/tags": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listSourceRepositoryTags"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/source-connections/{sourceConnectionID}/repositories/{repositoryID}/files": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getSourceRepositoryFile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/applications": {
         parameters: {
             query?: never;
@@ -3206,6 +3462,341 @@ export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
         AnyValue: unknown;
+        /** @enum {string} */
+        SystemIntegrationCategory: "identity" | "source_control" | "project_management" | "configuration" | "ci_cd" | "code_quality" | "api_gateway" | "monitoring" | "messaging" | "ai" | "cloud" | "other";
+        /** @enum {string} */
+        SystemIntegrationHealthStatus: "unknown" | "healthy" | "unhealthy";
+        /** @enum {string} */
+        SystemIntegrationTestStatus: "succeeded" | "failed";
+        SystemIntegrationConfigurationField: {
+            key: string;
+            value: string;
+        };
+        SystemIntegrationCredentialInput: {
+            key: string;
+            value: string;
+        };
+        SystemIntegrationCreateRequest: {
+            category: components["schemas"]["SystemIntegrationCategory"];
+            /** @description Extensible provider key such as gitlab, github, gitea, or zadig. */
+            providerType: string;
+            name: string;
+            description?: string;
+            enabled: boolean;
+            configuration?: components["schemas"]["SystemIntegrationConfigurationField"][];
+            credentials?: components["schemas"]["SystemIntegrationCredentialInput"][];
+        };
+        SystemIntegrationUpdateRequest: {
+            /** Format: int64 */
+            expectedVersion: number;
+            name?: string;
+            description?: string;
+            enabled?: boolean;
+            configuration?: components["schemas"]["SystemIntegrationConfigurationField"][];
+            /** @description Credential values to add or replace. Omitted credential keys remain unchanged. */
+            credentials?: components["schemas"]["SystemIntegrationCredentialInput"][];
+            clearCredentialKeys?: string[];
+        };
+        SystemIntegration: {
+            id: string;
+            category: components["schemas"]["SystemIntegrationCategory"];
+            providerType: string;
+            name: string;
+            description?: string;
+            enabled: boolean;
+            configuration: components["schemas"]["SystemIntegrationConfigurationField"][];
+            /** @description Names of configured credentials. Credential values are never returned. */
+            credentialKeys: string[];
+            healthStatus: components["schemas"]["SystemIntegrationHealthStatus"];
+            /** Format: date-time */
+            lastCheckedAt?: string;
+            /** Format: int64 */
+            version: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        SystemIntegrationEnvelope: {
+            data: components["schemas"]["SystemIntegration"];
+        };
+        SystemIntegrationListEnvelope: {
+            items: components["schemas"]["SystemIntegration"][];
+        };
+        SystemIntegrationTestResult: {
+            integrationId: string;
+            status: components["schemas"]["SystemIntegrationTestStatus"];
+            /** Format: date-time */
+            checkedAt: string;
+            /** Format: int64 */
+            latencyMs: number;
+            capabilities: string[];
+            message?: string;
+        };
+        SystemIntegrationTestResultEnvelope: {
+            data: components["schemas"]["SystemIntegrationTestResult"];
+        };
+        SourceConnection: {
+            id: string;
+            integrationId: string;
+            providerType: string;
+            name: string;
+            /**
+             * Format: uri
+             * @description Redacted human-readable provider endpoint when one is configured.
+             */
+            displayEndpoint?: string;
+            enabled: boolean;
+            defaultConnection: boolean;
+            capabilities: ("repositories" | "branches" | "tags" | "files")[];
+        };
+        SourceConnectionEnvelope: {
+            data: components["schemas"]["SourceConnection"];
+        };
+        SourceConnectionListEnvelope: {
+            items: components["schemas"]["SourceConnection"][];
+        };
+        SourceRepository: {
+            /** @description Opaque identifier scoped to the source connection. */
+            id: string;
+            name: string;
+            fullName: string;
+            namespace?: string;
+            /** Format: uri */
+            webUrl?: string;
+            defaultBranch: string;
+            archived: boolean;
+        };
+        SourceRepositoryListEnvelope: {
+            items: components["schemas"]["SourceRepository"][];
+            nextCursor?: string;
+        };
+        SourceBranch: {
+            name: string;
+            commitId: string;
+            defaultBranch: boolean;
+        };
+        SourceBranchListEnvelope: {
+            items: components["schemas"]["SourceBranch"][];
+        };
+        SourceTag: {
+            name: string;
+            commitId: string;
+        };
+        SourceTagListEnvelope: {
+            items: components["schemas"]["SourceTag"][];
+        };
+        /** @enum {string} */
+        SourceFileEncoding: "utf8" | "base64";
+        SourceFile: {
+            repositoryId: string;
+            path: string;
+            ref: string;
+            blobId?: string;
+            encoding: components["schemas"]["SourceFileEncoding"];
+            /** @description UTF-8 text or base64 content according to encoding. This API does not expose checkout credentials. */
+            content: string;
+            /** Format: int64 */
+            sizeBytes: number;
+        };
+        SourceFileEnvelope: {
+            data: components["schemas"]["SourceFile"];
+        };
+        RuntimeConfigValue: boolean | number | string | string[];
+        /** @enum {string} */
+        RuntimeConfigValueType: "boolean" | "integer" | "number" | "string" | "string_list" | "duration" | "url";
+        /** @enum {string} */
+        RuntimeConfigApplyMode: "hot" | "reconfigure" | "lifecycle" | "restart";
+        /** @enum {string} */
+        RuntimeConfigSource: "default" | "config_file" | "runtime_override" | "environment" | "secret";
+        /** @enum {string} */
+        RuntimeConfigApplicationStatus: "pending" | "applying" | "applied" | "partially_applied" | "failed" | "restart_required" | "rolled_back";
+        /** @enum {string} */
+        RuntimeConfigIssueSeverity: "warning" | "error";
+        RuntimeConfigItem: {
+            key: string;
+            category?: string;
+            label?: string;
+            description?: string;
+            valueType: components["schemas"]["RuntimeConfigValueType"];
+            effectiveValue?: components["schemas"]["RuntimeConfigValue"];
+            defaultValue?: components["schemas"]["RuntimeConfigValue"];
+            source: components["schemas"]["RuntimeConfigSource"];
+            applyMode: components["schemas"]["RuntimeConfigApplyMode"];
+            editable: boolean;
+            sensitive: boolean;
+            pendingRestart: boolean;
+        } & unknown;
+        RuntimeConfigSnapshot: {
+            /** Format: int64 */
+            version: number;
+            activeRevisionId?: string;
+            items: components["schemas"]["RuntimeConfigItem"][];
+            pendingRestart: boolean;
+        };
+        RuntimeConfigSnapshotEnvelope: {
+            data: components["schemas"]["RuntimeConfigSnapshot"];
+        };
+        RuntimeCPUUsage: {
+            /** Format: double */
+            usagePercent: number;
+            logicalCores: number;
+        };
+        RuntimeMemoryUsage: {
+            /** Format: int64 */
+            goReservedBytes: number;
+            /** Format: int64 */
+            heapAllocBytes: number;
+            /** Format: int64 */
+            heapSysBytes: number;
+            /** Format: double */
+            heapUsagePercent: number;
+        };
+        RuntimeDiskUsage: {
+            available: boolean;
+            path: string;
+            /** Format: int64 */
+            totalBytes: number;
+            /** Format: int64 */
+            usedBytes: number;
+            /** Format: int64 */
+            availableBytes: number;
+            /** Format: double */
+            usagePercent: number;
+        };
+        RuntimeNetworkUsage: {
+            available: boolean;
+            /** @enum {string} */
+            scope: "process" | "network_namespace" | "unavailable";
+            /** Format: int64 */
+            rxBytes: number;
+            /** Format: int64 */
+            txBytes: number;
+            /** Format: double */
+            rxBytesPerSecond: number;
+            /** Format: double */
+            txBytesPerSecond: number;
+        };
+        RuntimeGoUsage: {
+            goroutines: number;
+            /** Format: int64 */
+            gcCycles: number;
+            gomaxprocs: number;
+        };
+        RuntimeServiceUsage: {
+            /** Format: int64 */
+            started: number;
+            /** Format: int64 */
+            succeeded: number;
+            /** Format: int64 */
+            failed: number;
+            /** Format: int64 */
+            canceled: number;
+            queueDepth: number;
+        };
+        RuntimeResourceSnapshot: {
+            /** Format: date-time */
+            generatedAt: string;
+            /** Format: int64 */
+            uptimeSeconds: number;
+            cpu: components["schemas"]["RuntimeCPUUsage"];
+            memory: components["schemas"]["RuntimeMemoryUsage"];
+            disk: components["schemas"]["RuntimeDiskUsage"];
+            network: components["schemas"]["RuntimeNetworkUsage"];
+            goRuntime: components["schemas"]["RuntimeGoUsage"];
+            services: components["schemas"]["RuntimeServiceUsage"];
+        };
+        RuntimeResourceSnapshotEnvelope: {
+            data: components["schemas"]["RuntimeResourceSnapshot"];
+        };
+        RuntimeConfigChange: {
+            key: string;
+            value?: components["schemas"]["RuntimeConfigValue"];
+            /** @description Removes the runtime override so the next lower-precedence source becomes effective. */
+            reset?: boolean;
+        };
+        RuntimeConfigChangeRequest: {
+            /** Format: int64 */
+            expectedVersion: number;
+            changes: components["schemas"]["RuntimeConfigChange"][];
+            reason?: string;
+        };
+        RuntimeConfigValidationIssue: {
+            key?: string;
+            severity: components["schemas"]["RuntimeConfigIssueSeverity"];
+            code: string;
+            message: string;
+        };
+        RuntimeConfigValidatedChange: {
+            key: string;
+            currentValue: components["schemas"]["RuntimeConfigValue"];
+            proposedValue: components["schemas"]["RuntimeConfigValue"];
+            applyMode: components["schemas"]["RuntimeConfigApplyMode"];
+        };
+        RuntimeConfigValidationResult: {
+            valid: boolean;
+            /** Format: int64 */
+            expectedVersion: number;
+            /** Format: int64 */
+            currentVersion: number;
+            changes: components["schemas"]["RuntimeConfigValidatedChange"][];
+            issues: components["schemas"]["RuntimeConfigValidationIssue"][];
+            requiresRestart: boolean;
+        };
+        RuntimeConfigValidationEnvelope: {
+            data: components["schemas"]["RuntimeConfigValidationResult"];
+        };
+        RuntimeConfigAppliedItem: {
+            key: string;
+            applyMode: components["schemas"]["RuntimeConfigApplyMode"];
+            status: components["schemas"]["RuntimeConfigApplicationStatus"];
+            message?: string;
+        };
+        RuntimeConfigApplication: {
+            id: string;
+            revisionId: string;
+            /** Format: int64 */
+            version: number;
+            status: components["schemas"]["RuntimeConfigApplicationStatus"];
+            items: components["schemas"]["RuntimeConfigAppliedItem"][];
+            error?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        RuntimeConfigApplicationEnvelope: {
+            data: components["schemas"]["RuntimeConfigApplication"];
+        };
+        RuntimeConfigRevision: {
+            id: string;
+            /** Format: int64 */
+            version: number;
+            status: components["schemas"]["RuntimeConfigApplicationStatus"];
+            changes: components["schemas"]["RuntimeConfigChange"][];
+            actor: string;
+            reason?: string;
+            rollbackOfRevisionId?: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        RuntimeConfigRevisionListEnvelope: {
+            items: components["schemas"]["RuntimeConfigRevision"][];
+        };
+        RuntimeConfigApplyResult: {
+            revision: components["schemas"]["RuntimeConfigRevision"];
+            application: components["schemas"]["RuntimeConfigApplication"];
+        };
+        RuntimeConfigApplyResultEnvelope: {
+            data: components["schemas"]["RuntimeConfigApplyResult"];
+        };
+        RuntimeConfigRollbackRequest: {
+            /** Format: int64 */
+            expectedVersion: number;
+            /** Format: int64 */
+            targetVersion: number;
+            reason?: string;
+        };
         GenericObject: {
             [key: string]: unknown;
         };
@@ -7030,6 +7621,7 @@ export interface components {
             description?: string;
             activationLevel: components["schemas"]["ComputeProviderActivationLevel"];
             resourceKinds: ("connection" | "cluster" | "vm" | "image" | "flavor")[];
+            /** @description Provider-declared VM capabilities. Standard resource mutation keys are vm.resource.cpu.resize, vm.resource.memory.resize, vm.resource.disk.add, vm.resource.disk.resize, vm.resource.network.add, and vm.resource.network.remove. */
             capabilities: string[];
             configSchemaRef?: string;
             actionRefs?: {
@@ -7781,6 +8373,11 @@ export interface components {
         };
     };
     parameters: {
+        SystemIntegrationID: string;
+        SourceConnectionID: string;
+        /** @description Opaque provider-neutral repository identifier. Clients must URL-encode it and must not infer a provider path format. */
+        SourceRepositoryID: string;
+        RuntimeConfigApplicationID: string;
         ClusterID: string;
         ComputeCursor: string;
         ComputeLimit: number;
@@ -7867,6 +8464,61 @@ export type ApiResponse<T = unknown> = { data: T };
 export type ApiItemsResponse<T = unknown> = { items: T[] };
 export type AuthTokens = TokenSet;
 export type AnyValue = components['schemas']['AnyValue'];
+export type SystemIntegrationCategory = components['schemas']['SystemIntegrationCategory'];
+export type SystemIntegrationHealthStatus = components['schemas']['SystemIntegrationHealthStatus'];
+export type SystemIntegrationTestStatus = components['schemas']['SystemIntegrationTestStatus'];
+export type SystemIntegrationConfigurationField = components['schemas']['SystemIntegrationConfigurationField'];
+export type SystemIntegrationCredentialInput = components['schemas']['SystemIntegrationCredentialInput'];
+export type SystemIntegrationCreateRequest = components['schemas']['SystemIntegrationCreateRequest'];
+export type SystemIntegrationUpdateRequest = components['schemas']['SystemIntegrationUpdateRequest'];
+export type SystemIntegration = components['schemas']['SystemIntegration'];
+export type SystemIntegrationEnvelope = components['schemas']['SystemIntegrationEnvelope'];
+export type SystemIntegrationListEnvelope = components['schemas']['SystemIntegrationListEnvelope'];
+export type SystemIntegrationTestResult = components['schemas']['SystemIntegrationTestResult'];
+export type SystemIntegrationTestResultEnvelope = components['schemas']['SystemIntegrationTestResultEnvelope'];
+export type SourceConnection = components['schemas']['SourceConnection'];
+export type SourceConnectionEnvelope = components['schemas']['SourceConnectionEnvelope'];
+export type SourceConnectionListEnvelope = components['schemas']['SourceConnectionListEnvelope'];
+export type SourceRepository = components['schemas']['SourceRepository'];
+export type SourceRepositoryListEnvelope = components['schemas']['SourceRepositoryListEnvelope'];
+export type SourceBranch = components['schemas']['SourceBranch'];
+export type SourceBranchListEnvelope = components['schemas']['SourceBranchListEnvelope'];
+export type SourceTag = components['schemas']['SourceTag'];
+export type SourceTagListEnvelope = components['schemas']['SourceTagListEnvelope'];
+export type SourceFileEncoding = components['schemas']['SourceFileEncoding'];
+export type SourceFile = components['schemas']['SourceFile'];
+export type SourceFileEnvelope = components['schemas']['SourceFileEnvelope'];
+export type RuntimeConfigValue = components['schemas']['RuntimeConfigValue'];
+export type RuntimeConfigValueType = components['schemas']['RuntimeConfigValueType'];
+export type RuntimeConfigApplyMode = components['schemas']['RuntimeConfigApplyMode'];
+export type RuntimeConfigSource = components['schemas']['RuntimeConfigSource'];
+export type RuntimeConfigApplicationStatus = components['schemas']['RuntimeConfigApplicationStatus'];
+export type RuntimeConfigIssueSeverity = components['schemas']['RuntimeConfigIssueSeverity'];
+export type RuntimeConfigItem = components['schemas']['RuntimeConfigItem'];
+export type RuntimeConfigSnapshot = components['schemas']['RuntimeConfigSnapshot'];
+export type RuntimeConfigSnapshotEnvelope = components['schemas']['RuntimeConfigSnapshotEnvelope'];
+export type RuntimeCPUUsage = components['schemas']['RuntimeCPUUsage'];
+export type RuntimeMemoryUsage = components['schemas']['RuntimeMemoryUsage'];
+export type RuntimeDiskUsage = components['schemas']['RuntimeDiskUsage'];
+export type RuntimeNetworkUsage = components['schemas']['RuntimeNetworkUsage'];
+export type RuntimeGoUsage = components['schemas']['RuntimeGoUsage'];
+export type RuntimeServiceUsage = components['schemas']['RuntimeServiceUsage'];
+export type RuntimeResourceSnapshot = components['schemas']['RuntimeResourceSnapshot'];
+export type RuntimeResourceSnapshotEnvelope = components['schemas']['RuntimeResourceSnapshotEnvelope'];
+export type RuntimeConfigChange = components['schemas']['RuntimeConfigChange'];
+export type RuntimeConfigChangeRequest = components['schemas']['RuntimeConfigChangeRequest'];
+export type RuntimeConfigValidationIssue = components['schemas']['RuntimeConfigValidationIssue'];
+export type RuntimeConfigValidatedChange = components['schemas']['RuntimeConfigValidatedChange'];
+export type RuntimeConfigValidationResult = components['schemas']['RuntimeConfigValidationResult'];
+export type RuntimeConfigValidationEnvelope = components['schemas']['RuntimeConfigValidationEnvelope'];
+export type RuntimeConfigAppliedItem = components['schemas']['RuntimeConfigAppliedItem'];
+export type RuntimeConfigApplication = components['schemas']['RuntimeConfigApplication'];
+export type RuntimeConfigApplicationEnvelope = components['schemas']['RuntimeConfigApplicationEnvelope'];
+export type RuntimeConfigRevision = components['schemas']['RuntimeConfigRevision'];
+export type RuntimeConfigRevisionListEnvelope = components['schemas']['RuntimeConfigRevisionListEnvelope'];
+export type RuntimeConfigApplyResult = components['schemas']['RuntimeConfigApplyResult'];
+export type RuntimeConfigApplyResultEnvelope = components['schemas']['RuntimeConfigApplyResultEnvelope'];
+export type RuntimeConfigRollbackRequest = components['schemas']['RuntimeConfigRollbackRequest'];
 export type GenericObject = components['schemas']['GenericObject'];
 export type GenericDataEnvelope = components['schemas']['GenericDataEnvelope'];
 export type GenericItemsEnvelope = components['schemas']['GenericItemsEnvelope'];
@@ -8410,6 +9062,10 @@ export type MCPCapability = components['schemas']['MCPCapability'];
 export type MCPCapabilityListEnvelope = components['schemas']['MCPCapabilityListEnvelope'];
 export type ResponseError = components['responses']['Error'];
 export type ResponseComputeError = components['responses']['ComputeError'];
+export type ParameterSystemIntegrationId = components['parameters']['SystemIntegrationID'];
+export type ParameterSourceConnectionId = components['parameters']['SourceConnectionID'];
+export type ParameterSourceRepositoryId = components['parameters']['SourceRepositoryID'];
+export type ParameterRuntimeConfigApplicationId = components['parameters']['RuntimeConfigApplicationID'];
 export type ParameterClusterId = components['parameters']['ClusterID'];
 export type ParameterComputeCursor = components['parameters']['ComputeCursor'];
 export type ParameterComputeLimit = components['parameters']['ComputeLimit'];
@@ -8890,6 +9546,502 @@ export interface operations {
             };
             400: components["responses"]["Error"];
             403: components["responses"]["Error"];
+        };
+    };
+    getRuntimeConfig: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Effective runtime configuration, its provenance, and editability metadata. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RuntimeConfigSnapshotEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    getRuntimeResourceSnapshot: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current Soha process, filesystem, network namespace, Go runtime, and background service resource snapshot. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RuntimeResourceSnapshotEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    validateRuntimeConfig: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RuntimeConfigChangeRequest"];
+            };
+        };
+        responses: {
+            /** @description Dry-run validation result without persisting or applying changes. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RuntimeConfigValidationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    applyRuntimeConfig: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RuntimeConfigChangeRequest"];
+            };
+        };
+        responses: {
+            /** @description Configuration revision accepted for application. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RuntimeConfigApplyResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listRuntimeConfigHistory: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Runtime configuration revision history, newest first. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RuntimeConfigRevisionListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    rollbackRuntimeConfig: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RuntimeConfigRollbackRequest"];
+            };
+        };
+        responses: {
+            /** @description Rollback revision accepted for application. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RuntimeConfigApplyResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getRuntimeConfigApplication: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                runtimeConfigApplicationID: components["parameters"]["RuntimeConfigApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current application status for an accepted configuration revision. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RuntimeConfigApplicationEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listSystemIntegrations: {
+        parameters: {
+            query?: {
+                category?: components["schemas"]["SystemIntegrationCategory"];
+                providerType?: string;
+                enabled?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Permission-filtered global system integrations with credentials redacted. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SystemIntegrationListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createSystemIntegration: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SystemIntegrationCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description Global system integration created with credentials redacted. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SystemIntegrationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getSystemIntegration: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                integrationID: components["parameters"]["SystemIntegrationID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Global system integration detail with credentials redacted. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SystemIntegrationEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteSystemIntegration: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                integrationID: components["parameters"]["SystemIntegrationID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Global system integration deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    updateSystemIntegration: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                integrationID: components["parameters"]["SystemIntegrationID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SystemIntegrationUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description Updated global system integration with credentials redacted. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SystemIntegrationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    testSystemIntegration: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                integrationID: components["parameters"]["SystemIntegrationID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Redacted connection test result for the integration. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SystemIntegrationTestResultEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            422: components["responses"]["Error"];
+        };
+    };
+    listSourceConnections: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Enabled source-control projections of global integrations available to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SourceConnectionListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    getSourceConnection: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sourceConnectionID: components["parameters"]["SourceConnectionID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Source-control connection projection without configuration secrets. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SourceConnectionEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listSourceRepositories: {
+        parameters: {
+            query?: {
+                search?: string;
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                sourceConnectionID: components["parameters"]["SourceConnectionID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Provider-neutral repositories visible through the source connection. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SourceRepositoryListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listSourceRepositoryBranches: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sourceConnectionID: components["parameters"]["SourceConnectionID"];
+                /** @description Opaque provider-neutral repository identifier. Clients must URL-encode it and must not infer a provider path format. */
+                repositoryID: components["parameters"]["SourceRepositoryID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Provider-neutral branches for a repository. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SourceBranchListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listSourceRepositoryTags: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sourceConnectionID: components["parameters"]["SourceConnectionID"];
+                /** @description Opaque provider-neutral repository identifier. Clients must URL-encode it and must not infer a provider path format. */
+                repositoryID: components["parameters"]["SourceRepositoryID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Provider-neutral tags for a repository. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SourceTagListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    getSourceRepositoryFile: {
+        parameters: {
+            query: {
+                ref: string;
+                path: string;
+            };
+            header?: never;
+            path: {
+                sourceConnectionID: components["parameters"]["SourceConnectionID"];
+                /** @description Opaque provider-neutral repository identifier. Clients must URL-encode it and must not infer a provider path format. */
+                repositoryID: components["parameters"]["SourceRepositoryID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Provider-neutral repository file content at the requested ref. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SourceFileEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
         };
     };
     listApplications: {
