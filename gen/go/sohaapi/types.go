@@ -9503,6 +9503,16 @@ type SystemIntegrationListEnvelope struct {
 	Items []SystemIntegration `json:"items"`
 }
 
+// SystemIntegrationOAuthAuthorization defines model for SystemIntegrationOAuthAuthorization.
+type SystemIntegrationOAuthAuthorization struct {
+	AuthorizationURL string `json:"authorizationUrl"`
+}
+
+// SystemIntegrationOAuthAuthorizationEnvelope defines model for SystemIntegrationOAuthAuthorizationEnvelope.
+type SystemIntegrationOAuthAuthorizationEnvelope struct {
+	Data SystemIntegrationOAuthAuthorization `json:"data"`
+}
+
 // SystemIntegrationTestResult defines model for SystemIntegrationTestResult.
 type SystemIntegrationTestResult struct {
 	Capabilities  []string                    `json:"capabilities"`
@@ -10931,6 +10941,14 @@ type ListSystemIntegrationsParams struct {
 	Category     SystemIntegrationCategory `form:"category,omitempty" json:"category,omitempty"`
 	ProviderType string                    `form:"providerType,omitempty" json:"providerType,omitempty"`
 	Enabled      bool                      `form:"enabled,omitempty" json:"enabled,omitempty"`
+}
+
+// CompleteGitLabSystemIntegrationOAuthParams defines parameters for CompleteGitLabSystemIntegrationOAuth.
+type CompleteGitLabSystemIntegrationOAuthParams struct {
+	Code             string `form:"code,omitempty" json:"code,omitempty"`
+	State            string `form:"state" json:"state"`
+	Error            string `form:"error,omitempty" json:"error,omitempty"`
+	ErrorDescription string `form:"error_description,omitempty" json:"error_description,omitempty"`
 }
 
 // DecideAIGatewayApprovalRequestJSONRequestBody defines body for DecideAIGatewayApprovalRequest for application/json ContentType.

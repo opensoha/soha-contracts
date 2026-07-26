@@ -465,6 +465,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/system-integrations/{integrationID}/oauth/authorize": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["authorizeSystemIntegrationOAuth"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system-integrations/oauth/gitlab/callback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["completeGitLabSystemIntegrationOAuth"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/source-connections": {
         parameters: {
             query?: never;
@@ -3468,6 +3500,13 @@ export interface components {
         SystemIntegrationHealthStatus: "unknown" | "healthy" | "unhealthy";
         /** @enum {string} */
         SystemIntegrationTestStatus: "succeeded" | "failed";
+        SystemIntegrationOAuthAuthorization: {
+            /** Format: uri */
+            authorizationUrl: string;
+        };
+        SystemIntegrationOAuthAuthorizationEnvelope: {
+            data: components["schemas"]["SystemIntegrationOAuthAuthorization"];
+        };
         SystemIntegrationConfigurationField: {
             key: string;
             value: string;
@@ -8467,6 +8506,8 @@ export type AnyValue = components['schemas']['AnyValue'];
 export type SystemIntegrationCategory = components['schemas']['SystemIntegrationCategory'];
 export type SystemIntegrationHealthStatus = components['schemas']['SystemIntegrationHealthStatus'];
 export type SystemIntegrationTestStatus = components['schemas']['SystemIntegrationTestStatus'];
+export type SystemIntegrationOAuthAuthorization = components['schemas']['SystemIntegrationOAuthAuthorization'];
+export type SystemIntegrationOAuthAuthorizationEnvelope = components['schemas']['SystemIntegrationOAuthAuthorizationEnvelope'];
 export type SystemIntegrationConfigurationField = components['schemas']['SystemIntegrationConfigurationField'];
 export type SystemIntegrationCredentialInput = components['schemas']['SystemIntegrationCredentialInput'];
 export type SystemIntegrationCreateRequest = components['schemas']['SystemIntegrationCreateRequest'];
@@ -9882,6 +9923,57 @@ export interface operations {
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
             422: components["responses"]["Error"];
+        };
+    };
+    authorizeSystemIntegrationOAuth: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                integrationID: components["parameters"]["SystemIntegrationID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Provider authorization URL for the configured OAuth application. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SystemIntegrationOAuthAuthorizationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    completeGitLabSystemIntegrationOAuth: {
+        parameters: {
+            query: {
+                code?: string;
+                state: string;
+                error?: string;
+                error_description?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Redirects to the source-control connection detail after OAuth completion. */
+            302: {
+                headers: {
+                    Location?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
         };
     };
     listSourceConnections: {
