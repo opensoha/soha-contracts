@@ -179,19 +179,19 @@ func (e AIProductionOperationInputKind) Valid() bool {
 
 // Defines values for AgentProviderRunnerStatusHealth.
 const (
-	Healthy   AgentProviderRunnerStatusHealth = "healthy"
-	Unhealthy AgentProviderRunnerStatusHealth = "unhealthy"
-	Unknown   AgentProviderRunnerStatusHealth = "unknown"
+	AgentProviderRunnerStatusHealthHealthy   AgentProviderRunnerStatusHealth = "healthy"
+	AgentProviderRunnerStatusHealthUnhealthy AgentProviderRunnerStatusHealth = "unhealthy"
+	AgentProviderRunnerStatusHealthUnknown   AgentProviderRunnerStatusHealth = "unknown"
 )
 
 // Valid indicates whether the value is a known member of the AgentProviderRunnerStatusHealth enum.
 func (e AgentProviderRunnerStatusHealth) Valid() bool {
 	switch e {
-	case Healthy:
+	case AgentProviderRunnerStatusHealthHealthy:
 		return true
-	case Unhealthy:
+	case AgentProviderRunnerStatusHealthUnhealthy:
 		return true
-	case Unknown:
+	case AgentProviderRunnerStatusHealthUnknown:
 		return true
 	default:
 		return false
@@ -648,21 +648,45 @@ func (e BuildSourceInputType) Valid() bool {
 	}
 }
 
+// Defines values for CertificateSummaryStatus.
+const (
+	CertificateSummaryStatusActive   CertificateSummaryStatus = "active"
+	CertificateSummaryStatusExpired  CertificateSummaryStatus = "expired"
+	CertificateSummaryStatusRetiring CertificateSummaryStatus = "retiring"
+	CertificateSummaryStatusRevoked  CertificateSummaryStatus = "revoked"
+)
+
+// Valid indicates whether the value is a known member of the CertificateSummaryStatus enum.
+func (e CertificateSummaryStatus) Valid() bool {
+	switch e {
+	case CertificateSummaryStatusActive:
+		return true
+	case CertificateSummaryStatusExpired:
+		return true
+	case CertificateSummaryStatusRetiring:
+		return true
+	case CertificateSummaryStatusRevoked:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ClusterCapabilityStatus.
 const (
-	Available   ClusterCapabilityStatus = "available"
-	Partial     ClusterCapabilityStatus = "partial"
-	Unsupported ClusterCapabilityStatus = "unsupported"
+	ClusterCapabilityStatusAvailable   ClusterCapabilityStatus = "available"
+	ClusterCapabilityStatusPartial     ClusterCapabilityStatus = "partial"
+	ClusterCapabilityStatusUnsupported ClusterCapabilityStatus = "unsupported"
 )
 
 // Valid indicates whether the value is a known member of the ClusterCapabilityStatus enum.
 func (e ClusterCapabilityStatus) Valid() bool {
 	switch e {
-	case Available:
+	case ClusterCapabilityStatusAvailable:
 		return true
-	case Partial:
+	case ClusterCapabilityStatusPartial:
 		return true
-	case Unsupported:
+	case ClusterCapabilityStatusUnsupported:
 		return true
 	default:
 		return false
@@ -1260,6 +1284,252 @@ func (e EvaluationRunStatus) Valid() bool {
 	}
 }
 
+// Defines values for IdentityCapabilityStatus.
+const (
+	IdentityCapabilityStatusAvailable   IdentityCapabilityStatus = "available"
+	IdentityCapabilityStatusDegraded    IdentityCapabilityStatus = "degraded"
+	IdentityCapabilityStatusUnavailable IdentityCapabilityStatus = "unavailable"
+)
+
+// Valid indicates whether the value is a known member of the IdentityCapabilityStatus enum.
+func (e IdentityCapabilityStatus) Valid() bool {
+	switch e {
+	case IdentityCapabilityStatusAvailable:
+		return true
+	case IdentityCapabilityStatusDegraded:
+		return true
+	case IdentityCapabilityStatusUnavailable:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IdentityOutpostAccessCheckDecision.
+const (
+	IdentityOutpostAccessCheckDecisionAllow    IdentityOutpostAccessCheckDecision = "allow"
+	IdentityOutpostAccessCheckDecisionDeny     IdentityOutpostAccessCheckDecision = "deny"
+	IdentityOutpostAccessCheckDecisionRedirect IdentityOutpostAccessCheckDecision = "redirect"
+)
+
+// Valid indicates whether the value is a known member of the IdentityOutpostAccessCheckDecision enum.
+func (e IdentityOutpostAccessCheckDecision) Valid() bool {
+	switch e {
+	case IdentityOutpostAccessCheckDecisionAllow:
+		return true
+	case IdentityOutpostAccessCheckDecisionDeny:
+		return true
+	case IdentityOutpostAccessCheckDecisionRedirect:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IdentityOutpostHeartbeatRequestStatus.
+const (
+	IdentityOutpostHeartbeatRequestStatusDegraded    IdentityOutpostHeartbeatRequestStatus = "degraded"
+	IdentityOutpostHeartbeatRequestStatusHealthy     IdentityOutpostHeartbeatRequestStatus = "healthy"
+	IdentityOutpostHeartbeatRequestStatusUnavailable IdentityOutpostHeartbeatRequestStatus = "unavailable"
+)
+
+// Valid indicates whether the value is a known member of the IdentityOutpostHeartbeatRequestStatus enum.
+func (e IdentityOutpostHeartbeatRequestStatus) Valid() bool {
+	switch e {
+	case IdentityOutpostHeartbeatRequestStatusDegraded:
+		return true
+	case IdentityOutpostHeartbeatRequestStatusHealthy:
+		return true
+	case IdentityOutpostHeartbeatRequestStatusUnavailable:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IdentityOutpostMode.
+const (
+	IdentityOutpostModeAgent      IdentityOutpostMode = "agent"
+	IdentityOutpostModeEmbedded   IdentityOutpostMode = "embedded"
+	IdentityOutpostModeExternal   IdentityOutpostMode = "external"
+	IdentityOutpostModeKubernetes IdentityOutpostMode = "kubernetes"
+)
+
+// Valid indicates whether the value is a known member of the IdentityOutpostMode enum.
+func (e IdentityOutpostMode) Valid() bool {
+	switch e {
+	case IdentityOutpostModeAgent:
+		return true
+	case IdentityOutpostModeEmbedded:
+		return true
+	case IdentityOutpostModeExternal:
+		return true
+	case IdentityOutpostModeKubernetes:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IdentityOutpostRuntimeEventType.
+const (
+	CheckDenied          IdentityOutpostRuntimeEventType = "check_denied"
+	CheckFailed          IdentityOutpostRuntimeEventType = "check_failed"
+	ConfigurationApplied IdentityOutpostRuntimeEventType = "configuration_applied"
+	HeartbeatFailed      IdentityOutpostRuntimeEventType = "heartbeat_failed"
+	Started              IdentityOutpostRuntimeEventType = "started"
+)
+
+// Valid indicates whether the value is a known member of the IdentityOutpostRuntimeEventType enum.
+func (e IdentityOutpostRuntimeEventType) Valid() bool {
+	switch e {
+	case CheckDenied:
+		return true
+	case CheckFailed:
+		return true
+	case ConfigurationApplied:
+		return true
+	case HeartbeatFailed:
+		return true
+	case Started:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IdentityPolicyEffect.
+const (
+	IdentityPolicyEffectAllow IdentityPolicyEffect = "allow"
+	IdentityPolicyEffectDeny  IdentityPolicyEffect = "deny"
+)
+
+// Valid indicates whether the value is a known member of the IdentityPolicyEffect enum.
+func (e IdentityPolicyEffect) Valid() bool {
+	switch e {
+	case IdentityPolicyEffectAllow:
+		return true
+	case IdentityPolicyEffectDeny:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IdentityProtocolErrorCode.
+const (
+	AssertionNotYetValid  IdentityProtocolErrorCode = "assertion_not_yet_valid"
+	ChallengeExpired      IdentityProtocolErrorCode = "challenge_expired"
+	ChallengeReplayed     IdentityProtocolErrorCode = "challenge_replayed"
+	CredentialNotFound    IdentityProtocolErrorCode = "credential_not_found"
+	ExpiredAssertion      IdentityProtocolErrorCode = "expired_assertion"
+	InvalidAudience       IdentityProtocolErrorCode = "invalid_audience"
+	InvalidChallenge      IdentityProtocolErrorCode = "invalid_challenge"
+	InvalidDestination    IdentityProtocolErrorCode = "invalid_destination"
+	InvalidIssuer         IdentityProtocolErrorCode = "invalid_issuer"
+	InvalidMetadata       IdentityProtocolErrorCode = "invalid_metadata"
+	InvalidRecipient      IdentityProtocolErrorCode = "invalid_recipient"
+	InvalidSignature      IdentityProtocolErrorCode = "invalid_signature"
+	MetadataFetchDenied   IdentityProtocolErrorCode = "metadata_fetch_denied"
+	MfaNotConfigured      IdentityProtocolErrorCode = "mfa_not_configured"
+	MfaRequired           IdentityProtocolErrorCode = "mfa_required"
+	ProviderDisabled      IdentityProtocolErrorCode = "provider_disabled"
+	ReplayedAssertion     IdentityProtocolErrorCode = "replayed_assertion"
+	ReplayedRequest       IdentityProtocolErrorCode = "replayed_request"
+	UnknownRequest        IdentityProtocolErrorCode = "unknown_request"
+	UnknownSubject        IdentityProtocolErrorCode = "unknown_subject"
+	WebauthnNotConfigured IdentityProtocolErrorCode = "webauthn_not_configured"
+)
+
+// Valid indicates whether the value is a known member of the IdentityProtocolErrorCode enum.
+func (e IdentityProtocolErrorCode) Valid() bool {
+	switch e {
+	case AssertionNotYetValid:
+		return true
+	case ChallengeExpired:
+		return true
+	case ChallengeReplayed:
+		return true
+	case CredentialNotFound:
+		return true
+	case ExpiredAssertion:
+		return true
+	case InvalidAudience:
+		return true
+	case InvalidChallenge:
+		return true
+	case InvalidDestination:
+		return true
+	case InvalidIssuer:
+		return true
+	case InvalidMetadata:
+		return true
+	case InvalidRecipient:
+		return true
+	case InvalidSignature:
+		return true
+	case MetadataFetchDenied:
+		return true
+	case MfaNotConfigured:
+		return true
+	case MfaRequired:
+		return true
+	case ProviderDisabled:
+		return true
+	case ReplayedAssertion:
+		return true
+	case ReplayedRequest:
+		return true
+	case UnknownRequest:
+		return true
+	case UnknownSubject:
+		return true
+	case WebauthnNotConfigured:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IdentityProviderType.
+const (
+	OIDC  IdentityProviderType = "oidc"
+	Proxy IdentityProviderType = "proxy"
+	Saml  IdentityProviderType = "saml"
+)
+
+// Valid indicates whether the value is a known member of the IdentityProviderType enum.
+func (e IdentityProviderType) Valid() bool {
+	switch e {
+	case OIDC:
+		return true
+	case Proxy:
+		return true
+	case Saml:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IdentityResourceStatus.
+const (
+	IdentityResourceStatusActive   IdentityResourceStatus = "active"
+	IdentityResourceStatusDisabled IdentityResourceStatus = "disabled"
+)
+
+// Valid indicates whether the value is a known member of the IdentityResourceStatus enum.
+func (e IdentityResourceStatus) Valid() bool {
+	switch e {
+	case IdentityResourceStatusActive:
+		return true
+	case IdentityResourceStatusDisabled:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for KnowledgeAccessScopeVisibility.
 const (
 	KnowledgeAccessScopeVisibilityPrivate KnowledgeAccessScopeVisibility = "private"
@@ -1616,16 +1886,16 @@ func (e KubernetesResourceAction) Valid() bool {
 
 // Defines values for KubernetesResourceCapabilityMode.
 const (
-	Agent  KubernetesResourceCapabilityMode = "agent"
-	Direct KubernetesResourceCapabilityMode = "direct"
+	KubernetesResourceCapabilityModeAgent  KubernetesResourceCapabilityMode = "agent"
+	KubernetesResourceCapabilityModeDirect KubernetesResourceCapabilityMode = "direct"
 )
 
 // Valid indicates whether the value is a known member of the KubernetesResourceCapabilityMode enum.
 func (e KubernetesResourceCapabilityMode) Valid() bool {
 	switch e {
-	case Agent:
+	case KubernetesResourceCapabilityModeAgent:
 		return true
-	case Direct:
+	case KubernetesResourceCapabilityModeDirect:
 		return true
 	default:
 		return false
@@ -2214,6 +2484,78 @@ func (e LLMUpstreamTestResultStatus) Valid() bool {
 	}
 }
 
+// Defines values for MFACredentialType.
+const (
+	Totp     MFACredentialType = "totp"
+	Webauthn MFACredentialType = "webauthn"
+)
+
+// Valid indicates whether the value is a known member of the MFACredentialType enum.
+func (e MFACredentialType) Valid() bool {
+	switch e {
+	case Totp:
+		return true
+	case Webauthn:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for MFAEnrollmentChallengeType.
+const (
+	TotpEnrollment MFAEnrollmentChallengeType = "totp_enrollment"
+)
+
+// Valid indicates whether the value is a known member of the MFAEnrollmentChallengeType enum.
+func (e MFAEnrollmentChallengeType) Valid() bool {
+	switch e {
+	case TotpEnrollment:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for MFAWebAuthnAuthenticationRequestPurpose.
+const (
+	MFAWebAuthnPurposeLogin  MFAWebAuthnAuthenticationRequestPurpose = "login"
+	MFAWebAuthnPurposeStepUp MFAWebAuthnAuthenticationRequestPurpose = "step_up"
+)
+
+// Valid indicates whether the value is a known member of the MFAWebAuthnAuthenticationRequestPurpose enum.
+func (e MFAWebAuthnAuthenticationRequestPurpose) Valid() bool {
+	switch e {
+	case MFAWebAuthnPurposeLogin:
+		return true
+	case MFAWebAuthnPurposeStepUp:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for MFAWebAuthnRequestOptionsUserVerification.
+const (
+	MFAWebAuthnUserVerificationDiscouraged MFAWebAuthnRequestOptionsUserVerification = "discouraged"
+	MFAWebAuthnUserVerificationPreferred   MFAWebAuthnRequestOptionsUserVerification = "preferred"
+	MFAWebAuthnUserVerificationRequired    MFAWebAuthnRequestOptionsUserVerification = "required"
+)
+
+// Valid indicates whether the value is a known member of the MFAWebAuthnRequestOptionsUserVerification enum.
+func (e MFAWebAuthnRequestOptionsUserVerification) Valid() bool {
+	switch e {
+	case MFAWebAuthnUserVerificationDiscouraged:
+		return true
+	case MFAWebAuthnUserVerificationPreferred:
+		return true
+	case MFAWebAuthnUserVerificationRequired:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for MarketplaceAdvisorySeverity.
 const (
 	Critical MarketplaceAdvisorySeverity = "critical"
@@ -2256,6 +2598,42 @@ func (e MarketplacePublisherVerificationLevel) Valid() bool {
 	case MarketplacePublisherVerificationLevelPrivate:
 		return true
 	case MarketplacePublisherVerificationLevelVerified:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for OIDCClientGrantTypes.
+const (
+	OIDCClientGrantTypesAuthorizationCode OIDCClientGrantTypes = "authorization_code"
+	OIDCClientGrantTypesRefreshToken      OIDCClientGrantTypes = "refresh_token"
+)
+
+// Valid indicates whether the value is a known member of the OIDCClientGrantTypes enum.
+func (e OIDCClientGrantTypes) Valid() bool {
+	switch e {
+	case OIDCClientGrantTypesAuthorizationCode:
+		return true
+	case OIDCClientGrantTypesRefreshToken:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for OIDCClientInputGrantTypes.
+const (
+	OIDCClientInputGrantTypesAuthorizationCode OIDCClientInputGrantTypes = "authorization_code"
+	OIDCClientInputGrantTypesRefreshToken      OIDCClientInputGrantTypes = "refresh_token"
+)
+
+// Valid indicates whether the value is a known member of the OIDCClientInputGrantTypes enum.
+func (e OIDCClientInputGrantTypes) Valid() bool {
+	switch e {
+	case OIDCClientInputGrantTypesAuthorizationCode:
+		return true
+	case OIDCClientInputGrantTypesRefreshToken:
 		return true
 	default:
 		return false
@@ -2559,6 +2937,84 @@ func (e RuntimeNetworkUsageScope) Valid() bool {
 	case Process:
 		return true
 	case Unavailable:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SAMLAttributeMappingTarget.
+const (
+	DisplayName  SAMLAttributeMappingTarget = "displayName"
+	Email        SAMLAttributeMappingTarget = "email"
+	Organization SAMLAttributeMappingTarget = "organization"
+	Project      SAMLAttributeMappingTarget = "project"
+	Role         SAMLAttributeMappingTarget = "role"
+	Subject      SAMLAttributeMappingTarget = "subject"
+	Team         SAMLAttributeMappingTarget = "team"
+	Username     SAMLAttributeMappingTarget = "username"
+)
+
+// Valid indicates whether the value is a known member of the SAMLAttributeMappingTarget enum.
+func (e SAMLAttributeMappingTarget) Valid() bool {
+	switch e {
+	case DisplayName:
+		return true
+	case Email:
+		return true
+	case Organization:
+		return true
+	case Project:
+		return true
+	case Role:
+		return true
+	case Subject:
+		return true
+	case Team:
+		return true
+	case Username:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SAMLMetadataInputSource.
+const (
+	URL SAMLMetadataInputSource = "url"
+	XML SAMLMetadataInputSource = "xml"
+)
+
+// Valid indicates whether the value is a known member of the SAMLMetadataInputSource enum.
+func (e SAMLMetadataInputSource) Valid() bool {
+	switch e {
+	case URL:
+		return true
+	case XML:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SAMLNameIDFormat.
+const (
+	EmailAddress SAMLNameIDFormat = "emailAddress"
+	Persistent   SAMLNameIDFormat = "persistent"
+	Transient    SAMLNameIDFormat = "transient"
+	Unspecified  SAMLNameIDFormat = "unspecified"
+)
+
+// Valid indicates whether the value is a known member of the SAMLNameIDFormat enum.
+func (e SAMLNameIDFormat) Valid() bool {
+	switch e {
+	case EmailAddress:
+		return true
+	case Persistent:
+		return true
+	case Transient:
+		return true
+	case Unspecified:
 		return true
 	default:
 		return false
@@ -5791,6 +6247,20 @@ type CallerContext struct {
 	TokenID      string `json:"tokenId,omitempty"`
 }
 
+// CertificateSummary defines model for CertificateSummary.
+type CertificateSummary struct {
+	FingerprintSHA256 string                   `json:"fingerprintSHA256"`
+	ID                string                   `json:"id"`
+	Issuer            string                   `json:"issuer,omitempty"`
+	NotAfter          time.Time                `json:"notAfter"`
+	NotBefore         time.Time                `json:"notBefore"`
+	Status            CertificateSummaryStatus `json:"status"`
+	Subject           string                   `json:"subject"`
+}
+
+// CertificateSummaryStatus defines model for CertificateSummary.Status.
+type CertificateSummaryStatus string
+
 // ClusterCapabilityMatrixEntry defines model for ClusterCapabilityMatrixEntry.
 type ClusterCapabilityMatrixEntry struct {
 	Agent            ClusterCapabilityModeSupport `json:"agent"`
@@ -7092,6 +7562,313 @@ type GovernanceTokenSummary struct {
 	Stale                 []GovernanceTokenFinding `json:"stale,omitempty"`
 }
 
+// IdentityApplication defines model for IdentityApplication.
+type IdentityApplication struct {
+	CreatedAt   time.Time              `json:"createdAt"`
+	Description string                 `json:"description,omitempty"`
+	ID          string                 `json:"id"`
+	LaunchURL   string                 `json:"launchUrl,omitempty"`
+	Name        string                 `json:"name"`
+	Slug        string                 `json:"slug"`
+	Status      IdentityResourceStatus `json:"status"`
+	UpdatedAt   time.Time              `json:"updatedAt"`
+}
+
+// IdentityApplicationEnvelope defines model for IdentityApplicationEnvelope.
+type IdentityApplicationEnvelope struct {
+	Data IdentityApplication `json:"data"`
+}
+
+// IdentityApplicationInput defines model for IdentityApplicationInput.
+type IdentityApplicationInput struct {
+	Description string                 `json:"description,omitempty"`
+	LaunchURL   string                 `json:"launchUrl,omitempty"`
+	Name        string                 `json:"name"`
+	Slug        string                 `json:"slug"`
+	Status      IdentityResourceStatus `json:"status"`
+}
+
+// IdentityApplicationListEnvelope defines model for IdentityApplicationListEnvelope.
+type IdentityApplicationListEnvelope struct {
+	Items []IdentityApplication `json:"items"`
+}
+
+// IdentityCapability defines model for IdentityCapability.
+type IdentityCapability struct {
+	Available bool                     `json:"available"`
+	Reason    string                   `json:"reason,omitempty"`
+	Status    IdentityCapabilityStatus `json:"status"`
+	Version   string                   `json:"version,omitempty"`
+}
+
+// IdentityCapabilityStatus defines model for IdentityCapabilityStatus.
+type IdentityCapabilityStatus string
+
+// IdentityErrorDetail defines model for IdentityErrorDetail.
+type IdentityErrorDetail struct {
+	Code      IdentityProtocolErrorCode `json:"code"`
+	Message   string                    `json:"message"`
+	RequestID string                    `json:"request_id,omitempty"`
+}
+
+// IdentityErrorEnvelope defines model for IdentityErrorEnvelope.
+type IdentityErrorEnvelope struct {
+	Error IdentityErrorDetail `json:"error"`
+}
+
+// IdentityOutpost defines model for IdentityOutpost.
+type IdentityOutpost struct {
+	ClaimedAgentID       string                   `json:"claimedAgentId,omitempty"`
+	ConfigurationVersion int64                    `json:"configurationVersion"`
+	CreatedAt            time.Time                `json:"createdAt"`
+	ID                   string                   `json:"id"`
+	LastHeartbeatAt      *time.Time               `json:"lastHeartbeatAt,omitempty"`
+	Mode                 IdentityOutpostMode      `json:"mode"`
+	Name                 string                   `json:"name"`
+	RuntimeReason        string                   `json:"runtimeReason,omitempty"`
+	RuntimeStatus        IdentityCapabilityStatus `json:"runtimeStatus"`
+	Status               IdentityResourceStatus   `json:"status"`
+	UpdatedAt            time.Time                `json:"updatedAt"`
+}
+
+// IdentityOutpostAccessCheck defines model for IdentityOutpostAccessCheck.
+type IdentityOutpostAccessCheck struct {
+	Decision    IdentityOutpostAccessCheckDecision `json:"decision"`
+	Headers     map[string]string                  `json:"headers,omitempty"`
+	Reason      string                             `json:"reason,omitempty"`
+	RedirectURL string                             `json:"redirectUrl,omitempty"`
+	StatusCode  int                                `json:"statusCode"`
+}
+
+// IdentityOutpostAccessCheckDecision defines model for IdentityOutpostAccessCheck.Decision.
+type IdentityOutpostAccessCheckDecision string
+
+// IdentityOutpostAccessCheckEnvelope defines model for IdentityOutpostAccessCheckEnvelope.
+type IdentityOutpostAccessCheckEnvelope struct {
+	Data IdentityOutpostAccessCheck `json:"data"`
+}
+
+// IdentityOutpostAccessCheckRequest defines model for IdentityOutpostAccessCheckRequest.
+type IdentityOutpostAccessCheckRequest struct {
+	ConfigurationVersion int64  `json:"configurationVersion"`
+	Method               string `json:"method"`
+	OriginalURL          string `json:"originalUrl"`
+	ProviderID           string `json:"providerId"`
+	RequestHost          string `json:"requestHost"`
+	RequestPath          string `json:"requestPath"`
+	SessionToken         string `json:"sessionToken,omitempty"`
+	SourceIP             string `json:"sourceIp,omitempty"`
+}
+
+// IdentityOutpostClaimRequest defines model for IdentityOutpostClaimRequest.
+type IdentityOutpostClaimRequest struct {
+	AgentID                     string `json:"agentId"`
+	CurrentConfigurationVersion int64  `json:"currentConfigurationVersion,omitempty"`
+	SupportedProtocolVersion    string `json:"supportedProtocolVersion"`
+}
+
+// IdentityOutpostEnvelope defines model for IdentityOutpostEnvelope.
+type IdentityOutpostEnvelope struct {
+	Data IdentityOutpost `json:"data"`
+}
+
+// IdentityOutpostEventBatchRequest defines model for IdentityOutpostEventBatchRequest.
+type IdentityOutpostEventBatchRequest struct {
+	AgentID string                        `json:"agentId"`
+	Events  []IdentityOutpostRuntimeEvent `json:"events"`
+}
+
+// IdentityOutpostHeartbeat defines model for IdentityOutpostHeartbeat.
+type IdentityOutpostHeartbeat struct {
+	Accepted                    bool  `json:"accepted"`
+	DesiredConfigurationVersion int64 `json:"desiredConfigurationVersion"`
+}
+
+// IdentityOutpostHeartbeatEnvelope defines model for IdentityOutpostHeartbeatEnvelope.
+type IdentityOutpostHeartbeatEnvelope struct {
+	Data IdentityOutpostHeartbeat `json:"data"`
+}
+
+// IdentityOutpostHeartbeatRequest defines model for IdentityOutpostHeartbeatRequest.
+type IdentityOutpostHeartbeatRequest struct {
+	AgentID              string                                `json:"agentId"`
+	CheckedAt            time.Time                             `json:"checkedAt"`
+	ConfigurationVersion int64                                 `json:"configurationVersion"`
+	ErrorCode            string                                `json:"errorCode,omitempty"`
+	Status               IdentityOutpostHeartbeatRequestStatus `json:"status"`
+}
+
+// IdentityOutpostHeartbeatRequestStatus defines model for IdentityOutpostHeartbeatRequest.Status.
+type IdentityOutpostHeartbeatRequestStatus string
+
+// IdentityOutpostInput defines model for IdentityOutpostInput.
+type IdentityOutpostInput struct {
+	Mode   IdentityOutpostMode    `json:"mode"`
+	Name   string                 `json:"name"`
+	Status IdentityResourceStatus `json:"status"`
+}
+
+// IdentityOutpostListEnvelope defines model for IdentityOutpostListEnvelope.
+type IdentityOutpostListEnvelope struct {
+	Items []IdentityOutpost `json:"items"`
+}
+
+// IdentityOutpostMode defines model for IdentityOutpostMode.
+type IdentityOutpostMode string
+
+// IdentityOutpostRoute defines model for IdentityOutpostRoute.
+type IdentityOutpostRoute struct {
+	ApplicationID string   `json:"applicationId"`
+	Host          string   `json:"host"`
+	PathPrefix    string   `json:"pathPrefix,omitempty"`
+	ProviderID    string   `json:"providerId"`
+	SkipPaths     []string `json:"skipPaths,omitempty"`
+}
+
+// IdentityOutpostRuntimeCapability defines model for IdentityOutpostRuntimeCapability.
+type IdentityOutpostRuntimeCapability struct {
+	AgentRuntime       IdentityCapability `json:"agentRuntime"`
+	ControlPlane       IdentityCapability `json:"controlPlane"`
+	EmbeddedRuntime    IdentityCapability `json:"embeddedRuntime"`
+	ExternalProtocol   IdentityCapability `json:"externalProtocol"`
+	KubernetesArtifact IdentityCapability `json:"kubernetesArtifact"`
+}
+
+// IdentityOutpostRuntimeConfig defines model for IdentityOutpostRuntimeConfig.
+type IdentityOutpostRuntimeConfig struct {
+	CheckURL             string                 `json:"checkUrl"`
+	ConfigurationVersion int64                  `json:"configurationVersion"`
+	ExpiresAt            time.Time              `json:"expiresAt"`
+	IssuedAt             time.Time              `json:"issuedAt"`
+	KeyID                string                 `json:"keyId"`
+	OutpostID            string                 `json:"outpostId"`
+	ProtocolVersion      string                 `json:"protocolVersion"`
+	Routes               []IdentityOutpostRoute `json:"routes"`
+	Signature            string                 `json:"signature"`
+}
+
+// IdentityOutpostRuntimeConfigEnvelope defines model for IdentityOutpostRuntimeConfigEnvelope.
+type IdentityOutpostRuntimeConfigEnvelope struct {
+	Data *IdentityOutpostRuntimeConfig `json:"data,omitempty"`
+}
+
+// IdentityOutpostRuntimeEvent defines model for IdentityOutpostRuntimeEvent.
+type IdentityOutpostRuntimeEvent struct {
+	Code                 string                          `json:"code,omitempty"`
+	ConfigurationVersion int64                           `json:"configurationVersion"`
+	ID                   string                          `json:"id"`
+	Message              string                          `json:"message,omitempty"`
+	OccurredAt           time.Time                       `json:"occurredAt"`
+	Type                 IdentityOutpostRuntimeEventType `json:"type"`
+}
+
+// IdentityOutpostRuntimeEventType defines model for IdentityOutpostRuntimeEvent.Type.
+type IdentityOutpostRuntimeEventType string
+
+// IdentityPolicy defines model for IdentityPolicy.
+type IdentityPolicy struct {
+	ApplicationIDs []string               `json:"applicationIds"`
+	CreatedAt      time.Time              `json:"createdAt"`
+	Description    string                 `json:"description,omitempty"`
+	Effect         IdentityPolicyEffect   `json:"effect"`
+	ID             string                 `json:"id"`
+	Name           string                 `json:"name"`
+	Priority       int                    `json:"priority"`
+	RequireMFA     bool                   `json:"requireMFA"`
+	RoleIDs        []string               `json:"roleIds,omitempty"`
+	Status         IdentityResourceStatus `json:"status"`
+	TeamIDs        []string               `json:"teamIds,omitempty"`
+	UpdatedAt      time.Time              `json:"updatedAt"`
+}
+
+// IdentityPolicyEffect defines model for IdentityPolicyEffect.
+type IdentityPolicyEffect string
+
+// IdentityPolicyEnvelope defines model for IdentityPolicyEnvelope.
+type IdentityPolicyEnvelope struct {
+	Data IdentityPolicy `json:"data"`
+}
+
+// IdentityPolicyInput defines model for IdentityPolicyInput.
+type IdentityPolicyInput struct {
+	ApplicationIDs []string               `json:"applicationIds"`
+	Description    string                 `json:"description,omitempty"`
+	Effect         IdentityPolicyEffect   `json:"effect"`
+	Name           string                 `json:"name"`
+	Priority       int                    `json:"priority"`
+	RequireMFA     bool                   `json:"requireMFA"`
+	RoleIDs        []string               `json:"roleIds,omitempty"`
+	Status         IdentityResourceStatus `json:"status"`
+	TeamIDs        []string               `json:"teamIds,omitempty"`
+}
+
+// IdentityPolicyListEnvelope defines model for IdentityPolicyListEnvelope.
+type IdentityPolicyListEnvelope struct {
+	Items []IdentityPolicy `json:"items"`
+}
+
+// IdentityProtocolErrorCode defines model for IdentityProtocolErrorCode.
+type IdentityProtocolErrorCode string
+
+// IdentityProvider defines model for IdentityProvider.
+type IdentityProvider struct {
+	ApplicationID string                 `json:"applicationId"`
+	Config        map[string]any         `json:"config,omitempty"`
+	CreatedAt     time.Time              `json:"createdAt"`
+	CreatedBy     string                 `json:"createdBy,omitempty"`
+	Enabled       bool                   `json:"enabled"`
+	ID            string                 `json:"id"`
+	Name          string                 `json:"name"`
+	SecretRefs    map[string]any         `json:"secretRefs,omitempty"`
+	Status        IdentityResourceStatus `json:"status"`
+	Type          IdentityProviderType   `json:"type"`
+	UpdatedAt     time.Time              `json:"updatedAt"`
+	UpdatedBy     string                 `json:"updatedBy,omitempty"`
+}
+
+// IdentityProviderEnvelope defines model for IdentityProviderEnvelope.
+type IdentityProviderEnvelope struct {
+	Data IdentityProvider `json:"data"`
+}
+
+// IdentityProviderInput defines model for IdentityProviderInput.
+type IdentityProviderInput struct {
+	ApplicationID string                 `json:"applicationId"`
+	Config        map[string]any         `json:"config"`
+	Enabled       bool                   `json:"enabled"`
+	Name          string                 `json:"name"`
+	SecretRefs    map[string]any         `json:"secretRefs"`
+	Status        IdentityResourceStatus `json:"status"`
+	Type          IdentityProviderType   `json:"type"`
+}
+
+// IdentityProviderListEnvelope defines model for IdentityProviderListEnvelope.
+type IdentityProviderListEnvelope struct {
+	Items []IdentityProvider `json:"items"`
+}
+
+// IdentityProviderType defines model for IdentityProviderType.
+type IdentityProviderType string
+
+// IdentityResourceStatus defines model for IdentityResourceStatus.
+type IdentityResourceStatus string
+
+// IdentityRuntimeCapability defines model for IdentityRuntimeCapability.
+type IdentityRuntimeCapability struct {
+	Outpost                 IdentityOutpostRuntimeCapability `json:"outpost"`
+	RecoveryCodes           IdentityCapability               `json:"recoveryCodes"`
+	SamlApplicationProvider IdentityCapability               `json:"samlApplicationProvider"`
+	SamlLoginSource         IdentityCapability               `json:"samlLoginSource"`
+	StepUp                  IdentityCapability               `json:"stepUp"`
+	Totp                    IdentityCapability               `json:"totp"`
+	Webauthn                IdentityCapability               `json:"webauthn"`
+}
+
+// IdentityRuntimeCapabilityEnvelope defines model for IdentityRuntimeCapabilityEnvelope.
+type IdentityRuntimeCapabilityEnvelope struct {
+	Data IdentityRuntimeCapability `json:"data"`
+}
+
 // InstalledPlugin defines model for InstalledPlugin.
 type InstalledPlugin struct {
 	ChecksumStatus       string                   `json:"checksumStatus"`
@@ -8189,6 +8966,164 @@ type MCPCapabilityListEnvelope struct {
 	Items []MCPCapability `json:"items"`
 }
 
+// MFAAdminResetRequest defines model for MFAAdminResetRequest.
+type MFAAdminResetRequest struct {
+	Reason         string `json:"reason"`
+	RevokeSessions bool   `json:"revokeSessions"`
+}
+
+// MFAAdminResetResult defines model for MFAAdminResetResult.
+type MFAAdminResetResult struct {
+	RecoveryCodesRevoked   int       `json:"recoveryCodesRevoked"`
+	ResetAt                time.Time `json:"resetAt"`
+	RevokedCredentialCount int       `json:"revokedCredentialCount"`
+	SessionsRevoked        int       `json:"sessionsRevoked"`
+	UserID                 string    `json:"userId"`
+}
+
+// MFAAdminResetResultEnvelope defines model for MFAAdminResetResultEnvelope.
+type MFAAdminResetResultEnvelope struct {
+	Data MFAAdminResetResult `json:"data"`
+}
+
+// MFAChallengeResult defines model for MFAChallengeResult.
+type MFAChallengeResult struct {
+	AuthenticatedAt       time.Time `json:"authenticatedAt"`
+	AuthenticationMethods []string  `json:"authenticationMethods"`
+	Verified              bool      `json:"verified"`
+}
+
+// MFAChallengeResultEnvelope defines model for MFAChallengeResultEnvelope.
+type MFAChallengeResultEnvelope struct {
+	Data MFAChallengeResult `json:"data"`
+}
+
+// MFAChallengeVerifyRequest defines model for MFAChallengeVerifyRequest.
+type MFAChallengeVerifyRequest struct {
+	Response string `json:"response,omitempty"`
+}
+
+// MFACredential defines model for MFACredential.
+type MFACredential struct {
+	CreatedAt   time.Time         `json:"createdAt"`
+	DisplayName string            `json:"displayName"`
+	ID          string            `json:"id"`
+	LastUsedAt  *time.Time        `json:"lastUsedAt,omitempty"`
+	Type        MFACredentialType `json:"type"`
+}
+
+// MFACredentialListEnvelope defines model for MFACredentialListEnvelope.
+type MFACredentialListEnvelope struct {
+	Items []MFACredential `json:"items"`
+}
+
+// MFACredentialType defines model for MFACredentialType.
+type MFACredentialType string
+
+// MFAEnrollmentChallenge defines model for MFAEnrollmentChallenge.
+type MFAEnrollmentChallenge struct {
+	ChallengeID string    `json:"challengeId"`
+	ExpiresAt   time.Time `json:"expiresAt"`
+
+	// ProvisioningURI One-time sensitive enrollment URI; clients must not persist or log it.
+	ProvisioningURI string                     `json:"provisioningUri,omitempty"`
+	Type            MFAEnrollmentChallengeType `json:"type"`
+}
+
+// MFAEnrollmentChallengeType defines model for MFAEnrollmentChallenge.Type.
+type MFAEnrollmentChallengeType string
+
+// MFAEnrollmentChallengeEnvelope defines model for MFAEnrollmentChallengeEnvelope.
+type MFAEnrollmentChallengeEnvelope struct {
+	Data MFAEnrollmentChallenge `json:"data"`
+}
+
+// MFARecoveryChallenge defines model for MFARecoveryChallenge.
+type MFARecoveryChallenge struct {
+	ChallengeID string    `json:"challengeId"`
+	ExpiresAt   time.Time `json:"expiresAt"`
+}
+
+// MFARecoveryChallengeEnvelope defines model for MFARecoveryChallengeEnvelope.
+type MFARecoveryChallengeEnvelope struct {
+	Data MFARecoveryChallenge `json:"data"`
+}
+
+// MFARecoveryCodeSet defines model for MFARecoveryCodeSet.
+type MFARecoveryCodeSet struct {
+	// Codes One-time display only; the server persists hashes, never these values.
+	Codes       []string  `json:"codes"`
+	GeneratedAt time.Time `json:"generatedAt"`
+}
+
+// MFARecoveryCodeSetEnvelope defines model for MFARecoveryCodeSetEnvelope.
+type MFARecoveryCodeSetEnvelope struct {
+	Data MFARecoveryCodeSet `json:"data"`
+}
+
+// MFAWebAuthnAuthenticationRequest defines model for MFAWebAuthnAuthenticationRequest.
+type MFAWebAuthnAuthenticationRequest struct {
+	ApplicationID string                                  `json:"applicationId,omitempty"`
+	Purpose       MFAWebAuthnAuthenticationRequestPurpose `json:"purpose"`
+}
+
+// MFAWebAuthnAuthenticationRequestPurpose defines model for MFAWebAuthnAuthenticationRequest.Purpose.
+type MFAWebAuthnAuthenticationRequestPurpose string
+
+// MFAWebAuthnCreationOptions defines model for MFAWebAuthnCreationOptions.
+type MFAWebAuthnCreationOptions struct {
+	Algorithms []int `json:"algorithms"`
+
+	// Challenge Base64url-encoded challenge.
+	Challenge            string    `json:"challenge"`
+	ChallengeID          string    `json:"challengeId"`
+	ExcludeCredentialIDs []string  `json:"excludeCredentialIds,omitempty"`
+	ExpiresAt            time.Time `json:"expiresAt"`
+	RpID                 string    `json:"rpId"`
+	RpName               string    `json:"rpName"`
+	TimeoutMilliseconds  int       `json:"timeoutMilliseconds"`
+
+	// UserID Base64url-encoded stable user handle.
+	UserID   string `json:"userId"`
+	UserName string `json:"userName"`
+}
+
+// MFAWebAuthnCreationOptionsEnvelope defines model for MFAWebAuthnCreationOptionsEnvelope.
+type MFAWebAuthnCreationOptionsEnvelope struct {
+	Data MFAWebAuthnCreationOptions `json:"data"`
+}
+
+// MFAWebAuthnRequestOptions defines model for MFAWebAuthnRequestOptions.
+type MFAWebAuthnRequestOptions struct {
+	AllowCredentialIDs []string `json:"allowCredentialIds,omitempty"`
+
+	// Challenge Base64url-encoded challenge.
+	Challenge           string                                    `json:"challenge"`
+	ChallengeID         string                                    `json:"challengeId"`
+	ExpiresAt           time.Time                                 `json:"expiresAt"`
+	RpID                string                                    `json:"rpId"`
+	TimeoutMilliseconds int                                       `json:"timeoutMilliseconds"`
+	UserVerification    MFAWebAuthnRequestOptionsUserVerification `json:"userVerification"`
+}
+
+// MFAWebAuthnRequestOptionsUserVerification defines model for MFAWebAuthnRequestOptions.UserVerification.
+type MFAWebAuthnRequestOptionsUserVerification string
+
+// MFAWebAuthnRequestOptionsEnvelope defines model for MFAWebAuthnRequestOptionsEnvelope.
+type MFAWebAuthnRequestOptionsEnvelope struct {
+	Data MFAWebAuthnRequestOptions `json:"data"`
+}
+
+// MFAWebAuthnResponse defines model for MFAWebAuthnResponse.
+type MFAWebAuthnResponse struct {
+	AttestationObject string `json:"attestationObject,omitempty"`
+	AuthenticatorData string `json:"authenticatorData,omitempty"`
+	ClientDataJSON    string `json:"clientDataJSON,omitempty"`
+	CredentialID      string `json:"credentialId"`
+	Signature         string `json:"signature,omitempty"`
+	UserHandle        string `json:"userHandle,omitempty"`
+}
+
 // MarketplaceAdvisory defines model for MarketplaceAdvisory.
 type MarketplaceAdvisory struct {
 	AffectedVersions []string                    `json:"affectedVersions,omitempty"`
@@ -8326,6 +9261,44 @@ type MultiAgentSubtaskCompletionInput struct {
 
 // NativeProviderObject Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
 type NativeProviderObject map[string]any
+
+// OIDCClient defines model for OIDCClient.
+type OIDCClient struct {
+	ClientID     string                 `json:"clientId"`
+	CreatedAt    time.Time              `json:"createdAt"`
+	GrantTypes   []OIDCClientGrantTypes `json:"grantTypes"`
+	ID           string                 `json:"id"`
+	ProviderID   string                 `json:"providerId"`
+	RedirectUris []string               `json:"redirectUris"`
+	Status       IdentityResourceStatus `json:"status"`
+	UpdatedAt    time.Time              `json:"updatedAt"`
+}
+
+// OIDCClientGrantTypes defines model for OIDCClient.GrantTypes.
+type OIDCClientGrantTypes string
+
+// OIDCClientEnvelope defines model for OIDCClientEnvelope.
+type OIDCClientEnvelope struct {
+	Data OIDCClient `json:"data"`
+}
+
+// OIDCClientInput defines model for OIDCClientInput.
+type OIDCClientInput struct {
+	ClientID     string                      `json:"clientId"`
+	ClientSecret string                      `json:"clientSecret,omitempty"`
+	GrantTypes   []OIDCClientInputGrantTypes `json:"grantTypes"`
+	ProviderID   string                      `json:"providerId"`
+	RedirectUris []string                    `json:"redirectUris"`
+	Status       IdentityResourceStatus      `json:"status"`
+}
+
+// OIDCClientInputGrantTypes defines model for OIDCClientInput.GrantTypes.
+type OIDCClientInputGrantTypes string
+
+// OIDCClientListEnvelope defines model for OIDCClientListEnvelope.
+type OIDCClientListEnvelope struct {
+	Items []OIDCClient `json:"items"`
+}
 
 // OIDCExchangeRequest defines model for OIDCExchangeRequest.
 type OIDCExchangeRequest struct {
@@ -9256,6 +10229,127 @@ type RuntimeServiceUsage struct {
 	Succeeded  int64 `json:"succeeded"`
 }
 
+// SAMLAttributeMapping defines model for SAMLAttributeMapping.
+type SAMLAttributeMapping struct {
+	Required bool                       `json:"required,omitempty"`
+	Source   string                     `json:"source"`
+	Target   SAMLAttributeMappingTarget `json:"target"`
+}
+
+// SAMLAttributeMappingTarget defines model for SAMLAttributeMapping.Target.
+type SAMLAttributeMappingTarget string
+
+// SAMLCertificateRotateRequest defines model for SAMLCertificateRotateRequest.
+type SAMLCertificateRotateRequest struct {
+	OverlapSeconds int `json:"overlapSeconds"`
+}
+
+// SAMLCertificateRotation defines model for SAMLCertificateRotation.
+type SAMLCertificateRotation struct {
+	Active        CertificateSummary `json:"active"`
+	OverlapEndsAt time.Time          `json:"overlapEndsAt"`
+	Retiring      CertificateSummary `json:"retiring"`
+}
+
+// SAMLCertificateRotationEnvelope defines model for SAMLCertificateRotationEnvelope.
+type SAMLCertificateRotationEnvelope struct {
+	Data SAMLCertificateRotation `json:"data"`
+}
+
+// SAMLLoginSource defines model for SAMLLoginSource.
+type SAMLLoginSource struct {
+	AcsURL                  string                 `json:"acsUrl"`
+	AllowedClockSkewSeconds int                    `json:"allowedClockSkewSeconds"`
+	AttributeMappings       []SAMLAttributeMapping `json:"attributeMappings"`
+	Certificates            []CertificateSummary   `json:"certificates"`
+	CreatedAt               time.Time              `json:"createdAt"`
+	EntityID                string                 `json:"entityId"`
+	ID                      string                 `json:"id"`
+	IdpMetadataURL          string                 `json:"idpMetadataUrl,omitempty"`
+	Name                    string                 `json:"name"`
+	NameIDFormat            SAMLNameIDFormat       `json:"nameIdFormat"`
+	SingleSignOnURL         string                 `json:"singleSignOnUrl,omitempty"`
+	SloURL                  string                 `json:"sloUrl,omitempty"`
+	Status                  IdentityResourceStatus `json:"status"`
+	UpdatedAt               time.Time              `json:"updatedAt"`
+	WantAuthnRequestsSigned bool                   `json:"wantAuthnRequestsSigned"`
+}
+
+// SAMLLoginSourceEnvelope defines model for SAMLLoginSourceEnvelope.
+type SAMLLoginSourceEnvelope struct {
+	Data SAMLLoginSource `json:"data"`
+}
+
+// SAMLLoginSourceInput defines model for SAMLLoginSourceInput.
+type SAMLLoginSourceInput struct {
+	AcsURL                  string                 `json:"acsUrl"`
+	AllowedClockSkewSeconds int                    `json:"allowedClockSkewSeconds"`
+	AttributeMappings       []SAMLAttributeMapping `json:"attributeMappings"`
+	EntityID                string                 `json:"entityId"`
+	IdpMetadataURL          string                 `json:"idpMetadataUrl,omitempty"`
+	Name                    string                 `json:"name"`
+	NameIDFormat            SAMLNameIDFormat       `json:"nameIdFormat"`
+	SigningCertificateRef   string                 `json:"signingCertificateRef,omitempty"`
+	SigningPrivateKeyRef    string                 `json:"signingPrivateKeyRef,omitempty"`
+	SingleSignOnURL         string                 `json:"singleSignOnUrl"`
+	SloURL                  string                 `json:"sloUrl,omitempty"`
+	Status                  IdentityResourceStatus `json:"status"`
+	WantAuthnRequestsSigned bool                   `json:"wantAuthnRequestsSigned"`
+}
+
+// SAMLLoginSourceListEnvelope defines model for SAMLLoginSourceListEnvelope.
+type SAMLLoginSourceListEnvelope struct {
+	Items []SAMLLoginSource `json:"items"`
+}
+
+// SAMLMetadataImportRequest defines model for SAMLMetadataImportRequest.
+type SAMLMetadataImportRequest struct {
+	AttributeMappings []SAMLAttributeMapping `json:"attributeMappings,omitempty"`
+	Metadata          SAMLMetadataInput      `json:"metadata"`
+	Name              string                 `json:"name"`
+	Status            IdentityResourceStatus `json:"status"`
+}
+
+// SAMLMetadataInput defines model for SAMLMetadataInput.
+type SAMLMetadataInput struct {
+	Source SAMLMetadataInputSource `json:"source"`
+	URL    string                  `json:"url,omitempty"`
+	XML    string                  `json:"xml,omitempty"`
+}
+
+// SAMLMetadataInputSource defines model for SAMLMetadataInput.Source.
+type SAMLMetadataInputSource string
+
+// SAMLMetadataValidation defines model for SAMLMetadataValidation.
+type SAMLMetadataValidation struct {
+	Certificates     []CertificateSummary `json:"certificates"`
+	EntityID         string               `json:"entityId"`
+	SingleLogoutUrls []string             `json:"singleLogoutUrls,omitempty"`
+	SingleSignOnUrls []string             `json:"singleSignOnUrls"`
+	Valid            bool                 `json:"valid"`
+	Warnings         []string             `json:"warnings,omitempty"`
+}
+
+// SAMLMetadataValidationEnvelope defines model for SAMLMetadataValidationEnvelope.
+type SAMLMetadataValidationEnvelope struct {
+	Data SAMLMetadataValidation `json:"data"`
+}
+
+// SAMLNameIDFormat defines model for SAMLNameIDFormat.
+type SAMLNameIDFormat string
+
+// SAMLRequestForm defines model for SAMLRequestForm.
+type SAMLRequestForm struct {
+	RelayState  string `json:"RelayState,omitempty"`
+	SAMLRequest string `json:"SAMLRequest,omitempty"`
+}
+
+// SAMLResponseForm defines model for SAMLResponseForm.
+type SAMLResponseForm struct {
+	RelayState   string `json:"RelayState,omitempty"`
+	SAMLResponse string `json:"SAMLResponse,omitempty"`
+}
+
 // ServiceAccount defines model for ServiceAccount.
 type ServiceAccount struct {
 	CreatedAt     time.Time      `json:"createdAt"`
@@ -10054,6 +11148,9 @@ type BuildTemplateID = string
 // BundleID defines model for BundleID.
 type BundleID = string
 
+// CertificateID defines model for CertificateID.
+type CertificateID = string
+
 // ClusterID defines model for ClusterID.
 type ClusterID = string
 
@@ -10087,6 +11184,21 @@ type GitLabProjectIDQuery = string
 // IdempotencyKey defines model for IdempotencyKey.
 type IdempotencyKey = string
 
+// IdentityApplicationID defines model for IdentityApplicationID.
+type IdentityApplicationID = string
+
+// IdentityOutpostID defines model for IdentityOutpostID.
+type IdentityOutpostID = string
+
+// IdentityPolicyID defines model for IdentityPolicyID.
+type IdentityPolicyID = string
+
+// IdentityProviderID defines model for IdentityProviderID.
+type IdentityProviderID = string
+
+// IdentityUserID defines model for IdentityUserID.
+type IdentityUserID = string
+
 // KnowledgeBaseID defines model for KnowledgeBaseID.
 type KnowledgeBaseID = string
 
@@ -10105,11 +11217,20 @@ type KnowledgeListLimit = int
 // KnowledgeSourceID defines model for KnowledgeSourceID.
 type KnowledgeSourceID = string
 
+// MFAChallengeID defines model for MFAChallengeID.
+type MFAChallengeID = string
+
+// MFACredentialID defines model for MFACredentialID.
+type MFACredentialID = string
+
 // MultiAgentPlanID defines model for MultiAgentPlanID.
 type MultiAgentPlanID = string
 
 // MultiAgentSubtaskID defines model for MultiAgentSubtaskID.
 type MultiAgentSubtaskID = string
+
+// OIDCClientID defines model for OIDCClientID.
+type OIDCClientID = string
 
 // OIDCCode defines model for OIDCCode.
 type OIDCCode = string
@@ -10132,6 +11253,9 @@ type PluginID = string
 // ProviderID defines model for ProviderID.
 type ProviderID = string
 
+// RelayState defines model for RelayState.
+type RelayState = string
+
 // RepositoryID defines model for RepositoryID.
 type RepositoryID = string
 
@@ -10140,6 +11264,12 @@ type RouteID = string
 
 // RuntimeConfigApplicationID defines model for RuntimeConfigApplicationID.
 type RuntimeConfigApplicationID = string
+
+// SAMLLoginSourceID defines model for SAMLLoginSourceID.
+type SAMLLoginSourceID = string
+
+// SAMLRequest defines model for SAMLRequest.
+type SAMLRequest = string
 
 // ServiceID defines model for ServiceID.
 type ServiceID = string
@@ -10188,6 +11318,9 @@ type ComputeError = ErrorEnvelope
 
 // Error defines model for Error.
 type Error = ErrorEnvelope
+
+// IdentityError defines model for IdentityError.
+type IdentityError = IdentityErrorEnvelope
 
 // bearerAuthContextKey is the context key for bearerAuth security scheme
 type bearerAuthContextKey string
@@ -10923,6 +12056,12 @@ type ListRepositoriesParams struct {
 	Limit         int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
+// BeginSAMLIdentityProviderSSOParams defines parameters for BeginSAMLIdentityProviderSSO.
+type BeginSAMLIdentityProviderSSOParams struct {
+	SAMLRequest SAMLRequest `form:"SAMLRequest" json:"SAMLRequest"`
+	RelayState  RelayState  `form:"RelayState,omitempty" json:"RelayState,omitempty"`
+}
+
 // ListSourceRepositoriesParams defines parameters for ListSourceRepositories.
 type ListSourceRepositoriesParams struct {
 	Search string `form:"search,omitempty" json:"search,omitempty"`
@@ -11170,6 +12309,9 @@ type UpdateApplicationServiceJSONRequestBody = ApplicationServiceInput
 // PasswordLoginJSONRequestBody defines body for PasswordLogin for application/json ContentType.
 type PasswordLoginJSONRequestBody = PasswordLoginRequest
 
+// ConsumeSAMLLoginResponseFormdataRequestBody defines body for ConsumeSAMLLoginResponse for application/x-www-form-urlencoded ContentType.
+type ConsumeSAMLLoginResponseFormdataRequestBody = SAMLResponseForm
+
 // LogoutAuthSessionJSONRequestBody defines body for LogoutAuthSession for application/json ContentType.
 type LogoutAuthSessionJSONRequestBody = RefreshRequest
 
@@ -11242,6 +12384,75 @@ type RecordDockerOperationCallbackJSONRequestBody = DockerOperationCallbackReque
 // ClaimDockerOperationJSONRequestBody defines body for ClaimDockerOperation for application/json ContentType.
 type ClaimDockerOperationJSONRequestBody = DockerOperationClaimRequest
 
+// CreateIdentityApplicationJSONRequestBody defines body for CreateIdentityApplication for application/json ContentType.
+type CreateIdentityApplicationJSONRequestBody = IdentityApplicationInput
+
+// UpdateIdentityApplicationJSONRequestBody defines body for UpdateIdentityApplication for application/json ContentType.
+type UpdateIdentityApplicationJSONRequestBody = IdentityApplicationInput
+
+// VerifyMFAChallengeJSONRequestBody defines body for VerifyMFAChallenge for application/json ContentType.
+type VerifyMFAChallengeJSONRequestBody = MFAChallengeVerifyRequest
+
+// BeginWebAuthnAuthenticationJSONRequestBody defines body for BeginWebAuthnAuthentication for application/json ContentType.
+type BeginWebAuthnAuthenticationJSONRequestBody = MFAWebAuthnAuthenticationRequest
+
+// VerifyWebAuthnChallengeJSONRequestBody defines body for VerifyWebAuthnChallenge for application/json ContentType.
+type VerifyWebAuthnChallengeJSONRequestBody = MFAWebAuthnResponse
+
+// CreateIdentityOIDCClientJSONRequestBody defines body for CreateIdentityOIDCClient for application/json ContentType.
+type CreateIdentityOIDCClientJSONRequestBody = OIDCClientInput
+
+// UpdateIdentityOIDCClientJSONRequestBody defines body for UpdateIdentityOIDCClient for application/json ContentType.
+type UpdateIdentityOIDCClientJSONRequestBody = OIDCClientInput
+
+// CreateIdentityOutpostJSONRequestBody defines body for CreateIdentityOutpost for application/json ContentType.
+type CreateIdentityOutpostJSONRequestBody = IdentityOutpostInput
+
+// ClaimIdentityOutpostRuntimeJSONRequestBody defines body for ClaimIdentityOutpostRuntime for application/json ContentType.
+type ClaimIdentityOutpostRuntimeJSONRequestBody = IdentityOutpostClaimRequest
+
+// UpdateIdentityOutpostJSONRequestBody defines body for UpdateIdentityOutpost for application/json ContentType.
+type UpdateIdentityOutpostJSONRequestBody = IdentityOutpostInput
+
+// CheckIdentityOutpostAccessJSONRequestBody defines body for CheckIdentityOutpostAccess for application/json ContentType.
+type CheckIdentityOutpostAccessJSONRequestBody = IdentityOutpostAccessCheckRequest
+
+// RecordIdentityOutpostRuntimeEventsJSONRequestBody defines body for RecordIdentityOutpostRuntimeEvents for application/json ContentType.
+type RecordIdentityOutpostRuntimeEventsJSONRequestBody = IdentityOutpostEventBatchRequest
+
+// HeartbeatIdentityOutpostRuntimeJSONRequestBody defines body for HeartbeatIdentityOutpostRuntime for application/json ContentType.
+type HeartbeatIdentityOutpostRuntimeJSONRequestBody = IdentityOutpostHeartbeatRequest
+
+// CreateIdentityPolicyJSONRequestBody defines body for CreateIdentityPolicy for application/json ContentType.
+type CreateIdentityPolicyJSONRequestBody = IdentityPolicyInput
+
+// UpdateIdentityPolicyJSONRequestBody defines body for UpdateIdentityPolicy for application/json ContentType.
+type UpdateIdentityPolicyJSONRequestBody = IdentityPolicyInput
+
+// CreateIdentityProviderJSONRequestBody defines body for CreateIdentityProvider for application/json ContentType.
+type CreateIdentityProviderJSONRequestBody = IdentityProviderInput
+
+// UpdateIdentityProviderJSONRequestBody defines body for UpdateIdentityProvider for application/json ContentType.
+type UpdateIdentityProviderJSONRequestBody = IdentityProviderInput
+
+// RotateSAMLCertificateJSONRequestBody defines body for RotateSAMLCertificate for application/json ContentType.
+type RotateSAMLCertificateJSONRequestBody = SAMLCertificateRotateRequest
+
+// CreateSAMLLoginSourceJSONRequestBody defines body for CreateSAMLLoginSource for application/json ContentType.
+type CreateSAMLLoginSourceJSONRequestBody = SAMLLoginSourceInput
+
+// ImportSAMLLoginSourceMetadataJSONRequestBody defines body for ImportSAMLLoginSourceMetadata for application/json ContentType.
+type ImportSAMLLoginSourceMetadataJSONRequestBody = SAMLMetadataImportRequest
+
+// UpdateSAMLLoginSourceJSONRequestBody defines body for UpdateSAMLLoginSource for application/json ContentType.
+type UpdateSAMLLoginSourceJSONRequestBody = SAMLLoginSourceInput
+
+// ValidateSAMLMetadataJSONRequestBody defines body for ValidateSAMLMetadata for application/json ContentType.
+type ValidateSAMLMetadataJSONRequestBody = SAMLMetadataInput
+
+// AdminResetUserMFAJSONRequestBody defines body for AdminResetUserMFA for application/json ContentType.
+type AdminResetUserMFAJSONRequestBody = MFAAdminResetRequest
+
 // InstallPluginJSONRequestBody defines body for InstallPlugin for application/json ContentType.
 type InstallPluginJSONRequestBody = PluginInstallRequest
 
@@ -11256,6 +12467,9 @@ type CreateRepositoryJSONRequestBody = RepositoryInput
 
 // UpdateRepositoryJSONRequestBody defines body for UpdateRepository for application/json ContentType.
 type UpdateRepositoryJSONRequestBody = RepositoryInput
+
+// PostSAMLIdentityProviderSSOFormdataRequestBody defines body for PostSAMLIdentityProviderSSO for application/x-www-form-urlencoded ContentType.
+type PostSAMLIdentityProviderSSOFormdataRequestBody = SAMLRequestForm
 
 // UpdateAISkillsRegistryJSONRequestBody defines body for UpdateAISkillsRegistry for application/json ContentType.
 type UpdateAISkillsRegistryJSONRequestBody = UpdateAISkillsRequest

@@ -32,6 +32,7 @@ tags:
   - name: Compute
   - name: MCP
   - name: Plugins
+  - name: Identity
 paths:
   /healthz:
     get:
@@ -6039,6 +6040,734 @@ paths:
         "400": { $ref: "#/components/responses/Error" }
         "401": { $ref: "#/components/responses/Error" }
         "403": { $ref: "#/components/responses/Error" }
+  /identity/capabilities:
+    get:
+      tags: [Identity]
+      operationId: getIdentityRuntimeCapabilities
+      responses:
+        "200":
+          description: Identity protocol and runtime capability truth.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityRuntimeCapabilityEnvelope" }
+        "403": { $ref: "#/components/responses/IdentityError" }
+  /identity/applications:
+    get:
+      tags: [Identity]
+      operationId: listIdentityApplications
+      responses:
+        "200":
+          description: Identity applications.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityApplicationListEnvelope" }
+        "403": { $ref: "#/components/responses/IdentityError" }
+    post:
+      tags: [Identity]
+      operationId: createIdentityApplication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IdentityApplicationInput" }
+      responses:
+        "201":
+          description: Created identity application.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityApplicationEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+        "403": { $ref: "#/components/responses/IdentityError" }
+  /identity/applications/{identityApplicationID}:
+    parameters:
+      - $ref: "#/components/parameters/IdentityApplicationID"
+    get:
+      tags: [Identity]
+      operationId: getIdentityApplication
+      responses:
+        "200":
+          description: Identity application detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityApplicationEnvelope" }
+        "404": { $ref: "#/components/responses/IdentityError" }
+    put:
+      tags: [Identity]
+      operationId: updateIdentityApplication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IdentityApplicationInput" }
+      responses:
+        "200":
+          description: Updated identity application.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityApplicationEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+        "404": { $ref: "#/components/responses/IdentityError" }
+    delete:
+      tags: [Identity]
+      operationId: deleteIdentityApplication
+      responses:
+        "204": { description: Identity application deleted. }
+        "404": { $ref: "#/components/responses/IdentityError" }
+  /identity/providers:
+    get:
+      tags: [Identity]
+      operationId: listIdentityProviders
+      responses:
+        "200":
+          description: Identity application providers.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityProviderListEnvelope" }
+    post:
+      tags: [Identity]
+      operationId: createIdentityProvider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IdentityProviderInput" }
+      responses:
+        "201":
+          description: Created identity provider.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityProviderEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+  /identity/providers/{identityProviderID}:
+    parameters:
+      - $ref: "#/components/parameters/IdentityProviderID"
+    get:
+      tags: [Identity]
+      operationId: getIdentityProvider
+      responses:
+        "200":
+          description: Identity provider detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityProviderEnvelope" }
+        "404": { $ref: "#/components/responses/IdentityError" }
+    put:
+      tags: [Identity]
+      operationId: updateIdentityProvider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IdentityProviderInput" }
+      responses:
+        "200":
+          description: Updated identity provider.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityProviderEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+        "404": { $ref: "#/components/responses/IdentityError" }
+    delete:
+      tags: [Identity]
+      operationId: deleteIdentityProvider
+      responses:
+        "204": { description: Identity provider deleted. }
+        "404": { $ref: "#/components/responses/IdentityError" }
+  /identity/policies:
+    get:
+      tags: [Identity]
+      operationId: listIdentityPolicies
+      responses:
+        "200":
+          description: Identity access policies.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityPolicyListEnvelope" }
+    post:
+      tags: [Identity]
+      operationId: createIdentityPolicy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IdentityPolicyInput" }
+      responses:
+        "201":
+          description: Created identity policy.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityPolicyEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+  /identity/policies/{identityPolicyID}:
+    parameters:
+      - $ref: "#/components/parameters/IdentityPolicyID"
+    get:
+      tags: [Identity]
+      operationId: getIdentityPolicy
+      responses:
+        "200":
+          description: Identity policy detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityPolicyEnvelope" }
+        "404": { $ref: "#/components/responses/IdentityError" }
+    put:
+      tags: [Identity]
+      operationId: updateIdentityPolicy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IdentityPolicyInput" }
+      responses:
+        "200":
+          description: Updated identity policy.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityPolicyEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+        "404": { $ref: "#/components/responses/IdentityError" }
+    delete:
+      tags: [Identity]
+      operationId: deleteIdentityPolicy
+      responses:
+        "204": { description: Identity policy deleted. }
+        "404": { $ref: "#/components/responses/IdentityError" }
+  /identity/outposts:
+    get:
+      tags: [Identity]
+      operationId: listIdentityOutposts
+      responses:
+        "200":
+          description: Identity outposts.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityOutpostListEnvelope" }
+    post:
+      tags: [Identity]
+      operationId: createIdentityOutpost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IdentityOutpostInput" }
+      responses:
+        "201":
+          description: Created identity outpost.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityOutpostEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+  /identity/outposts/{identityOutpostID}:
+    parameters:
+      - $ref: "#/components/parameters/IdentityOutpostID"
+    get:
+      tags: [Identity]
+      operationId: getIdentityOutpost
+      responses:
+        "200":
+          description: Identity outpost detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityOutpostEnvelope" }
+        "404": { $ref: "#/components/responses/IdentityError" }
+    put:
+      tags: [Identity]
+      operationId: updateIdentityOutpost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IdentityOutpostInput" }
+      responses:
+        "200":
+          description: Updated identity outpost.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityOutpostEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+        "404": { $ref: "#/components/responses/IdentityError" }
+    delete:
+      tags: [Identity]
+      operationId: deleteIdentityOutpost
+      responses:
+        "204": { description: Identity outpost deleted. }
+        "404": { $ref: "#/components/responses/IdentityError" }
+  /identity/oidc-clients:
+    get:
+      tags: [Identity]
+      operationId: listIdentityOIDCClients
+      responses:
+        "200":
+          description: Identity OIDC clients.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OIDCClientListEnvelope" }
+    post:
+      tags: [Identity]
+      operationId: createIdentityOIDCClient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/OIDCClientInput" }
+      responses:
+        "201":
+          description: Created OIDC client.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OIDCClientEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+  /identity/oidc-clients/{oidcClientID}:
+    parameters:
+      - $ref: "#/components/parameters/OIDCClientID"
+    get:
+      tags: [Identity]
+      operationId: getIdentityOIDCClient
+      responses:
+        "200":
+          description: Identity OIDC client detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OIDCClientEnvelope" }
+        "404": { $ref: "#/components/responses/IdentityError" }
+    put:
+      tags: [Identity]
+      operationId: updateIdentityOIDCClient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/OIDCClientInput" }
+      responses:
+        "200":
+          description: Updated OIDC client.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OIDCClientEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+        "404": { $ref: "#/components/responses/IdentityError" }
+    delete:
+      tags: [Identity]
+      operationId: deleteIdentityOIDCClient
+      responses:
+        "204": { description: OIDC client deleted. }
+        "404": { $ref: "#/components/responses/IdentityError" }
+  /identity/saml/login-sources:
+    get:
+      tags: [Identity]
+      operationId: listSAMLLoginSources
+      responses:
+        "200":
+          description: SAML login sources.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SAMLLoginSourceListEnvelope" }
+    post:
+      tags: [Identity]
+      operationId: createSAMLLoginSource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SAMLLoginSourceInput" }
+      responses:
+        "201":
+          description: Created SAML login source.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SAMLLoginSourceEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+  /identity/saml/login-sources/{samlLoginSourceID}:
+    parameters:
+      - $ref: "#/components/parameters/SAMLLoginSourceID"
+    get:
+      tags: [Identity]
+      operationId: getSAMLLoginSource
+      responses:
+        "200":
+          description: SAML login source detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SAMLLoginSourceEnvelope" }
+        "404": { $ref: "#/components/responses/IdentityError" }
+    put:
+      tags: [Identity]
+      operationId: updateSAMLLoginSource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SAMLLoginSourceInput" }
+      responses:
+        "200":
+          description: Updated SAML login source.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SAMLLoginSourceEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+        "404": { $ref: "#/components/responses/IdentityError" }
+    delete:
+      tags: [Identity]
+      operationId: deleteSAMLLoginSource
+      responses:
+        "204": { description: SAML login source deleted. }
+        "404": { $ref: "#/components/responses/IdentityError" }
+  /identity/saml/metadata/validate:
+    post:
+      tags: [Identity]
+      operationId: validateSAMLMetadata
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SAMLMetadataInput" }
+      responses:
+        "200":
+          description: Parsed and validated metadata summary.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SAMLMetadataValidationEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+  /identity/saml/login-sources/import:
+    post:
+      tags: [Identity]
+      operationId: importSAMLLoginSourceMetadata
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SAMLMetadataImportRequest" }
+      responses:
+        "201":
+          description: Imported SAML login source.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SAMLLoginSourceEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+  /identity/saml/certificates/{certificateID}/rotate:
+    post:
+      tags: [Identity]
+      operationId: rotateSAMLCertificate
+      parameters:
+        - $ref: "#/components/parameters/CertificateID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SAMLCertificateRotateRequest" }
+      responses:
+        "200":
+          description: Active and retiring public certificate summaries.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SAMLCertificateRotationEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+        "404": { $ref: "#/components/responses/IdentityError" }
+  /identity/mfa/credentials:
+    get:
+      tags: [Identity]
+      operationId: listMFACredentials
+      responses:
+        "200":
+          description: MFA credentials without recoverable secrets.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MFACredentialListEnvelope" }
+  /identity/mfa/credentials/{mfaCredentialID}:
+    delete:
+      tags: [Identity]
+      operationId: revokeMFACredential
+      parameters:
+        - $ref: "#/components/parameters/MFACredentialID"
+      responses:
+        "204": { description: MFA credential revoked. }
+        "404": { $ref: "#/components/responses/IdentityError" }
+  /identity/mfa/totp/enroll:
+    post:
+      tags: [Identity]
+      operationId: beginTOTPEnrollment
+      responses:
+        "201":
+          description: Short-lived TOTP enrollment challenge.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MFAEnrollmentChallengeEnvelope" }
+  /identity/mfa/webauthn/enroll:
+    post:
+      tags: [Identity]
+      operationId: beginWebAuthnEnrollment
+      responses:
+        "201":
+          description: WebAuthn registration challenge.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MFAWebAuthnCreationOptionsEnvelope" }
+  /identity/mfa/webauthn/authenticate:
+    post:
+      tags: [Identity]
+      operationId: beginWebAuthnAuthentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MFAWebAuthnAuthenticationRequest" }
+      responses:
+        "201":
+          description: WebAuthn authentication or step-up assertion challenge.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MFAWebAuthnRequestOptionsEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+        "409": { $ref: "#/components/responses/IdentityError" }
+  /identity/mfa/webauthn/challenges/{mfaChallengeID}/verify:
+    post:
+      tags: [Identity]
+      operationId: verifyWebAuthnChallenge
+      parameters:
+        - $ref: "#/components/parameters/MFAChallengeID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MFAWebAuthnResponse" }
+      responses:
+        "200":
+          description: Verified WebAuthn registration or assertion challenge.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MFAChallengeResultEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+        "409": { $ref: "#/components/responses/IdentityError" }
+  /identity/mfa/challenges/{mfaChallengeID}/verify:
+    post:
+      tags: [Identity]
+      operationId: verifyMFAChallenge
+      parameters:
+        - $ref: "#/components/parameters/MFAChallengeID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MFAChallengeVerifyRequest" }
+      responses:
+        "200":
+          description: Verified MFA challenge and updated authentication context.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MFAChallengeResultEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+        "409": { $ref: "#/components/responses/IdentityError" }
+  /identity/mfa/recovery-codes/challenge:
+    post:
+      tags: [Identity]
+      operationId: beginMFARecoveryChallenge
+      responses:
+        "201":
+          description: Short-lived challenge for consuming a recovery code.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MFARecoveryChallengeEnvelope" }
+        "409": { $ref: "#/components/responses/IdentityError" }
+  /identity/mfa/recovery-codes/regenerate:
+    post:
+      tags: [Identity]
+      operationId: regenerateMFARecoveryCodes
+      responses:
+        "200":
+          description: One-time recovery code display.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MFARecoveryCodeSetEnvelope" }
+  /identity/users/{identityUserID}/mfa/credentials/{mfaCredentialID}/revoke:
+    post:
+      tags: [Identity]
+      operationId: adminRevokeUserMFACredential
+      parameters:
+        - $ref: "#/components/parameters/IdentityUserID"
+        - $ref: "#/components/parameters/MFACredentialID"
+      responses:
+        "200":
+          description: MFA credential revoked by an administrator.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OperationStatus" }
+        "403": { $ref: "#/components/responses/IdentityError" }
+        "404": { $ref: "#/components/responses/IdentityError" }
+        "409": { $ref: "#/components/responses/IdentityError" }
+  /identity/users/{identityUserID}/mfa/reset:
+    post:
+      tags: [Identity]
+      operationId: adminResetUserMFA
+      parameters:
+        - $ref: "#/components/parameters/IdentityUserID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MFAAdminResetRequest" }
+      responses:
+        "200":
+          description: User MFA credentials, challenges, and recovery codes reset.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MFAAdminResetResultEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+        "403": { $ref: "#/components/responses/IdentityError" }
+        "404": { $ref: "#/components/responses/IdentityError" }
+  /identity/outposts/runtime/claim:
+    post:
+      tags: [Identity]
+      operationId: claimIdentityOutpostRuntime
+      security:
+        - runtimeBearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IdentityOutpostClaimRequest" }
+      responses:
+        "200":
+          description: Versioned outpost runtime configuration, or empty data when none is assigned.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityOutpostRuntimeConfigEnvelope" }
+        "401": { $ref: "#/components/responses/IdentityError" }
+  /identity/outposts/{identityOutpostID}/heartbeat:
+    post:
+      tags: [Identity]
+      operationId: heartbeatIdentityOutpostRuntime
+      security:
+        - runtimeBearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdentityOutpostID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IdentityOutpostHeartbeatRequest" }
+      responses:
+        "200":
+          description: Accepted heartbeat and desired configuration version.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityOutpostHeartbeatEnvelope" }
+        "409": { $ref: "#/components/responses/IdentityError" }
+  /identity/outposts/{identityOutpostID}/check:
+    post:
+      tags: [Identity]
+      operationId: checkIdentityOutpostAccess
+      security:
+        - runtimeBearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdentityOutpostID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IdentityOutpostAccessCheckRequest" }
+      responses:
+        "200":
+          description: Authoritative access decision from Soha core.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityOutpostAccessCheckEnvelope" }
+        "401": { $ref: "#/components/responses/IdentityError" }
+        "403": { $ref: "#/components/responses/IdentityError" }
+  /identity/outposts/{identityOutpostID}/events:
+    post:
+      tags: [Identity]
+      operationId: recordIdentityOutpostRuntimeEvents
+      security:
+        - runtimeBearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdentityOutpostID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IdentityOutpostEventBatchRequest" }
+      responses:
+        "202":
+          description: Redacted outpost runtime events accepted.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OperationStatus" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+        "409": { $ref: "#/components/responses/IdentityError" }
+  /auth/login/{providerID}/acs:
+    post:
+      tags: [Auth, Identity]
+      operationId: consumeSAMLLoginResponse
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/ProviderID"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema: { $ref: "#/components/schemas/SAMLResponseForm" }
+      responses:
+        "302": { description: Redirect to the web console with a short-lived exchange code. }
+        "400": { $ref: "#/components/responses/IdentityError" }
+  /auth/saml/{providerID}/metadata:
+    get:
+      tags: [Auth, Identity]
+      operationId: getSAMLServiceProviderMetadata
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/ProviderID"
+      responses:
+        "200":
+          description: Soha SAML service-provider metadata.
+          content:
+            application/samlmetadata+xml:
+              schema: { type: string }
+        "404": { $ref: "#/components/responses/IdentityError" }
+  /saml2/idp/{identityProviderID}/metadata:
+    servers: [{ url: / }]
+    get:
+      tags: [Identity]
+      operationId: getSAMLIdentityProviderMetadata
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/IdentityProviderID"
+      responses:
+        "200":
+          description: Soha SAML identity-provider metadata.
+          content:
+            application/samlmetadata+xml:
+              schema: { type: string }
+        "404": { $ref: "#/components/responses/IdentityError" }
+  /saml2/idp/{identityProviderID}/sso:
+    servers: [{ url: / }]
+    get:
+      tags: [Identity]
+      operationId: beginSAMLIdentityProviderSSO
+      parameters:
+        - $ref: "#/components/parameters/IdentityProviderID"
+        - $ref: "#/components/parameters/SAMLRequest"
+        - $ref: "#/components/parameters/RelayState"
+      responses:
+        "302": { description: Continue authentication or return a signed SAML response. }
+        "400": { $ref: "#/components/responses/IdentityError" }
+    post:
+      tags: [Identity]
+      operationId: postSAMLIdentityProviderSSO
+      parameters:
+        - $ref: "#/components/parameters/IdentityProviderID"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema: { $ref: "#/components/schemas/SAMLRequestForm" }
+      responses:
+        "200":
+          description: Auto-submitting signed SAML response form.
+          content:
+            text/html:
+              schema: { type: string }
+        "400": { $ref: "#/components/responses/IdentityError" }
 components:
   securitySchemes:
     bearerAuth:
@@ -6055,6 +6784,66 @@ components:
       name: x-api-key
       description: Anthropic-style Soha PAT/SAT credential header for native relay endpoints.
   parameters:
+    IdentityApplicationID:
+      name: identityApplicationID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    IdentityProviderID:
+      name: identityProviderID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    IdentityPolicyID:
+      name: identityPolicyID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    IdentityOutpostID:
+      name: identityOutpostID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    OIDCClientID:
+      name: oidcClientID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    SAMLLoginSourceID:
+      name: samlLoginSourceID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    CertificateID:
+      name: certificateID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    MFAChallengeID:
+      name: mfaChallengeID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    MFACredentialID:
+      name: mfaCredentialID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    IdentityUserID:
+      name: identityUserID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    SAMLRequest:
+      name: SAMLRequest
+      in: query
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 1048576 }
+    RelayState:
+      name: RelayState
+      in: query
+      required: false
+      schema: { type: string, maxLength: 2048 }
     SystemIntegrationID:
       name: integrationID
       in: path
@@ -6460,6 +7249,12 @@ components:
         type: string
       description: Relay cache status returned when X-Soha-Route-Trace is authorized.
   responses:
+    IdentityError:
+      description: Stable redacted Identity protocol or management error.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/IdentityErrorEnvelope"
     Error:
       description: Standard Soha API error envelope.
       content:
@@ -6474,6 +7269,741 @@ components:
             $ref: "#/components/schemas/ErrorEnvelope"
   schemas:
     AnyValue: {}
+    IdentityProtocolErrorCode:
+      type: string
+      enum:
+        - invalid_signature
+        - invalid_audience
+        - invalid_destination
+        - invalid_recipient
+        - expired_assertion
+        - assertion_not_yet_valid
+        - replayed_assertion
+        - replayed_request
+        - unknown_request
+        - unknown_subject
+        - invalid_issuer
+        - invalid_metadata
+        - metadata_fetch_denied
+        - provider_disabled
+        - mfa_required
+        - invalid_challenge
+        - challenge_expired
+        - challenge_replayed
+        - credential_not_found
+        - mfa_not_configured
+        - webauthn_not_configured
+    IdentityErrorDetail:
+      type: object
+      required: [code, message]
+      properties:
+        code: { $ref: "#/components/schemas/IdentityProtocolErrorCode" }
+        message: { type: string }
+        request_id: { type: string }
+      additionalProperties: false
+    IdentityErrorEnvelope:
+      type: object
+      required: [error]
+      properties:
+        error: { $ref: "#/components/schemas/IdentityErrorDetail" }
+      additionalProperties: false
+    IdentityCapabilityStatus:
+      type: string
+      enum: [available, degraded, unavailable]
+    IdentityCapability:
+      type: object
+      required: [available, status]
+      properties:
+        available: { type: boolean }
+        status: { $ref: "#/components/schemas/IdentityCapabilityStatus" }
+        reason: { type: string }
+        version: { type: string }
+      additionalProperties: false
+    IdentityOutpostRuntimeCapability:
+      type: object
+      required: [controlPlane, embeddedRuntime, agentRuntime, kubernetesArtifact, externalProtocol]
+      properties:
+        controlPlane: { $ref: "#/components/schemas/IdentityCapability" }
+        embeddedRuntime: { $ref: "#/components/schemas/IdentityCapability" }
+        agentRuntime: { $ref: "#/components/schemas/IdentityCapability" }
+        kubernetesArtifact: { $ref: "#/components/schemas/IdentityCapability" }
+        externalProtocol: { $ref: "#/components/schemas/IdentityCapability" }
+      additionalProperties: false
+    IdentityRuntimeCapability:
+      type: object
+      required: [samlLoginSource, samlApplicationProvider, totp, webauthn, recoveryCodes, stepUp, outpost]
+      properties:
+        samlLoginSource: { $ref: "#/components/schemas/IdentityCapability" }
+        samlApplicationProvider: { $ref: "#/components/schemas/IdentityCapability" }
+        totp: { $ref: "#/components/schemas/IdentityCapability" }
+        webauthn: { $ref: "#/components/schemas/IdentityCapability" }
+        recoveryCodes: { $ref: "#/components/schemas/IdentityCapability" }
+        stepUp: { $ref: "#/components/schemas/IdentityCapability" }
+        outpost: { $ref: "#/components/schemas/IdentityOutpostRuntimeCapability" }
+      additionalProperties: false
+    IdentityRuntimeCapabilityEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/IdentityRuntimeCapability" }
+      additionalProperties: false
+    IdentityResourceStatus:
+      type: string
+      enum: [active, disabled]
+    IdentityApplication:
+      type: object
+      required: [id, name, slug, status, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        slug: { type: string }
+        description: { type: string }
+        launchUrl: { type: string, format: uri }
+        status: { $ref: "#/components/schemas/IdentityResourceStatus" }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    IdentityApplicationInput:
+      type: object
+      required: [name, slug, status]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 200 }
+        slug: { type: string, pattern: "^[a-z0-9][a-z0-9-]*$" }
+        description: { type: string, maxLength: 2000 }
+        launchUrl: { type: string, format: uri }
+        status: { $ref: "#/components/schemas/IdentityResourceStatus" }
+      additionalProperties: false
+    IdentityApplicationEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/IdentityApplication" }
+      additionalProperties: false
+    IdentityApplicationListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/IdentityApplication" } }
+      additionalProperties: false
+    IdentityProviderType:
+      type: string
+      enum: [oidc, proxy, saml]
+    SAMLNameIDFormat:
+      type: string
+      enum: [persistent, transient, emailAddress, unspecified]
+    SAMLAttributeMapping:
+      type: object
+      required: [source, target]
+      properties:
+        source: { type: string, minLength: 1, maxLength: 512 }
+        target:
+          type: string
+          enum: [subject, username, email, displayName, role, organization, team, project]
+        required: { type: boolean, default: false }
+      additionalProperties: false
+    CertificateSummary:
+      type: object
+      required: [id, fingerprintSHA256, subject, notBefore, notAfter, status]
+      properties:
+        id: { type: string }
+        fingerprintSHA256: { type: string, pattern: "^[A-Fa-f0-9:]{64,95}$" }
+        subject: { type: string }
+        issuer: { type: string }
+        notBefore: { type: string, format: date-time }
+        notAfter: { type: string, format: date-time }
+        status: { type: string, enum: [active, retiring, expired, revoked] }
+      additionalProperties: false
+    OIDCClient:
+      type: object
+      required: [id, providerId, clientId, redirectUris, grantTypes, status, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        providerId: { type: string }
+        clientId: { type: string }
+        redirectUris: { type: array, items: { type: string, format: uri } }
+        grantTypes: { type: array, items: { type: string, enum: [authorization_code, refresh_token] } }
+        status: { $ref: "#/components/schemas/IdentityResourceStatus" }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    OIDCClientInput:
+      type: object
+      required: [providerId, clientId, redirectUris, grantTypes, status]
+      properties:
+        providerId: { type: string }
+        clientId: { type: string }
+        clientSecret: { type: string, minLength: 16, writeOnly: true }
+        redirectUris: { type: array, minItems: 1, items: { type: string, format: uri } }
+        grantTypes: { type: array, minItems: 1, items: { type: string, enum: [authorization_code, refresh_token] } }
+        status: { $ref: "#/components/schemas/IdentityResourceStatus" }
+      additionalProperties: false
+    OIDCClientEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/OIDCClient" }
+      additionalProperties: false
+    OIDCClientListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/OIDCClient" } }
+      additionalProperties: false
+    SAMLServiceProvider:
+      type: object
+      required: [entityId, acsUrls, nameIdFormat, wantAuthnRequestsSigned, wantAssertionsSigned, attributeMappings]
+      properties:
+        entityId: { type: string, minLength: 1 }
+        acsUrls: { type: array, minItems: 1, items: { type: string, format: uri } }
+        nameIdFormat: { $ref: "#/components/schemas/SAMLNameIDFormat" }
+        spCertificates: { type: array, items: { $ref: "#/components/schemas/CertificateSummary" } }
+        signingCertificates: { type: array, items: { $ref: "#/components/schemas/CertificateSummary" } }
+        wantAuthnRequestsSigned: { type: boolean }
+        wantAssertionsSigned: { type: boolean }
+        attributeMappings: { type: array, items: { $ref: "#/components/schemas/SAMLAttributeMapping" } }
+      additionalProperties: false
+    SAMLServiceProviderInput:
+      type: object
+      required: [entityId, acsUrls, nameIdFormat, wantAuthnRequestsSigned, attributeMappings]
+      properties:
+        entityId: { type: string, minLength: 1 }
+        acsUrls: { type: array, minItems: 1, items: { type: string, format: uri } }
+        nameIdFormat: { $ref: "#/components/schemas/SAMLNameIDFormat" }
+        spCertificatePem: { type: string, writeOnly: true }
+        wantAuthnRequestsSigned: { type: boolean }
+        attributeMappings: { type: array, items: { $ref: "#/components/schemas/SAMLAttributeMapping" } }
+      additionalProperties: false
+    IdentityProvider:
+      type: object
+      required: [id, applicationId, name, type, enabled, status, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        applicationId: { type: string }
+        name: { type: string }
+        type: { $ref: "#/components/schemas/IdentityProviderType" }
+        enabled: { type: boolean }
+        config: { type: object, additionalProperties: true }
+        secretRefs: { type: object, additionalProperties: true }
+        status: { $ref: "#/components/schemas/IdentityResourceStatus" }
+        createdBy: { type: string }
+        updatedBy: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    IdentityProviderInput:
+      type: object
+      required: [applicationId, name, type, enabled, config, secretRefs, status]
+      properties:
+        applicationId: { type: string }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        type: { $ref: "#/components/schemas/IdentityProviderType" }
+        enabled: { type: boolean }
+        config: { type: object, additionalProperties: true }
+        secretRefs: { type: object, additionalProperties: true }
+        status: { $ref: "#/components/schemas/IdentityResourceStatus" }
+      additionalProperties: false
+    IdentityProviderEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/IdentityProvider" }
+      additionalProperties: false
+    IdentityProviderListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/IdentityProvider" } }
+      additionalProperties: false
+    IdentityPolicyEffect:
+      type: string
+      enum: [allow, deny]
+    IdentityPolicy:
+      type: object
+      required: [id, name, effect, priority, status, applicationIds, requireMFA, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        description: { type: string }
+        effect: { $ref: "#/components/schemas/IdentityPolicyEffect" }
+        priority: { type: integer }
+        status: { $ref: "#/components/schemas/IdentityResourceStatus" }
+        applicationIds: { type: array, items: { type: string } }
+        roleIds: { type: array, items: { type: string } }
+        teamIds: { type: array, items: { type: string } }
+        requireMFA: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    IdentityPolicyInput:
+      type: object
+      required: [name, effect, priority, status, applicationIds, requireMFA]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 200 }
+        description: { type: string, maxLength: 2000 }
+        effect: { $ref: "#/components/schemas/IdentityPolicyEffect" }
+        priority: { type: integer }
+        status: { $ref: "#/components/schemas/IdentityResourceStatus" }
+        applicationIds: { type: array, items: { type: string } }
+        roleIds: { type: array, items: { type: string } }
+        teamIds: { type: array, items: { type: string } }
+        requireMFA: { type: boolean }
+      additionalProperties: false
+    IdentityPolicyEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/IdentityPolicy" }
+      additionalProperties: false
+    IdentityPolicyListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/IdentityPolicy" } }
+      additionalProperties: false
+    IdentityOutpostMode:
+      type: string
+      enum: [embedded, agent, kubernetes, external]
+    IdentityOutpost:
+      type: object
+      required: [id, name, mode, status, configurationVersion, runtimeStatus, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        mode: { $ref: "#/components/schemas/IdentityOutpostMode" }
+        status: { $ref: "#/components/schemas/IdentityResourceStatus" }
+        configurationVersion: { type: integer, format: int64, minimum: 1 }
+        runtimeStatus: { $ref: "#/components/schemas/IdentityCapabilityStatus" }
+        runtimeReason: { type: string }
+        claimedAgentId: { type: string }
+        lastHeartbeatAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    IdentityOutpostInput:
+      type: object
+      required: [name, mode, status]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 200 }
+        mode: { $ref: "#/components/schemas/IdentityOutpostMode" }
+        status: { $ref: "#/components/schemas/IdentityResourceStatus" }
+      additionalProperties: false
+    IdentityOutpostEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/IdentityOutpost" }
+      additionalProperties: false
+    IdentityOutpostListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/IdentityOutpost" } }
+      additionalProperties: false
+    SAMLLoginSource:
+      type: object
+      required: [id, name, entityId, acsUrl, status, wantAuthnRequestsSigned, allowedClockSkewSeconds, nameIdFormat, attributeMappings, certificates, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        entityId: { type: string }
+        idpMetadataUrl: { type: string, format: uri }
+        singleSignOnUrl: { type: string, format: uri }
+        acsUrl: { type: string, format: uri }
+        sloUrl: { type: string, format: uri }
+        status: { $ref: "#/components/schemas/IdentityResourceStatus" }
+        wantAuthnRequestsSigned: { type: boolean }
+        allowedClockSkewSeconds: { type: integer, minimum: 0, maximum: 300 }
+        nameIdFormat: { $ref: "#/components/schemas/SAMLNameIDFormat" }
+        attributeMappings: { type: array, items: { $ref: "#/components/schemas/SAMLAttributeMapping" } }
+        certificates: { type: array, items: { $ref: "#/components/schemas/CertificateSummary" } }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    SAMLLoginSourceInput:
+      type: object
+      required: [name, entityId, singleSignOnUrl, acsUrl, status, wantAuthnRequestsSigned, allowedClockSkewSeconds, nameIdFormat, attributeMappings]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 200 }
+        entityId: { type: string, minLength: 1 }
+        idpMetadataUrl: { type: string, format: uri }
+        singleSignOnUrl: { type: string, format: uri }
+        acsUrl: { type: string, format: uri }
+        sloUrl: { type: string, format: uri }
+        status: { $ref: "#/components/schemas/IdentityResourceStatus" }
+        wantAuthnRequestsSigned: { type: boolean }
+        signingCertificateRef: { type: string, writeOnly: true }
+        signingPrivateKeyRef: { type: string, writeOnly: true }
+        allowedClockSkewSeconds: { type: integer, minimum: 0, maximum: 300 }
+        nameIdFormat: { $ref: "#/components/schemas/SAMLNameIDFormat" }
+        attributeMappings: { type: array, items: { $ref: "#/components/schemas/SAMLAttributeMapping" } }
+      additionalProperties: false
+    SAMLLoginSourceEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/SAMLLoginSource" }
+      additionalProperties: false
+    SAMLLoginSourceListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/SAMLLoginSource" } }
+      additionalProperties: false
+    SAMLMetadataInput:
+      type: object
+      required: [source]
+      properties:
+        source: { type: string, enum: [url, xml] }
+        url: { type: string, format: uri }
+        xml: { type: string, minLength: 1, maxLength: 1048576, writeOnly: true }
+      additionalProperties: false
+    SAMLMetadataImportRequest:
+      type: object
+      required: [name, status, metadata]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 200 }
+        status: { $ref: "#/components/schemas/IdentityResourceStatus" }
+        metadata: { $ref: "#/components/schemas/SAMLMetadataInput" }
+        attributeMappings: { type: array, items: { $ref: "#/components/schemas/SAMLAttributeMapping" } }
+      additionalProperties: false
+    SAMLMetadataValidation:
+      type: object
+      required: [valid, entityId, singleSignOnUrls, certificates]
+      properties:
+        valid: { type: boolean }
+        entityId: { type: string }
+        singleSignOnUrls: { type: array, items: { type: string, format: uri } }
+        singleLogoutUrls: { type: array, items: { type: string, format: uri } }
+        certificates: { type: array, items: { $ref: "#/components/schemas/CertificateSummary" } }
+        warnings: { type: array, items: { type: string } }
+      additionalProperties: false
+    SAMLMetadataValidationEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/SAMLMetadataValidation" }
+      additionalProperties: false
+    SAMLCertificateRotateRequest:
+      type: object
+      required: [overlapSeconds]
+      properties:
+        overlapSeconds: { type: integer, minimum: 0, maximum: 2592000 }
+      additionalProperties: false
+    SAMLCertificateRotation:
+      type: object
+      required: [active, retiring, overlapEndsAt]
+      properties:
+        active: { $ref: "#/components/schemas/CertificateSummary" }
+        retiring: { $ref: "#/components/schemas/CertificateSummary" }
+        overlapEndsAt: { type: string, format: date-time }
+      additionalProperties: false
+    SAMLCertificateRotationEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/SAMLCertificateRotation" }
+      additionalProperties: false
+    SAMLResponseForm:
+      type: object
+      required: [SAMLResponse]
+      properties:
+        SAMLResponse: { type: string, minLength: 1, maxLength: 1048576, writeOnly: true }
+        RelayState: { type: string, maxLength: 2048 }
+      additionalProperties: false
+    SAMLRequestForm:
+      type: object
+      required: [SAMLRequest]
+      properties:
+        SAMLRequest: { type: string, minLength: 1, maxLength: 1048576, writeOnly: true }
+        RelayState: { type: string, maxLength: 2048 }
+      additionalProperties: false
+    MFACredentialType:
+      type: string
+      enum: [totp, webauthn]
+    MFACredential:
+      type: object
+      required: [id, type, displayName, createdAt]
+      properties:
+        id: { type: string }
+        type: { $ref: "#/components/schemas/MFACredentialType" }
+        displayName: { type: string }
+        lastUsedAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+      additionalProperties: false
+    MFACredentialListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/MFACredential" } }
+      additionalProperties: false
+    MFAEnrollmentChallenge:
+      type: object
+      required: [challengeId, type, provisioningUri, expiresAt]
+      properties:
+        challengeId: { type: string }
+        type: { type: string, enum: [totp_enrollment] }
+        provisioningUri: { type: string, writeOnly: true, description: One-time sensitive enrollment URI; clients must not persist or log it. }
+        expiresAt: { type: string, format: date-time }
+      additionalProperties: false
+    MFAEnrollmentChallengeEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/MFAEnrollmentChallenge" }
+      additionalProperties: false
+    MFAWebAuthnCreationOptions:
+      type: object
+      required: [challengeId, challenge, rpId, rpName, userId, userName, timeoutMilliseconds, algorithms, expiresAt]
+      properties:
+        challengeId: { type: string }
+        challenge: { type: string, description: Base64url-encoded challenge. }
+        rpId: { type: string }
+        rpName: { type: string }
+        userId: { type: string, description: Base64url-encoded stable user handle. }
+        userName: { type: string }
+        timeoutMilliseconds: { type: integer, minimum: 1000, maximum: 300000 }
+        algorithms: { type: array, minItems: 1, items: { type: integer } }
+        excludeCredentialIds: { type: array, items: { type: string } }
+        expiresAt: { type: string, format: date-time }
+      additionalProperties: false
+    MFAWebAuthnCreationOptionsEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/MFAWebAuthnCreationOptions" }
+      additionalProperties: false
+    MFAWebAuthnAuthenticationRequest:
+      type: object
+      required: [purpose]
+      properties:
+        purpose:
+          type: string
+          enum: [login, step_up]
+          x-enum-varnames: [MFAWebAuthnPurposeLogin, MFAWebAuthnPurposeStepUp]
+        applicationId: { type: string, minLength: 1, maxLength: 128 }
+      additionalProperties: false
+    MFAWebAuthnRequestOptions:
+      type: object
+      required: [challengeId, challenge, rpId, timeoutMilliseconds, userVerification, expiresAt]
+      properties:
+        challengeId: { type: string }
+        challenge: { type: string, description: Base64url-encoded challenge. }
+        rpId: { type: string }
+        timeoutMilliseconds: { type: integer, minimum: 1000, maximum: 300000 }
+        userVerification:
+          type: string
+          enum: [required, preferred, discouraged]
+          x-enum-varnames:
+            - MFAWebAuthnUserVerificationRequired
+            - MFAWebAuthnUserVerificationPreferred
+            - MFAWebAuthnUserVerificationDiscouraged
+        allowCredentialIds: { type: array, items: { type: string } }
+        expiresAt: { type: string, format: date-time }
+      additionalProperties: false
+    MFAWebAuthnRequestOptionsEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/MFAWebAuthnRequestOptions" }
+      additionalProperties: false
+    MFAWebAuthnResponse:
+      type: object
+      required: [credentialId, clientDataJSON]
+      properties:
+        credentialId: { type: string, minLength: 1 }
+        clientDataJSON: { type: string, minLength: 1, writeOnly: true }
+        attestationObject: { type: string, minLength: 1, writeOnly: true }
+        authenticatorData: { type: string, minLength: 1, writeOnly: true }
+        signature: { type: string, minLength: 1, writeOnly: true }
+        userHandle: { type: string, writeOnly: true }
+      additionalProperties: false
+    MFAChallengeVerifyRequest:
+      type: object
+      required: [response]
+      properties:
+        response: { type: string, minLength: 1, maxLength: 4096, writeOnly: true }
+      additionalProperties: false
+    MFARecoveryChallenge:
+      type: object
+      required: [challengeId, expiresAt]
+      properties:
+        challengeId: { type: string }
+        expiresAt: { type: string, format: date-time }
+      additionalProperties: false
+    MFARecoveryChallengeEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/MFARecoveryChallenge" }
+      additionalProperties: false
+    MFAChallengeResult:
+      type: object
+      required: [verified, authenticationMethods, authenticatedAt]
+      properties:
+        verified: { type: boolean }
+        authenticationMethods: { type: array, items: { type: string } }
+        authenticatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    MFAChallengeResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/MFAChallengeResult" }
+      additionalProperties: false
+    MFARecoveryCodeSet:
+      type: object
+      required: [codes, generatedAt]
+      properties:
+        codes:
+          type: array
+          minItems: 1
+          items: { type: string, minLength: 8, writeOnly: true }
+          description: One-time display only; the server persists hashes, never these values.
+        generatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    MFARecoveryCodeSetEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/MFARecoveryCodeSet" }
+      additionalProperties: false
+    MFAAdminResetRequest:
+      type: object
+      required: [reason, revokeSessions]
+      properties:
+        reason: { type: string, minLength: 1, maxLength: 1000 }
+        revokeSessions: { type: boolean }
+      additionalProperties: false
+    MFAAdminResetResult:
+      type: object
+      required: [userId, revokedCredentialCount, recoveryCodesRevoked, sessionsRevoked, resetAt]
+      properties:
+        userId: { type: string }
+        revokedCredentialCount: { type: integer, minimum: 0 }
+        recoveryCodesRevoked: { type: integer, minimum: 0 }
+        sessionsRevoked: { type: integer, minimum: 0 }
+        resetAt: { type: string, format: date-time }
+      additionalProperties: false
+    MFAAdminResetResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/MFAAdminResetResult" }
+      additionalProperties: false
+    IdentityOutpostClaimRequest:
+      type: object
+      required: [agentId, supportedProtocolVersion]
+      properties:
+        agentId: { type: string, minLength: 1, maxLength: 128 }
+        supportedProtocolVersion: { type: string, minLength: 1, maxLength: 32 }
+        currentConfigurationVersion: { type: integer, format: int64, minimum: 0 }
+      additionalProperties: false
+    IdentityOutpostRoute:
+      type: object
+      required: [host, applicationId, providerId]
+      properties:
+        host: { type: string, minLength: 1 }
+        pathPrefix: { type: string, default: / }
+        applicationId: { type: string }
+        providerId: { type: string }
+        skipPaths: { type: array, items: { type: string } }
+      additionalProperties: false
+    IdentityOutpostRuntimeConfig:
+      type: object
+      required: [outpostId, protocolVersion, configurationVersion, issuedAt, expiresAt, keyId, checkUrl, routes, signature]
+      properties:
+        outpostId: { type: string }
+        protocolVersion: { type: string }
+        configurationVersion: { type: integer, format: int64, minimum: 1 }
+        issuedAt: { type: string, format: date-time }
+        expiresAt: { type: string, format: date-time }
+        keyId: { type: string, minLength: 1, maxLength: 128 }
+        checkUrl: { type: string, format: uri }
+        routes: { type: array, items: { $ref: "#/components/schemas/IdentityOutpostRoute" } }
+        signature: { type: string, minLength: 1 }
+      additionalProperties: false
+    IdentityOutpostRuntimeConfigEnvelope:
+      type: object
+      properties:
+        data: { $ref: "#/components/schemas/IdentityOutpostRuntimeConfig" }
+      additionalProperties: false
+    IdentityOutpostHeartbeatRequest:
+      type: object
+      required: [agentId, configurationVersion, status, checkedAt]
+      properties:
+        agentId: { type: string }
+        configurationVersion: { type: integer, format: int64, minimum: 0 }
+        status: { type: string, enum: [healthy, degraded, unavailable] }
+        checkedAt: { type: string, format: date-time }
+        errorCode: { type: string }
+      additionalProperties: false
+    IdentityOutpostHeartbeat:
+      type: object
+      required: [accepted, desiredConfigurationVersion]
+      properties:
+        accepted: { type: boolean }
+        desiredConfigurationVersion: { type: integer, format: int64, minimum: 0 }
+      additionalProperties: false
+    IdentityOutpostHeartbeatEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/IdentityOutpostHeartbeat" }
+      additionalProperties: false
+    IdentityOutpostAccessCheckRequest:
+      type: object
+      required: [configurationVersion, providerId, originalUrl, method, requestHost, requestPath]
+      properties:
+        configurationVersion: { type: integer, format: int64, minimum: 1 }
+        providerId: { type: string, minLength: 1, maxLength: 128 }
+        originalUrl: { type: string, format: uri, maxLength: 8192 }
+        method: { type: string, minLength: 1, maxLength: 16 }
+        requestHost: { type: string, minLength: 1, maxLength: 512 }
+        requestPath: { type: string, minLength: 1, maxLength: 8192 }
+        sourceIp: { type: string, maxLength: 128 }
+        sessionToken: { type: string, minLength: 1, maxLength: 8192, writeOnly: true }
+      additionalProperties: false
+    IdentityOutpostAccessCheck:
+      type: object
+      required: [decision, statusCode]
+      properties:
+        decision: { type: string, enum: [allow, deny, redirect] }
+        statusCode: { type: integer, minimum: 200, maximum: 599 }
+        reason: { type: string, maxLength: 512 }
+        redirectUrl: { type: string, format: uri }
+        headers:
+          type: object
+          propertyNames: { pattern: "^[!#$%&'*+.^_`|~0-9A-Za-z-]+$" }
+          additionalProperties: { type: string, maxLength: 8192 }
+      additionalProperties: false
+    IdentityOutpostAccessCheckEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/IdentityOutpostAccessCheck" }
+      additionalProperties: false
+    IdentityOutpostRuntimeEvent:
+      type: object
+      required: [id, type, configurationVersion, occurredAt]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        type: { type: string, enum: [started, configuration_applied, check_denied, check_failed, heartbeat_failed] }
+        configurationVersion: { type: integer, format: int64, minimum: 0 }
+        code: { type: string, maxLength: 128 }
+        message: { type: string, maxLength: 2000 }
+        occurredAt: { type: string, format: date-time }
+      additionalProperties: false
+    IdentityOutpostEventBatchRequest:
+      type: object
+      required: [agentId, events]
+      properties:
+        agentId: { type: string, minLength: 1, maxLength: 128 }
+        events:
+          type: array
+          minItems: 1
+          maxItems: 200
+          items: { $ref: "#/components/schemas/IdentityOutpostRuntimeEvent" }
+      additionalProperties: false
     SystemIntegrationCategory:
       type: string
       enum: [identity, source_control, project_management, configuration, ci_cd, code_quality, api_gateway, monitoring, messaging, ai, cloud, other]

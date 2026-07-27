@@ -3489,11 +3489,1119 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/identity/capabilities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getIdentityRuntimeCapabilities"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/applications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listIdentityApplications"];
+        put?: never;
+        post: operations["createIdentityApplication"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/applications/{identityApplicationID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityApplicationID: components["parameters"]["IdentityApplicationID"];
+            };
+            cookie?: never;
+        };
+        get: operations["getIdentityApplication"];
+        put: operations["updateIdentityApplication"];
+        post?: never;
+        delete: operations["deleteIdentityApplication"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/providers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listIdentityProviders"];
+        put?: never;
+        post: operations["createIdentityProvider"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/providers/{identityProviderID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityProviderID: components["parameters"]["IdentityProviderID"];
+            };
+            cookie?: never;
+        };
+        get: operations["getIdentityProvider"];
+        put: operations["updateIdentityProvider"];
+        post?: never;
+        delete: operations["deleteIdentityProvider"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/policies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listIdentityPolicies"];
+        put?: never;
+        post: operations["createIdentityPolicy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/policies/{identityPolicyID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityPolicyID: components["parameters"]["IdentityPolicyID"];
+            };
+            cookie?: never;
+        };
+        get: operations["getIdentityPolicy"];
+        put: operations["updateIdentityPolicy"];
+        post?: never;
+        delete: operations["deleteIdentityPolicy"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/outposts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listIdentityOutposts"];
+        put?: never;
+        post: operations["createIdentityOutpost"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/outposts/{identityOutpostID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityOutpostID: components["parameters"]["IdentityOutpostID"];
+            };
+            cookie?: never;
+        };
+        get: operations["getIdentityOutpost"];
+        put: operations["updateIdentityOutpost"];
+        post?: never;
+        delete: operations["deleteIdentityOutpost"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/oidc-clients": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listIdentityOIDCClients"];
+        put?: never;
+        post: operations["createIdentityOIDCClient"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/oidc-clients/{oidcClientID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                oidcClientID: components["parameters"]["OIDCClientID"];
+            };
+            cookie?: never;
+        };
+        get: operations["getIdentityOIDCClient"];
+        put: operations["updateIdentityOIDCClient"];
+        post?: never;
+        delete: operations["deleteIdentityOIDCClient"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/saml/login-sources": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listSAMLLoginSources"];
+        put?: never;
+        post: operations["createSAMLLoginSource"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/saml/login-sources/{samlLoginSourceID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                samlLoginSourceID: components["parameters"]["SAMLLoginSourceID"];
+            };
+            cookie?: never;
+        };
+        get: operations["getSAMLLoginSource"];
+        put: operations["updateSAMLLoginSource"];
+        post?: never;
+        delete: operations["deleteSAMLLoginSource"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/saml/metadata/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["validateSAMLMetadata"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/saml/login-sources/import": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["importSAMLLoginSourceMetadata"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/saml/certificates/{certificateID}/rotate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["rotateSAMLCertificate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/mfa/credentials": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listMFACredentials"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/mfa/credentials/{mfaCredentialID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["revokeMFACredential"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/mfa/totp/enroll": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["beginTOTPEnrollment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/mfa/webauthn/enroll": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["beginWebAuthnEnrollment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/mfa/webauthn/authenticate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["beginWebAuthnAuthentication"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/mfa/webauthn/challenges/{mfaChallengeID}/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["verifyWebAuthnChallenge"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/mfa/challenges/{mfaChallengeID}/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["verifyMFAChallenge"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/mfa/recovery-codes/challenge": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["beginMFARecoveryChallenge"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/mfa/recovery-codes/regenerate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["regenerateMFARecoveryCodes"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/users/{identityUserID}/mfa/credentials/{mfaCredentialID}/revoke": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["adminRevokeUserMFACredential"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/users/{identityUserID}/mfa/reset": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["adminResetUserMFA"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/outposts/runtime/claim": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["claimIdentityOutpostRuntime"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/outposts/{identityOutpostID}/heartbeat": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["heartbeatIdentityOutpostRuntime"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/outposts/{identityOutpostID}/check": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["checkIdentityOutpostAccess"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/outposts/{identityOutpostID}/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["recordIdentityOutpostRuntimeEvents"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/login/{providerID}/acs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["consumeSAMLLoginResponse"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/saml/{providerID}/metadata": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getSAMLServiceProviderMetadata"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/saml2/idp/{identityProviderID}/metadata": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getSAMLIdentityProviderMetadata"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/saml2/idp/{identityProviderID}/sso": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["beginSAMLIdentityProviderSSO"];
+        put?: never;
+        post: operations["postSAMLIdentityProviderSSO"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
         AnyValue: unknown;
+        /** @enum {string} */
+        IdentityProtocolErrorCode: "invalid_signature" | "invalid_audience" | "invalid_destination" | "invalid_recipient" | "expired_assertion" | "assertion_not_yet_valid" | "replayed_assertion" | "replayed_request" | "unknown_request" | "unknown_subject" | "invalid_issuer" | "invalid_metadata" | "metadata_fetch_denied" | "provider_disabled" | "mfa_required" | "invalid_challenge" | "challenge_expired" | "challenge_replayed" | "credential_not_found" | "mfa_not_configured" | "webauthn_not_configured";
+        IdentityErrorDetail: {
+            code: components["schemas"]["IdentityProtocolErrorCode"];
+            message: string;
+            request_id?: string;
+        };
+        IdentityErrorEnvelope: {
+            error: components["schemas"]["IdentityErrorDetail"];
+        };
+        /** @enum {string} */
+        IdentityCapabilityStatus: "available" | "degraded" | "unavailable";
+        IdentityCapability: {
+            available: boolean;
+            status: components["schemas"]["IdentityCapabilityStatus"];
+            reason?: string;
+            version?: string;
+        };
+        IdentityOutpostRuntimeCapability: {
+            controlPlane: components["schemas"]["IdentityCapability"];
+            embeddedRuntime: components["schemas"]["IdentityCapability"];
+            agentRuntime: components["schemas"]["IdentityCapability"];
+            kubernetesArtifact: components["schemas"]["IdentityCapability"];
+            externalProtocol: components["schemas"]["IdentityCapability"];
+        };
+        IdentityRuntimeCapability: {
+            samlLoginSource: components["schemas"]["IdentityCapability"];
+            samlApplicationProvider: components["schemas"]["IdentityCapability"];
+            totp: components["schemas"]["IdentityCapability"];
+            webauthn: components["schemas"]["IdentityCapability"];
+            recoveryCodes: components["schemas"]["IdentityCapability"];
+            stepUp: components["schemas"]["IdentityCapability"];
+            outpost: components["schemas"]["IdentityOutpostRuntimeCapability"];
+        };
+        IdentityRuntimeCapabilityEnvelope: {
+            data: components["schemas"]["IdentityRuntimeCapability"];
+        };
+        /** @enum {string} */
+        IdentityResourceStatus: "active" | "disabled";
+        IdentityApplication: {
+            id: string;
+            name: string;
+            slug: string;
+            description?: string;
+            /** Format: uri */
+            launchUrl?: string;
+            status: components["schemas"]["IdentityResourceStatus"];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        IdentityApplicationInput: {
+            name: string;
+            slug: string;
+            description?: string;
+            /** Format: uri */
+            launchUrl?: string;
+            status: components["schemas"]["IdentityResourceStatus"];
+        };
+        IdentityApplicationEnvelope: {
+            data: components["schemas"]["IdentityApplication"];
+        };
+        IdentityApplicationListEnvelope: {
+            items: components["schemas"]["IdentityApplication"][];
+        };
+        /** @enum {string} */
+        IdentityProviderType: "oidc" | "proxy" | "saml";
+        /** @enum {string} */
+        SAMLNameIDFormat: "persistent" | "transient" | "emailAddress" | "unspecified";
+        SAMLAttributeMapping: {
+            source: string;
+            /** @enum {string} */
+            target: "subject" | "username" | "email" | "displayName" | "role" | "organization" | "team" | "project";
+            /** @default false */
+            required: boolean;
+        };
+        CertificateSummary: {
+            id: string;
+            fingerprintSHA256: string;
+            subject: string;
+            issuer?: string;
+            /** Format: date-time */
+            notBefore: string;
+            /** Format: date-time */
+            notAfter: string;
+            /** @enum {string} */
+            status: "active" | "retiring" | "expired" | "revoked";
+        };
+        OIDCClient: {
+            id: string;
+            providerId: string;
+            clientId: string;
+            redirectUris: string[];
+            grantTypes: ("authorization_code" | "refresh_token")[];
+            status: components["schemas"]["IdentityResourceStatus"];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        OIDCClientInput: {
+            providerId: string;
+            clientId: string;
+            clientSecret?: string;
+            redirectUris: string[];
+            grantTypes: ("authorization_code" | "refresh_token")[];
+            status: components["schemas"]["IdentityResourceStatus"];
+        };
+        OIDCClientEnvelope: {
+            data: components["schemas"]["OIDCClient"];
+        };
+        OIDCClientListEnvelope: {
+            items: components["schemas"]["OIDCClient"][];
+        };
+        SAMLServiceProvider: {
+            entityId: string;
+            acsUrls: string[];
+            nameIdFormat: components["schemas"]["SAMLNameIDFormat"];
+            spCertificates?: components["schemas"]["CertificateSummary"][];
+            signingCertificates?: components["schemas"]["CertificateSummary"][];
+            wantAuthnRequestsSigned: boolean;
+            wantAssertionsSigned: boolean;
+            attributeMappings: components["schemas"]["SAMLAttributeMapping"][];
+        };
+        SAMLServiceProviderInput: {
+            entityId: string;
+            acsUrls: string[];
+            nameIdFormat: components["schemas"]["SAMLNameIDFormat"];
+            spCertificatePem?: string;
+            wantAuthnRequestsSigned: boolean;
+            attributeMappings: components["schemas"]["SAMLAttributeMapping"][];
+        };
+        IdentityProvider: {
+            id: string;
+            applicationId: string;
+            name: string;
+            type: components["schemas"]["IdentityProviderType"];
+            enabled: boolean;
+            config?: {
+                [key: string]: unknown;
+            };
+            secretRefs?: {
+                [key: string]: unknown;
+            };
+            status: components["schemas"]["IdentityResourceStatus"];
+            createdBy?: string;
+            updatedBy?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        IdentityProviderInput: {
+            applicationId: string;
+            name: string;
+            type: components["schemas"]["IdentityProviderType"];
+            enabled: boolean;
+            config: {
+                [key: string]: unknown;
+            };
+            secretRefs: {
+                [key: string]: unknown;
+            };
+            status: components["schemas"]["IdentityResourceStatus"];
+        };
+        IdentityProviderEnvelope: {
+            data: components["schemas"]["IdentityProvider"];
+        };
+        IdentityProviderListEnvelope: {
+            items: components["schemas"]["IdentityProvider"][];
+        };
+        /** @enum {string} */
+        IdentityPolicyEffect: "allow" | "deny";
+        IdentityPolicy: {
+            id: string;
+            name: string;
+            description?: string;
+            effect: components["schemas"]["IdentityPolicyEffect"];
+            priority: number;
+            status: components["schemas"]["IdentityResourceStatus"];
+            applicationIds: string[];
+            roleIds?: string[];
+            teamIds?: string[];
+            requireMFA: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        IdentityPolicyInput: {
+            name: string;
+            description?: string;
+            effect: components["schemas"]["IdentityPolicyEffect"];
+            priority: number;
+            status: components["schemas"]["IdentityResourceStatus"];
+            applicationIds: string[];
+            roleIds?: string[];
+            teamIds?: string[];
+            requireMFA: boolean;
+        };
+        IdentityPolicyEnvelope: {
+            data: components["schemas"]["IdentityPolicy"];
+        };
+        IdentityPolicyListEnvelope: {
+            items: components["schemas"]["IdentityPolicy"][];
+        };
+        /** @enum {string} */
+        IdentityOutpostMode: "embedded" | "agent" | "kubernetes" | "external";
+        IdentityOutpost: {
+            id: string;
+            name: string;
+            mode: components["schemas"]["IdentityOutpostMode"];
+            status: components["schemas"]["IdentityResourceStatus"];
+            /** Format: int64 */
+            configurationVersion: number;
+            runtimeStatus: components["schemas"]["IdentityCapabilityStatus"];
+            runtimeReason?: string;
+            claimedAgentId?: string;
+            /** Format: date-time */
+            lastHeartbeatAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        IdentityOutpostInput: {
+            name: string;
+            mode: components["schemas"]["IdentityOutpostMode"];
+            status: components["schemas"]["IdentityResourceStatus"];
+        };
+        IdentityOutpostEnvelope: {
+            data: components["schemas"]["IdentityOutpost"];
+        };
+        IdentityOutpostListEnvelope: {
+            items: components["schemas"]["IdentityOutpost"][];
+        };
+        SAMLLoginSource: {
+            id: string;
+            name: string;
+            entityId: string;
+            /** Format: uri */
+            idpMetadataUrl?: string;
+            /** Format: uri */
+            singleSignOnUrl?: string;
+            /** Format: uri */
+            acsUrl: string;
+            /** Format: uri */
+            sloUrl?: string;
+            status: components["schemas"]["IdentityResourceStatus"];
+            wantAuthnRequestsSigned: boolean;
+            allowedClockSkewSeconds: number;
+            nameIdFormat: components["schemas"]["SAMLNameIDFormat"];
+            attributeMappings: components["schemas"]["SAMLAttributeMapping"][];
+            certificates: components["schemas"]["CertificateSummary"][];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        SAMLLoginSourceInput: {
+            name: string;
+            entityId: string;
+            /** Format: uri */
+            idpMetadataUrl?: string;
+            /** Format: uri */
+            singleSignOnUrl: string;
+            /** Format: uri */
+            acsUrl: string;
+            /** Format: uri */
+            sloUrl?: string;
+            status: components["schemas"]["IdentityResourceStatus"];
+            wantAuthnRequestsSigned: boolean;
+            signingCertificateRef?: string;
+            signingPrivateKeyRef?: string;
+            allowedClockSkewSeconds: number;
+            nameIdFormat: components["schemas"]["SAMLNameIDFormat"];
+            attributeMappings: components["schemas"]["SAMLAttributeMapping"][];
+        };
+        SAMLLoginSourceEnvelope: {
+            data: components["schemas"]["SAMLLoginSource"];
+        };
+        SAMLLoginSourceListEnvelope: {
+            items: components["schemas"]["SAMLLoginSource"][];
+        };
+        SAMLMetadataInput: {
+            /** @enum {string} */
+            source: "url" | "xml";
+            /** Format: uri */
+            url?: string;
+            xml?: string;
+        };
+        SAMLMetadataImportRequest: {
+            name: string;
+            status: components["schemas"]["IdentityResourceStatus"];
+            metadata: components["schemas"]["SAMLMetadataInput"];
+            attributeMappings?: components["schemas"]["SAMLAttributeMapping"][];
+        };
+        SAMLMetadataValidation: {
+            valid: boolean;
+            entityId: string;
+            singleSignOnUrls: string[];
+            singleLogoutUrls?: string[];
+            certificates: components["schemas"]["CertificateSummary"][];
+            warnings?: string[];
+        };
+        SAMLMetadataValidationEnvelope: {
+            data: components["schemas"]["SAMLMetadataValidation"];
+        };
+        SAMLCertificateRotateRequest: {
+            overlapSeconds: number;
+        };
+        SAMLCertificateRotation: {
+            active: components["schemas"]["CertificateSummary"];
+            retiring: components["schemas"]["CertificateSummary"];
+            /** Format: date-time */
+            overlapEndsAt: string;
+        };
+        SAMLCertificateRotationEnvelope: {
+            data: components["schemas"]["SAMLCertificateRotation"];
+        };
+        SAMLResponseForm: {
+            SAMLResponse: string;
+            RelayState?: string;
+        };
+        SAMLRequestForm: {
+            SAMLRequest: string;
+            RelayState?: string;
+        };
+        /** @enum {string} */
+        MFACredentialType: "totp" | "webauthn";
+        MFACredential: {
+            id: string;
+            type: components["schemas"]["MFACredentialType"];
+            displayName: string;
+            /** Format: date-time */
+            lastUsedAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        MFACredentialListEnvelope: {
+            items: components["schemas"]["MFACredential"][];
+        };
+        MFAEnrollmentChallenge: {
+            challengeId: string;
+            /** @enum {string} */
+            type: "totp_enrollment";
+            /** @description One-time sensitive enrollment URI; clients must not persist or log it. */
+            provisioningUri: string;
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        MFAEnrollmentChallengeEnvelope: {
+            data: components["schemas"]["MFAEnrollmentChallenge"];
+        };
+        MFAWebAuthnCreationOptions: {
+            challengeId: string;
+            /** @description Base64url-encoded challenge. */
+            challenge: string;
+            rpId: string;
+            rpName: string;
+            /** @description Base64url-encoded stable user handle. */
+            userId: string;
+            userName: string;
+            timeoutMilliseconds: number;
+            algorithms: number[];
+            excludeCredentialIds?: string[];
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        MFAWebAuthnCreationOptionsEnvelope: {
+            data: components["schemas"]["MFAWebAuthnCreationOptions"];
+        };
+        MFAWebAuthnAuthenticationRequest: {
+            /** @enum {string} */
+            purpose: "login" | "step_up";
+            applicationId?: string;
+        };
+        MFAWebAuthnRequestOptions: {
+            challengeId: string;
+            /** @description Base64url-encoded challenge. */
+            challenge: string;
+            rpId: string;
+            timeoutMilliseconds: number;
+            /** @enum {string} */
+            userVerification: "required" | "preferred" | "discouraged";
+            allowCredentialIds?: string[];
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        MFAWebAuthnRequestOptionsEnvelope: {
+            data: components["schemas"]["MFAWebAuthnRequestOptions"];
+        };
+        MFAWebAuthnResponse: {
+            credentialId: string;
+            clientDataJSON: string;
+            attestationObject?: string;
+            authenticatorData?: string;
+            signature?: string;
+            userHandle?: string;
+        };
+        MFAChallengeVerifyRequest: {
+            response: string;
+        };
+        MFARecoveryChallenge: {
+            challengeId: string;
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        MFARecoveryChallengeEnvelope: {
+            data: components["schemas"]["MFARecoveryChallenge"];
+        };
+        MFAChallengeResult: {
+            verified: boolean;
+            authenticationMethods: string[];
+            /** Format: date-time */
+            authenticatedAt: string;
+        };
+        MFAChallengeResultEnvelope: {
+            data: components["schemas"]["MFAChallengeResult"];
+        };
+        MFARecoveryCodeSet: {
+            /** @description One-time display only; the server persists hashes, never these values. */
+            codes: string[];
+            /** Format: date-time */
+            generatedAt: string;
+        };
+        MFARecoveryCodeSetEnvelope: {
+            data: components["schemas"]["MFARecoveryCodeSet"];
+        };
+        MFAAdminResetRequest: {
+            reason: string;
+            revokeSessions: boolean;
+        };
+        MFAAdminResetResult: {
+            userId: string;
+            revokedCredentialCount: number;
+            recoveryCodesRevoked: number;
+            sessionsRevoked: number;
+            /** Format: date-time */
+            resetAt: string;
+        };
+        MFAAdminResetResultEnvelope: {
+            data: components["schemas"]["MFAAdminResetResult"];
+        };
+        IdentityOutpostClaimRequest: {
+            agentId: string;
+            supportedProtocolVersion: string;
+            /** Format: int64 */
+            currentConfigurationVersion?: number;
+        };
+        IdentityOutpostRoute: {
+            host: string;
+            /** @default / */
+            pathPrefix: string;
+            applicationId: string;
+            providerId: string;
+            skipPaths?: string[];
+        };
+        IdentityOutpostRuntimeConfig: {
+            outpostId: string;
+            protocolVersion: string;
+            /** Format: int64 */
+            configurationVersion: number;
+            /** Format: date-time */
+            issuedAt: string;
+            /** Format: date-time */
+            expiresAt: string;
+            keyId: string;
+            /** Format: uri */
+            checkUrl: string;
+            routes: components["schemas"]["IdentityOutpostRoute"][];
+            signature: string;
+        };
+        IdentityOutpostRuntimeConfigEnvelope: {
+            data?: components["schemas"]["IdentityOutpostRuntimeConfig"];
+        };
+        IdentityOutpostHeartbeatRequest: {
+            agentId: string;
+            /** Format: int64 */
+            configurationVersion: number;
+            /** @enum {string} */
+            status: "healthy" | "degraded" | "unavailable";
+            /** Format: date-time */
+            checkedAt: string;
+            errorCode?: string;
+        };
+        IdentityOutpostHeartbeat: {
+            accepted: boolean;
+            /** Format: int64 */
+            desiredConfigurationVersion: number;
+        };
+        IdentityOutpostHeartbeatEnvelope: {
+            data: components["schemas"]["IdentityOutpostHeartbeat"];
+        };
+        IdentityOutpostAccessCheckRequest: {
+            /** Format: int64 */
+            configurationVersion: number;
+            providerId: string;
+            /** Format: uri */
+            originalUrl: string;
+            method: string;
+            requestHost: string;
+            requestPath: string;
+            sourceIp?: string;
+            sessionToken?: string;
+        };
+        IdentityOutpostAccessCheck: {
+            /** @enum {string} */
+            decision: "allow" | "deny" | "redirect";
+            statusCode: number;
+            reason?: string;
+            /** Format: uri */
+            redirectUrl?: string;
+            headers?: {
+                [key: string]: string;
+            };
+        };
+        IdentityOutpostAccessCheckEnvelope: {
+            data: components["schemas"]["IdentityOutpostAccessCheck"];
+        };
+        IdentityOutpostRuntimeEvent: {
+            id: string;
+            /** @enum {string} */
+            type: "started" | "configuration_applied" | "check_denied" | "check_failed" | "heartbeat_failed";
+            /** Format: int64 */
+            configurationVersion: number;
+            code?: string;
+            message?: string;
+            /** Format: date-time */
+            occurredAt: string;
+        };
+        IdentityOutpostEventBatchRequest: {
+            agentId: string;
+            events: components["schemas"]["IdentityOutpostRuntimeEvent"][];
+        };
         /** @enum {string} */
         SystemIntegrationCategory: "identity" | "source_control" | "project_management" | "configuration" | "ci_cd" | "code_quality" | "api_gateway" | "monitoring" | "messaging" | "ai" | "cloud" | "other";
         /** @enum {string} */
@@ -8392,6 +9500,15 @@ export interface components {
         };
     };
     responses: {
+        /** @description Stable redacted Identity protocol or management error. */
+        IdentityError: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["IdentityErrorEnvelope"];
+            };
+        };
         /** @description Standard Soha API error envelope. */
         Error: {
             headers: {
@@ -8412,6 +9529,18 @@ export interface components {
         };
     };
     parameters: {
+        IdentityApplicationID: string;
+        IdentityProviderID: string;
+        IdentityPolicyID: string;
+        IdentityOutpostID: string;
+        OIDCClientID: string;
+        SAMLLoginSourceID: string;
+        CertificateID: string;
+        MFAChallengeID: string;
+        MFACredentialID: string;
+        IdentityUserID: string;
+        SAMLRequest: string;
+        RelayState: string;
         SystemIntegrationID: string;
         SourceConnectionID: string;
         /** @description Opaque provider-neutral repository identifier. Clients must URL-encode it and must not infer a provider path format. */
@@ -8503,6 +9632,89 @@ export type ApiResponse<T = unknown> = { data: T };
 export type ApiItemsResponse<T = unknown> = { items: T[] };
 export type AuthTokens = TokenSet;
 export type AnyValue = components['schemas']['AnyValue'];
+export type IdentityProtocolErrorCode = components['schemas']['IdentityProtocolErrorCode'];
+export type IdentityErrorDetail = components['schemas']['IdentityErrorDetail'];
+export type IdentityErrorEnvelope = components['schemas']['IdentityErrorEnvelope'];
+export type IdentityCapabilityStatus = components['schemas']['IdentityCapabilityStatus'];
+export type IdentityCapability = components['schemas']['IdentityCapability'];
+export type IdentityOutpostRuntimeCapability = components['schemas']['IdentityOutpostRuntimeCapability'];
+export type IdentityRuntimeCapability = components['schemas']['IdentityRuntimeCapability'];
+export type IdentityRuntimeCapabilityEnvelope = components['schemas']['IdentityRuntimeCapabilityEnvelope'];
+export type IdentityResourceStatus = components['schemas']['IdentityResourceStatus'];
+export type IdentityApplication = components['schemas']['IdentityApplication'];
+export type IdentityApplicationInput = components['schemas']['IdentityApplicationInput'];
+export type IdentityApplicationEnvelope = components['schemas']['IdentityApplicationEnvelope'];
+export type IdentityApplicationListEnvelope = components['schemas']['IdentityApplicationListEnvelope'];
+export type IdentityProviderType = components['schemas']['IdentityProviderType'];
+export type SAMLNameIDFormat = components['schemas']['SAMLNameIDFormat'];
+export type SAMLAttributeMapping = components['schemas']['SAMLAttributeMapping'];
+export type CertificateSummary = components['schemas']['CertificateSummary'];
+export type OIDCClient = components['schemas']['OIDCClient'];
+export type OIDCClientInput = components['schemas']['OIDCClientInput'];
+export type OIDCClientEnvelope = components['schemas']['OIDCClientEnvelope'];
+export type OIDCClientListEnvelope = components['schemas']['OIDCClientListEnvelope'];
+export type SAMLServiceProvider = components['schemas']['SAMLServiceProvider'];
+export type SAMLServiceProviderInput = components['schemas']['SAMLServiceProviderInput'];
+export type IdentityProvider = components['schemas']['IdentityProvider'];
+export type IdentityProviderInput = components['schemas']['IdentityProviderInput'];
+export type IdentityProviderEnvelope = components['schemas']['IdentityProviderEnvelope'];
+export type IdentityProviderListEnvelope = components['schemas']['IdentityProviderListEnvelope'];
+export type IdentityPolicyEffect = components['schemas']['IdentityPolicyEffect'];
+export type IdentityPolicy = components['schemas']['IdentityPolicy'];
+export type IdentityPolicyInput = components['schemas']['IdentityPolicyInput'];
+export type IdentityPolicyEnvelope = components['schemas']['IdentityPolicyEnvelope'];
+export type IdentityPolicyListEnvelope = components['schemas']['IdentityPolicyListEnvelope'];
+export type IdentityOutpostMode = components['schemas']['IdentityOutpostMode'];
+export type IdentityOutpost = components['schemas']['IdentityOutpost'];
+export type IdentityOutpostInput = components['schemas']['IdentityOutpostInput'];
+export type IdentityOutpostEnvelope = components['schemas']['IdentityOutpostEnvelope'];
+export type IdentityOutpostListEnvelope = components['schemas']['IdentityOutpostListEnvelope'];
+export type SAMLLoginSource = components['schemas']['SAMLLoginSource'];
+export type SAMLLoginSourceInput = components['schemas']['SAMLLoginSourceInput'];
+export type SAMLLoginSourceEnvelope = components['schemas']['SAMLLoginSourceEnvelope'];
+export type SAMLLoginSourceListEnvelope = components['schemas']['SAMLLoginSourceListEnvelope'];
+export type SAMLMetadataInput = components['schemas']['SAMLMetadataInput'];
+export type SAMLMetadataImportRequest = components['schemas']['SAMLMetadataImportRequest'];
+export type SAMLMetadataValidation = components['schemas']['SAMLMetadataValidation'];
+export type SAMLMetadataValidationEnvelope = components['schemas']['SAMLMetadataValidationEnvelope'];
+export type SAMLCertificateRotateRequest = components['schemas']['SAMLCertificateRotateRequest'];
+export type SAMLCertificateRotation = components['schemas']['SAMLCertificateRotation'];
+export type SAMLCertificateRotationEnvelope = components['schemas']['SAMLCertificateRotationEnvelope'];
+export type SAMLResponseForm = components['schemas']['SAMLResponseForm'];
+export type SAMLRequestForm = components['schemas']['SAMLRequestForm'];
+export type MFACredentialType = components['schemas']['MFACredentialType'];
+export type MFACredential = components['schemas']['MFACredential'];
+export type MFACredentialListEnvelope = components['schemas']['MFACredentialListEnvelope'];
+export type MFAEnrollmentChallenge = components['schemas']['MFAEnrollmentChallenge'];
+export type MFAEnrollmentChallengeEnvelope = components['schemas']['MFAEnrollmentChallengeEnvelope'];
+export type MFAWebAuthnCreationOptions = components['schemas']['MFAWebAuthnCreationOptions'];
+export type MFAWebAuthnCreationOptionsEnvelope = components['schemas']['MFAWebAuthnCreationOptionsEnvelope'];
+export type MFAWebAuthnAuthenticationRequest = components['schemas']['MFAWebAuthnAuthenticationRequest'];
+export type MFAWebAuthnRequestOptions = components['schemas']['MFAWebAuthnRequestOptions'];
+export type MFAWebAuthnRequestOptionsEnvelope = components['schemas']['MFAWebAuthnRequestOptionsEnvelope'];
+export type MFAWebAuthnResponse = components['schemas']['MFAWebAuthnResponse'];
+export type MFAChallengeVerifyRequest = components['schemas']['MFAChallengeVerifyRequest'];
+export type MFARecoveryChallenge = components['schemas']['MFARecoveryChallenge'];
+export type MFARecoveryChallengeEnvelope = components['schemas']['MFARecoveryChallengeEnvelope'];
+export type MFAChallengeResult = components['schemas']['MFAChallengeResult'];
+export type MFAChallengeResultEnvelope = components['schemas']['MFAChallengeResultEnvelope'];
+export type MFARecoveryCodeSet = components['schemas']['MFARecoveryCodeSet'];
+export type MFARecoveryCodeSetEnvelope = components['schemas']['MFARecoveryCodeSetEnvelope'];
+export type MFAAdminResetRequest = components['schemas']['MFAAdminResetRequest'];
+export type MFAAdminResetResult = components['schemas']['MFAAdminResetResult'];
+export type MFAAdminResetResultEnvelope = components['schemas']['MFAAdminResetResultEnvelope'];
+export type IdentityOutpostClaimRequest = components['schemas']['IdentityOutpostClaimRequest'];
+export type IdentityOutpostRoute = components['schemas']['IdentityOutpostRoute'];
+export type IdentityOutpostRuntimeConfig = components['schemas']['IdentityOutpostRuntimeConfig'];
+export type IdentityOutpostRuntimeConfigEnvelope = components['schemas']['IdentityOutpostRuntimeConfigEnvelope'];
+export type IdentityOutpostHeartbeatRequest = components['schemas']['IdentityOutpostHeartbeatRequest'];
+export type IdentityOutpostHeartbeat = components['schemas']['IdentityOutpostHeartbeat'];
+export type IdentityOutpostHeartbeatEnvelope = components['schemas']['IdentityOutpostHeartbeatEnvelope'];
+export type IdentityOutpostAccessCheckRequest = components['schemas']['IdentityOutpostAccessCheckRequest'];
+export type IdentityOutpostAccessCheck = components['schemas']['IdentityOutpostAccessCheck'];
+export type IdentityOutpostAccessCheckEnvelope = components['schemas']['IdentityOutpostAccessCheckEnvelope'];
+export type IdentityOutpostRuntimeEvent = components['schemas']['IdentityOutpostRuntimeEvent'];
+export type IdentityOutpostEventBatchRequest = components['schemas']['IdentityOutpostEventBatchRequest'];
 export type SystemIntegrationCategory = components['schemas']['SystemIntegrationCategory'];
 export type SystemIntegrationHealthStatus = components['schemas']['SystemIntegrationHealthStatus'];
 export type SystemIntegrationTestStatus = components['schemas']['SystemIntegrationTestStatus'];
@@ -9101,8 +10313,21 @@ export type GovernanceRecommendationAction = components['schemas']['GovernanceRe
 export type GovernanceStatusEnvelope = components['schemas']['GovernanceStatusEnvelope'];
 export type MCPCapability = components['schemas']['MCPCapability'];
 export type MCPCapabilityListEnvelope = components['schemas']['MCPCapabilityListEnvelope'];
+export type ResponseIdentityError = components['responses']['IdentityError'];
 export type ResponseError = components['responses']['Error'];
 export type ResponseComputeError = components['responses']['ComputeError'];
+export type ParameterIdentityApplicationId = components['parameters']['IdentityApplicationID'];
+export type ParameterIdentityProviderId = components['parameters']['IdentityProviderID'];
+export type ParameterIdentityPolicyId = components['parameters']['IdentityPolicyID'];
+export type ParameterIdentityOutpostId = components['parameters']['IdentityOutpostID'];
+export type ParameterOidcClientId = components['parameters']['OIDCClientID'];
+export type ParameterSamlLoginSourceId = components['parameters']['SAMLLoginSourceID'];
+export type ParameterCertificateId = components['parameters']['CertificateID'];
+export type ParameterMfaChallengeId = components['parameters']['MFAChallengeID'];
+export type ParameterMfaCredentialId = components['parameters']['MFACredentialID'];
+export type ParameterIdentityUserId = components['parameters']['IdentityUserID'];
+export type ParameterSamlRequest = components['parameters']['SAMLRequest'];
+export type ParameterRelayState = components['parameters']['RelayState'];
 export type ParameterSystemIntegrationId = components['parameters']['SystemIntegrationID'];
 export type ParameterSourceConnectionId = components['parameters']['SourceConnectionID'];
 export type ParameterSourceRepositoryId = components['parameters']['SourceRepositoryID'];
@@ -16249,6 +17474,1298 @@ export interface operations {
             400: components["responses"]["Error"];
             401: components["responses"]["Error"];
             403: components["responses"]["Error"];
+        };
+    };
+    getIdentityRuntimeCapabilities: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Identity protocol and runtime capability truth. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityRuntimeCapabilityEnvelope"];
+                };
+            };
+            403: components["responses"]["IdentityError"];
+        };
+    };
+    listIdentityApplications: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Identity applications. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityApplicationListEnvelope"];
+                };
+            };
+            403: components["responses"]["IdentityError"];
+        };
+    };
+    createIdentityApplication: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdentityApplicationInput"];
+            };
+        };
+        responses: {
+            /** @description Created identity application. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityApplicationEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+            403: components["responses"]["IdentityError"];
+        };
+    };
+    getIdentityApplication: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityApplicationID: components["parameters"]["IdentityApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Identity application detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityApplicationEnvelope"];
+                };
+            };
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    updateIdentityApplication: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityApplicationID: components["parameters"]["IdentityApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdentityApplicationInput"];
+            };
+        };
+        responses: {
+            /** @description Updated identity application. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityApplicationEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    deleteIdentityApplication: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityApplicationID: components["parameters"]["IdentityApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Identity application deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    listIdentityProviders: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Identity application providers. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityProviderListEnvelope"];
+                };
+            };
+        };
+    };
+    createIdentityProvider: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdentityProviderInput"];
+            };
+        };
+        responses: {
+            /** @description Created identity provider. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityProviderEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+        };
+    };
+    getIdentityProvider: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityProviderID: components["parameters"]["IdentityProviderID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Identity provider detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityProviderEnvelope"];
+                };
+            };
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    updateIdentityProvider: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityProviderID: components["parameters"]["IdentityProviderID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdentityProviderInput"];
+            };
+        };
+        responses: {
+            /** @description Updated identity provider. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityProviderEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    deleteIdentityProvider: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityProviderID: components["parameters"]["IdentityProviderID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Identity provider deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    listIdentityPolicies: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Identity access policies. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityPolicyListEnvelope"];
+                };
+            };
+        };
+    };
+    createIdentityPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdentityPolicyInput"];
+            };
+        };
+        responses: {
+            /** @description Created identity policy. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+        };
+    };
+    getIdentityPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityPolicyID: components["parameters"]["IdentityPolicyID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Identity policy detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityPolicyEnvelope"];
+                };
+            };
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    updateIdentityPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityPolicyID: components["parameters"]["IdentityPolicyID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdentityPolicyInput"];
+            };
+        };
+        responses: {
+            /** @description Updated identity policy. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    deleteIdentityPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityPolicyID: components["parameters"]["IdentityPolicyID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Identity policy deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    listIdentityOutposts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Identity outposts. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityOutpostListEnvelope"];
+                };
+            };
+        };
+    };
+    createIdentityOutpost: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdentityOutpostInput"];
+            };
+        };
+        responses: {
+            /** @description Created identity outpost. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityOutpostEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+        };
+    };
+    getIdentityOutpost: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityOutpostID: components["parameters"]["IdentityOutpostID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Identity outpost detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityOutpostEnvelope"];
+                };
+            };
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    updateIdentityOutpost: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityOutpostID: components["parameters"]["IdentityOutpostID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdentityOutpostInput"];
+            };
+        };
+        responses: {
+            /** @description Updated identity outpost. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityOutpostEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    deleteIdentityOutpost: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityOutpostID: components["parameters"]["IdentityOutpostID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Identity outpost deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    listIdentityOIDCClients: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Identity OIDC clients. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OIDCClientListEnvelope"];
+                };
+            };
+        };
+    };
+    createIdentityOIDCClient: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OIDCClientInput"];
+            };
+        };
+        responses: {
+            /** @description Created OIDC client. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OIDCClientEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+        };
+    };
+    getIdentityOIDCClient: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                oidcClientID: components["parameters"]["OIDCClientID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Identity OIDC client detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OIDCClientEnvelope"];
+                };
+            };
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    updateIdentityOIDCClient: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                oidcClientID: components["parameters"]["OIDCClientID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OIDCClientInput"];
+            };
+        };
+        responses: {
+            /** @description Updated OIDC client. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OIDCClientEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    deleteIdentityOIDCClient: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                oidcClientID: components["parameters"]["OIDCClientID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OIDC client deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    listSAMLLoginSources: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description SAML login sources. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SAMLLoginSourceListEnvelope"];
+                };
+            };
+        };
+    };
+    createSAMLLoginSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SAMLLoginSourceInput"];
+            };
+        };
+        responses: {
+            /** @description Created SAML login source. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SAMLLoginSourceEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+        };
+    };
+    getSAMLLoginSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                samlLoginSourceID: components["parameters"]["SAMLLoginSourceID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description SAML login source detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SAMLLoginSourceEnvelope"];
+                };
+            };
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    updateSAMLLoginSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                samlLoginSourceID: components["parameters"]["SAMLLoginSourceID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SAMLLoginSourceInput"];
+            };
+        };
+        responses: {
+            /** @description Updated SAML login source. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SAMLLoginSourceEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    deleteSAMLLoginSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                samlLoginSourceID: components["parameters"]["SAMLLoginSourceID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description SAML login source deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    validateSAMLMetadata: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SAMLMetadataInput"];
+            };
+        };
+        responses: {
+            /** @description Parsed and validated metadata summary. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SAMLMetadataValidationEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+        };
+    };
+    importSAMLLoginSourceMetadata: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SAMLMetadataImportRequest"];
+            };
+        };
+        responses: {
+            /** @description Imported SAML login source. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SAMLLoginSourceEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+        };
+    };
+    rotateSAMLCertificate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                certificateID: components["parameters"]["CertificateID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SAMLCertificateRotateRequest"];
+            };
+        };
+        responses: {
+            /** @description Active and retiring public certificate summaries. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SAMLCertificateRotationEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    listMFACredentials: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description MFA credentials without recoverable secrets. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MFACredentialListEnvelope"];
+                };
+            };
+        };
+    };
+    revokeMFACredential: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                mfaCredentialID: components["parameters"]["MFACredentialID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description MFA credential revoked. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    beginTOTPEnrollment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Short-lived TOTP enrollment challenge. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MFAEnrollmentChallengeEnvelope"];
+                };
+            };
+        };
+    };
+    beginWebAuthnEnrollment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description WebAuthn registration challenge. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MFAWebAuthnCreationOptionsEnvelope"];
+                };
+            };
+        };
+    };
+    beginWebAuthnAuthentication: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MFAWebAuthnAuthenticationRequest"];
+            };
+        };
+        responses: {
+            /** @description WebAuthn authentication or step-up assertion challenge. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MFAWebAuthnRequestOptionsEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+            409: components["responses"]["IdentityError"];
+        };
+    };
+    verifyWebAuthnChallenge: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                mfaChallengeID: components["parameters"]["MFAChallengeID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MFAWebAuthnResponse"];
+            };
+        };
+        responses: {
+            /** @description Verified WebAuthn registration or assertion challenge. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MFAChallengeResultEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+            409: components["responses"]["IdentityError"];
+        };
+    };
+    verifyMFAChallenge: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                mfaChallengeID: components["parameters"]["MFAChallengeID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MFAChallengeVerifyRequest"];
+            };
+        };
+        responses: {
+            /** @description Verified MFA challenge and updated authentication context. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MFAChallengeResultEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+            409: components["responses"]["IdentityError"];
+        };
+    };
+    beginMFARecoveryChallenge: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Short-lived challenge for consuming a recovery code. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MFARecoveryChallengeEnvelope"];
+                };
+            };
+            409: components["responses"]["IdentityError"];
+        };
+    };
+    regenerateMFARecoveryCodes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description One-time recovery code display. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MFARecoveryCodeSetEnvelope"];
+                };
+            };
+        };
+    };
+    adminRevokeUserMFACredential: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityUserID: components["parameters"]["IdentityUserID"];
+                mfaCredentialID: components["parameters"]["MFACredentialID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description MFA credential revoked by an administrator. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            403: components["responses"]["IdentityError"];
+            404: components["responses"]["IdentityError"];
+            409: components["responses"]["IdentityError"];
+        };
+    };
+    adminResetUserMFA: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityUserID: components["parameters"]["IdentityUserID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MFAAdminResetRequest"];
+            };
+        };
+        responses: {
+            /** @description User MFA credentials, challenges, and recovery codes reset. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MFAAdminResetResultEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+            403: components["responses"]["IdentityError"];
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    claimIdentityOutpostRuntime: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdentityOutpostClaimRequest"];
+            };
+        };
+        responses: {
+            /** @description Versioned outpost runtime configuration, or empty data when none is assigned. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityOutpostRuntimeConfigEnvelope"];
+                };
+            };
+            401: components["responses"]["IdentityError"];
+        };
+    };
+    heartbeatIdentityOutpostRuntime: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityOutpostID: components["parameters"]["IdentityOutpostID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdentityOutpostHeartbeatRequest"];
+            };
+        };
+        responses: {
+            /** @description Accepted heartbeat and desired configuration version. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityOutpostHeartbeatEnvelope"];
+                };
+            };
+            409: components["responses"]["IdentityError"];
+        };
+    };
+    checkIdentityOutpostAccess: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityOutpostID: components["parameters"]["IdentityOutpostID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdentityOutpostAccessCheckRequest"];
+            };
+        };
+        responses: {
+            /** @description Authoritative access decision from Soha core. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityOutpostAccessCheckEnvelope"];
+                };
+            };
+            401: components["responses"]["IdentityError"];
+            403: components["responses"]["IdentityError"];
+        };
+    };
+    recordIdentityOutpostRuntimeEvents: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityOutpostID: components["parameters"]["IdentityOutpostID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdentityOutpostEventBatchRequest"];
+            };
+        };
+        responses: {
+            /** @description Redacted outpost runtime events accepted. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+            409: components["responses"]["IdentityError"];
+        };
+    };
+    consumeSAMLLoginResponse: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                providerID: components["parameters"]["ProviderID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/x-www-form-urlencoded": components["schemas"]["SAMLResponseForm"];
+            };
+        };
+        responses: {
+            /** @description Redirect to the web console with a short-lived exchange code. */
+            302: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["IdentityError"];
+        };
+    };
+    getSAMLServiceProviderMetadata: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                providerID: components["parameters"]["ProviderID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Soha SAML service-provider metadata. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/samlmetadata+xml": string;
+                };
+            };
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    getSAMLIdentityProviderMetadata: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityProviderID: components["parameters"]["IdentityProviderID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Soha SAML identity-provider metadata. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/samlmetadata+xml": string;
+                };
+            };
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    beginSAMLIdentityProviderSSO: {
+        parameters: {
+            query: {
+                SAMLRequest: components["parameters"]["SAMLRequest"];
+                RelayState?: components["parameters"]["RelayState"];
+            };
+            header?: never;
+            path: {
+                identityProviderID: components["parameters"]["IdentityProviderID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Continue authentication or return a signed SAML response. */
+            302: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["IdentityError"];
+        };
+    };
+    postSAMLIdentityProviderSSO: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityProviderID: components["parameters"]["IdentityProviderID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/x-www-form-urlencoded": components["schemas"]["SAMLRequestForm"];
+            };
+        };
+        responses: {
+            /** @description Auto-submitting signed SAML response form. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/html": string;
+                };
+            };
+            400: components["responses"]["IdentityError"];
         };
     };
 }

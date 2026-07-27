@@ -108,6 +108,12 @@ const requiredOpenapiFixtureSchemas = [
   "RuntimeConfigChangeRequest",
   "ErrorEnvelope",
   "RepositoryInput",
+  "IdentityRuntimeCapabilityEnvelope",
+  "SAMLMetadataInput",
+  "IdentityErrorEnvelope",
+  "IdentityOutpostClaimRequest",
+  "MFAWebAuthnRequestOptionsEnvelope",
+  "MFAAdminResetRequest",
 ];
 
 const requiredJsonExamples = [

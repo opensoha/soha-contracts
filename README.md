@@ -58,6 +58,12 @@ governance DTOs used by `soha-cli`, `soha-agent`, and `soha-web`.
 SDK DTOs are generated from `openapi/soha-api.yaml` with
 `openapi-typescript` and `oapi-codegen`:
 
+The public DTO surface also includes Identity applications, providers,
+policies, OIDC clients, SAML SP/IdP configuration, MFA challenges, runtime
+capabilities, and versioned Outpost agent messages. Sensitive enrollment and
+protocol inputs are write-only; response DTOs exclude private keys and raw
+SAML assertions.
+
 ```sh
 npm run generate
 npm run check:generated
@@ -75,6 +81,8 @@ hand-written method surface while DTOs are generated from OpenAPI. For
 - public auth discovery, password login, refresh, OIDC code exchange, current
   principal/profile/bootstrap, logout, and stream tickets;
 - delivery, Docker, and agent-run claim/status/callback runner APIs;
+- Identity Outpost runtime claim, heartbeat, access-check, and event APIs;
+- WebAuthn authentication/step-up and administrator MFA revoke/reset APIs;
 - AI Gateway audit, approval, governance, token, service-account, and MCP
   capability APIs;
 - plugin marketplace, install, enable/disable, upgrade, configuration, and

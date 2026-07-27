@@ -432,6 +432,72 @@ func (c *Client) RecordAgentRunToolCall(ctx context.Context, req AgentRunToolCal
 	return out.Data, nil
 }
 
+func (c *Client) ClaimIdentityOutpostConfig(ctx context.Context, req IdentityOutpostClaimRequest) (*IdentityOutpostRuntimeConfig, error) {
+	var out IdentityOutpostRuntimeConfigEnvelope
+	if err := c.doJSON(ctx, http.MethodPost, "/identity/outposts/runtime/claim", true, req, &out); err != nil {
+		return nil, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) HeartbeatIdentityOutpost(ctx context.Context, outpostID string, req IdentityOutpostHeartbeatRequest) (IdentityOutpostHeartbeat, error) {
+	var out IdentityOutpostHeartbeatEnvelope
+	path := identityOutpostRuntimePath(outpostID, "heartbeat")
+	if err := c.doJSON(ctx, http.MethodPost, path, true, req, &out); err != nil {
+		return IdentityOutpostHeartbeat{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) CheckIdentityOutpostAccess(ctx context.Context, outpostID string, req IdentityOutpostAccessCheckRequest) (IdentityOutpostAccessCheck, error) {
+	var out IdentityOutpostAccessCheckEnvelope
+	if err := c.doJSON(ctx, http.MethodPost, identityOutpostRuntimePath(outpostID, "check"), true, req, &out); err != nil {
+		return IdentityOutpostAccessCheck{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) AppendIdentityOutpostEvents(ctx context.Context, outpostID string, req IdentityOutpostEventBatchRequest) (OperationStatus, error) {
+	var out OperationStatus
+	if err := c.doJSON(ctx, http.MethodPost, identityOutpostRuntimePath(outpostID, "events"), true, req, &out); err != nil {
+		return OperationStatus{}, err
+	}
+	return out, nil
+}
+
+func identityOutpostRuntimePath(outpostID, action string) string {
+	return "/identity/outposts/" + url.PathEscape(strings.TrimSpace(outpostID)) + "/" + action
+}
+
+func (c *Client) BeginWebAuthnAuthentication(ctx context.Context, req MFAWebAuthnAuthenticationRequest) (MFAWebAuthnRequestOptions, error) {
+	var out MFAWebAuthnRequestOptionsEnvelope
+	if err := c.doJSON(ctx, http.MethodPost, "/identity/mfa/webauthn/authenticate", true, req, &out); err != nil {
+		return MFAWebAuthnRequestOptions{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) AdminRevokeUserMFACredential(ctx context.Context, userID, credentialID string) (OperationStatus, error) {
+	var out OperationStatus
+	path := identityUserMFAPath(userID, "credentials/"+url.PathEscape(strings.TrimSpace(credentialID))+"/revoke")
+	if err := c.doJSON(ctx, http.MethodPost, path, true, nil, &out); err != nil {
+		return OperationStatus{}, err
+	}
+	return out, nil
+}
+
+func (c *Client) AdminResetUserMFA(ctx context.Context, userID string, req MFAAdminResetRequest) (MFAAdminResetResult, error) {
+	var out MFAAdminResetResultEnvelope
+	if err := c.doJSON(ctx, http.MethodPost, identityUserMFAPath(userID, "reset"), true, req, &out); err != nil {
+		return MFAAdminResetResult{}, err
+	}
+	return out.Data, nil
+}
+
+func identityUserMFAPath(userID, suffix string) string {
+	return "/identity/users/" + url.PathEscape(strings.TrimSpace(userID)) + "/mfa/" + suffix
+}
+
 func (c *Client) ListComputeTasks(ctx context.Context, params ListComputeTasksParams) (ComputeTaskListEnvelope, error) {
 	var out ComputeTaskListEnvelope
 	if err := c.doJSON(ctx, http.MethodGet, "/compute/tasks"+computeTaskQuery(params), true, nil, &out); err != nil {

@@ -95,6 +95,131 @@ func TestRunnerClaimClientsAcceptNoContent(t *testing.T) {
 	}
 }
 
+func TestIdentityOutpostRuntimeClientSurface(t *testing.T) {
+	now := time.Date(2026, 7, 27, 10, 0, 0, 0, time.UTC)
+	requests := 0
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		requests++
+		switch requests {
+		case 1:
+			assertCommonRequest(t, r, http.MethodPost, "/api/v1/identity/outposts/runtime/claim")
+			body := decodeJSONRequestBody[IdentityOutpostClaimRequest](t, r)
+			if body.AgentID != "agent/one" || body.CurrentConfigurationVersion != 7 {
+				t.Fatalf("unexpected claim request %#v", body)
+			}
+			writeJSON(t, w, map[string]any{"data": map[string]any{
+				"outpostId": "outpost/one", "protocolVersion": "1", "configurationVersion": 8,
+				"issuedAt": now, "expiresAt": now.Add(time.Minute), "keyId": "key-1", "checkUrl": "https://soha.example/api/v1/identity/outposts/outpost%2Fone/check",
+				"routes": []any{}, "signature": "signature",
+			}})
+		case 2:
+			assertCommonRequest(t, r, http.MethodPost, "/api/v1/identity/outposts/outpost%2Fone/heartbeat")
+			body := decodeJSONRequestBody[IdentityOutpostHeartbeatRequest](t, r)
+			if body.AgentID != "agent/one" || body.ConfigurationVersion != 8 {
+				t.Fatalf("unexpected heartbeat request %#v", body)
+			}
+			writeJSON(t, w, map[string]any{"data": map[string]any{"accepted": true, "desiredConfigurationVersion": 8}})
+		case 3:
+			assertCommonRequest(t, r, http.MethodPost, "/api/v1/identity/outposts/outpost%2Fone/check")
+			body := decodeJSONRequestBody[IdentityOutpostAccessCheckRequest](t, r)
+			if body.RequestPath != "/admin" || body.ConfigurationVersion != 8 {
+				t.Fatalf("unexpected access check request %#v", body)
+			}
+			writeJSON(t, w, map[string]any{"data": map[string]any{"decision": "allow", "statusCode": 200}})
+		case 4:
+			assertCommonRequest(t, r, http.MethodPost, "/api/v1/identity/outposts/outpost%2Fone/events")
+			body := decodeJSONRequestBody[IdentityOutpostEventBatchRequest](t, r)
+			if body.AgentID != "agent/one" || len(body.Events) != 1 {
+				t.Fatalf("unexpected event batch %#v", body)
+			}
+			writeJSON(t, w, map[string]any{"status": "accepted"})
+		default:
+			t.Fatalf("unexpected request %s %s", r.Method, r.URL.Path)
+		}
+	})
+
+	config, err := client.ClaimIdentityOutpostConfig(context.Background(), IdentityOutpostClaimRequest{
+		AgentID: "agent/one", SupportedProtocolVersion: "1", CurrentConfigurationVersion: 7,
+	})
+	if err != nil || config == nil || config.ConfigurationVersion != 8 {
+		t.Fatalf("ClaimIdentityOutpostConfig = %#v, %v", config, err)
+	}
+	heartbeat, err := client.HeartbeatIdentityOutpost(context.Background(), "outpost/one", IdentityOutpostHeartbeatRequest{
+		AgentID: "agent/one", ConfigurationVersion: 8, Status: IdentityOutpostHeartbeatRequestStatusHealthy, CheckedAt: now,
+	})
+	if err != nil || !heartbeat.Accepted {
+		t.Fatalf("HeartbeatIdentityOutpost = %#v, %v", heartbeat, err)
+	}
+	decision, err := client.CheckIdentityOutpostAccess(context.Background(), "outpost/one", IdentityOutpostAccessCheckRequest{
+		ConfigurationVersion: 8, ProviderID: "provider-1", OriginalURL: "https://app.example/admin",
+		Method: http.MethodGet, RequestHost: "app.example", RequestPath: "/admin",
+	})
+	if err != nil || decision.Decision != IdentityOutpostAccessCheckDecisionAllow {
+		t.Fatalf("CheckIdentityOutpostAccess = %#v, %v", decision, err)
+	}
+	status, err := client.AppendIdentityOutpostEvents(context.Background(), "outpost/one", IdentityOutpostEventBatchRequest{
+		AgentID: "agent/one",
+		Events: []IdentityOutpostRuntimeEvent{{
+			ID: "event-1", Type: ConfigurationApplied, ConfigurationVersion: 8, OccurredAt: now,
+		}},
+	})
+	if err != nil || status.Status != "accepted" {
+		t.Fatalf("AppendIdentityOutpostEvents = %#v, %v", status, err)
+	}
+}
+
+func TestIdentityMFAClientSurface(t *testing.T) {
+	now := time.Date(2026, 7, 27, 11, 0, 0, 0, time.UTC)
+	requests := 0
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		requests++
+		switch requests {
+		case 1:
+			assertCommonRequest(t, r, http.MethodPost, "/api/v1/identity/mfa/webauthn/authenticate")
+			body := decodeJSONRequestBody[MFAWebAuthnAuthenticationRequest](t, r)
+			if body.Purpose != MFAWebAuthnPurposeStepUp || body.ApplicationID != "app/one" {
+				t.Fatalf("unexpected WebAuthn authentication request %#v", body)
+			}
+			writeJSON(t, w, map[string]any{"data": map[string]any{
+				"challengeId": "challenge-1", "challenge": "challenge", "rpId": "soha.example.com",
+				"timeoutMilliseconds": 60000, "userVerification": "required", "expiresAt": now.Add(time.Minute),
+			}})
+		case 2:
+			assertCommonRequest(t, r, http.MethodPost, "/api/v1/identity/users/user%2Fone/mfa/credentials/credential%2Fone/revoke")
+			writeJSON(t, w, map[string]any{"status": "revoked"})
+		case 3:
+			assertCommonRequest(t, r, http.MethodPost, "/api/v1/identity/users/user%2Fone/mfa/reset")
+			body := decodeJSONRequestBody[MFAAdminResetRequest](t, r)
+			if body.Reason != "security incident" || !body.RevokeSessions {
+				t.Fatalf("unexpected MFA reset request %#v", body)
+			}
+			writeJSON(t, w, map[string]any{"data": map[string]any{
+				"userId": "user/one", "revokedCredentialCount": 2, "recoveryCodesRevoked": 8,
+				"sessionsRevoked": 3, "resetAt": now,
+			}})
+		default:
+			t.Fatalf("unexpected request %s %s", r.Method, r.URL.Path)
+		}
+	})
+
+	options, err := client.BeginWebAuthnAuthentication(context.Background(), MFAWebAuthnAuthenticationRequest{
+		Purpose: MFAWebAuthnPurposeStepUp, ApplicationID: "app/one",
+	})
+	if err != nil || options.ChallengeID != "challenge-1" || options.UserVerification != MFAWebAuthnUserVerificationRequired {
+		t.Fatalf("BeginWebAuthnAuthentication = %#v, %v", options, err)
+	}
+	status, err := client.AdminRevokeUserMFACredential(context.Background(), "user/one", "credential/one")
+	if err != nil || status.Status != "revoked" {
+		t.Fatalf("AdminRevokeUserMFACredential = %#v, %v", status, err)
+	}
+	reset, err := client.AdminResetUserMFA(context.Background(), "user/one", MFAAdminResetRequest{
+		Reason: "security incident", RevokeSessions: true,
+	})
+	if err != nil || reset.RevokedCredentialCount != 2 || reset.SessionsRevoked != 3 {
+		t.Fatalf("AdminResetUserMFA = %#v, %v", reset, err)
+	}
+}
+
 func TestComputeTaskCenterClientSurface(t *testing.T) {
 	requests := 0
 	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {

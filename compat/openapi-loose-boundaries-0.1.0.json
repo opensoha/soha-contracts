@@ -344,6 +344,22 @@
     },
     {
       "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/IdentityProvider/properties/config/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/IdentityProvider/properties/secretRefs/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/IdentityProviderInput/properties/config/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/IdentityProviderInput/properties/secretRefs/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
       "path": "components/schemas/InstalledPlugin/properties/metadata/additionalProperties"
     },
     {
