@@ -33,6 +33,7 @@ tags:
   - name: MCP
   - name: Plugins
   - name: Identity
+  - name: Directory
 paths:
   /healthz:
     get:
@@ -6615,6 +6616,62 @@ paths:
         "400": { $ref: "#/components/responses/IdentityError" }
         "403": { $ref: "#/components/responses/IdentityError" }
         "404": { $ref: "#/components/responses/IdentityError" }
+  /access/directory-connections/{connectionID}/runtime-status:
+    get:
+      tags: [Directory]
+      operationId: getDirectoryConnectionRuntimeStatus
+      parameters:
+        - $ref: "#/components/parameters/DirectoryConnectionID"
+      responses:
+        "200":
+          description: Directory callback, event backlog, and reconciliation status.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DirectoryRuntimeStatusEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /access/directory-connections/{connectionID}/events:
+    get:
+      tags: [Directory]
+      operationId: listDirectoryEvents
+      parameters:
+        - $ref: "#/components/parameters/DirectoryConnectionID"
+        - name: status
+          in: query
+          required: false
+          schema: { $ref: "#/components/schemas/DirectoryEventStatus" }
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer, minimum: 1, maximum: 200, default: 50 }
+      responses:
+        "200":
+          description: Directory events ordered from newest to oldest.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DirectoryEventListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /access/directory-connections/{connectionID}/events/{eventID}/retry:
+    post:
+      tags: [Directory]
+      operationId: retryDirectoryEvent
+      parameters:
+        - $ref: "#/components/parameters/DirectoryConnectionID"
+        - $ref: "#/components/parameters/DirectoryEventID"
+      responses:
+        "200":
+          description: Failed event queued for another processing attempt.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DirectoryEventEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
   /identity/outposts/runtime/claim:
     post:
       tags: [Identity]
@@ -6831,6 +6888,16 @@ components:
       schema: { type: string, minLength: 1, maxLength: 128 }
     IdentityUserID:
       name: identityUserID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    DirectoryConnectionID:
+      name: connectionID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    DirectoryEventID:
+      name: eventID
       in: path
       required: true
       schema: { type: string, minLength: 1, maxLength: 128 }
@@ -17519,3 +17586,157 @@ components:
           items:
             $ref: "#/components/schemas/MCPCapability"
       additionalProperties: false
+    DirectoryEventStatus:
+      type: string
+      enum: [queued, processing, succeeded, failed]
+      x-enum-varnames:
+        [DirectoryEventStatusQueued, DirectoryEventStatusProcessing, DirectoryEventStatusSucceeded, DirectoryEventStatusFailed]
+    DirectorySyncRunMode:
+      type: string
+      enum: [incremental, full]
+      x-enum-varnames: [DirectorySyncRunModeIncremental, DirectorySyncRunModeFull]
+    DirectorySyncRunStatus:
+      type: string
+      enum: [queued, running, succeeded, partial, failed, canceled]
+      x-enum-varnames:
+        [DirectorySyncRunStatusQueued, DirectorySyncRunStatusRunning, DirectorySyncRunStatusSucceeded, DirectorySyncRunStatusPartial, DirectorySyncRunStatusFailed, DirectorySyncRunStatusCanceled]
+    DirectorySyncRunSummary:
+      type: object
+      required: [id, connectionId, trigger, mode, status]
+      properties:
+        id:
+          type: string
+        connectionId:
+          type: string
+        trigger:
+          type: string
+        mode:
+          $ref: "#/components/schemas/DirectorySyncRunMode"
+        status:
+          $ref: "#/components/schemas/DirectorySyncRunStatus"
+        startedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        errorSummary:
+          type: string
+      additionalProperties: false
+    DirectoryCallbackStatus:
+      type: string
+      enum: [not_configured, awaiting_event, verified]
+      x-enum-varnames:
+        [DirectoryCallbackStatusNotConfigured, DirectoryCallbackStatusAwaitingEvent, DirectoryCallbackStatusVerified]
+    DirectoryRuntimeStatus:
+      type: object
+      required:
+        [connectionId, callbackUrl, callbackConfigured, callbackStatus, queuedEvents, failedEvents, needsFullReconcile]
+      properties:
+        connectionId:
+          type: string
+        callbackUrl:
+          type: string
+        callbackConfigured:
+          type: boolean
+        callbackStatus:
+          $ref: "#/components/schemas/DirectoryCallbackStatus"
+        callbackVerifiedAt:
+          type: string
+          format: date-time
+        lastEventAt:
+          type: string
+          format: date-time
+        queuedEvents:
+          type: integer
+          minimum: 0
+        failedEvents:
+          type: integer
+          minimum: 0
+        needsFullReconcile:
+          type: boolean
+        reconcileReason:
+          type: string
+        lastIncrementalRun:
+          $ref: "#/components/schemas/DirectorySyncRunSummary"
+        lastFullRun:
+          $ref: "#/components/schemas/DirectorySyncRunSummary"
+      additionalProperties: false
+    DirectoryRuntimeStatusEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/DirectoryRuntimeStatus"
+      additionalProperties: false
+    DirectoryEvent:
+      type: object
+      required: [id, providerEventId, eventType, status, attempts, occurredAt, receivedAt]
+      properties:
+        id:
+          type: string
+        providerEventId:
+          type: string
+        eventType:
+          type: string
+        status:
+          $ref: "#/components/schemas/DirectoryEventStatus"
+        attempts:
+          type: integer
+          minimum: 0
+        occurredAt:
+          type: string
+          format: date-time
+        receivedAt:
+          type: string
+          format: date-time
+        processedAt:
+          type: string
+          format: date-time
+        nextAttemptAt:
+          type: string
+          format: date-time
+        errorSummary:
+          type: string
+      additionalProperties: false
+    DirectoryEventEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/DirectoryEvent"
+      additionalProperties: false
+    DirectoryEventListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/DirectoryEvent"
+      additionalProperties: false
+    DirectoryPersonLifecycle:
+      type: object
+      required: [directoryStatus, employmentStatus]
+      properties:
+        directoryStatus:
+          $ref: "#/components/schemas/DirectoryProjectionStatus"
+        employmentStatus:
+          $ref: "#/components/schemas/DirectoryEmploymentStatus"
+        departedAt:
+          type: string
+          format: date-time
+        lastDirectoryEventAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    DirectoryProjectionStatus:
+      type: string
+      enum: [active, suspended, archived]
+      x-enum-varnames:
+        [DirectoryProjectionStatusActive, DirectoryProjectionStatusSuspended, DirectoryProjectionStatusArchived]
+    DirectoryEmploymentStatus:
+      type: string
+      enum: [active, suspended, departed]
+      x-enum-varnames:
+        [DirectoryEmploymentStatusActive, DirectoryEmploymentStatusSuspended, DirectoryEmploymentStatusDeparted]

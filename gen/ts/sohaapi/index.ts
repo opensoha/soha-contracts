@@ -3933,6 +3933,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/access/directory-connections/{connectionID}/runtime-status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getDirectoryConnectionRuntimeStatus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/access/directory-connections/{connectionID}/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listDirectoryEvents"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/access/directory-connections/{connectionID}/events/{eventID}/retry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["retryDirectoryEvent"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/identity/outposts/runtime/claim": {
         parameters: {
             query?: never;
@@ -9498,6 +9546,79 @@ export interface components {
         MCPCapabilityListEnvelope: {
             items: components["schemas"]["MCPCapability"][];
         };
+        /** @enum {string} */
+        DirectoryEventStatus: "queued" | "processing" | "succeeded" | "failed";
+        /** @enum {string} */
+        DirectorySyncRunMode: "incremental" | "full";
+        /** @enum {string} */
+        DirectorySyncRunStatus: "queued" | "running" | "succeeded" | "partial" | "failed" | "canceled";
+        DirectorySyncRunSummary: {
+            id: string;
+            connectionId: string;
+            trigger: string;
+            mode: components["schemas"]["DirectorySyncRunMode"];
+            status: components["schemas"]["DirectorySyncRunStatus"];
+            /** Format: date-time */
+            startedAt?: string;
+            /** Format: date-time */
+            finishedAt?: string;
+            errorSummary?: string;
+        };
+        /** @enum {string} */
+        DirectoryCallbackStatus: "not_configured" | "awaiting_event" | "verified";
+        DirectoryRuntimeStatus: {
+            connectionId: string;
+            callbackUrl: string;
+            callbackConfigured: boolean;
+            callbackStatus: components["schemas"]["DirectoryCallbackStatus"];
+            /** Format: date-time */
+            callbackVerifiedAt?: string;
+            /** Format: date-time */
+            lastEventAt?: string;
+            queuedEvents: number;
+            failedEvents: number;
+            needsFullReconcile: boolean;
+            reconcileReason?: string;
+            lastIncrementalRun?: components["schemas"]["DirectorySyncRunSummary"];
+            lastFullRun?: components["schemas"]["DirectorySyncRunSummary"];
+        };
+        DirectoryRuntimeStatusEnvelope: {
+            data: components["schemas"]["DirectoryRuntimeStatus"];
+        };
+        DirectoryEvent: {
+            id: string;
+            providerEventId: string;
+            eventType: string;
+            status: components["schemas"]["DirectoryEventStatus"];
+            attempts: number;
+            /** Format: date-time */
+            occurredAt: string;
+            /** Format: date-time */
+            receivedAt: string;
+            /** Format: date-time */
+            processedAt?: string;
+            /** Format: date-time */
+            nextAttemptAt?: string;
+            errorSummary?: string;
+        };
+        DirectoryEventEnvelope: {
+            data: components["schemas"]["DirectoryEvent"];
+        };
+        DirectoryEventListEnvelope: {
+            items: components["schemas"]["DirectoryEvent"][];
+        };
+        DirectoryPersonLifecycle: {
+            directoryStatus: components["schemas"]["DirectoryProjectionStatus"];
+            employmentStatus: components["schemas"]["DirectoryEmploymentStatus"];
+            /** Format: date-time */
+            departedAt?: string;
+            /** Format: date-time */
+            lastDirectoryEventAt?: string;
+        };
+        /** @enum {string} */
+        DirectoryProjectionStatus: "active" | "suspended" | "archived";
+        /** @enum {string} */
+        DirectoryEmploymentStatus: "active" | "suspended" | "departed";
     };
     responses: {
         /** @description Stable redacted Identity protocol or management error. */
@@ -9539,6 +9660,8 @@ export interface components {
         MFAChallengeID: string;
         MFACredentialID: string;
         IdentityUserID: string;
+        DirectoryConnectionID: string;
+        DirectoryEventID: string;
         SAMLRequest: string;
         RelayState: string;
         SystemIntegrationID: string;
@@ -10313,6 +10436,19 @@ export type GovernanceRecommendationAction = components['schemas']['GovernanceRe
 export type GovernanceStatusEnvelope = components['schemas']['GovernanceStatusEnvelope'];
 export type MCPCapability = components['schemas']['MCPCapability'];
 export type MCPCapabilityListEnvelope = components['schemas']['MCPCapabilityListEnvelope'];
+export type DirectoryEventStatus = components['schemas']['DirectoryEventStatus'];
+export type DirectorySyncRunMode = components['schemas']['DirectorySyncRunMode'];
+export type DirectorySyncRunStatus = components['schemas']['DirectorySyncRunStatus'];
+export type DirectorySyncRunSummary = components['schemas']['DirectorySyncRunSummary'];
+export type DirectoryCallbackStatus = components['schemas']['DirectoryCallbackStatus'];
+export type DirectoryRuntimeStatus = components['schemas']['DirectoryRuntimeStatus'];
+export type DirectoryRuntimeStatusEnvelope = components['schemas']['DirectoryRuntimeStatusEnvelope'];
+export type DirectoryEvent = components['schemas']['DirectoryEvent'];
+export type DirectoryEventEnvelope = components['schemas']['DirectoryEventEnvelope'];
+export type DirectoryEventListEnvelope = components['schemas']['DirectoryEventListEnvelope'];
+export type DirectoryPersonLifecycle = components['schemas']['DirectoryPersonLifecycle'];
+export type DirectoryProjectionStatus = components['schemas']['DirectoryProjectionStatus'];
+export type DirectoryEmploymentStatus = components['schemas']['DirectoryEmploymentStatus'];
 export type ResponseIdentityError = components['responses']['IdentityError'];
 export type ResponseError = components['responses']['Error'];
 export type ResponseComputeError = components['responses']['ComputeError'];
@@ -10326,6 +10462,8 @@ export type ParameterCertificateId = components['parameters']['CertificateID'];
 export type ParameterMfaChallengeId = components['parameters']['MFAChallengeID'];
 export type ParameterMfaCredentialId = components['parameters']['MFACredentialID'];
 export type ParameterIdentityUserId = components['parameters']['IdentityUserID'];
+export type ParameterDirectoryConnectionId = components['parameters']['DirectoryConnectionID'];
+export type ParameterDirectoryEventId = components['parameters']['DirectoryEventID'];
 export type ParameterSamlRequest = components['parameters']['SAMLRequest'];
 export type ParameterRelayState = components['parameters']['RelayState'];
 export type ParameterSystemIntegrationId = components['parameters']['SystemIntegrationID'];
@@ -18536,6 +18674,87 @@ export interface operations {
             400: components["responses"]["IdentityError"];
             403: components["responses"]["IdentityError"];
             404: components["responses"]["IdentityError"];
+        };
+    };
+    getDirectoryConnectionRuntimeStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                connectionID: components["parameters"]["DirectoryConnectionID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Directory callback, event backlog, and reconciliation status. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirectoryRuntimeStatusEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listDirectoryEvents: {
+        parameters: {
+            query?: {
+                status?: components["schemas"]["DirectoryEventStatus"];
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                connectionID: components["parameters"]["DirectoryConnectionID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Directory events ordered from newest to oldest. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirectoryEventListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    retryDirectoryEvent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                connectionID: components["parameters"]["DirectoryConnectionID"];
+                eventID: components["parameters"]["DirectoryEventID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Failed event queued for another processing attempt. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirectoryEventEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
         };
     };
     claimIdentityOutpostRuntime: {

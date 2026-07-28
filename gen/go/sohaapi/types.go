@@ -1215,6 +1215,99 @@ func (e DeliveryPlanInputSource) Valid() bool {
 	}
 }
 
+// Defines values for DirectoryCallbackStatus.
+const (
+	DirectoryCallbackStatusAwaitingEvent DirectoryCallbackStatus = "awaiting_event"
+	DirectoryCallbackStatusNotConfigured DirectoryCallbackStatus = "not_configured"
+	DirectoryCallbackStatusVerified      DirectoryCallbackStatus = "verified"
+)
+
+// Valid indicates whether the value is a known member of the DirectoryCallbackStatus enum.
+func (e DirectoryCallbackStatus) Valid() bool {
+	switch e {
+	case DirectoryCallbackStatusAwaitingEvent:
+		return true
+	case DirectoryCallbackStatusNotConfigured:
+		return true
+	case DirectoryCallbackStatusVerified:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DirectoryEventStatus.
+const (
+	DirectoryEventStatusFailed     DirectoryEventStatus = "failed"
+	DirectoryEventStatusProcessing DirectoryEventStatus = "processing"
+	DirectoryEventStatusQueued     DirectoryEventStatus = "queued"
+	DirectoryEventStatusSucceeded  DirectoryEventStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the DirectoryEventStatus enum.
+func (e DirectoryEventStatus) Valid() bool {
+	switch e {
+	case DirectoryEventStatusFailed:
+		return true
+	case DirectoryEventStatusProcessing:
+		return true
+	case DirectoryEventStatusQueued:
+		return true
+	case DirectoryEventStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DirectorySyncRunMode.
+const (
+	DirectorySyncRunModeFull        DirectorySyncRunMode = "full"
+	DirectorySyncRunModeIncremental DirectorySyncRunMode = "incremental"
+)
+
+// Valid indicates whether the value is a known member of the DirectorySyncRunMode enum.
+func (e DirectorySyncRunMode) Valid() bool {
+	switch e {
+	case DirectorySyncRunModeFull:
+		return true
+	case DirectorySyncRunModeIncremental:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DirectorySyncRunStatus.
+const (
+	DirectorySyncRunStatusCanceled  DirectorySyncRunStatus = "canceled"
+	DirectorySyncRunStatusFailed    DirectorySyncRunStatus = "failed"
+	DirectorySyncRunStatusPartial   DirectorySyncRunStatus = "partial"
+	DirectorySyncRunStatusQueued    DirectorySyncRunStatus = "queued"
+	DirectorySyncRunStatusRunning   DirectorySyncRunStatus = "running"
+	DirectorySyncRunStatusSucceeded DirectorySyncRunStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the DirectorySyncRunStatus enum.
+func (e DirectorySyncRunStatus) Valid() bool {
+	switch e {
+	case DirectorySyncRunStatusCanceled:
+		return true
+	case DirectorySyncRunStatusFailed:
+		return true
+	case DirectorySyncRunStatusPartial:
+		return true
+	case DirectorySyncRunStatusQueued:
+		return true
+	case DirectorySyncRunStatusRunning:
+		return true
+	case DirectorySyncRunStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for EvaluationExecutorProfileIsolationMode.
 const (
 	EvaluationExecutorProfileIsolationModeDisposableWrite EvaluationExecutorProfileIsolationMode = "disposable-write"
@@ -6875,6 +6968,75 @@ type DeliveryPlanInput struct {
 // DeliveryPlanInputSource defines model for DeliveryPlanInput.Source.
 type DeliveryPlanInputSource string
 
+// DirectoryCallbackStatus defines model for DirectoryCallbackStatus.
+type DirectoryCallbackStatus string
+
+// DirectoryEvent defines model for DirectoryEvent.
+type DirectoryEvent struct {
+	Attempts        int                  `json:"attempts"`
+	ErrorSummary    string               `json:"errorSummary,omitempty"`
+	EventType       string               `json:"eventType"`
+	ID              string               `json:"id"`
+	NextAttemptAt   *time.Time           `json:"nextAttemptAt,omitempty"`
+	OccurredAt      time.Time            `json:"occurredAt"`
+	ProcessedAt     *time.Time           `json:"processedAt,omitempty"`
+	ProviderEventID string               `json:"providerEventId"`
+	ReceivedAt      time.Time            `json:"receivedAt"`
+	Status          DirectoryEventStatus `json:"status"`
+}
+
+// DirectoryEventEnvelope defines model for DirectoryEventEnvelope.
+type DirectoryEventEnvelope struct {
+	Data DirectoryEvent `json:"data"`
+}
+
+// DirectoryEventListEnvelope defines model for DirectoryEventListEnvelope.
+type DirectoryEventListEnvelope struct {
+	Items []DirectoryEvent `json:"items"`
+}
+
+// DirectoryEventStatus defines model for DirectoryEventStatus.
+type DirectoryEventStatus string
+
+// DirectoryRuntimeStatus defines model for DirectoryRuntimeStatus.
+type DirectoryRuntimeStatus struct {
+	CallbackConfigured bool                     `json:"callbackConfigured"`
+	CallbackStatus     DirectoryCallbackStatus  `json:"callbackStatus"`
+	CallbackURL        string                   `json:"callbackUrl"`
+	CallbackVerifiedAt *time.Time               `json:"callbackVerifiedAt,omitempty"`
+	ConnectionID       string                   `json:"connectionId"`
+	FailedEvents       int                      `json:"failedEvents"`
+	LastEventAt        *time.Time               `json:"lastEventAt,omitempty"`
+	LastFullRun        *DirectorySyncRunSummary `json:"lastFullRun,omitempty"`
+	LastIncrementalRun *DirectorySyncRunSummary `json:"lastIncrementalRun,omitempty"`
+	NeedsFullReconcile bool                     `json:"needsFullReconcile"`
+	QueuedEvents       int                      `json:"queuedEvents"`
+	ReconcileReason    string                   `json:"reconcileReason,omitempty"`
+}
+
+// DirectoryRuntimeStatusEnvelope defines model for DirectoryRuntimeStatusEnvelope.
+type DirectoryRuntimeStatusEnvelope struct {
+	Data DirectoryRuntimeStatus `json:"data"`
+}
+
+// DirectorySyncRunMode defines model for DirectorySyncRunMode.
+type DirectorySyncRunMode string
+
+// DirectorySyncRunStatus defines model for DirectorySyncRunStatus.
+type DirectorySyncRunStatus string
+
+// DirectorySyncRunSummary defines model for DirectorySyncRunSummary.
+type DirectorySyncRunSummary struct {
+	ConnectionID string                 `json:"connectionId"`
+	ErrorSummary string                 `json:"errorSummary,omitempty"`
+	FinishedAt   *time.Time             `json:"finishedAt,omitempty"`
+	ID           string                 `json:"id"`
+	Mode         DirectorySyncRunMode   `json:"mode"`
+	StartedAt    *time.Time             `json:"startedAt,omitempty"`
+	Status       DirectorySyncRunStatus `json:"status"`
+	Trigger      string                 `json:"trigger"`
+}
+
 // DockerOperation defines model for DockerOperation.
 type DockerOperation struct {
 	ClaimedByWorkerID    string         `json:"claimedByWorkerId,omitempty"`
@@ -11175,6 +11337,12 @@ type ComputeResourceID = string
 // ComputeTaskID defines model for ComputeTaskID.
 type ComputeTaskID = string
 
+// DirectoryConnectionID defines model for DirectoryConnectionID.
+type DirectoryConnectionID = string
+
+// DirectoryEventID defines model for DirectoryEventID.
+type DirectoryEventID = string
+
 // EvaluationRunID defines model for EvaluationRunID.
 type EvaluationRunID = string
 
@@ -11330,6 +11498,12 @@ type runtimeBearerAuthContextKey string
 
 // sohaXAPIKeyContextKey is the context key for sohaXAPIKey security scheme
 type sohaXAPIKeyContextKey string
+
+// ListDirectoryEventsParams defines parameters for ListDirectoryEvents.
+type ListDirectoryEventsParams struct {
+	Status DirectoryEventStatus `form:"status,omitempty" json:"status,omitempty"`
+	Limit  int                  `form:"limit,omitempty" json:"limit,omitempty"`
+}
 
 // ListAIGatewayApprovalRequestsParams defines parameters for ListAIGatewayApprovalRequests.
 type ListAIGatewayApprovalRequestsParams struct {

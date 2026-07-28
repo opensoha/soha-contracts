@@ -114,6 +114,9 @@ const requiredOpenapiFixtureSchemas = [
   "IdentityOutpostClaimRequest",
   "MFAWebAuthnRequestOptionsEnvelope",
   "MFAAdminResetRequest",
+  "DirectoryRuntimeStatusEnvelope",
+  "DirectoryEventListEnvelope",
+  "DirectoryPersonLifecycle",
 ];
 
 const requiredJsonExamples = [
@@ -153,6 +156,7 @@ const requiredOpenapiExamples = [
   { file: "examples/openapi/agent-run-tool-call-request.json", schemaName: "AgentRunToolCallRequest" },
   { file: "examples/openapi/agent-tool-call-result-envelope.json", schemaName: "AgentToolCallResultEnvelope" },
   { file: "examples/openapi/cloud-extension-point-list-envelope.json", schemaName: "CloudExtensionPointListEnvelope" },
+  { file: "examples/openapi/directory-runtime-status-envelope.json", schemaName: "DirectoryRuntimeStatusEnvelope" },
 ];
 
 const requiredSdkEntrypoints = ["gen/go/sohaapi/types.go", "gen/ts/sohaapi/index.ts"];
