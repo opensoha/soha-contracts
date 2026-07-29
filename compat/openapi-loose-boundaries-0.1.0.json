@@ -672,6 +672,26 @@
     },
     {
       "kind": "schemaRef",
+      "path": "components/schemas/DeliveryDraft/properties/executionHints",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/DeliveryDraftApplication/properties/metadata",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/DeliveryDraftInput/properties/executionHints",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/DeliveryDraftService/properties/metadata",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
       "path": "components/schemas/GenericDataEnvelope/properties/data",
       "target": "#/components/schemas/AnyValue"
     },
@@ -689,6 +709,11 @@
       "kind": "schemaRef",
       "path": "components/schemas/OpenAIResponseRequest/properties/input",
       "target": "#/components/schemas/AnyValue"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/RenderedDeliverySpec/properties/executionHints",
+      "target": "#/components/schemas/GenericObject"
     },
     {
       "kind": "schemaRef",

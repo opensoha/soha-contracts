@@ -1155,6 +1155,93 @@ func (e ComputeTaskStatus) Valid() bool {
 	}
 }
 
+// Defines values for DeliveryDraftSource.
+const (
+	DeliveryDraftSourceAI        DeliveryDraftSource = "ai"
+	DeliveryDraftSourceBlueprint DeliveryDraftSource = "blueprint"
+	DeliveryDraftSourceManual    DeliveryDraftSource = "manual"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryDraftSource enum.
+func (e DeliveryDraftSource) Valid() bool {
+	switch e {
+	case DeliveryDraftSourceAI:
+		return true
+	case DeliveryDraftSourceBlueprint:
+		return true
+	case DeliveryDraftSourceManual:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryDraftStatus.
+const (
+	DeliveryDraftStatusConfirmed  DeliveryDraftStatus = "confirmed"
+	DeliveryDraftStatusConfirming DeliveryDraftStatus = "confirming"
+	DeliveryDraftStatusDraft      DeliveryDraftStatus = "draft"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryDraftStatus enum.
+func (e DeliveryDraftStatus) Valid() bool {
+	switch e {
+	case DeliveryDraftStatusConfirmed:
+		return true
+	case DeliveryDraftStatusConfirming:
+		return true
+	case DeliveryDraftStatusDraft:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryDraftInputSource.
+const (
+	DeliveryDraftInputSourceAI        DeliveryDraftInputSource = "ai"
+	DeliveryDraftInputSourceBlueprint DeliveryDraftInputSource = "blueprint"
+	DeliveryDraftInputSourceManual    DeliveryDraftInputSource = "manual"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryDraftInputSource enum.
+func (e DeliveryDraftInputSource) Valid() bool {
+	switch e {
+	case DeliveryDraftInputSourceAI:
+		return true
+	case DeliveryDraftInputSourceBlueprint:
+		return true
+	case DeliveryDraftInputSourceManual:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryDraftServiceServiceKind.
+const (
+	ExternalService    DeliveryDraftServiceServiceKind = "external_service"
+	HelmRelease        DeliveryDraftServiceServiceKind = "helm_release"
+	Job                DeliveryDraftServiceServiceKind = "job"
+	KubernetesWorkload DeliveryDraftServiceServiceKind = "kubernetes_workload"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryDraftServiceServiceKind enum.
+func (e DeliveryDraftServiceServiceKind) Valid() bool {
+	switch e {
+	case ExternalService:
+		return true
+	case HelmRelease:
+		return true
+	case Job:
+		return true
+	case KubernetesWorkload:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for DeliveryPlanSource.
 const (
 	DeliveryPlanSourceAI     DeliveryPlanSource = "ai"
@@ -6869,6 +6956,132 @@ type CreatedServiceAccountTokenEnvelope struct {
 	Data CreatedServiceAccountToken `json:"data"`
 }
 
+// DeliveryDraft defines model for DeliveryDraft.
+type DeliveryDraft struct {
+	ApplicationDraft    DeliveryDraftApplication          `json:"applicationDraft"`
+	BuildSources        []BuildSourceInput                `json:"buildSources,omitempty"`
+	ConfirmedAt         *time.Time                        `json:"confirmedAt,omitempty"`
+	CreatedAt           time.Time                         `json:"createdAt"`
+	CreatedBy           string                            `json:"createdBy,omitempty"`
+	EnvironmentBindings []DeliveryDraftEnvironmentBinding `json:"environmentBindings,omitempty"`
+	ExecutionHints      *GenericObject                    `json:"executionHints,omitempty"`
+	Files               []DeliveryDraftFileTemplate       `json:"files,omitempty"`
+	ID                  string                            `json:"id"`
+	PostCreateActions   []string                          `json:"postCreateActions,omitempty"`
+	Services            []DeliveryDraftService            `json:"services,omitempty"`
+	Source              DeliveryDraftSource               `json:"source"`
+	Status              DeliveryDraftStatus               `json:"status"`
+	UpdatedAt           time.Time                         `json:"updatedAt"`
+}
+
+// DeliveryDraftSource defines model for DeliveryDraft.Source.
+type DeliveryDraftSource string
+
+// DeliveryDraftStatus defines model for DeliveryDraft.Status.
+type DeliveryDraftStatus string
+
+// DeliveryDraftApplication defines model for DeliveryDraftApplication.
+type DeliveryDraftApplication struct {
+	BuildContextDir     string         `json:"buildContextDir,omitempty"`
+	BuildImage          string         `json:"buildImage,omitempty"`
+	BusinessLineID      string         `json:"businessLineId,omitempty"`
+	DefaultBranch       string         `json:"defaultBranch,omitempty"`
+	DefaultTag          string         `json:"defaultTag,omitempty"`
+	Description         string         `json:"description,omitempty"`
+	DockerfilePath      string         `json:"dockerfilePath,omitempty"`
+	Enabled             bool           `json:"enabled"`
+	Group               string         `json:"group"`
+	ID                  string         `json:"id,omitempty"`
+	Key                 string         `json:"key"`
+	Language            string         `json:"language"`
+	Metadata            *GenericObject `json:"metadata,omitempty"`
+	Name                string         `json:"name"`
+	OwnerTeam           string         `json:"ownerTeam,omitempty"`
+	RepositoryPath      string         `json:"repositoryPath,omitempty"`
+	RepositoryProjectID string         `json:"repositoryProjectId,omitempty"`
+	RepositoryProvider  string         `json:"repositoryProvider,omitempty"`
+}
+
+// DeliveryDraftConfirmResult defines model for DeliveryDraftConfirmResult.
+type DeliveryDraftConfirmResult struct {
+	Application         Application              `json:"application"`
+	Draft               DeliveryDraft            `json:"draft"`
+	EnvironmentBindings []ApplicationEnvironment `json:"environmentBindings,omitempty"`
+	Services            []ApplicationService     `json:"services,omitempty"`
+	Spec                RenderedDeliverySpec     `json:"spec"`
+}
+
+// DeliveryDraftConfirmResultEnvelope defines model for DeliveryDraftConfirmResultEnvelope.
+type DeliveryDraftConfirmResultEnvelope struct {
+	Data DeliveryDraftConfirmResult `json:"data"`
+}
+
+// DeliveryDraftEnvelope defines model for DeliveryDraftEnvelope.
+type DeliveryDraftEnvelope struct {
+	Data DeliveryDraft `json:"data"`
+}
+
+// DeliveryDraftEnvironmentBinding defines model for DeliveryDraftEnvironmentBinding.
+type DeliveryDraftEnvironmentBinding struct {
+	ArtifactPolicyID   string               `json:"artifactPolicyId,omitempty"`
+	BuildPolicy        *BuildPolicy         `json:"buildPolicy,omitempty"`
+	BusinessLineID     string               `json:"businessLineId,omitempty"`
+	EnvironmentID      string               `json:"environmentId,omitempty"`
+	EnvironmentKey     string               `json:"environmentKey,omitempty"`
+	PromotionPolicyID  string               `json:"promotionPolicyId,omitempty"`
+	ReleasePolicy      *ReleasePolicy       `json:"releasePolicy,omitempty"`
+	ResourceSelector   *ResourceSelector    `json:"resourceSelector,omitempty"`
+	StrategyProfileID  string               `json:"strategyProfileId,omitempty"`
+	Targets            []ReleaseTargetInput `json:"targets,omitempty"`
+	WorkflowTemplateID string               `json:"workflowTemplateId,omitempty"`
+}
+
+// DeliveryDraftFileTemplate defines model for DeliveryDraftFileTemplate.
+type DeliveryDraftFileTemplate struct {
+	Content  string `json:"content"`
+	Kind     string `json:"kind"`
+	Path     string `json:"path"`
+	Purpose  string `json:"purpose,omitempty"`
+	Required bool   `json:"required"`
+}
+
+// DeliveryDraftInput defines model for DeliveryDraftInput.
+type DeliveryDraftInput struct {
+	ApplicationDraft    DeliveryDraftApplication          `json:"applicationDraft"`
+	BuildSources        []BuildSourceInput                `json:"buildSources,omitempty"`
+	EnvironmentBindings []DeliveryDraftEnvironmentBinding `json:"environmentBindings,omitempty"`
+	ExecutionHints      *GenericObject                    `json:"executionHints,omitempty"`
+	Files               []DeliveryDraftFileTemplate       `json:"files,omitempty"`
+	ID                  string                            `json:"id,omitempty"`
+	PostCreateActions   []string                          `json:"postCreateActions,omitempty"`
+	Services            []DeliveryDraftService            `json:"services,omitempty"`
+	Source              DeliveryDraftInputSource          `json:"source,omitempty"`
+}
+
+// DeliveryDraftInputSource defines model for DeliveryDraftInput.Source.
+type DeliveryDraftInputSource string
+
+// DeliveryDraftService defines model for DeliveryDraftService.
+type DeliveryDraftService struct {
+	BuildSourceID       string                             `json:"buildSourceId,omitempty"`
+	Containers          []ApplicationServiceContainerInput `json:"containers,omitempty"`
+	DefaultBranch       string                             `json:"defaultBranch,omitempty"`
+	Description         string                             `json:"description,omitempty"`
+	Enabled             bool                               `json:"enabled"`
+	ID                  string                             `json:"id,omitempty"`
+	Key                 string                             `json:"key"`
+	Metadata            *GenericObject                     `json:"metadata,omitempty"`
+	Name                string                             `json:"name"`
+	OwnerTeam           string                             `json:"ownerTeam,omitempty"`
+	RepositoryPath      string                             `json:"repositoryPath,omitempty"`
+	RepositoryProjectID string                             `json:"repositoryProjectId,omitempty"`
+	RepositoryProvider  string                             `json:"repositoryProvider,omitempty"`
+	ServiceKind         DeliveryDraftServiceServiceKind    `json:"serviceKind"`
+}
+
+// DeliveryDraftServiceServiceKind defines model for DeliveryDraftService.ServiceKind.
+type DeliveryDraftServiceServiceKind string
+
 // DeliveryEnvironment defines model for DeliveryEnvironment.
 type DeliveryEnvironment struct {
 	CreatedAt        time.Time `json:"createdAt"`
@@ -10069,6 +10282,17 @@ type ReleaseTargetInput struct {
 	WorkloadName  string         `json:"workloadName"`
 }
 
+// RenderedDeliverySpec defines model for RenderedDeliverySpec.
+type RenderedDeliverySpec struct {
+	ApplicationDraft    DeliveryDraftApplication          `json:"applicationDraft"`
+	BuildSources        []BuildSourceInput                `json:"buildSources,omitempty"`
+	EnvironmentBindings []DeliveryDraftEnvironmentBinding `json:"environmentBindings,omitempty"`
+	ExecutionHints      *GenericObject                    `json:"executionHints,omitempty"`
+	Files               []DeliveryDraftFileTemplate       `json:"files,omitempty"`
+	PostCreateActions   []string                          `json:"postCreateActions,omitempty"`
+	Services            []DeliveryDraftService            `json:"services,omitempty"`
+}
+
 // Repository defines model for Repository.
 type Repository struct {
 	ApplicationIDs []string  `json:"applicationIds,omitempty"`
@@ -11343,6 +11567,9 @@ type DirectoryConnectionID = string
 // DirectoryEventID defines model for DirectoryEventID.
 type DirectoryEventID = string
 
+// DraftID defines model for DraftID.
+type DraftID = string
+
 // EvaluationRunID defines model for EvaluationRunID.
 type EvaluationRunID = string
 
@@ -12542,6 +12769,9 @@ type RecordWorkbenchGlobalAssistantEventJSONRequestBody = WorkbenchGlobalAssista
 
 // StreamWorkbenchSessionMessageJSONRequestBody defines body for StreamWorkbenchSessionMessage for application/json ContentType.
 type StreamWorkbenchSessionMessageJSONRequestBody = WorkbenchSendMessageStreamRequest
+
+// CreateDeliveryDraftJSONRequestBody defines body for CreateDeliveryDraft for application/json ContentType.
+type CreateDeliveryDraftJSONRequestBody = DeliveryDraftInput
 
 // RecordExecutionCallbackJSONRequestBody defines body for RecordExecutionCallback for application/json ContentType.
 type RecordExecutionCallbackJSONRequestBody = ExecutionCallbackRequest

@@ -81,6 +81,7 @@ const requiredOpenapiFixtureSchemas = [
   "PasswordLoginRequest",
   "AuthResultEnvelope",
   "ExecutionCallbackRequest",
+  "DeliveryDraftInput",
   "DockerOperationCallbackRequest",
   "AgentRunCallbackRequest",
   "AIGatewayManifestEnvelope",

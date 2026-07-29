@@ -10,6 +10,20 @@ import (
 	"time"
 )
 
+func TestDeliveryPlanStatusLegacyConstants(t *testing.T) {
+	statuses := map[DeliveryPlanStatus]string{
+		Draft:           "draft",
+		WaitingApproval: "waiting_approval",
+		Confirming:      "confirming",
+		Confirmed:       "confirmed",
+	}
+	for status, want := range statuses {
+		if string(status) != want || !status.Valid() {
+			t.Fatalf("DeliveryPlanStatus %q is not the compatible value %q", status, want)
+		}
+	}
+}
+
 func TestSystemHealthAndReadinessUsePublicRequests(t *testing.T) {
 	cases := []struct {
 		name string

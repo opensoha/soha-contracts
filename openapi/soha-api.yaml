@@ -1491,6 +1491,57 @@ paths:
                 $ref: "#/components/schemas/OperationStatus"
         "404":
           $ref: "#/components/responses/Error"
+  /delivery/drafts:
+    post:
+      tags: [Delivery]
+      operationId: createDeliveryDraft
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeliveryDraftInput"
+      responses:
+        "201":
+          description: Created delivery draft.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryDraftEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+  /delivery/drafts/{draftID}:
+    get:
+      tags: [Delivery]
+      operationId: getDeliveryDraft
+      parameters:
+        - $ref: "#/components/parameters/DraftID"
+      responses:
+        "200":
+          description: Delivery draft.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryDraftEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+  /delivery/drafts/{draftID}/confirm:
+    post:
+      tags: [Delivery]
+      operationId: confirmDeliveryDraft
+      parameters:
+        - $ref: "#/components/parameters/DraftID"
+      responses:
+        "200":
+          description: Confirmed delivery draft and applied application specification.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryDraftConfirmResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
   /delivery/plans:
     post:
       tags: [Delivery]
@@ -1503,6 +1554,12 @@ paths:
               $ref: "#/components/schemas/DeliveryPlanInput"
       responses:
         "200":
+          description: Legacy successful delivery plan draft response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryPlanEnvelope"
+        "201":
           description: Created delivery plan draft.
           content:
             application/json:
@@ -1533,7 +1590,13 @@ paths:
         - $ref: "#/components/parameters/PlanID"
       responses:
         "200":
-          description: Confirmed delivery plan and trigger result.
+          description: Legacy synchronous delivery plan confirmation response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryPlanConfirmResultEnvelope"
+        "202":
+          description: Accepted delivery plan confirmation and trigger result.
           content:
             application/json:
               schema:
@@ -7190,6 +7253,12 @@ components:
       schema: { type: string, minLength: 1, maxLength: 128 }
     PlanID:
       name: planID
+      in: path
+      required: true
+      schema:
+        type: string
+    DraftID:
+      name: draftID
       in: path
       required: true
       schema:
@@ -13383,6 +13452,257 @@ components:
         relatedIds:
           $ref: "#/components/schemas/ApplicationDeliveryActionRelatedIDs"
       additionalProperties: false
+    DeliveryDraftFileTemplate:
+      type: object
+      required: [path, kind, content, required]
+      properties:
+        path:
+          type: string
+        kind:
+          type: string
+        content:
+          type: string
+        required:
+          type: boolean
+        purpose:
+          type: string
+      additionalProperties: false
+    DeliveryDraftApplication:
+      type: object
+      required: [name, key, group, language, enabled]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        key:
+          type: string
+        group:
+          type: string
+        businessLineId:
+          type: string
+        language:
+          type: string
+        description:
+          type: string
+        ownerTeam:
+          type: string
+        repositoryProvider:
+          type: string
+        repositoryProjectId:
+          type: string
+        repositoryPath:
+          type: string
+        defaultBranch:
+          type: string
+        defaultTag:
+          type: string
+        buildImage:
+          type: string
+        buildContextDir:
+          type: string
+        dockerfilePath:
+          type: string
+        enabled:
+          type: boolean
+        metadata:
+          $ref: "#/components/schemas/GenericObject"
+      additionalProperties: false
+    DeliveryDraftService:
+      type: object
+      required: [key, name, serviceKind, enabled]
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        serviceKind:
+          type: string
+          enum: [kubernetes_workload, helm_release, external_service, job]
+        ownerTeam:
+          type: string
+        repositoryProvider:
+          type: string
+        repositoryProjectId:
+          type: string
+        repositoryPath:
+          type: string
+        defaultBranch:
+          type: string
+        buildSourceId:
+          type: string
+        enabled:
+          type: boolean
+        metadata:
+          $ref: "#/components/schemas/GenericObject"
+        containers:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApplicationServiceContainerInput"
+      additionalProperties: false
+    DeliveryDraftEnvironmentBinding:
+      type: object
+      properties:
+        environmentId:
+          type: string
+        environmentKey:
+          type: string
+        businessLineId:
+          type: string
+        strategyProfileId:
+          type: string
+        promotionPolicyId:
+          type: string
+        artifactPolicyId:
+          type: string
+        workflowTemplateId:
+          type: string
+        buildPolicy:
+          $ref: "#/components/schemas/BuildPolicy"
+        releasePolicy:
+          $ref: "#/components/schemas/ReleasePolicy"
+        resourceSelector:
+          $ref: "#/components/schemas/ResourceSelector"
+        targets:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReleaseTargetInput"
+      additionalProperties: false
+    RenderedDeliverySpec:
+      type: object
+      required: [applicationDraft]
+      properties:
+        applicationDraft:
+          $ref: "#/components/schemas/DeliveryDraftApplication"
+        services:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeliveryDraftService"
+        buildSources:
+          type: array
+          items:
+            $ref: "#/components/schemas/BuildSourceInput"
+        environmentBindings:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeliveryDraftEnvironmentBinding"
+        files:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeliveryDraftFileTemplate"
+        executionHints:
+          $ref: "#/components/schemas/GenericObject"
+        postCreateActions:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    DeliveryDraft:
+      type: object
+      required: [id, source, status, applicationDraft, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        source:
+          type: string
+          enum: [manual, ai, blueprint]
+        status:
+          type: string
+          enum: [draft, confirming, confirmed]
+          x-enum-varnames: [DeliveryDraftStatusDraft, DeliveryDraftStatusConfirming, DeliveryDraftStatusConfirmed]
+        applicationDraft:
+          $ref: "#/components/schemas/DeliveryDraftApplication"
+        services:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeliveryDraftService"
+        buildSources:
+          type: array
+          items:
+            $ref: "#/components/schemas/BuildSourceInput"
+        environmentBindings:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeliveryDraftEnvironmentBinding"
+        files:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeliveryDraftFileTemplate"
+        executionHints:
+          $ref: "#/components/schemas/GenericObject"
+        postCreateActions:
+          type: array
+          items:
+            type: string
+        createdBy:
+          type: string
+        confirmedAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    DeliveryDraftInput:
+      type: object
+      required: [applicationDraft]
+      properties:
+        id:
+          type: string
+        source:
+          type: string
+          enum: [manual, ai, blueprint]
+        applicationDraft:
+          $ref: "#/components/schemas/DeliveryDraftApplication"
+        services:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeliveryDraftService"
+        buildSources:
+          type: array
+          items:
+            $ref: "#/components/schemas/BuildSourceInput"
+        environmentBindings:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeliveryDraftEnvironmentBinding"
+        files:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeliveryDraftFileTemplate"
+        executionHints:
+          $ref: "#/components/schemas/GenericObject"
+        postCreateActions:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    DeliveryDraftConfirmResult:
+      type: object
+      required: [draft, application, spec]
+      properties:
+        draft:
+          $ref: "#/components/schemas/DeliveryDraft"
+        application:
+          $ref: "#/components/schemas/Application"
+        services:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApplicationService"
+        environmentBindings:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApplicationEnvironment"
+        spec:
+          $ref: "#/components/schemas/RenderedDeliverySpec"
+      additionalProperties: false
     DeliveryPlan:
       type: object
       required: [id, source, status, applicationId, applicationEnvironmentId, action, requiresApproval, createdAt, updatedAt]
@@ -13395,6 +13715,7 @@ components:
         status:
           type: string
           enum: [draft, waiting_approval, confirming, confirmed]
+          x-enum-varnames: [Draft, WaitingApproval, Confirming, Confirmed]
         applicationId:
           type: string
         applicationName:
@@ -13623,6 +13944,20 @@ components:
       properties:
         data:
           $ref: "#/components/schemas/ApplicationDeliveryActionResult"
+      additionalProperties: false
+    DeliveryDraftEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/DeliveryDraft"
+      additionalProperties: false
+    DeliveryDraftConfirmResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/DeliveryDraftConfirmResult"
       additionalProperties: false
     DeliveryPlanEnvelope:
       type: object

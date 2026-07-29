@@ -913,6 +913,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/delivery/drafts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createDeliveryDraft"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/drafts/{draftID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getDeliveryDraft"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/drafts/{draftID}/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["confirmDeliveryDraft"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/delivery/plans": {
         parameters: {
             query?: never;
@@ -7506,6 +7554,112 @@ export interface components {
             release?: components["schemas"]["ReleaseRecord"];
             relatedIds?: components["schemas"]["ApplicationDeliveryActionRelatedIDs"];
         };
+        DeliveryDraftFileTemplate: {
+            path: string;
+            kind: string;
+            content: string;
+            required: boolean;
+            purpose?: string;
+        };
+        DeliveryDraftApplication: {
+            id?: string;
+            name: string;
+            key: string;
+            group: string;
+            businessLineId?: string;
+            language: string;
+            description?: string;
+            ownerTeam?: string;
+            repositoryProvider?: string;
+            repositoryProjectId?: string;
+            repositoryPath?: string;
+            defaultBranch?: string;
+            defaultTag?: string;
+            buildImage?: string;
+            buildContextDir?: string;
+            dockerfilePath?: string;
+            enabled: boolean;
+            metadata?: components["schemas"]["GenericObject"];
+        };
+        DeliveryDraftService: {
+            id?: string;
+            key: string;
+            name: string;
+            description?: string;
+            /** @enum {string} */
+            serviceKind: "kubernetes_workload" | "helm_release" | "external_service" | "job";
+            ownerTeam?: string;
+            repositoryProvider?: string;
+            repositoryProjectId?: string;
+            repositoryPath?: string;
+            defaultBranch?: string;
+            buildSourceId?: string;
+            enabled: boolean;
+            metadata?: components["schemas"]["GenericObject"];
+            containers?: components["schemas"]["ApplicationServiceContainerInput"][];
+        };
+        DeliveryDraftEnvironmentBinding: {
+            environmentId?: string;
+            environmentKey?: string;
+            businessLineId?: string;
+            strategyProfileId?: string;
+            promotionPolicyId?: string;
+            artifactPolicyId?: string;
+            workflowTemplateId?: string;
+            buildPolicy?: components["schemas"]["BuildPolicy"];
+            releasePolicy?: components["schemas"]["ReleasePolicy"];
+            resourceSelector?: components["schemas"]["ResourceSelector"];
+            targets?: components["schemas"]["ReleaseTargetInput"][];
+        };
+        RenderedDeliverySpec: {
+            applicationDraft: components["schemas"]["DeliveryDraftApplication"];
+            services?: components["schemas"]["DeliveryDraftService"][];
+            buildSources?: components["schemas"]["BuildSourceInput"][];
+            environmentBindings?: components["schemas"]["DeliveryDraftEnvironmentBinding"][];
+            files?: components["schemas"]["DeliveryDraftFileTemplate"][];
+            executionHints?: components["schemas"]["GenericObject"];
+            postCreateActions?: string[];
+        };
+        DeliveryDraft: {
+            id: string;
+            /** @enum {string} */
+            source: "manual" | "ai" | "blueprint";
+            /** @enum {string} */
+            status: "draft" | "confirming" | "confirmed";
+            applicationDraft: components["schemas"]["DeliveryDraftApplication"];
+            services?: components["schemas"]["DeliveryDraftService"][];
+            buildSources?: components["schemas"]["BuildSourceInput"][];
+            environmentBindings?: components["schemas"]["DeliveryDraftEnvironmentBinding"][];
+            files?: components["schemas"]["DeliveryDraftFileTemplate"][];
+            executionHints?: components["schemas"]["GenericObject"];
+            postCreateActions?: string[];
+            createdBy?: string;
+            /** Format: date-time */
+            confirmedAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DeliveryDraftInput: {
+            id?: string;
+            /** @enum {string} */
+            source?: "manual" | "ai" | "blueprint";
+            applicationDraft: components["schemas"]["DeliveryDraftApplication"];
+            services?: components["schemas"]["DeliveryDraftService"][];
+            buildSources?: components["schemas"]["BuildSourceInput"][];
+            environmentBindings?: components["schemas"]["DeliveryDraftEnvironmentBinding"][];
+            files?: components["schemas"]["DeliveryDraftFileTemplate"][];
+            executionHints?: components["schemas"]["GenericObject"];
+            postCreateActions?: string[];
+        };
+        DeliveryDraftConfirmResult: {
+            draft: components["schemas"]["DeliveryDraft"];
+            application: components["schemas"]["Application"];
+            services?: components["schemas"]["ApplicationService"][];
+            environmentBindings?: components["schemas"]["ApplicationEnvironment"][];
+            spec: components["schemas"]["RenderedDeliverySpec"];
+        };
         DeliveryPlan: {
             id: string;
             /** @enum {string} */
@@ -7624,6 +7778,12 @@ export interface components {
         };
         ApplicationDeliveryActionResultEnvelope: {
             data: components["schemas"]["ApplicationDeliveryActionResult"];
+        };
+        DeliveryDraftEnvelope: {
+            data: components["schemas"]["DeliveryDraft"];
+        };
+        DeliveryDraftConfirmResultEnvelope: {
+            data: components["schemas"]["DeliveryDraftConfirmResult"];
         };
         DeliveryPlanEnvelope: {
             data: components["schemas"]["DeliveryPlan"];
@@ -9709,6 +9869,7 @@ export interface components {
         AgentProviderRolloutAction: "pause" | "resume" | "rollback";
         AIEnvironmentLeaseID: string;
         PlanID: string;
+        DraftID: string;
         ServiceID: string;
         SessionID: string;
         SkillID: string;
@@ -10214,6 +10375,14 @@ export type ApplicationDeliveryActionKind = components['schemas']['ApplicationDe
 export type ApplicationDeliveryActionRequest = components['schemas']['ApplicationDeliveryActionRequest'];
 export type ApplicationDeliveryActionRelatedIDs = components['schemas']['ApplicationDeliveryActionRelatedIDs'];
 export type ApplicationDeliveryActionResult = components['schemas']['ApplicationDeliveryActionResult'];
+export type DeliveryDraftFileTemplate = components['schemas']['DeliveryDraftFileTemplate'];
+export type DeliveryDraftApplication = components['schemas']['DeliveryDraftApplication'];
+export type DeliveryDraftService = components['schemas']['DeliveryDraftService'];
+export type DeliveryDraftEnvironmentBinding = components['schemas']['DeliveryDraftEnvironmentBinding'];
+export type RenderedDeliverySpec = components['schemas']['RenderedDeliverySpec'];
+export type DeliveryDraft = components['schemas']['DeliveryDraft'];
+export type DeliveryDraftInput = components['schemas']['DeliveryDraftInput'];
+export type DeliveryDraftConfirmResult = components['schemas']['DeliveryDraftConfirmResult'];
 export type DeliveryPlan = components['schemas']['DeliveryPlan'];
 export type DeliveryPlanInput = components['schemas']['DeliveryPlanInput'];
 export type DeliveryPlanConfirmResult = components['schemas']['DeliveryPlanConfirmResult'];
@@ -10231,6 +10400,8 @@ export type ApplicationDeliveryDetailEnvelope = components['schemas']['Applicati
 export type ApplicationRuntimeDetailEnvelope = components['schemas']['ApplicationRuntimeDetailEnvelope'];
 export type ApplicationEnvironmentDeliveryDetailEnvelope = components['schemas']['ApplicationEnvironmentDeliveryDetailEnvelope'];
 export type ApplicationDeliveryActionResultEnvelope = components['schemas']['ApplicationDeliveryActionResultEnvelope'];
+export type DeliveryDraftEnvelope = components['schemas']['DeliveryDraftEnvelope'];
+export type DeliveryDraftConfirmResultEnvelope = components['schemas']['DeliveryDraftConfirmResultEnvelope'];
 export type DeliveryPlanEnvelope = components['schemas']['DeliveryPlanEnvelope'];
 export type DeliveryPlanConfirmResultEnvelope = components['schemas']['DeliveryPlanConfirmResultEnvelope'];
 export type ReleaseBundleEnvelope = components['schemas']['ReleaseBundleEnvelope'];
@@ -10510,6 +10681,7 @@ export type ParameterAgentProviderRolloutId = components['parameters']['AgentPro
 export type ParameterAgentProviderRolloutAction = components['parameters']['AgentProviderRolloutAction'];
 export type ParameterAiEnvironmentLeaseId = components['parameters']['AIEnvironmentLeaseID'];
 export type ParameterPlanId = components['parameters']['PlanID'];
+export type ParameterDraftId = components['parameters']['DraftID'];
 export type ParameterServiceId = components['parameters']['ServiceID'];
 export type ParameterSessionId = components['parameters']['SessionID'];
 export type ParameterSkillId = components['parameters']['SkillID'];
@@ -12389,6 +12561,78 @@ export interface operations {
             404: components["responses"]["Error"];
         };
     };
+    createDeliveryDraft: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryDraftInput"];
+            };
+        };
+        responses: {
+            /** @description Created delivery draft. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryDraftEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+        };
+    };
+    getDeliveryDraft: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                draftID: components["parameters"]["DraftID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Delivery draft. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryDraftEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    confirmDeliveryDraft: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                draftID: components["parameters"]["DraftID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Confirmed delivery draft and applied application specification. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryDraftConfirmResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
     createDeliveryPlan: {
         parameters: {
             query?: never;
@@ -12402,8 +12646,17 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Created delivery plan draft. */
+            /** @description Legacy successful delivery plan draft response. */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryPlanEnvelope"];
+                };
+            };
+            /** @description Created delivery plan draft. */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -12448,8 +12701,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Confirmed delivery plan and trigger result. */
+            /** @description Legacy synchronous delivery plan confirmation response. */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryPlanConfirmResultEnvelope"];
+                };
+            };
+            /** @description Accepted delivery plan confirmation and trigger result. */
+            202: {
                 headers: {
                     [name: string]: unknown;
                 };
