@@ -726,6 +726,7 @@ type NetworkTopologyView struct {
 type NodeView struct {
 	Name           string                  `json:"name"`
 	Status         string                  `json:"status"`
+	Unschedulable  bool                    `json:"unschedulable"`
 	Roles          []string                `json:"roles,omitempty"`
 	Version        string                  `json:"version,omitempty"`
 	InternalIP     string                  `json:"internalIp,omitempty"`
@@ -753,6 +754,7 @@ type NodePodView struct {
 type NodeDetailView struct {
 	Name              string                  `json:"name"`
 	Status            string                  `json:"status"`
+	Unschedulable     bool                    `json:"unschedulable"`
 	Roles             []string                `json:"roles,omitempty"`
 	Version           string                  `json:"version,omitempty"`
 	InternalIP        string                  `json:"internalIp,omitempty"`
@@ -778,6 +780,12 @@ type NodeTaintView struct {
 type NodeUpdateInput struct {
 	Labels map[string]string `json:"labels,omitempty"`
 	Taints []NodeTaintView   `json:"taints,omitempty"`
+}
+
+type NodeDrainInput struct {
+	Force              bool  `json:"force"`
+	DeleteEmptyDirData bool  `json:"deleteEmptyDirData"`
+	TimeoutSeconds     int64 `json:"timeoutSeconds"`
 }
 
 type ClusterEventView struct {
