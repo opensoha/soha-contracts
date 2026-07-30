@@ -50,11 +50,14 @@ import paths.
 ## Verification
 
 ```bash
-npm run check:generated
 npm test
-npm run check:consumers -- --dry-run
+GOWORK=off go vet ./...
+GOWORK=off go run golang.org/x/vuln/cmd/govulncheck@v1.3.0 ./...
+npm run check:consumers -- --consumer soha --require-all
+npm run check:consumers -- --consumer soha-web --require-all
+npm run check:consumers -- --consumer soha-cli --require-all
+npm run check:consumers -- --consumer soha-agent --require-all
+git diff --check
 ```
 
-Run `npm run check:consumers -- --consumer <repo> --require-all` for each
-changed consumer. Run release artifact checks only when package or release
-behavior changes.
+Use Go `1.26.5`. `npm test` includes generation, schema, fixture, compatibility, package, and Go checks; CI additionally runs `golangci-lint v2.9.0` with only-new-issues semantics. Every contract change requires all four consumer checks, not only the directly edited consumer. Run release artifact checks when package or release behavior changes.

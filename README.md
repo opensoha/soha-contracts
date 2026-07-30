@@ -93,9 +93,7 @@ calling code in the consumer until those APIs are promoted into the supported
 client surface. Redirect-oriented flows such as OIDC provider redirects should
 not use the JSON-only `doJSON` helper until a non-JSON client mode is added.
 
-The Go generator currently runs with Go 1.24.x in CI because the pinned
-`oapi-codegen` release requires that toolchain; generated DTO consumers can
-continue compiling with their own repository Go versions.
+The Go generator and generated DTO checks run with Go 1.26.5 in CI.
 
 ## Validation
 
