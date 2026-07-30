@@ -913,6 +913,294 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/delivery/manifest-packages/{manifestPackageID}/source": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getManifestSource"];
+        put: operations["updateManifestSource"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-packages/{manifestPackageID}/render": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["renderManifestPackage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-packages/{manifestPackageID}/preflight": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["preflightManifestPackage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-packages/{manifestPackageID}/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["syncManifestPackage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-packages/{manifestPackageID}/sync-runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listManifestSyncRuns"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-sources/{manifestSourceID}/webhook": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["triggerManifestSourceWebhook"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-packages/{manifestPackageID}/bindings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listManifestBindings"];
+        put?: never;
+        post: operations["createManifestBinding"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-bindings/{manifestBindingID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateManifestBinding"];
+        post?: never;
+        delete: operations["deleteManifestBinding"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-bindings/{manifestBindingID}/desired-revision": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["setManifestDesiredRevision"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-deployments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listManifestDeployments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-deployments/{manifestDeploymentID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getManifestDeployment"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-deployments/{manifestDeploymentID}/reconcile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["reconcileManifestDeployment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-deployments/{manifestDeploymentID}/repair": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["repairManifestDeployment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-deployments/{manifestDeploymentID}/adopt": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["adoptManifestDeployment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-deployments/{manifestDeploymentID}/rollback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["rollbackManifestDeployment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-packages/{manifestPackageID}/delivery-intents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listManifestDeliveryIntents"];
+        put?: never;
+        post: operations["createManifestDeliveryIntent"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-delivery-intents/{manifestDeliveryIntentID}/accept": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["acceptManifestDeliveryIntent"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-delivery-intents/{manifestDeliveryIntentID}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["rejectManifestDeliveryIntent"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/delivery/drafts": {
         parameters: {
             query?: never;
@@ -1163,6 +1451,22 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["recordExecutionCallback"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/containers/start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["startDockerContainer"];
         delete?: never;
         options?: never;
         head?: never;
@@ -7554,6 +7858,475 @@ export interface components {
             release?: components["schemas"]["ReleaseRecord"];
             relatedIds?: components["schemas"]["ApplicationDeliveryActionRelatedIDs"];
         };
+        /** @enum {string} */
+        ManifestSourceMode: "soha_managed" | "git_synced";
+        /** @enum {string} */
+        ManifestSourceRefType: "branch" | "tag" | "commit";
+        /** @enum {string} */
+        ManifestSourceSyncPolicy: "manual" | "webhook" | "poll";
+        ManifestSource: {
+            id: string;
+            packageId: string;
+            mode: components["schemas"]["ManifestSourceMode"];
+            repositoryId?: string;
+            refType?: components["schemas"]["ManifestSourceRefType"];
+            refValue?: string;
+            path?: string;
+            includePatterns?: string[];
+            excludePatterns?: string[];
+            syncPolicy: components["schemas"]["ManifestSourceSyncPolicy"];
+            pollIntervalSeconds?: number;
+            autoPublish: boolean;
+            autoDeploy?: boolean;
+            lastResolvedCommit?: string;
+            lastTreeDigest?: string;
+            lastCanonicalDigest?: string;
+            /** Format: date-time */
+            lastSuccessfulSyncAt?: string;
+            lastErrorCode?: string;
+            lastErrorMessage?: string;
+            /** Format: int64 */
+            generation: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ManifestSourceUpdateInput: {
+            mode: components["schemas"]["ManifestSourceMode"];
+            repositoryId?: string;
+            refType?: components["schemas"]["ManifestSourceRefType"];
+            refValue?: string;
+            path?: string;
+            includePatterns?: string[];
+            excludePatterns?: string[];
+            syncPolicy: components["schemas"]["ManifestSourceSyncPolicy"];
+            pollIntervalSeconds?: number;
+            autoPublish: boolean;
+            autoDeploy?: boolean;
+            /** Format: int64 */
+            expectedGeneration: number;
+        };
+        ManifestSourceEnvelope: {
+            data: components["schemas"]["ManifestSource"];
+        };
+        ManifestFile: {
+            path: string;
+            content: string;
+        };
+        ManifestRenderInput: {
+            bindingId: string;
+            revision?: number;
+        };
+        ManifestRenderedDocument: {
+            index: number;
+            path: string;
+            content: string;
+            contentDigest: string;
+            apiVersion: string;
+            kind: string;
+            namespace: string;
+            name: string;
+        };
+        /** @enum {string} */
+        ManifestValidationStage: "syntax" | "render" | "schema" | "scope" | "secret_ref" | "policy" | "dry_run" | "apply" | "observe" | "drift";
+        /** @enum {string} */
+        ManifestDiagnosticSeverity: "info" | "warning" | "error";
+        ManifestDiagnostic: {
+            stage: components["schemas"]["ManifestValidationStage"];
+            severity: components["schemas"]["ManifestDiagnosticSeverity"];
+            code: string;
+            message: string;
+            path?: string;
+            documentIndex?: number;
+            field?: string;
+            apiVersion?: string;
+            kind?: string;
+            namespace?: string;
+            name?: string;
+            fieldManager?: string;
+        };
+        ManifestRenderResult: {
+            packageId: string;
+            bindingId: string;
+            revision: number;
+            /** @enum {string} */
+            renderer: "raw_yaml" | "kustomize";
+            renderedDigest: string;
+            documents: components["schemas"]["ManifestRenderedDocument"][];
+            diagnostics: components["schemas"]["ManifestDiagnostic"][];
+        };
+        ManifestRenderEnvelope: {
+            data: components["schemas"]["ManifestRenderResult"];
+        };
+        ManifestPreflightInput: {
+            bindingId: string;
+            revision?: number;
+            /** @default false */
+            forceConflicts: boolean;
+        };
+        /** @enum {string} */
+        ManifestTaskAction: "preflight" | "apply" | "observe" | "repair" | "adopt" | "rollback" | "sync";
+        ManifestExecutionTaskPayload: {
+            action: components["schemas"]["ManifestTaskAction"];
+            packageId: string;
+            bindingId?: string;
+            deploymentId?: string;
+            sourceId?: string;
+            /** Format: int64 */
+            generation: number;
+            revision?: number;
+            renderedDigest?: string;
+            clusterId?: string;
+            namespace?: string;
+            fieldManager?: string;
+            /** @default false */
+            forceConflicts: boolean;
+            idempotencyKey: string;
+            documents?: components["schemas"]["ManifestRenderedDocument"][];
+            inventory?: components["schemas"]["ManifestResourceInventory"][];
+            repositoryId?: string;
+            repositoryUrl?: string;
+            /** @enum {string} */
+            renderer?: "raw_yaml" | "kustomize";
+            refType?: components["schemas"]["ManifestSourceRefType"];
+            refValue?: string;
+            path?: string;
+            includePatterns?: string[];
+            excludePatterns?: string[];
+            requestedCommit?: string;
+            requestedBy?: string;
+        };
+        ManifestExecutionTask: components["schemas"]["ExecutionTask"] & {
+            payload: components["schemas"]["ManifestExecutionTaskPayload"];
+            result?: components["schemas"]["ManifestExecutionTaskResult"];
+        };
+        ManifestExecutionTaskEnvelope: {
+            data: components["schemas"]["ManifestExecutionTask"];
+        };
+        ManifestPreflightResult: {
+            ready: boolean;
+            /** @enum {string} */
+            capability: "available" | "degraded" | "unsupported";
+            renderedDigest: string;
+            resourceCount: number;
+            diagnostics: components["schemas"]["ManifestDiagnostic"][];
+        };
+        ManifestDriftField: {
+            path: string;
+            desiredValue: unknown;
+            observedValue: unknown;
+            fieldManager?: string;
+        };
+        ManifestDriftReport: {
+            drifted: boolean;
+            /** Format: date-time */
+            observedAt: string;
+            /** Format: int64 */
+            ageSeconds?: number;
+            resources: {
+                apiVersion: string;
+                kind: string;
+                namespace: string;
+                name: string;
+                fields: components["schemas"]["ManifestDriftField"][];
+            }[];
+            evidenceRefs: string[];
+        };
+        ManifestExecutionTaskResult: {
+            action: components["schemas"]["ManifestTaskAction"];
+            deploymentId?: string;
+            /** Format: int64 */
+            generation: number;
+            stale: boolean;
+            renderedDigest?: string;
+            preflight?: components["schemas"]["ManifestPreflightResult"];
+            diagnostics: components["schemas"]["ManifestDiagnostic"][];
+            inventory: components["schemas"]["ManifestResourceInventory"][];
+            drift?: components["schemas"]["ManifestDriftReport"];
+            adoptedFiles?: components["schemas"]["ManifestFile"][];
+            evidenceRefs?: string[];
+            resolvedCommit?: string;
+            treeDigest?: string;
+            canonicalDigest?: string;
+            syncedFiles?: components["schemas"]["ManifestFile"][];
+        };
+        /** @enum {string} */
+        ManifestSyncTrigger: "manual" | "webhook" | "poll";
+        ManifestSyncInput: {
+            /** Format: int64 */
+            expectedGeneration: number;
+            requestedCommit?: string;
+        };
+        ManifestSyncWebhookInput: {
+            repositoryId: string;
+            ref: string;
+            commit?: string;
+            eventId: string;
+        };
+        /** @enum {string} */
+        ManifestSyncRunStatus: "queued" | "running" | "succeeded" | "failed" | "ignored";
+        ManifestSyncRun: {
+            id: string;
+            sourceId: string;
+            packageId: string;
+            executionTaskId?: string;
+            /** Format: int64 */
+            sourceGeneration: number;
+            trigger: components["schemas"]["ManifestSyncTrigger"];
+            status: components["schemas"]["ManifestSyncRunStatus"];
+            idempotencyKey: string;
+            requestedCommit?: string;
+            resolvedCommit?: string;
+            treeDigest?: string;
+            canonicalDigest?: string;
+            files: string[];
+            revision?: number;
+            errorCode?: string;
+            errorMessage?: string;
+            actor?: string;
+            /** Format: date-time */
+            startedAt?: string;
+            /** Format: date-time */
+            finishedAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ManifestSyncAction: {
+            run: components["schemas"]["ManifestSyncRun"];
+            task: components["schemas"]["ManifestExecutionTask"];
+        };
+        ManifestSyncActionEnvelope: {
+            data: components["schemas"]["ManifestSyncAction"];
+        };
+        ManifestSyncRunListEnvelope: {
+            data: components["schemas"]["ManifestSyncRun"][];
+        };
+        /** @enum {string} */
+        ManifestDriftPolicy: "report" | "repair" | "adopt";
+        /** @enum {string} */
+        ManifestDeletionPolicy: "orphan" | "delete_managed";
+        ManifestBinding: {
+            id: string;
+            packageId: string;
+            applicationEnvironmentId: string;
+            environmentKey: string;
+            clusterId: string;
+            namespace: string;
+            overlay: {
+                [key: string]: string;
+            };
+            rolloutStrategyId?: string;
+            verificationPolicyId?: string;
+            driftPolicy: components["schemas"]["ManifestDriftPolicy"];
+            deletionPolicy: components["schemas"]["ManifestDeletionPolicy"];
+            enabled: boolean;
+            /** Format: int64 */
+            version: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ManifestBindingInput: {
+            applicationEnvironmentId: string;
+            clusterId: string;
+            namespace: string;
+            overlay?: {
+                [key: string]: string;
+            };
+            rolloutStrategyId?: string;
+            verificationPolicyId?: string;
+            driftPolicy: components["schemas"]["ManifestDriftPolicy"];
+            deletionPolicy: components["schemas"]["ManifestDeletionPolicy"];
+            enabled: boolean;
+        };
+        ManifestBindingUpdateInput: {
+            applicationEnvironmentId: string;
+            clusterId: string;
+            namespace: string;
+            overlay?: {
+                [key: string]: string;
+            };
+            rolloutStrategyId?: string;
+            verificationPolicyId?: string;
+            driftPolicy: components["schemas"]["ManifestDriftPolicy"];
+            deletionPolicy: components["schemas"]["ManifestDeletionPolicy"];
+            enabled: boolean;
+            /** Format: int64 */
+            expectedVersion: number;
+        };
+        ManifestBindingEnvelope: {
+            data: components["schemas"]["ManifestBinding"];
+        };
+        ManifestBindingListEnvelope: {
+            data: components["schemas"]["ManifestBinding"][];
+        };
+        /** @enum {string} */
+        ManifestConditionStatus: "true" | "false" | "unknown";
+        ManifestCondition: {
+            /** @enum {string} */
+            type: "SourceReady" | "Rendered" | "PreflightPassed" | "Synced" | "Healthy" | "Progressing" | "Drifted" | "VerificationPassed" | "RollbackAvailable";
+            status: components["schemas"]["ManifestConditionStatus"];
+            reason: string;
+            message: string;
+            /** Format: int64 */
+            observedGeneration: number;
+            /** Format: date-time */
+            lastTransitionAt: string;
+            evidenceRefs: string[];
+        };
+        ManifestResourceInventory: {
+            deploymentId: string;
+            /** Format: int64 */
+            generation: number;
+            apiVersion: string;
+            kind: string;
+            namespace: string;
+            name: string;
+            uid?: string;
+            resourceVersion?: string;
+            desiredObjectDigest: string;
+            observedObjectDigest: string;
+            health: string;
+            /** Format: date-time */
+            lastObservedAt: string;
+        };
+        /** @enum {string} */
+        ManifestReconcilePolicy: "manual" | "continuous";
+        /** @enum {string} */
+        ManifestDeploymentPhase: "pending" | "waiting_approval" | "reconciling" | "converged" | "drifted" | "degraded" | "deleting";
+        ManifestDeploymentSpec: {
+            desiredRevision: number;
+            desiredDigest: string;
+            reconcilePolicy: components["schemas"]["ManifestReconcilePolicy"];
+            driftPolicy: components["schemas"]["ManifestDriftPolicy"];
+            deletionPolicy: components["schemas"]["ManifestDeletionPolicy"];
+        };
+        ManifestDeploymentStatus: {
+            /** Format: int64 */
+            observedGeneration: number;
+            appliedRevision?: number;
+            appliedDigest?: string;
+            lastKnownGoodRevision?: number;
+            phase: components["schemas"]["ManifestDeploymentPhase"];
+            conditions: components["schemas"]["ManifestCondition"][];
+            inventory: components["schemas"]["ManifestResourceInventory"][];
+            /** Format: date-time */
+            lastReconciledAt?: string;
+            lastExecutionTaskId?: string;
+            drift?: components["schemas"]["ManifestDriftReport"];
+            lastErrorCode?: string;
+            lastErrorMessage?: string;
+        };
+        ManifestDeployment: {
+            id: string;
+            packageId: string;
+            bindingId: string;
+            /** Format: int64 */
+            generation: number;
+            spec: components["schemas"]["ManifestDeploymentSpec"];
+            status: components["schemas"]["ManifestDeploymentStatus"];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ManifestDeploymentPage: {
+            items: components["schemas"]["ManifestDeployment"][];
+            total: number;
+            page: number;
+            pageSize: number;
+        };
+        ManifestDeploymentEnvelope: {
+            data: components["schemas"]["ManifestDeployment"];
+        };
+        ManifestDeploymentListEnvelope: {
+            data: components["schemas"]["ManifestDeploymentPage"];
+        };
+        ManifestDesiredRevisionInput: {
+            desiredRevision: number;
+            reconcilePolicy: components["schemas"]["ManifestReconcilePolicy"];
+            /** Format: int64 */
+            expectedGeneration: number;
+            reason?: string;
+        };
+        ManifestDeploymentActionInput: {
+            /** Format: int64 */
+            expectedGeneration: number;
+            reason?: string;
+            /** @default false */
+            forceConflicts: boolean;
+        };
+        ManifestRollbackInput: {
+            /** Format: int64 */
+            expectedGeneration: number;
+            targetRevision?: number;
+            /** @default true */
+            useLastKnownGood: boolean;
+            reason?: string;
+        };
+        ManifestDeploymentAction: {
+            deployment: components["schemas"]["ManifestDeployment"];
+            task: components["schemas"]["ManifestExecutionTask"];
+        };
+        ManifestDeploymentActionEnvelope: {
+            data: components["schemas"]["ManifestDeploymentAction"];
+        };
+        /** @enum {string} */
+        ManifestDeliveryIntentStatus: "draft" | "accepted" | "rejected";
+        ManifestDeliveryIntentInput: {
+            bindingId?: string;
+            files: components["schemas"]["ManifestFile"][];
+            provider: string;
+            model: string;
+            promptTemplateVersion: string;
+            requestId?: string;
+            evidenceDigest: string;
+            evidenceRefs?: string[];
+            rationale: string;
+            risk: string;
+        };
+        ManifestDeliveryIntentDecisionInput: {
+            expectedCurrentRevision: number;
+            /** Format: date-time */
+            expectedPackageUpdatedAt: string;
+            comment?: string;
+        };
+        ManifestDeliveryIntent: {
+            id: string;
+            packageId: string;
+            bindingId?: string;
+            status: components["schemas"]["ManifestDeliveryIntentStatus"];
+            files: components["schemas"]["ManifestFile"][];
+            provider: string;
+            model: string;
+            promptTemplateVersion: string;
+            requestId?: string;
+            evidenceDigest: string;
+            evidenceRefs: string[];
+            proposalDigest: string;
+            rationale: string;
+            risk: string;
+            validation: components["schemas"]["ManifestPreflightResult"];
+            decisionComment?: string;
+            createdBy: string;
+            decidedBy?: string;
+            /** Format: date-time */
+            decidedAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ManifestDeliveryIntentEnvelope: {
+            data: components["schemas"]["ManifestDeliveryIntent"];
+        };
+        ManifestDeliveryIntentListEnvelope: {
+            data: components["schemas"]["ManifestDeliveryIntent"][];
+        };
         DeliveryDraftFileTemplate: {
             path: string;
             kind: string;
@@ -7855,6 +8628,95 @@ export interface components {
             status: string;
             payload: {
                 [key: string]: unknown;
+            };
+        };
+        DockerPayloadScalarValue: string | number | boolean;
+        DockerPayloadValue: components["schemas"]["DockerPayloadScalarValue"] | components["schemas"]["DockerPayloadScalarValue"][] | {
+            [key: string]: components["schemas"]["DockerPayloadScalarValue"];
+        };
+        DockerGitBuildInput: {
+            /** Format: uri */
+            repositoryUrl: string;
+            /** @default main */
+            ref: string;
+            /** @default Dockerfile */
+            dockerfilePath: string;
+            /** @default . */
+            contextDir: string;
+            /** @default false */
+            pull: boolean;
+            /** @default false */
+            noCache: boolean;
+        };
+        DockerContainerPortInput: {
+            name?: string;
+            hostIp?: string;
+            hostPort: number;
+            containerPort: number;
+            /** @enum {string} */
+            protocol?: "tcp" | "udp";
+            exposureScope?: string;
+            domainName?: string;
+            /** @enum {string} */
+            domainScheme?: "http" | "https";
+            domainTlsEnabled?: boolean;
+        };
+        DockerContainerVolumeInput: {
+            name?: string;
+            /** @enum {string} */
+            type?: "bind" | "volume";
+            source: string;
+            target: string;
+            readOnly?: boolean;
+            subPath?: string;
+        };
+        DockerContainerEnvironmentVariableInput: {
+            name: string;
+            value?: string;
+        };
+        DockerContainerResourceInput: {
+            cpus?: number;
+            memoryBytes?: number;
+            memoryReservationBytes?: number;
+        };
+        DockerContainerStartInput: {
+            hostId: string;
+            name: string;
+            image: string;
+            /**
+             * @default image
+             * @enum {string}
+             */
+            sourceKind: "image" | "git_dockerfile";
+            gitBuild?: components["schemas"]["DockerGitBuildInput"];
+            architecture?: string;
+            imagePullPolicy?: string;
+            containerPort?: number;
+            hostIp?: string;
+            hostPort?: number;
+            protocol?: string;
+            exposureScope?: string;
+            domainName?: string;
+            domainScheme?: string;
+            domainTlsEnabled?: boolean;
+            command?: string;
+            entrypoint?: string;
+            envContent?: string;
+            environmentVariables?: components["schemas"]["DockerContainerEnvironmentVariableInput"][];
+            restartPolicy?: string;
+            network?: string;
+            ports?: components["schemas"]["DockerContainerPortInput"][];
+            volumes?: components["schemas"]["DockerContainerVolumeInput"][];
+            resources?: components["schemas"]["DockerContainerResourceInput"];
+            environment?: string;
+            owner?: string;
+            team?: string;
+            ttlSeconds?: number;
+            labels?: {
+                [key: string]: components["schemas"]["DockerPayloadValue"];
+            };
+            config?: {
+                [key: string]: components["schemas"]["DockerPayloadValue"];
             };
         };
         DockerOperation: {
@@ -9844,6 +10706,11 @@ export interface components {
         IdempotencyKey: string;
         ApplicationID: string;
         ApplicationEnvironmentID: string;
+        ManifestPackageID: string;
+        ManifestBindingID: string;
+        ManifestDeploymentID: string;
+        ManifestSourceID: string;
+        ManifestDeliveryIntentID: string;
         RepositoryID: string;
         GitLabProjectIDQuery: string;
         AIClientID: string;
@@ -10375,6 +11242,66 @@ export type ApplicationDeliveryActionKind = components['schemas']['ApplicationDe
 export type ApplicationDeliveryActionRequest = components['schemas']['ApplicationDeliveryActionRequest'];
 export type ApplicationDeliveryActionRelatedIDs = components['schemas']['ApplicationDeliveryActionRelatedIDs'];
 export type ApplicationDeliveryActionResult = components['schemas']['ApplicationDeliveryActionResult'];
+export type ManifestSourceMode = components['schemas']['ManifestSourceMode'];
+export type ManifestSourceRefType = components['schemas']['ManifestSourceRefType'];
+export type ManifestSourceSyncPolicy = components['schemas']['ManifestSourceSyncPolicy'];
+export type ManifestSource = components['schemas']['ManifestSource'];
+export type ManifestSourceUpdateInput = components['schemas']['ManifestSourceUpdateInput'];
+export type ManifestSourceEnvelope = components['schemas']['ManifestSourceEnvelope'];
+export type ManifestFile = components['schemas']['ManifestFile'];
+export type ManifestRenderInput = components['schemas']['ManifestRenderInput'];
+export type ManifestRenderedDocument = components['schemas']['ManifestRenderedDocument'];
+export type ManifestValidationStage = components['schemas']['ManifestValidationStage'];
+export type ManifestDiagnosticSeverity = components['schemas']['ManifestDiagnosticSeverity'];
+export type ManifestDiagnostic = components['schemas']['ManifestDiagnostic'];
+export type ManifestRenderResult = components['schemas']['ManifestRenderResult'];
+export type ManifestRenderEnvelope = components['schemas']['ManifestRenderEnvelope'];
+export type ManifestPreflightInput = components['schemas']['ManifestPreflightInput'];
+export type ManifestTaskAction = components['schemas']['ManifestTaskAction'];
+export type ManifestExecutionTaskPayload = components['schemas']['ManifestExecutionTaskPayload'];
+export type ManifestExecutionTask = components['schemas']['ManifestExecutionTask'];
+export type ManifestExecutionTaskEnvelope = components['schemas']['ManifestExecutionTaskEnvelope'];
+export type ManifestPreflightResult = components['schemas']['ManifestPreflightResult'];
+export type ManifestDriftField = components['schemas']['ManifestDriftField'];
+export type ManifestDriftReport = components['schemas']['ManifestDriftReport'];
+export type ManifestExecutionTaskResult = components['schemas']['ManifestExecutionTaskResult'];
+export type ManifestSyncTrigger = components['schemas']['ManifestSyncTrigger'];
+export type ManifestSyncInput = components['schemas']['ManifestSyncInput'];
+export type ManifestSyncWebhookInput = components['schemas']['ManifestSyncWebhookInput'];
+export type ManifestSyncRunStatus = components['schemas']['ManifestSyncRunStatus'];
+export type ManifestSyncRun = components['schemas']['ManifestSyncRun'];
+export type ManifestSyncAction = components['schemas']['ManifestSyncAction'];
+export type ManifestSyncActionEnvelope = components['schemas']['ManifestSyncActionEnvelope'];
+export type ManifestSyncRunListEnvelope = components['schemas']['ManifestSyncRunListEnvelope'];
+export type ManifestDriftPolicy = components['schemas']['ManifestDriftPolicy'];
+export type ManifestDeletionPolicy = components['schemas']['ManifestDeletionPolicy'];
+export type ManifestBinding = components['schemas']['ManifestBinding'];
+export type ManifestBindingInput = components['schemas']['ManifestBindingInput'];
+export type ManifestBindingUpdateInput = components['schemas']['ManifestBindingUpdateInput'];
+export type ManifestBindingEnvelope = components['schemas']['ManifestBindingEnvelope'];
+export type ManifestBindingListEnvelope = components['schemas']['ManifestBindingListEnvelope'];
+export type ManifestConditionStatus = components['schemas']['ManifestConditionStatus'];
+export type ManifestCondition = components['schemas']['ManifestCondition'];
+export type ManifestResourceInventory = components['schemas']['ManifestResourceInventory'];
+export type ManifestReconcilePolicy = components['schemas']['ManifestReconcilePolicy'];
+export type ManifestDeploymentPhase = components['schemas']['ManifestDeploymentPhase'];
+export type ManifestDeploymentSpec = components['schemas']['ManifestDeploymentSpec'];
+export type ManifestDeploymentStatus = components['schemas']['ManifestDeploymentStatus'];
+export type ManifestDeployment = components['schemas']['ManifestDeployment'];
+export type ManifestDeploymentPage = components['schemas']['ManifestDeploymentPage'];
+export type ManifestDeploymentEnvelope = components['schemas']['ManifestDeploymentEnvelope'];
+export type ManifestDeploymentListEnvelope = components['schemas']['ManifestDeploymentListEnvelope'];
+export type ManifestDesiredRevisionInput = components['schemas']['ManifestDesiredRevisionInput'];
+export type ManifestDeploymentActionInput = components['schemas']['ManifestDeploymentActionInput'];
+export type ManifestRollbackInput = components['schemas']['ManifestRollbackInput'];
+export type ManifestDeploymentAction = components['schemas']['ManifestDeploymentAction'];
+export type ManifestDeploymentActionEnvelope = components['schemas']['ManifestDeploymentActionEnvelope'];
+export type ManifestDeliveryIntentStatus = components['schemas']['ManifestDeliveryIntentStatus'];
+export type ManifestDeliveryIntentInput = components['schemas']['ManifestDeliveryIntentInput'];
+export type ManifestDeliveryIntentDecisionInput = components['schemas']['ManifestDeliveryIntentDecisionInput'];
+export type ManifestDeliveryIntent = components['schemas']['ManifestDeliveryIntent'];
+export type ManifestDeliveryIntentEnvelope = components['schemas']['ManifestDeliveryIntentEnvelope'];
+export type ManifestDeliveryIntentListEnvelope = components['schemas']['ManifestDeliveryIntentListEnvelope'];
 export type DeliveryDraftFileTemplate = components['schemas']['DeliveryDraftFileTemplate'];
 export type DeliveryDraftApplication = components['schemas']['DeliveryDraftApplication'];
 export type DeliveryDraftService = components['schemas']['DeliveryDraftService'];
@@ -10411,6 +11338,14 @@ export type ExecutionTaskListEnvelope = components['schemas']['ExecutionTaskList
 export type ExecutionTask = components['schemas']['ExecutionTask'];
 export type ExecutionTaskClaimRequest = components['schemas']['ExecutionTaskClaimRequest'];
 export type ExecutionCallbackRequest = components['schemas']['ExecutionCallbackRequest'];
+export type DockerPayloadScalarValue = components['schemas']['DockerPayloadScalarValue'];
+export type DockerPayloadValue = components['schemas']['DockerPayloadValue'];
+export type DockerGitBuildInput = components['schemas']['DockerGitBuildInput'];
+export type DockerContainerPortInput = components['schemas']['DockerContainerPortInput'];
+export type DockerContainerVolumeInput = components['schemas']['DockerContainerVolumeInput'];
+export type DockerContainerEnvironmentVariableInput = components['schemas']['DockerContainerEnvironmentVariableInput'];
+export type DockerContainerResourceInput = components['schemas']['DockerContainerResourceInput'];
+export type DockerContainerStartInput = components['schemas']['DockerContainerStartInput'];
 export type DockerOperation = components['schemas']['DockerOperation'];
 export type DockerOperationClaimRequest = components['schemas']['DockerOperationClaimRequest'];
 export type DockerOperationCallbackRequest = components['schemas']['DockerOperationCallbackRequest'];
@@ -10656,6 +11591,11 @@ export type ParameterComputeActionId = components['parameters']['ComputeActionID
 export type ParameterIdempotencyKey = components['parameters']['IdempotencyKey'];
 export type ParameterApplicationId = components['parameters']['ApplicationID'];
 export type ParameterApplicationEnvironmentId = components['parameters']['ApplicationEnvironmentID'];
+export type ParameterManifestPackageId = components['parameters']['ManifestPackageID'];
+export type ParameterManifestBindingId = components['parameters']['ManifestBindingID'];
+export type ParameterManifestDeploymentId = components['parameters']['ManifestDeploymentID'];
+export type ParameterManifestSourceId = components['parameters']['ManifestSourceID'];
+export type ParameterManifestDeliveryIntentId = components['parameters']['ManifestDeliveryIntentID'];
 export type ParameterRepositoryId = components['parameters']['RepositoryID'];
 export type ParameterGitLabProjectIdQuery = components['parameters']['GitLabProjectIDQuery'];
 export type ParameterAiClientId = components['parameters']['AIClientID'];
@@ -12561,6 +13501,611 @@ export interface operations {
             404: components["responses"]["Error"];
         };
     };
+    getManifestSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestPackageID: components["parameters"]["ManifestPackageID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Manifest package content source. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestSourceEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    updateManifestSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestPackageID: components["parameters"]["ManifestPackageID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestSourceUpdateInput"];
+            };
+        };
+        responses: {
+            /** @description Updated manifest package content source. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestSourceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    renderManifestPackage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestPackageID: components["parameters"]["ManifestPackageID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestRenderInput"];
+            };
+        };
+        responses: {
+            /** @description Deterministically rendered manifest documents. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestRenderEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    preflightManifestPackage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestPackageID: components["parameters"]["ManifestPackageID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestPreflightInput"];
+            };
+        };
+        responses: {
+            /** @description Durable manifest preflight task. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestExecutionTaskEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    syncManifestPackage: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
+            };
+            path: {
+                manifestPackageID: components["parameters"]["ManifestPackageID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestSyncInput"];
+            };
+        };
+        responses: {
+            /** @description Durable Git synchronization task and run. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestSyncActionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listManifestSyncRuns: {
+        parameters: {
+            query?: {
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                manifestPackageID: components["parameters"]["ManifestPackageID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Recent synchronization runs for the manifest package. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestSyncRunListEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    triggerManifestSourceWebhook: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
+            };
+            path: {
+                manifestSourceID: components["parameters"]["ManifestSourceID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestSyncWebhookInput"];
+            };
+        };
+        responses: {
+            /** @description Durable synchronization task created from an authenticated webhook request. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestSyncActionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listManifestBindings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestPackageID: components["parameters"]["ManifestPackageID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Relation-backed environment bindings for a manifest package. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestBindingListEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    createManifestBinding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestPackageID: components["parameters"]["ManifestPackageID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestBindingInput"];
+            };
+        };
+        responses: {
+            /** @description Created manifest environment binding. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestBindingEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    updateManifestBinding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestBindingID: components["parameters"]["ManifestBindingID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestBindingUpdateInput"];
+            };
+        };
+        responses: {
+            /** @description Updated manifest environment binding. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestBindingEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    deleteManifestBinding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestBindingID: components["parameters"]["ManifestBindingID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted manifest environment binding. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    setManifestDesiredRevision: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestBindingID: components["parameters"]["ManifestBindingID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestDesiredRevisionInput"];
+            };
+        };
+        responses: {
+            /** @description Manifest deployment spec and durable reconcile task. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestDeploymentActionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listManifestDeployments: {
+        parameters: {
+            query?: {
+                packageId?: string;
+                applicationId?: string;
+                applicationEnvironmentId?: string;
+                clusterId?: string;
+                namespace?: string;
+                sourceMode?: components["schemas"]["ManifestSourceMode"];
+                phase?: components["schemas"]["ManifestDeploymentPhase"];
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Manifest deployments visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestDeploymentListEnvelope"];
+                };
+            };
+        };
+    };
+    getManifestDeployment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestDeploymentID: components["parameters"]["ManifestDeploymentID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Manifest deployment desired and observed state. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestDeploymentEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+        };
+    };
+    reconcileManifestDeployment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestDeploymentID: components["parameters"]["ManifestDeploymentID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestDeploymentActionInput"];
+            };
+        };
+        responses: {
+            /** @description Durable manifest reconcile task. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestDeploymentActionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    repairManifestDeployment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestDeploymentID: components["parameters"]["ManifestDeploymentID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestDeploymentActionInput"];
+            };
+        };
+        responses: {
+            /** @description Governed durable drift repair task. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestDeploymentActionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    adoptManifestDeployment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestDeploymentID: components["parameters"]["ManifestDeploymentID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestDeploymentActionInput"];
+            };
+        };
+        responses: {
+            /** @description Durable live-state adoption task; completion creates a reviewable draft only. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestDeploymentActionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    rollbackManifestDeployment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestDeploymentID: components["parameters"]["ManifestDeploymentID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestRollbackInput"];
+            };
+        };
+        responses: {
+            /** @description Durable rollback task targeting an immutable revision. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestDeploymentActionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listManifestDeliveryIntents: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestPackageID: components["parameters"]["ManifestPackageID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Governed manifest delivery proposals. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestDeliveryIntentListEnvelope"];
+                };
+            };
+        };
+    };
+    createManifestDeliveryIntent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestPackageID: components["parameters"]["ManifestPackageID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestDeliveryIntentInput"];
+            };
+        };
+        responses: {
+            /** @description Persisted, validated, non-executing manifest proposal. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestDeliveryIntentEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    acceptManifestDeliveryIntent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestDeliveryIntentID: components["parameters"]["ManifestDeliveryIntentID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestDeliveryIntentDecisionInput"];
+            };
+        };
+        responses: {
+            /** @description Accepted proposal copied into the mutable Soha-managed draft. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestDeliveryIntentEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    rejectManifestDeliveryIntent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestDeliveryIntentID: components["parameters"]["ManifestDeliveryIntentID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestDeliveryIntentDecisionInput"];
+            };
+        };
+        responses: {
+            /** @description Rejected proposal retained for provenance and audit. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestDeliveryIntentEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
     createDeliveryDraft: {
         parameters: {
             query?: never;
@@ -12975,6 +14520,30 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ExecutionTaskEnvelope"];
+                };
+            };
+        };
+    };
+    startDockerContainer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DockerContainerStartInput"];
+            };
+        };
+        responses: {
+            /** @description Docker container build-and-start operation accepted. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerOperationEnvelope"];
                 };
             };
         };

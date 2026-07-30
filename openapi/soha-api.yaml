@@ -1491,6 +1491,513 @@ paths:
                 $ref: "#/components/schemas/OperationStatus"
         "404":
           $ref: "#/components/responses/Error"
+  /delivery/manifest-packages/{manifestPackageID}/source:
+    get:
+      tags: [Delivery]
+      operationId: getManifestSource
+      parameters:
+        - $ref: "#/components/parameters/ManifestPackageID"
+      responses:
+        "200":
+          description: Manifest package content source.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestSourceEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+    put:
+      tags: [Delivery]
+      operationId: updateManifestSource
+      parameters:
+        - $ref: "#/components/parameters/ManifestPackageID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManifestSourceUpdateInput"
+      responses:
+        "200":
+          description: Updated manifest package content source.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestSourceEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-packages/{manifestPackageID}/render:
+    post:
+      tags: [Delivery]
+      operationId: renderManifestPackage
+      parameters:
+        - $ref: "#/components/parameters/ManifestPackageID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManifestRenderInput"
+      responses:
+        "200":
+          description: Deterministically rendered manifest documents.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestRenderEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-packages/{manifestPackageID}/preflight:
+    post:
+      tags: [Delivery]
+      operationId: preflightManifestPackage
+      parameters:
+        - $ref: "#/components/parameters/ManifestPackageID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManifestPreflightInput"
+      responses:
+        "202":
+          description: Durable manifest preflight task.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestExecutionTaskEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-packages/{manifestPackageID}/sync:
+    post:
+      tags: [Delivery]
+      operationId: syncManifestPackage
+      parameters:
+        - $ref: "#/components/parameters/ManifestPackageID"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManifestSyncInput"
+      responses:
+        "202":
+          description: Durable Git synchronization task and run.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestSyncActionEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-packages/{manifestPackageID}/sync-runs:
+    get:
+      tags: [Delivery]
+      operationId: listManifestSyncRuns
+      parameters:
+        - $ref: "#/components/parameters/ManifestPackageID"
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+      responses:
+        "200":
+          description: Recent synchronization runs for the manifest package.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestSyncRunListEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-sources/{manifestSourceID}/webhook:
+    post:
+      tags: [Delivery]
+      operationId: triggerManifestSourceWebhook
+      parameters:
+        - $ref: "#/components/parameters/ManifestSourceID"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManifestSyncWebhookInput"
+      responses:
+        "202":
+          description: Durable synchronization task created from an authenticated webhook request.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestSyncActionEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-packages/{manifestPackageID}/bindings:
+    get:
+      tags: [Delivery]
+      operationId: listManifestBindings
+      parameters:
+        - $ref: "#/components/parameters/ManifestPackageID"
+      responses:
+        "200":
+          description: Relation-backed environment bindings for a manifest package.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestBindingListEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [Delivery]
+      operationId: createManifestBinding
+      parameters:
+        - $ref: "#/components/parameters/ManifestPackageID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManifestBindingInput"
+      responses:
+        "201":
+          description: Created manifest environment binding.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestBindingEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-bindings/{manifestBindingID}:
+    put:
+      tags: [Delivery]
+      operationId: updateManifestBinding
+      parameters:
+        - $ref: "#/components/parameters/ManifestBindingID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManifestBindingUpdateInput"
+      responses:
+        "200":
+          description: Updated manifest environment binding.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestBindingEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags: [Delivery]
+      operationId: deleteManifestBinding
+      parameters:
+        - $ref: "#/components/parameters/ManifestBindingID"
+      responses:
+        "200":
+          description: Deleted manifest environment binding.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationStatus"
+        "404":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-bindings/{manifestBindingID}/desired-revision:
+    post:
+      tags: [Delivery]
+      operationId: setManifestDesiredRevision
+      parameters:
+        - $ref: "#/components/parameters/ManifestBindingID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManifestDesiredRevisionInput"
+      responses:
+        "202":
+          description: Manifest deployment spec and durable reconcile task.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestDeploymentActionEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-deployments:
+    get:
+      tags: [Delivery]
+      operationId: listManifestDeployments
+      parameters:
+        - name: packageId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: applicationId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: applicationEnvironmentId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: clusterId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: namespace
+          in: query
+          required: false
+          schema: { type: string }
+        - name: sourceMode
+          in: query
+          required: false
+          schema: { $ref: "#/components/schemas/ManifestSourceMode" }
+        - name: phase
+          in: query
+          required: false
+          schema: { $ref: "#/components/schemas/ManifestDeploymentPhase" }
+        - name: page
+          in: query
+          required: false
+          schema: { type: integer, minimum: 1, default: 1 }
+        - name: pageSize
+          in: query
+          required: false
+          schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+      responses:
+        "200":
+          description: Manifest deployments visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestDeploymentListEnvelope"
+  /delivery/manifest-deployments/{manifestDeploymentID}:
+    get:
+      tags: [Delivery]
+      operationId: getManifestDeployment
+      parameters:
+        - $ref: "#/components/parameters/ManifestDeploymentID"
+      responses:
+        "200":
+          description: Manifest deployment desired and observed state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestDeploymentEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-deployments/{manifestDeploymentID}/reconcile:
+    post:
+      tags: [Delivery]
+      operationId: reconcileManifestDeployment
+      parameters:
+        - $ref: "#/components/parameters/ManifestDeploymentID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManifestDeploymentActionInput"
+      responses:
+        "202":
+          description: Durable manifest reconcile task.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestDeploymentActionEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-deployments/{manifestDeploymentID}/repair:
+    post:
+      tags: [Delivery]
+      operationId: repairManifestDeployment
+      parameters:
+        - $ref: "#/components/parameters/ManifestDeploymentID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManifestDeploymentActionInput"
+      responses:
+        "202":
+          description: Governed durable drift repair task.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestDeploymentActionEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-deployments/{manifestDeploymentID}/adopt:
+    post:
+      tags: [Delivery]
+      operationId: adoptManifestDeployment
+      parameters:
+        - $ref: "#/components/parameters/ManifestDeploymentID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManifestDeploymentActionInput"
+      responses:
+        "202":
+          description: Durable live-state adoption task; completion creates a reviewable draft only.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestDeploymentActionEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-deployments/{manifestDeploymentID}/rollback:
+    post:
+      tags: [Delivery]
+      operationId: rollbackManifestDeployment
+      parameters:
+        - $ref: "#/components/parameters/ManifestDeploymentID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManifestRollbackInput"
+      responses:
+        "202":
+          description: Durable rollback task targeting an immutable revision.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestDeploymentActionEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-packages/{manifestPackageID}/delivery-intents:
+    get:
+      tags: [Delivery]
+      operationId: listManifestDeliveryIntents
+      parameters:
+        - $ref: "#/components/parameters/ManifestPackageID"
+      responses:
+        "200":
+          description: Governed manifest delivery proposals.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestDeliveryIntentListEnvelope"
+    post:
+      tags: [Delivery]
+      operationId: createManifestDeliveryIntent
+      parameters:
+        - $ref: "#/components/parameters/ManifestPackageID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManifestDeliveryIntentInput"
+      responses:
+        "201":
+          description: Persisted, validated, non-executing manifest proposal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestDeliveryIntentEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-delivery-intents/{manifestDeliveryIntentID}/accept:
+    post:
+      tags: [Delivery]
+      operationId: acceptManifestDeliveryIntent
+      parameters:
+        - $ref: "#/components/parameters/ManifestDeliveryIntentID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManifestDeliveryIntentDecisionInput"
+      responses:
+        "200":
+          description: Accepted proposal copied into the mutable Soha-managed draft.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestDeliveryIntentEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-delivery-intents/{manifestDeliveryIntentID}/reject:
+    post:
+      tags: [Delivery]
+      operationId: rejectManifestDeliveryIntent
+      parameters:
+        - $ref: "#/components/parameters/ManifestDeliveryIntentID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManifestDeliveryIntentDecisionInput"
+      responses:
+        "200":
+          description: Rejected proposal retained for provenance and audit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestDeliveryIntentEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
   /delivery/drafts:
     post:
       tags: [Delivery]
@@ -1848,6 +2355,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ExecutionTaskEnvelope"
+  /docker/containers/start:
+    post:
+      tags: [Docker]
+      operationId: startDockerContainer
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DockerContainerStartInput"
+      responses:
+        "202":
+          description: Docker container build-and-start operation accepted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerOperationEnvelope"
   /docker/operations/claim:
     post:
       tags: [Runner]
@@ -7107,6 +7633,41 @@ components:
       required: true
       schema:
         type: string
+    ManifestPackageID:
+      name: manifestPackageID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    ManifestBindingID:
+      name: manifestBindingID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    ManifestDeploymentID:
+      name: manifestDeploymentID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    ManifestSourceID:
+      name: manifestSourceID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    ManifestDeliveryIntentID:
+      name: manifestDeliveryIntentID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
     RepositoryID:
       name: repositoryID
       in: path
@@ -13452,6 +14013,672 @@ components:
         relatedIds:
           $ref: "#/components/schemas/ApplicationDeliveryActionRelatedIDs"
       additionalProperties: false
+    ManifestSourceMode:
+      type: string
+      enum: [soha_managed, git_synced]
+      x-enum-varnames: [ManifestSourceModeSohaManaged, ManifestSourceModeGitSynced]
+    ManifestSourceRefType:
+      type: string
+      enum: [branch, tag, commit]
+      x-enum-varnames: [ManifestSourceRefTypeBranch, ManifestSourceRefTypeTag, ManifestSourceRefTypeCommit]
+    ManifestSourceSyncPolicy:
+      type: string
+      enum: [manual, webhook, poll]
+      x-enum-varnames: [ManifestSourceSyncPolicyManual, ManifestSourceSyncPolicyWebhook, ManifestSourceSyncPolicyPoll]
+    ManifestSource:
+      type: object
+      required: [id, packageId, mode, syncPolicy, autoPublish, generation, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        packageId: { type: string, minLength: 1 }
+        mode: { $ref: "#/components/schemas/ManifestSourceMode" }
+        repositoryId: { type: string }
+        refType: { $ref: "#/components/schemas/ManifestSourceRefType" }
+        refValue: { type: string }
+        path: { type: string }
+        includePatterns:
+          type: array
+          items: { type: string }
+        excludePatterns:
+          type: array
+          items: { type: string }
+        syncPolicy: { $ref: "#/components/schemas/ManifestSourceSyncPolicy" }
+        pollIntervalSeconds: { type: integer, minimum: 30 }
+        autoPublish: { type: boolean }
+        autoDeploy: { type: boolean }
+        lastResolvedCommit: { type: string }
+        lastTreeDigest: { type: string }
+        lastCanonicalDigest: { type: string }
+        lastSuccessfulSyncAt: { type: string, format: date-time }
+        lastErrorCode: { type: string }
+        lastErrorMessage: { type: string }
+        generation: { type: integer, format: int64, minimum: 1 }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    ManifestSourceUpdateInput:
+      type: object
+      required: [mode, syncPolicy, autoPublish, expectedGeneration]
+      properties:
+        mode: { $ref: "#/components/schemas/ManifestSourceMode" }
+        repositoryId: { type: string }
+        refType: { $ref: "#/components/schemas/ManifestSourceRefType" }
+        refValue: { type: string }
+        path: { type: string }
+        includePatterns:
+          type: array
+          items: { type: string }
+        excludePatterns:
+          type: array
+          items: { type: string }
+        syncPolicy: { $ref: "#/components/schemas/ManifestSourceSyncPolicy" }
+        pollIntervalSeconds: { type: integer, minimum: 30 }
+        autoPublish: { type: boolean }
+        autoDeploy: { type: boolean }
+        expectedGeneration: { type: integer, format: int64, minimum: 1 }
+      additionalProperties: false
+    ManifestSourceEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ManifestSource" }
+      additionalProperties: false
+    ManifestFile:
+      type: object
+      required: [path, content]
+      properties:
+        path: { type: string, minLength: 1, maxLength: 512 }
+        content: { type: string, maxLength: 524288 }
+      additionalProperties: false
+    ManifestRenderInput:
+      type: object
+      required: [bindingId]
+      properties:
+        bindingId: { type: string, minLength: 1 }
+        revision: { type: integer, minimum: 1 }
+      additionalProperties: false
+    ManifestRenderedDocument:
+      type: object
+      required: [index, path, content, contentDigest, apiVersion, kind, namespace, name]
+      properties:
+        index: { type: integer, minimum: 0 }
+        path: { type: string }
+        content: { type: string }
+        contentDigest: { type: string }
+        apiVersion: { type: string }
+        kind: { type: string }
+        namespace: { type: string }
+        name: { type: string }
+      additionalProperties: false
+    ManifestValidationStage:
+      type: string
+      enum: [syntax, render, schema, scope, secret_ref, policy, dry_run, apply, observe, drift]
+      x-enum-varnames: [ManifestValidationStageSyntax, ManifestValidationStageRender, ManifestValidationStageSchema, ManifestValidationStageScope, ManifestValidationStageSecretRef, ManifestValidationStagePolicy, ManifestValidationStageDryRun, ManifestValidationStageApply, ManifestValidationStageObserve, ManifestValidationStageDrift]
+    ManifestDiagnosticSeverity:
+      type: string
+      enum: [info, warning, error]
+      x-enum-varnames: [ManifestDiagnosticSeverityInfo, ManifestDiagnosticSeverityWarning, ManifestDiagnosticSeverityError]
+    ManifestDiagnostic:
+      type: object
+      required: [stage, severity, code, message]
+      properties:
+        stage: { $ref: "#/components/schemas/ManifestValidationStage" }
+        severity: { $ref: "#/components/schemas/ManifestDiagnosticSeverity" }
+        code: { type: string }
+        message: { type: string }
+        path: { type: string }
+        documentIndex: { type: integer, minimum: 0 }
+        field: { type: string }
+        apiVersion: { type: string }
+        kind: { type: string }
+        namespace: { type: string }
+        name: { type: string }
+        fieldManager: { type: string }
+      additionalProperties: false
+    ManifestRenderResult:
+      type: object
+      required: [packageId, bindingId, revision, renderer, renderedDigest, documents, diagnostics]
+      properties:
+        packageId: { type: string }
+        bindingId: { type: string }
+        revision: { type: integer, minimum: 0 }
+        renderer: { type: string, enum: [raw_yaml, kustomize] }
+        renderedDigest: { type: string }
+        documents:
+          type: array
+          maxItems: 50
+          items: { $ref: "#/components/schemas/ManifestRenderedDocument" }
+        diagnostics:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestDiagnostic" }
+      additionalProperties: false
+    ManifestRenderEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ManifestRenderResult" }
+      additionalProperties: false
+    ManifestPreflightInput:
+      type: object
+      required: [bindingId]
+      properties:
+        bindingId: { type: string, minLength: 1 }
+        revision: { type: integer, minimum: 1 }
+        forceConflicts: { type: boolean, default: false }
+      additionalProperties: false
+    ManifestTaskAction:
+      type: string
+      enum: [preflight, apply, observe, repair, adopt, rollback, sync]
+      x-enum-varnames: [ManifestTaskActionPreflight, ManifestTaskActionApply, ManifestTaskActionObserve, ManifestTaskActionRepair, ManifestTaskActionAdopt, ManifestTaskActionRollback, ManifestTaskActionSync]
+    ManifestExecutionTaskPayload:
+      type: object
+      required: [action, packageId, generation, idempotencyKey]
+      properties:
+        action: { $ref: "#/components/schemas/ManifestTaskAction" }
+        packageId: { type: string, minLength: 1 }
+        bindingId: { type: string }
+        deploymentId: { type: string }
+        sourceId: { type: string }
+        generation: { type: integer, format: int64, minimum: 1 }
+        revision: { type: integer, minimum: 1 }
+        renderedDigest: { type: string }
+        clusterId: { type: string }
+        namespace: { type: string }
+        fieldManager: { type: string }
+        forceConflicts: { type: boolean, default: false }
+        idempotencyKey: { type: string, minLength: 8, maxLength: 256 }
+        documents:
+          type: array
+          maxItems: 50
+          items: { $ref: "#/components/schemas/ManifestRenderedDocument" }
+        inventory:
+          type: array
+          maxItems: 1000
+          items: { $ref: "#/components/schemas/ManifestResourceInventory" }
+        repositoryId: { type: string }
+        repositoryUrl: { type: string }
+        renderer: { type: string, enum: [raw_yaml, kustomize] }
+        refType: { $ref: "#/components/schemas/ManifestSourceRefType" }
+        refValue: { type: string }
+        path: { type: string }
+        includePatterns:
+          type: array
+          items: { type: string }
+        excludePatterns:
+          type: array
+          items: { type: string }
+        requestedCommit: { type: string }
+        requestedBy: { type: string }
+      additionalProperties: false
+
+    ManifestExecutionTask:
+      allOf:
+        - $ref: "#/components/schemas/ExecutionTask"
+        - type: object
+          required: [payload]
+          properties:
+            payload: { $ref: "#/components/schemas/ManifestExecutionTaskPayload" }
+            result: { $ref: "#/components/schemas/ManifestExecutionTaskResult" }
+    ManifestExecutionTaskEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ManifestExecutionTask" }
+      additionalProperties: false
+    ManifestPreflightResult:
+      type: object
+      required: [ready, capability, renderedDigest, resourceCount, diagnostics]
+      properties:
+        ready: { type: boolean }
+        capability: { type: string, enum: [available, degraded, unsupported] }
+        renderedDigest: { type: string }
+        resourceCount: { type: integer, minimum: 0 }
+        diagnostics:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestDiagnostic" }
+      additionalProperties: false
+    ManifestDriftField:
+      type: object
+      required: [path, desiredValue, observedValue]
+      properties:
+        path: { type: string }
+        desiredValue: {}
+        observedValue: {}
+        fieldManager: { type: string }
+      additionalProperties: false
+    ManifestDriftReport:
+      type: object
+      required: [drifted, observedAt, resources, evidenceRefs]
+      properties:
+        drifted: { type: boolean }
+        observedAt: { type: string, format: date-time }
+        ageSeconds: { type: integer, format: int64, minimum: 0 }
+        resources:
+          type: array
+          items:
+            type: object
+            required: [apiVersion, kind, namespace, name, fields]
+            properties:
+              apiVersion: { type: string }
+              kind: { type: string }
+              namespace: { type: string }
+              name: { type: string }
+              fields:
+                type: array
+                items: { $ref: "#/components/schemas/ManifestDriftField" }
+            additionalProperties: false
+        evidenceRefs:
+          type: array
+          items: { type: string }
+      additionalProperties: false
+    ManifestExecutionTaskResult:
+      type: object
+      required: [action, generation, stale, diagnostics, inventory]
+      properties:
+        action: { $ref: "#/components/schemas/ManifestTaskAction" }
+        deploymentId: { type: string }
+        generation: { type: integer, format: int64, minimum: 1 }
+        stale: { type: boolean }
+        renderedDigest: { type: string }
+        preflight: { $ref: "#/components/schemas/ManifestPreflightResult" }
+        diagnostics:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestDiagnostic" }
+        inventory:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestResourceInventory" }
+        drift: { $ref: "#/components/schemas/ManifestDriftReport" }
+        adoptedFiles:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestFile" }
+        evidenceRefs:
+          type: array
+          items: { type: string }
+        resolvedCommit: { type: string }
+        treeDigest: { type: string }
+        canonicalDigest: { type: string }
+        syncedFiles:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestFile" }
+      additionalProperties: false
+    ManifestSyncTrigger:
+      type: string
+      enum: [manual, webhook, poll]
+      x-enum-varnames: [ManifestSyncTriggerManual, ManifestSyncTriggerWebhook, ManifestSyncTriggerPoll]
+    ManifestSyncInput:
+      type: object
+      required: [expectedGeneration]
+      properties:
+        expectedGeneration: { type: integer, format: int64, minimum: 1 }
+        requestedCommit: { type: string }
+      additionalProperties: false
+    ManifestSyncWebhookInput:
+      type: object
+      required: [repositoryId, ref, eventId]
+      properties:
+        repositoryId: { type: string, minLength: 1 }
+        ref: { type: string, minLength: 1 }
+        commit: { type: string }
+        eventId: { type: string, minLength: 1, maxLength: 256 }
+      additionalProperties: false
+    ManifestSyncRunStatus:
+      type: string
+      enum: [queued, running, succeeded, failed, ignored]
+      x-enum-varnames: [ManifestSyncRunStatusQueued, ManifestSyncRunStatusRunning, ManifestSyncRunStatusSucceeded, ManifestSyncRunStatusFailed, ManifestSyncRunStatusIgnored]
+    ManifestSyncRun:
+      type: object
+      required: [id, sourceId, packageId, sourceGeneration, trigger, status, idempotencyKey, files, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        sourceId: { type: string }
+        packageId: { type: string }
+        executionTaskId: { type: string }
+        sourceGeneration: { type: integer, format: int64, minimum: 1 }
+        trigger: { $ref: "#/components/schemas/ManifestSyncTrigger" }
+        status: { $ref: "#/components/schemas/ManifestSyncRunStatus" }
+        idempotencyKey: { type: string }
+        requestedCommit: { type: string }
+        resolvedCommit: { type: string }
+        treeDigest: { type: string }
+        canonicalDigest: { type: string }
+        files:
+          type: array
+          items: { type: string }
+        revision: { type: integer, minimum: 1 }
+        errorCode: { type: string }
+        errorMessage: { type: string }
+        actor: { type: string }
+        startedAt: { type: string, format: date-time }
+        finishedAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    ManifestSyncAction:
+      type: object
+      required: [run, task]
+      properties:
+        run: { $ref: "#/components/schemas/ManifestSyncRun" }
+        task: { $ref: "#/components/schemas/ManifestExecutionTask" }
+      additionalProperties: false
+    ManifestSyncActionEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ManifestSyncAction" }
+      additionalProperties: false
+    ManifestSyncRunListEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestSyncRun" }
+      additionalProperties: false
+    ManifestDriftPolicy:
+      type: string
+      enum: [report, repair, adopt]
+      x-enum-varnames: [ManifestDriftPolicyReport, ManifestDriftPolicyRepair, ManifestDriftPolicyAdopt]
+    ManifestDeletionPolicy:
+      type: string
+      enum: [orphan, delete_managed]
+      x-enum-varnames: [ManifestDeletionPolicyOrphan, ManifestDeletionPolicyDeleteManaged]
+    ManifestBinding:
+      type: object
+      required: [id, packageId, applicationEnvironmentId, environmentKey, clusterId, namespace, overlay, driftPolicy, deletionPolicy, enabled, version, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        packageId: { type: string, minLength: 1 }
+        applicationEnvironmentId: { type: string, minLength: 1 }
+        environmentKey: { type: string, minLength: 1 }
+        clusterId: { type: string, minLength: 1 }
+        namespace: { type: string, minLength: 1 }
+        overlay:
+          type: object
+          additionalProperties: { type: string }
+        rolloutStrategyId: { type: string }
+        verificationPolicyId: { type: string }
+        driftPolicy: { $ref: "#/components/schemas/ManifestDriftPolicy" }
+        deletionPolicy: { $ref: "#/components/schemas/ManifestDeletionPolicy" }
+        enabled: { type: boolean }
+        version: { type: integer, format: int64, minimum: 1 }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    ManifestBindingInput:
+      type: object
+      required: [applicationEnvironmentId, clusterId, namespace, driftPolicy, deletionPolicy, enabled]
+      properties:
+        applicationEnvironmentId: { type: string, minLength: 1 }
+        clusterId: { type: string, minLength: 1 }
+        namespace: { type: string, minLength: 1 }
+        overlay:
+          type: object
+          additionalProperties: { type: string }
+        rolloutStrategyId: { type: string }
+        verificationPolicyId: { type: string }
+        driftPolicy: { $ref: "#/components/schemas/ManifestDriftPolicy" }
+        deletionPolicy: { $ref: "#/components/schemas/ManifestDeletionPolicy" }
+        enabled: { type: boolean }
+      additionalProperties: false
+    ManifestBindingUpdateInput:
+      type: object
+      required: [applicationEnvironmentId, clusterId, namespace, driftPolicy, deletionPolicy, enabled, expectedVersion]
+      properties:
+        applicationEnvironmentId: { type: string, minLength: 1 }
+        clusterId: { type: string, minLength: 1 }
+        namespace: { type: string, minLength: 1 }
+        overlay:
+          type: object
+          additionalProperties: { type: string }
+        rolloutStrategyId: { type: string }
+        verificationPolicyId: { type: string }
+        driftPolicy: { $ref: "#/components/schemas/ManifestDriftPolicy" }
+        deletionPolicy: { $ref: "#/components/schemas/ManifestDeletionPolicy" }
+        enabled: { type: boolean }
+        expectedVersion: { type: integer, format: int64, minimum: 1 }
+      additionalProperties: false
+    ManifestBindingEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ManifestBinding" }
+      additionalProperties: false
+    ManifestBindingListEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestBinding" }
+      additionalProperties: false
+    ManifestConditionStatus:
+      type: string
+      enum: ["true", "false", "unknown"]
+      x-enum-varnames: [ManifestConditionStatusTrue, ManifestConditionStatusFalse, ManifestConditionStatusUnknown]
+    ManifestCondition:
+      type: object
+      required: [type, status, reason, message, observedGeneration, lastTransitionAt, evidenceRefs]
+      properties:
+        type:
+          type: string
+          enum: [SourceReady, Rendered, PreflightPassed, Synced, Healthy, Progressing, Drifted, VerificationPassed, RollbackAvailable]
+        status: { $ref: "#/components/schemas/ManifestConditionStatus" }
+        reason: { type: string }
+        message: { type: string }
+        observedGeneration: { type: integer, format: int64, minimum: 0 }
+        lastTransitionAt: { type: string, format: date-time }
+        evidenceRefs:
+          type: array
+          items: { type: string }
+      additionalProperties: false
+    ManifestResourceInventory:
+      type: object
+      required: [deploymentId, generation, apiVersion, kind, namespace, name, desiredObjectDigest, observedObjectDigest, health, lastObservedAt]
+      properties:
+        deploymentId: { type: string, minLength: 1 }
+        generation: { type: integer, format: int64, minimum: 1 }
+        apiVersion: { type: string, minLength: 1 }
+        kind: { type: string, minLength: 1 }
+        namespace: { type: string }
+        name: { type: string, minLength: 1 }
+        uid: { type: string }
+        resourceVersion: { type: string }
+        desiredObjectDigest: { type: string }
+        observedObjectDigest: { type: string }
+        health: { type: string }
+        lastObservedAt: { type: string, format: date-time }
+      additionalProperties: false
+    ManifestReconcilePolicy:
+      type: string
+      enum: [manual, continuous]
+      x-enum-varnames: [ManifestReconcilePolicyManual, ManifestReconcilePolicyContinuous]
+    ManifestDeploymentPhase:
+      type: string
+      enum: [pending, waiting_approval, reconciling, converged, drifted, degraded, deleting]
+      x-enum-varnames: [ManifestDeploymentPhasePending, ManifestDeploymentPhaseWaitingApproval, ManifestDeploymentPhaseReconciling, ManifestDeploymentPhaseConverged, ManifestDeploymentPhaseDrifted, ManifestDeploymentPhaseDegraded, ManifestDeploymentPhaseDeleting]
+    ManifestDeploymentSpec:
+      type: object
+      required: [desiredRevision, desiredDigest, reconcilePolicy, driftPolicy, deletionPolicy]
+      properties:
+        desiredRevision: { type: integer, minimum: 1 }
+        desiredDigest: { type: string, minLength: 1 }
+        reconcilePolicy: { $ref: "#/components/schemas/ManifestReconcilePolicy" }
+        driftPolicy: { $ref: "#/components/schemas/ManifestDriftPolicy" }
+        deletionPolicy: { $ref: "#/components/schemas/ManifestDeletionPolicy" }
+      additionalProperties: false
+    ManifestDeploymentStatus:
+      type: object
+      required: [observedGeneration, phase, conditions, inventory]
+      properties:
+        observedGeneration: { type: integer, format: int64, minimum: 0 }
+        appliedRevision: { type: integer, minimum: 1 }
+        appliedDigest: { type: string }
+        lastKnownGoodRevision: { type: integer, minimum: 1 }
+        phase: { $ref: "#/components/schemas/ManifestDeploymentPhase" }
+        conditions:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestCondition" }
+        inventory:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestResourceInventory" }
+        lastReconciledAt: { type: string, format: date-time }
+        lastExecutionTaskId: { type: string }
+        drift: { $ref: "#/components/schemas/ManifestDriftReport" }
+        lastErrorCode: { type: string }
+        lastErrorMessage: { type: string }
+      additionalProperties: false
+    ManifestDeployment:
+      type: object
+      required: [id, packageId, bindingId, generation, spec, status, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        packageId: { type: string, minLength: 1 }
+        bindingId: { type: string, minLength: 1 }
+        generation: { type: integer, format: int64, minimum: 1 }
+        spec: { $ref: "#/components/schemas/ManifestDeploymentSpec" }
+        status: { $ref: "#/components/schemas/ManifestDeploymentStatus" }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    ManifestDeploymentPage:
+      type: object
+      required: [items, total, page, pageSize]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestDeployment" }
+        total: { type: integer, minimum: 0 }
+        page: { type: integer, minimum: 1 }
+        pageSize: { type: integer, minimum: 1, maximum: 100 }
+      additionalProperties: false
+    ManifestDeploymentEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ManifestDeployment" }
+      additionalProperties: false
+    ManifestDeploymentListEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ManifestDeploymentPage" }
+      additionalProperties: false
+    ManifestDesiredRevisionInput:
+      type: object
+      required: [desiredRevision, reconcilePolicy, expectedGeneration]
+      properties:
+        desiredRevision: { type: integer, minimum: 1 }
+        reconcilePolicy: { $ref: "#/components/schemas/ManifestReconcilePolicy" }
+        expectedGeneration: { type: integer, format: int64, minimum: 0 }
+        reason: { type: string, maxLength: 1000 }
+      additionalProperties: false
+    ManifestDeploymentActionInput:
+      type: object
+      required: [expectedGeneration]
+      properties:
+        expectedGeneration: { type: integer, format: int64, minimum: 1 }
+        reason: { type: string, maxLength: 1000 }
+        forceConflicts: { type: boolean, default: false }
+      additionalProperties: false
+    ManifestRollbackInput:
+      type: object
+      required: [expectedGeneration]
+      properties:
+        expectedGeneration: { type: integer, format: int64, minimum: 1 }
+        targetRevision: { type: integer, minimum: 1 }
+        useLastKnownGood: { type: boolean, default: true }
+        reason: { type: string, maxLength: 1000 }
+      additionalProperties: false
+    ManifestDeploymentAction:
+      type: object
+      required: [deployment, task]
+      properties:
+        deployment: { $ref: "#/components/schemas/ManifestDeployment" }
+        task: { $ref: "#/components/schemas/ManifestExecutionTask" }
+      additionalProperties: false
+    ManifestDeploymentActionEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ManifestDeploymentAction" }
+      additionalProperties: false
+    ManifestDeliveryIntentStatus:
+      type: string
+      enum: [draft, accepted, rejected]
+      x-enum-varnames: [ManifestDeliveryIntentStatusDraft, ManifestDeliveryIntentStatusAccepted, ManifestDeliveryIntentStatusRejected]
+    ManifestDeliveryIntentInput:
+      type: object
+      required: [files, provider, model, promptTemplateVersion, evidenceDigest, rationale, risk]
+      properties:
+        bindingId: { type: string }
+        files:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items: { $ref: "#/components/schemas/ManifestFile" }
+        provider: { type: string, minLength: 1 }
+        model: { type: string, minLength: 1 }
+        promptTemplateVersion: { type: string, minLength: 1 }
+        requestId: { type: string }
+        evidenceDigest: { type: string, minLength: 1 }
+        evidenceRefs:
+          type: array
+          items: { type: string }
+        rationale: { type: string, minLength: 1, maxLength: 10000 }
+        risk: { type: string, minLength: 1, maxLength: 10000 }
+      additionalProperties: false
+    ManifestDeliveryIntentDecisionInput:
+      type: object
+      required: [expectedCurrentRevision, expectedPackageUpdatedAt]
+      properties:
+        expectedCurrentRevision: { type: integer, minimum: 0 }
+        expectedPackageUpdatedAt: { type: string, format: date-time }
+        comment: { type: string, maxLength: 2000 }
+      additionalProperties: false
+    ManifestDeliveryIntent:
+      type: object
+      required: [id, packageId, status, files, provider, model, promptTemplateVersion, evidenceDigest, evidenceRefs, proposalDigest, rationale, risk, validation, createdBy, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        packageId: { type: string }
+        bindingId: { type: string }
+        status: { $ref: "#/components/schemas/ManifestDeliveryIntentStatus" }
+        files:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestFile" }
+        provider: { type: string }
+        model: { type: string }
+        promptTemplateVersion: { type: string }
+        requestId: { type: string }
+        evidenceDigest: { type: string }
+        evidenceRefs:
+          type: array
+          items: { type: string }
+        proposalDigest: { type: string }
+        rationale: { type: string }
+        risk: { type: string }
+        validation: { $ref: "#/components/schemas/ManifestPreflightResult" }
+        decisionComment: { type: string }
+        createdBy: { type: string }
+        decidedBy: { type: string }
+        decidedAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    ManifestDeliveryIntentEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ManifestDeliveryIntent" }
+      additionalProperties: false
+    ManifestDeliveryIntentListEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestDeliveryIntent" }
+      additionalProperties: false
     DeliveryDraftFileTemplate:
       type: object
       required: [path, kind, content, required]
@@ -14102,6 +15329,191 @@ components:
         payload:
           type: object
           additionalProperties: true
+      additionalProperties: false
+    DockerPayloadScalarValue:
+      oneOf:
+        - type: string
+        - type: number
+        - type: integer
+        - type: boolean
+    DockerPayloadValue:
+      oneOf:
+        - $ref: "#/components/schemas/DockerPayloadScalarValue"
+        - type: array
+          items:
+            $ref: "#/components/schemas/DockerPayloadScalarValue"
+        - type: object
+          additionalProperties:
+            $ref: "#/components/schemas/DockerPayloadScalarValue"
+    DockerGitBuildInput:
+      type: object
+      required: [repositoryUrl]
+      properties:
+        repositoryUrl:
+          type: string
+          format: uri
+        ref:
+          type: string
+          default: main
+        dockerfilePath:
+          type: string
+          default: Dockerfile
+        contextDir:
+          type: string
+          default: .
+        pull:
+          type: boolean
+          default: false
+        noCache:
+          type: boolean
+          default: false
+      additionalProperties: false
+    DockerContainerPortInput:
+      type: object
+      required: [hostPort, containerPort]
+      properties:
+        name:
+          type: string
+        hostIp:
+          type: string
+        hostPort:
+          type: integer
+          minimum: 1
+          maximum: 65535
+        containerPort:
+          type: integer
+          minimum: 1
+          maximum: 65535
+        protocol:
+          type: string
+          enum: [tcp, udp]
+        exposureScope:
+          type: string
+        domainName:
+          type: string
+        domainScheme:
+          type: string
+          enum: [http, https]
+        domainTlsEnabled:
+          type: boolean
+      additionalProperties: false
+    DockerContainerVolumeInput:
+      type: object
+      required: [source, target]
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum: [bind, volume]
+        source:
+          type: string
+        target:
+          type: string
+        readOnly:
+          type: boolean
+        subPath:
+          type: string
+      additionalProperties: false
+    DockerContainerEnvironmentVariableInput:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+      additionalProperties: false
+    DockerContainerResourceInput:
+      type: object
+      properties:
+        cpus:
+          type: number
+          minimum: 0
+        memoryBytes:
+          type: integer
+          minimum: 0
+        memoryReservationBytes:
+          type: integer
+          minimum: 0
+      additionalProperties: false
+    DockerContainerStartInput:
+      type: object
+      required: [hostId, name, image]
+      properties:
+        hostId:
+          type: string
+        name:
+          type: string
+        image:
+          type: string
+        sourceKind:
+          type: string
+          enum: [image, git_dockerfile]
+          default: image
+        gitBuild:
+          $ref: "#/components/schemas/DockerGitBuildInput"
+        architecture:
+          type: string
+        imagePullPolicy:
+          type: string
+        containerPort:
+          type: integer
+        hostIp:
+          type: string
+        hostPort:
+          type: integer
+        protocol:
+          type: string
+        exposureScope:
+          type: string
+        domainName:
+          type: string
+        domainScheme:
+          type: string
+        domainTlsEnabled:
+          type: boolean
+        command:
+          type: string
+        entrypoint:
+          type: string
+        envContent:
+          type: string
+        environmentVariables:
+          type: array
+          items:
+            $ref: "#/components/schemas/DockerContainerEnvironmentVariableInput"
+        restartPolicy:
+          type: string
+        network:
+          type: string
+        ports:
+          type: array
+          items:
+            $ref: "#/components/schemas/DockerContainerPortInput"
+        volumes:
+          type: array
+          items:
+            $ref: "#/components/schemas/DockerContainerVolumeInput"
+        resources:
+          $ref: "#/components/schemas/DockerContainerResourceInput"
+        environment:
+          type: string
+        owner:
+          type: string
+        team:
+          type: string
+        ttlSeconds:
+          type: integer
+          minimum: 0
+        labels:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/DockerPayloadValue"
+        config:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/DockerPayloadValue"
       additionalProperties: false
     DockerOperation:
       type: object

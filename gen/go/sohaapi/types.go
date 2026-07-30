@@ -1395,6 +1395,78 @@ func (e DirectorySyncRunStatus) Valid() bool {
 	}
 }
 
+// Defines values for DockerContainerPortInputDomainScheme.
+const (
+	DockerContainerPortInputDomainSchemeHTTP  DockerContainerPortInputDomainScheme = "http"
+	DockerContainerPortInputDomainSchemeHTTPS DockerContainerPortInputDomainScheme = "https"
+)
+
+// Valid indicates whether the value is a known member of the DockerContainerPortInputDomainScheme enum.
+func (e DockerContainerPortInputDomainScheme) Valid() bool {
+	switch e {
+	case DockerContainerPortInputDomainSchemeHTTP:
+		return true
+	case DockerContainerPortInputDomainSchemeHTTPS:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DockerContainerPortInputProtocol.
+const (
+	TCP DockerContainerPortInputProtocol = "tcp"
+	UDP DockerContainerPortInputProtocol = "udp"
+)
+
+// Valid indicates whether the value is a known member of the DockerContainerPortInputProtocol enum.
+func (e DockerContainerPortInputProtocol) Valid() bool {
+	switch e {
+	case TCP:
+		return true
+	case UDP:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DockerContainerStartInputSourceKind.
+const (
+	GitDockerfile DockerContainerStartInputSourceKind = "git_dockerfile"
+	Image         DockerContainerStartInputSourceKind = "image"
+)
+
+// Valid indicates whether the value is a known member of the DockerContainerStartInputSourceKind enum.
+func (e DockerContainerStartInputSourceKind) Valid() bool {
+	switch e {
+	case GitDockerfile:
+		return true
+	case Image:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DockerContainerVolumeInputType.
+const (
+	Bind   DockerContainerVolumeInputType = "bind"
+	Volume DockerContainerVolumeInputType = "volume"
+)
+
+// Valid indicates whether the value is a known member of the DockerContainerVolumeInputType enum.
+func (e DockerContainerVolumeInputType) Valid() bool {
+	switch e {
+	case Bind:
+		return true
+	case Volume:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for EvaluationExecutorProfileIsolationMode.
 const (
 	EvaluationExecutorProfileIsolationModeDisposableWrite EvaluationExecutorProfileIsolationMode = "disposable-write"
@@ -2736,6 +2808,438 @@ func (e MFAWebAuthnRequestOptionsUserVerification) Valid() bool {
 	}
 }
 
+// Defines values for ManifestConditionType.
+const (
+	Drifted            ManifestConditionType = "Drifted"
+	Healthy            ManifestConditionType = "Healthy"
+	PreflightPassed    ManifestConditionType = "PreflightPassed"
+	Progressing        ManifestConditionType = "Progressing"
+	Rendered           ManifestConditionType = "Rendered"
+	RollbackAvailable  ManifestConditionType = "RollbackAvailable"
+	SourceReady        ManifestConditionType = "SourceReady"
+	Synced             ManifestConditionType = "Synced"
+	VerificationPassed ManifestConditionType = "VerificationPassed"
+)
+
+// Valid indicates whether the value is a known member of the ManifestConditionType enum.
+func (e ManifestConditionType) Valid() bool {
+	switch e {
+	case Drifted:
+		return true
+	case Healthy:
+		return true
+	case PreflightPassed:
+		return true
+	case Progressing:
+		return true
+	case Rendered:
+		return true
+	case RollbackAvailable:
+		return true
+	case SourceReady:
+		return true
+	case Synced:
+		return true
+	case VerificationPassed:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestConditionStatus.
+const (
+	ManifestConditionStatusFalse   ManifestConditionStatus = "false"
+	ManifestConditionStatusTrue    ManifestConditionStatus = "true"
+	ManifestConditionStatusUnknown ManifestConditionStatus = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the ManifestConditionStatus enum.
+func (e ManifestConditionStatus) Valid() bool {
+	switch e {
+	case ManifestConditionStatusFalse:
+		return true
+	case ManifestConditionStatusTrue:
+		return true
+	case ManifestConditionStatusUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestDeletionPolicy.
+const (
+	ManifestDeletionPolicyDeleteManaged ManifestDeletionPolicy = "delete_managed"
+	ManifestDeletionPolicyOrphan        ManifestDeletionPolicy = "orphan"
+)
+
+// Valid indicates whether the value is a known member of the ManifestDeletionPolicy enum.
+func (e ManifestDeletionPolicy) Valid() bool {
+	switch e {
+	case ManifestDeletionPolicyDeleteManaged:
+		return true
+	case ManifestDeletionPolicyOrphan:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestDeliveryIntentStatus.
+const (
+	ManifestDeliveryIntentStatusAccepted ManifestDeliveryIntentStatus = "accepted"
+	ManifestDeliveryIntentStatusDraft    ManifestDeliveryIntentStatus = "draft"
+	ManifestDeliveryIntentStatusRejected ManifestDeliveryIntentStatus = "rejected"
+)
+
+// Valid indicates whether the value is a known member of the ManifestDeliveryIntentStatus enum.
+func (e ManifestDeliveryIntentStatus) Valid() bool {
+	switch e {
+	case ManifestDeliveryIntentStatusAccepted:
+		return true
+	case ManifestDeliveryIntentStatusDraft:
+		return true
+	case ManifestDeliveryIntentStatusRejected:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestDeploymentPhase.
+const (
+	ManifestDeploymentPhaseConverged       ManifestDeploymentPhase = "converged"
+	ManifestDeploymentPhaseDegraded        ManifestDeploymentPhase = "degraded"
+	ManifestDeploymentPhaseDeleting        ManifestDeploymentPhase = "deleting"
+	ManifestDeploymentPhaseDrifted         ManifestDeploymentPhase = "drifted"
+	ManifestDeploymentPhasePending         ManifestDeploymentPhase = "pending"
+	ManifestDeploymentPhaseReconciling     ManifestDeploymentPhase = "reconciling"
+	ManifestDeploymentPhaseWaitingApproval ManifestDeploymentPhase = "waiting_approval"
+)
+
+// Valid indicates whether the value is a known member of the ManifestDeploymentPhase enum.
+func (e ManifestDeploymentPhase) Valid() bool {
+	switch e {
+	case ManifestDeploymentPhaseConverged:
+		return true
+	case ManifestDeploymentPhaseDegraded:
+		return true
+	case ManifestDeploymentPhaseDeleting:
+		return true
+	case ManifestDeploymentPhaseDrifted:
+		return true
+	case ManifestDeploymentPhasePending:
+		return true
+	case ManifestDeploymentPhaseReconciling:
+		return true
+	case ManifestDeploymentPhaseWaitingApproval:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestDiagnosticSeverity.
+const (
+	ManifestDiagnosticSeverityError   ManifestDiagnosticSeverity = "error"
+	ManifestDiagnosticSeverityInfo    ManifestDiagnosticSeverity = "info"
+	ManifestDiagnosticSeverityWarning ManifestDiagnosticSeverity = "warning"
+)
+
+// Valid indicates whether the value is a known member of the ManifestDiagnosticSeverity enum.
+func (e ManifestDiagnosticSeverity) Valid() bool {
+	switch e {
+	case ManifestDiagnosticSeverityError:
+		return true
+	case ManifestDiagnosticSeverityInfo:
+		return true
+	case ManifestDiagnosticSeverityWarning:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestDriftPolicy.
+const (
+	ManifestDriftPolicyAdopt  ManifestDriftPolicy = "adopt"
+	ManifestDriftPolicyRepair ManifestDriftPolicy = "repair"
+	ManifestDriftPolicyReport ManifestDriftPolicy = "report"
+)
+
+// Valid indicates whether the value is a known member of the ManifestDriftPolicy enum.
+func (e ManifestDriftPolicy) Valid() bool {
+	switch e {
+	case ManifestDriftPolicyAdopt:
+		return true
+	case ManifestDriftPolicyRepair:
+		return true
+	case ManifestDriftPolicyReport:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestExecutionTaskPayloadRenderer.
+const (
+	ManifestExecutionTaskPayloadRendererKustomize ManifestExecutionTaskPayloadRenderer = "kustomize"
+	ManifestExecutionTaskPayloadRendererRawYaml   ManifestExecutionTaskPayloadRenderer = "raw_yaml"
+)
+
+// Valid indicates whether the value is a known member of the ManifestExecutionTaskPayloadRenderer enum.
+func (e ManifestExecutionTaskPayloadRenderer) Valid() bool {
+	switch e {
+	case ManifestExecutionTaskPayloadRendererKustomize:
+		return true
+	case ManifestExecutionTaskPayloadRendererRawYaml:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestPreflightResultCapability.
+const (
+	ManifestPreflightResultCapabilityAvailable   ManifestPreflightResultCapability = "available"
+	ManifestPreflightResultCapabilityDegraded    ManifestPreflightResultCapability = "degraded"
+	ManifestPreflightResultCapabilityUnsupported ManifestPreflightResultCapability = "unsupported"
+)
+
+// Valid indicates whether the value is a known member of the ManifestPreflightResultCapability enum.
+func (e ManifestPreflightResultCapability) Valid() bool {
+	switch e {
+	case ManifestPreflightResultCapabilityAvailable:
+		return true
+	case ManifestPreflightResultCapabilityDegraded:
+		return true
+	case ManifestPreflightResultCapabilityUnsupported:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestReconcilePolicy.
+const (
+	ManifestReconcilePolicyContinuous ManifestReconcilePolicy = "continuous"
+	ManifestReconcilePolicyManual     ManifestReconcilePolicy = "manual"
+)
+
+// Valid indicates whether the value is a known member of the ManifestReconcilePolicy enum.
+func (e ManifestReconcilePolicy) Valid() bool {
+	switch e {
+	case ManifestReconcilePolicyContinuous:
+		return true
+	case ManifestReconcilePolicyManual:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestRenderResultRenderer.
+const (
+	ManifestRenderResultRendererKustomize ManifestRenderResultRenderer = "kustomize"
+	ManifestRenderResultRendererRawYaml   ManifestRenderResultRenderer = "raw_yaml"
+)
+
+// Valid indicates whether the value is a known member of the ManifestRenderResultRenderer enum.
+func (e ManifestRenderResultRenderer) Valid() bool {
+	switch e {
+	case ManifestRenderResultRendererKustomize:
+		return true
+	case ManifestRenderResultRendererRawYaml:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestSourceMode.
+const (
+	ManifestSourceModeGitSynced   ManifestSourceMode = "git_synced"
+	ManifestSourceModeSohaManaged ManifestSourceMode = "soha_managed"
+)
+
+// Valid indicates whether the value is a known member of the ManifestSourceMode enum.
+func (e ManifestSourceMode) Valid() bool {
+	switch e {
+	case ManifestSourceModeGitSynced:
+		return true
+	case ManifestSourceModeSohaManaged:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestSourceRefType.
+const (
+	ManifestSourceRefTypeBranch ManifestSourceRefType = "branch"
+	ManifestSourceRefTypeCommit ManifestSourceRefType = "commit"
+	ManifestSourceRefTypeTag    ManifestSourceRefType = "tag"
+)
+
+// Valid indicates whether the value is a known member of the ManifestSourceRefType enum.
+func (e ManifestSourceRefType) Valid() bool {
+	switch e {
+	case ManifestSourceRefTypeBranch:
+		return true
+	case ManifestSourceRefTypeCommit:
+		return true
+	case ManifestSourceRefTypeTag:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestSourceSyncPolicy.
+const (
+	ManifestSourceSyncPolicyManual  ManifestSourceSyncPolicy = "manual"
+	ManifestSourceSyncPolicyPoll    ManifestSourceSyncPolicy = "poll"
+	ManifestSourceSyncPolicyWebhook ManifestSourceSyncPolicy = "webhook"
+)
+
+// Valid indicates whether the value is a known member of the ManifestSourceSyncPolicy enum.
+func (e ManifestSourceSyncPolicy) Valid() bool {
+	switch e {
+	case ManifestSourceSyncPolicyManual:
+		return true
+	case ManifestSourceSyncPolicyPoll:
+		return true
+	case ManifestSourceSyncPolicyWebhook:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestSyncRunStatus.
+const (
+	ManifestSyncRunStatusFailed    ManifestSyncRunStatus = "failed"
+	ManifestSyncRunStatusIgnored   ManifestSyncRunStatus = "ignored"
+	ManifestSyncRunStatusQueued    ManifestSyncRunStatus = "queued"
+	ManifestSyncRunStatusRunning   ManifestSyncRunStatus = "running"
+	ManifestSyncRunStatusSucceeded ManifestSyncRunStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the ManifestSyncRunStatus enum.
+func (e ManifestSyncRunStatus) Valid() bool {
+	switch e {
+	case ManifestSyncRunStatusFailed:
+		return true
+	case ManifestSyncRunStatusIgnored:
+		return true
+	case ManifestSyncRunStatusQueued:
+		return true
+	case ManifestSyncRunStatusRunning:
+		return true
+	case ManifestSyncRunStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestSyncTrigger.
+const (
+	ManifestSyncTriggerManual  ManifestSyncTrigger = "manual"
+	ManifestSyncTriggerPoll    ManifestSyncTrigger = "poll"
+	ManifestSyncTriggerWebhook ManifestSyncTrigger = "webhook"
+)
+
+// Valid indicates whether the value is a known member of the ManifestSyncTrigger enum.
+func (e ManifestSyncTrigger) Valid() bool {
+	switch e {
+	case ManifestSyncTriggerManual:
+		return true
+	case ManifestSyncTriggerPoll:
+		return true
+	case ManifestSyncTriggerWebhook:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestTaskAction.
+const (
+	ManifestTaskActionAdopt     ManifestTaskAction = "adopt"
+	ManifestTaskActionApply     ManifestTaskAction = "apply"
+	ManifestTaskActionObserve   ManifestTaskAction = "observe"
+	ManifestTaskActionPreflight ManifestTaskAction = "preflight"
+	ManifestTaskActionRepair    ManifestTaskAction = "repair"
+	ManifestTaskActionRollback  ManifestTaskAction = "rollback"
+	ManifestTaskActionSync      ManifestTaskAction = "sync"
+)
+
+// Valid indicates whether the value is a known member of the ManifestTaskAction enum.
+func (e ManifestTaskAction) Valid() bool {
+	switch e {
+	case ManifestTaskActionAdopt:
+		return true
+	case ManifestTaskActionApply:
+		return true
+	case ManifestTaskActionObserve:
+		return true
+	case ManifestTaskActionPreflight:
+		return true
+	case ManifestTaskActionRepair:
+		return true
+	case ManifestTaskActionRollback:
+		return true
+	case ManifestTaskActionSync:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestValidationStage.
+const (
+	ManifestValidationStageApply     ManifestValidationStage = "apply"
+	ManifestValidationStageDrift     ManifestValidationStage = "drift"
+	ManifestValidationStageDryRun    ManifestValidationStage = "dry_run"
+	ManifestValidationStageObserve   ManifestValidationStage = "observe"
+	ManifestValidationStagePolicy    ManifestValidationStage = "policy"
+	ManifestValidationStageRender    ManifestValidationStage = "render"
+	ManifestValidationStageSchema    ManifestValidationStage = "schema"
+	ManifestValidationStageScope     ManifestValidationStage = "scope"
+	ManifestValidationStageSecretRef ManifestValidationStage = "secret_ref"
+	ManifestValidationStageSyntax    ManifestValidationStage = "syntax"
+)
+
+// Valid indicates whether the value is a known member of the ManifestValidationStage enum.
+func (e ManifestValidationStage) Valid() bool {
+	switch e {
+	case ManifestValidationStageApply:
+		return true
+	case ManifestValidationStageDrift:
+		return true
+	case ManifestValidationStageDryRun:
+		return true
+	case ManifestValidationStageObserve:
+		return true
+	case ManifestValidationStagePolicy:
+		return true
+	case ManifestValidationStageRender:
+		return true
+	case ManifestValidationStageSchema:
+		return true
+	case ManifestValidationStageScope:
+		return true
+	case ManifestValidationStageSecretRef:
+		return true
+	case ManifestValidationStageSyntax:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for MarketplaceAdvisorySeverity.
 const (
 	Critical MarketplaceAdvisorySeverity = "critical"
@@ -2951,16 +3455,16 @@ func (e RepositoryProtocol) Valid() bool {
 
 // Defines values for RepositoryProvider.
 const (
-	RepositoryProviderGit    RepositoryProvider = "git"
-	RepositoryProviderGitlab RepositoryProvider = "gitlab"
+	Git    RepositoryProvider = "git"
+	Gitlab RepositoryProvider = "gitlab"
 )
 
 // Valid indicates whether the value is a known member of the RepositoryProvider enum.
 func (e RepositoryProvider) Valid() bool {
 	switch e {
-	case RepositoryProviderGit:
+	case Git:
 		return true
-	case RepositoryProviderGitlab:
+	case Gitlab:
 		return true
 	default:
 		return false
@@ -4799,19 +5303,19 @@ func (e ListAIGatewayRelayUpstreamsParamsProviderKind) Valid() bool {
 
 // Defines values for ListAIGatewayRelayUpstreamsParamsStatus.
 const (
-	Active   ListAIGatewayRelayUpstreamsParamsStatus = "active"
-	Degraded ListAIGatewayRelayUpstreamsParamsStatus = "degraded"
-	Disabled ListAIGatewayRelayUpstreamsParamsStatus = "disabled"
+	ListAIGatewayRelayUpstreamsParamsStatusActive   ListAIGatewayRelayUpstreamsParamsStatus = "active"
+	ListAIGatewayRelayUpstreamsParamsStatusDegraded ListAIGatewayRelayUpstreamsParamsStatus = "degraded"
+	ListAIGatewayRelayUpstreamsParamsStatusDisabled ListAIGatewayRelayUpstreamsParamsStatus = "disabled"
 )
 
 // Valid indicates whether the value is a known member of the ListAIGatewayRelayUpstreamsParamsStatus enum.
 func (e ListAIGatewayRelayUpstreamsParamsStatus) Valid() bool {
 	switch e {
-	case Active:
+	case ListAIGatewayRelayUpstreamsParamsStatusActive:
 		return true
-	case Degraded:
+	case ListAIGatewayRelayUpstreamsParamsStatusDegraded:
 		return true
-	case Disabled:
+	case ListAIGatewayRelayUpstreamsParamsStatusDisabled:
 		return true
 	default:
 		return false
@@ -7250,6 +7754,98 @@ type DirectorySyncRunSummary struct {
 	Trigger      string                 `json:"trigger"`
 }
 
+// DockerContainerEnvironmentVariableInput defines model for DockerContainerEnvironmentVariableInput.
+type DockerContainerEnvironmentVariableInput struct {
+	Name  string `json:"name"`
+	Value string `json:"value,omitempty"`
+}
+
+// DockerContainerPortInput defines model for DockerContainerPortInput.
+type DockerContainerPortInput struct {
+	ContainerPort    int                                  `json:"containerPort"`
+	DomainName       string                               `json:"domainName,omitempty"`
+	DomainScheme     DockerContainerPortInputDomainScheme `json:"domainScheme,omitempty"`
+	DomainTLSEnabled bool                                 `json:"domainTlsEnabled,omitempty"`
+	ExposureScope    string                               `json:"exposureScope,omitempty"`
+	HostIP           string                               `json:"hostIp,omitempty"`
+	HostPort         int                                  `json:"hostPort"`
+	Name             string                               `json:"name,omitempty"`
+	Protocol         DockerContainerPortInputProtocol     `json:"protocol,omitempty"`
+}
+
+// DockerContainerPortInputDomainScheme defines model for DockerContainerPortInput.DomainScheme.
+type DockerContainerPortInputDomainScheme string
+
+// DockerContainerPortInputProtocol defines model for DockerContainerPortInput.Protocol.
+type DockerContainerPortInputProtocol string
+
+// DockerContainerResourceInput defines model for DockerContainerResourceInput.
+type DockerContainerResourceInput struct {
+	Cpus                   float32 `json:"cpus,omitempty"`
+	MemoryBytes            int     `json:"memoryBytes,omitempty"`
+	MemoryReservationBytes int     `json:"memoryReservationBytes,omitempty"`
+}
+
+// DockerContainerStartInput defines model for DockerContainerStartInput.
+type DockerContainerStartInput struct {
+	Architecture         string                                    `json:"architecture,omitempty"`
+	Command              string                                    `json:"command,omitempty"`
+	Config               map[string]DockerPayloadValue             `json:"config,omitempty"`
+	ContainerPort        int                                       `json:"containerPort,omitempty"`
+	DomainName           string                                    `json:"domainName,omitempty"`
+	DomainScheme         string                                    `json:"domainScheme,omitempty"`
+	DomainTLSEnabled     bool                                      `json:"domainTlsEnabled,omitempty"`
+	Entrypoint           string                                    `json:"entrypoint,omitempty"`
+	EnvContent           string                                    `json:"envContent,omitempty"`
+	Environment          string                                    `json:"environment,omitempty"`
+	EnvironmentVariables []DockerContainerEnvironmentVariableInput `json:"environmentVariables,omitempty"`
+	ExposureScope        string                                    `json:"exposureScope,omitempty"`
+	GitBuild             *DockerGitBuildInput                      `json:"gitBuild,omitempty"`
+	HostID               string                                    `json:"hostId"`
+	HostIP               string                                    `json:"hostIp,omitempty"`
+	HostPort             int                                       `json:"hostPort,omitempty"`
+	Image                string                                    `json:"image"`
+	ImagePullPolicy      string                                    `json:"imagePullPolicy,omitempty"`
+	Labels               map[string]DockerPayloadValue             `json:"labels,omitempty"`
+	Name                 string                                    `json:"name"`
+	Network              string                                    `json:"network,omitempty"`
+	Owner                string                                    `json:"owner,omitempty"`
+	Ports                []DockerContainerPortInput                `json:"ports,omitempty"`
+	Protocol             string                                    `json:"protocol,omitempty"`
+	Resources            *DockerContainerResourceInput             `json:"resources,omitempty"`
+	RestartPolicy        string                                    `json:"restartPolicy,omitempty"`
+	SourceKind           DockerContainerStartInputSourceKind       `json:"sourceKind,omitempty"`
+	Team                 string                                    `json:"team,omitempty"`
+	TTLSeconds           int                                       `json:"ttlSeconds,omitempty"`
+	Volumes              []DockerContainerVolumeInput              `json:"volumes,omitempty"`
+}
+
+// DockerContainerStartInputSourceKind defines model for DockerContainerStartInput.SourceKind.
+type DockerContainerStartInputSourceKind string
+
+// DockerContainerVolumeInput defines model for DockerContainerVolumeInput.
+type DockerContainerVolumeInput struct {
+	Name     string                         `json:"name,omitempty"`
+	ReadOnly bool                           `json:"readOnly,omitempty"`
+	Source   string                         `json:"source"`
+	SubPath  string                         `json:"subPath,omitempty"`
+	Target   string                         `json:"target"`
+	Type     DockerContainerVolumeInputType `json:"type,omitempty"`
+}
+
+// DockerContainerVolumeInputType defines model for DockerContainerVolumeInput.Type.
+type DockerContainerVolumeInputType string
+
+// DockerGitBuildInput defines model for DockerGitBuildInput.
+type DockerGitBuildInput struct {
+	ContextDir     string `json:"contextDir,omitempty"`
+	DockerfilePath string `json:"dockerfilePath,omitempty"`
+	NoCache        bool   `json:"noCache,omitempty"`
+	Pull           bool   `json:"pull,omitempty"`
+	Ref            string `json:"ref,omitempty"`
+	RepositoryURL  string `json:"repositoryUrl"`
+}
+
 // DockerOperation defines model for DockerOperation.
 type DockerOperation struct {
 	ClaimedByWorkerID    string         `json:"claimedByWorkerId,omitempty"`
@@ -7285,6 +7881,34 @@ type DockerOperationClaimRequest struct {
 type DockerOperationEnvelope struct {
 	Data DockerOperation `json:"data"`
 }
+
+// DockerPayloadScalarValue defines model for DockerPayloadScalarValue.
+type DockerPayloadScalarValue struct {
+	union json.RawMessage
+}
+
+// DockerPayloadScalarValue0 defines model for .
+type DockerPayloadScalarValue0 = string
+
+// DockerPayloadScalarValue1 defines model for .
+type DockerPayloadScalarValue1 = float32
+
+// DockerPayloadScalarValue2 defines model for .
+type DockerPayloadScalarValue2 = int
+
+// DockerPayloadScalarValue3 defines model for .
+type DockerPayloadScalarValue3 = bool
+
+// DockerPayloadValue defines model for DockerPayloadValue.
+type DockerPayloadValue struct {
+	union json.RawMessage
+}
+
+// DockerPayloadValue1 defines model for .
+type DockerPayloadValue1 = []DockerPayloadScalarValue
+
+// DockerPayloadValue2 defines model for .
+type DockerPayloadValue2 map[string]DockerPayloadScalarValue
 
 // ErrorEnvelope defines model for ErrorEnvelope.
 type ErrorEnvelope struct {
@@ -9499,6 +10123,571 @@ type MFAWebAuthnResponse struct {
 	UserHandle        string `json:"userHandle,omitempty"`
 }
 
+// ManifestBinding defines model for ManifestBinding.
+type ManifestBinding struct {
+	ApplicationEnvironmentID string                 `json:"applicationEnvironmentId"`
+	ClusterID                string                 `json:"clusterId"`
+	CreatedAt                time.Time              `json:"createdAt"`
+	DeletionPolicy           ManifestDeletionPolicy `json:"deletionPolicy"`
+	DriftPolicy              ManifestDriftPolicy    `json:"driftPolicy"`
+	Enabled                  bool                   `json:"enabled"`
+	EnvironmentKey           string                 `json:"environmentKey"`
+	ID                       string                 `json:"id"`
+	Namespace                string                 `json:"namespace"`
+	Overlay                  map[string]string      `json:"overlay"`
+	PackageID                string                 `json:"packageId"`
+	RolloutStrategyID        string                 `json:"rolloutStrategyId,omitempty"`
+	UpdatedAt                time.Time              `json:"updatedAt"`
+	VerificationPolicyID     string                 `json:"verificationPolicyId,omitempty"`
+	Version                  int64                  `json:"version"`
+}
+
+// ManifestBindingEnvelope defines model for ManifestBindingEnvelope.
+type ManifestBindingEnvelope struct {
+	Data ManifestBinding `json:"data"`
+}
+
+// ManifestBindingInput defines model for ManifestBindingInput.
+type ManifestBindingInput struct {
+	ApplicationEnvironmentID string                 `json:"applicationEnvironmentId"`
+	ClusterID                string                 `json:"clusterId"`
+	DeletionPolicy           ManifestDeletionPolicy `json:"deletionPolicy"`
+	DriftPolicy              ManifestDriftPolicy    `json:"driftPolicy"`
+	Enabled                  bool                   `json:"enabled"`
+	Namespace                string                 `json:"namespace"`
+	Overlay                  map[string]string      `json:"overlay,omitempty"`
+	RolloutStrategyID        string                 `json:"rolloutStrategyId,omitempty"`
+	VerificationPolicyID     string                 `json:"verificationPolicyId,omitempty"`
+}
+
+// ManifestBindingListEnvelope defines model for ManifestBindingListEnvelope.
+type ManifestBindingListEnvelope struct {
+	Data []ManifestBinding `json:"data"`
+}
+
+// ManifestBindingUpdateInput defines model for ManifestBindingUpdateInput.
+type ManifestBindingUpdateInput struct {
+	ApplicationEnvironmentID string                 `json:"applicationEnvironmentId"`
+	ClusterID                string                 `json:"clusterId"`
+	DeletionPolicy           ManifestDeletionPolicy `json:"deletionPolicy"`
+	DriftPolicy              ManifestDriftPolicy    `json:"driftPolicy"`
+	Enabled                  bool                   `json:"enabled"`
+	ExpectedVersion          int64                  `json:"expectedVersion"`
+	Namespace                string                 `json:"namespace"`
+	Overlay                  map[string]string      `json:"overlay,omitempty"`
+	RolloutStrategyID        string                 `json:"rolloutStrategyId,omitempty"`
+	VerificationPolicyID     string                 `json:"verificationPolicyId,omitempty"`
+}
+
+// ManifestCondition defines model for ManifestCondition.
+type ManifestCondition struct {
+	EvidenceRefs       []string                `json:"evidenceRefs"`
+	LastTransitionAt   time.Time               `json:"lastTransitionAt"`
+	Message            string                  `json:"message"`
+	ObservedGeneration int64                   `json:"observedGeneration"`
+	Reason             string                  `json:"reason"`
+	Status             ManifestConditionStatus `json:"status"`
+	Type               ManifestConditionType   `json:"type"`
+}
+
+// ManifestConditionType defines model for ManifestCondition.Type.
+type ManifestConditionType string
+
+// ManifestConditionStatus defines model for ManifestConditionStatus.
+type ManifestConditionStatus string
+
+// ManifestDeletionPolicy defines model for ManifestDeletionPolicy.
+type ManifestDeletionPolicy string
+
+// ManifestDeliveryIntent defines model for ManifestDeliveryIntent.
+type ManifestDeliveryIntent struct {
+	BindingID             string                       `json:"bindingId,omitempty"`
+	CreatedAt             time.Time                    `json:"createdAt"`
+	CreatedBy             string                       `json:"createdBy"`
+	DecidedAt             *time.Time                   `json:"decidedAt,omitempty"`
+	DecidedBy             string                       `json:"decidedBy,omitempty"`
+	DecisionComment       string                       `json:"decisionComment,omitempty"`
+	EvidenceDigest        string                       `json:"evidenceDigest"`
+	EvidenceRefs          []string                     `json:"evidenceRefs"`
+	Files                 []ManifestFile               `json:"files"`
+	ID                    string                       `json:"id"`
+	Model                 string                       `json:"model"`
+	PackageID             string                       `json:"packageId"`
+	PromptTemplateVersion string                       `json:"promptTemplateVersion"`
+	ProposalDigest        string                       `json:"proposalDigest"`
+	Provider              string                       `json:"provider"`
+	Rationale             string                       `json:"rationale"`
+	RequestID             string                       `json:"requestId,omitempty"`
+	Risk                  string                       `json:"risk"`
+	Status                ManifestDeliveryIntentStatus `json:"status"`
+	UpdatedAt             time.Time                    `json:"updatedAt"`
+	Validation            ManifestPreflightResult      `json:"validation"`
+}
+
+// ManifestDeliveryIntentDecisionInput defines model for ManifestDeliveryIntentDecisionInput.
+type ManifestDeliveryIntentDecisionInput struct {
+	Comment                  string    `json:"comment,omitempty"`
+	ExpectedCurrentRevision  int       `json:"expectedCurrentRevision"`
+	ExpectedPackageUpdatedAt time.Time `json:"expectedPackageUpdatedAt"`
+}
+
+// ManifestDeliveryIntentEnvelope defines model for ManifestDeliveryIntentEnvelope.
+type ManifestDeliveryIntentEnvelope struct {
+	Data ManifestDeliveryIntent `json:"data"`
+}
+
+// ManifestDeliveryIntentInput defines model for ManifestDeliveryIntentInput.
+type ManifestDeliveryIntentInput struct {
+	BindingID             string         `json:"bindingId,omitempty"`
+	EvidenceDigest        string         `json:"evidenceDigest"`
+	EvidenceRefs          []string       `json:"evidenceRefs,omitempty"`
+	Files                 []ManifestFile `json:"files"`
+	Model                 string         `json:"model"`
+	PromptTemplateVersion string         `json:"promptTemplateVersion"`
+	Provider              string         `json:"provider"`
+	Rationale             string         `json:"rationale"`
+	RequestID             string         `json:"requestId,omitempty"`
+	Risk                  string         `json:"risk"`
+}
+
+// ManifestDeliveryIntentListEnvelope defines model for ManifestDeliveryIntentListEnvelope.
+type ManifestDeliveryIntentListEnvelope struct {
+	Data []ManifestDeliveryIntent `json:"data"`
+}
+
+// ManifestDeliveryIntentStatus defines model for ManifestDeliveryIntentStatus.
+type ManifestDeliveryIntentStatus string
+
+// ManifestDeployment defines model for ManifestDeployment.
+type ManifestDeployment struct {
+	BindingID  string                   `json:"bindingId"`
+	CreatedAt  time.Time                `json:"createdAt"`
+	Generation int64                    `json:"generation"`
+	ID         string                   `json:"id"`
+	PackageID  string                   `json:"packageId"`
+	Spec       ManifestDeploymentSpec   `json:"spec"`
+	Status     ManifestDeploymentStatus `json:"status"`
+	UpdatedAt  time.Time                `json:"updatedAt"`
+}
+
+// ManifestDeploymentAction defines model for ManifestDeploymentAction.
+type ManifestDeploymentAction struct {
+	Deployment ManifestDeployment    `json:"deployment"`
+	Task       ManifestExecutionTask `json:"task"`
+}
+
+// ManifestDeploymentActionEnvelope defines model for ManifestDeploymentActionEnvelope.
+type ManifestDeploymentActionEnvelope struct {
+	Data ManifestDeploymentAction `json:"data"`
+}
+
+// ManifestDeploymentActionInput defines model for ManifestDeploymentActionInput.
+type ManifestDeploymentActionInput struct {
+	ExpectedGeneration int64  `json:"expectedGeneration"`
+	ForceConflicts     bool   `json:"forceConflicts,omitempty"`
+	Reason             string `json:"reason,omitempty"`
+}
+
+// ManifestDeploymentEnvelope defines model for ManifestDeploymentEnvelope.
+type ManifestDeploymentEnvelope struct {
+	Data ManifestDeployment `json:"data"`
+}
+
+// ManifestDeploymentListEnvelope defines model for ManifestDeploymentListEnvelope.
+type ManifestDeploymentListEnvelope struct {
+	Data ManifestDeploymentPage `json:"data"`
+}
+
+// ManifestDeploymentPage defines model for ManifestDeploymentPage.
+type ManifestDeploymentPage struct {
+	Items    []ManifestDeployment `json:"items"`
+	Page     int                  `json:"page"`
+	PageSize int                  `json:"pageSize"`
+	Total    int                  `json:"total"`
+}
+
+// ManifestDeploymentPhase defines model for ManifestDeploymentPhase.
+type ManifestDeploymentPhase string
+
+// ManifestDeploymentSpec defines model for ManifestDeploymentSpec.
+type ManifestDeploymentSpec struct {
+	DeletionPolicy  ManifestDeletionPolicy  `json:"deletionPolicy"`
+	DesiredDigest   string                  `json:"desiredDigest"`
+	DesiredRevision int                     `json:"desiredRevision"`
+	DriftPolicy     ManifestDriftPolicy     `json:"driftPolicy"`
+	ReconcilePolicy ManifestReconcilePolicy `json:"reconcilePolicy"`
+}
+
+// ManifestDeploymentStatus defines model for ManifestDeploymentStatus.
+type ManifestDeploymentStatus struct {
+	AppliedDigest         string                      `json:"appliedDigest,omitempty"`
+	AppliedRevision       int                         `json:"appliedRevision,omitempty"`
+	Conditions            []ManifestCondition         `json:"conditions"`
+	Drift                 *ManifestDriftReport        `json:"drift,omitempty"`
+	Inventory             []ManifestResourceInventory `json:"inventory"`
+	LastErrorCode         string                      `json:"lastErrorCode,omitempty"`
+	LastErrorMessage      string                      `json:"lastErrorMessage,omitempty"`
+	LastExecutionTaskID   string                      `json:"lastExecutionTaskId,omitempty"`
+	LastKnownGoodRevision int                         `json:"lastKnownGoodRevision,omitempty"`
+	LastReconciledAt      *time.Time                  `json:"lastReconciledAt,omitempty"`
+	ObservedGeneration    int64                       `json:"observedGeneration"`
+	Phase                 ManifestDeploymentPhase     `json:"phase"`
+}
+
+// ManifestDesiredRevisionInput defines model for ManifestDesiredRevisionInput.
+type ManifestDesiredRevisionInput struct {
+	DesiredRevision    int                     `json:"desiredRevision"`
+	ExpectedGeneration int64                   `json:"expectedGeneration"`
+	Reason             string                  `json:"reason,omitempty"`
+	ReconcilePolicy    ManifestReconcilePolicy `json:"reconcilePolicy"`
+}
+
+// ManifestDiagnostic defines model for ManifestDiagnostic.
+type ManifestDiagnostic struct {
+	APIVersion    string                     `json:"apiVersion,omitempty"`
+	Code          string                     `json:"code"`
+	DocumentIndex int                        `json:"documentIndex,omitempty"`
+	Field         string                     `json:"field,omitempty"`
+	FieldManager  string                     `json:"fieldManager,omitempty"`
+	Kind          string                     `json:"kind,omitempty"`
+	Message       string                     `json:"message"`
+	Name          string                     `json:"name,omitempty"`
+	Namespace     string                     `json:"namespace,omitempty"`
+	Path          string                     `json:"path,omitempty"`
+	Severity      ManifestDiagnosticSeverity `json:"severity"`
+	Stage         ManifestValidationStage    `json:"stage"`
+}
+
+// ManifestDiagnosticSeverity defines model for ManifestDiagnosticSeverity.
+type ManifestDiagnosticSeverity string
+
+// ManifestDriftField defines model for ManifestDriftField.
+type ManifestDriftField struct {
+	DesiredValue  interface{} `json:"desiredValue"`
+	FieldManager  string      `json:"fieldManager,omitempty"`
+	ObservedValue interface{} `json:"observedValue"`
+	Path          string      `json:"path"`
+}
+
+// ManifestDriftPolicy defines model for ManifestDriftPolicy.
+type ManifestDriftPolicy string
+
+// ManifestDriftReport defines model for ManifestDriftReport.
+type ManifestDriftReport struct {
+	AgeSeconds   int64     `json:"ageSeconds,omitempty"`
+	Drifted      bool      `json:"drifted"`
+	EvidenceRefs []string  `json:"evidenceRefs"`
+	ObservedAt   time.Time `json:"observedAt"`
+	Resources    []struct {
+		APIVersion string               `json:"apiVersion"`
+		Fields     []ManifestDriftField `json:"fields"`
+		Kind       string               `json:"kind"`
+		Name       string               `json:"name"`
+		Namespace  string               `json:"namespace"`
+	} `json:"resources"`
+}
+
+// ManifestExecutionTask defines model for ManifestExecutionTask.
+type ManifestExecutionTask struct {
+	ApplicationEnvironmentID string                       `json:"applicationEnvironmentId"`
+	ApplicationID            string                       `json:"applicationId"`
+	Artifacts                []ExecutionArtifact          `json:"artifacts,omitempty"`
+	AttemptCount             int                          `json:"attemptCount,omitempty"`
+	CallbackToken            string                       `json:"callbackToken"`
+	ClaimedByAgentID         string                       `json:"claimedByAgentId,omitempty"`
+	CreatedAt                *time.Time                   `json:"createdAt,omitempty"`
+	FinishedAt               *time.Time                   `json:"finishedAt,omitempty"`
+	ID                       string                       `json:"id"`
+	LastHeartbeatAt          *time.Time                   `json:"lastHeartbeatAt,omitempty"`
+	LastRuntimeSeenAt        *time.Time                   `json:"lastRuntimeSeenAt,omitempty"`
+	LockKey                  string                       `json:"lockKey,omitempty"`
+	MaxRetries               int                          `json:"maxRetries,omitempty"`
+	OperationState           *OperationState              `json:"operationState,omitempty"`
+	Payload                  ManifestExecutionTaskPayload `json:"payload"`
+	ProviderKind             string                       `json:"providerKind"`
+	QueueKey                 string                       `json:"queueKey,omitempty"`
+	ReleaseBundleID          string                       `json:"releaseBundleId,omitempty"`
+	Result                   *ManifestExecutionTaskResult `json:"result,omitempty"`
+	RuntimeClusterID         string                       `json:"runtimeClusterId,omitempty"`
+	RuntimeEndpoint          string                       `json:"runtimeEndpoint,omitempty"`
+	StartedAt                *time.Time                   `json:"startedAt,omitempty"`
+	Status                   string                       `json:"status"`
+	StopTransport            string                       `json:"stopTransport,omitempty"`
+	TargetKind               string                       `json:"targetKind,omitempty"`
+	TaskKind                 string                       `json:"taskKind"`
+	TimeoutSeconds           int                          `json:"timeoutSeconds,omitempty"`
+	UpdatedAt                *time.Time                   `json:"updatedAt,omitempty"`
+	AdditionalProperties     map[string]any               `json:"-"`
+}
+
+// ManifestExecutionTaskEnvelope defines model for ManifestExecutionTaskEnvelope.
+type ManifestExecutionTaskEnvelope struct {
+	Data ManifestExecutionTask `json:"data"`
+}
+
+// ManifestExecutionTaskPayload defines model for ManifestExecutionTaskPayload.
+type ManifestExecutionTaskPayload struct {
+	Action          ManifestTaskAction                   `json:"action"`
+	BindingID       string                               `json:"bindingId,omitempty"`
+	ClusterID       string                               `json:"clusterId,omitempty"`
+	DeploymentID    string                               `json:"deploymentId,omitempty"`
+	Documents       []ManifestRenderedDocument           `json:"documents,omitempty"`
+	ExcludePatterns []string                             `json:"excludePatterns,omitempty"`
+	FieldManager    string                               `json:"fieldManager,omitempty"`
+	ForceConflicts  bool                                 `json:"forceConflicts,omitempty"`
+	Generation      int64                                `json:"generation"`
+	IdempotencyKey  string                               `json:"idempotencyKey"`
+	IncludePatterns []string                             `json:"includePatterns,omitempty"`
+	Inventory       []ManifestResourceInventory          `json:"inventory,omitempty"`
+	Namespace       string                               `json:"namespace,omitempty"`
+	PackageID       string                               `json:"packageId"`
+	Path            string                               `json:"path,omitempty"`
+	RefType         ManifestSourceRefType                `json:"refType,omitempty"`
+	RefValue        string                               `json:"refValue,omitempty"`
+	RenderedDigest  string                               `json:"renderedDigest,omitempty"`
+	Renderer        ManifestExecutionTaskPayloadRenderer `json:"renderer,omitempty"`
+	RepositoryID    string                               `json:"repositoryId,omitempty"`
+	RepositoryURL   string                               `json:"repositoryUrl,omitempty"`
+	RequestedBy     string                               `json:"requestedBy,omitempty"`
+	RequestedCommit string                               `json:"requestedCommit,omitempty"`
+	Revision        int                                  `json:"revision,omitempty"`
+	SourceID        string                               `json:"sourceId,omitempty"`
+}
+
+// ManifestExecutionTaskPayloadRenderer defines model for ManifestExecutionTaskPayload.Renderer.
+type ManifestExecutionTaskPayloadRenderer string
+
+// ManifestExecutionTaskResult defines model for ManifestExecutionTaskResult.
+type ManifestExecutionTaskResult struct {
+	Action          ManifestTaskAction          `json:"action"`
+	AdoptedFiles    []ManifestFile              `json:"adoptedFiles,omitempty"`
+	CanonicalDigest string                      `json:"canonicalDigest,omitempty"`
+	DeploymentID    string                      `json:"deploymentId,omitempty"`
+	Diagnostics     []ManifestDiagnostic        `json:"diagnostics"`
+	Drift           *ManifestDriftReport        `json:"drift,omitempty"`
+	EvidenceRefs    []string                    `json:"evidenceRefs,omitempty"`
+	Generation      int64                       `json:"generation"`
+	Inventory       []ManifestResourceInventory `json:"inventory"`
+	Preflight       *ManifestPreflightResult    `json:"preflight,omitempty"`
+	RenderedDigest  string                      `json:"renderedDigest,omitempty"`
+	ResolvedCommit  string                      `json:"resolvedCommit,omitempty"`
+	Stale           bool                        `json:"stale"`
+	SyncedFiles     []ManifestFile              `json:"syncedFiles,omitempty"`
+	TreeDigest      string                      `json:"treeDigest,omitempty"`
+}
+
+// ManifestFile defines model for ManifestFile.
+type ManifestFile struct {
+	Content string `json:"content"`
+	Path    string `json:"path"`
+}
+
+// ManifestPreflightInput defines model for ManifestPreflightInput.
+type ManifestPreflightInput struct {
+	BindingID      string `json:"bindingId"`
+	ForceConflicts bool   `json:"forceConflicts,omitempty"`
+	Revision       int    `json:"revision,omitempty"`
+}
+
+// ManifestPreflightResult defines model for ManifestPreflightResult.
+type ManifestPreflightResult struct {
+	Capability     ManifestPreflightResultCapability `json:"capability"`
+	Diagnostics    []ManifestDiagnostic              `json:"diagnostics"`
+	Ready          bool                              `json:"ready"`
+	RenderedDigest string                            `json:"renderedDigest"`
+	ResourceCount  int                               `json:"resourceCount"`
+}
+
+// ManifestPreflightResultCapability defines model for ManifestPreflightResult.Capability.
+type ManifestPreflightResultCapability string
+
+// ManifestReconcilePolicy defines model for ManifestReconcilePolicy.
+type ManifestReconcilePolicy string
+
+// ManifestRenderEnvelope defines model for ManifestRenderEnvelope.
+type ManifestRenderEnvelope struct {
+	Data ManifestRenderResult `json:"data"`
+}
+
+// ManifestRenderInput defines model for ManifestRenderInput.
+type ManifestRenderInput struct {
+	BindingID string `json:"bindingId"`
+	Revision  int    `json:"revision,omitempty"`
+}
+
+// ManifestRenderResult defines model for ManifestRenderResult.
+type ManifestRenderResult struct {
+	BindingID      string                       `json:"bindingId"`
+	Diagnostics    []ManifestDiagnostic         `json:"diagnostics"`
+	Documents      []ManifestRenderedDocument   `json:"documents"`
+	PackageID      string                       `json:"packageId"`
+	RenderedDigest string                       `json:"renderedDigest"`
+	Renderer       ManifestRenderResultRenderer `json:"renderer"`
+	Revision       int                          `json:"revision"`
+}
+
+// ManifestRenderResultRenderer defines model for ManifestRenderResult.Renderer.
+type ManifestRenderResultRenderer string
+
+// ManifestRenderedDocument defines model for ManifestRenderedDocument.
+type ManifestRenderedDocument struct {
+	APIVersion    string `json:"apiVersion"`
+	Content       string `json:"content"`
+	ContentDigest string `json:"contentDigest"`
+	Index         int    `json:"index"`
+	Kind          string `json:"kind"`
+	Name          string `json:"name"`
+	Namespace     string `json:"namespace"`
+	Path          string `json:"path"`
+}
+
+// ManifestResourceInventory defines model for ManifestResourceInventory.
+type ManifestResourceInventory struct {
+	APIVersion           string    `json:"apiVersion"`
+	DeploymentID         string    `json:"deploymentId"`
+	DesiredObjectDigest  string    `json:"desiredObjectDigest"`
+	Generation           int64     `json:"generation"`
+	Health               string    `json:"health"`
+	Kind                 string    `json:"kind"`
+	LastObservedAt       time.Time `json:"lastObservedAt"`
+	Name                 string    `json:"name"`
+	Namespace            string    `json:"namespace"`
+	ObservedObjectDigest string    `json:"observedObjectDigest"`
+	ResourceVersion      string    `json:"resourceVersion,omitempty"`
+	UID                  string    `json:"uid,omitempty"`
+}
+
+// ManifestRollbackInput defines model for ManifestRollbackInput.
+type ManifestRollbackInput struct {
+	ExpectedGeneration int64  `json:"expectedGeneration"`
+	Reason             string `json:"reason,omitempty"`
+	TargetRevision     int    `json:"targetRevision,omitempty"`
+	UseLastKnownGood   bool   `json:"useLastKnownGood,omitempty"`
+}
+
+// ManifestSource defines model for ManifestSource.
+type ManifestSource struct {
+	AutoDeploy           bool                     `json:"autoDeploy,omitempty"`
+	AutoPublish          bool                     `json:"autoPublish"`
+	CreatedAt            time.Time                `json:"createdAt"`
+	ExcludePatterns      []string                 `json:"excludePatterns,omitempty"`
+	Generation           int64                    `json:"generation"`
+	ID                   string                   `json:"id"`
+	IncludePatterns      []string                 `json:"includePatterns,omitempty"`
+	LastCanonicalDigest  string                   `json:"lastCanonicalDigest,omitempty"`
+	LastErrorCode        string                   `json:"lastErrorCode,omitempty"`
+	LastErrorMessage     string                   `json:"lastErrorMessage,omitempty"`
+	LastResolvedCommit   string                   `json:"lastResolvedCommit,omitempty"`
+	LastSuccessfulSyncAt *time.Time               `json:"lastSuccessfulSyncAt,omitempty"`
+	LastTreeDigest       string                   `json:"lastTreeDigest,omitempty"`
+	Mode                 ManifestSourceMode       `json:"mode"`
+	PackageID            string                   `json:"packageId"`
+	Path                 string                   `json:"path,omitempty"`
+	PollIntervalSeconds  int                      `json:"pollIntervalSeconds,omitempty"`
+	RefType              ManifestSourceRefType    `json:"refType,omitempty"`
+	RefValue             string                   `json:"refValue,omitempty"`
+	RepositoryID         string                   `json:"repositoryId,omitempty"`
+	SyncPolicy           ManifestSourceSyncPolicy `json:"syncPolicy"`
+	UpdatedAt            time.Time                `json:"updatedAt"`
+}
+
+// ManifestSourceEnvelope defines model for ManifestSourceEnvelope.
+type ManifestSourceEnvelope struct {
+	Data ManifestSource `json:"data"`
+}
+
+// ManifestSourceMode defines model for ManifestSourceMode.
+type ManifestSourceMode string
+
+// ManifestSourceRefType defines model for ManifestSourceRefType.
+type ManifestSourceRefType string
+
+// ManifestSourceSyncPolicy defines model for ManifestSourceSyncPolicy.
+type ManifestSourceSyncPolicy string
+
+// ManifestSourceUpdateInput defines model for ManifestSourceUpdateInput.
+type ManifestSourceUpdateInput struct {
+	AutoDeploy          bool                     `json:"autoDeploy,omitempty"`
+	AutoPublish         bool                     `json:"autoPublish"`
+	ExcludePatterns     []string                 `json:"excludePatterns,omitempty"`
+	ExpectedGeneration  int64                    `json:"expectedGeneration"`
+	IncludePatterns     []string                 `json:"includePatterns,omitempty"`
+	Mode                ManifestSourceMode       `json:"mode"`
+	Path                string                   `json:"path,omitempty"`
+	PollIntervalSeconds int                      `json:"pollIntervalSeconds,omitempty"`
+	RefType             ManifestSourceRefType    `json:"refType,omitempty"`
+	RefValue            string                   `json:"refValue,omitempty"`
+	RepositoryID        string                   `json:"repositoryId,omitempty"`
+	SyncPolicy          ManifestSourceSyncPolicy `json:"syncPolicy"`
+}
+
+// ManifestSyncAction defines model for ManifestSyncAction.
+type ManifestSyncAction struct {
+	Run  ManifestSyncRun       `json:"run"`
+	Task ManifestExecutionTask `json:"task"`
+}
+
+// ManifestSyncActionEnvelope defines model for ManifestSyncActionEnvelope.
+type ManifestSyncActionEnvelope struct {
+	Data ManifestSyncAction `json:"data"`
+}
+
+// ManifestSyncInput defines model for ManifestSyncInput.
+type ManifestSyncInput struct {
+	ExpectedGeneration int64  `json:"expectedGeneration"`
+	RequestedCommit    string `json:"requestedCommit,omitempty"`
+}
+
+// ManifestSyncRun defines model for ManifestSyncRun.
+type ManifestSyncRun struct {
+	Actor            string                `json:"actor,omitempty"`
+	CanonicalDigest  string                `json:"canonicalDigest,omitempty"`
+	CreatedAt        time.Time             `json:"createdAt"`
+	ErrorCode        string                `json:"errorCode,omitempty"`
+	ErrorMessage     string                `json:"errorMessage,omitempty"`
+	ExecutionTaskID  string                `json:"executionTaskId,omitempty"`
+	Files            []string              `json:"files"`
+	FinishedAt       *time.Time            `json:"finishedAt,omitempty"`
+	ID               string                `json:"id"`
+	IdempotencyKey   string                `json:"idempotencyKey"`
+	PackageID        string                `json:"packageId"`
+	RequestedCommit  string                `json:"requestedCommit,omitempty"`
+	ResolvedCommit   string                `json:"resolvedCommit,omitempty"`
+	Revision         int                   `json:"revision,omitempty"`
+	SourceGeneration int64                 `json:"sourceGeneration"`
+	SourceID         string                `json:"sourceId"`
+	StartedAt        *time.Time            `json:"startedAt,omitempty"`
+	Status           ManifestSyncRunStatus `json:"status"`
+	TreeDigest       string                `json:"treeDigest,omitempty"`
+	Trigger          ManifestSyncTrigger   `json:"trigger"`
+	UpdatedAt        time.Time             `json:"updatedAt"`
+}
+
+// ManifestSyncRunListEnvelope defines model for ManifestSyncRunListEnvelope.
+type ManifestSyncRunListEnvelope struct {
+	Data []ManifestSyncRun `json:"data"`
+}
+
+// ManifestSyncRunStatus defines model for ManifestSyncRunStatus.
+type ManifestSyncRunStatus string
+
+// ManifestSyncTrigger defines model for ManifestSyncTrigger.
+type ManifestSyncTrigger string
+
+// ManifestSyncWebhookInput defines model for ManifestSyncWebhookInput.
+type ManifestSyncWebhookInput struct {
+	Commit       string `json:"commit,omitempty"`
+	EventID      string `json:"eventId"`
+	Ref          string `json:"ref"`
+	RepositoryID string `json:"repositoryId"`
+}
+
+// ManifestTaskAction defines model for ManifestTaskAction.
+type ManifestTaskAction string
+
+// ManifestValidationStage defines model for ManifestValidationStage.
+type ManifestValidationStage string
+
 // MarketplaceAdvisory defines model for MarketplaceAdvisory.
 type MarketplaceAdvisory struct {
 	AffectedVersions []string                    `json:"affectedVersions,omitempty"`
@@ -11618,6 +12807,21 @@ type MFAChallengeID = string
 // MFACredentialID defines model for MFACredentialID.
 type MFACredentialID = string
 
+// ManifestBindingID defines model for ManifestBindingID.
+type ManifestBindingID = string
+
+// ManifestDeliveryIntentID defines model for ManifestDeliveryIntentID.
+type ManifestDeliveryIntentID = string
+
+// ManifestDeploymentID defines model for ManifestDeploymentID.
+type ManifestDeploymentID = string
+
+// ManifestPackageID defines model for ManifestPackageID.
+type ManifestPackageID = string
+
+// ManifestSourceID defines model for ManifestSourceID.
+type ManifestSourceID = string
+
 // MultiAgentPlanID defines model for MultiAgentPlanID.
 type MultiAgentPlanID = string
 
@@ -12398,6 +13602,34 @@ type ListDeliveryExecutionTasksParams struct {
 	Limit                    int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
+// ListManifestDeploymentsParams defines parameters for ListManifestDeployments.
+type ListManifestDeploymentsParams struct {
+	PackageID                string                  `form:"packageId,omitempty" json:"packageId,omitempty"`
+	ApplicationID            string                  `form:"applicationId,omitempty" json:"applicationId,omitempty"`
+	ApplicationEnvironmentID string                  `form:"applicationEnvironmentId,omitempty" json:"applicationEnvironmentId,omitempty"`
+	ClusterID                string                  `form:"clusterId,omitempty" json:"clusterId,omitempty"`
+	Namespace                string                  `form:"namespace,omitempty" json:"namespace,omitempty"`
+	SourceMode               ManifestSourceMode      `form:"sourceMode,omitempty" json:"sourceMode,omitempty"`
+	Phase                    ManifestDeploymentPhase `form:"phase,omitempty" json:"phase,omitempty"`
+	Page                     int                     `form:"page,omitempty" json:"page,omitempty"`
+	PageSize                 int                     `form:"pageSize,omitempty" json:"pageSize,omitempty"`
+}
+
+// SyncManifestPackageParams defines parameters for SyncManifestPackage.
+type SyncManifestPackageParams struct {
+	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
+// ListManifestSyncRunsParams defines parameters for ListManifestSyncRuns.
+type ListManifestSyncRunsParams struct {
+	Limit int `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// TriggerManifestSourceWebhookParams defines parameters for TriggerManifestSourceWebhook.
+type TriggerManifestSourceWebhookParams struct {
+	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
 // ListReleaseBundlesParams defines parameters for ListReleaseBundles.
 type ListReleaseBundlesParams struct {
 	ApplicationID            string `form:"applicationId,omitempty" json:"applicationId,omitempty"`
@@ -12779,8 +14011,56 @@ type RecordExecutionCallbackJSONRequestBody = ExecutionCallbackRequest
 // ClaimExecutionTaskJSONRequestBody defines body for ClaimExecutionTask for application/json ContentType.
 type ClaimExecutionTaskJSONRequestBody = ExecutionTaskClaimRequest
 
+// UpdateManifestBindingJSONRequestBody defines body for UpdateManifestBinding for application/json ContentType.
+type UpdateManifestBindingJSONRequestBody = ManifestBindingUpdateInput
+
+// SetManifestDesiredRevisionJSONRequestBody defines body for SetManifestDesiredRevision for application/json ContentType.
+type SetManifestDesiredRevisionJSONRequestBody = ManifestDesiredRevisionInput
+
+// AcceptManifestDeliveryIntentJSONRequestBody defines body for AcceptManifestDeliveryIntent for application/json ContentType.
+type AcceptManifestDeliveryIntentJSONRequestBody = ManifestDeliveryIntentDecisionInput
+
+// RejectManifestDeliveryIntentJSONRequestBody defines body for RejectManifestDeliveryIntent for application/json ContentType.
+type RejectManifestDeliveryIntentJSONRequestBody = ManifestDeliveryIntentDecisionInput
+
+// AdoptManifestDeploymentJSONRequestBody defines body for AdoptManifestDeployment for application/json ContentType.
+type AdoptManifestDeploymentJSONRequestBody = ManifestDeploymentActionInput
+
+// ReconcileManifestDeploymentJSONRequestBody defines body for ReconcileManifestDeployment for application/json ContentType.
+type ReconcileManifestDeploymentJSONRequestBody = ManifestDeploymentActionInput
+
+// RepairManifestDeploymentJSONRequestBody defines body for RepairManifestDeployment for application/json ContentType.
+type RepairManifestDeploymentJSONRequestBody = ManifestDeploymentActionInput
+
+// RollbackManifestDeploymentJSONRequestBody defines body for RollbackManifestDeployment for application/json ContentType.
+type RollbackManifestDeploymentJSONRequestBody = ManifestRollbackInput
+
+// CreateManifestBindingJSONRequestBody defines body for CreateManifestBinding for application/json ContentType.
+type CreateManifestBindingJSONRequestBody = ManifestBindingInput
+
+// CreateManifestDeliveryIntentJSONRequestBody defines body for CreateManifestDeliveryIntent for application/json ContentType.
+type CreateManifestDeliveryIntentJSONRequestBody = ManifestDeliveryIntentInput
+
+// PreflightManifestPackageJSONRequestBody defines body for PreflightManifestPackage for application/json ContentType.
+type PreflightManifestPackageJSONRequestBody = ManifestPreflightInput
+
+// RenderManifestPackageJSONRequestBody defines body for RenderManifestPackage for application/json ContentType.
+type RenderManifestPackageJSONRequestBody = ManifestRenderInput
+
+// UpdateManifestSourceJSONRequestBody defines body for UpdateManifestSource for application/json ContentType.
+type UpdateManifestSourceJSONRequestBody = ManifestSourceUpdateInput
+
+// SyncManifestPackageJSONRequestBody defines body for SyncManifestPackage for application/json ContentType.
+type SyncManifestPackageJSONRequestBody = ManifestSyncInput
+
+// TriggerManifestSourceWebhookJSONRequestBody defines body for TriggerManifestSourceWebhook for application/json ContentType.
+type TriggerManifestSourceWebhookJSONRequestBody = ManifestSyncWebhookInput
+
 // CreateDeliveryPlanJSONRequestBody defines body for CreateDeliveryPlan for application/json ContentType.
 type CreateDeliveryPlanJSONRequestBody = DeliveryPlanInput
+
+// StartDockerContainerJSONRequestBody defines body for StartDockerContainer for application/json ContentType.
+type StartDockerContainerJSONRequestBody = DockerContainerStartInput
 
 // RecordDockerOperationCallbackJSONRequestBody defines body for RecordDockerOperationCallback for application/json ContentType.
 type RecordDockerOperationCallbackJSONRequestBody = DockerOperationCallbackRequest
@@ -14854,6 +16134,441 @@ func (a GeminiModelsResponse) MarshalJSON() ([]byte, error) {
 		object["models"], err = json.Marshal(a.Models)
 		if err != nil {
 			return nil, fmt.Errorf("error marshaling 'models': %w", err)
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for ManifestExecutionTask. Returns the specified
+// element and whether it was found
+func (a ManifestExecutionTask) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for ManifestExecutionTask
+func (a *ManifestExecutionTask) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for ManifestExecutionTask to handle AdditionalProperties
+func (a *ManifestExecutionTask) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["applicationEnvironmentId"]; found {
+		err = json.Unmarshal(raw, &a.ApplicationEnvironmentID)
+		if err != nil {
+			return fmt.Errorf("error reading 'applicationEnvironmentId': %w", err)
+		}
+		delete(object, "applicationEnvironmentId")
+	}
+
+	if raw, found := object["applicationId"]; found {
+		err = json.Unmarshal(raw, &a.ApplicationID)
+		if err != nil {
+			return fmt.Errorf("error reading 'applicationId': %w", err)
+		}
+		delete(object, "applicationId")
+	}
+
+	if raw, found := object["artifacts"]; found {
+		err = json.Unmarshal(raw, &a.Artifacts)
+		if err != nil {
+			return fmt.Errorf("error reading 'artifacts': %w", err)
+		}
+		delete(object, "artifacts")
+	}
+
+	if raw, found := object["attemptCount"]; found {
+		err = json.Unmarshal(raw, &a.AttemptCount)
+		if err != nil {
+			return fmt.Errorf("error reading 'attemptCount': %w", err)
+		}
+		delete(object, "attemptCount")
+	}
+
+	if raw, found := object["callbackToken"]; found {
+		err = json.Unmarshal(raw, &a.CallbackToken)
+		if err != nil {
+			return fmt.Errorf("error reading 'callbackToken': %w", err)
+		}
+		delete(object, "callbackToken")
+	}
+
+	if raw, found := object["claimedByAgentId"]; found {
+		err = json.Unmarshal(raw, &a.ClaimedByAgentID)
+		if err != nil {
+			return fmt.Errorf("error reading 'claimedByAgentId': %w", err)
+		}
+		delete(object, "claimedByAgentId")
+	}
+
+	if raw, found := object["createdAt"]; found {
+		err = json.Unmarshal(raw, &a.CreatedAt)
+		if err != nil {
+			return fmt.Errorf("error reading 'createdAt': %w", err)
+		}
+		delete(object, "createdAt")
+	}
+
+	if raw, found := object["finishedAt"]; found {
+		err = json.Unmarshal(raw, &a.FinishedAt)
+		if err != nil {
+			return fmt.Errorf("error reading 'finishedAt': %w", err)
+		}
+		delete(object, "finishedAt")
+	}
+
+	if raw, found := object["id"]; found {
+		err = json.Unmarshal(raw, &a.ID)
+		if err != nil {
+			return fmt.Errorf("error reading 'id': %w", err)
+		}
+		delete(object, "id")
+	}
+
+	if raw, found := object["lastHeartbeatAt"]; found {
+		err = json.Unmarshal(raw, &a.LastHeartbeatAt)
+		if err != nil {
+			return fmt.Errorf("error reading 'lastHeartbeatAt': %w", err)
+		}
+		delete(object, "lastHeartbeatAt")
+	}
+
+	if raw, found := object["lastRuntimeSeenAt"]; found {
+		err = json.Unmarshal(raw, &a.LastRuntimeSeenAt)
+		if err != nil {
+			return fmt.Errorf("error reading 'lastRuntimeSeenAt': %w", err)
+		}
+		delete(object, "lastRuntimeSeenAt")
+	}
+
+	if raw, found := object["lockKey"]; found {
+		err = json.Unmarshal(raw, &a.LockKey)
+		if err != nil {
+			return fmt.Errorf("error reading 'lockKey': %w", err)
+		}
+		delete(object, "lockKey")
+	}
+
+	if raw, found := object["maxRetries"]; found {
+		err = json.Unmarshal(raw, &a.MaxRetries)
+		if err != nil {
+			return fmt.Errorf("error reading 'maxRetries': %w", err)
+		}
+		delete(object, "maxRetries")
+	}
+
+	if raw, found := object["operationState"]; found {
+		err = json.Unmarshal(raw, &a.OperationState)
+		if err != nil {
+			return fmt.Errorf("error reading 'operationState': %w", err)
+		}
+		delete(object, "operationState")
+	}
+
+	if raw, found := object["payload"]; found {
+		err = json.Unmarshal(raw, &a.Payload)
+		if err != nil {
+			return fmt.Errorf("error reading 'payload': %w", err)
+		}
+		delete(object, "payload")
+	}
+
+	if raw, found := object["providerKind"]; found {
+		err = json.Unmarshal(raw, &a.ProviderKind)
+		if err != nil {
+			return fmt.Errorf("error reading 'providerKind': %w", err)
+		}
+		delete(object, "providerKind")
+	}
+
+	if raw, found := object["queueKey"]; found {
+		err = json.Unmarshal(raw, &a.QueueKey)
+		if err != nil {
+			return fmt.Errorf("error reading 'queueKey': %w", err)
+		}
+		delete(object, "queueKey")
+	}
+
+	if raw, found := object["releaseBundleId"]; found {
+		err = json.Unmarshal(raw, &a.ReleaseBundleID)
+		if err != nil {
+			return fmt.Errorf("error reading 'releaseBundleId': %w", err)
+		}
+		delete(object, "releaseBundleId")
+	}
+
+	if raw, found := object["result"]; found {
+		err = json.Unmarshal(raw, &a.Result)
+		if err != nil {
+			return fmt.Errorf("error reading 'result': %w", err)
+		}
+		delete(object, "result")
+	}
+
+	if raw, found := object["runtimeClusterId"]; found {
+		err = json.Unmarshal(raw, &a.RuntimeClusterID)
+		if err != nil {
+			return fmt.Errorf("error reading 'runtimeClusterId': %w", err)
+		}
+		delete(object, "runtimeClusterId")
+	}
+
+	if raw, found := object["runtimeEndpoint"]; found {
+		err = json.Unmarshal(raw, &a.RuntimeEndpoint)
+		if err != nil {
+			return fmt.Errorf("error reading 'runtimeEndpoint': %w", err)
+		}
+		delete(object, "runtimeEndpoint")
+	}
+
+	if raw, found := object["startedAt"]; found {
+		err = json.Unmarshal(raw, &a.StartedAt)
+		if err != nil {
+			return fmt.Errorf("error reading 'startedAt': %w", err)
+		}
+		delete(object, "startedAt")
+	}
+
+	if raw, found := object["status"]; found {
+		err = json.Unmarshal(raw, &a.Status)
+		if err != nil {
+			return fmt.Errorf("error reading 'status': %w", err)
+		}
+		delete(object, "status")
+	}
+
+	if raw, found := object["stopTransport"]; found {
+		err = json.Unmarshal(raw, &a.StopTransport)
+		if err != nil {
+			return fmt.Errorf("error reading 'stopTransport': %w", err)
+		}
+		delete(object, "stopTransport")
+	}
+
+	if raw, found := object["targetKind"]; found {
+		err = json.Unmarshal(raw, &a.TargetKind)
+		if err != nil {
+			return fmt.Errorf("error reading 'targetKind': %w", err)
+		}
+		delete(object, "targetKind")
+	}
+
+	if raw, found := object["taskKind"]; found {
+		err = json.Unmarshal(raw, &a.TaskKind)
+		if err != nil {
+			return fmt.Errorf("error reading 'taskKind': %w", err)
+		}
+		delete(object, "taskKind")
+	}
+
+	if raw, found := object["timeoutSeconds"]; found {
+		err = json.Unmarshal(raw, &a.TimeoutSeconds)
+		if err != nil {
+			return fmt.Errorf("error reading 'timeoutSeconds': %w", err)
+		}
+		delete(object, "timeoutSeconds")
+	}
+
+	if raw, found := object["updatedAt"]; found {
+		err = json.Unmarshal(raw, &a.UpdatedAt)
+		if err != nil {
+			return fmt.Errorf("error reading 'updatedAt': %w", err)
+		}
+		delete(object, "updatedAt")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for ManifestExecutionTask to handle AdditionalProperties
+func (a ManifestExecutionTask) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	object["applicationEnvironmentId"], err = json.Marshal(a.ApplicationEnvironmentID)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'applicationEnvironmentId': %w", err)
+	}
+
+	object["applicationId"], err = json.Marshal(a.ApplicationID)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'applicationId': %w", err)
+	}
+
+	if a.Artifacts != nil {
+		object["artifacts"], err = json.Marshal(a.Artifacts)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'artifacts': %w", err)
+		}
+	}
+
+	object["attemptCount"], err = json.Marshal(a.AttemptCount)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'attemptCount': %w", err)
+	}
+
+	object["callbackToken"], err = json.Marshal(a.CallbackToken)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'callbackToken': %w", err)
+	}
+
+	object["claimedByAgentId"], err = json.Marshal(a.ClaimedByAgentID)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'claimedByAgentId': %w", err)
+	}
+
+	if a.CreatedAt != nil {
+		object["createdAt"], err = json.Marshal(a.CreatedAt)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'createdAt': %w", err)
+		}
+	}
+
+	if a.FinishedAt != nil {
+		object["finishedAt"], err = json.Marshal(a.FinishedAt)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'finishedAt': %w", err)
+		}
+	}
+
+	object["id"], err = json.Marshal(a.ID)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'id': %w", err)
+	}
+
+	if a.LastHeartbeatAt != nil {
+		object["lastHeartbeatAt"], err = json.Marshal(a.LastHeartbeatAt)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'lastHeartbeatAt': %w", err)
+		}
+	}
+
+	if a.LastRuntimeSeenAt != nil {
+		object["lastRuntimeSeenAt"], err = json.Marshal(a.LastRuntimeSeenAt)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'lastRuntimeSeenAt': %w", err)
+		}
+	}
+
+	object["lockKey"], err = json.Marshal(a.LockKey)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'lockKey': %w", err)
+	}
+
+	object["maxRetries"], err = json.Marshal(a.MaxRetries)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'maxRetries': %w", err)
+	}
+
+	if a.OperationState != nil {
+		object["operationState"], err = json.Marshal(a.OperationState)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'operationState': %w", err)
+		}
+	}
+
+	object["payload"], err = json.Marshal(a.Payload)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'payload': %w", err)
+	}
+
+	object["providerKind"], err = json.Marshal(a.ProviderKind)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'providerKind': %w", err)
+	}
+
+	object["queueKey"], err = json.Marshal(a.QueueKey)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'queueKey': %w", err)
+	}
+
+	object["releaseBundleId"], err = json.Marshal(a.ReleaseBundleID)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'releaseBundleId': %w", err)
+	}
+
+	if a.Result != nil {
+		object["result"], err = json.Marshal(a.Result)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'result': %w", err)
+		}
+	}
+
+	object["runtimeClusterId"], err = json.Marshal(a.RuntimeClusterID)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'runtimeClusterId': %w", err)
+	}
+
+	object["runtimeEndpoint"], err = json.Marshal(a.RuntimeEndpoint)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'runtimeEndpoint': %w", err)
+	}
+
+	if a.StartedAt != nil {
+		object["startedAt"], err = json.Marshal(a.StartedAt)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'startedAt': %w", err)
+		}
+	}
+
+	object["status"], err = json.Marshal(a.Status)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'status': %w", err)
+	}
+
+	object["stopTransport"], err = json.Marshal(a.StopTransport)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'stopTransport': %w", err)
+	}
+
+	object["targetKind"], err = json.Marshal(a.TargetKind)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'targetKind': %w", err)
+	}
+
+	object["taskKind"], err = json.Marshal(a.TaskKind)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'taskKind': %w", err)
+	}
+
+	object["timeoutSeconds"], err = json.Marshal(a.TimeoutSeconds)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'timeoutSeconds': %w", err)
+	}
+
+	if a.UpdatedAt != nil {
+		object["updatedAt"], err = json.Marshal(a.UpdatedAt)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'updatedAt': %w", err)
 		}
 	}
 
@@ -17723,6 +19438,208 @@ func (t CohereRerankRequest_Documents_Item) MarshalJSON() ([]byte, error) {
 }
 
 func (t *CohereRerankRequest_Documents_Item) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsDockerPayloadScalarValue0 returns the union data inside the DockerPayloadScalarValue as a DockerPayloadScalarValue0
+func (t DockerPayloadScalarValue) AsDockerPayloadScalarValue0() (DockerPayloadScalarValue0, error) {
+	var body DockerPayloadScalarValue0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDockerPayloadScalarValue0 overwrites any union data inside the DockerPayloadScalarValue as the provided DockerPayloadScalarValue0
+func (t *DockerPayloadScalarValue) FromDockerPayloadScalarValue0(v DockerPayloadScalarValue0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDockerPayloadScalarValue0 performs a merge with any union data inside the DockerPayloadScalarValue, using the provided DockerPayloadScalarValue0
+func (t *DockerPayloadScalarValue) MergeDockerPayloadScalarValue0(v DockerPayloadScalarValue0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDockerPayloadScalarValue1 returns the union data inside the DockerPayloadScalarValue as a DockerPayloadScalarValue1
+func (t DockerPayloadScalarValue) AsDockerPayloadScalarValue1() (DockerPayloadScalarValue1, error) {
+	var body DockerPayloadScalarValue1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDockerPayloadScalarValue1 overwrites any union data inside the DockerPayloadScalarValue as the provided DockerPayloadScalarValue1
+func (t *DockerPayloadScalarValue) FromDockerPayloadScalarValue1(v DockerPayloadScalarValue1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDockerPayloadScalarValue1 performs a merge with any union data inside the DockerPayloadScalarValue, using the provided DockerPayloadScalarValue1
+func (t *DockerPayloadScalarValue) MergeDockerPayloadScalarValue1(v DockerPayloadScalarValue1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDockerPayloadScalarValue2 returns the union data inside the DockerPayloadScalarValue as a DockerPayloadScalarValue2
+func (t DockerPayloadScalarValue) AsDockerPayloadScalarValue2() (DockerPayloadScalarValue2, error) {
+	var body DockerPayloadScalarValue2
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDockerPayloadScalarValue2 overwrites any union data inside the DockerPayloadScalarValue as the provided DockerPayloadScalarValue2
+func (t *DockerPayloadScalarValue) FromDockerPayloadScalarValue2(v DockerPayloadScalarValue2) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDockerPayloadScalarValue2 performs a merge with any union data inside the DockerPayloadScalarValue, using the provided DockerPayloadScalarValue2
+func (t *DockerPayloadScalarValue) MergeDockerPayloadScalarValue2(v DockerPayloadScalarValue2) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDockerPayloadScalarValue3 returns the union data inside the DockerPayloadScalarValue as a DockerPayloadScalarValue3
+func (t DockerPayloadScalarValue) AsDockerPayloadScalarValue3() (DockerPayloadScalarValue3, error) {
+	var body DockerPayloadScalarValue3
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDockerPayloadScalarValue3 overwrites any union data inside the DockerPayloadScalarValue as the provided DockerPayloadScalarValue3
+func (t *DockerPayloadScalarValue) FromDockerPayloadScalarValue3(v DockerPayloadScalarValue3) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDockerPayloadScalarValue3 performs a merge with any union data inside the DockerPayloadScalarValue, using the provided DockerPayloadScalarValue3
+func (t *DockerPayloadScalarValue) MergeDockerPayloadScalarValue3(v DockerPayloadScalarValue3) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t DockerPayloadScalarValue) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *DockerPayloadScalarValue) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsDockerPayloadScalarValue returns the union data inside the DockerPayloadValue as a DockerPayloadScalarValue
+func (t DockerPayloadValue) AsDockerPayloadScalarValue() (DockerPayloadScalarValue, error) {
+	var body DockerPayloadScalarValue
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDockerPayloadScalarValue overwrites any union data inside the DockerPayloadValue as the provided DockerPayloadScalarValue
+func (t *DockerPayloadValue) FromDockerPayloadScalarValue(v DockerPayloadScalarValue) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDockerPayloadScalarValue performs a merge with any union data inside the DockerPayloadValue, using the provided DockerPayloadScalarValue
+func (t *DockerPayloadValue) MergeDockerPayloadScalarValue(v DockerPayloadScalarValue) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDockerPayloadValue1 returns the union data inside the DockerPayloadValue as a DockerPayloadValue1
+func (t DockerPayloadValue) AsDockerPayloadValue1() (DockerPayloadValue1, error) {
+	var body DockerPayloadValue1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDockerPayloadValue1 overwrites any union data inside the DockerPayloadValue as the provided DockerPayloadValue1
+func (t *DockerPayloadValue) FromDockerPayloadValue1(v DockerPayloadValue1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDockerPayloadValue1 performs a merge with any union data inside the DockerPayloadValue, using the provided DockerPayloadValue1
+func (t *DockerPayloadValue) MergeDockerPayloadValue1(v DockerPayloadValue1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDockerPayloadValue2 returns the union data inside the DockerPayloadValue as a DockerPayloadValue2
+func (t DockerPayloadValue) AsDockerPayloadValue2() (DockerPayloadValue2, error) {
+	var body DockerPayloadValue2
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDockerPayloadValue2 overwrites any union data inside the DockerPayloadValue as the provided DockerPayloadValue2
+func (t *DockerPayloadValue) FromDockerPayloadValue2(v DockerPayloadValue2) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDockerPayloadValue2 performs a merge with any union data inside the DockerPayloadValue, using the provided DockerPayloadValue2
+func (t *DockerPayloadValue) MergeDockerPayloadValue2(v DockerPayloadValue2) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t DockerPayloadValue) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *DockerPayloadValue) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
