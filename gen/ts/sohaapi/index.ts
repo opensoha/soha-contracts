@@ -1633,6 +1633,214 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/clusters/{clusterID}/logs/query": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["queryClusterLogs"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/logs/stream-ticket": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["issueClusterLogStreamTicket"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/projects/{dockerProjectID}/logs/query": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["queryDockerProjectLogs"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/projects/{dockerProjectID}/logs/stream-ticket": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["issueDockerProjectLogStreamTicket"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/applications/{applicationID}/environments/{applicationEnvironmentID}/logs/query": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["queryDeliveryEnvironmentLogs"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/applications/{applicationID}/environments/{applicationEnvironmentID}/logs/stream-ticket": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["issueDeliveryEnvironmentLogStreamTicket"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/observability/logging": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getClusterLogCollection"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/observability/logging/preflight": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["preflightClusterLogCollection"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/observability/logging/enable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["enableClusterLogCollection"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/observability/logging/disable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["disableClusterLogCollection"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/observability/data-sources": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listObservabilityDataSources"];
+        put?: never;
+        post: operations["createObservabilityDataSource"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/observability/data-sources/{dataSourceID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateObservabilityDataSource"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/observability/data-sources/{dataSourceID}/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["validateObservabilityDataSource"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/clusters/{clusterID}/resource-creation/scope-decision": {
         parameters: {
             query?: never;
@@ -8864,6 +9072,286 @@ export interface components {
             items: components["schemas"]["ClusterCapabilityMatrixEntry"][];
         };
         /** @enum {string} */
+        ObservabilityDataSourceBackendType: "loki" | "elasticsearch" | "clickhouse";
+        /** @enum {string} */
+        ObservabilityDataSourceValidationStatus: "unknown" | "healthy" | "failed";
+        ObservabilityDataSourceScope: {
+            clusterIds?: string[];
+            namespaces?: string[];
+        };
+        ObservabilityLogQueryBudget: {
+            /** @default 1000 */
+            maxEntries: number;
+            /** @default 86400 */
+            maxRangeSeconds: number;
+            /** @default 10 */
+            timeoutSeconds: number;
+        };
+        ObservabilityLogRedactionPolicy: {
+            dropAttributeKeys?: string[];
+        };
+        ObservabilityLogLabelKeys: {
+            cluster?: string;
+            namespace?: string;
+            service?: string;
+            workload?: string;
+            severity?: string;
+            pod?: string;
+            container?: string;
+        };
+        ObservabilityLogDataSourceConfig: {
+            /** Format: uri */
+            endpoint: string;
+            tenantId?: string;
+            index?: string;
+            table?: string;
+            labelKeys?: components["schemas"]["ObservabilityLogLabelKeys"];
+            timestampField?: string;
+            messageField?: string;
+            severityField?: string;
+            serviceField?: string;
+            workloadField?: string;
+            namespaceField?: string;
+            clusterField?: string;
+            podField?: string;
+            containerField?: string;
+        };
+        ObservabilityDataSourceInput: {
+            name: string;
+            backendType: components["schemas"]["ObservabilityDataSourceBackendType"];
+            enabled: boolean;
+            scope?: components["schemas"]["ObservabilityDataSourceScope"];
+            queryBudget?: components["schemas"]["ObservabilityLogQueryBudget"];
+            redactionPolicy?: components["schemas"]["ObservabilityLogRedactionPolicy"];
+            config: components["schemas"]["ObservabilityLogDataSourceConfig"];
+            credentials?: components["schemas"]["SystemIntegrationCredentialInput"][];
+            clearCredentialKeys?: ("bearer_token" | "username" | "password")[];
+        };
+        ObservabilityDataSource: {
+            id: string;
+            name: string;
+            backendType: components["schemas"]["ObservabilityDataSourceBackendType"];
+            enabled: boolean;
+            scope: components["schemas"]["ObservabilityDataSourceScope"];
+            queryBudget: components["schemas"]["ObservabilityLogQueryBudget"];
+            redactionPolicy: components["schemas"]["ObservabilityLogRedactionPolicy"];
+            config: components["schemas"]["ObservabilityLogDataSourceConfig"];
+            /** @description Names of configured credentials. Credential values are never returned. */
+            credentialKeys: ("bearer_token" | "username" | "password")[];
+            validationStatus: components["schemas"]["ObservabilityDataSourceValidationStatus"];
+            validationMessage?: string;
+            /** Format: date-time */
+            lastValidatedAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ObservabilityDataSourceEnvelope: {
+            data: components["schemas"]["ObservabilityDataSource"];
+        };
+        ObservabilityDataSourceListEnvelope: {
+            items: components["schemas"]["ObservabilityDataSource"][];
+        };
+        /** @enum {string} */
+        LogCollectionMode: "runtime_only" | "external" | "soha_managed";
+        /** @enum {string} */
+        LogCollectionProfile: "collector_only" | "starter" | "production_external";
+        /** @enum {string} */
+        LogCollectionStatus: "disabled" | "pending_confirmation" | "installing" | "healthy" | "degraded" | "failed" | "stopping";
+        /** @enum {string} */
+        LogCollectionHealthStatus: "unknown" | "healthy" | "degraded" | "failed";
+        LogCollectionComponentHealth: {
+            status: components["schemas"]["LogCollectionHealthStatus"];
+            message: string;
+        };
+        LogCollectionPreflightInput: {
+            profile: components["schemas"]["LogCollectionProfile"];
+            namespace: string;
+            dataSourceId?: string;
+            /** @description Existing Kubernetes Secret consumed by the collector. Secret values never pass through this API. */
+            credentialSecretName?: string;
+            retentionDays: number;
+            storageClassName?: string;
+            storageSize?: string;
+            namespaceAllowlist?: string[];
+        };
+        LogCollectionResourceEstimate: {
+            cpu: string;
+            memory: string;
+        };
+        LogCollectionDestination: {
+            dataSourceId?: string;
+            /** @enum {string} */
+            backendType: "loki";
+            /** Format: uri */
+            endpoint: string;
+            tenantId?: string;
+            credentialSecretName?: string;
+        };
+        LogCollectionPlan: {
+            clusterId: string;
+            profile: components["schemas"]["LogCollectionProfile"];
+            namespace: string;
+            components: ("otel_collector" | "loki")[];
+            hostPaths: string[];
+            rbacRules: string[];
+            destination: components["schemas"]["LogCollectionDestination"];
+            retentionDays: number;
+            storageClassName?: string;
+            storageSize: string;
+            resources: components["schemas"]["LogCollectionResourceEstimate"];
+            namespaceAllowlist: string[];
+            warnings: string[];
+            blockers: string[];
+            canEnable: boolean;
+            historyPreserved: boolean;
+            /** @description Short-lived signed confirmation token. Omitted while blockers remain. */
+            planToken?: string;
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        LogCollectionEnableInput: {
+            planToken: string;
+        };
+        /** @enum {string} */
+        LogCollectionDisableAction: "stop" | "uninstall";
+        LogCollectionDisableInput: {
+            action: components["schemas"]["LogCollectionDisableAction"];
+        };
+        LogCollectionState: {
+            clusterId: string;
+            mode: components["schemas"]["LogCollectionMode"];
+            status: components["schemas"]["LogCollectionStatus"];
+            profile?: components["schemas"]["LogCollectionProfile"];
+            namespace: string;
+            releaseName: string;
+            dataSourceId?: string;
+            retentionDays?: number;
+            namespaceAllowlist?: string[];
+            collector: components["schemas"]["LogCollectionComponentHealth"];
+            backend: components["schemas"]["LogCollectionComponentHealth"];
+            endToEnd: components["schemas"]["LogCollectionComponentHealth"];
+            operationId?: string;
+            lastError?: string;
+            historyPreserved: boolean;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        LogCollectionPlanEnvelope: {
+            data: components["schemas"]["LogCollectionPlan"];
+        };
+        LogCollectionStateEnvelope: {
+            data: components["schemas"]["LogCollectionState"];
+        };
+        /** @enum {string} */
+        LogSourceDomain: "kubernetes" | "delivery" | "docker";
+        /** @enum {string} */
+        LogSourceMode: "runtime" | "durable" | "auto";
+        /** @enum {string} */
+        LogDirection: "backward" | "forward";
+        /** @enum {string} */
+        LogStreamEventType: "entry" | "status" | "source_error" | "heartbeat" | "end";
+        /** @enum {string} */
+        LogStreamState: "connecting" | "live" | "reconnecting" | "degraded" | "ended";
+        LogSourceSelector: {
+            namespace?: string;
+            workloadKind?: string;
+            workloadName?: string;
+            podNames?: string[];
+            containers?: string[];
+            labelSelector?: string;
+            allContainers?: boolean;
+            dockerService?: string;
+        };
+        LogRuntimeOptions: {
+            previous?: boolean;
+            /** Format: int64 */
+            sinceSeconds?: number;
+        };
+        LogQuery: {
+            sourceMode?: components["schemas"]["LogSourceMode"];
+            selector?: components["schemas"]["LogSourceSelector"];
+            /** Format: date-time */
+            from?: string;
+            /** Format: date-time */
+            to?: string;
+            tail?: number;
+            limit?: number;
+            direction?: components["schemas"]["LogDirection"];
+            text?: string;
+            severities?: string[];
+            cursor?: string;
+            runtimeOptions?: components["schemas"]["LogRuntimeOptions"];
+        } & {
+            selector: components["schemas"]["LogSourceSelector"];
+        };
+        LogSource: {
+            domain: components["schemas"]["LogSourceDomain"];
+            clusterId?: string;
+            namespace?: string;
+            workloadKind?: string;
+            workloadName?: string;
+            workloadUid?: string;
+            podName?: string;
+            podUid?: string;
+            containerName?: string;
+            applicationId?: string;
+            environmentKey?: string;
+            dockerProjectId?: string;
+            dockerService?: string;
+        };
+        LogEntry: {
+            /** Format: date-time */
+            timestamp: string;
+            /** Format: date-time */
+            observedAt?: string;
+            message: string;
+            severity?: string;
+            /** @enum {string} */
+            stream?: "stdout" | "stderr";
+            source: components["schemas"]["LogSource"];
+            traceId?: string;
+            spanId?: string;
+            attributes?: {
+                [key: string]: string;
+            };
+            sourceMode: components["schemas"]["LogSourceMode"];
+        };
+        LogCoverage: {
+            resolvedSources: number;
+            successfulSources: number;
+            failedSources: number;
+        };
+        LogWarning: {
+            code: string;
+            message: string;
+            source?: components["schemas"]["LogSource"];
+        };
+        LogPage: {
+            entries: components["schemas"]["LogEntry"][];
+            nextCursor?: string;
+            partial: boolean;
+            truncated: boolean;
+            scopeRestricted: boolean;
+            coverage?: components["schemas"]["LogCoverage"];
+            warnings?: components["schemas"]["LogWarning"][];
+            retentionHint?: string;
+        };
+        LogPageEnvelope: {
+            data: components["schemas"]["LogPage"];
+        };
+        LogStreamStatus: {
+            state: components["schemas"]["LogStreamState"];
+            message?: string;
+        };
+        LogStreamEvent: {
+            type: components["schemas"]["LogStreamEventType"];
+            entry?: components["schemas"]["LogEntry"];
+            cursor?: string;
+            status?: components["schemas"]["LogStreamStatus"];
+        } & (unknown & unknown);
+        /** @enum {string} */
         KubernetesResourceCreateSource: "list" | "global_yaml" | "form";
         /** @enum {string} */
         KubernetesResourceScopeMode: "namespace" | "cluster";
@@ -10692,6 +11180,7 @@ export interface components {
         SourceRepositoryID: string;
         RuntimeConfigApplicationID: string;
         ClusterID: string;
+        DataSourceID: string;
         ComputeCursor: string;
         ComputeLimit: number;
         ComputeDomain: components["schemas"]["ComputeDomain"];
@@ -10706,6 +11195,7 @@ export interface components {
         IdempotencyKey: string;
         ApplicationID: string;
         ApplicationEnvironmentID: string;
+        DockerProjectID: string;
         ManifestPackageID: string;
         ManifestBindingID: string;
         ManifestDeploymentID: string;
@@ -11363,6 +11853,48 @@ export type ClusterCapabilityStatus = components['schemas']['ClusterCapabilitySt
 export type ClusterCapabilityModeSupport = components['schemas']['ClusterCapabilityModeSupport'];
 export type ClusterCapabilityMatrixEntry = components['schemas']['ClusterCapabilityMatrixEntry'];
 export type ClusterCapabilityMatrixEnvelope = components['schemas']['ClusterCapabilityMatrixEnvelope'];
+export type ObservabilityDataSourceBackendType = components['schemas']['ObservabilityDataSourceBackendType'];
+export type ObservabilityDataSourceValidationStatus = components['schemas']['ObservabilityDataSourceValidationStatus'];
+export type ObservabilityDataSourceScope = components['schemas']['ObservabilityDataSourceScope'];
+export type ObservabilityLogQueryBudget = components['schemas']['ObservabilityLogQueryBudget'];
+export type ObservabilityLogRedactionPolicy = components['schemas']['ObservabilityLogRedactionPolicy'];
+export type ObservabilityLogLabelKeys = components['schemas']['ObservabilityLogLabelKeys'];
+export type ObservabilityLogDataSourceConfig = components['schemas']['ObservabilityLogDataSourceConfig'];
+export type ObservabilityDataSourceInput = components['schemas']['ObservabilityDataSourceInput'];
+export type ObservabilityDataSource = components['schemas']['ObservabilityDataSource'];
+export type ObservabilityDataSourceEnvelope = components['schemas']['ObservabilityDataSourceEnvelope'];
+export type ObservabilityDataSourceListEnvelope = components['schemas']['ObservabilityDataSourceListEnvelope'];
+export type LogCollectionMode = components['schemas']['LogCollectionMode'];
+export type LogCollectionProfile = components['schemas']['LogCollectionProfile'];
+export type LogCollectionStatus = components['schemas']['LogCollectionStatus'];
+export type LogCollectionHealthStatus = components['schemas']['LogCollectionHealthStatus'];
+export type LogCollectionComponentHealth = components['schemas']['LogCollectionComponentHealth'];
+export type LogCollectionPreflightInput = components['schemas']['LogCollectionPreflightInput'];
+export type LogCollectionResourceEstimate = components['schemas']['LogCollectionResourceEstimate'];
+export type LogCollectionDestination = components['schemas']['LogCollectionDestination'];
+export type LogCollectionPlan = components['schemas']['LogCollectionPlan'];
+export type LogCollectionEnableInput = components['schemas']['LogCollectionEnableInput'];
+export type LogCollectionDisableAction = components['schemas']['LogCollectionDisableAction'];
+export type LogCollectionDisableInput = components['schemas']['LogCollectionDisableInput'];
+export type LogCollectionState = components['schemas']['LogCollectionState'];
+export type LogCollectionPlanEnvelope = components['schemas']['LogCollectionPlanEnvelope'];
+export type LogCollectionStateEnvelope = components['schemas']['LogCollectionStateEnvelope'];
+export type LogSourceDomain = components['schemas']['LogSourceDomain'];
+export type LogSourceMode = components['schemas']['LogSourceMode'];
+export type LogDirection = components['schemas']['LogDirection'];
+export type LogStreamEventType = components['schemas']['LogStreamEventType'];
+export type LogStreamState = components['schemas']['LogStreamState'];
+export type LogSourceSelector = components['schemas']['LogSourceSelector'];
+export type LogRuntimeOptions = components['schemas']['LogRuntimeOptions'];
+export type LogQuery = components['schemas']['LogQuery'];
+export type LogSource = components['schemas']['LogSource'];
+export type LogEntry = components['schemas']['LogEntry'];
+export type LogCoverage = components['schemas']['LogCoverage'];
+export type LogWarning = components['schemas']['LogWarning'];
+export type LogPage = components['schemas']['LogPage'];
+export type LogPageEnvelope = components['schemas']['LogPageEnvelope'];
+export type LogStreamStatus = components['schemas']['LogStreamStatus'];
+export type LogStreamEvent = components['schemas']['LogStreamEvent'];
 export type KubernetesResourceCreateSource = components['schemas']['KubernetesResourceCreateSource'];
 export type KubernetesResourceScopeMode = components['schemas']['KubernetesResourceScopeMode'];
 export type KubernetesResourceAction = components['schemas']['KubernetesResourceAction'];
@@ -11577,6 +12109,7 @@ export type ParameterSourceConnectionId = components['parameters']['SourceConnec
 export type ParameterSourceRepositoryId = components['parameters']['SourceRepositoryID'];
 export type ParameterRuntimeConfigApplicationId = components['parameters']['RuntimeConfigApplicationID'];
 export type ParameterClusterId = components['parameters']['ClusterID'];
+export type ParameterDataSourceId = components['parameters']['DataSourceID'];
 export type ParameterComputeCursor = components['parameters']['ComputeCursor'];
 export type ParameterComputeLimit = components['parameters']['ComputeLimit'];
 export type ParameterComputeDomain = components['parameters']['ComputeDomain'];
@@ -11591,6 +12124,7 @@ export type ParameterComputeActionId = components['parameters']['ComputeActionID
 export type ParameterIdempotencyKey = components['parameters']['IdempotencyKey'];
 export type ParameterApplicationId = components['parameters']['ApplicationID'];
 export type ParameterApplicationEnvironmentId = components['parameters']['ApplicationEnvironmentID'];
+export type ParameterDockerProjectId = components['parameters']['DockerProjectID'];
 export type ParameterManifestPackageId = components['parameters']['ManifestPackageID'];
 export type ParameterManifestBindingId = components['parameters']['ManifestBindingID'];
 export type ParameterManifestDeploymentId = components['parameters']['ManifestDeploymentID'];
@@ -14799,6 +15333,407 @@ export interface operations {
                 };
             };
             403: components["responses"]["Error"];
+        };
+    };
+    queryClusterLogs: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LogQuery"];
+            };
+        };
+        responses: {
+            /** @description Authorized, bounded, and timestamp-ordered logs from the selected cluster sources. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LogPageEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            422: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    issueClusterLogStreamTicket: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LogQuery"];
+            };
+        };
+        responses: {
+            /** @description Short-lived ticket for an authorized cluster runtime-log stream. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StreamTicketEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            422: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    queryDockerProjectLogs: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dockerProjectID: components["parameters"]["DockerProjectID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LogQuery"];
+            };
+        };
+        responses: {
+            /** @description Authorized and bounded logs from a Docker Compose project service. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LogPageEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            422: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    issueDockerProjectLogStreamTicket: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dockerProjectID: components["parameters"]["DockerProjectID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LogQuery"];
+            };
+        };
+        responses: {
+            /** @description Short-lived ticket for an authorized Docker project runtime-log stream. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StreamTicketEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            422: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    queryDeliveryEnvironmentLogs: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+                applicationEnvironmentID: components["parameters"]["ApplicationEnvironmentID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LogQuery"];
+            };
+        };
+        responses: {
+            /** @description Authorized and bounded logs from workloads in an application environment. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LogPageEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            422: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    issueDeliveryEnvironmentLogStreamTicket: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+                applicationEnvironmentID: components["parameters"]["ApplicationEnvironmentID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LogQuery"];
+            };
+        };
+        responses: {
+            /** @description Short-lived ticket for an authorized application-environment runtime-log stream. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StreamTicketEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            422: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getClusterLogCollection: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current durable log-collection mode and health for the cluster. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LogCollectionStateEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    preflightClusterLogCollection: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LogCollectionPreflightInput"];
+            };
+        };
+        responses: {
+            /** @description Authorized installation plan. A plan token is returned only when no blocker remains. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LogCollectionPlanEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    enableClusterLogCollection: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LogCollectionEnableInput"];
+            };
+        };
+        responses: {
+            /** @description Confirmed collection state after the Helm operation completed or failed. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LogCollectionStateEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    disableClusterLogCollection: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LogCollectionDisableInput"];
+            };
+        };
+        responses: {
+            /** @description Collection state after stopping or uninstalling the managed collector. Durable history is retained. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LogCollectionStateEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listObservabilityDataSources: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Permission-filtered log data sources with credentials redacted. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservabilityDataSourceListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createObservabilityDataSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ObservabilityDataSourceInput"];
+            };
+        };
+        responses: {
+            /** @description Log data source created with credentials redacted. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservabilityDataSourceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    updateObservabilityDataSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dataSourceID: components["parameters"]["DataSourceID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ObservabilityDataSourceInput"];
+            };
+        };
+        responses: {
+            /** @description Log data source updated with credentials redacted. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservabilityDataSourceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    validateObservabilityDataSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dataSourceID: components["parameters"]["DataSourceID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current data-source validation and backend health result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservabilityDataSourceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
         };
     };
     decideKubernetesResourceCreateScope: {

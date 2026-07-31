@@ -18,6 +18,7 @@ tags:
   - name: Applications
   - name: Delivery
   - name: Platform
+  - name: Observability
   - name: Settings
   - name: System Integrations
   - name: Source Control
@@ -2559,6 +2560,353 @@ paths:
               schema:
                 $ref: "#/components/schemas/ClusterCapabilityMatrixEnvelope"
         "403":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/logs/query:
+    post:
+      tags: [Platform]
+      operationId: queryClusterLogs
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LogQuery"
+      responses:
+        "200":
+          description: Authorized, bounded, and timestamp-ordered logs from the selected cluster sources.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogPageEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "422":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/logs/stream-ticket:
+    post:
+      tags: [Platform]
+      operationId: issueClusterLogStreamTicket
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LogQuery"
+      responses:
+        "200":
+          description: Short-lived ticket for an authorized cluster runtime-log stream.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StreamTicketEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "422":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /docker/projects/{dockerProjectID}/logs/query:
+    post:
+      tags: [Docker]
+      operationId: queryDockerProjectLogs
+      parameters:
+        - $ref: "#/components/parameters/DockerProjectID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LogQuery"
+      responses:
+        "200":
+          description: Authorized and bounded logs from a Docker Compose project service.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogPageEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "422":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /docker/projects/{dockerProjectID}/logs/stream-ticket:
+    post:
+      tags: [Docker]
+      operationId: issueDockerProjectLogStreamTicket
+      parameters:
+        - $ref: "#/components/parameters/DockerProjectID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LogQuery"
+      responses:
+        "200":
+          description: Short-lived ticket for an authorized Docker project runtime-log stream.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StreamTicketEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "422":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /delivery/applications/{applicationID}/environments/{applicationEnvironmentID}/logs/query:
+    post:
+      tags: [Delivery]
+      operationId: queryDeliveryEnvironmentLogs
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+        - $ref: "#/components/parameters/ApplicationEnvironmentID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LogQuery"
+      responses:
+        "200":
+          description: Authorized and bounded logs from workloads in an application environment.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogPageEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "422":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /delivery/applications/{applicationID}/environments/{applicationEnvironmentID}/logs/stream-ticket:
+    post:
+      tags: [Delivery]
+      operationId: issueDeliveryEnvironmentLogStreamTicket
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+        - $ref: "#/components/parameters/ApplicationEnvironmentID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LogQuery"
+      responses:
+        "200":
+          description: Short-lived ticket for an authorized application-environment runtime-log stream.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StreamTicketEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "422":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/observability/logging:
+    get:
+      tags: [Observability]
+      operationId: getClusterLogCollection
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+      responses:
+        "200":
+          description: Current durable log-collection mode and health for the cluster.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogCollectionStateEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/observability/logging/preflight:
+    post:
+      tags: [Observability]
+      operationId: preflightClusterLogCollection
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LogCollectionPreflightInput"
+      responses:
+        "200":
+          description: Authorized installation plan. A plan token is returned only when no blocker remains.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogCollectionPlanEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/observability/logging/enable:
+    post:
+      tags: [Observability]
+      operationId: enableClusterLogCollection
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LogCollectionEnableInput"
+      responses:
+        "200":
+          description: Confirmed collection state after the Helm operation completed or failed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogCollectionStateEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/observability/logging/disable:
+    post:
+      tags: [Observability]
+      operationId: disableClusterLogCollection
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LogCollectionDisableInput"
+      responses:
+        "200":
+          description: Collection state after stopping or uninstalling the managed collector. Durable history is retained.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogCollectionStateEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /observability/data-sources:
+    get:
+      tags: [Observability]
+      operationId: listObservabilityDataSources
+      responses:
+        "200":
+          description: Permission-filtered log data sources with credentials redacted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObservabilityDataSourceListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [Observability]
+      operationId: createObservabilityDataSource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ObservabilityDataSourceInput"
+      responses:
+        "201":
+          description: Log data source created with credentials redacted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObservabilityDataSourceEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /observability/data-sources/{dataSourceID}:
+    put:
+      tags: [Observability]
+      operationId: updateObservabilityDataSource
+      parameters:
+        - $ref: "#/components/parameters/DataSourceID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ObservabilityDataSourceInput"
+      responses:
+        "200":
+          description: Log data source updated with credentials redacted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObservabilityDataSourceEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /observability/data-sources/{dataSourceID}/validate:
+    post:
+      tags: [Observability]
+      operationId: validateObservabilityDataSource
+      parameters:
+        - $ref: "#/components/parameters/DataSourceID"
+      responses:
+        "200":
+          description: Current data-source validation and backend health result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObservabilityDataSourceEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
           $ref: "#/components/responses/Error"
   /clusters/{clusterID}/resource-creation/scope-decision:
     post:
@@ -7539,6 +7887,14 @@ components:
       schema:
         type: string
         minLength: 1
+    DataSourceID:
+      name: dataSourceID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
     ComputeCursor:
       name: cursor
       in: query
@@ -7633,6 +7989,13 @@ components:
       required: true
       schema:
         type: string
+    DockerProjectID:
+      name: dockerProjectID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
     ManifestPackageID:
       name: manifestPackageID
       in: path
@@ -15789,6 +16152,672 @@ components:
           items:
             $ref: "#/components/schemas/ClusterCapabilityMatrixEntry"
       additionalProperties: false
+    ObservabilityDataSourceBackendType:
+      type: string
+      enum: [loki, elasticsearch, clickhouse]
+      x-enum-varnames:
+        - ObservabilityDataSourceBackendTypeLoki
+        - ObservabilityDataSourceBackendTypeElasticsearch
+        - ObservabilityDataSourceBackendTypeClickHouse
+    ObservabilityDataSourceValidationStatus:
+      type: string
+      enum: [unknown, healthy, failed]
+      x-enum-varnames:
+        - ObservabilityDataSourceValidationStatusUnknown
+        - ObservabilityDataSourceValidationStatusHealthy
+        - ObservabilityDataSourceValidationStatusFailed
+    ObservabilityDataSourceScope:
+      type: object
+      properties:
+        clusterIds:
+          type: array
+          maxItems: 100
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+        namespaces:
+          type: array
+          maxItems: 500
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 253
+      additionalProperties: false
+    ObservabilityLogQueryBudget:
+      type: object
+      properties:
+        maxEntries:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          default: 1000
+        maxRangeSeconds:
+          type: integer
+          minimum: 60
+          maximum: 604800
+          default: 86400
+        timeoutSeconds:
+          type: integer
+          minimum: 1
+          maximum: 30
+          default: 10
+      additionalProperties: false
+    ObservabilityLogRedactionPolicy:
+      type: object
+      properties:
+        dropAttributeKeys:
+          type: array
+          maxItems: 100
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 256
+      additionalProperties: false
+    ObservabilityLogLabelKeys:
+      type: object
+      properties:
+        cluster: { type: string, minLength: 1, maxLength: 128 }
+        namespace: { type: string, minLength: 1, maxLength: 128 }
+        service: { type: string, minLength: 1, maxLength: 128 }
+        workload: { type: string, minLength: 1, maxLength: 128 }
+        severity: { type: string, minLength: 1, maxLength: 128 }
+        pod: { type: string, minLength: 1, maxLength: 128 }
+        container: { type: string, minLength: 1, maxLength: 128 }
+      additionalProperties: false
+    ObservabilityLogDataSourceConfig:
+      type: object
+      required: [endpoint]
+      properties:
+        endpoint:
+          type: string
+          format: uri
+          maxLength: 2048
+        tenantId:
+          type: string
+          maxLength: 256
+        index:
+          type: string
+          maxLength: 512
+        table:
+          type: string
+          maxLength: 512
+        labelKeys:
+          $ref: "#/components/schemas/ObservabilityLogLabelKeys"
+        timestampField: { type: string, maxLength: 256 }
+        messageField: { type: string, maxLength: 256 }
+        severityField: { type: string, maxLength: 256 }
+        serviceField: { type: string, maxLength: 256 }
+        workloadField: { type: string, maxLength: 256 }
+        namespaceField: { type: string, maxLength: 256 }
+        clusterField: { type: string, maxLength: 256 }
+        podField: { type: string, maxLength: 256 }
+        containerField: { type: string, maxLength: 256 }
+      additionalProperties: false
+    ObservabilityDataSourceInput:
+      type: object
+      required: [name, backendType, enabled, config]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        backendType:
+          $ref: "#/components/schemas/ObservabilityDataSourceBackendType"
+        enabled:
+          type: boolean
+        scope:
+          $ref: "#/components/schemas/ObservabilityDataSourceScope"
+        queryBudget:
+          $ref: "#/components/schemas/ObservabilityLogQueryBudget"
+        redactionPolicy:
+          $ref: "#/components/schemas/ObservabilityLogRedactionPolicy"
+        config:
+          $ref: "#/components/schemas/ObservabilityLogDataSourceConfig"
+        credentials:
+          type: array
+          maxItems: 3
+          items:
+            $ref: "#/components/schemas/SystemIntegrationCredentialInput"
+        clearCredentialKeys:
+          type: array
+          maxItems: 3
+          uniqueItems: true
+          items:
+            type: string
+            enum: [bearer_token, username, password]
+      additionalProperties: false
+    ObservabilityDataSource:
+      type: object
+      required: [id, name, backendType, enabled, scope, queryBudget, redactionPolicy, config, credentialKeys, validationStatus, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        backendType:
+          $ref: "#/components/schemas/ObservabilityDataSourceBackendType"
+        enabled:
+          type: boolean
+        scope:
+          $ref: "#/components/schemas/ObservabilityDataSourceScope"
+        queryBudget:
+          $ref: "#/components/schemas/ObservabilityLogQueryBudget"
+        redactionPolicy:
+          $ref: "#/components/schemas/ObservabilityLogRedactionPolicy"
+        config:
+          $ref: "#/components/schemas/ObservabilityLogDataSourceConfig"
+        credentialKeys:
+          type: array
+          uniqueItems: true
+          description: Names of configured credentials. Credential values are never returned.
+          items:
+            type: string
+            enum: [bearer_token, username, password]
+        validationStatus:
+          $ref: "#/components/schemas/ObservabilityDataSourceValidationStatus"
+        validationMessage:
+          type: string
+          maxLength: 1000
+        lastValidatedAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ObservabilityDataSourceEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ObservabilityDataSource"
+      additionalProperties: false
+    ObservabilityDataSourceListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ObservabilityDataSource"
+      additionalProperties: false
+    LogCollectionMode:
+      type: string
+      enum: [runtime_only, external, soha_managed]
+      x-enum-varnames: [LogCollectionModeRuntimeOnly, LogCollectionModeExternal, LogCollectionModeSohaManaged]
+    LogCollectionProfile:
+      type: string
+      enum: [collector_only, starter, production_external]
+      x-enum-varnames: [LogCollectionProfileCollectorOnly, LogCollectionProfileStarter, LogCollectionProfileProductionExternal]
+    LogCollectionStatus:
+      type: string
+      enum: [disabled, pending_confirmation, installing, healthy, degraded, failed, stopping]
+      x-enum-varnames: [LogCollectionStatusDisabled, LogCollectionStatusPendingConfirmation, LogCollectionStatusInstalling, LogCollectionStatusHealthy, LogCollectionStatusDegraded, LogCollectionStatusFailed, LogCollectionStatusStopping]
+    LogCollectionHealthStatus:
+      type: string
+      enum: [unknown, healthy, degraded, failed]
+      x-enum-varnames: [LogCollectionHealthStatusUnknown, LogCollectionHealthStatusHealthy, LogCollectionHealthStatusDegraded, LogCollectionHealthStatusFailed]
+    LogCollectionComponentHealth:
+      type: object
+      required: [status, message]
+      properties:
+        status:
+          $ref: "#/components/schemas/LogCollectionHealthStatus"
+        message:
+          type: string
+          maxLength: 1000
+      additionalProperties: false
+    LogCollectionPreflightInput:
+      type: object
+      required: [profile, namespace, retentionDays]
+      properties:
+        profile:
+          $ref: "#/components/schemas/LogCollectionProfile"
+        namespace:
+          type: string
+          minLength: 1
+          maxLength: 253
+        dataSourceId:
+          type: string
+          minLength: 1
+          maxLength: 200
+        credentialSecretName:
+          type: string
+          minLength: 1
+          maxLength: 253
+          description: Existing Kubernetes Secret consumed by the collector. Secret values never pass through this API.
+        retentionDays:
+          type: integer
+          minimum: 1
+          maximum: 365
+        storageClassName:
+          type: string
+          maxLength: 253
+        storageSize:
+          type: string
+          pattern: "^[1-9][0-9]*(Mi|Gi|Ti)$"
+        namespaceAllowlist:
+          type: array
+          maxItems: 100
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 253
+      additionalProperties: false
+    LogCollectionResourceEstimate:
+      type: object
+      required: [cpu, memory]
+      properties:
+        cpu: { type: string, minLength: 1, maxLength: 32 }
+        memory: { type: string, minLength: 1, maxLength: 32 }
+      additionalProperties: false
+    LogCollectionDestination:
+      type: object
+      required: [backendType, endpoint]
+      properties:
+        dataSourceId: { type: string }
+        backendType:
+          type: string
+          enum: [loki]
+        endpoint:
+          type: string
+          format: uri
+          maxLength: 2048
+        tenantId:
+          type: string
+          maxLength: 256
+        credentialSecretName:
+          type: string
+          maxLength: 253
+      additionalProperties: false
+    LogCollectionPlan:
+      type: object
+      required: [clusterId, profile, namespace, components, hostPaths, rbacRules, destination, retentionDays, storageSize, resources, namespaceAllowlist, warnings, blockers, canEnable, historyPreserved, expiresAt]
+      properties:
+        clusterId: { type: string }
+        profile:
+          $ref: "#/components/schemas/LogCollectionProfile"
+        namespace: { type: string }
+        components:
+          type: array
+          items:
+            type: string
+            enum: [otel_collector, loki]
+        hostPaths:
+          type: array
+          items: { type: string }
+        rbacRules:
+          type: array
+          items: { type: string }
+        destination:
+          $ref: "#/components/schemas/LogCollectionDestination"
+        retentionDays: { type: integer }
+        storageClassName: { type: string }
+        storageSize: { type: string }
+        resources:
+          $ref: "#/components/schemas/LogCollectionResourceEstimate"
+        namespaceAllowlist:
+          type: array
+          items: { type: string }
+        warnings:
+          type: array
+          items: { type: string }
+        blockers:
+          type: array
+          items: { type: string }
+        canEnable: { type: boolean }
+        historyPreserved: { type: boolean }
+        planToken:
+          type: string
+          description: Short-lived signed confirmation token. Omitted while blockers remain.
+        expiresAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    LogCollectionEnableInput:
+      type: object
+      required: [planToken]
+      properties:
+        planToken:
+          type: string
+          minLength: 1
+          maxLength: 16384
+      additionalProperties: false
+    LogCollectionDisableAction:
+      type: string
+      enum: [stop, uninstall]
+      x-enum-varnames: [LogCollectionDisableActionStop, LogCollectionDisableActionUninstall]
+    LogCollectionDisableInput:
+      type: object
+      required: [action]
+      properties:
+        action:
+          $ref: "#/components/schemas/LogCollectionDisableAction"
+      additionalProperties: false
+    LogCollectionState:
+      type: object
+      required: [clusterId, mode, status, namespace, releaseName, collector, backend, endToEnd, historyPreserved, updatedAt]
+      properties:
+        clusterId: { type: string }
+        mode:
+          $ref: "#/components/schemas/LogCollectionMode"
+        status:
+          $ref: "#/components/schemas/LogCollectionStatus"
+        profile:
+          $ref: "#/components/schemas/LogCollectionProfile"
+        namespace: { type: string }
+        releaseName: { type: string }
+        dataSourceId: { type: string }
+        retentionDays: { type: integer }
+        namespaceAllowlist:
+          type: array
+          items: { type: string }
+        collector:
+          $ref: "#/components/schemas/LogCollectionComponentHealth"
+        backend:
+          $ref: "#/components/schemas/LogCollectionComponentHealth"
+        endToEnd:
+          $ref: "#/components/schemas/LogCollectionComponentHealth"
+        operationId: { type: string }
+        lastError: { type: string, maxLength: 2000 }
+        historyPreserved: { type: boolean }
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    LogCollectionPlanEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/LogCollectionPlan"
+      additionalProperties: false
+    LogCollectionStateEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/LogCollectionState"
+      additionalProperties: false
+    LogSourceDomain:
+      type: string
+      enum: [kubernetes, delivery, docker]
+      x-enum-varnames: [LogSourceDomainKubernetes, LogSourceDomainDelivery, LogSourceDomainDocker]
+    LogSourceMode:
+      type: string
+      enum: [runtime, durable, auto]
+      x-enum-varnames: [LogSourceModeRuntime, LogSourceModeDurable, LogSourceModeAuto]
+    LogDirection:
+      type: string
+      enum: [backward, forward]
+      x-enum-varnames: [LogDirectionBackward, LogDirectionForward]
+    LogStreamEventType:
+      type: string
+      enum: [entry, status, source_error, heartbeat, end]
+      x-enum-varnames: [LogStreamEventTypeEntry, LogStreamEventTypeStatus, LogStreamEventTypeSourceError, LogStreamEventTypeHeartbeat, LogStreamEventTypeEnd]
+    LogStreamState:
+      type: string
+      enum: [connecting, live, reconnecting, degraded, ended]
+      x-enum-varnames: [LogStreamStateConnecting, LogStreamStateLive, LogStreamStateReconnecting, LogStreamStateDegraded, LogStreamStateEnded]
+    LogSourceSelector:
+      type: object
+      properties:
+        namespace:
+          type: string
+          minLength: 1
+          maxLength: 253
+        workloadKind:
+          type: string
+          maxLength: 128
+        workloadName:
+          type: string
+          maxLength: 253
+        podNames:
+          type: array
+          maxItems: 50
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 253
+        containers:
+          type: array
+          maxItems: 50
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 253
+        labelSelector:
+          type: string
+          maxLength: 2048
+        allContainers:
+          type: boolean
+        dockerService:
+          type: string
+          minLength: 1
+          maxLength: 253
+      additionalProperties: false
+    LogRuntimeOptions:
+      type: object
+      properties:
+        previous:
+          type: boolean
+        sinceSeconds:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 604800
+      additionalProperties: false
+    LogQuery:
+      type: object
+      properties:
+        sourceMode:
+          $ref: "#/components/schemas/LogSourceMode"
+        selector:
+          $ref: "#/components/schemas/LogSourceSelector"
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+        tail:
+          type: integer
+          minimum: 1
+          maximum: 5000
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 5000
+        direction:
+          $ref: "#/components/schemas/LogDirection"
+        text:
+          type: string
+          maxLength: 2048
+        severities:
+          type: array
+          maxItems: 20
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 64
+        cursor:
+          type: string
+          maxLength: 4096
+        runtimeOptions:
+          $ref: "#/components/schemas/LogRuntimeOptions"
+      additionalProperties: false
+      allOf:
+        - type: object
+          required: [selector]
+          properties:
+            selector:
+              $ref: "#/components/schemas/LogSourceSelector"
+    LogSource:
+      type: object
+      required: [domain]
+      properties:
+        domain:
+          $ref: "#/components/schemas/LogSourceDomain"
+        clusterId:
+          type: string
+        namespace:
+          type: string
+        workloadKind:
+          type: string
+        workloadName:
+          type: string
+        workloadUid:
+          type: string
+        podName:
+          type: string
+        podUid:
+          type: string
+        containerName:
+          type: string
+        applicationId:
+          type: string
+        environmentKey:
+          type: string
+        dockerProjectId:
+          type: string
+        dockerService:
+          type: string
+      additionalProperties: false
+    LogEntry:
+      type: object
+      required: [timestamp, message, source, sourceMode]
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        observedAt:
+          type: string
+          format: date-time
+        message:
+          type: string
+        severity:
+          type: string
+        stream:
+          type: string
+          enum: [stdout, stderr]
+        source:
+          $ref: "#/components/schemas/LogSource"
+        traceId:
+          type: string
+        spanId:
+          type: string
+        attributes:
+          type: object
+          additionalProperties:
+            type: string
+        sourceMode:
+          $ref: "#/components/schemas/LogSourceMode"
+      additionalProperties: false
+    LogCoverage:
+      type: object
+      required: [resolvedSources, successfulSources, failedSources]
+      properties:
+        resolvedSources:
+          type: integer
+          minimum: 0
+        successfulSources:
+          type: integer
+          minimum: 0
+        failedSources:
+          type: integer
+          minimum: 0
+      additionalProperties: false
+    LogWarning:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        source:
+          $ref: "#/components/schemas/LogSource"
+      additionalProperties: false
+    LogPage:
+      type: object
+      required: [entries, partial, truncated, scopeRestricted]
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: "#/components/schemas/LogEntry"
+        nextCursor:
+          type: string
+        partial:
+          type: boolean
+        truncated:
+          type: boolean
+        scopeRestricted:
+          type: boolean
+        coverage:
+          $ref: "#/components/schemas/LogCoverage"
+        warnings:
+          type: array
+          items:
+            $ref: "#/components/schemas/LogWarning"
+        retentionHint:
+          type: string
+      additionalProperties: false
+    LogPageEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/LogPage"
+      additionalProperties: false
+    LogStreamStatus:
+      type: object
+      required: [state]
+      properties:
+        state:
+          $ref: "#/components/schemas/LogStreamState"
+        message:
+          type: string
+      additionalProperties: false
+    LogStreamEvent:
+      type: object
+      required: [type]
+      properties:
+        type:
+          $ref: "#/components/schemas/LogStreamEventType"
+        entry:
+          $ref: "#/components/schemas/LogEntry"
+        cursor:
+          type: string
+        status:
+          $ref: "#/components/schemas/LogStreamStatus"
+      additionalProperties: false
+      allOf:
+        - if:
+            properties:
+              type:
+                const: entry
+            required: [type]
+          then:
+            required: [entry]
+        - if:
+            properties:
+              type:
+                enum: [status, source_error, end]
+            required: [type]
+          then:
+            required: [status]
     KubernetesResourceCreateSource:
       type: string
       enum: [list, global_yaml, form]

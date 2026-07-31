@@ -148,6 +148,11 @@ function applyGoCompatibility(spec) {
     // oapi-codegen v2.7 cannot model OpenAPI 3.1 conditional validation.
     delete runtimeConfigItem.allOf;
   }
+  const logQuery = schemas.LogQuery;
+  if (isObject(logQuery)) {
+    // Keep the Go pointer guard while public OpenAPI and TypeScript require a selector.
+    delete logQuery.allOf;
+  }
 
   setPropertyGoType(schemas, "PluginManifest", "type", "string");
   setPropertyGoType(schemas, "InstalledPlugin", "status", "string");

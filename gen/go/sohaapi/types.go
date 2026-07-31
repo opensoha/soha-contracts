@@ -2736,6 +2736,234 @@ func (e LLMUpstreamTestResultStatus) Valid() bool {
 	}
 }
 
+// Defines values for LogCollectionDestinationBackendType.
+const (
+	LogCollectionDestinationBackendTypeLoki LogCollectionDestinationBackendType = "loki"
+)
+
+// Valid indicates whether the value is a known member of the LogCollectionDestinationBackendType enum.
+func (e LogCollectionDestinationBackendType) Valid() bool {
+	switch e {
+	case LogCollectionDestinationBackendTypeLoki:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LogCollectionDisableAction.
+const (
+	LogCollectionDisableActionStop      LogCollectionDisableAction = "stop"
+	LogCollectionDisableActionUninstall LogCollectionDisableAction = "uninstall"
+)
+
+// Valid indicates whether the value is a known member of the LogCollectionDisableAction enum.
+func (e LogCollectionDisableAction) Valid() bool {
+	switch e {
+	case LogCollectionDisableActionStop:
+		return true
+	case LogCollectionDisableActionUninstall:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LogCollectionHealthStatus.
+const (
+	LogCollectionHealthStatusDegraded LogCollectionHealthStatus = "degraded"
+	LogCollectionHealthStatusFailed   LogCollectionHealthStatus = "failed"
+	LogCollectionHealthStatusHealthy  LogCollectionHealthStatus = "healthy"
+	LogCollectionHealthStatusUnknown  LogCollectionHealthStatus = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the LogCollectionHealthStatus enum.
+func (e LogCollectionHealthStatus) Valid() bool {
+	switch e {
+	case LogCollectionHealthStatusDegraded:
+		return true
+	case LogCollectionHealthStatusFailed:
+		return true
+	case LogCollectionHealthStatusHealthy:
+		return true
+	case LogCollectionHealthStatusUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LogCollectionMode.
+const (
+	LogCollectionModeExternal    LogCollectionMode = "external"
+	LogCollectionModeRuntimeOnly LogCollectionMode = "runtime_only"
+	LogCollectionModeSohaManaged LogCollectionMode = "soha_managed"
+)
+
+// Valid indicates whether the value is a known member of the LogCollectionMode enum.
+func (e LogCollectionMode) Valid() bool {
+	switch e {
+	case LogCollectionModeExternal:
+		return true
+	case LogCollectionModeRuntimeOnly:
+		return true
+	case LogCollectionModeSohaManaged:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LogCollectionPlanComponents.
+const (
+	LogCollectionPlanComponentsLoki          LogCollectionPlanComponents = "loki"
+	LogCollectionPlanComponentsOtelCollector LogCollectionPlanComponents = "otel_collector"
+)
+
+// Valid indicates whether the value is a known member of the LogCollectionPlanComponents enum.
+func (e LogCollectionPlanComponents) Valid() bool {
+	switch e {
+	case LogCollectionPlanComponentsLoki:
+		return true
+	case LogCollectionPlanComponentsOtelCollector:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LogCollectionProfile.
+const (
+	LogCollectionProfileCollectorOnly      LogCollectionProfile = "collector_only"
+	LogCollectionProfileProductionExternal LogCollectionProfile = "production_external"
+	LogCollectionProfileStarter            LogCollectionProfile = "starter"
+)
+
+// Valid indicates whether the value is a known member of the LogCollectionProfile enum.
+func (e LogCollectionProfile) Valid() bool {
+	switch e {
+	case LogCollectionProfileCollectorOnly:
+		return true
+	case LogCollectionProfileProductionExternal:
+		return true
+	case LogCollectionProfileStarter:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LogCollectionStatus.
+const (
+	LogCollectionStatusDegraded            LogCollectionStatus = "degraded"
+	LogCollectionStatusDisabled            LogCollectionStatus = "disabled"
+	LogCollectionStatusFailed              LogCollectionStatus = "failed"
+	LogCollectionStatusHealthy             LogCollectionStatus = "healthy"
+	LogCollectionStatusInstalling          LogCollectionStatus = "installing"
+	LogCollectionStatusPendingConfirmation LogCollectionStatus = "pending_confirmation"
+	LogCollectionStatusStopping            LogCollectionStatus = "stopping"
+)
+
+// Valid indicates whether the value is a known member of the LogCollectionStatus enum.
+func (e LogCollectionStatus) Valid() bool {
+	switch e {
+	case LogCollectionStatusDegraded:
+		return true
+	case LogCollectionStatusDisabled:
+		return true
+	case LogCollectionStatusFailed:
+		return true
+	case LogCollectionStatusHealthy:
+		return true
+	case LogCollectionStatusInstalling:
+		return true
+	case LogCollectionStatusPendingConfirmation:
+		return true
+	case LogCollectionStatusStopping:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LogDirection.
+const (
+	LogDirectionBackward LogDirection = "backward"
+	LogDirectionForward  LogDirection = "forward"
+)
+
+// Valid indicates whether the value is a known member of the LogDirection enum.
+func (e LogDirection) Valid() bool {
+	switch e {
+	case LogDirectionBackward:
+		return true
+	case LogDirectionForward:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LogEntryStream.
+const (
+	Stderr LogEntryStream = "stderr"
+	Stdout LogEntryStream = "stdout"
+)
+
+// Valid indicates whether the value is a known member of the LogEntryStream enum.
+func (e LogEntryStream) Valid() bool {
+	switch e {
+	case Stderr:
+		return true
+	case Stdout:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LogSourceDomain.
+const (
+	LogSourceDomainDelivery   LogSourceDomain = "delivery"
+	LogSourceDomainDocker     LogSourceDomain = "docker"
+	LogSourceDomainKubernetes LogSourceDomain = "kubernetes"
+)
+
+// Valid indicates whether the value is a known member of the LogSourceDomain enum.
+func (e LogSourceDomain) Valid() bool {
+	switch e {
+	case LogSourceDomainDelivery:
+		return true
+	case LogSourceDomainDocker:
+		return true
+	case LogSourceDomainKubernetes:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for LogSourceMode.
+const (
+	LogSourceModeAuto    LogSourceMode = "auto"
+	LogSourceModeDurable LogSourceMode = "durable"
+	LogSourceModeRuntime LogSourceMode = "runtime"
+)
+
+// Valid indicates whether the value is a known member of the LogSourceMode enum.
+func (e LogSourceMode) Valid() bool {
+	switch e {
+	case LogSourceModeAuto:
+		return true
+	case LogSourceModeDurable:
+		return true
+	case LogSourceModeRuntime:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for MFACredentialType.
 const (
 	Totp     MFACredentialType = "totp"
@@ -3318,6 +3546,90 @@ func (e OIDCClientInputGrantTypes) Valid() bool {
 	case OIDCClientInputGrantTypesAuthorizationCode:
 		return true
 	case OIDCClientInputGrantTypesRefreshToken:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityDataSourceCredentialKeys.
+const (
+	ObservabilityDataSourceCredentialKeysBearerToken ObservabilityDataSourceCredentialKeys = "bearer_token"
+	ObservabilityDataSourceCredentialKeysPassword    ObservabilityDataSourceCredentialKeys = "password"
+	ObservabilityDataSourceCredentialKeysUsername    ObservabilityDataSourceCredentialKeys = "username"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityDataSourceCredentialKeys enum.
+func (e ObservabilityDataSourceCredentialKeys) Valid() bool {
+	switch e {
+	case ObservabilityDataSourceCredentialKeysBearerToken:
+		return true
+	case ObservabilityDataSourceCredentialKeysPassword:
+		return true
+	case ObservabilityDataSourceCredentialKeysUsername:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityDataSourceBackendType.
+const (
+	ObservabilityDataSourceBackendTypeClickHouse    ObservabilityDataSourceBackendType = "clickhouse"
+	ObservabilityDataSourceBackendTypeElasticsearch ObservabilityDataSourceBackendType = "elasticsearch"
+	ObservabilityDataSourceBackendTypeLoki          ObservabilityDataSourceBackendType = "loki"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityDataSourceBackendType enum.
+func (e ObservabilityDataSourceBackendType) Valid() bool {
+	switch e {
+	case ObservabilityDataSourceBackendTypeClickHouse:
+		return true
+	case ObservabilityDataSourceBackendTypeElasticsearch:
+		return true
+	case ObservabilityDataSourceBackendTypeLoki:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityDataSourceInputClearCredentialKeys.
+const (
+	ObservabilityDataSourceInputClearCredentialKeysBearerToken ObservabilityDataSourceInputClearCredentialKeys = "bearer_token"
+	ObservabilityDataSourceInputClearCredentialKeysPassword    ObservabilityDataSourceInputClearCredentialKeys = "password"
+	ObservabilityDataSourceInputClearCredentialKeysUsername    ObservabilityDataSourceInputClearCredentialKeys = "username"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityDataSourceInputClearCredentialKeys enum.
+func (e ObservabilityDataSourceInputClearCredentialKeys) Valid() bool {
+	switch e {
+	case ObservabilityDataSourceInputClearCredentialKeysBearerToken:
+		return true
+	case ObservabilityDataSourceInputClearCredentialKeysPassword:
+		return true
+	case ObservabilityDataSourceInputClearCredentialKeysUsername:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityDataSourceValidationStatus.
+const (
+	ObservabilityDataSourceValidationStatusFailed  ObservabilityDataSourceValidationStatus = "failed"
+	ObservabilityDataSourceValidationStatusHealthy ObservabilityDataSourceValidationStatus = "healthy"
+	ObservabilityDataSourceValidationStatusUnknown ObservabilityDataSourceValidationStatus = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityDataSourceValidationStatus enum.
+func (e ObservabilityDataSourceValidationStatus) Valid() bool {
+	switch e {
+	case ObservabilityDataSourceValidationStatusFailed:
+		return true
+	case ObservabilityDataSourceValidationStatusHealthy:
+		return true
+	case ObservabilityDataSourceValidationStatusUnknown:
 		return true
 	default:
 		return false
@@ -9939,6 +10251,232 @@ type LLMUpstreamTestResultEnvelope struct {
 	Data LLMUpstreamTestResult `json:"data"`
 }
 
+// LogCollectionComponentHealth defines model for LogCollectionComponentHealth.
+type LogCollectionComponentHealth struct {
+	Message string                    `json:"message"`
+	Status  LogCollectionHealthStatus `json:"status"`
+}
+
+// LogCollectionDestination defines model for LogCollectionDestination.
+type LogCollectionDestination struct {
+	BackendType          LogCollectionDestinationBackendType `json:"backendType"`
+	CredentialSecretName string                              `json:"credentialSecretName,omitempty"`
+	DataSourceID         string                              `json:"dataSourceId,omitempty"`
+	Endpoint             string                              `json:"endpoint"`
+	TenantID             string                              `json:"tenantId,omitempty"`
+}
+
+// LogCollectionDestinationBackendType defines model for LogCollectionDestination.BackendType.
+type LogCollectionDestinationBackendType string
+
+// LogCollectionDisableAction defines model for LogCollectionDisableAction.
+type LogCollectionDisableAction string
+
+// LogCollectionDisableInput defines model for LogCollectionDisableInput.
+type LogCollectionDisableInput struct {
+	Action LogCollectionDisableAction `json:"action"`
+}
+
+// LogCollectionEnableInput defines model for LogCollectionEnableInput.
+type LogCollectionEnableInput struct {
+	PlanToken string `json:"planToken"`
+}
+
+// LogCollectionHealthStatus defines model for LogCollectionHealthStatus.
+type LogCollectionHealthStatus string
+
+// LogCollectionMode defines model for LogCollectionMode.
+type LogCollectionMode string
+
+// LogCollectionPlan defines model for LogCollectionPlan.
+type LogCollectionPlan struct {
+	Blockers           []string                      `json:"blockers"`
+	CanEnable          bool                          `json:"canEnable"`
+	ClusterID          string                        `json:"clusterId"`
+	Components         []LogCollectionPlanComponents `json:"components"`
+	Destination        LogCollectionDestination      `json:"destination"`
+	ExpiresAt          time.Time                     `json:"expiresAt"`
+	HistoryPreserved   bool                          `json:"historyPreserved"`
+	HostPaths          []string                      `json:"hostPaths"`
+	Namespace          string                        `json:"namespace"`
+	NamespaceAllowlist []string                      `json:"namespaceAllowlist"`
+
+	// PlanToken Short-lived signed confirmation token. Omitted while blockers remain.
+	PlanToken        string                        `json:"planToken,omitempty"`
+	Profile          LogCollectionProfile          `json:"profile"`
+	RBACRules        []string                      `json:"rbacRules"`
+	Resources        LogCollectionResourceEstimate `json:"resources"`
+	RetentionDays    int                           `json:"retentionDays"`
+	StorageClassName string                        `json:"storageClassName,omitempty"`
+	StorageSize      string                        `json:"storageSize"`
+	Warnings         []string                      `json:"warnings"`
+}
+
+// LogCollectionPlanComponents defines model for LogCollectionPlan.Components.
+type LogCollectionPlanComponents string
+
+// LogCollectionPlanEnvelope defines model for LogCollectionPlanEnvelope.
+type LogCollectionPlanEnvelope struct {
+	Data LogCollectionPlan `json:"data"`
+}
+
+// LogCollectionPreflightInput defines model for LogCollectionPreflightInput.
+type LogCollectionPreflightInput struct {
+	// CredentialSecretName Existing Kubernetes Secret consumed by the collector. Secret values never pass through this API.
+	CredentialSecretName string               `json:"credentialSecretName,omitempty"`
+	DataSourceID         string               `json:"dataSourceId,omitempty"`
+	Namespace            string               `json:"namespace"`
+	NamespaceAllowlist   []string             `json:"namespaceAllowlist,omitempty"`
+	Profile              LogCollectionProfile `json:"profile"`
+	RetentionDays        int                  `json:"retentionDays"`
+	StorageClassName     string               `json:"storageClassName,omitempty"`
+	StorageSize          string               `json:"storageSize,omitempty"`
+}
+
+// LogCollectionProfile defines model for LogCollectionProfile.
+type LogCollectionProfile string
+
+// LogCollectionResourceEstimate defines model for LogCollectionResourceEstimate.
+type LogCollectionResourceEstimate struct {
+	CPU    string `json:"cpu"`
+	Memory string `json:"memory"`
+}
+
+// LogCollectionState defines model for LogCollectionState.
+type LogCollectionState struct {
+	Backend            LogCollectionComponentHealth `json:"backend"`
+	ClusterID          string                       `json:"clusterId"`
+	Collector          LogCollectionComponentHealth `json:"collector"`
+	DataSourceID       string                       `json:"dataSourceId,omitempty"`
+	EndToEnd           LogCollectionComponentHealth `json:"endToEnd"`
+	HistoryPreserved   bool                         `json:"historyPreserved"`
+	LastError          string                       `json:"lastError,omitempty"`
+	Mode               LogCollectionMode            `json:"mode"`
+	Namespace          string                       `json:"namespace"`
+	NamespaceAllowlist []string                     `json:"namespaceAllowlist,omitempty"`
+	OperationID        string                       `json:"operationId,omitempty"`
+	Profile            LogCollectionProfile         `json:"profile,omitempty"`
+	ReleaseName        string                       `json:"releaseName"`
+	RetentionDays      int                          `json:"retentionDays,omitempty"`
+	Status             LogCollectionStatus          `json:"status"`
+	UpdatedAt          time.Time                    `json:"updatedAt"`
+}
+
+// LogCollectionStateEnvelope defines model for LogCollectionStateEnvelope.
+type LogCollectionStateEnvelope struct {
+	Data LogCollectionState `json:"data"`
+}
+
+// LogCollectionStatus defines model for LogCollectionStatus.
+type LogCollectionStatus string
+
+// LogCoverage defines model for LogCoverage.
+type LogCoverage struct {
+	FailedSources     int `json:"failedSources"`
+	ResolvedSources   int `json:"resolvedSources"`
+	SuccessfulSources int `json:"successfulSources"`
+}
+
+// LogDirection defines model for LogDirection.
+type LogDirection string
+
+// LogEntry defines model for LogEntry.
+type LogEntry struct {
+	Attributes map[string]string `json:"attributes,omitempty"`
+	Message    string            `json:"message"`
+	ObservedAt *time.Time        `json:"observedAt,omitempty"`
+	Severity   string            `json:"severity,omitempty"`
+	Source     LogSource         `json:"source"`
+	SourceMode LogSourceMode     `json:"sourceMode"`
+	SpanID     string            `json:"spanId,omitempty"`
+	Stream     LogEntryStream    `json:"stream,omitempty"`
+	Timestamp  time.Time         `json:"timestamp"`
+	TraceID    string            `json:"traceId,omitempty"`
+}
+
+// LogEntryStream defines model for LogEntry.Stream.
+type LogEntryStream string
+
+// LogPage defines model for LogPage.
+type LogPage struct {
+	Coverage        *LogCoverage `json:"coverage,omitempty"`
+	Entries         []LogEntry   `json:"entries"`
+	NextCursor      string       `json:"nextCursor,omitempty"`
+	Partial         bool         `json:"partial"`
+	RetentionHint   string       `json:"retentionHint,omitempty"`
+	ScopeRestricted bool         `json:"scopeRestricted"`
+	Truncated       bool         `json:"truncated"`
+	Warnings        []LogWarning `json:"warnings,omitempty"`
+}
+
+// LogPageEnvelope defines model for LogPageEnvelope.
+type LogPageEnvelope struct {
+	Data LogPage `json:"data"`
+}
+
+// LogQuery defines model for LogQuery.
+type LogQuery struct {
+	Cursor         string             `json:"cursor,omitempty"`
+	Direction      LogDirection       `json:"direction,omitempty"`
+	From           *time.Time         `json:"from,omitempty"`
+	Limit          int                `json:"limit,omitempty"`
+	RuntimeOptions *LogRuntimeOptions `json:"runtimeOptions,omitempty"`
+	Selector       *LogSourceSelector `json:"selector,omitempty"`
+	Severities     []string           `json:"severities,omitempty"`
+	SourceMode     LogSourceMode      `json:"sourceMode,omitempty"`
+	Tail           int                `json:"tail,omitempty"`
+	Text           string             `json:"text,omitempty"`
+	To             *time.Time         `json:"to,omitempty"`
+}
+
+// LogRuntimeOptions defines model for LogRuntimeOptions.
+type LogRuntimeOptions struct {
+	Previous     bool  `json:"previous,omitempty"`
+	SinceSeconds int64 `json:"sinceSeconds,omitempty"`
+}
+
+// LogSource defines model for LogSource.
+type LogSource struct {
+	ApplicationID   string          `json:"applicationId,omitempty"`
+	ClusterID       string          `json:"clusterId,omitempty"`
+	ContainerName   string          `json:"containerName,omitempty"`
+	DockerProjectID string          `json:"dockerProjectId,omitempty"`
+	DockerService   string          `json:"dockerService,omitempty"`
+	Domain          LogSourceDomain `json:"domain"`
+	EnvironmentKey  string          `json:"environmentKey,omitempty"`
+	Namespace       string          `json:"namespace,omitempty"`
+	PodName         string          `json:"podName,omitempty"`
+	PodUID          string          `json:"podUid,omitempty"`
+	WorkloadKind    string          `json:"workloadKind,omitempty"`
+	WorkloadName    string          `json:"workloadName,omitempty"`
+	WorkloadUID     string          `json:"workloadUid,omitempty"`
+}
+
+// LogSourceDomain defines model for LogSourceDomain.
+type LogSourceDomain string
+
+// LogSourceMode defines model for LogSourceMode.
+type LogSourceMode string
+
+// LogSourceSelector defines model for LogSourceSelector.
+type LogSourceSelector struct {
+	AllContainers bool     `json:"allContainers,omitempty"`
+	Containers    []string `json:"containers,omitempty"`
+	DockerService string   `json:"dockerService,omitempty"`
+	LabelSelector string   `json:"labelSelector,omitempty"`
+	Namespace     string   `json:"namespace,omitempty"`
+	PodNames      []string `json:"podNames,omitempty"`
+	WorkloadKind  string   `json:"workloadKind,omitempty"`
+	WorkloadName  string   `json:"workloadName,omitempty"`
+}
+
+// LogWarning defines model for LogWarning.
+type LogWarning struct {
+	Code    string     `json:"code"`
+	Message string     `json:"message"`
+	Source  *LogSource `json:"source,omitempty"`
+}
+
 // LoginOptions defines model for LoginOptions.
 type LoginOptions struct {
 	LocalPasswordLoginEnabled bool `json:"localPasswordLoginEnabled,omitempty"`
@@ -10867,6 +11405,108 @@ type OIDCClientListEnvelope struct {
 // OIDCExchangeRequest defines model for OIDCExchangeRequest.
 type OIDCExchangeRequest struct {
 	Code string `json:"code"`
+}
+
+// ObservabilityDataSource defines model for ObservabilityDataSource.
+type ObservabilityDataSource struct {
+	BackendType ObservabilityDataSourceBackendType `json:"backendType"`
+	Config      ObservabilityLogDataSourceConfig   `json:"config"`
+	CreatedAt   time.Time                          `json:"createdAt"`
+
+	// CredentialKeys Names of configured credentials. Credential values are never returned.
+	CredentialKeys    []ObservabilityDataSourceCredentialKeys `json:"credentialKeys"`
+	Enabled           bool                                    `json:"enabled"`
+	ID                string                                  `json:"id"`
+	LastValidatedAt   *time.Time                              `json:"lastValidatedAt,omitempty"`
+	Name              string                                  `json:"name"`
+	QueryBudget       ObservabilityLogQueryBudget             `json:"queryBudget"`
+	RedactionPolicy   ObservabilityLogRedactionPolicy         `json:"redactionPolicy"`
+	Scope             ObservabilityDataSourceScope            `json:"scope"`
+	UpdatedAt         time.Time                               `json:"updatedAt"`
+	ValidationMessage string                                  `json:"validationMessage,omitempty"`
+	ValidationStatus  ObservabilityDataSourceValidationStatus `json:"validationStatus"`
+}
+
+// ObservabilityDataSourceCredentialKeys defines model for ObservabilityDataSource.CredentialKeys.
+type ObservabilityDataSourceCredentialKeys string
+
+// ObservabilityDataSourceBackendType defines model for ObservabilityDataSourceBackendType.
+type ObservabilityDataSourceBackendType string
+
+// ObservabilityDataSourceEnvelope defines model for ObservabilityDataSourceEnvelope.
+type ObservabilityDataSourceEnvelope struct {
+	Data ObservabilityDataSource `json:"data"`
+}
+
+// ObservabilityDataSourceInput defines model for ObservabilityDataSourceInput.
+type ObservabilityDataSourceInput struct {
+	BackendType         ObservabilityDataSourceBackendType                `json:"backendType"`
+	ClearCredentialKeys []ObservabilityDataSourceInputClearCredentialKeys `json:"clearCredentialKeys,omitempty"`
+	Config              ObservabilityLogDataSourceConfig                  `json:"config"`
+	Credentials         []SystemIntegrationCredentialInput                `json:"credentials,omitempty"`
+	Enabled             bool                                              `json:"enabled"`
+	Name                string                                            `json:"name"`
+	QueryBudget         *ObservabilityLogQueryBudget                      `json:"queryBudget,omitempty"`
+	RedactionPolicy     *ObservabilityLogRedactionPolicy                  `json:"redactionPolicy,omitempty"`
+	Scope               *ObservabilityDataSourceScope                     `json:"scope,omitempty"`
+}
+
+// ObservabilityDataSourceInputClearCredentialKeys defines model for ObservabilityDataSourceInput.ClearCredentialKeys.
+type ObservabilityDataSourceInputClearCredentialKeys string
+
+// ObservabilityDataSourceListEnvelope defines model for ObservabilityDataSourceListEnvelope.
+type ObservabilityDataSourceListEnvelope struct {
+	Items []ObservabilityDataSource `json:"items"`
+}
+
+// ObservabilityDataSourceScope defines model for ObservabilityDataSourceScope.
+type ObservabilityDataSourceScope struct {
+	ClusterIDs []string `json:"clusterIds,omitempty"`
+	Namespaces []string `json:"namespaces,omitempty"`
+}
+
+// ObservabilityDataSourceValidationStatus defines model for ObservabilityDataSourceValidationStatus.
+type ObservabilityDataSourceValidationStatus string
+
+// ObservabilityLogDataSourceConfig defines model for ObservabilityLogDataSourceConfig.
+type ObservabilityLogDataSourceConfig struct {
+	ClusterField   string                     `json:"clusterField,omitempty"`
+	ContainerField string                     `json:"containerField,omitempty"`
+	Endpoint       string                     `json:"endpoint"`
+	Index          string                     `json:"index,omitempty"`
+	LabelKeys      *ObservabilityLogLabelKeys `json:"labelKeys,omitempty"`
+	MessageField   string                     `json:"messageField,omitempty"`
+	NamespaceField string                     `json:"namespaceField,omitempty"`
+	PodField       string                     `json:"podField,omitempty"`
+	ServiceField   string                     `json:"serviceField,omitempty"`
+	SeverityField  string                     `json:"severityField,omitempty"`
+	Table          string                     `json:"table,omitempty"`
+	TenantID       string                     `json:"tenantId,omitempty"`
+	TimestampField string                     `json:"timestampField,omitempty"`
+	WorkloadField  string                     `json:"workloadField,omitempty"`
+}
+
+// ObservabilityLogLabelKeys defines model for ObservabilityLogLabelKeys.
+type ObservabilityLogLabelKeys struct {
+	Cluster   string `json:"cluster,omitempty"`
+	Container string `json:"container,omitempty"`
+	Namespace string `json:"namespace,omitempty"`
+	Pod       string `json:"pod,omitempty"`
+	Service   string `json:"service,omitempty"`
+	Severity  string `json:"severity,omitempty"`
+	Workload  string `json:"workload,omitempty"`
+}
+
+// ObservabilityLogQueryBudget defines model for ObservabilityLogQueryBudget.
+type ObservabilityLogQueryBudget struct {
+	MaxEntries      int `json:"maxEntries,omitempty"`
+	MaxRangeSeconds int `json:"maxRangeSeconds,omitempty"`
+	TimeoutSeconds  int `json:"timeoutSeconds,omitempty"`
+}
+
+// ObservabilityLogRedactionPolicy defines model for ObservabilityLogRedactionPolicy.
+type ObservabilityLogRedactionPolicy struct {
+	DropAttributeKeys []string `json:"dropAttributeKeys,omitempty"`
 }
 
 // OpenAIAudioSpeechRequest defines model for OpenAIAudioSpeechRequest.
@@ -12750,11 +13390,17 @@ type ComputeResourceID = string
 // ComputeTaskID defines model for ComputeTaskID.
 type ComputeTaskID = string
 
+// DataSourceID defines model for DataSourceID.
+type DataSourceID = string
+
 // DirectoryConnectionID defines model for DirectoryConnectionID.
 type DirectoryConnectionID = string
 
 // DirectoryEventID defines model for DirectoryEventID.
 type DirectoryEventID = string
+
+// DockerProjectID defines model for DockerProjectID.
+type DockerProjectID = string
 
 // DraftID defines model for DraftID.
 type DraftID = string
@@ -13963,6 +14609,21 @@ type CreateBuildTemplateJSONRequestBody = BuildTemplateInput
 // UpdateBuildTemplateJSONRequestBody defines body for UpdateBuildTemplate for application/json ContentType.
 type UpdateBuildTemplateJSONRequestBody = BuildTemplateInput
 
+// QueryClusterLogsJSONRequestBody defines body for QueryClusterLogs for application/json ContentType.
+type QueryClusterLogsJSONRequestBody = LogQuery
+
+// IssueClusterLogStreamTicketJSONRequestBody defines body for IssueClusterLogStreamTicket for application/json ContentType.
+type IssueClusterLogStreamTicketJSONRequestBody = LogQuery
+
+// DisableClusterLogCollectionJSONRequestBody defines body for DisableClusterLogCollection for application/json ContentType.
+type DisableClusterLogCollectionJSONRequestBody = LogCollectionDisableInput
+
+// EnableClusterLogCollectionJSONRequestBody defines body for EnableClusterLogCollection for application/json ContentType.
+type EnableClusterLogCollectionJSONRequestBody = LogCollectionEnableInput
+
+// PreflightClusterLogCollectionJSONRequestBody defines body for PreflightClusterLogCollection for application/json ContentType.
+type PreflightClusterLogCollectionJSONRequestBody = LogCollectionPreflightInput
+
 // ExecuteKubernetesResourceCreateJSONRequestBody defines body for ExecuteKubernetesResourceCreate for application/json ContentType.
 type ExecuteKubernetesResourceCreateJSONRequestBody = KubernetesResourceCreateRequest
 
@@ -14001,6 +14662,12 @@ type RecordWorkbenchGlobalAssistantEventJSONRequestBody = WorkbenchGlobalAssista
 
 // StreamWorkbenchSessionMessageJSONRequestBody defines body for StreamWorkbenchSessionMessage for application/json ContentType.
 type StreamWorkbenchSessionMessageJSONRequestBody = WorkbenchSendMessageStreamRequest
+
+// QueryDeliveryEnvironmentLogsJSONRequestBody defines body for QueryDeliveryEnvironmentLogs for application/json ContentType.
+type QueryDeliveryEnvironmentLogsJSONRequestBody = LogQuery
+
+// IssueDeliveryEnvironmentLogStreamTicketJSONRequestBody defines body for IssueDeliveryEnvironmentLogStreamTicket for application/json ContentType.
+type IssueDeliveryEnvironmentLogStreamTicketJSONRequestBody = LogQuery
 
 // CreateDeliveryDraftJSONRequestBody defines body for CreateDeliveryDraft for application/json ContentType.
 type CreateDeliveryDraftJSONRequestBody = DeliveryDraftInput
@@ -14067,6 +14734,12 @@ type RecordDockerOperationCallbackJSONRequestBody = DockerOperationCallbackReque
 
 // ClaimDockerOperationJSONRequestBody defines body for ClaimDockerOperation for application/json ContentType.
 type ClaimDockerOperationJSONRequestBody = DockerOperationClaimRequest
+
+// QueryDockerProjectLogsJSONRequestBody defines body for QueryDockerProjectLogs for application/json ContentType.
+type QueryDockerProjectLogsJSONRequestBody = LogQuery
+
+// IssueDockerProjectLogStreamTicketJSONRequestBody defines body for IssueDockerProjectLogStreamTicket for application/json ContentType.
+type IssueDockerProjectLogStreamTicketJSONRequestBody = LogQuery
 
 // CreateIdentityApplicationJSONRequestBody defines body for CreateIdentityApplication for application/json ContentType.
 type CreateIdentityApplicationJSONRequestBody = IdentityApplicationInput
@@ -14136,6 +14809,12 @@ type ValidateSAMLMetadataJSONRequestBody = SAMLMetadataInput
 
 // AdminResetUserMFAJSONRequestBody defines body for AdminResetUserMFA for application/json ContentType.
 type AdminResetUserMFAJSONRequestBody = MFAAdminResetRequest
+
+// CreateObservabilityDataSourceJSONRequestBody defines body for CreateObservabilityDataSource for application/json ContentType.
+type CreateObservabilityDataSourceJSONRequestBody = ObservabilityDataSourceInput
+
+// UpdateObservabilityDataSourceJSONRequestBody defines body for UpdateObservabilityDataSource for application/json ContentType.
+type UpdateObservabilityDataSourceJSONRequestBody = ObservabilityDataSourceInput
 
 // InstallPluginJSONRequestBody defines body for InstallPlugin for application/json ContentType.
 type InstallPluginJSONRequestBody = PluginInstallRequest
