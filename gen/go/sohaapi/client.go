@@ -498,6 +498,30 @@ func identityUserMFAPath(userID, suffix string) string {
 	return "/identity/users/" + url.PathEscape(strings.TrimSpace(userID)) + "/mfa/" + suffix
 }
 
+func (c *Client) QueryClusterLogs(ctx context.Context, clusterID string, query LogQuery) (LogPage, error) {
+	path := "/clusters/" + url.PathEscape(strings.TrimSpace(clusterID)) + "/logs/query"
+	return c.queryLogs(ctx, path, query)
+}
+
+func (c *Client) QueryDockerProjectLogs(ctx context.Context, projectID string, query LogQuery) (LogPage, error) {
+	path := "/docker/projects/" + url.PathEscape(strings.TrimSpace(projectID)) + "/logs/query"
+	return c.queryLogs(ctx, path, query)
+}
+
+func (c *Client) QueryDeliveryEnvironmentLogs(ctx context.Context, applicationID, environmentID string, query LogQuery) (LogPage, error) {
+	path := "/delivery/applications/" + url.PathEscape(strings.TrimSpace(applicationID)) +
+		"/environments/" + url.PathEscape(strings.TrimSpace(environmentID)) + "/logs/query"
+	return c.queryLogs(ctx, path, query)
+}
+
+func (c *Client) queryLogs(ctx context.Context, path string, query LogQuery) (LogPage, error) {
+	var out LogPageEnvelope
+	if err := c.doJSON(ctx, http.MethodPost, path, true, query, &out); err != nil {
+		return LogPage{}, err
+	}
+	return out.Data, nil
+}
+
 func (c *Client) ListComputeTasks(ctx context.Context, params ListComputeTasksParams) (ComputeTaskListEnvelope, error) {
 	var out ComputeTaskListEnvelope
 	if err := c.doJSON(ctx, http.MethodGet, "/compute/tasks"+computeTaskQuery(params), true, nil, &out); err != nil {

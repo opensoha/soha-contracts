@@ -287,6 +287,40 @@ func TestComputeTaskCenterClientSurface(t *testing.T) {
 	}
 }
 
+func TestResourceLogClientSurface(t *testing.T) {
+	requests := []string{
+		"/api/v1/clusters/cluster%2Fone/logs/query",
+		"/api/v1/docker/projects/project%2Fone/logs/query",
+		"/api/v1/delivery/applications/app%2Fone/environments/env%2Fone/logs/query",
+	}
+	requestIndex := 0
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodPost, requests[requestIndex])
+		query := decodeJSONRequestBody[LogQuery](t, r)
+		if query.Selector == nil || query.Selector.Namespace != "default" {
+			t.Fatalf("log query selector = %#v", query.Selector)
+		}
+		writeJSON(t, w, map[string]any{"data": map[string]any{
+			"entries": []any{}, "partial": false, "truncated": false, "scopeRestricted": false,
+		}})
+		requestIndex++
+	})
+
+	query := LogQuery{Selector: &LogSourceSelector{Namespace: "default"}}
+	if _, err := client.QueryClusterLogs(context.Background(), "cluster/one", query); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := client.QueryDockerProjectLogs(context.Background(), "project/one", query); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := client.QueryDeliveryEnvironmentLogs(context.Background(), "app/one", "env/one", query); err != nil {
+		t.Fatal(err)
+	}
+	if requestIndex != len(requests) {
+		t.Fatalf("requests = %d, want %d", requestIndex, len(requests))
+	}
+}
+
 func computeTaskEnvelopeFixture(id string) map[string]any {
 	return map[string]any{"data": map[string]any{
 		"id": id, "domain": "virtualization", "sourceType": "operation", "sourceId": id,
