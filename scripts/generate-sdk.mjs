@@ -1,9 +1,11 @@
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { parse, stringify } from "yaml";
+import { canonicalJson } from "./openapi-contract-utils.mjs";
 
 const root = new URL("..", import.meta.url);
 const checkOnly = process.argv.includes("--check");
@@ -12,6 +14,8 @@ const oapiCodegenVersion = "v2.7.1";
 const outputs = [
   "gen/go/sohaapi/types.go",
   "gen/ts/sohaapi/index.ts",
+  "openapi/soha-api.json",
+  "openapi/spec_generated.go",
 ];
 
 const rootPath = fileURLToPath(root);
@@ -32,6 +36,7 @@ async function generateSdk(outputRoot) {
   const tsOutput = join(outputRoot, "gen/ts/sohaapi/index.ts");
   const goOutput = join(outputRoot, "gen/go/sohaapi/types.go");
 
+  await generateOpenAPIArtifacts(outputRoot);
   await mkdir(dirname(tsOutput), { recursive: true });
   await mkdir(dirname(goOutput), { recursive: true });
 
@@ -62,6 +67,49 @@ async function generateSdk(outputRoot) {
   }
   await patchGoEntrypoint(goOutput);
   run("gofmt", ["-w", goOutput]);
+}
+
+async function generateOpenAPIArtifacts(outputRoot) {
+  const yamlText = await readFile(new URL("openapi/soha-api.yaml", root), "utf8");
+  const spec = parse(yamlText);
+  const jsonText = `${canonicalJson(spec)}\n`;
+  const outputDir = join(outputRoot, "openapi");
+  const goOutput = join(outputDir, "spec_generated.go");
+
+  await mkdir(outputDir, { recursive: true });
+  await writeFile(join(outputDir, "soha-api.json"), jsonText);
+  await writeFile(
+    goOutput,
+    `// Code generated from OpenSoha contracts. DO NOT EDIT.
+
+package openapi
+
+import _ "embed"
+
+const (
+	Version = ${JSON.stringify(spec.info.version)}
+	YAMLSHA256 = ${JSON.stringify(sha256(yamlText))}
+	JSONSHA256 = ${JSON.stringify(sha256(jsonText))}
+)
+
+//go:embed soha-api.yaml
+var yamlSpec []byte
+
+//go:embed soha-api.json
+var jsonSpec []byte
+
+// YAML returns a copy of the canonical OpenAPI YAML document.
+func YAML() []byte { return append([]byte(nil), yamlSpec...) }
+
+// JSON returns a copy of the canonical OpenAPI JSON document.
+func JSON() []byte { return append([]byte(nil), jsonSpec...) }
+`,
+  );
+  run("gofmt", ["-w", goOutput]);
+}
+
+function sha256(value) {
+  return createHash("sha256").update(value).digest("hex");
 }
 
 async function checkGeneratedOutput(generatedRoot) {
@@ -152,6 +200,19 @@ function applyGoCompatibility(spec) {
   if (isObject(logQuery)) {
     // Keep the Go pointer guard while public OpenAPI and TypeScript require a selector.
     delete logQuery.allOf;
+  }
+
+  for (const [schemaName, propertyName] of [
+    ["ObservabilityDataSource", "credentialKeys"],
+    ["ObservabilityDataSourceInput", "clearCredentialKeys"],
+  ]) {
+    const items = schemas?.[schemaName]?.properties?.[propertyName]?.items;
+    if (isObject(items)) {
+      // Keep the published Go enum types while the public contract accepts provider-defined keys.
+      items.enum = ["bearer_token", "username", "password"];
+      delete items.pattern;
+      delete items.maxLength;
+    }
   }
 
   setPropertyGoType(schemas, "PluginManifest", "type", "string");

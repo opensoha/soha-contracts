@@ -24,6 +24,7 @@
         "gateway-policy-pack",
         "diagnostic",
         "resource-extension",
+        "observability-provider",
         "metric-extension",
         "notification-channel",
         "identity-template",
@@ -174,6 +175,22 @@
               }
             },
             "required": ["extensionPoints"]
+          },
+          {
+            "properties": {
+              "extensionPoints": {
+                "properties": {
+                  "observability": {
+                    "properties": {
+                      "providers": { "minItems": 1 }
+                    },
+                    "required": ["providers"]
+                  }
+                },
+                "required": ["observability"]
+              }
+            },
+            "required": ["extensionPoints"]
           }
         ]
       },
@@ -297,6 +314,62 @@
       ],
       "unevaluatedProperties": false
     },
+    "observabilityProviderContribution": {
+      "type": "object",
+      "required": ["providerKey", "displayName", "protocolVersion", "signals", "capabilities", "actionRefs"],
+      "properties": {
+        "providerKey": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._-]*$"
+        },
+        "displayName": { "type": "string", "minLength": 1 },
+        "description": { "type": "string" },
+        "protocolVersion": {
+          "type": "string",
+          "pattern": "^v[1-9][0-9]*$"
+        },
+        "signals": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["logs", "metrics", "traces", "profiles"]
+          }
+        },
+        "capabilities": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*(\\.[a-z][a-z0-9_-]*)+$"
+          }
+        },
+        "configSchemaRef": { "type": "string", "minLength": 1 },
+        "actionRefs": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "capabilities": { "contains": { "const": "logs.query" } }
+            }
+          },
+          "then": {
+            "properties": {
+              "signals": { "contains": { "const": "logs" } },
+              "actionRefs": { "required": ["logs.query"] }
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
     "extensionPoints": {
       "type": "object",
       "properties": {
@@ -403,6 +476,16 @@
             "containerRuntimeProviders": {
               "type": "array",
               "items": { "$ref": "#/$defs/containerRuntimeProviderContribution" }
+            }
+          },
+          "additionalProperties": false
+        },
+        "observability": {
+          "type": "object",
+          "properties": {
+            "providers": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/observabilityProviderContribution" }
             }
           },
           "additionalProperties": false

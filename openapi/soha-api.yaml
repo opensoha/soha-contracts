@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Soha API
-  version: 0.1.3
+  version: 0.1.4
   description: >
     Public OpenSoha core API contract. This first contract focuses on stable
     cross-repository boundaries: auth, health, runner-facing control-plane
@@ -30,6 +30,7 @@ tags:
   - name: Agent Fleet
   - name: Memory
   - name: AI Gateway
+  - name: Secrets
   - name: Compute
   - name: MCP
   - name: Plugins
@@ -2356,6 +2357,181 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ExecutionTaskEnvelope"
+  /virtualization/vms/plan:
+    post:
+      tags: [Virtualization]
+      operationId: planVirtualMachineCreate
+      x-soha-implementation-status: implemented
+      x-soha-capability:
+        name: virtualization.vms.create.plan
+        riskLevel: analyze
+        requiresApproval: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VirtualMachineCreateInput"
+      responses:
+        "200":
+          description: Side-effect-free validation and redacted change plan for creating a virtual machine.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationalPlanEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /virtualization/vms:
+    post:
+      tags: [Virtualization]
+      operationId: createVirtualMachine
+      x-soha-implementation-status: implemented
+      x-soha-capability:
+        name: virtualization.vms.create.trigger
+        riskLevel: execute
+        requiresApproval: true
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VirtualMachineCreateInput"
+      responses:
+        "202":
+          description: Virtual machine creation accepted as an auditable operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VirtualizationOperationEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /docker/hosts/quick-create/plan:
+    post:
+      tags: [Docker]
+      operationId: planDockerHostQuickCreate
+      x-soha-implementation-status: implemented
+      x-soha-capability:
+        name: docker.hosts.quick_create.plan
+        riskLevel: analyze
+        requiresApproval: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DockerQuickCreateHostInput"
+      responses:
+        "200":
+          description: Side-effect-free validation and redacted change plan for provisioning a Docker host.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationalPlanEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /docker/hosts/quick-create:
+    post:
+      tags: [Docker]
+      operationId: quickCreateDockerHost
+      x-soha-implementation-status: implemented
+      x-soha-capability:
+        name: docker.hosts.quick_create.trigger
+        riskLevel: execute
+        requiresApproval: true
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DockerQuickCreateHostInput"
+      responses:
+        "202":
+          description: Docker host provisioning accepted as an auditable operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerOperationEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /docker/projects/{dockerProjectID}/deploy/plan:
+    post:
+      tags: [Docker]
+      operationId: planDockerProjectDeploy
+      x-soha-implementation-status: implemented
+      x-soha-capability:
+        name: docker.projects.deploy.plan
+        riskLevel: analyze
+        requiresApproval: false
+      parameters:
+        - $ref: "#/components/parameters/DockerProjectID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DockerProjectDeployInput"
+      responses:
+        "200":
+          description: Side-effect-free validation and redacted change plan for a Docker Compose project action.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationalPlanEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /docker/projects/{dockerProjectID}/deploy:
+    post:
+      tags: [Docker]
+      operationId: deployDockerProject
+      x-soha-implementation-status: implemented
+      x-soha-capability:
+        name: docker.projects.deploy.trigger
+        riskLevel: execute
+        requiresApproval: true
+      parameters:
+        - $ref: "#/components/parameters/DockerProjectID"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DockerProjectDeployInput"
+      responses:
+        "202":
+          description: Docker Compose project action accepted as an auditable operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerOperationEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
   /docker/containers/start:
     post:
       tags: [Docker]
@@ -2831,6 +3007,69 @@ paths:
           $ref: "#/components/responses/Error"
         "404":
           $ref: "#/components/responses/Error"
+  /observability/providers:
+    get:
+      tags: [Observability]
+      operationId: listObservabilityProviders
+      responses:
+        "200":
+          description: Enabled built-in and plugin observability providers with signal capabilities.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObservabilityProviderListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /observability/metrics/query:
+    post:
+      tags: [Observability]
+      operationId: queryObservabilityMetrics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ObservabilityMetricQueryInput"
+      responses:
+        "200":
+          description: Normalized metric series from an authorized configured provider.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObservabilityMetricQueryEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /observability/traces/query:
+    post:
+      tags: [Observability]
+      operationId: queryObservabilityTraces
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ObservabilityTraceQueryInput"
+      responses:
+        "200":
+          description: Normalized trace spans from an authorized configured provider.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObservabilityTraceQueryEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
   /observability/data-sources:
     get:
       tags: [Observability]
@@ -2937,6 +3176,10 @@ paths:
     post:
       tags: [Platform]
       operationId: preflightKubernetesResourceCreate
+      x-soha-capability:
+        name: k8s.resources.create.preflight
+        riskLevel: analyze
+        requiresApproval: false
       parameters:
         - $ref: "#/components/parameters/ClusterID"
       requestBody:
@@ -2964,6 +3207,10 @@ paths:
     post:
       tags: [Platform]
       operationId: executeKubernetesResourceCreate
+      x-soha-capability:
+        name: k8s.resources.create.trigger
+        riskLevel: high
+        requiresApproval: true
       parameters:
         - $ref: "#/components/parameters/ClusterID"
         - $ref: "#/components/parameters/IdempotencyKey"
@@ -2989,6 +3236,201 @@ paths:
         "409":
           $ref: "#/components/responses/Error"
         "413":
+          $ref: "#/components/responses/Error"
+  /secrets:
+    get:
+      tags: [Secrets]
+      operationId: listSecrets
+      parameters:
+        - name: scopeType
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/SecretScopeType"
+        - name: scopeId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Permission-filtered secret metadata. Secret values are never returned.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecretMetadataListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [Secrets]
+      operationId: createSecret
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SecretCreateRequest"
+      responses:
+        "201":
+          description: Secret metadata. The submitted value is write-only.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecretMetadataEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /secrets/{secretID}:
+    get:
+      tags: [Secrets]
+      operationId: getSecret
+      parameters:
+        - $ref: "#/components/parameters/SecretID"
+      responses:
+        "200":
+          description: Secret metadata. Secret values are never returned.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecretMetadataEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    patch:
+      tags: [Secrets]
+      operationId: updateSecret
+      parameters:
+        - $ref: "#/components/parameters/SecretID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SecretUpdateRequest"
+      responses:
+        "200":
+          description: Updated secret metadata.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecretMetadataEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags: [Secrets]
+      operationId: disableSecret
+      parameters:
+        - $ref: "#/components/parameters/SecretID"
+      responses:
+        "200":
+          description: Disabled secret metadata. Existing references fail closed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecretMetadataEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /secrets/{secretID}/versions:
+    get:
+      tags: [Secrets]
+      operationId: listSecretVersions
+      parameters:
+        - $ref: "#/components/parameters/SecretID"
+      responses:
+        "200":
+          description: Immutable version metadata. Secret values are never returned.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecretVersionMetadataListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [Secrets]
+      operationId: rotateSecret
+      parameters:
+        - $ref: "#/components/parameters/SecretID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SecretRotateRequest"
+      responses:
+        "201":
+          description: New active immutable version metadata. The submitted value is write-only.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecretVersionMetadataEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /secrets/{secretID}/versions/{version}/revoke:
+    post:
+      tags: [Secrets]
+      operationId: revokeSecretVersion
+      parameters:
+        - $ref: "#/components/parameters/SecretID"
+        - $ref: "#/components/parameters/SecretVersion"
+      responses:
+        "200":
+          description: Revoked version metadata. References pinned to this version fail closed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecretVersionMetadataEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /runner/secret-leases/{secretLeaseID}/redeem:
+    post:
+      tags: [Runner]
+      operationId: redeemSecretLease
+      security:
+        - runtimeBearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/SecretLeaseID"
+        - $ref: "#/components/parameters/SecretLeaseToken"
+        - $ref: "#/components/parameters/SecretLeaseAgentID"
+      responses:
+        "200":
+          description: One-time plaintext values for the bound operation or agent run. Clients must keep them in memory only.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecretLeaseRedemptionEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "410":
           $ref: "#/components/responses/Error"
   /ai-gateway/capabilities:
     get:
@@ -7989,6 +8431,46 @@ components:
       required: true
       schema:
         type: string
+    SecretID:
+      name: secretID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+    SecretVersion:
+      name: version
+      in: path
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+    SecretLeaseID:
+      name: secretLeaseID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+    SecretLeaseToken:
+      name: X-Soha-Secret-Lease-Token
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 16
+      description: One-time bearer secret bound to the claimed operation and runner.
+    SecretLeaseAgentID:
+      name: X-Soha-Agent-ID
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+      description: Runner identity from the claim request; must match the lease binding.
     DockerProjectID:
       name: dockerProjectID
       in: path
@@ -15629,6 +16111,8 @@ components:
           type: integer
         callbackToken:
           type: string
+        secretLease:
+          $ref: "#/components/schemas/SecretLeaseGrant"
         claimedByAgentId:
           type: string
         runtimeEndpoint:
@@ -15692,6 +16176,200 @@ components:
         payload:
           type: object
           additionalProperties: true
+      additionalProperties: false
+    OperationalPlanChange:
+      type: object
+      required: [action, resource, summary]
+      properties:
+        action:
+          type: string
+          minLength: 1
+        resource:
+          type: string
+          minLength: 1
+        summary:
+          type: string
+          minLength: 1
+        sensitiveValuesRedacted:
+          type: boolean
+          default: false
+      additionalProperties: false
+    OperationalPlan:
+      type: object
+      required: [capability, target, ready, riskLevel, requiresApproval, changes, warnings]
+      properties:
+        capability:
+          type: string
+          minLength: 1
+        target:
+          type: string
+          minLength: 1
+        ready:
+          type: boolean
+        riskLevel:
+          $ref: "#/components/schemas/RiskLevel"
+        requiresApproval:
+          type: boolean
+        inputHash:
+          type: string
+          pattern: "^[a-f0-9]{64}$"
+        changes:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/OperationalPlanChange"
+        warnings:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    OperationalPlanEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/OperationalPlan"
+      additionalProperties: false
+    VirtualMachineDiskChange:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        storage: { type: string }
+        bus: { type: string }
+        sizeGiB: { type: integer, minimum: 1 }
+        add: { type: boolean }
+      additionalProperties: false
+    VirtualMachineNetworkChange:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        network: { type: string }
+        model: { type: string }
+        binding: { type: string }
+        add: { type: boolean }
+        remove: { type: boolean }
+      additionalProperties: false
+    VirtualMachineCreateInput:
+      type: object
+      required: [connectionId, name]
+      properties:
+        connectionId: { type: string, minLength: 1 }
+        name: { type: string, minLength: 1 }
+        architecture: { type: string }
+        namespace: { type: string }
+        node: { type: string }
+        cpu: { type: integer, minimum: 1 }
+        memoryMiB: { type: integer, minimum: 1 }
+        bootImageId: { type: string }
+        imageId: { type: string }
+        sourceMode: { type: string }
+        sourceId: { type: string }
+        flavorId: { type: string }
+        diskGiB: { type: integer, minimum: 1 }
+        network: { type: string }
+        cloudInit:
+          type: string
+          maxLength: 1048576
+          description: Sensitive bootstrap content. It is accepted for backward compatibility and never returned by plan or audit responses.
+          x-soha-sensitive: true
+        startAfterCreate: { type: boolean }
+        templateId: { type: string }
+        providerParams:
+          $ref: "#/components/schemas/NativeProviderObject"
+        disks:
+          type: array
+          maxItems: 64
+          items:
+            $ref: "#/components/schemas/VirtualMachineDiskChange"
+        networks:
+          type: array
+          maxItems: 64
+          items:
+            $ref: "#/components/schemas/VirtualMachineNetworkChange"
+      additionalProperties: false
+    VirtualizationOperation:
+      type: object
+      required: [id, status]
+      properties:
+        id: { type: string }
+        type: { type: string }
+        operationType: { type: string }
+        action: { type: string }
+        assetType: { type: string }
+        targetType: { type: string }
+        targetName: { type: string }
+        status: { type: string }
+        message: { type: string }
+        provider: { type: string }
+        connectionId: { type: string }
+        vmId: { type: string }
+        actor: { type: string }
+        payload:
+          description: Redacted operation payload.
+          $ref: "#/components/schemas/NativeProviderObject"
+        result:
+          $ref: "#/components/schemas/NativeProviderObject"
+        startedAt: { type: string, format: date-time }
+        lastHeartbeatAt: { type: string, format: date-time }
+        completedAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+        operationState:
+          $ref: "#/components/schemas/NativeProviderObject"
+        allowedActions:
+          type: array
+          items: { type: string }
+      additionalProperties: false
+    VirtualizationOperationEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/VirtualizationOperation"
+      additionalProperties: false
+    DockerQuickCreateHostInput:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string, minLength: 1 }
+        environment: { type: string }
+        owner: { type: string }
+        team: { type: string }
+        virtualizationConnectionId: { type: string }
+        vmTemplateId: { type: string }
+        flavorId: { type: string }
+        imageId: { type: string }
+        architecture: { type: string }
+        cloudInit:
+          type: string
+          maxLength: 1048576
+          description: Sensitive bootstrap content. It is never returned by plan or audit responses.
+          x-soha-sensitive: true
+        cpuCoreCount: { type: integer, minimum: 1 }
+        memoryBytes: { type: integer, minimum: 1 }
+        diskBytes: { type: integer, minimum: 1 }
+        network: { type: string }
+        availablePortStart: { type: integer, minimum: 1, maximum: 65535 }
+        availablePortEnd: { type: integer, minimum: 1, maximum: 65535 }
+        ttlSeconds: { type: integer, minimum: 0 }
+        labels:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/DockerPayloadValue"
+        config:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/DockerPayloadValue"
+      additionalProperties: false
+    DockerProjectDeployInput:
+      type: object
+      properties:
+        action:
+          type: string
+          enum: [deploy, redeploy, start, stop, restart, down, pull, build, destroy]
+          default: deploy
       additionalProperties: false
     DockerPayloadScalarValue:
       oneOf:
@@ -15981,6 +16659,8 @@ components:
           additionalProperties: true
         callbackToken:
           type: string
+        secretLease:
+          $ref: "#/components/schemas/SecretLeaseGrant"
         timeoutSeconds:
           type: integer
         analysisArtifacts:
@@ -16152,13 +16832,276 @@ components:
           items:
             $ref: "#/components/schemas/ClusterCapabilityMatrixEntry"
       additionalProperties: false
+    ObservabilityProviderSignal:
+      type: string
+      enum: [logs, metrics, traces, profiles]
+      x-enum-varnames:
+        - ObservabilityProviderSignalLogs
+        - ObservabilityProviderSignalMetrics
+        - ObservabilityProviderSignalTraces
+        - ObservabilityProviderSignalProfiles
+    ObservabilityProviderRuntimeMode:
+      type: string
+      enum: [builtin, external-http, managed-container]
+      x-enum-varnames:
+        - ObservabilityProviderRuntimeModeBuiltin
+        - ObservabilityProviderRuntimeModeExternalHTTP
+        - ObservabilityProviderRuntimeModeManagedContainer
+    ObservabilityProviderStatus:
+      type: string
+      enum: [supported, degraded, unsupported]
+      x-enum-varnames:
+        - ObservabilityProviderStatusSupported
+        - ObservabilityProviderStatusDegraded
+        - ObservabilityProviderStatusUnsupported
+    ObservabilityProviderDefinition:
+      type: object
+      required: [providerKey, displayName, protocolVersion, signals, capabilities, runtimeMode, builtIn, status]
+      properties:
+        providerKey:
+          type: string
+          pattern: "^[a-z][a-z0-9._-]*$"
+          maxLength: 128
+          description: Required when backendType is provider.
+        displayName:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 1000
+        protocolVersion:
+          type: string
+          pattern: "^v[1-9][0-9]*$"
+        signals:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items:
+            $ref: "#/components/schemas/ObservabilityProviderSignal"
+        capabilities:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items:
+            type: string
+            pattern: "^[a-z][a-z0-9_-]*(\\.[a-z][a-z0-9_-]*)+$"
+        runtimeMode:
+          $ref: "#/components/schemas/ObservabilityProviderRuntimeMode"
+        builtIn:
+          type: boolean
+        status:
+          $ref: "#/components/schemas/ObservabilityProviderStatus"
+        statusReason:
+          type: string
+          maxLength: 500
+        pluginId:
+          type: string
+          maxLength: 200
+        configSchemaRef:
+          type: string
+          maxLength: 512
+      additionalProperties: false
+    ObservabilityProviderListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ObservabilityProviderDefinition"
+      additionalProperties: false
+    ObservabilityQueryScope:
+      type: object
+      properties:
+        clusterId:
+          type: string
+          maxLength: 128
+        namespace:
+          type: string
+          maxLength: 253
+        workload:
+          type: string
+          maxLength: 253
+        service:
+          type: string
+          maxLength: 253
+      additionalProperties: false
+    ObservabilityMetricKey:
+      type: string
+      enum: [cpu_usage, memory_usage, restart_rate, error_rate, latency_p95]
+      x-enum-varnames:
+        - ObservabilityMetricKeyCPUUsage
+        - ObservabilityMetricKeyMemoryUsage
+        - ObservabilityMetricKeyRestartRate
+        - ObservabilityMetricKeyErrorRate
+        - ObservabilityMetricKeyLatencyP95
+    ObservabilityMetricQueryInput:
+      type: object
+      required: [metricKey, timeFrom, timeTo]
+      properties:
+        dataSourceId:
+          type: string
+          maxLength: 200
+        scope:
+          $ref: "#/components/schemas/ObservabilityQueryScope"
+        metricKey:
+          $ref: "#/components/schemas/ObservabilityMetricKey"
+        timeFrom:
+          type: string
+          format: date-time
+        timeTo:
+          type: string
+          format: date-time
+        stepSeconds:
+          type: integer
+          minimum: 1
+          maximum: 3600
+          default: 60
+      additionalProperties: false
+    ObservabilityMetricPoint:
+      type: object
+      required: [timestamp, value]
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        value:
+          type: number
+          format: double
+      additionalProperties: false
+    ObservabilityMetricSeries:
+      type: object
+      required: [key, label, points, latest]
+      properties:
+        key:
+          type: string
+        label:
+          type: string
+        unit:
+          type: string
+        points:
+          type: array
+          items:
+            $ref: "#/components/schemas/ObservabilityMetricPoint"
+        latest:
+          type: number
+          format: double
+      additionalProperties: false
+    ObservabilityMetricQueryResult:
+      type: object
+      required: [dataSourceId, backendType, series]
+      properties:
+        dataSourceId:
+          type: string
+        backendType:
+          type: string
+          enum: [prometheus]
+        series:
+          type: array
+          items:
+            $ref: "#/components/schemas/ObservabilityMetricSeries"
+      additionalProperties: false
+    ObservabilityMetricQueryEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ObservabilityMetricQueryResult"
+      additionalProperties: false
+    ObservabilityTraceQueryInput:
+      type: object
+      required: [timeFrom, timeTo]
+      properties:
+        dataSourceId:
+          type: string
+          maxLength: 200
+        scope:
+          $ref: "#/components/schemas/ObservabilityQueryScope"
+        traceId:
+          type: string
+          maxLength: 128
+        timeFrom:
+          type: string
+          format: date-time
+        timeTo:
+          type: string
+          format: date-time
+        minDurationMs:
+          type: integer
+          minimum: 0
+          maximum: 3600000
+          default: 0
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 500
+          default: 100
+      additionalProperties: false
+    ObservabilityTraceSpan:
+      type: object
+      required: [traceId, spanId, operation, service, durationMs, startTime, tags, error]
+      properties:
+        traceId:
+          type: string
+        spanId:
+          type: string
+        parentSpanId:
+          type: string
+        operation:
+          type: string
+        service:
+          type: string
+        durationMs:
+          type: number
+          format: double
+        startTime:
+          type: string
+          format: date-time
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+            maxLength: 8192
+        error:
+          type: boolean
+      additionalProperties: false
+    ObservabilityTraceQueryResult:
+      type: object
+      required: [dataSourceId, backendType, summary, services, spans]
+      properties:
+        dataSourceId:
+          type: string
+        backendType:
+          type: string
+          enum: [jaeger, skywalking]
+        summary:
+          type: string
+        services:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        spans:
+          type: array
+          items:
+            $ref: "#/components/schemas/ObservabilityTraceSpan"
+      additionalProperties: false
+    ObservabilityTraceQueryEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ObservabilityTraceQueryResult"
+      additionalProperties: false
     ObservabilityDataSourceBackendType:
       type: string
-      enum: [loki, elasticsearch, clickhouse]
+      enum: [loki, elasticsearch, clickhouse, provider]
       x-enum-varnames:
         - ObservabilityDataSourceBackendTypeLoki
         - ObservabilityDataSourceBackendTypeElasticsearch
         - ObservabilityDataSourceBackendTypeClickHouse
+        - ObservabilityDataSourceBackendTypeProvider
     ObservabilityDataSourceValidationStatus:
       type: string
       enum: [unknown, healthy, failed]
@@ -16256,6 +17199,11 @@ components:
         clusterField: { type: string, maxLength: 256 }
         podField: { type: string, maxLength: 256 }
         containerField: { type: string, maxLength: 256 }
+        configuration:
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/SystemIntegrationConfigurationField"
       additionalProperties: false
     ObservabilityDataSourceInput:
       type: object
@@ -16267,6 +17215,10 @@ components:
           maxLength: 200
         backendType:
           $ref: "#/components/schemas/ObservabilityDataSourceBackendType"
+        providerKey:
+          type: string
+          pattern: "^[a-z][a-z0-9._-]*$"
+          maxLength: 128
         enabled:
           type: boolean
         scope:
@@ -16288,7 +17240,8 @@ components:
           uniqueItems: true
           items:
             type: string
-            enum: [bearer_token, username, password]
+            pattern: "^[a-z][a-z0-9._-]*$"
+            maxLength: 128
       additionalProperties: false
     ObservabilityDataSource:
       type: object
@@ -16300,6 +17253,11 @@ components:
           type: string
         backendType:
           $ref: "#/components/schemas/ObservabilityDataSourceBackendType"
+        providerKey:
+          type: string
+          pattern: "^[a-z][a-z0-9._-]*$"
+          maxLength: 128
+          description: Present when backendType is provider.
         enabled:
           type: boolean
         scope:
@@ -16316,7 +17274,8 @@ components:
           description: Names of configured credentials. Credential values are never returned.
           items:
             type: string
-            enum: [bearer_token, username, password]
+            pattern: "^[a-z][a-z0-9._-]*$"
+            maxLength: 128
         validationStatus:
           $ref: "#/components/schemas/ObservabilityDataSourceValidationStatus"
         validationMessage:
@@ -16643,6 +17602,12 @@ components:
         text:
           type: string
           maxLength: 2048
+        traceId:
+          type: string
+          maxLength: 128
+        spanId:
+          type: string
+          maxLength: 128
         severities:
           type: array
           maxItems: 20
@@ -17362,6 +18327,217 @@ components:
               type: integer
           additionalProperties: false
       additionalProperties: false
+    SecretScopeType:
+      type: string
+      enum: [workspace, project, environment]
+      x-enum-varnames: [SecretScopeWorkspace, SecretScopeProject, SecretScopeEnvironment]
+    SecretStatus:
+      type: string
+      enum: [active, disabled]
+      x-enum-varnames: [SecretStatusActive, SecretStatusDisabled]
+    SecretVersionStatus:
+      type: string
+      enum: [active, revoked]
+      x-enum-varnames: [SecretVersionActive, SecretVersionRevoked]
+    SecretBinding:
+      type: object
+      required: [targetType, targetRef]
+      properties:
+        targetType:
+          type: string
+          enum: [capability, project, connection]
+          x-enum-varnames: [SecretBindingCapability, SecretBindingProject, SecretBindingConnection]
+        targetRef:
+          type: string
+          minLength: 1
+          maxLength: 256
+      additionalProperties: false
+    SecretReferenceMap:
+      type: object
+      propertyNames:
+        pattern: "^[A-Z_][A-Z0-9_]*$"
+      additionalProperties:
+        type: string
+        pattern: "^soha://secrets/[A-Za-z0-9._-]+(?:/versions/[1-9][0-9]*)?$"
+    SecretMetadata:
+      type: object
+      required: [id, name, scopeType, scopeId, status, currentVersion, bindings, createdBy, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        scopeType:
+          $ref: "#/components/schemas/SecretScopeType"
+        scopeId:
+          type: string
+        status:
+          $ref: "#/components/schemas/SecretStatus"
+        currentVersion:
+          type: integer
+          minimum: 1
+        bindings:
+          type: array
+          items:
+            $ref: "#/components/schemas/SecretBinding"
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    SecretCreateRequest:
+      type: object
+      required: [name, value, scopeType, scopeId]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+        value:
+          type: string
+          minLength: 1
+          maxLength: 1048576
+          writeOnly: true
+        description:
+          type: string
+          maxLength: 1024
+        scopeType:
+          $ref: "#/components/schemas/SecretScopeType"
+        scopeId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        bindings:
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/SecretBinding"
+      additionalProperties: false
+    SecretUpdateRequest:
+      type: object
+      minProperties: 1
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+        description:
+          type: string
+          maxLength: 1024
+        status:
+          $ref: "#/components/schemas/SecretStatus"
+        bindings:
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/SecretBinding"
+      additionalProperties: false
+    SecretRotateRequest:
+      type: object
+      required: [value]
+      properties:
+        value:
+          type: string
+          minLength: 1
+          maxLength: 1048576
+          writeOnly: true
+      additionalProperties: false
+    SecretVersionMetadata:
+      type: object
+      required: [secretId, version, status, createdBy, createdAt]
+      properties:
+        secretId:
+          type: string
+        version:
+          type: integer
+          minimum: 1
+        status:
+          $ref: "#/components/schemas/SecretVersionStatus"
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        revokedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    SecretMetadataEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/SecretMetadata"
+      additionalProperties: false
+    SecretMetadataListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SecretMetadata"
+      additionalProperties: false
+    SecretVersionMetadataEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/SecretVersionMetadata"
+      additionalProperties: false
+    SecretVersionMetadataListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SecretVersionMetadata"
+      additionalProperties: false
+    SecretLeaseGrant:
+      type: object
+      required: [id, token, expiresAt]
+      properties:
+        id:
+          type: string
+        token:
+          type: string
+          writeOnly: true
+        expiresAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    SecretLeaseRedemption:
+      type: object
+      required: [leaseId, values, expiresAt]
+      properties:
+        leaseId:
+          type: string
+        values:
+          type: object
+          description: Plaintext values returned exactly once to the bound runner.
+          x-soha-sensitive: true
+          propertyNames:
+            pattern: "^[A-Z_][A-Z0-9_]*$"
+          additionalProperties:
+            type: string
+        expiresAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    SecretLeaseRedemptionEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/SecretLeaseRedemption"
+      additionalProperties: false
     ToolInvocationRequest:
       type: object
       properties:
@@ -17378,6 +18554,8 @@ components:
           type: string
         requestId:
           type: string
+        secretRefs:
+          $ref: "#/components/schemas/SecretReferenceMap"
       additionalProperties: false
     ToolInvocationResult:
       type: object
@@ -18769,6 +19947,53 @@ components:
           items:
             $ref: "#/components/schemas/PluginComputeContainerRuntimeProvider"
       additionalProperties: false
+    PluginObservabilityProvider:
+      type: object
+      required: [providerKey, displayName, protocolVersion, signals, capabilities]
+      properties:
+        providerKey:
+          type: string
+          pattern: "^[a-z][a-z0-9._-]*$"
+        displayName:
+          type: string
+          minLength: 1
+        description:
+          type: string
+        protocolVersion:
+          type: string
+          pattern: "^v[1-9][0-9]*$"
+        signals:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items:
+            type: string
+            enum: [logs, metrics, traces, profiles]
+        capabilities:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items:
+            type: string
+            pattern: "^[a-z][a-z0-9_-]*(\\.[a-z][a-z0-9_-]*)+$"
+        configSchemaRef:
+          type: string
+          minLength: 1
+        actionRefs:
+          type: object
+          minProperties: 1
+          additionalProperties:
+            type: string
+            minLength: 1
+      additionalProperties: false
+    PluginObservabilityExtensions:
+      type: object
+      properties:
+        providers:
+          type: array
+          items:
+            $ref: "#/components/schemas/PluginObservabilityProvider"
+      additionalProperties: false
     PluginAuthExtensions:
       type: object
       properties:
@@ -18984,6 +20209,8 @@ components:
           $ref: "#/components/schemas/PluginGatewayExtensions"
         compute:
           $ref: "#/components/schemas/PluginComputeExtensions"
+        observability:
+          $ref: "#/components/schemas/PluginObservabilityExtensions"
       additionalProperties: false
     MarketplacePublisher:
       type: object
@@ -19100,6 +20327,7 @@ components:
             - gateway-policy-pack
             - diagnostic
             - resource-extension
+            - observability-provider
             - metric-extension
             - notification-channel
             - identity-template
@@ -19862,6 +21090,8 @@ components:
         toolInput:
           type: object
           additionalProperties: true
+        secretRefs:
+          $ref: "#/components/schemas/SecretReferenceMap"
         relatedIds:
           type: object
           additionalProperties: true

@@ -1457,6 +1457,102 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/virtualization/vms/plan": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["planVirtualMachineCreate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/vms": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createVirtualMachine"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/hosts/quick-create/plan": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["planDockerHostQuickCreate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/hosts/quick-create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["quickCreateDockerHost"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/projects/{dockerProjectID}/deploy/plan": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["planDockerProjectDeploy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/projects/{dockerProjectID}/deploy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["deployDockerProject"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/docker/containers/start": {
         parameters: {
             query?: never;
@@ -1793,6 +1889,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/observability/providers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listObservabilityProviders"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/observability/metrics/query": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["queryObservabilityMetrics"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/observability/traces/query": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["queryObservabilityTraces"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/observability/data-sources": {
         parameters: {
             query?: never;
@@ -1883,6 +2027,86 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["executeKubernetesResourceCreate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/secrets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listSecrets"];
+        put?: never;
+        post: operations["createSecret"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/secrets/{secretID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getSecret"];
+        put?: never;
+        post?: never;
+        delete: operations["disableSecret"];
+        options?: never;
+        head?: never;
+        patch: operations["updateSecret"];
+        trace?: never;
+    };
+    "/secrets/{secretID}/versions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listSecretVersions"];
+        put?: never;
+        post: operations["rotateSecret"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/secrets/{secretID}/versions/{version}/revoke": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["revokeSecretVersion"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/runner/secret-leases/{secretLeaseID}/redeem": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["redeemSecretLease"];
         delete?: never;
         options?: never;
         head?: never;
@@ -8799,6 +9023,7 @@ export interface components {
             attemptCount?: number;
             timeoutSeconds?: number;
             callbackToken: string;
+            secretLease?: components["schemas"]["SecretLeaseGrant"];
             claimedByAgentId?: string;
             runtimeEndpoint?: string;
             runtimeClusterId?: string;
@@ -8837,6 +9062,132 @@ export interface components {
             payload: {
                 [key: string]: unknown;
             };
+        };
+        OperationalPlanChange: {
+            action: string;
+            resource: string;
+            summary: string;
+            /** @default false */
+            sensitiveValuesRedacted: boolean;
+        };
+        OperationalPlan: {
+            capability: string;
+            target: string;
+            ready: boolean;
+            riskLevel: components["schemas"]["RiskLevel"];
+            requiresApproval: boolean;
+            inputHash?: string;
+            changes: components["schemas"]["OperationalPlanChange"][];
+            warnings: string[];
+        };
+        OperationalPlanEnvelope: {
+            data: components["schemas"]["OperationalPlan"];
+        };
+        VirtualMachineDiskChange: {
+            id?: string;
+            name?: string;
+            storage?: string;
+            bus?: string;
+            sizeGiB?: number;
+            add?: boolean;
+        };
+        VirtualMachineNetworkChange: {
+            id?: string;
+            name?: string;
+            network?: string;
+            model?: string;
+            binding?: string;
+            add?: boolean;
+            remove?: boolean;
+        };
+        VirtualMachineCreateInput: {
+            connectionId: string;
+            name: string;
+            architecture?: string;
+            namespace?: string;
+            node?: string;
+            cpu?: number;
+            memoryMiB?: number;
+            bootImageId?: string;
+            imageId?: string;
+            sourceMode?: string;
+            sourceId?: string;
+            flavorId?: string;
+            diskGiB?: number;
+            network?: string;
+            /** @description Sensitive bootstrap content. It is accepted for backward compatibility and never returned by plan or audit responses. */
+            cloudInit?: string;
+            startAfterCreate?: boolean;
+            templateId?: string;
+            providerParams?: components["schemas"]["NativeProviderObject"];
+            disks?: components["schemas"]["VirtualMachineDiskChange"][];
+            networks?: components["schemas"]["VirtualMachineNetworkChange"][];
+        };
+        VirtualizationOperation: {
+            id: string;
+            type?: string;
+            operationType?: string;
+            action?: string;
+            assetType?: string;
+            targetType?: string;
+            targetName?: string;
+            status: string;
+            message?: string;
+            provider?: string;
+            connectionId?: string;
+            vmId?: string;
+            actor?: string;
+            /** @description Redacted operation payload. */
+            payload?: components["schemas"]["NativeProviderObject"];
+            result?: components["schemas"]["NativeProviderObject"];
+            /** Format: date-time */
+            startedAt?: string;
+            /** Format: date-time */
+            lastHeartbeatAt?: string;
+            /** Format: date-time */
+            completedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            operationState?: components["schemas"]["NativeProviderObject"];
+            allowedActions?: string[];
+        };
+        VirtualizationOperationEnvelope: {
+            data: components["schemas"]["VirtualizationOperation"];
+        };
+        DockerQuickCreateHostInput: {
+            name: string;
+            environment?: string;
+            owner?: string;
+            team?: string;
+            virtualizationConnectionId?: string;
+            vmTemplateId?: string;
+            flavorId?: string;
+            imageId?: string;
+            architecture?: string;
+            /** @description Sensitive bootstrap content. It is never returned by plan or audit responses. */
+            cloudInit?: string;
+            cpuCoreCount?: number;
+            memoryBytes?: number;
+            diskBytes?: number;
+            network?: string;
+            availablePortStart?: number;
+            availablePortEnd?: number;
+            ttlSeconds?: number;
+            labels?: {
+                [key: string]: components["schemas"]["DockerPayloadValue"];
+            };
+            config?: {
+                [key: string]: components["schemas"]["DockerPayloadValue"];
+            };
+        };
+        DockerProjectDeployInput: {
+            /**
+             * @default deploy
+             * @enum {string}
+             */
+            action: "deploy" | "redeploy" | "start" | "stop" | "restart" | "down" | "pull" | "build" | "destroy";
         };
         DockerPayloadScalarValue: string | number | boolean;
         DockerPayloadValue: components["schemas"]["DockerPayloadScalarValue"] | components["schemas"]["DockerPayloadScalarValue"][] | {
@@ -8984,6 +9335,7 @@ export interface components {
                 [key: string]: unknown;
             };
             callbackToken: string;
+            secretLease?: components["schemas"]["SecretLeaseGrant"];
             timeoutSeconds: number;
             analysisArtifacts?: {
                 [key: string]: unknown;
@@ -9072,7 +9424,112 @@ export interface components {
             items: components["schemas"]["ClusterCapabilityMatrixEntry"][];
         };
         /** @enum {string} */
-        ObservabilityDataSourceBackendType: "loki" | "elasticsearch" | "clickhouse";
+        ObservabilityProviderSignal: "logs" | "metrics" | "traces" | "profiles";
+        /** @enum {string} */
+        ObservabilityProviderRuntimeMode: "builtin" | "external-http" | "managed-container";
+        /** @enum {string} */
+        ObservabilityProviderStatus: "supported" | "degraded" | "unsupported";
+        ObservabilityProviderDefinition: {
+            /** @description Required when backendType is provider. */
+            providerKey: string;
+            displayName: string;
+            description?: string;
+            protocolVersion: string;
+            signals: components["schemas"]["ObservabilityProviderSignal"][];
+            capabilities: string[];
+            runtimeMode: components["schemas"]["ObservabilityProviderRuntimeMode"];
+            builtIn: boolean;
+            status: components["schemas"]["ObservabilityProviderStatus"];
+            statusReason?: string;
+            pluginId?: string;
+            configSchemaRef?: string;
+        };
+        ObservabilityProviderListEnvelope: {
+            items: components["schemas"]["ObservabilityProviderDefinition"][];
+        };
+        ObservabilityQueryScope: {
+            clusterId?: string;
+            namespace?: string;
+            workload?: string;
+            service?: string;
+        };
+        /** @enum {string} */
+        ObservabilityMetricKey: "cpu_usage" | "memory_usage" | "restart_rate" | "error_rate" | "latency_p95";
+        ObservabilityMetricQueryInput: {
+            dataSourceId?: string;
+            scope?: components["schemas"]["ObservabilityQueryScope"];
+            metricKey: components["schemas"]["ObservabilityMetricKey"];
+            /** Format: date-time */
+            timeFrom: string;
+            /** Format: date-time */
+            timeTo: string;
+            /** @default 60 */
+            stepSeconds: number;
+        };
+        ObservabilityMetricPoint: {
+            /** Format: date-time */
+            timestamp: string;
+            /** Format: double */
+            value: number;
+        };
+        ObservabilityMetricSeries: {
+            key: string;
+            label: string;
+            unit?: string;
+            points: components["schemas"]["ObservabilityMetricPoint"][];
+            /** Format: double */
+            latest: number;
+        };
+        ObservabilityMetricQueryResult: {
+            dataSourceId: string;
+            /** @enum {string} */
+            backendType: "prometheus";
+            series: components["schemas"]["ObservabilityMetricSeries"][];
+        };
+        ObservabilityMetricQueryEnvelope: {
+            data: components["schemas"]["ObservabilityMetricQueryResult"];
+        };
+        ObservabilityTraceQueryInput: {
+            dataSourceId?: string;
+            scope?: components["schemas"]["ObservabilityQueryScope"];
+            traceId?: string;
+            /** Format: date-time */
+            timeFrom: string;
+            /** Format: date-time */
+            timeTo: string;
+            /** @default 0 */
+            minDurationMs: number;
+            /** @default 100 */
+            limit: number;
+        };
+        ObservabilityTraceSpan: {
+            traceId: string;
+            spanId: string;
+            parentSpanId?: string;
+            operation: string;
+            service: string;
+            /** Format: double */
+            durationMs: number;
+            /** Format: date-time */
+            startTime: string;
+            tags: {
+                [key: string]: string;
+            };
+            error: boolean;
+        };
+        ObservabilityTraceQueryResult: {
+            dataSourceId: string;
+            /** @enum {string} */
+            backendType: "jaeger" | "skywalking";
+            summary: string;
+            services: string[];
+            spans: components["schemas"]["ObservabilityTraceSpan"][];
+        };
+        ObservabilityTraceQueryEnvelope: {
+            data: components["schemas"]["ObservabilityTraceQueryResult"];
+        };
+        /** @enum {string} */
+        ObservabilityDataSourceBackendType: "loki" | "elasticsearch" | "clickhouse" | "provider";
         /** @enum {string} */
         ObservabilityDataSourceValidationStatus: "unknown" | "healthy" | "failed";
         ObservabilityDataSourceScope: {
@@ -9115,29 +9572,33 @@ export interface components {
             clusterField?: string;
             podField?: string;
             containerField?: string;
+            configuration?: components["schemas"]["SystemIntegrationConfigurationField"][];
         };
         ObservabilityDataSourceInput: {
             name: string;
             backendType: components["schemas"]["ObservabilityDataSourceBackendType"];
+            providerKey?: string;
             enabled: boolean;
             scope?: components["schemas"]["ObservabilityDataSourceScope"];
             queryBudget?: components["schemas"]["ObservabilityLogQueryBudget"];
             redactionPolicy?: components["schemas"]["ObservabilityLogRedactionPolicy"];
             config: components["schemas"]["ObservabilityLogDataSourceConfig"];
             credentials?: components["schemas"]["SystemIntegrationCredentialInput"][];
-            clearCredentialKeys?: ("bearer_token" | "username" | "password")[];
+            clearCredentialKeys?: string[];
         };
         ObservabilityDataSource: {
             id: string;
             name: string;
             backendType: components["schemas"]["ObservabilityDataSourceBackendType"];
+            /** @description Present when backendType is provider. */
+            providerKey?: string;
             enabled: boolean;
             scope: components["schemas"]["ObservabilityDataSourceScope"];
             queryBudget: components["schemas"]["ObservabilityLogQueryBudget"];
             redactionPolicy: components["schemas"]["ObservabilityLogRedactionPolicy"];
             config: components["schemas"]["ObservabilityLogDataSourceConfig"];
             /** @description Names of configured credentials. Credential values are never returned. */
-            credentialKeys: ("bearer_token" | "username" | "password")[];
+            credentialKeys: string[];
             validationStatus: components["schemas"]["ObservabilityDataSourceValidationStatus"];
             validationMessage?: string;
             /** Format: date-time */
@@ -9280,6 +9741,8 @@ export interface components {
             limit?: number;
             direction?: components["schemas"]["LogDirection"];
             text?: string;
+            traceId?: string;
+            spanId?: string;
             severities?: string[];
             cursor?: string;
             runtimeOptions?: components["schemas"]["LogRuntimeOptions"];
@@ -9594,6 +10057,92 @@ export interface components {
                 deniedCount: number;
             };
         };
+        /** @enum {string} */
+        SecretScopeType: "workspace" | "project" | "environment";
+        /** @enum {string} */
+        SecretStatus: "active" | "disabled";
+        /** @enum {string} */
+        SecretVersionStatus: "active" | "revoked";
+        SecretBinding: {
+            /** @enum {string} */
+            targetType: "capability" | "project" | "connection";
+            targetRef: string;
+        };
+        SecretReferenceMap: {
+            [key: string]: string;
+        };
+        SecretMetadata: {
+            id: string;
+            name: string;
+            description?: string;
+            scopeType: components["schemas"]["SecretScopeType"];
+            scopeId: string;
+            status: components["schemas"]["SecretStatus"];
+            currentVersion: number;
+            bindings: components["schemas"]["SecretBinding"][];
+            createdBy: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        SecretCreateRequest: {
+            name: string;
+            value: string;
+            description?: string;
+            scopeType: components["schemas"]["SecretScopeType"];
+            scopeId: string;
+            bindings?: components["schemas"]["SecretBinding"][];
+        };
+        SecretUpdateRequest: {
+            name?: string;
+            description?: string;
+            status?: components["schemas"]["SecretStatus"];
+            bindings?: components["schemas"]["SecretBinding"][];
+        };
+        SecretRotateRequest: {
+            value: string;
+        };
+        SecretVersionMetadata: {
+            secretId: string;
+            version: number;
+            status: components["schemas"]["SecretVersionStatus"];
+            createdBy: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            revokedAt?: string;
+        };
+        SecretMetadataEnvelope: {
+            data: components["schemas"]["SecretMetadata"];
+        };
+        SecretMetadataListEnvelope: {
+            items: components["schemas"]["SecretMetadata"][];
+        };
+        SecretVersionMetadataEnvelope: {
+            data: components["schemas"]["SecretVersionMetadata"];
+        };
+        SecretVersionMetadataListEnvelope: {
+            items: components["schemas"]["SecretVersionMetadata"][];
+        };
+        SecretLeaseGrant: {
+            id: string;
+            token: string;
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        SecretLeaseRedemption: {
+            leaseId: string;
+            /** @description Plaintext values returned exactly once to the bound runner. */
+            values: {
+                [key: string]: string;
+            };
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        SecretLeaseRedemptionEnvelope: {
+            data: components["schemas"]["SecretLeaseRedemption"];
+        };
         ToolInvocationRequest: {
             toolName?: string;
             input?: {
@@ -9603,6 +10152,7 @@ export interface components {
             aiClientName?: string;
             skillId?: string;
             requestId?: string;
+            secretRefs?: components["schemas"]["SecretReferenceMap"];
         };
         ToolInvocationResult: {
             toolName: string;
@@ -10349,6 +10899,21 @@ export interface components {
             virtualizationProviders?: components["schemas"]["PluginComputeVirtualizationProvider"][];
             containerRuntimeProviders?: components["schemas"]["PluginComputeContainerRuntimeProvider"][];
         };
+        PluginObservabilityProvider: {
+            providerKey: string;
+            displayName: string;
+            description?: string;
+            protocolVersion: string;
+            signals: ("logs" | "metrics" | "traces" | "profiles")[];
+            capabilities: string[];
+            configSchemaRef?: string;
+            actionRefs?: {
+                [key: string]: string;
+            };
+        };
+        PluginObservabilityExtensions: {
+            providers?: components["schemas"]["PluginObservabilityProvider"][];
+        };
         PluginAuthExtensions: {
             sources?: components["schemas"]["PluginExtensionContribution"][];
             profileMappers?: components["schemas"]["PluginExtensionContribution"][];
@@ -10417,6 +10982,7 @@ export interface components {
             delivery?: components["schemas"]["PluginDeliveryExtensions"];
             gateway?: components["schemas"]["PluginGatewayExtensions"];
             compute?: components["schemas"]["PluginComputeExtensions"];
+            observability?: components["schemas"]["PluginObservabilityExtensions"];
         };
         MarketplacePublisher: {
             id: string;
@@ -10470,7 +11036,7 @@ export interface components {
             version: string;
             publisher: string;
             /** @enum {string} */
-            type: "skill" | "skill-pack" | "mcp-preset" | "connector" | "ai-provider-adapter" | "agent-profile" | "gateway-policy-pack" | "diagnostic" | "resource-extension" | "metric-extension" | "notification-channel" | "identity-template" | "ui-extension";
+            type: "skill" | "skill-pack" | "mcp-preset" | "connector" | "ai-provider-adapter" | "agent-profile" | "gateway-policy-pack" | "diagnostic" | "resource-extension" | "observability-provider" | "metric-extension" | "notification-channel" | "identity-template" | "ui-extension";
             description?: string;
             homepage?: string;
             compatibility?: components["schemas"]["PluginCompatibility"];
@@ -10831,6 +11397,7 @@ export interface components {
             toolInput?: {
                 [key: string]: unknown;
             };
+            secretRefs?: components["schemas"]["SecretReferenceMap"];
             relatedIds?: {
                 [key: string]: unknown;
             };
@@ -11195,6 +11762,13 @@ export interface components {
         IdempotencyKey: string;
         ApplicationID: string;
         ApplicationEnvironmentID: string;
+        SecretID: string;
+        SecretVersion: number;
+        SecretLeaseID: string;
+        /** @description One-time bearer secret bound to the claimed operation and runner. */
+        SecretLeaseToken: string;
+        /** @description Runner identity from the claim request; must match the lease binding. */
+        SecretLeaseAgentID: string;
         DockerProjectID: string;
         ManifestPackageID: string;
         ManifestBindingID: string;
@@ -11828,6 +12402,16 @@ export type ExecutionTaskListEnvelope = components['schemas']['ExecutionTaskList
 export type ExecutionTask = components['schemas']['ExecutionTask'];
 export type ExecutionTaskClaimRequest = components['schemas']['ExecutionTaskClaimRequest'];
 export type ExecutionCallbackRequest = components['schemas']['ExecutionCallbackRequest'];
+export type OperationalPlanChange = components['schemas']['OperationalPlanChange'];
+export type OperationalPlan = components['schemas']['OperationalPlan'];
+export type OperationalPlanEnvelope = components['schemas']['OperationalPlanEnvelope'];
+export type VirtualMachineDiskChange = components['schemas']['VirtualMachineDiskChange'];
+export type VirtualMachineNetworkChange = components['schemas']['VirtualMachineNetworkChange'];
+export type VirtualMachineCreateInput = components['schemas']['VirtualMachineCreateInput'];
+export type VirtualizationOperation = components['schemas']['VirtualizationOperation'];
+export type VirtualizationOperationEnvelope = components['schemas']['VirtualizationOperationEnvelope'];
+export type DockerQuickCreateHostInput = components['schemas']['DockerQuickCreateHostInput'];
+export type DockerProjectDeployInput = components['schemas']['DockerProjectDeployInput'];
 export type DockerPayloadScalarValue = components['schemas']['DockerPayloadScalarValue'];
 export type DockerPayloadValue = components['schemas']['DockerPayloadValue'];
 export type DockerGitBuildInput = components['schemas']['DockerGitBuildInput'];
@@ -11853,6 +12437,22 @@ export type ClusterCapabilityStatus = components['schemas']['ClusterCapabilitySt
 export type ClusterCapabilityModeSupport = components['schemas']['ClusterCapabilityModeSupport'];
 export type ClusterCapabilityMatrixEntry = components['schemas']['ClusterCapabilityMatrixEntry'];
 export type ClusterCapabilityMatrixEnvelope = components['schemas']['ClusterCapabilityMatrixEnvelope'];
+export type ObservabilityProviderSignal = components['schemas']['ObservabilityProviderSignal'];
+export type ObservabilityProviderRuntimeMode = components['schemas']['ObservabilityProviderRuntimeMode'];
+export type ObservabilityProviderStatus = components['schemas']['ObservabilityProviderStatus'];
+export type ObservabilityProviderDefinition = components['schemas']['ObservabilityProviderDefinition'];
+export type ObservabilityProviderListEnvelope = components['schemas']['ObservabilityProviderListEnvelope'];
+export type ObservabilityQueryScope = components['schemas']['ObservabilityQueryScope'];
+export type ObservabilityMetricKey = components['schemas']['ObservabilityMetricKey'];
+export type ObservabilityMetricQueryInput = components['schemas']['ObservabilityMetricQueryInput'];
+export type ObservabilityMetricPoint = components['schemas']['ObservabilityMetricPoint'];
+export type ObservabilityMetricSeries = components['schemas']['ObservabilityMetricSeries'];
+export type ObservabilityMetricQueryResult = components['schemas']['ObservabilityMetricQueryResult'];
+export type ObservabilityMetricQueryEnvelope = components['schemas']['ObservabilityMetricQueryEnvelope'];
+export type ObservabilityTraceQueryInput = components['schemas']['ObservabilityTraceQueryInput'];
+export type ObservabilityTraceSpan = components['schemas']['ObservabilityTraceSpan'];
+export type ObservabilityTraceQueryResult = components['schemas']['ObservabilityTraceQueryResult'];
+export type ObservabilityTraceQueryEnvelope = components['schemas']['ObservabilityTraceQueryEnvelope'];
 export type ObservabilityDataSourceBackendType = components['schemas']['ObservabilityDataSourceBackendType'];
 export type ObservabilityDataSourceValidationStatus = components['schemas']['ObservabilityDataSourceValidationStatus'];
 export type ObservabilityDataSourceScope = components['schemas']['ObservabilityDataSourceScope'];
@@ -11932,6 +12532,23 @@ export type PromptCapability = components['schemas']['PromptCapability'];
 export type SkillCapability = components['schemas']['SkillCapability'];
 export type CallerContext = components['schemas']['CallerContext'];
 export type AIGatewayManifest = components['schemas']['AIGatewayManifest'];
+export type SecretScopeType = components['schemas']['SecretScopeType'];
+export type SecretStatus = components['schemas']['SecretStatus'];
+export type SecretVersionStatus = components['schemas']['SecretVersionStatus'];
+export type SecretBinding = components['schemas']['SecretBinding'];
+export type SecretReferenceMap = components['schemas']['SecretReferenceMap'];
+export type SecretMetadata = components['schemas']['SecretMetadata'];
+export type SecretCreateRequest = components['schemas']['SecretCreateRequest'];
+export type SecretUpdateRequest = components['schemas']['SecretUpdateRequest'];
+export type SecretRotateRequest = components['schemas']['SecretRotateRequest'];
+export type SecretVersionMetadata = components['schemas']['SecretVersionMetadata'];
+export type SecretMetadataEnvelope = components['schemas']['SecretMetadataEnvelope'];
+export type SecretMetadataListEnvelope = components['schemas']['SecretMetadataListEnvelope'];
+export type SecretVersionMetadataEnvelope = components['schemas']['SecretVersionMetadataEnvelope'];
+export type SecretVersionMetadataListEnvelope = components['schemas']['SecretVersionMetadataListEnvelope'];
+export type SecretLeaseGrant = components['schemas']['SecretLeaseGrant'];
+export type SecretLeaseRedemption = components['schemas']['SecretLeaseRedemption'];
+export type SecretLeaseRedemptionEnvelope = components['schemas']['SecretLeaseRedemptionEnvelope'];
 export type ToolInvocationRequest = components['schemas']['ToolInvocationRequest'];
 export type ToolInvocationResult = components['schemas']['ToolInvocationResult'];
 export type ResourceReadRequest = components['schemas']['ResourceReadRequest'];
@@ -12000,6 +12617,8 @@ export type PluginExtensionContribution = components['schemas']['PluginExtension
 export type PluginComputeVirtualizationProvider = components['schemas']['PluginComputeVirtualizationProvider'];
 export type PluginComputeContainerRuntimeProvider = components['schemas']['PluginComputeContainerRuntimeProvider'];
 export type PluginComputeExtensions = components['schemas']['PluginComputeExtensions'];
+export type PluginObservabilityProvider = components['schemas']['PluginObservabilityProvider'];
+export type PluginObservabilityExtensions = components['schemas']['PluginObservabilityExtensions'];
 export type PluginAuthExtensions = components['schemas']['PluginAuthExtensions'];
 export type PluginIdentityExtensions = components['schemas']['PluginIdentityExtensions'];
 export type PluginUIExtensions = components['schemas']['PluginUIExtensions'];
@@ -12124,6 +12743,11 @@ export type ParameterComputeActionId = components['parameters']['ComputeActionID
 export type ParameterIdempotencyKey = components['parameters']['IdempotencyKey'];
 export type ParameterApplicationId = components['parameters']['ApplicationID'];
 export type ParameterApplicationEnvironmentId = components['parameters']['ApplicationEnvironmentID'];
+export type ParameterSecretId = components['parameters']['SecretID'];
+export type ParameterSecretVersion = components['parameters']['SecretVersion'];
+export type ParameterSecretLeaseId = components['parameters']['SecretLeaseID'];
+export type ParameterSecretLeaseToken = components['parameters']['SecretLeaseToken'];
+export type ParameterSecretLeaseAgentId = components['parameters']['SecretLeaseAgentID'];
 export type ParameterDockerProjectId = components['parameters']['DockerProjectID'];
 export type ParameterManifestPackageId = components['parameters']['ManifestPackageID'];
 export type ParameterManifestBindingId = components['parameters']['ManifestBindingID'];
@@ -15058,6 +15682,177 @@ export interface operations {
             };
         };
     };
+    planVirtualMachineCreate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VirtualMachineCreateInput"];
+            };
+        };
+        responses: {
+            /** @description Side-effect-free validation and redacted change plan for creating a virtual machine. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationalPlanEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createVirtualMachine: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VirtualMachineCreateInput"];
+            };
+        };
+        responses: {
+            /** @description Virtual machine creation accepted as an auditable operation. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationOperationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    planDockerHostQuickCreate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DockerQuickCreateHostInput"];
+            };
+        };
+        responses: {
+            /** @description Side-effect-free validation and redacted change plan for provisioning a Docker host. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationalPlanEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    quickCreateDockerHost: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DockerQuickCreateHostInput"];
+            };
+        };
+        responses: {
+            /** @description Docker host provisioning accepted as an auditable operation. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerOperationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    planDockerProjectDeploy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dockerProjectID: components["parameters"]["DockerProjectID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DockerProjectDeployInput"];
+            };
+        };
+        responses: {
+            /** @description Side-effect-free validation and redacted change plan for a Docker Compose project action. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationalPlanEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deployDockerProject: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
+            };
+            path: {
+                dockerProjectID: components["parameters"]["DockerProjectID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DockerProjectDeployInput"];
+            };
+        };
+        responses: {
+            /** @description Docker Compose project action accepted as an auditable operation. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerOperationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
     startDockerContainer: {
         parameters: {
             query?: never;
@@ -15635,6 +16430,83 @@ export interface operations {
             404: components["responses"]["Error"];
         };
     };
+    listObservabilityProviders: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Enabled built-in and plugin observability providers with signal capabilities. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservabilityProviderListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    queryObservabilityMetrics: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ObservabilityMetricQueryInput"];
+            };
+        };
+        responses: {
+            /** @description Normalized metric series from an authorized configured provider. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservabilityMetricQueryEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    queryObservabilityTraces: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ObservabilityTraceQueryInput"];
+            };
+        };
+        responses: {
+            /** @description Normalized trace spans from an authorized configured provider. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservabilityTraceQueryEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
     listObservabilityDataSources: {
         parameters: {
             query?: never;
@@ -15826,6 +16698,247 @@ export interface operations {
             404: components["responses"]["Error"];
             409: components["responses"]["Error"];
             413: components["responses"]["Error"];
+        };
+    };
+    listSecrets: {
+        parameters: {
+            query?: {
+                scopeType?: components["schemas"]["SecretScopeType"];
+                scopeId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Permission-filtered secret metadata. Secret values are never returned. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SecretMetadataListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createSecret: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SecretCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description Secret metadata. The submitted value is write-only. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SecretMetadataEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getSecret: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                secretID: components["parameters"]["SecretID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Secret metadata. Secret values are never returned. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SecretMetadataEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    disableSecret: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                secretID: components["parameters"]["SecretID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Disabled secret metadata. Existing references fail closed. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SecretMetadataEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateSecret: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                secretID: components["parameters"]["SecretID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SecretUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description Updated secret metadata. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SecretMetadataEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listSecretVersions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                secretID: components["parameters"]["SecretID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Immutable version metadata. Secret values are never returned. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SecretVersionMetadataListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    rotateSecret: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                secretID: components["parameters"]["SecretID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SecretRotateRequest"];
+            };
+        };
+        responses: {
+            /** @description New active immutable version metadata. The submitted value is write-only. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SecretVersionMetadataEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    revokeSecretVersion: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                secretID: components["parameters"]["SecretID"];
+                version: components["parameters"]["SecretVersion"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Revoked version metadata. References pinned to this version fail closed. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SecretVersionMetadataEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    redeemSecretLease: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description One-time bearer secret bound to the claimed operation and runner. */
+                "X-Soha-Secret-Lease-Token": components["parameters"]["SecretLeaseToken"];
+                /** @description Runner identity from the claim request; must match the lease binding. */
+                "X-Soha-Agent-ID": components["parameters"]["SecretLeaseAgentID"];
+            };
+            path: {
+                secretLeaseID: components["parameters"]["SecretLeaseID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description One-time plaintext values for the bound operation or agent run. Clients must keep them in memory only. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SecretLeaseRedemptionEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            410: components["responses"]["Error"];
         };
     };
     getAIGatewayCapabilities: {

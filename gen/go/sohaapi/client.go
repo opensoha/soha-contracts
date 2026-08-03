@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-const defaultUserAgent = "opensoha-contracts/0.1.3"
+const defaultUserAgent = "opensoha-contracts/0.1.4"
 
 type Client struct {
 	BaseURL    string
@@ -379,6 +379,19 @@ func (c *Client) RecordExecutionCallback(ctx context.Context, req ExecutionCallb
 	var out ExecutionTaskEnvelope
 	if err := c.doJSON(ctx, http.MethodPost, "/delivery/execution-callbacks", false, req, &out); err != nil {
 		return ExecutionTask{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) RedeemSecretLease(ctx context.Context, leaseID string, params RedeemSecretLeaseParams) (SecretLeaseRedemption, error) {
+	var out SecretLeaseRedemptionEnvelope
+	path := "/runner/secret-leases/" + url.PathEscape(strings.TrimSpace(leaseID)) + "/redeem"
+	headers := http.Header{
+		"X-Soha-Secret-Lease-Token": []string{string(params.XSohaSecretLeaseToken)},
+		"X-Soha-Agent-ID":           []string{string(params.XSohaAgentID)},
+	}
+	if err := c.doJSONWithHeaders(ctx, http.MethodPost, path, true, nil, &out, headers); err != nil {
+		return SecretLeaseRedemption{}, err
 	}
 	return out.Data, nil
 }
@@ -795,6 +808,10 @@ func (c *Client) ConfigureInstalledPlugin(ctx context.Context, pluginID string, 
 }
 
 func (c *Client) doJSON(ctx context.Context, method, path string, useToken bool, body any, out any) error {
+	return c.doJSONWithHeaders(ctx, method, path, useToken, body, out, nil)
+}
+
+func (c *Client) doJSONWithHeaders(ctx context.Context, method, path string, useToken bool, body any, out any, headers http.Header) error {
 	endpoint, err := c.endpoint(path)
 	if err != nil {
 		return err
@@ -820,6 +837,11 @@ func (c *Client) doJSON(ctx context.Context, method, path string, useToken bool,
 	}
 	if useToken && strings.TrimSpace(c.Token) != "" {
 		req.Header.Set("Authorization", "Bearer "+strings.TrimSpace(c.Token))
+	}
+	for name, values := range headers {
+		for _, value := range values {
+			req.Header.Add(name, value)
+		}
 	}
 	client := c.HTTPClient
 	if client == nil {

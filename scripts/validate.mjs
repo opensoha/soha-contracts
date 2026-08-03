@@ -58,6 +58,7 @@ const requiredJsonSchemas = [
     file: "runner/operation-lifecycle.schema.json",
     fixtureDir: "fixtures/json-schema/runner-operation-lifecycle",
   },
+  { file: "projects/project-manifest.schema.json", fixtureDir: "fixtures/json-schema/project-manifest" },
   { file: "mcp/gateway-manifest.schema.json", fixtureDir: "fixtures/json-schema/gateway-manifest" },
   {
     file: "mcp/gateway-capability-baseline.schema.json",
@@ -65,6 +66,10 @@ const requiredJsonSchemas = [
   },
   { file: "skills/skill-manifest.schema.json", fixtureDir: "fixtures/json-schema/skill-manifest" },
   { file: "plugins/plugin-manifest.schema.json", fixtureDir: "fixtures/json-schema/plugin-manifest" },
+  {
+    file: "plugins/observability-log-query-v1.schema.json",
+    fixtureDir: "fixtures/json-schema/observability-log-query-v1",
+  },
   {
     file: "plugins/marketplace-catalog.schema.json",
     fixtureDir: "fixtures/json-schema/marketplace-catalog",
@@ -91,6 +96,10 @@ const requiredOpenapiFixtureSchemas = [
   "PluginManifest",
   "PersonalAccessTokenInput",
   "ServiceAccountInput",
+  "SecretCreateRequest",
+  "SecretMetadataEnvelope",
+  "SecretRotateRequest",
+  "SecretLeaseRedemptionEnvelope",
   "GovernanceStatusEnvelope",
   "MCPCapabilityListEnvelope",
   "CloudExtensionPointListEnvelope",
@@ -330,6 +339,9 @@ function validateOpenapiStructure(openapi) {
   validateComputeTaskCenterContract(openapi);
   validateRuntimeConfigContract(openapi);
 
+  const capabilityNames = new Set();
+  const riskLevels = new Set(openapi.components.schemas.RiskLevel?.enum ?? []);
+
   for (const [path, pathItem] of Object.entries(openapi.paths)) {
     for (const [method, operation] of Object.entries(pathItem ?? {})) {
       if (!isHttpMethod(method)) {
@@ -341,6 +353,7 @@ function validateOpenapiStructure(openapi) {
       if (!operation.responses || Object.keys(operation.responses).length === 0) {
         throw new Error(`${method.toUpperCase()} ${path} is missing responses`);
       }
+      validateCapabilityExtension(operation, `${method.toUpperCase()} ${path}`, capabilityNames, riskLevels);
       if (["claimExecutionTask", "claimDockerOperation"].includes(operation.operationId)) {
         for (const status of ["202", "204"]) {
           if (!operation.responses[status]) {
@@ -349,6 +362,29 @@ function validateOpenapiStructure(openapi) {
         }
       }
     }
+  }
+}
+
+function validateCapabilityExtension(operation, label, capabilityNames, riskLevels) {
+  const capability = operation["x-soha-capability"];
+  if (capability === undefined) {
+    return;
+  }
+  if (!capability || typeof capability !== "object" || Array.isArray(capability)) {
+    throw new Error(`${label} x-soha-capability must be an object`);
+  }
+  if (typeof capability.name !== "string" || !/^[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*)+$/.test(capability.name)) {
+    throw new Error(`${label} x-soha-capability.name must be a dotted capability name`);
+  }
+  if (capabilityNames.has(capability.name)) {
+    throw new Error(`duplicate x-soha-capability.name: ${capability.name}`);
+  }
+  capabilityNames.add(capability.name);
+  if (!riskLevels.has(capability.riskLevel)) {
+    throw new Error(`${label} x-soha-capability.riskLevel must use RiskLevel`);
+  }
+  if (typeof capability.requiresApproval !== "boolean") {
+    throw new Error(`${label} x-soha-capability.requiresApproval must be boolean`);
   }
 }
 

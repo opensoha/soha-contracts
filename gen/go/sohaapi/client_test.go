@@ -24,6 +24,22 @@ func TestDeliveryPlanStatusLegacyConstants(t *testing.T) {
 	}
 }
 
+func TestObservabilityCredentialKeyLegacyTypes(t *testing.T) {
+	dataSource := ObservabilityDataSource{
+		CredentialKeys: []ObservabilityDataSourceCredentialKeys{
+			ObservabilityDataSourceCredentialKeysBearerToken,
+		},
+	}
+	input := ObservabilityDataSourceInput{
+		ClearCredentialKeys: []ObservabilityDataSourceInputClearCredentialKeys{
+			ObservabilityDataSourceInputClearCredentialKeysPassword,
+		},
+	}
+	if !dataSource.CredentialKeys[0].Valid() || !input.ClearCredentialKeys[0].Valid() {
+		t.Fatal("legacy observability credential key constants must remain valid")
+	}
+}
+
 func TestSystemHealthAndReadinessUsePublicRequests(t *testing.T) {
 	cases := []struct {
 		name string
@@ -106,6 +122,32 @@ func TestRunnerClaimClientsAcceptNoContent(t *testing.T) {
 				t.Fatalf("claim ID = %q, want empty", id)
 			}
 		})
+	}
+}
+
+func TestRedeemSecretLeaseSendsRunnerBindingHeaders(t *testing.T) {
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertCommonRequest(t, r, http.MethodPost, "/api/v1/runner/secret-leases/lease%2Fone/redeem")
+		if got := r.Header.Get("X-Soha-Secret-Lease-Token"); got != "one-time-token" {
+			t.Fatalf("lease token = %q", got)
+		}
+		if got := r.Header.Get("X-Soha-Agent-ID"); got != "agent-1" {
+			t.Fatalf("agent id = %q", got)
+		}
+		writeJSON(t, w, map[string]any{"data": map[string]any{
+			"leaseId": "lease/one", "expiresAt": time.Now().UTC().Add(time.Minute), "values": map[string]string{"REGISTRY_TOKEN": "secret-value"},
+		}})
+	})
+
+	result, err := client.RedeemSecretLease(context.Background(), "lease/one", RedeemSecretLeaseParams{
+		XSohaSecretLeaseToken: "one-time-token",
+		XSohaAgentID:          "agent-1",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if result.Values["REGISTRY_TOKEN"] != "secret-value" {
+		t.Fatalf("redeemed value = %q", result.Values["REGISTRY_TOKEN"])
 	}
 }
 

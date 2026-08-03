@@ -4,6 +4,7 @@ import { parse } from "yaml";
 const packagePath = "package.json";
 const packageLockPath = "package-lock.json";
 const openapiPath = "openapi/soha-api.yaml";
+const openapiJsonPath = "openapi/soha-api.json";
 const goModPath = "go.mod";
 const goClientPath = "gen/go/sohaapi/client.go";
 const modulePath = "github.com/opensoha/soha-contracts";
@@ -11,6 +12,7 @@ const modulePath = "github.com/opensoha/soha-contracts";
 const packageJson = JSON.parse(await readFile(packagePath, "utf8"));
 const packageLock = JSON.parse(await readFile(packageLockPath, "utf8"));
 const openapi = parse(await readFile(openapiPath, "utf8"));
+const openapiJson = JSON.parse(await readFile(openapiJsonPath, "utf8"));
 const goMod = await readFile(goModPath, "utf8");
 const goClient = await readFile(goClientPath, "utf8");
 
@@ -19,6 +21,7 @@ const errors = [];
 
 expect(/^0\.1\.\d+(?:[-+][0-9A-Za-z.-]+)?$/.test(version), `${packagePath} version must stay on the 0.1.x stream: ${version}`);
 expect(openapi?.info?.version === version, `${openapiPath} info.version (${openapi?.info?.version}) must match ${packagePath} version (${version})`);
+expect(openapiJson?.info?.version === version, `${openapiJsonPath} info.version (${openapiJson?.info?.version}) must match ${packagePath} version (${version})`);
 expect(packageLock.version === version, `${packageLockPath} version (${packageLock.version}) must match ${packagePath} version (${version})`);
 expect(
   packageLock.packages?.[""]?.version === version,
@@ -43,7 +46,7 @@ if (errors.length > 0) {
 }
 
 const tagText = releaseTag ? ` and release tag ${releaseTag}` : "";
-console.log(`version sync ok: npm/OpenAPI/package-lock/Go module/Go client all use ${version}${tagText}`);
+console.log(`version sync ok: npm/OpenAPI YAML+JSON/package-lock/Go module/Go client all use ${version}${tagText}`);
 
 function currentReleaseTag() {
   const refName = process.env.GITHUB_REF_NAME?.trim();

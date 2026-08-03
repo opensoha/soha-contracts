@@ -7,6 +7,12 @@ import { spawnSync } from "node:child_process";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const packageJson = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
+const openapiArtifacts = await Promise.all(
+  ["openapi/soha-api.yaml", "openapi/soha-api.json"].map(async (path) => {
+    const body = await readFile(join(root, path));
+    return { path, sha256: createHash("sha256").update(body).digest("hex") };
+  }),
+);
 const outDir = resolve(root, valueArg("--out-dir") ?? "dist/release");
 const consumerMatrixPath = optionalPathArg("--consumer-matrix");
 const npmCache = process.env.SOHA_NPM_CACHE ?? join(root, "dist/npm-cache");
@@ -64,6 +70,10 @@ await writeFile(
       tag: `v${packageJson.version}`,
       goModule: "github.com/opensoha/soha-contracts",
       npmPackage: packageJson.name,
+      openapi: {
+        version: packageJson.version,
+        artifacts: openapiArtifacts,
+      },
       consumerMatrix: consumerMatrix
         ? {
             path: relative(root, consumerMatrixAssetPath),
@@ -239,6 +249,7 @@ async function verifyReleaseArtifacts(tarballPath) {
       const packedPath = join(extractDir, "package", requiredExport.replace(/^\.\//, ""));
       await readFile(packedPath);
     }
+    await verifyPackedOpenAPI(manifest, extractDir);
   } finally {
     await rm(extractDir, { recursive: true, force: true });
   }
@@ -248,6 +259,22 @@ async function verifyReleaseArtifacts(tarballPath) {
     sha256: actualSha256,
     packageFiles: artifact.fileCount,
   };
+}
+
+async function verifyPackedOpenAPI(manifest, extractDir) {
+  if (manifest.openapi?.version !== packageJson.version || manifest.openapi?.artifacts?.length !== 2) {
+    throw new Error("release manifest must include both OpenAPI formats at the package version");
+  }
+  for (const artifact of manifest.openapi.artifacts) {
+    if (!["openapi/soha-api.yaml", "openapi/soha-api.json"].includes(artifact.path)) {
+      throw new Error(`release manifest contains unexpected OpenAPI artifact ${artifact.path}`);
+    }
+    const body = await readFile(join(extractDir, "package", artifact.path));
+    const actualSha256 = createHash("sha256").update(body).digest("hex");
+    if (actualSha256 !== artifact.sha256) {
+      throw new Error(`${artifact.path} sha256 mismatch: expected ${artifact.sha256}, got ${actualSha256}`);
+    }
+  }
 }
 
 async function verifySBOM(manifest, manifestPath, tarballPath) {

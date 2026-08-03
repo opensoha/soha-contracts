@@ -11,7 +11,9 @@ copying business logic between repos.
 ## Layout
 
 ```text
-openapi/soha-api.yaml                 Public Soha HTTP API surface
+openapi/soha-api.yaml                 Canonical public Soha HTTP API source
+openapi/soha-api.json                 Generated canonical JSON distribution
+openapi/spec_generated.go             Embedded Go accessors and version/hash metadata
 compat/openapi-0.1.0.snapshot.json    OpenAPI compatibility baseline
 examples                              Valid request/response and manifest examples
 fixtures                              Valid and invalid contract payloads
@@ -48,7 +50,10 @@ gen/ts/sohaapi                        TypeScript SDK types for stable Web contra
 Current SDK entry points:
 
 - Go: `github.com/opensoha/soha-contracts/gen/go/sohaapi`
+- Go OpenAPI artifact: `github.com/opensoha/soha-contracts/openapi`
 - TypeScript: `@opensoha/contracts/gen/ts/sohaapi`
+- npm OpenAPI artifacts: `@opensoha/contracts/openapi/soha-api.yaml` and
+  `@opensoha/contracts/openapi/soha-api.json`
 
 The current SDK pass covers auth, AI Gateway capability/tool/result types,
 runner-facing protocol DTOs, plugin marketplace/install DTOs, public Cloud
@@ -69,9 +74,10 @@ npm run generate
 npm run check:generated
 ```
 
-`npm run check:generated` generates SDK output in a temporary directory and
-compares it to committed files. It must not rewrite `gen/` during a freshness
-check.
+`npm run check:generated` generates SDK and OpenAPI distribution output in a
+temporary directory and compares it to committed files. It must not rewrite
+generated files during a freshness check. The Go `openapi` package exposes
+copies of both formats plus `Version`, `YAMLSHA256`, and `JSONSHA256`.
 
 The Go client in `gen/go/sohaapi/client.go` intentionally keeps a stable
 hand-written method surface while DTOs are generated from OpenAPI. For
@@ -189,8 +195,8 @@ The command writes `dist/release/<npm-tarball>.tgz`, a matching
 with its checksum, a provenance policy manifest with its checksum, and, when
 provided by CI, `dist/release/consumer-matrix.json`. `release:verify` checks
 the tarball checksum, manifest metadata, packed `package.json`, every exported
-package entrypoint, the SBOM identity and checksum, the provenance policy and
-checksum, and the consumer matrix summary.
+package entrypoint, both OpenAPI artifact hashes, the SBOM identity and
+checksum, the provenance policy and checksum, and the consumer matrix summary.
 
 The tag workflow runs `npm test`, `npm pack --dry-run`, the strict consumer
 matrix, requires `NPM_TOKEN`, publishes npm with provenance, verifies the npm

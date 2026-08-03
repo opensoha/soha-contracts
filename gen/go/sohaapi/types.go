@@ -1467,6 +1467,45 @@ func (e DockerContainerVolumeInputType) Valid() bool {
 	}
 }
 
+// Defines values for DockerProjectDeployInputAction.
+const (
+	DockerProjectDeployInputActionBuild    DockerProjectDeployInputAction = "build"
+	DockerProjectDeployInputActionDeploy   DockerProjectDeployInputAction = "deploy"
+	DockerProjectDeployInputActionDestroy  DockerProjectDeployInputAction = "destroy"
+	DockerProjectDeployInputActionDown     DockerProjectDeployInputAction = "down"
+	DockerProjectDeployInputActionPull     DockerProjectDeployInputAction = "pull"
+	DockerProjectDeployInputActionRedeploy DockerProjectDeployInputAction = "redeploy"
+	DockerProjectDeployInputActionRestart  DockerProjectDeployInputAction = "restart"
+	DockerProjectDeployInputActionStart    DockerProjectDeployInputAction = "start"
+	DockerProjectDeployInputActionStop     DockerProjectDeployInputAction = "stop"
+)
+
+// Valid indicates whether the value is a known member of the DockerProjectDeployInputAction enum.
+func (e DockerProjectDeployInputAction) Valid() bool {
+	switch e {
+	case DockerProjectDeployInputActionBuild:
+		return true
+	case DockerProjectDeployInputActionDeploy:
+		return true
+	case DockerProjectDeployInputActionDestroy:
+		return true
+	case DockerProjectDeployInputActionDown:
+		return true
+	case DockerProjectDeployInputActionPull:
+		return true
+	case DockerProjectDeployInputActionRedeploy:
+		return true
+	case DockerProjectDeployInputActionRestart:
+		return true
+	case DockerProjectDeployInputActionStart:
+		return true
+	case DockerProjectDeployInputActionStop:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for EvaluationExecutorProfileIsolationMode.
 const (
 	EvaluationExecutorProfileIsolationModeDisposableWrite EvaluationExecutorProfileIsolationMode = "disposable-write"
@@ -3578,6 +3617,7 @@ const (
 	ObservabilityDataSourceBackendTypeClickHouse    ObservabilityDataSourceBackendType = "clickhouse"
 	ObservabilityDataSourceBackendTypeElasticsearch ObservabilityDataSourceBackendType = "elasticsearch"
 	ObservabilityDataSourceBackendTypeLoki          ObservabilityDataSourceBackendType = "loki"
+	ObservabilityDataSourceBackendTypeProvider      ObservabilityDataSourceBackendType = "provider"
 )
 
 // Valid indicates whether the value is a known member of the ObservabilityDataSourceBackendType enum.
@@ -3588,6 +3628,8 @@ func (e ObservabilityDataSourceBackendType) Valid() bool {
 	case ObservabilityDataSourceBackendTypeElasticsearch:
 		return true
 	case ObservabilityDataSourceBackendTypeLoki:
+		return true
+	case ObservabilityDataSourceBackendTypeProvider:
 		return true
 	default:
 		return false
@@ -3630,6 +3672,132 @@ func (e ObservabilityDataSourceValidationStatus) Valid() bool {
 	case ObservabilityDataSourceValidationStatusHealthy:
 		return true
 	case ObservabilityDataSourceValidationStatusUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityMetricKey.
+const (
+	ObservabilityMetricKeyCPUUsage    ObservabilityMetricKey = "cpu_usage"
+	ObservabilityMetricKeyErrorRate   ObservabilityMetricKey = "error_rate"
+	ObservabilityMetricKeyLatencyP95  ObservabilityMetricKey = "latency_p95"
+	ObservabilityMetricKeyMemoryUsage ObservabilityMetricKey = "memory_usage"
+	ObservabilityMetricKeyRestartRate ObservabilityMetricKey = "restart_rate"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityMetricKey enum.
+func (e ObservabilityMetricKey) Valid() bool {
+	switch e {
+	case ObservabilityMetricKeyCPUUsage:
+		return true
+	case ObservabilityMetricKeyErrorRate:
+		return true
+	case ObservabilityMetricKeyLatencyP95:
+		return true
+	case ObservabilityMetricKeyMemoryUsage:
+		return true
+	case ObservabilityMetricKeyRestartRate:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityMetricQueryResultBackendType.
+const (
+	Prometheus ObservabilityMetricQueryResultBackendType = "prometheus"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityMetricQueryResultBackendType enum.
+func (e ObservabilityMetricQueryResultBackendType) Valid() bool {
+	switch e {
+	case Prometheus:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityProviderRuntimeMode.
+const (
+	ObservabilityProviderRuntimeModeBuiltin          ObservabilityProviderRuntimeMode = "builtin"
+	ObservabilityProviderRuntimeModeExternalHTTP     ObservabilityProviderRuntimeMode = "external-http"
+	ObservabilityProviderRuntimeModeManagedContainer ObservabilityProviderRuntimeMode = "managed-container"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityProviderRuntimeMode enum.
+func (e ObservabilityProviderRuntimeMode) Valid() bool {
+	switch e {
+	case ObservabilityProviderRuntimeModeBuiltin:
+		return true
+	case ObservabilityProviderRuntimeModeExternalHTTP:
+		return true
+	case ObservabilityProviderRuntimeModeManagedContainer:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityProviderSignal.
+const (
+	ObservabilityProviderSignalLogs     ObservabilityProviderSignal = "logs"
+	ObservabilityProviderSignalMetrics  ObservabilityProviderSignal = "metrics"
+	ObservabilityProviderSignalProfiles ObservabilityProviderSignal = "profiles"
+	ObservabilityProviderSignalTraces   ObservabilityProviderSignal = "traces"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityProviderSignal enum.
+func (e ObservabilityProviderSignal) Valid() bool {
+	switch e {
+	case ObservabilityProviderSignalLogs:
+		return true
+	case ObservabilityProviderSignalMetrics:
+		return true
+	case ObservabilityProviderSignalProfiles:
+		return true
+	case ObservabilityProviderSignalTraces:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityProviderStatus.
+const (
+	ObservabilityProviderStatusDegraded    ObservabilityProviderStatus = "degraded"
+	ObservabilityProviderStatusSupported   ObservabilityProviderStatus = "supported"
+	ObservabilityProviderStatusUnsupported ObservabilityProviderStatus = "unsupported"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityProviderStatus enum.
+func (e ObservabilityProviderStatus) Valid() bool {
+	switch e {
+	case ObservabilityProviderStatusDegraded:
+		return true
+	case ObservabilityProviderStatusSupported:
+		return true
+	case ObservabilityProviderStatusUnsupported:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityTraceQueryResultBackendType.
+const (
+	Jaeger     ObservabilityTraceQueryResultBackendType = "jaeger"
+	Skywalking ObservabilityTraceQueryResultBackendType = "skywalking"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityTraceQueryResultBackendType enum.
+func (e ObservabilityTraceQueryResultBackendType) Valid() bool {
+	switch e {
+	case Jaeger:
+		return true
+	case Skywalking:
 		return true
 	default:
 		return false
@@ -3720,6 +3888,30 @@ func (e PluginComputeVirtualizationProviderResourceKinds) Valid() bool {
 	case PluginComputeVirtualizationResourceKindImage:
 		return true
 	case PluginComputeVirtualizationResourceKindVM:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PluginObservabilityProviderSignals.
+const (
+	Logs     PluginObservabilityProviderSignals = "logs"
+	Metrics  PluginObservabilityProviderSignals = "metrics"
+	Profiles PluginObservabilityProviderSignals = "profiles"
+	Traces   PluginObservabilityProviderSignals = "traces"
+)
+
+// Valid indicates whether the value is a known member of the PluginObservabilityProviderSignals enum.
+func (e PluginObservabilityProviderSignals) Valid() bool {
+	switch e {
+	case Logs:
+		return true
+	case Metrics:
+		return true
+	case Profiles:
+		return true
+	case Traces:
 		return true
 	default:
 		return false
@@ -4011,6 +4203,84 @@ func (e SAMLNameIDFormat) Valid() bool {
 	case Transient:
 		return true
 	case Unspecified:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SecretBindingTargetType.
+const (
+	SecretBindingCapability SecretBindingTargetType = "capability"
+	SecretBindingConnection SecretBindingTargetType = "connection"
+	SecretBindingProject    SecretBindingTargetType = "project"
+)
+
+// Valid indicates whether the value is a known member of the SecretBindingTargetType enum.
+func (e SecretBindingTargetType) Valid() bool {
+	switch e {
+	case SecretBindingCapability:
+		return true
+	case SecretBindingConnection:
+		return true
+	case SecretBindingProject:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SecretScopeType.
+const (
+	SecretScopeEnvironment SecretScopeType = "environment"
+	SecretScopeProject     SecretScopeType = "project"
+	SecretScopeWorkspace   SecretScopeType = "workspace"
+)
+
+// Valid indicates whether the value is a known member of the SecretScopeType enum.
+func (e SecretScopeType) Valid() bool {
+	switch e {
+	case SecretScopeEnvironment:
+		return true
+	case SecretScopeProject:
+		return true
+	case SecretScopeWorkspace:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SecretStatus.
+const (
+	SecretStatusActive   SecretStatus = "active"
+	SecretStatusDisabled SecretStatus = "disabled"
+)
+
+// Valid indicates whether the value is a known member of the SecretStatus enum.
+func (e SecretStatus) Valid() bool {
+	switch e {
+	case SecretStatusActive:
+		return true
+	case SecretStatusDisabled:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SecretVersionStatus.
+const (
+	SecretVersionActive  SecretVersionStatus = "active"
+	SecretVersionRevoked SecretVersionStatus = "revoked"
+)
+
+// Valid indicates whether the value is a known member of the SecretVersionStatus enum.
+func (e SecretVersionStatus) Valid() bool {
+	switch e {
+	case SecretVersionActive:
+		return true
+	case SecretVersionRevoked:
 		return true
 	default:
 		return false
@@ -5636,19 +5906,19 @@ func (e ListAIGatewayRelayUpstreamsParamsStatus) Valid() bool {
 
 // Defines values for TransitionAgentProviderRolloutParamsRolloutAction.
 const (
-	Pause    TransitionAgentProviderRolloutParamsRolloutAction = "pause"
-	Resume   TransitionAgentProviderRolloutParamsRolloutAction = "resume"
-	Rollback TransitionAgentProviderRolloutParamsRolloutAction = "rollback"
+	TransitionAgentProviderRolloutParamsRolloutActionPause    TransitionAgentProviderRolloutParamsRolloutAction = "pause"
+	TransitionAgentProviderRolloutParamsRolloutActionResume   TransitionAgentProviderRolloutParamsRolloutAction = "resume"
+	TransitionAgentProviderRolloutParamsRolloutActionRollback TransitionAgentProviderRolloutParamsRolloutAction = "rollback"
 )
 
 // Valid indicates whether the value is a known member of the TransitionAgentProviderRolloutParamsRolloutAction enum.
 func (e TransitionAgentProviderRolloutParamsRolloutAction) Valid() bool {
 	switch e {
-	case Pause:
+	case TransitionAgentProviderRolloutParamsRolloutActionPause:
 		return true
-	case Resume:
+	case TransitionAgentProviderRolloutParamsRolloutActionResume:
 		return true
-	case Rollback:
+	case TransitionAgentProviderRolloutParamsRolloutActionRollback:
 		return true
 	default:
 		return false
@@ -6233,23 +6503,24 @@ type AgentProviderRuntimeStatusEnvelope struct {
 
 // AgentRun defines model for AgentRun.
 type AgentRun struct {
-	AnalysisArtifacts    []map[string]any `json:"analysisArtifacts,omitempty"`
-	CallbackToken        string           `json:"callbackToken"`
-	CapabilityID         string           `json:"capabilityId"`
-	ID                   string           `json:"id"`
-	Input                map[string]any   `json:"input,omitempty"`
-	Output               map[string]any   `json:"output,omitempty"`
-	ProviderID           string           `json:"providerId"`
-	ProviderKind         string           `json:"providerKind"`
-	Scope                map[string]any   `json:"scope,omitempty"`
-	SessionID            string           `json:"sessionId,omitempty"`
-	SkillBindings        []map[string]any `json:"skillBindings,omitempty"`
-	SkillIDs             []string         `json:"skillIds,omitempty"`
-	Status               string           `json:"status"`
-	TimeoutSeconds       int              `json:"timeoutSeconds"`
-	ToolBindings         []map[string]any `json:"toolBindings,omitempty"`
-	Toolset              map[string]any   `json:"toolset,omitempty"`
-	AdditionalProperties map[string]any   `json:"-"`
+	AnalysisArtifacts    []map[string]any  `json:"analysisArtifacts,omitempty"`
+	CallbackToken        string            `json:"callbackToken"`
+	CapabilityID         string            `json:"capabilityId"`
+	ID                   string            `json:"id"`
+	Input                map[string]any    `json:"input,omitempty"`
+	Output               map[string]any    `json:"output,omitempty"`
+	ProviderID           string            `json:"providerId"`
+	ProviderKind         string            `json:"providerKind"`
+	Scope                map[string]any    `json:"scope,omitempty"`
+	SecretLease          *SecretLeaseGrant `json:"secretLease,omitempty"`
+	SessionID            string            `json:"sessionId,omitempty"`
+	SkillBindings        []map[string]any  `json:"skillBindings,omitempty"`
+	SkillIDs             []string          `json:"skillIds,omitempty"`
+	Status               string            `json:"status"`
+	TimeoutSeconds       int               `json:"timeoutSeconds"`
+	ToolBindings         []map[string]any  `json:"toolBindings,omitempty"`
+	Toolset              map[string]any    `json:"toolset,omitempty"`
+	AdditionalProperties map[string]any    `json:"-"`
 }
 
 // AgentRunCallbackRequest defines model for AgentRunCallbackRequest.
@@ -6926,37 +7197,38 @@ type ApprovalDecisionTrace struct {
 
 // ApprovalRequest defines model for ApprovalRequest.
 type ApprovalRequest struct {
-	ActorID           string         `json:"actorId"`
-	ActorName         string         `json:"actorName,omitempty"`
-	ActorRoles        []string       `json:"actorRoles,omitempty"`
-	ActorTeams        []string       `json:"actorTeams,omitempty"`
-	ActorType         string         `json:"actorType"`
-	AIClientID        string         `json:"aiClientId,omitempty"`
-	AIClientName      string         `json:"aiClientName,omitempty"`
-	ApprovalPolicyRef string         `json:"approvalPolicyRef,omitempty"`
-	ApprovalTrace     *ApprovalTrace `json:"approvalTrace,omitempty"`
-	CreatedAt         time.Time      `json:"createdAt"`
-	DecidedAt         *time.Time     `json:"decidedAt,omitempty"`
-	DecidedBy         string         `json:"decidedBy,omitempty"`
-	DecidedByName     string         `json:"decidedByName,omitempty"`
-	DecisionComment   string         `json:"decisionComment,omitempty"`
-	ExpiresAt         *time.Time     `json:"expiresAt,omitempty"`
-	ID                string         `json:"id"`
-	Output            AnyValue       `json:"output,omitempty"`
-	PolicyID          string         `json:"policyId,omitempty"`
-	RelatedIDs        map[string]any `json:"relatedIds,omitempty"`
-	RequestID         string         `json:"requestId,omitempty"`
-	RequiresApproval  bool           `json:"requiresApproval"`
-	ResourceScope     map[string]any `json:"resourceScope,omitempty"`
-	RiskLevel         RiskLevel      `json:"riskLevel"`
-	SkillID           string         `json:"skillId,omitempty"`
-	SourceIP          string         `json:"sourceIp,omitempty"`
-	Status            string         `json:"status"`
-	Strategy          string         `json:"strategy"`
-	Summary           string         `json:"summary"`
-	ToolInput         map[string]any `json:"toolInput,omitempty"`
-	ToolName          string         `json:"toolName"`
-	UpdatedAt         time.Time      `json:"updatedAt"`
+	ActorID           string              `json:"actorId"`
+	ActorName         string              `json:"actorName,omitempty"`
+	ActorRoles        []string            `json:"actorRoles,omitempty"`
+	ActorTeams        []string            `json:"actorTeams,omitempty"`
+	ActorType         string              `json:"actorType"`
+	AIClientID        string              `json:"aiClientId,omitempty"`
+	AIClientName      string              `json:"aiClientName,omitempty"`
+	ApprovalPolicyRef string              `json:"approvalPolicyRef,omitempty"`
+	ApprovalTrace     *ApprovalTrace      `json:"approvalTrace,omitempty"`
+	CreatedAt         time.Time           `json:"createdAt"`
+	DecidedAt         *time.Time          `json:"decidedAt,omitempty"`
+	DecidedBy         string              `json:"decidedBy,omitempty"`
+	DecidedByName     string              `json:"decidedByName,omitempty"`
+	DecisionComment   string              `json:"decisionComment,omitempty"`
+	ExpiresAt         *time.Time          `json:"expiresAt,omitempty"`
+	ID                string              `json:"id"`
+	Output            AnyValue            `json:"output,omitempty"`
+	PolicyID          string              `json:"policyId,omitempty"`
+	RelatedIDs        map[string]any      `json:"relatedIds,omitempty"`
+	RequestID         string              `json:"requestId,omitempty"`
+	RequiresApproval  bool                `json:"requiresApproval"`
+	ResourceScope     map[string]any      `json:"resourceScope,omitempty"`
+	RiskLevel         RiskLevel           `json:"riskLevel"`
+	SecretRefs        *SecretReferenceMap `json:"secretRefs,omitempty"`
+	SkillID           string              `json:"skillId,omitempty"`
+	SourceIP          string              `json:"sourceIp,omitempty"`
+	Status            string              `json:"status"`
+	Strategy          string              `json:"strategy"`
+	Summary           string              `json:"summary"`
+	ToolInput         map[string]any      `json:"toolInput,omitempty"`
+	ToolName          string              `json:"toolName"`
+	UpdatedAt         time.Time           `json:"updatedAt"`
 }
 
 // ApprovalRequestListEnvelope defines model for ApprovalRequestListEnvelope.
@@ -8222,6 +8494,39 @@ type DockerPayloadValue1 = []DockerPayloadScalarValue
 // DockerPayloadValue2 defines model for .
 type DockerPayloadValue2 map[string]DockerPayloadScalarValue
 
+// DockerProjectDeployInput defines model for DockerProjectDeployInput.
+type DockerProjectDeployInput struct {
+	Action DockerProjectDeployInputAction `json:"action,omitempty"`
+}
+
+// DockerProjectDeployInputAction defines model for DockerProjectDeployInput.Action.
+type DockerProjectDeployInputAction string
+
+// DockerQuickCreateHostInput defines model for DockerQuickCreateHostInput.
+type DockerQuickCreateHostInput struct {
+	Architecture       string `json:"architecture,omitempty"`
+	AvailablePortEnd   int    `json:"availablePortEnd,omitempty"`
+	AvailablePortStart int    `json:"availablePortStart,omitempty"`
+
+	// CloudInit Sensitive bootstrap content. It is never returned by plan or audit responses.
+	CloudInit                  string                        `json:"cloudInit,omitempty"`
+	Config                     map[string]DockerPayloadValue `json:"config,omitempty"`
+	CPUCoreCount               int                           `json:"cpuCoreCount,omitempty"`
+	DiskBytes                  int                           `json:"diskBytes,omitempty"`
+	Environment                string                        `json:"environment,omitempty"`
+	FlavorID                   string                        `json:"flavorId,omitempty"`
+	ImageID                    string                        `json:"imageId,omitempty"`
+	Labels                     map[string]DockerPayloadValue `json:"labels,omitempty"`
+	MemoryBytes                int                           `json:"memoryBytes,omitempty"`
+	Name                       string                        `json:"name"`
+	Network                    string                        `json:"network,omitempty"`
+	Owner                      string                        `json:"owner,omitempty"`
+	Team                       string                        `json:"team,omitempty"`
+	TTLSeconds                 int                           `json:"ttlSeconds,omitempty"`
+	VirtualizationConnectionID string                        `json:"virtualizationConnectionId,omitempty"`
+	VMTemplateID               string                        `json:"vmTemplateId,omitempty"`
+}
+
 // ErrorEnvelope defines model for ErrorEnvelope.
 type ErrorEnvelope struct {
 	Error struct {
@@ -8553,6 +8858,7 @@ type ExecutionTask struct {
 	Result                   map[string]any      `json:"result,omitempty"`
 	RuntimeClusterID         string              `json:"runtimeClusterId,omitempty"`
 	RuntimeEndpoint          string              `json:"runtimeEndpoint,omitempty"`
+	SecretLease              *SecretLeaseGrant   `json:"secretLease,omitempty"`
 	StartedAt                *time.Time          `json:"startedAt,omitempty"`
 	Status                   string              `json:"status"`
 	StopTransport            string              `json:"stopTransport,omitempty"`
@@ -10424,9 +10730,11 @@ type LogQuery struct {
 	Selector       *LogSourceSelector `json:"selector,omitempty"`
 	Severities     []string           `json:"severities,omitempty"`
 	SourceMode     LogSourceMode      `json:"sourceMode,omitempty"`
+	SpanID         string             `json:"spanId,omitempty"`
 	Tail           int                `json:"tail,omitempty"`
 	Text           string             `json:"text,omitempty"`
 	To             *time.Time         `json:"to,omitempty"`
+	TraceID        string             `json:"traceId,omitempty"`
 }
 
 // LogRuntimeOptions defines model for LogRuntimeOptions.
@@ -10948,6 +11256,7 @@ type ManifestExecutionTask struct {
 	Result                   *ManifestExecutionTaskResult `json:"result,omitempty"`
 	RuntimeClusterID         string                       `json:"runtimeClusterId,omitempty"`
 	RuntimeEndpoint          string                       `json:"runtimeEndpoint,omitempty"`
+	SecretLease              *SecretLeaseGrant            `json:"secretLease,omitempty"`
 	StartedAt                *time.Time                   `json:"startedAt,omitempty"`
 	Status                   string                       `json:"status"`
 	StopTransport            string                       `json:"stopTransport,omitempty"`
@@ -11414,11 +11723,14 @@ type ObservabilityDataSource struct {
 	CreatedAt   time.Time                          `json:"createdAt"`
 
 	// CredentialKeys Names of configured credentials. Credential values are never returned.
-	CredentialKeys    []ObservabilityDataSourceCredentialKeys `json:"credentialKeys"`
-	Enabled           bool                                    `json:"enabled"`
-	ID                string                                  `json:"id"`
-	LastValidatedAt   *time.Time                              `json:"lastValidatedAt,omitempty"`
-	Name              string                                  `json:"name"`
+	CredentialKeys  []ObservabilityDataSourceCredentialKeys `json:"credentialKeys"`
+	Enabled         bool                                    `json:"enabled"`
+	ID              string                                  `json:"id"`
+	LastValidatedAt *time.Time                              `json:"lastValidatedAt,omitempty"`
+	Name            string                                  `json:"name"`
+
+	// ProviderKey Present when backendType is provider.
+	ProviderKey       string                                  `json:"providerKey,omitempty"`
 	QueryBudget       ObservabilityLogQueryBudget             `json:"queryBudget"`
 	RedactionPolicy   ObservabilityLogRedactionPolicy         `json:"redactionPolicy"`
 	Scope             ObservabilityDataSourceScope            `json:"scope"`
@@ -11446,6 +11758,7 @@ type ObservabilityDataSourceInput struct {
 	Credentials         []SystemIntegrationCredentialInput                `json:"credentials,omitempty"`
 	Enabled             bool                                              `json:"enabled"`
 	Name                string                                            `json:"name"`
+	ProviderKey         string                                            `json:"providerKey,omitempty"`
 	QueryBudget         *ObservabilityLogQueryBudget                      `json:"queryBudget,omitempty"`
 	RedactionPolicy     *ObservabilityLogRedactionPolicy                  `json:"redactionPolicy,omitempty"`
 	Scope               *ObservabilityDataSourceScope                     `json:"scope,omitempty"`
@@ -11470,20 +11783,21 @@ type ObservabilityDataSourceValidationStatus string
 
 // ObservabilityLogDataSourceConfig defines model for ObservabilityLogDataSourceConfig.
 type ObservabilityLogDataSourceConfig struct {
-	ClusterField   string                     `json:"clusterField,omitempty"`
-	ContainerField string                     `json:"containerField,omitempty"`
-	Endpoint       string                     `json:"endpoint"`
-	Index          string                     `json:"index,omitempty"`
-	LabelKeys      *ObservabilityLogLabelKeys `json:"labelKeys,omitempty"`
-	MessageField   string                     `json:"messageField,omitempty"`
-	NamespaceField string                     `json:"namespaceField,omitempty"`
-	PodField       string                     `json:"podField,omitempty"`
-	ServiceField   string                     `json:"serviceField,omitempty"`
-	SeverityField  string                     `json:"severityField,omitempty"`
-	Table          string                     `json:"table,omitempty"`
-	TenantID       string                     `json:"tenantId,omitempty"`
-	TimestampField string                     `json:"timestampField,omitempty"`
-	WorkloadField  string                     `json:"workloadField,omitempty"`
+	ClusterField   string                                `json:"clusterField,omitempty"`
+	Configuration  []SystemIntegrationConfigurationField `json:"configuration,omitempty"`
+	ContainerField string                                `json:"containerField,omitempty"`
+	Endpoint       string                                `json:"endpoint"`
+	Index          string                                `json:"index,omitempty"`
+	LabelKeys      *ObservabilityLogLabelKeys            `json:"labelKeys,omitempty"`
+	MessageField   string                                `json:"messageField,omitempty"`
+	NamespaceField string                                `json:"namespaceField,omitempty"`
+	PodField       string                                `json:"podField,omitempty"`
+	ServiceField   string                                `json:"serviceField,omitempty"`
+	SeverityField  string                                `json:"severityField,omitempty"`
+	Table          string                                `json:"table,omitempty"`
+	TenantID       string                                `json:"tenantId,omitempty"`
+	TimestampField string                                `json:"timestampField,omitempty"`
+	WorkloadField  string                                `json:"workloadField,omitempty"`
 }
 
 // ObservabilityLogLabelKeys defines model for ObservabilityLogLabelKeys.
@@ -11507,6 +11821,130 @@ type ObservabilityLogQueryBudget struct {
 // ObservabilityLogRedactionPolicy defines model for ObservabilityLogRedactionPolicy.
 type ObservabilityLogRedactionPolicy struct {
 	DropAttributeKeys []string `json:"dropAttributeKeys,omitempty"`
+}
+
+// ObservabilityMetricKey defines model for ObservabilityMetricKey.
+type ObservabilityMetricKey string
+
+// ObservabilityMetricPoint defines model for ObservabilityMetricPoint.
+type ObservabilityMetricPoint struct {
+	Timestamp time.Time `json:"timestamp"`
+	Value     float64   `json:"value"`
+}
+
+// ObservabilityMetricQueryEnvelope defines model for ObservabilityMetricQueryEnvelope.
+type ObservabilityMetricQueryEnvelope struct {
+	Data ObservabilityMetricQueryResult `json:"data"`
+}
+
+// ObservabilityMetricQueryInput defines model for ObservabilityMetricQueryInput.
+type ObservabilityMetricQueryInput struct {
+	DataSourceID string                   `json:"dataSourceId,omitempty"`
+	MetricKey    ObservabilityMetricKey   `json:"metricKey"`
+	Scope        *ObservabilityQueryScope `json:"scope,omitempty"`
+	StepSeconds  int                      `json:"stepSeconds,omitempty"`
+	TimeFrom     time.Time                `json:"timeFrom"`
+	TimeTo       time.Time                `json:"timeTo"`
+}
+
+// ObservabilityMetricQueryResult defines model for ObservabilityMetricQueryResult.
+type ObservabilityMetricQueryResult struct {
+	BackendType  ObservabilityMetricQueryResultBackendType `json:"backendType"`
+	DataSourceID string                                    `json:"dataSourceId"`
+	Series       []ObservabilityMetricSeries               `json:"series"`
+}
+
+// ObservabilityMetricQueryResultBackendType defines model for ObservabilityMetricQueryResult.BackendType.
+type ObservabilityMetricQueryResultBackendType string
+
+// ObservabilityMetricSeries defines model for ObservabilityMetricSeries.
+type ObservabilityMetricSeries struct {
+	Key    string                     `json:"key"`
+	Label  string                     `json:"label"`
+	Latest float64                    `json:"latest"`
+	Points []ObservabilityMetricPoint `json:"points"`
+	Unit   string                     `json:"unit,omitempty"`
+}
+
+// ObservabilityProviderDefinition defines model for ObservabilityProviderDefinition.
+type ObservabilityProviderDefinition struct {
+	BuiltIn         bool     `json:"builtIn"`
+	Capabilities    []string `json:"capabilities"`
+	ConfigSchemaRef string   `json:"configSchemaRef,omitempty"`
+	Description     string   `json:"description,omitempty"`
+	DisplayName     string   `json:"displayName"`
+	PluginID        string   `json:"pluginId,omitempty"`
+	ProtocolVersion string   `json:"protocolVersion"`
+
+	// ProviderKey Required when backendType is provider.
+	ProviderKey  string                           `json:"providerKey"`
+	RuntimeMode  ObservabilityProviderRuntimeMode `json:"runtimeMode"`
+	Signals      []ObservabilityProviderSignal    `json:"signals"`
+	Status       ObservabilityProviderStatus      `json:"status"`
+	StatusReason string                           `json:"statusReason,omitempty"`
+}
+
+// ObservabilityProviderListEnvelope defines model for ObservabilityProviderListEnvelope.
+type ObservabilityProviderListEnvelope struct {
+	Items []ObservabilityProviderDefinition `json:"items"`
+}
+
+// ObservabilityProviderRuntimeMode defines model for ObservabilityProviderRuntimeMode.
+type ObservabilityProviderRuntimeMode string
+
+// ObservabilityProviderSignal defines model for ObservabilityProviderSignal.
+type ObservabilityProviderSignal string
+
+// ObservabilityProviderStatus defines model for ObservabilityProviderStatus.
+type ObservabilityProviderStatus string
+
+// ObservabilityQueryScope defines model for ObservabilityQueryScope.
+type ObservabilityQueryScope struct {
+	ClusterID string `json:"clusterId,omitempty"`
+	Namespace string `json:"namespace,omitempty"`
+	Service   string `json:"service,omitempty"`
+	Workload  string `json:"workload,omitempty"`
+}
+
+// ObservabilityTraceQueryEnvelope defines model for ObservabilityTraceQueryEnvelope.
+type ObservabilityTraceQueryEnvelope struct {
+	Data ObservabilityTraceQueryResult `json:"data"`
+}
+
+// ObservabilityTraceQueryInput defines model for ObservabilityTraceQueryInput.
+type ObservabilityTraceQueryInput struct {
+	DataSourceID  string                   `json:"dataSourceId,omitempty"`
+	Limit         int                      `json:"limit,omitempty"`
+	MinDurationMs int                      `json:"minDurationMs,omitempty"`
+	Scope         *ObservabilityQueryScope `json:"scope,omitempty"`
+	TimeFrom      time.Time                `json:"timeFrom"`
+	TimeTo        time.Time                `json:"timeTo"`
+	TraceID       string                   `json:"traceId,omitempty"`
+}
+
+// ObservabilityTraceQueryResult defines model for ObservabilityTraceQueryResult.
+type ObservabilityTraceQueryResult struct {
+	BackendType  ObservabilityTraceQueryResultBackendType `json:"backendType"`
+	DataSourceID string                                   `json:"dataSourceId"`
+	Services     []string                                 `json:"services"`
+	Spans        []ObservabilityTraceSpan                 `json:"spans"`
+	Summary      string                                   `json:"summary"`
+}
+
+// ObservabilityTraceQueryResultBackendType defines model for ObservabilityTraceQueryResult.BackendType.
+type ObservabilityTraceQueryResultBackendType string
+
+// ObservabilityTraceSpan defines model for ObservabilityTraceSpan.
+type ObservabilityTraceSpan struct {
+	DurationMs   float64           `json:"durationMs"`
+	Error        bool              `json:"error"`
+	Operation    string            `json:"operation"`
+	ParentSpanID string            `json:"parentSpanId,omitempty"`
+	Service      string            `json:"service"`
+	SpanID       string            `json:"spanId"`
+	StartTime    time.Time         `json:"startTime"`
+	Tags         map[string]string `json:"tags"`
+	TraceID      string            `json:"traceId"`
 }
 
 // OpenAIAudioSpeechRequest defines model for OpenAIAudioSpeechRequest.
@@ -11670,6 +12108,31 @@ type OperationStatus struct {
 	Status string `json:"status"`
 }
 
+// OperationalPlan defines model for OperationalPlan.
+type OperationalPlan struct {
+	Capability       string                  `json:"capability"`
+	Changes          []OperationalPlanChange `json:"changes"`
+	InputHash        string                  `json:"inputHash,omitempty"`
+	Ready            bool                    `json:"ready"`
+	RequiresApproval bool                    `json:"requiresApproval"`
+	RiskLevel        RiskLevel               `json:"riskLevel"`
+	Target           string                  `json:"target"`
+	Warnings         []string                `json:"warnings"`
+}
+
+// OperationalPlanChange defines model for OperationalPlanChange.
+type OperationalPlanChange struct {
+	Action                  string `json:"action"`
+	Resource                string `json:"resource"`
+	SensitiveValuesRedacted bool   `json:"sensitiveValuesRedacted,omitempty"`
+	Summary                 string `json:"summary"`
+}
+
+// OperationalPlanEnvelope defines model for OperationalPlanEnvelope.
+type OperationalPlanEnvelope struct {
+	Data OperationalPlan `json:"data"`
+}
+
 // PasswordLoginRequest defines model for PasswordLoginRequest.
 type PasswordLoginRequest struct {
 	Login    string `json:"login"`
@@ -11829,16 +12292,17 @@ type PluginExtensionContribution struct {
 
 // PluginExtensionPoints defines model for PluginExtensionPoints.
 type PluginExtensionPoints struct {
-	AI       *PluginAIExtensions       `json:"ai,omitempty"`
-	Alerts   *PluginAlertExtensions    `json:"alerts,omitempty"`
-	Auth     *PluginAuthExtensions     `json:"auth,omitempty"`
-	Compute  *PluginComputeExtensions  `json:"compute,omitempty"`
-	Delivery *PluginDeliveryExtensions `json:"delivery,omitempty"`
-	Gateway  *PluginGatewayExtensions  `json:"gateway,omitempty"`
-	Identity *PluginIdentityExtensions `json:"identity,omitempty"`
-	Metrics  *PluginMetricsExtensions  `json:"metrics,omitempty"`
-	Resource *PluginResourceExtensions `json:"resource,omitempty"`
-	UI       *PluginUIExtensions       `json:"ui,omitempty"`
+	AI            *PluginAIExtensions            `json:"ai,omitempty"`
+	Alerts        *PluginAlertExtensions         `json:"alerts,omitempty"`
+	Auth          *PluginAuthExtensions          `json:"auth,omitempty"`
+	Compute       *PluginComputeExtensions       `json:"compute,omitempty"`
+	Delivery      *PluginDeliveryExtensions      `json:"delivery,omitempty"`
+	Gateway       *PluginGatewayExtensions       `json:"gateway,omitempty"`
+	Identity      *PluginIdentityExtensions      `json:"identity,omitempty"`
+	Metrics       *PluginMetricsExtensions       `json:"metrics,omitempty"`
+	Observability *PluginObservabilityExtensions `json:"observability,omitempty"`
+	Resource      *PluginResourceExtensions      `json:"resource,omitempty"`
+	UI            *PluginUIExtensions            `json:"ui,omitempty"`
 }
 
 // PluginGatewayExtensions defines model for PluginGatewayExtensions.
@@ -11910,6 +12374,26 @@ type PluginMetricsExtensions struct {
 	Panels      []PluginExtensionContribution `json:"panels,omitempty"`
 	Providers   []PluginExtensionContribution `json:"providers,omitempty"`
 }
+
+// PluginObservabilityExtensions defines model for PluginObservabilityExtensions.
+type PluginObservabilityExtensions struct {
+	Providers []PluginObservabilityProvider `json:"providers,omitempty"`
+}
+
+// PluginObservabilityProvider defines model for PluginObservabilityProvider.
+type PluginObservabilityProvider struct {
+	ActionRefs      map[string]string                    `json:"actionRefs,omitempty"`
+	Capabilities    []string                             `json:"capabilities"`
+	ConfigSchemaRef string                               `json:"configSchemaRef,omitempty"`
+	Description     string                               `json:"description,omitempty"`
+	DisplayName     string                               `json:"displayName"`
+	ProtocolVersion string                               `json:"protocolVersion"`
+	ProviderKey     string                               `json:"providerKey"`
+	Signals         []PluginObservabilityProviderSignals `json:"signals"`
+}
+
+// PluginObservabilityProviderSignals defines model for PluginObservabilityProvider.Signals.
+type PluginObservabilityProviderSignals string
 
 // PluginPermissionRequest defines model for PluginPermissionRequest.
 type PluginPermissionRequest struct {
@@ -12565,6 +13049,116 @@ type SAMLResponseForm struct {
 	SAMLResponse string `json:"SAMLResponse,omitempty"`
 }
 
+// SecretBinding defines model for SecretBinding.
+type SecretBinding struct {
+	TargetRef  string                  `json:"targetRef"`
+	TargetType SecretBindingTargetType `json:"targetType"`
+}
+
+// SecretBindingTargetType defines model for SecretBinding.TargetType.
+type SecretBindingTargetType string
+
+// SecretCreateRequest defines model for SecretCreateRequest.
+type SecretCreateRequest struct {
+	Bindings    []SecretBinding `json:"bindings,omitempty"`
+	Description string          `json:"description,omitempty"`
+	Name        string          `json:"name"`
+	ScopeID     string          `json:"scopeId"`
+	ScopeType   SecretScopeType `json:"scopeType"`
+	Value       string          `json:"value,omitempty"`
+}
+
+// SecretLeaseGrant defines model for SecretLeaseGrant.
+type SecretLeaseGrant struct {
+	ExpiresAt time.Time `json:"expiresAt"`
+	ID        string    `json:"id"`
+	Token     string    `json:"token,omitempty"`
+}
+
+// SecretLeaseRedemption defines model for SecretLeaseRedemption.
+type SecretLeaseRedemption struct {
+	ExpiresAt time.Time `json:"expiresAt"`
+	LeaseID   string    `json:"leaseId"`
+
+	// Values Plaintext values returned exactly once to the bound runner.
+	Values map[string]string `json:"values"`
+}
+
+// SecretLeaseRedemptionEnvelope defines model for SecretLeaseRedemptionEnvelope.
+type SecretLeaseRedemptionEnvelope struct {
+	Data SecretLeaseRedemption `json:"data"`
+}
+
+// SecretMetadata defines model for SecretMetadata.
+type SecretMetadata struct {
+	Bindings       []SecretBinding `json:"bindings"`
+	CreatedAt      time.Time       `json:"createdAt"`
+	CreatedBy      string          `json:"createdBy"`
+	CurrentVersion int             `json:"currentVersion"`
+	Description    string          `json:"description,omitempty"`
+	ID             string          `json:"id"`
+	Name           string          `json:"name"`
+	ScopeID        string          `json:"scopeId"`
+	ScopeType      SecretScopeType `json:"scopeType"`
+	Status         SecretStatus    `json:"status"`
+	UpdatedAt      time.Time       `json:"updatedAt"`
+}
+
+// SecretMetadataEnvelope defines model for SecretMetadataEnvelope.
+type SecretMetadataEnvelope struct {
+	Data SecretMetadata `json:"data"`
+}
+
+// SecretMetadataListEnvelope defines model for SecretMetadataListEnvelope.
+type SecretMetadataListEnvelope struct {
+	Items []SecretMetadata `json:"items"`
+}
+
+// SecretReferenceMap defines model for SecretReferenceMap.
+type SecretReferenceMap map[string]string
+
+// SecretRotateRequest defines model for SecretRotateRequest.
+type SecretRotateRequest struct {
+	Value string `json:"value,omitempty"`
+}
+
+// SecretScopeType defines model for SecretScopeType.
+type SecretScopeType string
+
+// SecretStatus defines model for SecretStatus.
+type SecretStatus string
+
+// SecretUpdateRequest defines model for SecretUpdateRequest.
+type SecretUpdateRequest struct {
+	Bindings    []SecretBinding `json:"bindings,omitempty"`
+	Description string          `json:"description,omitempty"`
+	Name        string          `json:"name,omitempty"`
+	Status      SecretStatus    `json:"status,omitempty"`
+}
+
+// SecretVersionMetadata defines model for SecretVersionMetadata.
+type SecretVersionMetadata struct {
+	CreatedAt time.Time           `json:"createdAt"`
+	CreatedBy string              `json:"createdBy"`
+	RevokedAt *time.Time          `json:"revokedAt,omitempty"`
+	SecretID  string              `json:"secretId"`
+	Status    SecretVersionStatus `json:"status"`
+	Version   int                 `json:"version"`
+}
+
+// SecretVersionMetadataEnvelope defines model for SecretVersionMetadataEnvelope.
+type SecretVersionMetadataEnvelope struct {
+	Data SecretVersionMetadata `json:"data"`
+}
+
+// SecretVersionMetadataListEnvelope defines model for SecretVersionMetadataListEnvelope.
+type SecretVersionMetadataListEnvelope struct {
+	Items []SecretVersionMetadata `json:"items"`
+}
+
+// SecretVersionStatus defines model for SecretVersionStatus.
+type SecretVersionStatus string
+
 // ServiceAccount defines model for ServiceAccount.
 type ServiceAccount struct {
 	CreatedAt     time.Time      `json:"createdAt"`
@@ -12886,12 +13480,13 @@ type ToolCapability struct {
 
 // ToolInvocationRequest defines model for ToolInvocationRequest.
 type ToolInvocationRequest struct {
-	AIClientID   string         `json:"aiClientId,omitempty"`
-	AIClientName string         `json:"aiClientName,omitempty"`
-	Input        map[string]any `json:"input,omitempty"`
-	RequestID    string         `json:"requestId,omitempty"`
-	SkillID      string         `json:"skillId,omitempty"`
-	ToolName     string         `json:"toolName,omitempty"`
+	AIClientID   string              `json:"aiClientId,omitempty"`
+	AIClientName string              `json:"aiClientName,omitempty"`
+	Input        map[string]any      `json:"input,omitempty"`
+	RequestID    string              `json:"requestId,omitempty"`
+	SecretRefs   *SecretReferenceMap `json:"secretRefs,omitempty"`
+	SkillID      string              `json:"skillId,omitempty"`
+	ToolName     string              `json:"toolName,omitempty"`
 }
 
 // ToolInvocationResult defines model for ToolInvocationResult.
@@ -12942,6 +13537,92 @@ type UserProfile struct {
 // UserProfileEnvelope defines model for UserProfileEnvelope.
 type UserProfileEnvelope struct {
 	Data UserProfile `json:"data"`
+}
+
+// VirtualMachineCreateInput defines model for VirtualMachineCreateInput.
+type VirtualMachineCreateInput struct {
+	Architecture string `json:"architecture,omitempty"`
+	BootImageID  string `json:"bootImageId,omitempty"`
+
+	// CloudInit Sensitive bootstrap content. It is accepted for backward compatibility and never returned by plan or audit responses.
+	CloudInit    string                        `json:"cloudInit,omitempty"`
+	ConnectionID string                        `json:"connectionId"`
+	CPU          int                           `json:"cpu,omitempty"`
+	DiskGiB      int                           `json:"diskGiB,omitempty"`
+	Disks        []VirtualMachineDiskChange    `json:"disks,omitempty"`
+	FlavorID     string                        `json:"flavorId,omitempty"`
+	ImageID      string                        `json:"imageId,omitempty"`
+	MemoryMiB    int                           `json:"memoryMiB,omitempty"`
+	Name         string                        `json:"name"`
+	Namespace    string                        `json:"namespace,omitempty"`
+	Network      string                        `json:"network,omitempty"`
+	Networks     []VirtualMachineNetworkChange `json:"networks,omitempty"`
+	Node         string                        `json:"node,omitempty"`
+
+	// ProviderParams Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+	ProviderParams   *NativeProviderObject `json:"providerParams,omitempty"`
+	SourceID         string                `json:"sourceId,omitempty"`
+	SourceMode       string                `json:"sourceMode,omitempty"`
+	StartAfterCreate bool                  `json:"startAfterCreate,omitempty"`
+	TemplateID       string                `json:"templateId,omitempty"`
+}
+
+// VirtualMachineDiskChange defines model for VirtualMachineDiskChange.
+type VirtualMachineDiskChange struct {
+	Add     bool   `json:"add,omitempty"`
+	Bus     string `json:"bus,omitempty"`
+	ID      string `json:"id,omitempty"`
+	Name    string `json:"name,omitempty"`
+	SizeGiB int    `json:"sizeGiB,omitempty"`
+	Storage string `json:"storage,omitempty"`
+}
+
+// VirtualMachineNetworkChange defines model for VirtualMachineNetworkChange.
+type VirtualMachineNetworkChange struct {
+	Add     bool   `json:"add,omitempty"`
+	Binding string `json:"binding,omitempty"`
+	ID      string `json:"id,omitempty"`
+	Model   string `json:"model,omitempty"`
+	Name    string `json:"name,omitempty"`
+	Network string `json:"network,omitempty"`
+	Remove  bool   `json:"remove,omitempty"`
+}
+
+// VirtualizationOperation defines model for VirtualizationOperation.
+type VirtualizationOperation struct {
+	Action          string     `json:"action,omitempty"`
+	Actor           string     `json:"actor,omitempty"`
+	AllowedActions  []string   `json:"allowedActions,omitempty"`
+	AssetType       string     `json:"assetType,omitempty"`
+	CompletedAt     *time.Time `json:"completedAt,omitempty"`
+	ConnectionID    string     `json:"connectionId,omitempty"`
+	CreatedAt       *time.Time `json:"createdAt,omitempty"`
+	ID              string     `json:"id"`
+	LastHeartbeatAt *time.Time `json:"lastHeartbeatAt,omitempty"`
+	Message         string     `json:"message,omitempty"`
+
+	// OperationState Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+	OperationState *NativeProviderObject `json:"operationState,omitempty"`
+	OperationType  string                `json:"operationType,omitempty"`
+
+	// Payload Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+	Payload  *NativeProviderObject `json:"payload,omitempty"`
+	Provider string                `json:"provider,omitempty"`
+
+	// Result Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+	Result     *NativeProviderObject `json:"result,omitempty"`
+	StartedAt  *time.Time            `json:"startedAt,omitempty"`
+	Status     string                `json:"status"`
+	TargetName string                `json:"targetName,omitempty"`
+	TargetType string                `json:"targetType,omitempty"`
+	Type       string                `json:"type,omitempty"`
+	UpdatedAt  *time.Time            `json:"updatedAt,omitempty"`
+	VMID       string                `json:"vmId,omitempty"`
+}
+
+// VirtualizationOperationEnvelope defines model for VirtualizationOperationEnvelope.
+type VirtualizationOperationEnvelope struct {
+	Data VirtualizationOperation `json:"data"`
 }
 
 // WorkbenchAgentStatusEvent defines model for WorkbenchAgentStatusEvent.
@@ -13515,6 +14196,21 @@ type SAMLLoginSourceID = string
 
 // SAMLRequest defines model for SAMLRequest.
 type SAMLRequest = string
+
+// SecretID defines model for SecretID.
+type SecretID = string
+
+// SecretLeaseAgentID defines model for SecretLeaseAgentID.
+type SecretLeaseAgentID = string
+
+// SecretLeaseID defines model for SecretLeaseID.
+type SecretLeaseID = string
+
+// SecretLeaseToken defines model for SecretLeaseToken.
+type SecretLeaseToken = string
+
+// SecretVersion defines model for SecretVersion.
+type SecretVersion = int
 
 // ServiceID defines model for ServiceID.
 type ServiceID = string
@@ -14283,6 +14979,16 @@ type ListReleaseBundlesParams struct {
 	Limit                    int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
+// QuickCreateDockerHostParams defines parameters for QuickCreateDockerHost.
+type QuickCreateDockerHostParams struct {
+	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
+// DeployDockerProjectParams defines parameters for DeployDockerProject.
+type DeployDockerProjectParams struct {
+	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
 // ListGitLabBranchesParams defines parameters for ListGitLabBranches.
 type ListGitLabBranchesParams struct {
 	ProjectID GitLabProjectIDQuery `form:"projectId" json:"projectId"`
@@ -14335,10 +15041,25 @@ type ListRepositoriesParams struct {
 	Limit         int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
+// RedeemSecretLeaseParams defines parameters for RedeemSecretLease.
+type RedeemSecretLeaseParams struct {
+	// XSohaSecretLeaseToken One-time bearer secret bound to the claimed operation and runner.
+	XSohaSecretLeaseToken SecretLeaseToken `json:"X-Soha-Secret-Lease-Token"`
+
+	// XSohaAgentID Runner identity from the claim request; must match the lease binding.
+	XSohaAgentID SecretLeaseAgentID `json:"X-Soha-Agent-ID"`
+}
+
 // BeginSAMLIdentityProviderSSOParams defines parameters for BeginSAMLIdentityProviderSSO.
 type BeginSAMLIdentityProviderSSOParams struct {
 	SAMLRequest SAMLRequest `form:"SAMLRequest" json:"SAMLRequest"`
 	RelayState  RelayState  `form:"RelayState,omitempty" json:"RelayState,omitempty"`
+}
+
+// ListSecretsParams defines parameters for ListSecrets.
+type ListSecretsParams struct {
+	ScopeType SecretScopeType `form:"scopeType,omitempty" json:"scopeType,omitempty"`
+	ScopeID   string          `form:"scopeId,omitempty" json:"scopeId,omitempty"`
 }
 
 // ListSourceRepositoriesParams defines parameters for ListSourceRepositories.
@@ -14367,6 +15088,11 @@ type CompleteGitLabSystemIntegrationOAuthParams struct {
 	State            string `form:"state" json:"state"`
 	Error            string `form:"error,omitempty" json:"error,omitempty"`
 	ErrorDescription string `form:"error_description,omitempty" json:"error_description,omitempty"`
+}
+
+// CreateVirtualMachineParams defines parameters for CreateVirtualMachine.
+type CreateVirtualMachineParams struct {
+	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
 }
 
 // DecideAIGatewayApprovalRequestJSONRequestBody defines body for DecideAIGatewayApprovalRequest for application/json ContentType.
@@ -14729,11 +15455,23 @@ type CreateDeliveryPlanJSONRequestBody = DeliveryPlanInput
 // StartDockerContainerJSONRequestBody defines body for StartDockerContainer for application/json ContentType.
 type StartDockerContainerJSONRequestBody = DockerContainerStartInput
 
+// QuickCreateDockerHostJSONRequestBody defines body for QuickCreateDockerHost for application/json ContentType.
+type QuickCreateDockerHostJSONRequestBody = DockerQuickCreateHostInput
+
+// PlanDockerHostQuickCreateJSONRequestBody defines body for PlanDockerHostQuickCreate for application/json ContentType.
+type PlanDockerHostQuickCreateJSONRequestBody = DockerQuickCreateHostInput
+
 // RecordDockerOperationCallbackJSONRequestBody defines body for RecordDockerOperationCallback for application/json ContentType.
 type RecordDockerOperationCallbackJSONRequestBody = DockerOperationCallbackRequest
 
 // ClaimDockerOperationJSONRequestBody defines body for ClaimDockerOperation for application/json ContentType.
 type ClaimDockerOperationJSONRequestBody = DockerOperationClaimRequest
+
+// DeployDockerProjectJSONRequestBody defines body for DeployDockerProject for application/json ContentType.
+type DeployDockerProjectJSONRequestBody = DockerProjectDeployInput
+
+// PlanDockerProjectDeployJSONRequestBody defines body for PlanDockerProjectDeploy for application/json ContentType.
+type PlanDockerProjectDeployJSONRequestBody = DockerProjectDeployInput
 
 // QueryDockerProjectLogsJSONRequestBody defines body for QueryDockerProjectLogs for application/json ContentType.
 type QueryDockerProjectLogsJSONRequestBody = LogQuery
@@ -14816,6 +15554,12 @@ type CreateObservabilityDataSourceJSONRequestBody = ObservabilityDataSourceInput
 // UpdateObservabilityDataSourceJSONRequestBody defines body for UpdateObservabilityDataSource for application/json ContentType.
 type UpdateObservabilityDataSourceJSONRequestBody = ObservabilityDataSourceInput
 
+// QueryObservabilityMetricsJSONRequestBody defines body for QueryObservabilityMetrics for application/json ContentType.
+type QueryObservabilityMetricsJSONRequestBody = ObservabilityMetricQueryInput
+
+// QueryObservabilityTracesJSONRequestBody defines body for QueryObservabilityTraces for application/json ContentType.
+type QueryObservabilityTracesJSONRequestBody = ObservabilityTraceQueryInput
+
 // InstallPluginJSONRequestBody defines body for InstallPlugin for application/json ContentType.
 type InstallPluginJSONRequestBody = PluginInstallRequest
 
@@ -14833,6 +15577,15 @@ type UpdateRepositoryJSONRequestBody = RepositoryInput
 
 // PostSAMLIdentityProviderSSOFormdataRequestBody defines body for PostSAMLIdentityProviderSSO for application/x-www-form-urlencoded ContentType.
 type PostSAMLIdentityProviderSSOFormdataRequestBody = SAMLRequestForm
+
+// CreateSecretJSONRequestBody defines body for CreateSecret for application/json ContentType.
+type CreateSecretJSONRequestBody = SecretCreateRequest
+
+// UpdateSecretJSONRequestBody defines body for UpdateSecret for application/json ContentType.
+type UpdateSecretJSONRequestBody = SecretUpdateRequest
+
+// RotateSecretJSONRequestBody defines body for RotateSecret for application/json ContentType.
+type RotateSecretJSONRequestBody = SecretRotateRequest
 
 // UpdateAISkillsRegistryJSONRequestBody defines body for UpdateAISkillsRegistry for application/json ContentType.
 type UpdateAISkillsRegistryJSONRequestBody = UpdateAISkillsRequest
@@ -14854,6 +15607,12 @@ type CreateSystemIntegrationJSONRequestBody = SystemIntegrationCreateRequest
 
 // UpdateSystemIntegrationJSONRequestBody defines body for UpdateSystemIntegration for application/json ContentType.
 type UpdateSystemIntegrationJSONRequestBody = SystemIntegrationUpdateRequest
+
+// CreateVirtualMachineJSONRequestBody defines body for CreateVirtualMachine for application/json ContentType.
+type CreateVirtualMachineJSONRequestBody = VirtualMachineCreateInput
+
+// PlanVirtualMachineCreateJSONRequestBody defines body for PlanVirtualMachineCreate for application/json ContentType.
+type PlanVirtualMachineCreateJSONRequestBody = VirtualMachineCreateInput
 
 // CreateWorkflowTemplateJSONRequestBody defines body for CreateWorkflowTemplate for application/json ContentType.
 type CreateWorkflowTemplateJSONRequestBody = WorkflowTemplateInput
@@ -14956,6 +15715,14 @@ func (a *AgentRun) UnmarshalJSON(b []byte) error {
 			return fmt.Errorf("error reading 'scope': %w", err)
 		}
 		delete(object, "scope")
+	}
+
+	if raw, found := object["secretLease"]; found {
+		err = json.Unmarshal(raw, &a.SecretLease)
+		if err != nil {
+			return fmt.Errorf("error reading 'secretLease': %w", err)
+		}
+		delete(object, "secretLease")
 	}
 
 	if raw, found := object["sessionId"]; found {
@@ -15083,6 +15850,13 @@ func (a AgentRun) MarshalJSON() ([]byte, error) {
 		object["scope"], err = json.Marshal(a.Scope)
 		if err != nil {
 			return nil, fmt.Errorf("error marshaling 'scope': %w", err)
+		}
+	}
+
+	if a.SecretLease != nil {
+		object["secretLease"], err = json.Marshal(a.SecretLease)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'secretLease': %w", err)
 		}
 	}
 
@@ -16175,6 +16949,14 @@ func (a *ExecutionTask) UnmarshalJSON(b []byte) error {
 		delete(object, "runtimeEndpoint")
 	}
 
+	if raw, found := object["secretLease"]; found {
+		err = json.Unmarshal(raw, &a.SecretLease)
+		if err != nil {
+			return fmt.Errorf("error reading 'secretLease': %w", err)
+		}
+		delete(object, "secretLease")
+	}
+
 	if raw, found := object["startedAt"]; found {
 		err = json.Unmarshal(raw, &a.StartedAt)
 		if err != nil {
@@ -16369,6 +17151,13 @@ func (a ExecutionTask) MarshalJSON() ([]byte, error) {
 	object["runtimeEndpoint"], err = json.Marshal(a.RuntimeEndpoint)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling 'runtimeEndpoint': %w", err)
+	}
+
+	if a.SecretLease != nil {
+		object["secretLease"], err = json.Marshal(a.SecretLease)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'secretLease': %w", err)
+		}
 	}
 
 	if a.StartedAt != nil {
@@ -17018,6 +17807,14 @@ func (a *ManifestExecutionTask) UnmarshalJSON(b []byte) error {
 		delete(object, "runtimeEndpoint")
 	}
 
+	if raw, found := object["secretLease"]; found {
+		err = json.Unmarshal(raw, &a.SecretLease)
+		if err != nil {
+			return fmt.Errorf("error reading 'secretLease': %w", err)
+		}
+		delete(object, "secretLease")
+	}
+
 	if raw, found := object["startedAt"]; found {
 		err = json.Unmarshal(raw, &a.StartedAt)
 		if err != nil {
@@ -17210,6 +18007,13 @@ func (a ManifestExecutionTask) MarshalJSON() ([]byte, error) {
 	object["runtimeEndpoint"], err = json.Marshal(a.RuntimeEndpoint)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling 'runtimeEndpoint': %w", err)
+	}
+
+	if a.SecretLease != nil {
+		object["secretLease"], err = json.Marshal(a.SecretLease)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'secretLease': %w", err)
+		}
 	}
 
 	if a.StartedAt != nil {
