@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to recover
+        required: true
+        type: string
 
 jobs:
   verify:
@@ -84,6 +90,11 @@ jobs:
           go-version: "1.26.5"
           cache: true
       - run: npm ci
+      - name: Validate manual release tag
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          expected="v$(node -p 'require("./package.json").version')"
+          test "${{ inputs.tag }}" = "${expected}"
       - uses: actions/download-artifact@v4
         with:
           pattern: consumer-matrix-*
@@ -121,17 +132,17 @@ jobs:
       - name: Verify release artifacts
         run: npm run release:verify -- "${{ steps.artifacts.outputs.tarball }}"
       - name: Require npm publish credentials
-        if: startsWith(github.ref, 'refs/tags/v') && env.HAS_NPM_TOKEN != 'true'
+        if: (startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch') && env.HAS_NPM_TOKEN != 'true'
         run: |
           echo "NPM_TOKEN is required for contracts tag releases." >&2
           exit 1
       - name: Publish npm package
-        if: startsWith(github.ref, 'refs/tags/v') && env.HAS_NPM_TOKEN == 'true'
+        if: (startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch') && env.HAS_NPM_TOKEN == 'true'
         run: npm publish "${{ steps.artifacts.outputs.tarball }}" --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Verify published npm package and Go module tag
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
         run: |
           version="${{ steps.artifacts.outputs.version }}"
           for attempt in 1 2 3 4 5; do
@@ -148,6 +159,7 @@ jobs:
       - name: GitHub release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
           generate_release_notes: true
           files: |
             ${{ steps.artifacts.outputs.tarball }}
@@ -170,7 +182,7 @@ jobs:
           provenance_policy_name="$(basename "${{ steps.artifacts.outputs.provenance_policy }}")"
           provenance_policy_checksum_name="$(basename "${{ steps.artifacts.outputs.provenance_policy_checksum }}")"
           manifest_name="$(basename "${{ steps.artifacts.outputs.manifest }}")"
-          gh release download "${GITHUB_REF_NAME}" \
+          gh release download "${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}" \
             --pattern "${tarball_name}" \
             --pattern "${checksum_name}" \
             --pattern "${sbom_name}" \

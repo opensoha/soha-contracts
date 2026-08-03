@@ -4,6 +4,10 @@
   "private": false,
   "description": "Shared OpenSoha API, agent, MCP, skill, event, and auth contracts.",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opensoha/soha-contracts"
+  },
   "type": "module",
   "scripts": {
     "generate": "node scripts/generate-sdk.mjs",
