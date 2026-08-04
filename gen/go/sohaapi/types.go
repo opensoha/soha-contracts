@@ -13058,14 +13058,15 @@ type SecretBinding struct {
 // SecretBindingTargetType defines model for SecretBinding.TargetType.
 type SecretBindingTargetType string
 
-// SecretCreateRequest defines model for SecretCreateRequest.
+// SecretCreateRequest Exactly one of value or vaultKv2 must be provided.
 type SecretCreateRequest struct {
-	Bindings    []SecretBinding `json:"bindings,omitempty"`
-	Description string          `json:"description,omitempty"`
-	Name        string          `json:"name"`
-	ScopeID     string          `json:"scopeId"`
-	ScopeType   SecretScopeType `json:"scopeType"`
-	Value       string          `json:"value,omitempty"`
+	Bindings    []SecretBinding          `json:"bindings,omitempty"`
+	Description string                   `json:"description,omitempty"`
+	Name        string                   `json:"name"`
+	ScopeID     string                   `json:"scopeId"`
+	ScopeType   SecretScopeType          `json:"scopeType"`
+	Value       string                   `json:"value,omitempty"`
+	VaultKv2    *SecretVaultKV2Reference `json:"vaultKv2,omitempty"`
 }
 
 // SecretLeaseGrant defines model for SecretLeaseGrant.
@@ -13117,9 +13118,10 @@ type SecretMetadataListEnvelope struct {
 // SecretReferenceMap defines model for SecretReferenceMap.
 type SecretReferenceMap map[string]string
 
-// SecretRotateRequest defines model for SecretRotateRequest.
+// SecretRotateRequest Exactly one of value or vaultKv2 must be provided.
 type SecretRotateRequest struct {
-	Value string `json:"value,omitempty"`
+	Value    string                   `json:"value,omitempty"`
+	VaultKv2 *SecretVaultKV2Reference `json:"vaultKv2,omitempty"`
 }
 
 // SecretScopeType defines model for SecretScopeType.
@@ -13134,6 +13136,14 @@ type SecretUpdateRequest struct {
 	Description string          `json:"description,omitempty"`
 	Name        string          `json:"name,omitempty"`
 	Status      SecretStatus    `json:"status,omitempty"`
+}
+
+// SecretVaultKV2Reference defines model for SecretVaultKV2Reference.
+type SecretVaultKV2Reference struct {
+	Key     string `json:"key"`
+	Mount   string `json:"mount"`
+	Path    string `json:"path"`
+	Version int    `json:"version"`
 }
 
 // SecretVersionMetadata defines model for SecretVersionMetadata.

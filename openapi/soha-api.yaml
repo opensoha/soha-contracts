@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Soha API
-  version: 0.1.4
+  version: 0.1.5
   description: >
     Public OpenSoha core API contract. This first contract focuses on stable
     cross-repository boundaries: auth, health, runner-facing control-plane
@@ -18359,6 +18359,29 @@ components:
       additionalProperties:
         type: string
         pattern: "^soha://secrets/[A-Za-z0-9._-]+(?:/versions/[1-9][0-9]*)?$"
+    SecretVaultKV2Reference:
+      type: object
+      required: [mount, path, key, version]
+      properties:
+        mount:
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._-]*(?:/[A-Za-z0-9][A-Za-z0-9._-]*)*$"
+        path:
+          type: string
+          minLength: 1
+          maxLength: 1024
+          pattern: "^[A-Za-z0-9][A-Za-z0-9._-]*(?:/[A-Za-z0-9][A-Za-z0-9._-]*)*$"
+        key:
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: "^[^\\u0000\\r\\n]*\\S[^\\u0000\\r\\n]*$"
+        version:
+          type: integer
+          minimum: 1
+      additionalProperties: false
     SecretMetadata:
       type: object
       required: [id, name, scopeType, scopeId, status, currentVersion, bindings, createdBy, createdAt, updatedAt]
@@ -18393,7 +18416,15 @@ components:
       additionalProperties: false
     SecretCreateRequest:
       type: object
-      required: [name, value, scopeType, scopeId]
+      description: Exactly one of value or vaultKv2 must be provided.
+      required: [name, scopeType, scopeId]
+      if:
+        required: [value]
+      then:
+        not:
+          required: [vaultKv2]
+      else:
+        required: [vaultKv2]
       properties:
         name:
           type: string
@@ -18404,6 +18435,8 @@ components:
           minLength: 1
           maxLength: 1048576
           writeOnly: true
+        vaultKv2:
+          $ref: "#/components/schemas/SecretVaultKV2Reference"
         description:
           type: string
           maxLength: 1024
@@ -18440,13 +18473,22 @@ components:
       additionalProperties: false
     SecretRotateRequest:
       type: object
-      required: [value]
+      description: Exactly one of value or vaultKv2 must be provided.
+      if:
+        required: [value]
+      then:
+        not:
+          required: [vaultKv2]
+      else:
+        required: [vaultKv2]
       properties:
         value:
           type: string
           minLength: 1
           maxLength: 1048576
           writeOnly: true
+        vaultKv2:
+          $ref: "#/components/schemas/SecretVaultKV2Reference"
       additionalProperties: false
     SecretVersionMetadata:
       type: object

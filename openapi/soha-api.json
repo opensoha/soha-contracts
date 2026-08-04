@@ -24166,6 +24166,17 @@
       },
       "SecretCreateRequest": {
         "additionalProperties": false,
+        "description": "Exactly one of value or vaultKv2 must be provided.",
+        "else": {
+          "required": [
+            "vaultKv2"
+          ]
+        },
+        "if": {
+          "required": [
+            "value"
+          ]
+        },
         "properties": {
           "bindings": {
             "items": {
@@ -24196,14 +24207,23 @@
             "minLength": 1,
             "type": "string",
             "writeOnly": true
+          },
+          "vaultKv2": {
+            "$ref": "#/components/schemas/SecretVaultKV2Reference"
           }
         },
         "required": [
           "name",
-          "value",
           "scopeType",
           "scopeId"
         ],
+        "then": {
+          "not": {
+            "required": [
+              "vaultKv2"
+            ]
+          }
+        },
         "type": "object"
       },
       "SecretLeaseGrant": {
@@ -24365,17 +24385,35 @@
       },
       "SecretRotateRequest": {
         "additionalProperties": false,
+        "description": "Exactly one of value or vaultKv2 must be provided.",
+        "else": {
+          "required": [
+            "vaultKv2"
+          ]
+        },
+        "if": {
+          "required": [
+            "value"
+          ]
+        },
         "properties": {
           "value": {
             "maxLength": 1048576,
             "minLength": 1,
             "type": "string",
             "writeOnly": true
+          },
+          "vaultKv2": {
+            "$ref": "#/components/schemas/SecretVaultKV2Reference"
           }
         },
-        "required": [
-          "value"
-        ],
+        "then": {
+          "not": {
+            "required": [
+              "vaultKv2"
+            ]
+          }
+        },
         "type": "object"
       },
       "SecretScopeType": {
@@ -24426,6 +24464,40 @@
             "$ref": "#/components/schemas/SecretStatus"
           }
         },
+        "type": "object"
+      },
+      "SecretVaultKV2Reference": {
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "maxLength": 256,
+            "minLength": 1,
+            "pattern": "^[^\\u0000\\r\\n]*\\S[^\\u0000\\r\\n]*$",
+            "type": "string"
+          },
+          "mount": {
+            "maxLength": 256,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*(?:/[A-Za-z0-9][A-Za-z0-9._-]*)*$",
+            "type": "string"
+          },
+          "path": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*(?:/[A-Za-z0-9][A-Za-z0-9._-]*)*$",
+            "type": "string"
+          },
+          "version": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "mount",
+          "path",
+          "key",
+          "version"
+        ],
         "type": "object"
       },
       "SecretVersionMetadata": {
@@ -26984,7 +27056,7 @@
   "info": {
     "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery.\n",
     "title": "Soha API",
-    "version": "0.1.4"
+    "version": "0.1.5"
   },
   "openapi": "3.1.0",
   "paths": {

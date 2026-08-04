@@ -10071,6 +10071,12 @@ export interface components {
         SecretReferenceMap: {
             [key: string]: string;
         };
+        SecretVaultKV2Reference: {
+            mount: string;
+            path: string;
+            key: string;
+            version: number;
+        };
         SecretMetadata: {
             id: string;
             name: string;
@@ -10086,9 +10092,11 @@ export interface components {
             /** Format: date-time */
             updatedAt: string;
         };
+        /** @description Exactly one of value or vaultKv2 must be provided. */
         SecretCreateRequest: {
             name: string;
-            value: string;
+            value?: string;
+            vaultKv2?: components["schemas"]["SecretVaultKV2Reference"];
             description?: string;
             scopeType: components["schemas"]["SecretScopeType"];
             scopeId: string;
@@ -10100,8 +10108,10 @@ export interface components {
             status?: components["schemas"]["SecretStatus"];
             bindings?: components["schemas"]["SecretBinding"][];
         };
+        /** @description Exactly one of value or vaultKv2 must be provided. */
         SecretRotateRequest: {
-            value: string;
+            value?: string;
+            vaultKv2?: components["schemas"]["SecretVaultKV2Reference"];
         };
         SecretVersionMetadata: {
             secretId: string;
@@ -12537,6 +12547,7 @@ export type SecretStatus = components['schemas']['SecretStatus'];
 export type SecretVersionStatus = components['schemas']['SecretVersionStatus'];
 export type SecretBinding = components['schemas']['SecretBinding'];
 export type SecretReferenceMap = components['schemas']['SecretReferenceMap'];
+export type SecretVaultKV2Reference = components['schemas']['SecretVaultKV2Reference'];
 export type SecretMetadata = components['schemas']['SecretMetadata'];
 export type SecretCreateRequest = components['schemas']['SecretCreateRequest'];
 export type SecretUpdateRequest = components['schemas']['SecretUpdateRequest'];
