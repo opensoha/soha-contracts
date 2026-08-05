@@ -29,6 +29,8 @@ skills/skill-manifest.schema.json     Official skill front matter contract
 plugins/plugin-manifest.schema.json   Plugin and marketplace package manifest
 events/event-envelope.schema.json     Shared event envelope contract
 auth/token-claims.schema.json         Token/JWT claims contract
+auth/permission-catalog.json          Canonical resource/action permission catalog
+auth/permission-catalog.schema.json   Permission definition and migration metadata
 connectors/connector-event-envelope.schema.json  Connector runtime event batch envelope
 gen/go/sohaapi                        Go SDK types for stable cross-repo contracts
 gen/ts/sohaapi                        TypeScript SDK types for stable Web contracts
@@ -78,6 +80,10 @@ npm run check:generated
 temporary directory and compares it to committed files. It must not rewrite
 generated files during a freshness check. The Go `openapi` package exposes
 copies of both formats plus `Version`, `YAMLSHA256`, and `JSONSHA256`.
+The Go `auth` package embeds the canonical permission catalog and exposes its
+catalog version, definition hash, and artifact hash. Refresh it with
+`npm run generate:permissions`; consumers conformance-check their local keys
+against this artifact instead of maintaining a second catalog.
 
 The Go client in `gen/go/sohaapi/client.go` intentionally keeps a stable
 hand-written method surface while DTOs are generated from OpenAPI. For

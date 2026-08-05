@@ -36,6 +36,12 @@ const consumers = [
     kind: "go",
     commands: [["go", ["test", "./..."]]],
   },
+  {
+    name: "soha-skills",
+    path: "soha-skills",
+    kind: "python",
+    commands: [["python3", ["tools/validate_assets.py"]]],
+  },
 ];
 
 const args = process.argv.slice(2);
@@ -174,11 +180,18 @@ function packageVersion() {
 async function goWorkspaceEnv(consumerDir) {
   const workDir = await mkdtemp(join(tmpdir(), "opensoha-consumer-work-"));
   const goWork = join(workDir, "go.work");
-  run("go", ["work", "init", consumerDir, contractsRoot], workDir, process.env);
-  return {
+  run("go", ["work", "init", consumerDir], workDir, process.env);
+  const env = {
     ...process.env,
     GOWORK: goWork,
   };
+  run(
+    "go",
+    ["work", "edit", `-replace=github.com/opensoha/soha-contracts=${contractsRoot}`],
+    workDir,
+    env,
+  );
+  return env;
 }
 
 function run(command, args, cwd, env) {

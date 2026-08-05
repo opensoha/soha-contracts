@@ -57,6 +57,16 @@
       }
     },
     "parameters": {
+      "AccessRoleID": {
+        "in": "path",
+        "name": "accessRoleID",
+        "required": true,
+        "schema": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
       "AgentProviderRolloutAction": {
         "in": "path",
         "name": "rolloutAction",
@@ -871,6 +881,135 @@
       }
     },
     "schemas": {
+      "AccessRole": {
+        "additionalProperties": false,
+        "properties": {
+          "capabilities": {
+            "deprecated": true,
+            "description": "Legacy role-global action aliases retained only for migration.",
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "permissionKeys": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "scope": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "userCount": {
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "scope",
+          "capabilities",
+          "permissionKeys",
+          "userCount"
+        ],
+        "type": "object"
+      },
+      "AccessRoleDeleteResult": {
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "const": "ok",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "type": "object"
+      },
+      "AccessRoleEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AccessRole"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "AccessRoleInput": {
+        "additionalProperties": false,
+        "properties": {
+          "capabilities": {
+            "deprecated": true,
+            "description": "Legacy role-global action aliases; new role editors must send an empty array.",
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "permissionKeys": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "scope": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "scope",
+          "permissionKeys"
+        ],
+        "type": "object"
+      },
+      "AccessRoleListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AccessRole"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
       "AgentProviderCatalog": {
         "additionalProperties": false,
         "properties": {
@@ -5176,6 +5315,157 @@
         },
         "required": [
           "data"
+        ],
+        "type": "object"
+      },
+      "AuthorizationDecision": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "allowedActions": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "effectiveScope": {
+            "$ref": "#/components/schemas/AuthorizationEffectiveScope"
+          },
+          "permissionKey": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "policyVersion": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "reasonCode": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "resource": {
+            "$ref": "#/components/schemas/AuthorizationResource"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AuthorizationDecisionStatus"
+          }
+        },
+        "required": [
+          "status",
+          "permissionKey",
+          "action",
+          "resource",
+          "reasonCode",
+          "policyVersion"
+        ],
+        "type": "object"
+      },
+      "AuthorizationDecisionStatus": {
+        "enum": [
+          "allow",
+          "deny",
+          "approval_required"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "AuthorizationDecisionStatusAllow",
+          "AuthorizationDecisionStatusDeny",
+          "AuthorizationDecisionStatusApprovalRequired"
+        ]
+      },
+      "AuthorizationEffectiveScope": {
+        "additionalProperties": false,
+        "properties": {
+          "clusterIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "labelSelector": {
+            "type": "string"
+          },
+          "namespaces": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "projectIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "resourceKinds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "tenantIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "workspaceIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "type": "object"
+      },
+      "AuthorizationResource": {
+        "additionalProperties": false,
+        "properties": {
+          "clusterId": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "labels": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "tenantId": {
+            "type": "string"
+          },
+          "type": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "workspaceId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
         ],
         "type": "object"
       },
@@ -20936,6 +21226,192 @@
         ],
         "type": "object"
       },
+      "PermissionApprovalPolicy": {
+        "enum": [
+          "never",
+          "eligible",
+          "required"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "PermissionApprovalPolicyNever",
+          "PermissionApprovalPolicyEligible",
+          "PermissionApprovalPolicyRequired"
+        ]
+      },
+      "PermissionCatalog": {
+        "additionalProperties": false,
+        "properties": {
+          "catalogVersion": {
+            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+            "type": "string"
+          },
+          "contentHash": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "permissions": {
+            "items": {
+              "$ref": "#/components/schemas/PermissionDefinition"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "schemaVersion": {
+            "const": "authorization.opensoha.io/v1",
+            "type": "string"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "catalogVersion",
+          "contentHash",
+          "permissions"
+        ],
+        "type": "object"
+      },
+      "PermissionCatalogEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PermissionCatalog"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "PermissionDefinition": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "pattern": "^[a-z][a-z0-9_-]*$",
+            "type": "string"
+          },
+          "approvalPolicy": {
+            "$ref": "#/components/schemas/PermissionApprovalPolicy"
+          },
+          "assignable": {
+            "type": "boolean"
+          },
+          "displayName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "domain": {
+            "pattern": "^[a-z][a-z0-9_-]*$",
+            "type": "string"
+          },
+          "key": {
+            "pattern": "^[a-z][a-z0-9_-]*(?:\\.[a-z][a-z0-9_-]*)+$",
+            "type": "string"
+          },
+          "legacyAliases": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "legacyCapabilities": {
+            "description": "Migration-only role-global action aliases accepted by this exact permission.",
+            "items": {
+              "pattern": "^[a-z][a-z0-9_-]*$",
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "replacedBy": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "resource": {
+            "pattern": "^[a-z][a-z0-9_.-]*$",
+            "type": "string"
+          },
+          "riskLevel": {
+            "$ref": "#/components/schemas/PermissionRiskLevel"
+          },
+          "scopeKinds": {
+            "items": {
+              "$ref": "#/components/schemas/PermissionScopeKind"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/PermissionStatus"
+          }
+        },
+        "required": [
+          "key",
+          "domain",
+          "resource",
+          "action",
+          "displayName",
+          "riskLevel",
+          "scopeKinds",
+          "approvalPolicy",
+          "status",
+          "assignable"
+        ],
+        "type": "object"
+      },
+      "PermissionRiskLevel": {
+        "enum": [
+          "read",
+          "mutate",
+          "execute",
+          "high"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "PermissionRiskLevelRead",
+          "PermissionRiskLevelMutate",
+          "PermissionRiskLevelExecute",
+          "PermissionRiskLevelHigh"
+        ]
+      },
+      "PermissionScopeKind": {
+        "enum": [
+          "tenant",
+          "workspace",
+          "cluster",
+          "namespace",
+          "project",
+          "resource",
+          "owner"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "PermissionScopeKindTenant",
+          "PermissionScopeKindWorkspace",
+          "PermissionScopeKindCluster",
+          "PermissionScopeKindNamespace",
+          "PermissionScopeKindProject",
+          "PermissionScopeKindResource",
+          "PermissionScopeKindOwner"
+        ]
+      },
+      "PermissionStatus": {
+        "enum": [
+          "active",
+          "legacy"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "PermissionStatusActive",
+          "PermissionStatusLegacy"
+        ]
+      },
       "PersonalAccessToken": {
         "additionalProperties": false,
         "properties": {
@@ -27056,7 +27532,7 @@
   "info": {
     "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery.\n",
     "title": "Soha API",
-    "version": "0.1.5"
+    "version": "0.1.6"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -27187,6 +27663,196 @@
         },
         "tags": [
           "Directory"
+        ]
+      }
+    },
+    "/access/permissions": {
+      "get": {
+        "operationId": "getPermissionCatalog",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionCatalogEnvelope"
+                }
+              }
+            },
+            "description": "Canonical permission definitions and compatibility metadata."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
+        ]
+      }
+    },
+    "/access/roles": {
+      "get": {
+        "operationId": "listAccessRoles",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessRoleListEnvelope"
+                }
+              }
+            },
+            "description": "Access roles."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
+        ]
+      },
+      "post": {
+        "operationId": "createAccessRole",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccessRoleInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessRoleEnvelope"
+                }
+              }
+            },
+            "description": "Created access role."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
+        ]
+      }
+    },
+    "/access/roles/{accessRoleID}": {
+      "delete": {
+        "operationId": "deleteAccessRole",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessRoleDeleteResult"
+                }
+              }
+            },
+            "description": "Access role deleted."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
+        ]
+      },
+      "get": {
+        "operationId": "getAccessRole",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessRoleEnvelope"
+                }
+              }
+            },
+            "description": "Access role detail."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/AccessRoleID"
+        }
+      ],
+      "put": {
+        "operationId": "updateAccessRole",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccessRoleInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessRoleEnvelope"
+                }
+              }
+            },
+            "description": "Updated access role."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
         ]
       }
     },
@@ -42343,6 +43009,9 @@
     },
     {
       "name": "Plugins"
+    },
+    {
+      "name": "Access"
     },
     {
       "name": "Identity"

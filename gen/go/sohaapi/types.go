@@ -3837,6 +3837,102 @@ func (e OpenAIModelsResponseObject) Valid() bool {
 	}
 }
 
+// Defines values for PermissionApprovalPolicy.
+const (
+	PermissionApprovalPolicyEligible PermissionApprovalPolicy = "eligible"
+	PermissionApprovalPolicyNever    PermissionApprovalPolicy = "never"
+	PermissionApprovalPolicyRequired PermissionApprovalPolicy = "required"
+)
+
+// Valid indicates whether the value is a known member of the PermissionApprovalPolicy enum.
+func (e PermissionApprovalPolicy) Valid() bool {
+	switch e {
+	case PermissionApprovalPolicyEligible:
+		return true
+	case PermissionApprovalPolicyNever:
+		return true
+	case PermissionApprovalPolicyRequired:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PermissionRiskLevel.
+const (
+	PermissionRiskLevelExecute PermissionRiskLevel = "execute"
+	PermissionRiskLevelHigh    PermissionRiskLevel = "high"
+	PermissionRiskLevelMutate  PermissionRiskLevel = "mutate"
+	PermissionRiskLevelRead    PermissionRiskLevel = "read"
+)
+
+// Valid indicates whether the value is a known member of the PermissionRiskLevel enum.
+func (e PermissionRiskLevel) Valid() bool {
+	switch e {
+	case PermissionRiskLevelExecute:
+		return true
+	case PermissionRiskLevelHigh:
+		return true
+	case PermissionRiskLevelMutate:
+		return true
+	case PermissionRiskLevelRead:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PermissionScopeKind.
+const (
+	PermissionScopeKindCluster   PermissionScopeKind = "cluster"
+	PermissionScopeKindNamespace PermissionScopeKind = "namespace"
+	PermissionScopeKindOwner     PermissionScopeKind = "owner"
+	PermissionScopeKindProject   PermissionScopeKind = "project"
+	PermissionScopeKindResource  PermissionScopeKind = "resource"
+	PermissionScopeKindTenant    PermissionScopeKind = "tenant"
+	PermissionScopeKindWorkspace PermissionScopeKind = "workspace"
+)
+
+// Valid indicates whether the value is a known member of the PermissionScopeKind enum.
+func (e PermissionScopeKind) Valid() bool {
+	switch e {
+	case PermissionScopeKindCluster:
+		return true
+	case PermissionScopeKindNamespace:
+		return true
+	case PermissionScopeKindOwner:
+		return true
+	case PermissionScopeKindProject:
+		return true
+	case PermissionScopeKindResource:
+		return true
+	case PermissionScopeKindTenant:
+		return true
+	case PermissionScopeKindWorkspace:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PermissionStatus.
+const (
+	PermissionStatusActive PermissionStatus = "active"
+	PermissionStatusLegacy PermissionStatus = "legacy"
+)
+
+// Valid indicates whether the value is a known member of the PermissionStatus enum.
+func (e PermissionStatus) Valid() bool {
+	switch e {
+	case PermissionStatusActive:
+		return true
+	case PermissionStatusLegacy:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for PluginComputeContainerRuntimeProviderResourceKinds.
 const (
 	PluginComputeContainerRuntimeResourceKindContainer   PluginComputeContainerRuntimeProviderResourceKinds = "container"
@@ -6304,6 +6400,44 @@ type AIWorkbenchModelSettings struct {
 	// DefaultRouteID Stable AI Gateway model-route ID used as the Workbench default when set.
 	DefaultRouteID string `json:"defaultRouteId,omitempty"`
 	Enabled        bool   `json:"enabled"`
+}
+
+// AccessRole defines model for AccessRole.
+type AccessRole struct {
+	// Capabilities Legacy role-global action aliases retained only for migration.
+	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
+	Capabilities   []string `json:"capabilities"`
+	ID             string   `json:"id"`
+	Name           string   `json:"name"`
+	PermissionKeys []string `json:"permissionKeys"`
+	Scope          string   `json:"scope"`
+	UserCount      int      `json:"userCount"`
+}
+
+// AccessRoleDeleteResult defines model for AccessRoleDeleteResult.
+type AccessRoleDeleteResult struct {
+	Status string `json:"status"`
+}
+
+// AccessRoleEnvelope defines model for AccessRoleEnvelope.
+type AccessRoleEnvelope struct {
+	Data AccessRole `json:"data"`
+}
+
+// AccessRoleInput defines model for AccessRoleInput.
+type AccessRoleInput struct {
+	// Capabilities Legacy role-global action aliases; new role editors must send an empty array.
+	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
+	Capabilities   []string `json:"capabilities,omitempty"`
+	ID             string   `json:"id,omitempty"`
+	Name           string   `json:"name"`
+	PermissionKeys []string `json:"permissionKeys"`
+	Scope          string   `json:"scope"`
+}
+
+// AccessRoleListEnvelope defines model for AccessRoleListEnvelope.
+type AccessRoleListEnvelope struct {
+	Items []AccessRole `json:"items"`
 }
 
 // AgentProviderCatalog defines model for AgentProviderCatalog.
@@ -12139,6 +12273,50 @@ type PasswordLoginRequest struct {
 	Password string `json:"password"`
 }
 
+// PermissionApprovalPolicy defines model for PermissionApprovalPolicy.
+type PermissionApprovalPolicy string
+
+// PermissionCatalog defines model for PermissionCatalog.
+type PermissionCatalog struct {
+	CatalogVersion string                 `json:"catalogVersion"`
+	ContentHash    string                 `json:"contentHash"`
+	Permissions    []PermissionDefinition `json:"permissions"`
+	SchemaVersion  string                 `json:"schemaVersion"`
+}
+
+// PermissionCatalogEnvelope defines model for PermissionCatalogEnvelope.
+type PermissionCatalogEnvelope struct {
+	Data PermissionCatalog `json:"data"`
+}
+
+// PermissionDefinition defines model for PermissionDefinition.
+type PermissionDefinition struct {
+	Action         string                   `json:"action"`
+	ApprovalPolicy PermissionApprovalPolicy `json:"approvalPolicy"`
+	Assignable     bool                     `json:"assignable"`
+	DisplayName    string                   `json:"displayName"`
+	Domain         string                   `json:"domain"`
+	Key            string                   `json:"key"`
+	LegacyAliases  []string                 `json:"legacyAliases,omitempty"`
+
+	// LegacyCapabilities Migration-only role-global action aliases accepted by this exact permission.
+	LegacyCapabilities []string              `json:"legacyCapabilities,omitempty"`
+	ReplacedBy         []string              `json:"replacedBy,omitempty"`
+	Resource           string                `json:"resource"`
+	RiskLevel          PermissionRiskLevel   `json:"riskLevel"`
+	ScopeKinds         []PermissionScopeKind `json:"scopeKinds"`
+	Status             PermissionStatus      `json:"status"`
+}
+
+// PermissionRiskLevel defines model for PermissionRiskLevel.
+type PermissionRiskLevel string
+
+// PermissionScopeKind defines model for PermissionScopeKind.
+type PermissionScopeKind string
+
+// PermissionStatus defines model for PermissionStatus.
+type PermissionStatus string
+
 // PersonalAccessToken defines model for PersonalAccessToken.
 type PersonalAccessToken struct {
 	CreatedAt      time.Time      `json:"createdAt"`
@@ -14036,6 +14214,9 @@ type AIEnvironmentLeaseID = string
 // AIMemoryID defines model for AIMemoryID.
 type AIMemoryID = string
 
+// AccessRoleID defines model for AccessRoleID.
+type AccessRoleID = string
+
 // AgentProviderRolloutAction defines model for AgentProviderRolloutAction.
 type AgentProviderRolloutAction string
 
@@ -15104,6 +15285,12 @@ type CompleteGitLabSystemIntegrationOAuthParams struct {
 type CreateVirtualMachineParams struct {
 	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
 }
+
+// CreateAccessRoleJSONRequestBody defines body for CreateAccessRole for application/json ContentType.
+type CreateAccessRoleJSONRequestBody = AccessRoleInput
+
+// UpdateAccessRoleJSONRequestBody defines body for UpdateAccessRole for application/json ContentType.
+type UpdateAccessRoleJSONRequestBody = AccessRoleInput
 
 // DecideAIGatewayApprovalRequestJSONRequestBody defines body for DecideAIGatewayApprovalRequest for application/json ContentType.
 type DecideAIGatewayApprovalRequestJSONRequestBody = ApprovalDecisionInput

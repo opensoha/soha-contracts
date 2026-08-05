@@ -42,6 +42,7 @@ jobs:
           - soha-web
           - soha-cli
           - soha-agent
+          - soha-skills
     steps:
       - uses: actions/checkout@v7
         with:

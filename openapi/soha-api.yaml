@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Soha API
-  version: 0.1.5
+  version: 0.1.6
   description: >
     Public OpenSoha core API contract. This first contract focuses on stable
     cross-repository boundaries: auth, health, runner-facing control-plane
@@ -34,6 +34,7 @@ tags:
   - name: Compute
   - name: MCP
   - name: Plugins
+  - name: Access
   - name: Identity
   - name: Directory
 paths:
@@ -7420,6 +7421,92 @@ paths:
         "400": { $ref: "#/components/responses/Error" }
         "401": { $ref: "#/components/responses/Error" }
         "403": { $ref: "#/components/responses/Error" }
+  /access/permissions:
+    get:
+      tags: [Access]
+      operationId: getPermissionCatalog
+      responses:
+        "200":
+          description: Canonical permission definitions and compatibility metadata.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PermissionCatalogEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /access/roles:
+    get:
+      tags: [Access]
+      operationId: listAccessRoles
+      responses:
+        "200":
+          description: Access roles.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AccessRoleListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Access]
+      operationId: createAccessRole
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AccessRoleInput" }
+      responses:
+        "201":
+          description: Created access role.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AccessRoleEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /access/roles/{accessRoleID}:
+    parameters:
+      - $ref: "#/components/parameters/AccessRoleID"
+    get:
+      tags: [Access]
+      operationId: getAccessRole
+      responses:
+        "200":
+          description: Access role detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AccessRoleEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [Access]
+      operationId: updateAccessRole
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AccessRoleInput" }
+      responses:
+        "200":
+          description: Updated access role.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AccessRoleEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [Access]
+      operationId: deleteAccessRole
+      responses:
+        "200":
+          description: Access role deleted.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AccessRoleDeleteResult" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
   /identity/capabilities:
     get:
       tags: [Identity]
@@ -8220,6 +8307,11 @@ components:
       name: x-api-key
       description: Anthropic-style Soha PAT/SAT credential header for native relay endpoints.
   parameters:
+    AccessRoleID:
+      name: accessRoleID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
     IdentityApplicationID:
       name: identityApplicationID
       in: path
@@ -10424,6 +10516,166 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/AnyValue"
+      additionalProperties: false
+    PermissionRiskLevel:
+      type: string
+      enum: [read, mutate, execute, high]
+      x-enum-varnames: [PermissionRiskLevelRead, PermissionRiskLevelMutate, PermissionRiskLevelExecute, PermissionRiskLevelHigh]
+    PermissionApprovalPolicy:
+      type: string
+      enum: [never, eligible, required]
+      x-enum-varnames: [PermissionApprovalPolicyNever, PermissionApprovalPolicyEligible, PermissionApprovalPolicyRequired]
+    PermissionStatus:
+      type: string
+      enum: [active, legacy]
+      x-enum-varnames: [PermissionStatusActive, PermissionStatusLegacy]
+    PermissionScopeKind:
+      type: string
+      enum: [tenant, workspace, cluster, namespace, project, resource, owner]
+      x-enum-varnames: [PermissionScopeKindTenant, PermissionScopeKindWorkspace, PermissionScopeKindCluster, PermissionScopeKindNamespace, PermissionScopeKindProject, PermissionScopeKindResource, PermissionScopeKindOwner]
+    PermissionDefinition:
+      type: object
+      required: [key, domain, resource, action, displayName, riskLevel, scopeKinds, approvalPolicy, status, assignable]
+      properties:
+        key: { type: string, pattern: "^[a-z][a-z0-9_-]*(?:\\.[a-z][a-z0-9_-]*)+$" }
+        domain: { type: string, pattern: "^[a-z][a-z0-9_-]*$" }
+        resource: { type: string, pattern: "^[a-z][a-z0-9_.-]*$" }
+        action: { type: string, pattern: "^[a-z][a-z0-9_-]*$" }
+        displayName: { type: string, minLength: 1 }
+        riskLevel: { $ref: "#/components/schemas/PermissionRiskLevel" }
+        scopeKinds:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/PermissionScopeKind" }
+        approvalPolicy: { $ref: "#/components/schemas/PermissionApprovalPolicy" }
+        status: { $ref: "#/components/schemas/PermissionStatus" }
+        assignable: { type: boolean }
+        legacyAliases: { type: array, uniqueItems: true, items: { type: string, minLength: 1 } }
+        legacyCapabilities:
+          type: array
+          uniqueItems: true
+          description: Migration-only role-global action aliases accepted by this exact permission.
+          items: { type: string, pattern: "^[a-z][a-z0-9_-]*$" }
+        replacedBy: { type: array, uniqueItems: true, items: { type: string, minLength: 1 } }
+      additionalProperties: false
+    PermissionCatalog:
+      type: object
+      required: [schemaVersion, catalogVersion, contentHash, permissions]
+      properties:
+        schemaVersion: { type: string, const: authorization.opensoha.io/v1 }
+        catalogVersion: { type: string, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$" }
+        contentHash: { type: string, pattern: "^sha256:[a-f0-9]{64}$" }
+        permissions:
+          type: array
+          minItems: 1
+          items: { $ref: "#/components/schemas/PermissionDefinition" }
+      additionalProperties: false
+    PermissionCatalogEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/PermissionCatalog" }
+      additionalProperties: false
+    AccessRole:
+      type: object
+      required: [id, name, scope, capabilities, permissionKeys, userCount]
+      properties:
+        id: { type: string, minLength: 1 }
+        name: { type: string, minLength: 1 }
+        scope: { type: string, minLength: 1 }
+        capabilities:
+          type: array
+          uniqueItems: true
+          deprecated: true
+          description: Legacy role-global action aliases retained only for migration.
+          items: { type: string, minLength: 1 }
+        permissionKeys:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+        userCount: { type: integer, minimum: 0 }
+      additionalProperties: false
+    AccessRoleInput:
+      type: object
+      required: [name, scope, permissionKeys]
+      properties:
+        id: { type: string, minLength: 1 }
+        name: { type: string, minLength: 1 }
+        scope: { type: string, minLength: 1 }
+        capabilities:
+          type: array
+          uniqueItems: true
+          deprecated: true
+          description: Legacy role-global action aliases; new role editors must send an empty array.
+          items: { type: string, minLength: 1 }
+        permissionKeys:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+      additionalProperties: false
+    AccessRoleEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/AccessRole" }
+      additionalProperties: false
+    AccessRoleListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/AccessRole" } }
+      additionalProperties: false
+    AccessRoleDeleteResult:
+      type: object
+      required: [status]
+      properties:
+        status: { type: string, const: ok }
+      additionalProperties: false
+    AuthorizationDecisionStatus:
+      type: string
+      enum: [allow, deny, approval_required]
+      x-enum-varnames: [AuthorizationDecisionStatusAllow, AuthorizationDecisionStatusDeny, AuthorizationDecisionStatusApprovalRequired]
+    AuthorizationResource:
+      type: object
+      required: [type]
+      properties:
+        type: { type: string, minLength: 1 }
+        id: { type: string }
+        tenantId: { type: string }
+        workspaceId: { type: string }
+        clusterId: { type: string }
+        namespace: { type: string }
+        projectId: { type: string }
+        owner: { type: string }
+        labels: { type: object, additionalProperties: { type: string } }
+      additionalProperties: false
+    AuthorizationEffectiveScope:
+      type: object
+      properties:
+        tenantIds: { type: array, uniqueItems: true, items: { type: string } }
+        workspaceIds: { type: array, uniqueItems: true, items: { type: string } }
+        clusterIds: { type: array, uniqueItems: true, items: { type: string } }
+        namespaces: { type: array, uniqueItems: true, items: { type: string } }
+        projectIds: { type: array, uniqueItems: true, items: { type: string } }
+        resourceKinds: { type: array, uniqueItems: true, items: { type: string } }
+        labelSelector: { type: string }
+      additionalProperties: false
+    AuthorizationDecision:
+      type: object
+      required: [status, permissionKey, action, resource, reasonCode, policyVersion]
+      properties:
+        status: { $ref: "#/components/schemas/AuthorizationDecisionStatus" }
+        permissionKey: { type: string, minLength: 1 }
+        action: { type: string, minLength: 1 }
+        resource: { $ref: "#/components/schemas/AuthorizationResource" }
+        effectiveScope: { $ref: "#/components/schemas/AuthorizationEffectiveScope" }
+        reasonCode: { type: string, minLength: 1 }
+        policyVersion: { type: string, minLength: 1 }
+        allowedActions:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
       additionalProperties: false
     ComputeDomain:
       type: string

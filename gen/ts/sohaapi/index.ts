@@ -4273,6 +4273,56 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/access/permissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPermissionCatalog"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/access/roles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAccessRoles"];
+        put?: never;
+        post: operations["createAccessRole"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/access/roles/{accessRoleID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                accessRoleID: components["parameters"]["AccessRoleID"];
+            };
+            cookie?: never;
+        };
+        get: operations["getAccessRole"];
+        put: operations["updateAccessRole"];
+        post?: never;
+        delete: operations["deleteAccessRole"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/identity/capabilities": {
         parameters: {
             query?: never;
@@ -5784,6 +5834,107 @@ export interface components {
         };
         GenericItemsEnvelope: {
             items: components["schemas"]["AnyValue"][];
+        };
+        /** @enum {string} */
+        PermissionRiskLevel: "read" | "mutate" | "execute" | "high";
+        /** @enum {string} */
+        PermissionApprovalPolicy: "never" | "eligible" | "required";
+        /** @enum {string} */
+        PermissionStatus: "active" | "legacy";
+        /** @enum {string} */
+        PermissionScopeKind: "tenant" | "workspace" | "cluster" | "namespace" | "project" | "resource" | "owner";
+        PermissionDefinition: {
+            key: string;
+            domain: string;
+            resource: string;
+            action: string;
+            displayName: string;
+            riskLevel: components["schemas"]["PermissionRiskLevel"];
+            scopeKinds: components["schemas"]["PermissionScopeKind"][];
+            approvalPolicy: components["schemas"]["PermissionApprovalPolicy"];
+            status: components["schemas"]["PermissionStatus"];
+            assignable: boolean;
+            legacyAliases?: string[];
+            /** @description Migration-only role-global action aliases accepted by this exact permission. */
+            legacyCapabilities?: string[];
+            replacedBy?: string[];
+        };
+        PermissionCatalog: {
+            /** @constant */
+            schemaVersion: "authorization.opensoha.io/v1";
+            catalogVersion: string;
+            contentHash: string;
+            permissions: components["schemas"]["PermissionDefinition"][];
+        };
+        PermissionCatalogEnvelope: {
+            data: components["schemas"]["PermissionCatalog"];
+        };
+        AccessRole: {
+            id: string;
+            name: string;
+            scope: string;
+            /**
+             * @deprecated
+             * @description Legacy role-global action aliases retained only for migration.
+             */
+            capabilities: string[];
+            permissionKeys: string[];
+            userCount: number;
+        };
+        AccessRoleInput: {
+            id?: string;
+            name: string;
+            scope: string;
+            /**
+             * @deprecated
+             * @description Legacy role-global action aliases; new role editors must send an empty array.
+             */
+            capabilities?: string[];
+            permissionKeys: string[];
+        };
+        AccessRoleEnvelope: {
+            data: components["schemas"]["AccessRole"];
+        };
+        AccessRoleListEnvelope: {
+            items: components["schemas"]["AccessRole"][];
+        };
+        AccessRoleDeleteResult: {
+            /** @constant */
+            status: "ok";
+        };
+        /** @enum {string} */
+        AuthorizationDecisionStatus: "allow" | "deny" | "approval_required";
+        AuthorizationResource: {
+            type: string;
+            id?: string;
+            tenantId?: string;
+            workspaceId?: string;
+            clusterId?: string;
+            namespace?: string;
+            projectId?: string;
+            owner?: string;
+            labels?: {
+                [key: string]: string;
+            };
+        };
+        AuthorizationEffectiveScope: {
+            tenantIds?: string[];
+            workspaceIds?: string[];
+            clusterIds?: string[];
+            namespaces?: string[];
+            projectIds?: string[];
+            resourceKinds?: string[];
+            labelSelector?: string;
+        };
+        AuthorizationDecision: {
+            status: components["schemas"]["AuthorizationDecisionStatus"];
+            permissionKey: string;
+            action: string;
+            resource: components["schemas"]["AuthorizationResource"];
+            effectiveScope?: components["schemas"]["AuthorizationEffectiveScope"];
+            reasonCode: string;
+            policyVersion: string;
+            allowedActions?: string[];
         };
         /** @enum {string} */
         ComputeDomain: "virtualization" | "container_runtime" | "agent";
@@ -11737,6 +11888,7 @@ export interface components {
         };
     };
     parameters: {
+        AccessRoleID: string;
         IdentityApplicationID: string;
         IdentityProviderID: string;
         IdentityPolicyID: string;
@@ -12000,6 +12152,22 @@ export type RuntimeConfigRollbackRequest = components['schemas']['RuntimeConfigR
 export type GenericObject = components['schemas']['GenericObject'];
 export type GenericDataEnvelope = components['schemas']['GenericDataEnvelope'];
 export type GenericItemsEnvelope = components['schemas']['GenericItemsEnvelope'];
+export type PermissionRiskLevel = components['schemas']['PermissionRiskLevel'];
+export type PermissionApprovalPolicy = components['schemas']['PermissionApprovalPolicy'];
+export type PermissionStatus = components['schemas']['PermissionStatus'];
+export type PermissionScopeKind = components['schemas']['PermissionScopeKind'];
+export type PermissionDefinition = components['schemas']['PermissionDefinition'];
+export type PermissionCatalog = components['schemas']['PermissionCatalog'];
+export type PermissionCatalogEnvelope = components['schemas']['PermissionCatalogEnvelope'];
+export type AccessRole = components['schemas']['AccessRole'];
+export type AccessRoleInput = components['schemas']['AccessRoleInput'];
+export type AccessRoleEnvelope = components['schemas']['AccessRoleEnvelope'];
+export type AccessRoleListEnvelope = components['schemas']['AccessRoleListEnvelope'];
+export type AccessRoleDeleteResult = components['schemas']['AccessRoleDeleteResult'];
+export type AuthorizationDecisionStatus = components['schemas']['AuthorizationDecisionStatus'];
+export type AuthorizationResource = components['schemas']['AuthorizationResource'];
+export type AuthorizationEffectiveScope = components['schemas']['AuthorizationEffectiveScope'];
+export type AuthorizationDecision = components['schemas']['AuthorizationDecision'];
 export type ComputeDomain = components['schemas']['ComputeDomain'];
 export type ComputeProviderDomain = components['schemas']['ComputeProviderDomain'];
 export type ComputeTaskDomain = components['schemas']['ComputeTaskDomain'];
@@ -12720,6 +12888,7 @@ export type DirectoryEmploymentStatus = components['schemas']['DirectoryEmployme
 export type ResponseIdentityError = components['responses']['IdentityError'];
 export type ResponseError = components['responses']['Error'];
 export type ResponseComputeError = components['responses']['ComputeError'];
+export type ParameterAccessRoleId = components['parameters']['AccessRoleID'];
 export type ParameterIdentityApplicationId = components['parameters']['IdentityApplicationID'];
 export type ParameterIdentityProviderId = components['parameters']['IdentityProviderID'];
 export type ParameterIdentityPolicyId = components['parameters']['IdentityPolicyID'];
@@ -21502,6 +21671,157 @@ export interface operations {
             400: components["responses"]["Error"];
             401: components["responses"]["Error"];
             403: components["responses"]["Error"];
+        };
+    };
+    getPermissionCatalog: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Canonical permission definitions and compatibility metadata. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PermissionCatalogEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listAccessRoles: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Access roles. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AccessRoleListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createAccessRole: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AccessRoleInput"];
+            };
+        };
+        responses: {
+            /** @description Created access role. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AccessRoleEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    getAccessRole: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                accessRoleID: components["parameters"]["AccessRoleID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Access role detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AccessRoleEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateAccessRole: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                accessRoleID: components["parameters"]["AccessRoleID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AccessRoleInput"];
+            };
+        };
+        responses: {
+            /** @description Updated access role. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AccessRoleEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteAccessRole: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                accessRoleID: components["parameters"]["AccessRoleID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Access role deleted. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AccessRoleDeleteResult"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
         };
     };
     getIdentityRuntimeCapabilities: {

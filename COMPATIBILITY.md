@@ -281,6 +281,19 @@ rename `operationId`, `operationKind`, `runnerId`, `state`, `occurredAt`,
 `evidence`, `finalState`, or `callback`; must not add new required fields; and
 must not narrow existing lifecycle state names or final status values.
 
+## Permission Catalog
+
+`auth/permission-catalog.json` owns grantable OpenSoha resource/action keys,
+risk and scope metadata, approval posture, and temporary legacy aliases. Its
+`contentHash` covers the ordered permission definitions; the Go `auth` package
+also publishes the full artifact hash.
+
+For `0.1.x`, patch releases may add active permission definitions and legacy
+aliases. They must not remove active definitions, change an active key's
+resource/action meaning, or make a legacy alias authorize a broader action.
+Coarse keys become non-assignable before removal, and are removed only after
+role migration and consumer conformance prove no active dependency.
+
 ## Consumer Adoption
 
 Recommended adoption flow:

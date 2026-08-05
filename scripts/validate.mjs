@@ -76,6 +76,7 @@ const requiredJsonSchemas = [
   },
   { file: "events/event-envelope.schema.json", fixtureDir: "fixtures/json-schema/event-envelope" },
   { file: "auth/token-claims.schema.json", fixtureDir: "fixtures/json-schema/token-claims" },
+  { file: "auth/permission-catalog.schema.json", fixtureDir: "fixtures/json-schema/permission-catalog" },
   {
     file: "connectors/connector-event-envelope.schema.json",
     fixtureDir: "fixtures/json-schema/connector-event-envelope",
@@ -130,6 +131,9 @@ const requiredOpenapiFixtureSchemas = [
   "DirectoryRuntimeStatusEnvelope",
   "DirectoryEventListEnvelope",
   "DirectoryPersonLifecycle",
+  "PermissionCatalogEnvelope",
+  "AccessRoleInput",
+  "AuthorizationDecision",
 ];
 
 const requiredJsonExamples = [
@@ -147,6 +151,7 @@ const requiredJsonExamples = [
     schemaFile: "mcp/gateway-capability-baseline.schema.json",
   },
   { file: "examples/token-claims/service-account.json", schemaFile: "auth/token-claims.schema.json" },
+  { file: "auth/permission-catalog.json", schemaFile: "auth/permission-catalog.schema.json" },
   { file: "examples/plugin-manifest/skill-pack.json", schemaFile: "plugins/plugin-manifest.schema.json" },
   { file: "examples/plugin-manifest/connector.json", schemaFile: "plugins/plugin-manifest.schema.json" },
   { file: "examples/plugin-manifest/compute-provider.json", schemaFile: "plugins/plugin-manifest.schema.json" },
@@ -208,6 +213,7 @@ const openapi = parse(openapiText);
 validateOpenapiStructure(openapi);
 const openapiFixtureCount = await validateOpenapiFixtures(openapi);
 const jsonExampleCount = await validateJsonExamples();
+await validatePermissionCatalog();
 const openapiExampleCount = await validateOpenapiExamples(openapi);
 
 console.log(
@@ -233,6 +239,22 @@ async function validateJsonExamples() {
     await validateExampleFile(example.file, validate);
   }
   return requiredJsonExamples.length;
+}
+
+async function validatePermissionCatalog() {
+  const catalog = JSON.parse(await readFile(new URL("auth/permission-catalog.json", root), "utf8"));
+  const keys = catalog.permissions.map((permission) => permission.key);
+  if (new Set(keys).size !== keys.length) {
+    throw new Error("auth/permission-catalog.json contains duplicate permission keys");
+  }
+  const definitions = new Map(catalog.permissions.map((permission) => [permission.key, permission]));
+  for (const permission of catalog.permissions) {
+    for (const replacement of permission.replacedBy ?? []) {
+      if (!definitions.has(replacement)) {
+        throw new Error(`${permission.key} references unknown replacement ${replacement}`);
+      }
+    }
+  }
 }
 
 async function validateOpenapiExamples(openapi) {
