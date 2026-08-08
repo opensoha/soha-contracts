@@ -817,6 +817,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/application-environments/target-candidates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listApplicationEnvironmentTargetCandidates"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/application-environments/imports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["importKubernetesServices"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/application-environments/helm-release-imports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["importHelmReleases"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/application-environments/{applicationEnvironmentID}": {
         parameters: {
             query?: never;
@@ -844,6 +892,38 @@ export interface paths {
         put?: never;
         post?: never;
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/registries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listRegistryConnections"];
+        put?: never;
+        post: operations["createRegistryConnection"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/registries/{connectionID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateRegistryConnection"];
+        post?: never;
+        delete: operations["deleteRegistryConnection"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1729,6 +1809,55 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/clusters/{clusterID}/agent-installation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createClusterAgentInstallation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/kubernetes/agent-installations/{installTicket}/manifest.yaml": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["downloadKubernetesAgentInstallationManifest"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/agent-sessions/connect": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Upgrades to the soha-agent-tunnel.v1 WebSocket subprotocol. The Agent initiates this connection and carries multiplexed HTTP and stream traffic over the resulting session. */
+        get: operations["connectClusterAgentSession"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/clusters/{clusterID}/logs/query": {
         parameters: {
             query?: never;
@@ -1899,6 +2028,86 @@ export interface paths {
         get: operations["listObservabilityProviders"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/observability/dashboards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listObservabilityDashboards"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/observability/metrics/data-sources": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listObservabilityMetricDataSources"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/observability/dashboards/imports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["importGrafanaDashboard"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/observability/dashboards/{dashboardID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getObservabilityDashboard"];
+        put?: never;
+        post?: never;
+        delete: operations["deleteObservabilityDashboard"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/observability/dashboards/{dashboardID}/panels/{panelID}/query": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["queryObservabilityDashboardPanel"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3321,6 +3530,86 @@ export interface paths {
             cookie?: never;
         };
         get: operations["getMarketplacePlugin"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/software/packages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listSoftwarePackages"];
+        put?: never;
+        post: operations["uploadSoftwarePackage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/software/packages/import": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["importSoftwarePackage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/software/storage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getSoftwareStorage"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/software/packages/{packageID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["deleteSoftwarePackage"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/software/packages/{packageID}/download": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["downloadSoftwarePackage"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7906,9 +8195,9 @@ export interface components {
             id?: string;
             name: string;
             key: string;
-            group: string;
+            group?: string;
             businessLineId?: string;
-            language: string;
+            language?: string;
             description?: string;
             ownerTeam?: string;
             repositoryIds?: string[];
@@ -8100,6 +8389,40 @@ export interface components {
             };
             enabled: boolean;
         };
+        RegistryConnectionMetadata: {
+            secretConfigured: boolean;
+            secretStorage: string;
+        };
+        RegistryConnection: {
+            id: string;
+            name: string;
+            registryType: string;
+            endpoint: string;
+            namespace?: string;
+            username?: string;
+            insecure: boolean;
+            metadata: components["schemas"]["RegistryConnectionMetadata"];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        RegistryConnectionInput: {
+            id?: string;
+            name: string;
+            registryType: string;
+            endpoint: string;
+            namespace?: string;
+            username?: string;
+            secret?: string;
+            insecure?: boolean;
+        };
+        RegistryConnectionEnvelope: {
+            data: components["schemas"]["RegistryConnection"];
+        };
+        RegistryConnectionListEnvelope: {
+            items: components["schemas"]["RegistryConnection"][];
+        };
         WorkflowTemplate: {
             id: string;
             key: string;
@@ -8159,6 +8482,119 @@ export interface components {
             releasePolicy?: components["schemas"]["ReleasePolicy"];
             resourceSelector?: components["schemas"]["ResourceSelector"];
             targets?: components["schemas"]["ReleaseTargetInput"][];
+        };
+        KubernetesRelatedResource: {
+            /** @enum {string} */
+            kind: "Service" | "Ingress" | "HorizontalPodAutoscaler";
+            name: string;
+        };
+        KubernetesImportCandidate: {
+            clusterId: string;
+            namespace: string;
+            /** @enum {string} */
+            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet";
+            workloadName: string;
+            desiredReplicas: number;
+            readyReplicas: number;
+            containers?: string[];
+            labels?: {
+                [key: string]: string;
+            };
+            relatedResources: components["schemas"]["KubernetesRelatedResource"][];
+        };
+        KubernetesImportCandidateListEnvelope: {
+            items: components["schemas"]["KubernetesImportCandidate"][];
+            truncated: boolean;
+        };
+        KubernetesWorkloadImportInput: {
+            /** @enum {string} */
+            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet";
+            workloadName: string;
+        };
+        KubernetesServiceImportRequest: {
+            clusterId: string;
+            namespace: string;
+            applicationKey: string;
+            applicationName: string;
+            environmentKey: string;
+            environmentName: string;
+            /** @enum {string} */
+            ownershipMode: "observe_only" | "managed";
+            workloads: components["schemas"]["KubernetesWorkloadImportInput"][];
+        };
+        KubernetesImportEntityRef: {
+            id: string;
+            key: string;
+            name: string;
+            created: boolean;
+        };
+        KubernetesImportedService: {
+            id: string;
+            key: string;
+            name: string;
+            /** @enum {string} */
+            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet";
+            workloadName: string;
+            created: boolean;
+        };
+        KubernetesImportedTarget: {
+            id: string;
+            /** @enum {string} */
+            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet";
+            workloadName: string;
+            created: boolean;
+        };
+        KubernetesServiceImportResult: {
+            application: components["schemas"]["KubernetesImportEntityRef"];
+            environment: components["schemas"]["KubernetesImportEntityRef"];
+            applicationEnvironmentId: string;
+            applicationEnvironmentCreated: boolean;
+            /** @enum {string} */
+            ownershipMode: "observe_only" | "managed";
+            services: components["schemas"]["KubernetesImportedService"][];
+            targets: components["schemas"]["KubernetesImportedTarget"][];
+        };
+        KubernetesServiceImportResultEnvelope: {
+            data: components["schemas"]["KubernetesServiceImportResult"];
+        };
+        HelmReleaseImportInput: {
+            releaseName: string;
+        };
+        HelmReleaseImportRequest: {
+            clusterId: string;
+            namespace: string;
+            applicationKey: string;
+            applicationName: string;
+            environmentKey: string;
+            environmentName: string;
+            /** @enum {string} */
+            ownershipMode: "observe_only" | "managed";
+            releases: components["schemas"]["HelmReleaseImportInput"][];
+        };
+        HelmImportedService: {
+            id: string;
+            key: string;
+            name: string;
+            releaseName: string;
+            created: boolean;
+        };
+        HelmImportedTarget: {
+            id: string;
+            releaseName: string;
+            created: boolean;
+        };
+        HelmReleaseImportResult: {
+            application: components["schemas"]["KubernetesImportEntityRef"];
+            environment: components["schemas"]["KubernetesImportEntityRef"];
+            applicationEnvironmentId: string;
+            applicationEnvironmentCreated: boolean;
+            /** @enum {string} */
+            ownershipMode: "observe_only" | "managed";
+            services: components["schemas"]["HelmImportedService"][];
+            targets: components["schemas"]["HelmImportedTarget"][];
+        };
+        HelmReleaseImportResultEnvelope: {
+            data: components["schemas"]["HelmReleaseImportResult"];
         };
         BuildTemplate: {
             id: string;
@@ -8419,6 +8855,8 @@ export interface components {
             imageTag?: string;
             releaseName?: string;
             containerName?: string;
+            /** @description Complete Helm values YAML used when the selected target is a managed Helm release. */
+            valuesContent?: string;
             variables?: {
                 [key: string]: unknown;
             };
@@ -9574,6 +10012,17 @@ export interface components {
         ClusterCapabilityMatrixEnvelope: {
             items: components["schemas"]["ClusterCapabilityMatrixEntry"][];
         };
+        AgentInstallation: {
+            clusterId: string;
+            /** Format: uri */
+            manifestUrl: string;
+            command: string;
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        AgentInstallationEnvelope: {
+            data: components["schemas"]["AgentInstallation"];
+        };
         /** @enum {string} */
         ObservabilityProviderSignal: "logs" | "metrics" | "traces" | "profiles";
         /** @enum {string} */
@@ -9597,6 +10046,85 @@ export interface components {
         };
         ObservabilityProviderListEnvelope: {
             items: components["schemas"]["ObservabilityProviderDefinition"][];
+        };
+        /** @enum {string} */
+        ObservabilityDashboardSource: "grafana";
+        /** @enum {string} */
+        ObservabilityDashboardPanelType: "timeseries" | "stat" | "text" | "row";
+        ObservabilityDashboardPanelLayout: {
+            x: number;
+            y: number;
+            w: number;
+            h: number;
+        };
+        ObservabilityDashboardTarget: {
+            refId: string;
+            expression: string;
+            legend?: string;
+        };
+        ObservabilityDashboardPanel: {
+            id: string;
+            title: string;
+            type: components["schemas"]["ObservabilityDashboardPanelType"];
+            layout: components["schemas"]["ObservabilityDashboardPanelLayout"];
+            targets: components["schemas"]["ObservabilityDashboardTarget"][];
+            queryable: boolean;
+            markdown?: string;
+        };
+        ObservabilityDashboard: {
+            id: string;
+            name: string;
+            source: components["schemas"]["ObservabilityDashboardSource"];
+            sourceSchemaVersion?: number;
+            dataSourceId?: string;
+            tags: string[];
+            panels: components["schemas"]["ObservabilityDashboardPanel"][];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ObservabilityDashboardEnvelope: {
+            data: components["schemas"]["ObservabilityDashboard"];
+        };
+        ObservabilityDashboardListEnvelope: {
+            items: components["schemas"]["ObservabilityDashboard"][];
+        };
+        ObservabilityGrafanaDashboardImportInput: {
+            /** @description Grafana Classic dashboard JSON or a V1 resource whose spec contains the Classic dashboard model. */
+            json: string;
+            /** @description Enabled Soha Prometheus data source used by every imported queryable panel. */
+            dataSourceId: string;
+        };
+        ObservabilityMetricDataSource: {
+            id: string;
+            name: string;
+        };
+        ObservabilityMetricDataSourceListEnvelope: {
+            items: components["schemas"]["ObservabilityMetricDataSource"][];
+        };
+        ObservabilityDashboardImportWarning: {
+            /** @enum {string} */
+            code: "unsupported_panel_type" | "skipped_target" | "unsupported_variable" | "datasource_rebound" | "unsupported_feature";
+            message: string;
+            panelId?: string;
+        };
+        ObservabilityDashboardImportResult: {
+            dashboard: components["schemas"]["ObservabilityDashboard"];
+            warnings: components["schemas"]["ObservabilityDashboardImportWarning"][];
+            importedPanelCount: number;
+            skippedPanelCount: number;
+        };
+        ObservabilityDashboardImportResultEnvelope: {
+            data: components["schemas"]["ObservabilityDashboardImportResult"];
+        };
+        ObservabilityDashboardPanelQueryInput: {
+            /** Format: date-time */
+            timeFrom: string;
+            /** Format: date-time */
+            timeTo: string;
+            /** @default 60 */
+            stepSeconds: number;
         };
         ObservabilityQueryScope: {
             clusterId?: string;
@@ -11259,6 +11787,70 @@ export interface components {
             manifest: components["schemas"]["PluginManifest"];
             installed?: boolean;
         };
+        SoftwarePackage: {
+            id: string;
+            softwareId: string;
+            name: string;
+            description?: string;
+            publisher: string;
+            category?: string;
+            version: string;
+            platform: string;
+            arch: string;
+            fileName: string;
+            /** Format: int64 */
+            sizeBytes: number;
+            sha256: string;
+            downloadPath: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        SoftwarePackageEnvelope: {
+            data: components["schemas"]["SoftwarePackage"];
+        };
+        SoftwarePackageListEnvelope: {
+            items: components["schemas"]["SoftwarePackage"][];
+            nextCursor?: string;
+        };
+        SoftwarePackageUploadRequest: {
+            softwareId: string;
+            name: string;
+            description?: string;
+            publisher: string;
+            category?: string;
+            version: string;
+            platform: string;
+            arch: string;
+            /** Format: binary */
+            file: string;
+        };
+        SoftwarePackageURLImportRequest: {
+            softwareId: string;
+            name: string;
+            description?: string;
+            publisher: string;
+            category?: string;
+            version: string;
+            platform: string;
+            arch: string;
+            /** Format: uri */
+            url: string;
+            fileName?: string;
+        };
+        SoftwareStorage: {
+            backend: string;
+            /** Format: int64 */
+            objectCount: number;
+            /** Format: int64 */
+            totalBytes: number;
+            items: components["schemas"]["SoftwarePackage"][];
+            nextCursor?: string;
+        };
+        SoftwareStorageEnvelope: {
+            data: components["schemas"]["SoftwareStorage"];
+        };
         InstalledPlugin: {
             id: string;
             name: string;
@@ -11909,7 +12501,11 @@ export interface components {
         SourceRepositoryID: string;
         RuntimeConfigApplicationID: string;
         ClusterID: string;
+        ClusterIDQuery: string;
+        AgentInstallTicket: string;
         DataSourceID: string;
+        DashboardID: string;
+        DashboardPanelID: string;
         ComputeCursor: string;
         ComputeLimit: number;
         ComputeDomain: components["schemas"]["ComputeDomain"];
@@ -11941,6 +12537,7 @@ export interface components {
         GitLabProjectIDQuery: string;
         AIClientID: string;
         BuildTemplateID: string;
+        RegistryConnectionID: string;
         BundleID: string;
         AIClientName: string;
         OIDCCode: string;
@@ -11955,6 +12552,7 @@ export interface components {
         KnowledgeGraphRevisionID: string;
         KnowledgeListLimit: number;
         EvaluationRunID: string;
+        SoftwarePackageID: string;
         AIMemoryID: string;
         MultiAgentPlanID: string;
         MultiAgentSubtaskID: string;
@@ -12460,10 +13058,31 @@ export type ReleasePolicy = components['schemas']['ReleasePolicy'];
 export type DeliveryEnvironment = components['schemas']['DeliveryEnvironment'];
 export type ReleaseTarget = components['schemas']['ReleaseTarget'];
 export type ReleaseTargetInput = components['schemas']['ReleaseTargetInput'];
+export type RegistryConnectionMetadata = components['schemas']['RegistryConnectionMetadata'];
+export type RegistryConnection = components['schemas']['RegistryConnection'];
+export type RegistryConnectionInput = components['schemas']['RegistryConnectionInput'];
+export type RegistryConnectionEnvelope = components['schemas']['RegistryConnectionEnvelope'];
+export type RegistryConnectionListEnvelope = components['schemas']['RegistryConnectionListEnvelope'];
 export type WorkflowTemplate = components['schemas']['WorkflowTemplate'];
 export type WorkflowTemplateInput = components['schemas']['WorkflowTemplateInput'];
 export type ApplicationEnvironment = components['schemas']['ApplicationEnvironment'];
 export type ApplicationEnvironmentInput = components['schemas']['ApplicationEnvironmentInput'];
+export type KubernetesRelatedResource = components['schemas']['KubernetesRelatedResource'];
+export type KubernetesImportCandidate = components['schemas']['KubernetesImportCandidate'];
+export type KubernetesImportCandidateListEnvelope = components['schemas']['KubernetesImportCandidateListEnvelope'];
+export type KubernetesWorkloadImportInput = components['schemas']['KubernetesWorkloadImportInput'];
+export type KubernetesServiceImportRequest = components['schemas']['KubernetesServiceImportRequest'];
+export type KubernetesImportEntityRef = components['schemas']['KubernetesImportEntityRef'];
+export type KubernetesImportedService = components['schemas']['KubernetesImportedService'];
+export type KubernetesImportedTarget = components['schemas']['KubernetesImportedTarget'];
+export type KubernetesServiceImportResult = components['schemas']['KubernetesServiceImportResult'];
+export type KubernetesServiceImportResultEnvelope = components['schemas']['KubernetesServiceImportResultEnvelope'];
+export type HelmReleaseImportInput = components['schemas']['HelmReleaseImportInput'];
+export type HelmReleaseImportRequest = components['schemas']['HelmReleaseImportRequest'];
+export type HelmImportedService = components['schemas']['HelmImportedService'];
+export type HelmImportedTarget = components['schemas']['HelmImportedTarget'];
+export type HelmReleaseImportResult = components['schemas']['HelmReleaseImportResult'];
+export type HelmReleaseImportResultEnvelope = components['schemas']['HelmReleaseImportResultEnvelope'];
 export type BuildTemplate = components['schemas']['BuildTemplate'];
 export type BuildTemplateInput = components['schemas']['BuildTemplateInput'];
 export type BuildRecord = components['schemas']['BuildRecord'];
@@ -12615,11 +13234,28 @@ export type ClusterCapabilityStatus = components['schemas']['ClusterCapabilitySt
 export type ClusterCapabilityModeSupport = components['schemas']['ClusterCapabilityModeSupport'];
 export type ClusterCapabilityMatrixEntry = components['schemas']['ClusterCapabilityMatrixEntry'];
 export type ClusterCapabilityMatrixEnvelope = components['schemas']['ClusterCapabilityMatrixEnvelope'];
+export type AgentInstallation = components['schemas']['AgentInstallation'];
+export type AgentInstallationEnvelope = components['schemas']['AgentInstallationEnvelope'];
 export type ObservabilityProviderSignal = components['schemas']['ObservabilityProviderSignal'];
 export type ObservabilityProviderRuntimeMode = components['schemas']['ObservabilityProviderRuntimeMode'];
 export type ObservabilityProviderStatus = components['schemas']['ObservabilityProviderStatus'];
 export type ObservabilityProviderDefinition = components['schemas']['ObservabilityProviderDefinition'];
 export type ObservabilityProviderListEnvelope = components['schemas']['ObservabilityProviderListEnvelope'];
+export type ObservabilityDashboardSource = components['schemas']['ObservabilityDashboardSource'];
+export type ObservabilityDashboardPanelType = components['schemas']['ObservabilityDashboardPanelType'];
+export type ObservabilityDashboardPanelLayout = components['schemas']['ObservabilityDashboardPanelLayout'];
+export type ObservabilityDashboardTarget = components['schemas']['ObservabilityDashboardTarget'];
+export type ObservabilityDashboardPanel = components['schemas']['ObservabilityDashboardPanel'];
+export type ObservabilityDashboard = components['schemas']['ObservabilityDashboard'];
+export type ObservabilityDashboardEnvelope = components['schemas']['ObservabilityDashboardEnvelope'];
+export type ObservabilityDashboardListEnvelope = components['schemas']['ObservabilityDashboardListEnvelope'];
+export type ObservabilityGrafanaDashboardImportInput = components['schemas']['ObservabilityGrafanaDashboardImportInput'];
+export type ObservabilityMetricDataSource = components['schemas']['ObservabilityMetricDataSource'];
+export type ObservabilityMetricDataSourceListEnvelope = components['schemas']['ObservabilityMetricDataSourceListEnvelope'];
+export type ObservabilityDashboardImportWarning = components['schemas']['ObservabilityDashboardImportWarning'];
+export type ObservabilityDashboardImportResult = components['schemas']['ObservabilityDashboardImportResult'];
+export type ObservabilityDashboardImportResultEnvelope = components['schemas']['ObservabilityDashboardImportResultEnvelope'];
+export type ObservabilityDashboardPanelQueryInput = components['schemas']['ObservabilityDashboardPanelQueryInput'];
 export type ObservabilityQueryScope = components['schemas']['ObservabilityQueryScope'];
 export type ObservabilityMetricKey = components['schemas']['ObservabilityMetricKey'];
 export type ObservabilityMetricQueryInput = components['schemas']['ObservabilityMetricQueryInput'];
@@ -12819,6 +13455,13 @@ export type CloudOnlyDomain = components['schemas']['CloudOnlyDomain'];
 export type CloudExtensionPoint = components['schemas']['CloudExtensionPoint'];
 export type CloudExtensionPointListEnvelope = components['schemas']['CloudExtensionPointListEnvelope'];
 export type MarketplacePlugin = components['schemas']['MarketplacePlugin'];
+export type SoftwarePackage = components['schemas']['SoftwarePackage'];
+export type SoftwarePackageEnvelope = components['schemas']['SoftwarePackageEnvelope'];
+export type SoftwarePackageListEnvelope = components['schemas']['SoftwarePackageListEnvelope'];
+export type SoftwarePackageUploadRequest = components['schemas']['SoftwarePackageUploadRequest'];
+export type SoftwarePackageURLImportRequest = components['schemas']['SoftwarePackageURLImportRequest'];
+export type SoftwareStorage = components['schemas']['SoftwareStorage'];
+export type SoftwareStorageEnvelope = components['schemas']['SoftwareStorageEnvelope'];
 export type InstalledPlugin = components['schemas']['InstalledPlugin'];
 export type PluginInstallRequest = components['schemas']['PluginInstallRequest'];
 export type PluginConfigRequest = components['schemas']['PluginConfigRequest'];
@@ -12908,7 +13551,11 @@ export type ParameterSourceConnectionId = components['parameters']['SourceConnec
 export type ParameterSourceRepositoryId = components['parameters']['SourceRepositoryID'];
 export type ParameterRuntimeConfigApplicationId = components['parameters']['RuntimeConfigApplicationID'];
 export type ParameterClusterId = components['parameters']['ClusterID'];
+export type ParameterClusterIdQuery = components['parameters']['ClusterIDQuery'];
+export type ParameterAgentInstallTicket = components['parameters']['AgentInstallTicket'];
 export type ParameterDataSourceId = components['parameters']['DataSourceID'];
+export type ParameterDashboardId = components['parameters']['DashboardID'];
+export type ParameterDashboardPanelId = components['parameters']['DashboardPanelID'];
 export type ParameterComputeCursor = components['parameters']['ComputeCursor'];
 export type ParameterComputeLimit = components['parameters']['ComputeLimit'];
 export type ParameterComputeDomain = components['parameters']['ComputeDomain'];
@@ -12938,6 +13585,7 @@ export type ParameterRepositoryId = components['parameters']['RepositoryID'];
 export type ParameterGitLabProjectIdQuery = components['parameters']['GitLabProjectIDQuery'];
 export type ParameterAiClientId = components['parameters']['AIClientID'];
 export type ParameterBuildTemplateId = components['parameters']['BuildTemplateID'];
+export type ParameterRegistryConnectionId = components['parameters']['RegistryConnectionID'];
 export type ParameterBundleId = components['parameters']['BundleID'];
 export type ParameterAiClientName = components['parameters']['AIClientName'];
 export type ParameterOidcCode = components['parameters']['OIDCCode'];
@@ -12952,6 +13600,7 @@ export type ParameterKnowledgeIngestionJobId = components['parameters']['Knowled
 export type ParameterKnowledgeGraphRevisionId = components['parameters']['KnowledgeGraphRevisionID'];
 export type ParameterKnowledgeListLimit = components['parameters']['KnowledgeListLimit'];
 export type ParameterEvaluationRunId = components['parameters']['EvaluationRunID'];
+export type ParameterSoftwarePackageId = components['parameters']['SoftwarePackageID'];
 export type ParameterAiMemoryId = components['parameters']['AIMemoryID'];
 export type ParameterMultiAgentPlanId = components['parameters']['MultiAgentPlanID'];
 export type ParameterMultiAgentSubtaskId = components['parameters']['MultiAgentSubtaskID'];
@@ -14554,6 +15203,87 @@ export interface operations {
             400: components["responses"]["Error"];
         };
     };
+    listApplicationEnvironmentTargetCandidates: {
+        parameters: {
+            query: {
+                clusterId: string;
+                namespace: string;
+                search?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Discoverable Kubernetes workloads and their related resources. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesImportCandidateListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    importKubernetesServices: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesServiceImportRequest"];
+            };
+        };
+        responses: {
+            /** @description Idempotent Kubernetes service import result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesServiceImportResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    importHelmReleases: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["HelmReleaseImportRequest"];
+            };
+        };
+        responses: {
+            /** @description Idempotent Helm release import result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HelmReleaseImportResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
     getApplicationEnvironment: {
         parameters: {
             query?: never;
@@ -14648,6 +15378,108 @@ export interface operations {
                     "application/json": components["schemas"]["ApplicationEnvironmentDeliveryDetailEnvelope"];
                 };
             };
+            404: components["responses"]["Error"];
+        };
+    };
+    listRegistryConnections: {
+        parameters: {
+            query?: {
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Registry connections visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RegistryConnectionListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createRegistryConnection: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegistryConnectionInput"];
+            };
+        };
+        responses: {
+            /** @description Created registry connection. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RegistryConnectionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    updateRegistryConnection: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                connectionID: components["parameters"]["RegistryConnectionID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegistryConnectionInput"];
+            };
+        };
+        responses: {
+            /** @description Updated registry connection. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RegistryConnectionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteRegistryConnection: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                connectionID: components["parameters"]["RegistryConnectionID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted registry connection. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            403: components["responses"]["Error"];
             404: components["responses"]["Error"];
         };
     };
@@ -16310,6 +17142,79 @@ export interface operations {
             403: components["responses"]["Error"];
         };
     };
+    createClusterAgentInstallation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Short-lived Kubernetes manifest URL and kubectl command for installing the cluster Agent. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentInstallationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    downloadKubernetesAgentInstallationManifest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                installTicket: components["parameters"]["AgentInstallTicket"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Complete Kubernetes Agent installation manifest. The download URL is short-lived. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/yaml": string;
+                };
+            };
+            404: components["responses"]["Error"];
+            410: components["responses"]["Error"];
+        };
+    };
+    connectClusterAgentSession: {
+        parameters: {
+            query: {
+                clusterId: components["parameters"]["ClusterIDQuery"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description WebSocket session established. */
+            101: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
     queryClusterLogs: {
         parameters: {
             query?: never;
@@ -16629,6 +17534,154 @@ export interface operations {
                 };
             };
             403: components["responses"]["Error"];
+        };
+    };
+    listObservabilityDashboards: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Dashboards visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservabilityDashboardListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    listObservabilityMetricDataSources: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Enabled Prometheus data sources available for metric dashboards. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservabilityMetricDataSourceListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    importGrafanaDashboard: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ObservabilityGrafanaDashboardImportInput"];
+            };
+        };
+        responses: {
+            /** @description Imported native dashboard and explicit compatibility warnings. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservabilityDashboardImportResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    getObservabilityDashboard: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dashboardID: components["parameters"]["DashboardID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Dashboard detail including normalized panels and targets. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservabilityDashboardEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteObservabilityDashboard: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dashboardID: components["parameters"]["DashboardID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Dashboard deleted. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    queryObservabilityDashboardPanel: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dashboardID: components["parameters"]["DashboardID"];
+                panelID: components["parameters"]["DashboardPanelID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ObservabilityDashboardPanelQueryInput"];
+            };
+        };
+        responses: {
+            /** @description Normalized metric series for the persisted dashboard panel targets. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservabilityMetricQueryEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
         };
     };
     queryObservabilityMetrics: {
@@ -19657,6 +20710,165 @@ export interface operations {
                     "application/json": components["schemas"]["MarketplacePluginEnvelope"];
                 };
             };
+        };
+    };
+    listSoftwarePackages: {
+        parameters: {
+            query?: {
+                platform?: string;
+                arch?: string;
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Software packages visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SoftwarePackageListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    uploadSoftwarePackage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["SoftwarePackageUploadRequest"];
+            };
+        };
+        responses: {
+            /** @description Software package uploaded and published. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SoftwarePackageEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            413: components["responses"]["Error"];
+        };
+    };
+    importSoftwarePackage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SoftwarePackageURLImportRequest"];
+            };
+        };
+        responses: {
+            /** @description Software package downloaded from the source URL and published. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SoftwarePackageEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            413: components["responses"]["Error"];
+        };
+    };
+    getSoftwareStorage: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Managed software storage summary and object records. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SoftwareStorageEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    deleteSoftwarePackage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                packageID: components["parameters"]["SoftwarePackageID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Software package deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    downloadSoftwarePackage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                packageID: components["parameters"]["SoftwarePackageID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Software package binary. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
         };
     };
     listInstalledPlugins: {

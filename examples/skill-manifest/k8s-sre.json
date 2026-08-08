@@ -4,8 +4,8 @@
   "version": "0.1.0",
   "category": "ai-gateway",
   "description": "Read-only Kubernetes troubleshooting skill.",
-  "capabilityRefs": ["k8s.list_pods"],
-  "permissionKeys": ["k8s.pods.read"],
+  "capabilityRefs": ["k8s.pods.list"],
+  "permissionKeys": ["platform.pods.view"],
   "requiredScopes": ["cluster", "namespace"],
   "providerSkillRefs": [
     {

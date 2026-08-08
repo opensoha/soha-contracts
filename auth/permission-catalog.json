@@ -1,7 +1,7 @@
 {
   "schemaVersion": "authorization.opensoha.io/v1",
-  "catalogVersion": "1.2.0",
-  "contentHash": "sha256:5d7a468df65eb73a082457b0673b009034b5ed28f6a2fb4885b59a26fb7ca239",
+  "catalogVersion": "1.3.0",
+  "contentHash": "sha256:182dbfb4b9962dc4a0c344c2ce7622ec4424cf5ff0892a73b0b6806eddf6f2c7",
   "permissions": [
     {
       "key": "access.directory.create",
@@ -4933,6 +4933,64 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true
+    },
+    {
+      "key": "observe.dashboards.create",
+      "domain": "observe",
+      "resource": "dashboards",
+      "action": "create",
+      "displayName": "导入监控仪表盘",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true,
+      "legacyAliases": [
+        "observe.dashboards.manage"
+      ]
+    },
+    {
+      "key": "observe.dashboards.delete",
+      "domain": "observe",
+      "resource": "dashboards",
+      "action": "delete",
+      "displayName": "删除监控仪表盘",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true,
+      "legacyAliases": [
+        "observe.dashboards.manage"
+      ]
+    },
+    {
+      "key": "observe.dashboards.manage",
+      "domain": "observe",
+      "resource": "dashboards",
+      "action": "manage",
+      "displayName": "管理监控仪表盘",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "legacy",
+      "assignable": false,
+      "replacedBy": [
+        "observe.dashboards.create",
+        "observe.dashboards.delete"
+      ]
     },
     {
       "key": "observe.events.view",
@@ -10037,6 +10095,54 @@
       "resource": "system-integrations",
       "action": "view",
       "displayName": "查看系统集成",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "software.package.create",
+      "domain": "software",
+      "resource": "package",
+      "action": "create",
+      "displayName": "上传软件包",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "software.package.delete",
+      "domain": "software",
+      "resource": "package",
+      "action": "delete",
+      "displayName": "删除软件包",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "software.package.view",
+      "domain": "software",
+      "resource": "package",
+      "action": "view",
+      "displayName": "查看和下载软件包",
       "riskLevel": "read",
       "scopeKinds": [
         "tenant",

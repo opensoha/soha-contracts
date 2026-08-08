@@ -10,22 +10,22 @@
     "teams": [],
     "projects": [],
     "tags": [],
-    "permissionKeys": ["ai.gateway.tools.read", "k8s.pods.read"]
+    "permissionKeys": ["ai.gateway.view", "platform.pods.view"]
   },
   "caller": {
     "identityMode": "user",
     "source": "cli"
   },
-  "permissionKeys": ["ai.gateway.tools.read", "k8s.pods.read"],
+  "permissionKeys": ["ai.gateway.view", "platform.pods.view"],
   "tools": [
     {
-      "name": "k8s.list_pods",
+      "name": "k8s.pods.list",
       "title": "List pods",
       "description": "List Kubernetes pods in a namespace.",
       "domain": "kubernetes",
       "action": "read",
       "riskLevel": "read",
-      "permissionKeys": ["k8s.pods.read"],
+      "permissionKeys": ["platform.pods.view"],
       "requiredScopes": ["cluster", "namespace"],
       "mcpAdapterId": "builtin.kubernetes",
       "mcpToolName": "k8s.pods.list",
@@ -57,8 +57,8 @@
       "name": "Kubernetes SRE",
       "category": "ai-gateway",
       "description": "Read-only cluster diagnosis skill.",
-      "capabilityRefs": ["k8s.list_pods"],
-      "permissionKeys": ["k8s.pods.read"],
+      "capabilityRefs": ["k8s.pods.list"],
+      "permissionKeys": ["platform.pods.view"],
       "requiredScopes": ["cluster", "namespace"]
     }
   ],

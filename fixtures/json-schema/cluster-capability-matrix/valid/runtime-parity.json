@@ -6,14 +6,17 @@
       "key": "kubernetes.yaml.apply",
       "label": "Apply Kubernetes YAML",
       "category": "yaml",
+      "requiredScopes": ["cluster", "namespace"],
       "riskLevel": "mutate",
       "requiresApproval": true,
+      "docsUrl": "/operations/kubernetes-yaml",
       "direct": {
         "status": "available",
         "requiredScopes": ["cluster:write", "kubernetes:apply"]
       },
       "agent": {
         "status": "available",
+        "notes": ["Requires the resource mutation allowlist."],
         "requiredAgentVersion": "0.1.0",
         "requiredScopes": ["agent:kubernetes:apply"]
       },

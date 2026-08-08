@@ -13,6 +13,7 @@ import (
 )
 
 const (
+	AgentBearerAuthScopes   agentBearerAuthContextKey   = "agentBearerAuth.Scopes"
 	BearerAuthScopes        bearerAuthContextKey        = "bearerAuth.Scopes"
 	RuntimeBearerAuthScopes runtimeBearerAuthContextKey = "runtimeBearerAuth.Scopes"
 	SohaXAPIKeyScopes       sohaXAPIKeyContextKey       = "sohaXAPIKey.Scopes"
@@ -1575,6 +1576,42 @@ func (e EvaluationRunStatus) Valid() bool {
 	}
 }
 
+// Defines values for HelmReleaseImportRequestOwnershipMode.
+const (
+	HelmReleaseImportRequestOwnershipModeManaged     HelmReleaseImportRequestOwnershipMode = "managed"
+	HelmReleaseImportRequestOwnershipModeObserveOnly HelmReleaseImportRequestOwnershipMode = "observe_only"
+)
+
+// Valid indicates whether the value is a known member of the HelmReleaseImportRequestOwnershipMode enum.
+func (e HelmReleaseImportRequestOwnershipMode) Valid() bool {
+	switch e {
+	case HelmReleaseImportRequestOwnershipModeManaged:
+		return true
+	case HelmReleaseImportRequestOwnershipModeObserveOnly:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for HelmReleaseImportResultOwnershipMode.
+const (
+	HelmReleaseImportResultOwnershipModeManaged     HelmReleaseImportResultOwnershipMode = "managed"
+	HelmReleaseImportResultOwnershipModeObserveOnly HelmReleaseImportResultOwnershipMode = "observe_only"
+)
+
+// Valid indicates whether the value is a known member of the HelmReleaseImportResultOwnershipMode enum.
+func (e HelmReleaseImportResultOwnershipMode) Valid() bool {
+	switch e {
+	case HelmReleaseImportResultOwnershipModeManaged:
+		return true
+	case HelmReleaseImportResultOwnershipModeObserveOnly:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for IdentityCapabilityStatus.
 const (
 	IdentityCapabilityStatusAvailable   IdentityCapabilityStatus = "available"
@@ -2145,6 +2182,90 @@ func (e KnowledgeSyncRunStatus) Valid() bool {
 	}
 }
 
+// Defines values for KubernetesImportCandidateWorkloadKind.
+const (
+	KubernetesImportCandidateWorkloadKindDaemonSet   KubernetesImportCandidateWorkloadKind = "DaemonSet"
+	KubernetesImportCandidateWorkloadKindDeployment  KubernetesImportCandidateWorkloadKind = "Deployment"
+	KubernetesImportCandidateWorkloadKindStatefulSet KubernetesImportCandidateWorkloadKind = "StatefulSet"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesImportCandidateWorkloadKind enum.
+func (e KubernetesImportCandidateWorkloadKind) Valid() bool {
+	switch e {
+	case KubernetesImportCandidateWorkloadKindDaemonSet:
+		return true
+	case KubernetesImportCandidateWorkloadKindDeployment:
+		return true
+	case KubernetesImportCandidateWorkloadKindStatefulSet:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesImportedServiceWorkloadKind.
+const (
+	KubernetesImportedServiceWorkloadKindDaemonSet   KubernetesImportedServiceWorkloadKind = "DaemonSet"
+	KubernetesImportedServiceWorkloadKindDeployment  KubernetesImportedServiceWorkloadKind = "Deployment"
+	KubernetesImportedServiceWorkloadKindStatefulSet KubernetesImportedServiceWorkloadKind = "StatefulSet"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesImportedServiceWorkloadKind enum.
+func (e KubernetesImportedServiceWorkloadKind) Valid() bool {
+	switch e {
+	case KubernetesImportedServiceWorkloadKindDaemonSet:
+		return true
+	case KubernetesImportedServiceWorkloadKindDeployment:
+		return true
+	case KubernetesImportedServiceWorkloadKindStatefulSet:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesImportedTargetWorkloadKind.
+const (
+	KubernetesImportedTargetWorkloadKindDaemonSet   KubernetesImportedTargetWorkloadKind = "DaemonSet"
+	KubernetesImportedTargetWorkloadKindDeployment  KubernetesImportedTargetWorkloadKind = "Deployment"
+	KubernetesImportedTargetWorkloadKindStatefulSet KubernetesImportedTargetWorkloadKind = "StatefulSet"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesImportedTargetWorkloadKind enum.
+func (e KubernetesImportedTargetWorkloadKind) Valid() bool {
+	switch e {
+	case KubernetesImportedTargetWorkloadKindDaemonSet:
+		return true
+	case KubernetesImportedTargetWorkloadKindDeployment:
+		return true
+	case KubernetesImportedTargetWorkloadKindStatefulSet:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesRelatedResourceKind.
+const (
+	HorizontalPodAutoscaler KubernetesRelatedResourceKind = "HorizontalPodAutoscaler"
+	Ingress                 KubernetesRelatedResourceKind = "Ingress"
+	Service                 KubernetesRelatedResourceKind = "Service"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesRelatedResourceKind enum.
+func (e KubernetesRelatedResourceKind) Valid() bool {
+	switch e {
+	case HorizontalPodAutoscaler:
+		return true
+	case Ingress:
+		return true
+	case Service:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for KubernetesResourceAction.
 const (
 	KubernetesResourceActionCreate KubernetesResourceAction = "create"
@@ -2349,6 +2470,63 @@ func (e KubernetesResourceScopeMode) Valid() bool {
 	case KubernetesResourceScopeModeCluster:
 		return true
 	case KubernetesResourceScopeModeNamespace:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesServiceImportRequestOwnershipMode.
+const (
+	KubernetesServiceImportRequestOwnershipModeManaged     KubernetesServiceImportRequestOwnershipMode = "managed"
+	KubernetesServiceImportRequestOwnershipModeObserveOnly KubernetesServiceImportRequestOwnershipMode = "observe_only"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesServiceImportRequestOwnershipMode enum.
+func (e KubernetesServiceImportRequestOwnershipMode) Valid() bool {
+	switch e {
+	case KubernetesServiceImportRequestOwnershipModeManaged:
+		return true
+	case KubernetesServiceImportRequestOwnershipModeObserveOnly:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesServiceImportResultOwnershipMode.
+const (
+	KubernetesServiceImportResultOwnershipModeManaged     KubernetesServiceImportResultOwnershipMode = "managed"
+	KubernetesServiceImportResultOwnershipModeObserveOnly KubernetesServiceImportResultOwnershipMode = "observe_only"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesServiceImportResultOwnershipMode enum.
+func (e KubernetesServiceImportResultOwnershipMode) Valid() bool {
+	switch e {
+	case KubernetesServiceImportResultOwnershipModeManaged:
+		return true
+	case KubernetesServiceImportResultOwnershipModeObserveOnly:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesWorkloadImportInputWorkloadKind.
+const (
+	KubernetesWorkloadImportInputWorkloadKindDaemonSet   KubernetesWorkloadImportInputWorkloadKind = "DaemonSet"
+	KubernetesWorkloadImportInputWorkloadKindDeployment  KubernetesWorkloadImportInputWorkloadKind = "Deployment"
+	KubernetesWorkloadImportInputWorkloadKindStatefulSet KubernetesWorkloadImportInputWorkloadKind = "StatefulSet"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesWorkloadImportInputWorkloadKind enum.
+func (e KubernetesWorkloadImportInputWorkloadKind) Valid() bool {
+	switch e {
+	case KubernetesWorkloadImportInputWorkloadKindDaemonSet:
+		return true
+	case KubernetesWorkloadImportInputWorkloadKindDeployment:
+		return true
+	case KubernetesWorkloadImportInputWorkloadKindStatefulSet:
 		return true
 	default:
 		return false
@@ -3585,6 +3763,72 @@ func (e OIDCClientInputGrantTypes) Valid() bool {
 	case OIDCClientInputGrantTypesAuthorizationCode:
 		return true
 	case OIDCClientInputGrantTypesRefreshToken:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityDashboardImportWarningCode.
+const (
+	DatasourceRebound    ObservabilityDashboardImportWarningCode = "datasource_rebound"
+	SkippedTarget        ObservabilityDashboardImportWarningCode = "skipped_target"
+	UnsupportedFeature   ObservabilityDashboardImportWarningCode = "unsupported_feature"
+	UnsupportedPanelType ObservabilityDashboardImportWarningCode = "unsupported_panel_type"
+	UnsupportedVariable  ObservabilityDashboardImportWarningCode = "unsupported_variable"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityDashboardImportWarningCode enum.
+func (e ObservabilityDashboardImportWarningCode) Valid() bool {
+	switch e {
+	case DatasourceRebound:
+		return true
+	case SkippedTarget:
+		return true
+	case UnsupportedFeature:
+		return true
+	case UnsupportedPanelType:
+		return true
+	case UnsupportedVariable:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityDashboardPanelType.
+const (
+	ObservabilityDashboardPanelTypeRow        ObservabilityDashboardPanelType = "row"
+	ObservabilityDashboardPanelTypeStat       ObservabilityDashboardPanelType = "stat"
+	ObservabilityDashboardPanelTypeText       ObservabilityDashboardPanelType = "text"
+	ObservabilityDashboardPanelTypeTimeseries ObservabilityDashboardPanelType = "timeseries"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityDashboardPanelType enum.
+func (e ObservabilityDashboardPanelType) Valid() bool {
+	switch e {
+	case ObservabilityDashboardPanelTypeRow:
+		return true
+	case ObservabilityDashboardPanelTypeStat:
+		return true
+	case ObservabilityDashboardPanelTypeText:
+		return true
+	case ObservabilityDashboardPanelTypeTimeseries:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityDashboardSource.
+const (
+	ObservabilityDashboardSourceGrafana ObservabilityDashboardSource = "grafana"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityDashboardSource enum.
+func (e ObservabilityDashboardSource) Valid() bool {
+	switch e {
+	case ObservabilityDashboardSourceGrafana:
 		return true
 	default:
 		return false
@@ -6440,6 +6684,19 @@ type AccessRoleListEnvelope struct {
 	Items []AccessRole `json:"items"`
 }
 
+// AgentInstallation defines model for AgentInstallation.
+type AgentInstallation struct {
+	ClusterID   string    `json:"clusterId"`
+	Command     string    `json:"command"`
+	ExpiresAt   time.Time `json:"expiresAt"`
+	ManifestURL string    `json:"manifestUrl"`
+}
+
+// AgentInstallationEnvelope defines model for AgentInstallationEnvelope.
+type AgentInstallationEnvelope struct {
+	Data AgentInstallation `json:"data"`
+}
+
 // AgentProviderCatalog defines model for AgentProviderCatalog.
 type AgentProviderCatalog struct {
 	CreatedAt     time.Time                 `json:"createdAt"`
@@ -7029,7 +7286,10 @@ type ApplicationDeliveryActionRequest struct {
 	ReleaseBundleID          string                        `json:"releaseBundleId,omitempty"`
 	ReleaseName              string                        `json:"releaseName,omitempty"`
 	TargetID                 string                        `json:"targetId,omitempty"`
-	Variables                map[string]any                `json:"variables,omitempty"`
+
+	// ValuesContent Complete Helm values YAML used when the selected target is a managed Helm release.
+	ValuesContent string         `json:"valuesContent,omitempty"`
+	Variables     map[string]any `json:"variables,omitempty"`
 }
 
 // ApplicationDeliveryActionResult defines model for ApplicationDeliveryActionResult.
@@ -7147,10 +7407,10 @@ type ApplicationInput struct {
 	Description         string             `json:"description,omitempty"`
 	DockerfilePath      string             `json:"dockerfilePath,omitempty"`
 	Enabled             bool               `json:"enabled"`
-	Group               string             `json:"group"`
+	Group               string             `json:"group,omitempty"`
 	ID                  string             `json:"id,omitempty"`
 	Key                 string             `json:"key"`
-	Language            string             `json:"language"`
+	Language            string             `json:"language,omitempty"`
 	Metadata            map[string]any     `json:"metadata,omitempty"`
 	Name                string             `json:"name"`
 	OwnerTeam           string             `json:"ownerTeam,omitempty"`
@@ -9313,6 +9573,61 @@ type GovernanceTokenSummary struct {
 	Stale                 []GovernanceTokenFinding `json:"stale,omitempty"`
 }
 
+// HelmImportedService defines model for HelmImportedService.
+type HelmImportedService struct {
+	Created     bool   `json:"created"`
+	ID          string `json:"id"`
+	Key         string `json:"key"`
+	Name        string `json:"name"`
+	ReleaseName string `json:"releaseName"`
+}
+
+// HelmImportedTarget defines model for HelmImportedTarget.
+type HelmImportedTarget struct {
+	Created     bool   `json:"created"`
+	ID          string `json:"id"`
+	ReleaseName string `json:"releaseName"`
+}
+
+// HelmReleaseImportInput defines model for HelmReleaseImportInput.
+type HelmReleaseImportInput struct {
+	ReleaseName string `json:"releaseName"`
+}
+
+// HelmReleaseImportRequest defines model for HelmReleaseImportRequest.
+type HelmReleaseImportRequest struct {
+	ApplicationKey  string                                `json:"applicationKey"`
+	ApplicationName string                                `json:"applicationName"`
+	ClusterID       string                                `json:"clusterId"`
+	EnvironmentKey  string                                `json:"environmentKey"`
+	EnvironmentName string                                `json:"environmentName"`
+	Namespace       string                                `json:"namespace"`
+	OwnershipMode   HelmReleaseImportRequestOwnershipMode `json:"ownershipMode"`
+	Releases        []HelmReleaseImportInput              `json:"releases"`
+}
+
+// HelmReleaseImportRequestOwnershipMode defines model for HelmReleaseImportRequest.OwnershipMode.
+type HelmReleaseImportRequestOwnershipMode string
+
+// HelmReleaseImportResult defines model for HelmReleaseImportResult.
+type HelmReleaseImportResult struct {
+	Application                   KubernetesImportEntityRef            `json:"application"`
+	ApplicationEnvironmentCreated bool                                 `json:"applicationEnvironmentCreated"`
+	ApplicationEnvironmentID      string                               `json:"applicationEnvironmentId"`
+	Environment                   KubernetesImportEntityRef            `json:"environment"`
+	OwnershipMode                 HelmReleaseImportResultOwnershipMode `json:"ownershipMode"`
+	Services                      []HelmImportedService                `json:"services"`
+	Targets                       []HelmImportedTarget                 `json:"targets"`
+}
+
+// HelmReleaseImportResultOwnershipMode defines model for HelmReleaseImportResult.OwnershipMode.
+type HelmReleaseImportResultOwnershipMode string
+
+// HelmReleaseImportResultEnvelope defines model for HelmReleaseImportResultEnvelope.
+type HelmReleaseImportResultEnvelope struct {
+	Data HelmReleaseImportResult `json:"data"`
+}
+
 // IdentityApplication defines model for IdentityApplication.
 type IdentityApplication struct {
 	CreatedAt   time.Time              `json:"createdAt"`
@@ -10098,6 +10413,69 @@ type KnowledgeSyncRunListEnvelope struct {
 	Items []KnowledgeSyncRun `json:"items"`
 }
 
+// KubernetesImportCandidate defines model for KubernetesImportCandidate.
+type KubernetesImportCandidate struct {
+	ClusterID        string                                `json:"clusterId"`
+	Containers       []string                              `json:"containers,omitempty"`
+	DesiredReplicas  int                                   `json:"desiredReplicas"`
+	Labels           map[string]string                     `json:"labels,omitempty"`
+	Namespace        string                                `json:"namespace"`
+	ReadyReplicas    int                                   `json:"readyReplicas"`
+	RelatedResources []KubernetesRelatedResource           `json:"relatedResources"`
+	WorkloadKind     KubernetesImportCandidateWorkloadKind `json:"workloadKind"`
+	WorkloadName     string                                `json:"workloadName"`
+}
+
+// KubernetesImportCandidateWorkloadKind defines model for KubernetesImportCandidate.WorkloadKind.
+type KubernetesImportCandidateWorkloadKind string
+
+// KubernetesImportCandidateListEnvelope defines model for KubernetesImportCandidateListEnvelope.
+type KubernetesImportCandidateListEnvelope struct {
+	Items     []KubernetesImportCandidate `json:"items"`
+	Truncated bool                        `json:"truncated"`
+}
+
+// KubernetesImportEntityRef defines model for KubernetesImportEntityRef.
+type KubernetesImportEntityRef struct {
+	Created bool   `json:"created"`
+	ID      string `json:"id"`
+	Key     string `json:"key"`
+	Name    string `json:"name"`
+}
+
+// KubernetesImportedService defines model for KubernetesImportedService.
+type KubernetesImportedService struct {
+	Created      bool                                  `json:"created"`
+	ID           string                                `json:"id"`
+	Key          string                                `json:"key"`
+	Name         string                                `json:"name"`
+	WorkloadKind KubernetesImportedServiceWorkloadKind `json:"workloadKind"`
+	WorkloadName string                                `json:"workloadName"`
+}
+
+// KubernetesImportedServiceWorkloadKind defines model for KubernetesImportedService.WorkloadKind.
+type KubernetesImportedServiceWorkloadKind string
+
+// KubernetesImportedTarget defines model for KubernetesImportedTarget.
+type KubernetesImportedTarget struct {
+	Created      bool                                 `json:"created"`
+	ID           string                               `json:"id"`
+	WorkloadKind KubernetesImportedTargetWorkloadKind `json:"workloadKind"`
+	WorkloadName string                               `json:"workloadName"`
+}
+
+// KubernetesImportedTargetWorkloadKind defines model for KubernetesImportedTarget.WorkloadKind.
+type KubernetesImportedTargetWorkloadKind string
+
+// KubernetesRelatedResource defines model for KubernetesRelatedResource.
+type KubernetesRelatedResource struct {
+	Kind KubernetesRelatedResourceKind `json:"kind"`
+	Name string                        `json:"name"`
+}
+
+// KubernetesRelatedResourceKind defines model for KubernetesRelatedResource.Kind.
+type KubernetesRelatedResourceKind string
+
 // KubernetesResourceAction defines model for KubernetesResourceAction.
 type KubernetesResourceAction string
 
@@ -10340,6 +10718,49 @@ type KubernetesResourceWarning struct {
 	// Message Redacted user-facing warning describing a non-fatal normalization.
 	Message string `json:"message"`
 }
+
+// KubernetesServiceImportRequest defines model for KubernetesServiceImportRequest.
+type KubernetesServiceImportRequest struct {
+	ApplicationKey  string                                      `json:"applicationKey"`
+	ApplicationName string                                      `json:"applicationName"`
+	ClusterID       string                                      `json:"clusterId"`
+	EnvironmentKey  string                                      `json:"environmentKey"`
+	EnvironmentName string                                      `json:"environmentName"`
+	Namespace       string                                      `json:"namespace"`
+	OwnershipMode   KubernetesServiceImportRequestOwnershipMode `json:"ownershipMode"`
+	Workloads       []KubernetesWorkloadImportInput             `json:"workloads"`
+}
+
+// KubernetesServiceImportRequestOwnershipMode defines model for KubernetesServiceImportRequest.OwnershipMode.
+type KubernetesServiceImportRequestOwnershipMode string
+
+// KubernetesServiceImportResult defines model for KubernetesServiceImportResult.
+type KubernetesServiceImportResult struct {
+	Application                   KubernetesImportEntityRef                  `json:"application"`
+	ApplicationEnvironmentCreated bool                                       `json:"applicationEnvironmentCreated"`
+	ApplicationEnvironmentID      string                                     `json:"applicationEnvironmentId"`
+	Environment                   KubernetesImportEntityRef                  `json:"environment"`
+	OwnershipMode                 KubernetesServiceImportResultOwnershipMode `json:"ownershipMode"`
+	Services                      []KubernetesImportedService                `json:"services"`
+	Targets                       []KubernetesImportedTarget                 `json:"targets"`
+}
+
+// KubernetesServiceImportResultOwnershipMode defines model for KubernetesServiceImportResult.OwnershipMode.
+type KubernetesServiceImportResultOwnershipMode string
+
+// KubernetesServiceImportResultEnvelope defines model for KubernetesServiceImportResultEnvelope.
+type KubernetesServiceImportResultEnvelope struct {
+	Data KubernetesServiceImportResult `json:"data"`
+}
+
+// KubernetesWorkloadImportInput defines model for KubernetesWorkloadImportInput.
+type KubernetesWorkloadImportInput struct {
+	WorkloadKind KubernetesWorkloadImportInputWorkloadKind `json:"workloadKind"`
+	WorkloadName string                                    `json:"workloadName"`
+}
+
+// KubernetesWorkloadImportInputWorkloadKind defines model for KubernetesWorkloadImportInput.WorkloadKind.
+type KubernetesWorkloadImportInputWorkloadKind string
 
 // LLMCallLog defines model for LLMCallLog.
 type LLMCallLog struct {
@@ -11850,6 +12271,91 @@ type OIDCExchangeRequest struct {
 	Code string `json:"code"`
 }
 
+// ObservabilityDashboard defines model for ObservabilityDashboard.
+type ObservabilityDashboard struct {
+	CreatedAt           time.Time                     `json:"createdAt"`
+	DataSourceID        string                        `json:"dataSourceId,omitempty"`
+	ID                  string                        `json:"id"`
+	Name                string                        `json:"name"`
+	Panels              []ObservabilityDashboardPanel `json:"panels"`
+	Source              ObservabilityDashboardSource  `json:"source"`
+	SourceSchemaVersion int                           `json:"sourceSchemaVersion,omitempty"`
+	Tags                []string                      `json:"tags"`
+	UpdatedAt           time.Time                     `json:"updatedAt"`
+}
+
+// ObservabilityDashboardEnvelope defines model for ObservabilityDashboardEnvelope.
+type ObservabilityDashboardEnvelope struct {
+	Data ObservabilityDashboard `json:"data"`
+}
+
+// ObservabilityDashboardImportResult defines model for ObservabilityDashboardImportResult.
+type ObservabilityDashboardImportResult struct {
+	Dashboard          ObservabilityDashboard                `json:"dashboard"`
+	ImportedPanelCount int                                   `json:"importedPanelCount"`
+	SkippedPanelCount  int                                   `json:"skippedPanelCount"`
+	Warnings           []ObservabilityDashboardImportWarning `json:"warnings"`
+}
+
+// ObservabilityDashboardImportResultEnvelope defines model for ObservabilityDashboardImportResultEnvelope.
+type ObservabilityDashboardImportResultEnvelope struct {
+	Data ObservabilityDashboardImportResult `json:"data"`
+}
+
+// ObservabilityDashboardImportWarning defines model for ObservabilityDashboardImportWarning.
+type ObservabilityDashboardImportWarning struct {
+	Code    ObservabilityDashboardImportWarningCode `json:"code"`
+	Message string                                  `json:"message"`
+	PanelID string                                  `json:"panelId,omitempty"`
+}
+
+// ObservabilityDashboardImportWarningCode defines model for ObservabilityDashboardImportWarning.Code.
+type ObservabilityDashboardImportWarningCode string
+
+// ObservabilityDashboardListEnvelope defines model for ObservabilityDashboardListEnvelope.
+type ObservabilityDashboardListEnvelope struct {
+	Items []ObservabilityDashboard `json:"items"`
+}
+
+// ObservabilityDashboardPanel defines model for ObservabilityDashboardPanel.
+type ObservabilityDashboardPanel struct {
+	ID        string                            `json:"id"`
+	Layout    ObservabilityDashboardPanelLayout `json:"layout"`
+	Markdown  string                            `json:"markdown,omitempty"`
+	Queryable bool                              `json:"queryable"`
+	Targets   []ObservabilityDashboardTarget    `json:"targets"`
+	Title     string                            `json:"title"`
+	Type      ObservabilityDashboardPanelType   `json:"type"`
+}
+
+// ObservabilityDashboardPanelLayout defines model for ObservabilityDashboardPanelLayout.
+type ObservabilityDashboardPanelLayout struct {
+	H int `json:"h"`
+	W int `json:"w"`
+	X int `json:"x"`
+	Y int `json:"y"`
+}
+
+// ObservabilityDashboardPanelQueryInput defines model for ObservabilityDashboardPanelQueryInput.
+type ObservabilityDashboardPanelQueryInput struct {
+	StepSeconds int       `json:"stepSeconds,omitempty"`
+	TimeFrom    time.Time `json:"timeFrom"`
+	TimeTo      time.Time `json:"timeTo"`
+}
+
+// ObservabilityDashboardPanelType defines model for ObservabilityDashboardPanelType.
+type ObservabilityDashboardPanelType string
+
+// ObservabilityDashboardSource defines model for ObservabilityDashboardSource.
+type ObservabilityDashboardSource string
+
+// ObservabilityDashboardTarget defines model for ObservabilityDashboardTarget.
+type ObservabilityDashboardTarget struct {
+	Expression string `json:"expression"`
+	Legend     string `json:"legend,omitempty"`
+	RefID      string `json:"refId"`
+}
+
 // ObservabilityDataSource defines model for ObservabilityDataSource.
 type ObservabilityDataSource struct {
 	BackendType ObservabilityDataSourceBackendType `json:"backendType"`
@@ -11915,6 +12421,15 @@ type ObservabilityDataSourceScope struct {
 // ObservabilityDataSourceValidationStatus defines model for ObservabilityDataSourceValidationStatus.
 type ObservabilityDataSourceValidationStatus string
 
+// ObservabilityGrafanaDashboardImportInput defines model for ObservabilityGrafanaDashboardImportInput.
+type ObservabilityGrafanaDashboardImportInput struct {
+	// DataSourceID Enabled Soha Prometheus data source used by every imported queryable panel.
+	DataSourceID string `json:"dataSourceId"`
+
+	// JSON Grafana Classic dashboard JSON or a V1 resource whose spec contains the Classic dashboard model.
+	JSON string `json:"json"`
+}
+
 // ObservabilityLogDataSourceConfig defines model for ObservabilityLogDataSourceConfig.
 type ObservabilityLogDataSourceConfig struct {
 	ClusterField   string                                `json:"clusterField,omitempty"`
@@ -11955,6 +12470,17 @@ type ObservabilityLogQueryBudget struct {
 // ObservabilityLogRedactionPolicy defines model for ObservabilityLogRedactionPolicy.
 type ObservabilityLogRedactionPolicy struct {
 	DropAttributeKeys []string `json:"dropAttributeKeys,omitempty"`
+}
+
+// ObservabilityMetricDataSource defines model for ObservabilityMetricDataSource.
+type ObservabilityMetricDataSource struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+// ObservabilityMetricDataSourceListEnvelope defines model for ObservabilityMetricDataSourceListEnvelope.
+type ObservabilityMetricDataSourceListEnvelope struct {
+	Items []ObservabilityMetricDataSource `json:"items"`
 }
 
 // ObservabilityMetricKey defines model for ObservabilityMetricKey.
@@ -12683,6 +13209,48 @@ type PromptMessage struct {
 // RefreshRequest defines model for RefreshRequest.
 type RefreshRequest struct {
 	RefreshToken string `json:"refreshToken,omitempty"`
+}
+
+// RegistryConnection defines model for RegistryConnection.
+type RegistryConnection struct {
+	CreatedAt    time.Time                  `json:"createdAt"`
+	Endpoint     string                     `json:"endpoint"`
+	ID           string                     `json:"id"`
+	Insecure     bool                       `json:"insecure"`
+	Metadata     RegistryConnectionMetadata `json:"metadata"`
+	Name         string                     `json:"name"`
+	Namespace    string                     `json:"namespace,omitempty"`
+	RegistryType string                     `json:"registryType"`
+	UpdatedAt    time.Time                  `json:"updatedAt"`
+	Username     string                     `json:"username,omitempty"`
+}
+
+// RegistryConnectionEnvelope defines model for RegistryConnectionEnvelope.
+type RegistryConnectionEnvelope struct {
+	Data RegistryConnection `json:"data"`
+}
+
+// RegistryConnectionInput defines model for RegistryConnectionInput.
+type RegistryConnectionInput struct {
+	Endpoint     string `json:"endpoint"`
+	ID           string `json:"id,omitempty"`
+	Insecure     bool   `json:"insecure,omitempty"`
+	Name         string `json:"name"`
+	Namespace    string `json:"namespace,omitempty"`
+	RegistryType string `json:"registryType"`
+	Secret       string `json:"secret,omitempty"`
+	Username     string `json:"username,omitempty"`
+}
+
+// RegistryConnectionListEnvelope defines model for RegistryConnectionListEnvelope.
+type RegistryConnectionListEnvelope struct {
+	Items []RegistryConnection `json:"items"`
+}
+
+// RegistryConnectionMetadata defines model for RegistryConnectionMetadata.
+type RegistryConnectionMetadata struct {
+	SecretConfigured bool   `json:"secretConfigured"`
+	SecretStorage    string `json:"secretStorage"`
 }
 
 // ReleaseBundle defines model for ReleaseBundle.
@@ -13426,6 +13994,77 @@ type SkillCapability struct {
 	Name           string   `json:"name"`
 	PermissionKeys []string `json:"permissionKeys,omitempty"`
 	RequiredScopes []string `json:"requiredScopes,omitempty"`
+}
+
+// SoftwarePackage defines model for SoftwarePackage.
+type SoftwarePackage struct {
+	Arch         string    `json:"arch"`
+	Category     string    `json:"category,omitempty"`
+	CreatedAt    time.Time `json:"createdAt"`
+	Description  string    `json:"description,omitempty"`
+	DownloadPath string    `json:"downloadPath"`
+	FileName     string    `json:"fileName"`
+	ID           string    `json:"id"`
+	Name         string    `json:"name"`
+	Platform     string    `json:"platform"`
+	Publisher    string    `json:"publisher"`
+	Sha256       string    `json:"sha256"`
+	SizeBytes    int64     `json:"sizeBytes"`
+	SoftwareID   string    `json:"softwareId"`
+	UpdatedAt    time.Time `json:"updatedAt"`
+	Version      string    `json:"version"`
+}
+
+// SoftwarePackageEnvelope defines model for SoftwarePackageEnvelope.
+type SoftwarePackageEnvelope struct {
+	Data SoftwarePackage `json:"data"`
+}
+
+// SoftwarePackageListEnvelope defines model for SoftwarePackageListEnvelope.
+type SoftwarePackageListEnvelope struct {
+	Items      []SoftwarePackage `json:"items"`
+	NextCursor string            `json:"nextCursor,omitempty"`
+}
+
+// SoftwarePackageURLImportRequest defines model for SoftwarePackageURLImportRequest.
+type SoftwarePackageURLImportRequest struct {
+	Arch        string `json:"arch"`
+	Category    string `json:"category,omitempty"`
+	Description string `json:"description,omitempty"`
+	FileName    string `json:"fileName,omitempty"`
+	Name        string `json:"name"`
+	Platform    string `json:"platform"`
+	Publisher   string `json:"publisher"`
+	SoftwareID  string `json:"softwareId"`
+	URL         string `json:"url"`
+	Version     string `json:"version"`
+}
+
+// SoftwarePackageUploadRequest defines model for SoftwarePackageUploadRequest.
+type SoftwarePackageUploadRequest struct {
+	Arch        string             `json:"arch"`
+	Category    string             `json:"category,omitempty"`
+	Description string             `json:"description,omitempty"`
+	File        openapi_types.File `json:"file"`
+	Name        string             `json:"name"`
+	Platform    string             `json:"platform"`
+	Publisher   string             `json:"publisher"`
+	SoftwareID  string             `json:"softwareId"`
+	Version     string             `json:"version"`
+}
+
+// SoftwareStorage defines model for SoftwareStorage.
+type SoftwareStorage struct {
+	Backend     string            `json:"backend"`
+	Items       []SoftwarePackage `json:"items"`
+	NextCursor  string            `json:"nextCursor,omitempty"`
+	ObjectCount int64             `json:"objectCount"`
+	TotalBytes  int64             `json:"totalBytes"`
+}
+
+// SoftwareStorageEnvelope defines model for SoftwareStorageEnvelope.
+type SoftwareStorageEnvelope struct {
+	Data SoftwareStorage `json:"data"`
 }
 
 // SourceBranch defines model for SourceBranch.
@@ -14217,6 +14856,9 @@ type AIMemoryID = string
 // AccessRoleID defines model for AccessRoleID.
 type AccessRoleID = string
 
+// AgentInstallTicket defines model for AgentInstallTicket.
+type AgentInstallTicket = string
+
 // AgentProviderRolloutAction defines model for AgentProviderRolloutAction.
 type AgentProviderRolloutAction string
 
@@ -14241,6 +14883,9 @@ type CertificateID = string
 // ClusterID defines model for ClusterID.
 type ClusterID = string
 
+// ClusterIDQuery defines model for ClusterIDQuery.
+type ClusterIDQuery = string
+
 // ComputeActionID defines model for ComputeActionID.
 type ComputeActionID = string
 
@@ -14261,6 +14906,12 @@ type ComputeResourceID = string
 
 // ComputeTaskID defines model for ComputeTaskID.
 type ComputeTaskID = string
+
+// DashboardID defines model for DashboardID.
+type DashboardID = string
+
+// DashboardPanelID defines model for DashboardPanelID.
+type DashboardPanelID = string
 
 // DataSourceID defines model for DataSourceID.
 type DataSourceID = string
@@ -14370,6 +15021,9 @@ type PluginID = string
 // ProviderID defines model for ProviderID.
 type ProviderID = string
 
+// RegistryConnectionID defines model for RegistryConnectionID.
+type RegistryConnectionID = string
+
 // RelayState defines model for RelayState.
 type RelayState = string
 
@@ -14411,6 +15065,9 @@ type SessionID = string
 
 // SkillID defines model for SkillID.
 type SkillID = string
+
+// SoftwarePackageID defines model for SoftwarePackageID.
+type SoftwarePackageID = string
 
 // SohaCacheModeHeader defines model for SohaCacheModeHeader.
 type SohaCacheModeHeader string
@@ -14454,6 +15111,9 @@ type Error = ErrorEnvelope
 // IdentityError defines model for IdentityError.
 type IdentityError = IdentityErrorEnvelope
 
+// agentBearerAuthContextKey is the context key for agentBearerAuth security scheme
+type agentBearerAuthContextKey string
+
 // bearerAuthContextKey is the context key for bearerAuth security scheme
 type bearerAuthContextKey string
 
@@ -14467,6 +15127,11 @@ type sohaXAPIKeyContextKey string
 type ListDirectoryEventsParams struct {
 	Status DirectoryEventStatus `form:"status,omitempty" json:"status,omitempty"`
 	Limit  int                  `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ConnectClusterAgentSessionParams defines parameters for ConnectClusterAgentSession.
+type ConnectClusterAgentSessionParams struct {
+	ClusterID ClusterIDQuery `form:"clusterId" json:"clusterId"`
 }
 
 // ListAIGatewayApprovalRequestsParams defines parameters for ListAIGatewayApprovalRequests.
@@ -15018,6 +15683,14 @@ type ListApplicationEnvironmentsParams struct {
 	EnvironmentID string `form:"environmentId,omitempty" json:"environmentId,omitempty"`
 }
 
+// ListApplicationEnvironmentTargetCandidatesParams defines parameters for ListApplicationEnvironmentTargetCandidates.
+type ListApplicationEnvironmentTargetCandidatesParams struct {
+	ClusterID string `form:"clusterId" json:"clusterId"`
+	Namespace string `form:"namespace" json:"namespace"`
+	Search    string `form:"search,omitempty" json:"search,omitempty"`
+	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
 // ListApplicationsParams defines parameters for ListApplications.
 type ListApplicationsParams struct {
 	Search string `form:"search,omitempty" json:"search,omitempty"`
@@ -15225,6 +15898,11 @@ type GetMarketplacePluginParams struct {
 	Version        string `form:"version,omitempty" json:"version,omitempty"`
 }
 
+// ListRegistryConnectionsParams defines parameters for ListRegistryConnections.
+type ListRegistryConnectionsParams struct {
+	Limit int `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
 // ListRepositoriesParams defines parameters for ListRepositories.
 type ListRepositoriesParams struct {
 	ApplicationID string `form:"applicationId,omitempty" json:"applicationId,omitempty"`
@@ -15251,6 +15929,20 @@ type BeginSAMLIdentityProviderSSOParams struct {
 type ListSecretsParams struct {
 	ScopeType SecretScopeType `form:"scopeType,omitempty" json:"scopeType,omitempty"`
 	ScopeID   string          `form:"scopeId,omitempty" json:"scopeId,omitempty"`
+}
+
+// ListSoftwarePackagesParams defines parameters for ListSoftwarePackages.
+type ListSoftwarePackagesParams struct {
+	Platform string `form:"platform,omitempty" json:"platform,omitempty"`
+	Arch     string `form:"arch,omitempty" json:"arch,omitempty"`
+	Cursor   string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit    int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// GetSoftwareStorageParams defines parameters for GetSoftwareStorage.
+type GetSoftwareStorageParams struct {
+	Cursor string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
 // ListSourceRepositoriesParams defines parameters for ListSourceRepositories.
@@ -15489,6 +16181,12 @@ type StartAIProductionOperationJSONRequestBody = AIProductionOperationInput
 
 // CreateApplicationEnvironmentJSONRequestBody defines body for CreateApplicationEnvironment for application/json ContentType.
 type CreateApplicationEnvironmentJSONRequestBody = ApplicationEnvironmentInput
+
+// ImportHelmReleasesJSONRequestBody defines body for ImportHelmReleases for application/json ContentType.
+type ImportHelmReleasesJSONRequestBody = HelmReleaseImportRequest
+
+// ImportKubernetesServicesJSONRequestBody defines body for ImportKubernetesServices for application/json ContentType.
+type ImportKubernetesServicesJSONRequestBody = KubernetesServiceImportRequest
 
 // UpdateApplicationEnvironmentJSONRequestBody defines body for UpdateApplicationEnvironment for application/json ContentType.
 type UpdateApplicationEnvironmentJSONRequestBody = ApplicationEnvironmentInput
@@ -15745,6 +16443,12 @@ type ValidateSAMLMetadataJSONRequestBody = SAMLMetadataInput
 // AdminResetUserMFAJSONRequestBody defines body for AdminResetUserMFA for application/json ContentType.
 type AdminResetUserMFAJSONRequestBody = MFAAdminResetRequest
 
+// ImportGrafanaDashboardJSONRequestBody defines body for ImportGrafanaDashboard for application/json ContentType.
+type ImportGrafanaDashboardJSONRequestBody = ObservabilityGrafanaDashboardImportInput
+
+// QueryObservabilityDashboardPanelJSONRequestBody defines body for QueryObservabilityDashboardPanel for application/json ContentType.
+type QueryObservabilityDashboardPanelJSONRequestBody = ObservabilityDashboardPanelQueryInput
+
 // CreateObservabilityDataSourceJSONRequestBody defines body for CreateObservabilityDataSource for application/json ContentType.
 type CreateObservabilityDataSourceJSONRequestBody = ObservabilityDataSourceInput
 
@@ -15765,6 +16469,12 @@ type ConfigureInstalledPluginJSONRequestBody = PluginConfigRequest
 
 // UpgradeInstalledPluginJSONRequestBody defines body for UpgradeInstalledPlugin for application/json ContentType.
 type UpgradeInstalledPluginJSONRequestBody = PluginInstallRequest
+
+// CreateRegistryConnectionJSONRequestBody defines body for CreateRegistryConnection for application/json ContentType.
+type CreateRegistryConnectionJSONRequestBody = RegistryConnectionInput
+
+// UpdateRegistryConnectionJSONRequestBody defines body for UpdateRegistryConnection for application/json ContentType.
+type UpdateRegistryConnectionJSONRequestBody = RegistryConnectionInput
 
 // CreateRepositoryJSONRequestBody defines body for CreateRepository for application/json ContentType.
 type CreateRepositoryJSONRequestBody = RepositoryInput
@@ -15798,6 +16508,12 @@ type RollbackRuntimeConfigJSONRequestBody = RuntimeConfigRollbackRequest
 
 // ValidateRuntimeConfigJSONRequestBody defines body for ValidateRuntimeConfig for application/json ContentType.
 type ValidateRuntimeConfigJSONRequestBody = RuntimeConfigChangeRequest
+
+// UploadSoftwarePackageMultipartRequestBody defines body for UploadSoftwarePackage for multipart/form-data ContentType.
+type UploadSoftwarePackageMultipartRequestBody = SoftwarePackageUploadRequest
+
+// ImportSoftwarePackageJSONRequestBody defines body for ImportSoftwarePackage for application/json ContentType.
+type ImportSoftwarePackageJSONRequestBody = SoftwarePackageURLImportRequest
 
 // CreateSystemIntegrationJSONRequestBody defines body for CreateSystemIntegration for application/json ContentType.
 type CreateSystemIntegrationJSONRequestBody = SystemIntegrationCreateRequest

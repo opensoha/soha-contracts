@@ -34,6 +34,7 @@ tags:
   - name: Compute
   - name: MCP
   - name: Plugins
+  - name: Software
   - name: Access
   - name: Identity
   - name: Directory
@@ -1304,6 +1305,93 @@ paths:
                 $ref: "#/components/schemas/ApplicationEnvironmentEnvelope"
         "400":
           $ref: "#/components/responses/Error"
+  /application-environments/target-candidates:
+    get:
+      tags: [Delivery]
+      operationId: listApplicationEnvironmentTargetCandidates
+      parameters:
+        - name: clusterId
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: namespace
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 1
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 100
+      responses:
+        "200":
+          description: Discoverable Kubernetes workloads and their related resources.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesImportCandidateListEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /application-environments/imports:
+    post:
+      tags: [Delivery]
+      operationId: importKubernetesServices
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesServiceImportRequest"
+      responses:
+        "200":
+          description: Idempotent Kubernetes service import result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesServiceImportResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /application-environments/helm-release-imports:
+    post:
+      tags: [Delivery]
+      operationId: importHelmReleases
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HelmReleaseImportRequest"
+      responses:
+        "200":
+          description: Idempotent Helm release import result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HelmReleaseImportResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
   /application-environments/{applicationEnvironmentID}:
     get:
       tags: [Delivery]
@@ -1368,6 +1456,88 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApplicationEnvironmentDeliveryDetailEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+  /registries:
+    get:
+      tags: [Delivery]
+      operationId: listRegistryConnections
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+      responses:
+        "200":
+          description: Registry connections visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegistryConnectionListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [Delivery]
+      operationId: createRegistryConnection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegistryConnectionInput"
+      responses:
+        "201":
+          description: Created registry connection.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegistryConnectionEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /registries/{connectionID}:
+    put:
+      tags: [Delivery]
+      operationId: updateRegistryConnection
+      parameters:
+        - $ref: "#/components/parameters/RegistryConnectionID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegistryConnectionInput"
+      responses:
+        "200":
+          description: Updated registry connection.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegistryConnectionEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags: [Delivery]
+      operationId: deleteRegistryConnection
+      parameters:
+        - $ref: "#/components/parameters/RegistryConnectionID"
+      responses:
+        "200":
+          description: Deleted registry connection.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationStatus"
+        "403":
+          $ref: "#/components/responses/Error"
         "404":
           $ref: "#/components/responses/Error"
   /build-templates:
@@ -2738,6 +2908,66 @@ paths:
                 $ref: "#/components/schemas/ClusterCapabilityMatrixEnvelope"
         "403":
           $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/agent-installation:
+    post:
+      tags: [Platform]
+      operationId: createClusterAgentInstallation
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+      responses:
+        "200":
+          description: Short-lived Kubernetes manifest URL and kubectl command for installing the cluster Agent.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentInstallationEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /kubernetes/agent-installations/{installTicket}/manifest.yaml:
+    get:
+      tags: [Platform]
+      operationId: downloadKubernetesAgentInstallationManifest
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/AgentInstallTicket"
+      responses:
+        "200":
+          description: Complete Kubernetes Agent installation manifest. The download URL is short-lived.
+          content:
+            application/yaml:
+              schema:
+                type: string
+        "404":
+          $ref: "#/components/responses/Error"
+        "410":
+          $ref: "#/components/responses/Error"
+  /agent-sessions/connect:
+    get:
+      tags: [Platform]
+      operationId: connectClusterAgentSession
+      description: >
+        Upgrades to the soha-agent-tunnel.v1 WebSocket subprotocol. The Agent
+        initiates this connection and carries multiplexed HTTP and stream traffic
+        over the resulting session.
+      security:
+        - agentBearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/ClusterIDQuery"
+      responses:
+        "101":
+          description: WebSocket session established.
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
   /clusters/{clusterID}/logs/query:
     post:
       tags: [Platform]
@@ -3020,6 +3250,116 @@ paths:
               schema:
                 $ref: "#/components/schemas/ObservabilityProviderListEnvelope"
         "403":
+          $ref: "#/components/responses/Error"
+  /observability/dashboards:
+    get:
+      tags: [Observability]
+      operationId: listObservabilityDashboards
+      responses:
+        "200":
+          description: Dashboards visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObservabilityDashboardListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /observability/metrics/data-sources:
+    get:
+      tags: [Observability]
+      operationId: listObservabilityMetricDataSources
+      responses:
+        "200":
+          description: Enabled Prometheus data sources available for metric dashboards.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObservabilityMetricDataSourceListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /observability/dashboards/imports:
+    post:
+      tags: [Observability]
+      operationId: importGrafanaDashboard
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ObservabilityGrafanaDashboardImportInput"
+      responses:
+        "201":
+          description: Imported native dashboard and explicit compatibility warnings.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObservabilityDashboardImportResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /observability/dashboards/{dashboardID}:
+    get:
+      tags: [Observability]
+      operationId: getObservabilityDashboard
+      parameters:
+        - $ref: "#/components/parameters/DashboardID"
+      responses:
+        "200":
+          description: Dashboard detail including normalized panels and targets.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObservabilityDashboardEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags: [Observability]
+      operationId: deleteObservabilityDashboard
+      parameters:
+        - $ref: "#/components/parameters/DashboardID"
+      responses:
+        "200":
+          description: Dashboard deleted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationStatus"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /observability/dashboards/{dashboardID}/panels/{panelID}/query:
+    post:
+      tags: [Observability]
+      operationId: queryObservabilityDashboardPanel
+      parameters:
+        - $ref: "#/components/parameters/DashboardID"
+        - $ref: "#/components/parameters/DashboardPanelID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ObservabilityDashboardPanelQueryInput"
+      responses:
+        "200":
+          description: Normalized metric series for the persisted dashboard panel targets.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObservabilityMetricQueryEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "503":
           $ref: "#/components/responses/Error"
   /observability/metrics/query:
     post:
@@ -6133,6 +6473,166 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MarketplacePluginEnvelope"
+  /software/packages:
+    get:
+      tags: [Software]
+      operationId: listSoftwarePackages
+      parameters:
+        - name: platform
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 64
+        - name: arch
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 64
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 256
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+      responses:
+        "200":
+          description: Software packages visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoftwarePackageListEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [Software]
+      operationId: uploadSoftwarePackage
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/SoftwarePackageUploadRequest"
+      responses:
+        "201":
+          description: Software package uploaded and published.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoftwarePackageEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "413":
+          $ref: "#/components/responses/Error"
+  /software/packages/import:
+    post:
+      tags: [Software]
+      operationId: importSoftwarePackage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SoftwarePackageURLImportRequest"
+      responses:
+        "201":
+          description: Software package downloaded from the source URL and published.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoftwarePackageEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "413":
+          $ref: "#/components/responses/Error"
+  /software/storage:
+    get:
+      tags: [Software]
+      operationId: getSoftwareStorage
+      parameters:
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 256
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+      responses:
+        "200":
+          description: Managed software storage summary and object records.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoftwareStorageEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /software/packages/{packageID}:
+    delete:
+      tags: [Software]
+      operationId: deleteSoftwarePackage
+      parameters:
+        - $ref: "#/components/parameters/SoftwarePackageID"
+      responses:
+        "204":
+          description: Software package deleted.
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /software/packages/{packageID}/download:
+    get:
+      tags: [Software]
+      operationId: downloadSoftwarePackage
+      parameters:
+        - $ref: "#/components/parameters/SoftwarePackageID"
+      responses:
+        "200":
+          description: Software package binary.
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
   /plugins/installed:
     get:
       tags: [Plugins]
@@ -8301,6 +8801,10 @@ components:
       type: http
       scheme: bearer
       description: Runtime execution runner token.
+    agentBearerAuth:
+      type: http
+      scheme: bearer
+      description: Per-cluster Agent session token provisioned through the installation manifest.
     sohaXAPIKey:
       type: apiKey
       in: header
@@ -8421,8 +8925,39 @@ components:
       schema:
         type: string
         minLength: 1
+    ClusterIDQuery:
+      name: clusterId
+      in: query
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    AgentInstallTicket:
+      name: installTicket
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 16
+        maxLength: 1024
     DataSourceID:
       name: dataSourceID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+    DashboardID:
+      name: dashboardID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+    DashboardPanelID:
+      name: panelID
       in: path
       required: true
       schema:
@@ -8631,6 +9166,13 @@ components:
       required: true
       schema:
         type: string
+    RegistryConnectionID:
+      name: connectionID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
     BundleID:
       name: bundleID
       in: path
@@ -8711,6 +9253,14 @@ components:
         default: 50
     EvaluationRunID:
       name: runID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+    SoftwarePackageID:
+      name: packageID
       in: path
       required: true
       schema:
@@ -14088,7 +14638,7 @@ components:
       additionalProperties: false
     ApplicationInput:
       type: object
-      required: [name, key, group, language, enabled]
+      required: [name, key, enabled]
       properties:
         id:
           type: string
@@ -14448,6 +14998,87 @@ components:
         enabled:
           type: boolean
       additionalProperties: false
+    RegistryConnectionMetadata:
+      type: object
+      required: [secretConfigured, secretStorage]
+      properties:
+        secretConfigured:
+          type: boolean
+        secretStorage:
+          type: string
+      additionalProperties: false
+    RegistryConnection:
+      type: object
+      required: [id, name, registryType, endpoint, insecure, metadata, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+          minLength: 1
+        name:
+          type: string
+          minLength: 1
+        registryType:
+          type: string
+          minLength: 1
+        endpoint:
+          type: string
+          minLength: 1
+        namespace:
+          type: string
+        username:
+          type: string
+        insecure:
+          type: boolean
+        metadata:
+          $ref: "#/components/schemas/RegistryConnectionMetadata"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    RegistryConnectionInput:
+      type: object
+      required: [name, registryType, endpoint]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          minLength: 1
+        registryType:
+          type: string
+          minLength: 1
+        endpoint:
+          type: string
+          minLength: 1
+        namespace:
+          type: string
+        username:
+          type: string
+        secret:
+          type: string
+          writeOnly: true
+        insecure:
+          type: boolean
+      additionalProperties: false
+    RegistryConnectionEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/RegistryConnection"
+      additionalProperties: false
+    RegistryConnectionListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/RegistryConnection"
+      additionalProperties: false
     WorkflowTemplate:
       type: object
       required: [id, key, name, enabled, createdAt, updatedAt]
@@ -14565,6 +15196,282 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ReleaseTargetInput"
+      additionalProperties: false
+    KubernetesRelatedResource:
+      type: object
+      required: [kind, name]
+      properties:
+        kind:
+          type: string
+          enum: [Service, Ingress, HorizontalPodAutoscaler]
+        name:
+          type: string
+          minLength: 1
+      additionalProperties: false
+    KubernetesImportCandidate:
+      type: object
+      required: [clusterId, namespace, workloadKind, workloadName, desiredReplicas, readyReplicas, relatedResources]
+      properties:
+        clusterId:
+          type: string
+          minLength: 1
+        namespace:
+          type: string
+          minLength: 1
+        workloadKind:
+          type: string
+          enum: [Deployment, StatefulSet, DaemonSet]
+        workloadName:
+          type: string
+          minLength: 1
+        desiredReplicas:
+          type: integer
+          minimum: 0
+        readyReplicas:
+          type: integer
+          minimum: 0
+        containers:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        relatedResources:
+          type: array
+          items:
+            $ref: "#/components/schemas/KubernetesRelatedResource"
+      additionalProperties: false
+    KubernetesImportCandidateListEnvelope:
+      type: object
+      required: [items, truncated]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/KubernetesImportCandidate"
+        truncated:
+          type: boolean
+      additionalProperties: false
+    KubernetesWorkloadImportInput:
+      type: object
+      required: [workloadKind, workloadName]
+      properties:
+        workloadKind:
+          type: string
+          enum: [Deployment, StatefulSet, DaemonSet]
+        workloadName:
+          type: string
+          minLength: 1
+      additionalProperties: false
+    KubernetesServiceImportRequest:
+      type: object
+      required: [clusterId, namespace, applicationKey, applicationName, environmentKey, environmentName, ownershipMode, workloads]
+      properties:
+        clusterId:
+          type: string
+          minLength: 1
+        namespace:
+          type: string
+          minLength: 1
+        applicationKey:
+          type: string
+          minLength: 1
+        applicationName:
+          type: string
+          minLength: 1
+        environmentKey:
+          type: string
+          minLength: 1
+        environmentName:
+          type: string
+          minLength: 1
+        ownershipMode:
+          type: string
+          enum: [observe_only, managed]
+        workloads:
+          type: array
+          minItems: 1
+          maxItems: 100
+          uniqueItems: true
+          items:
+            $ref: "#/components/schemas/KubernetesWorkloadImportInput"
+      additionalProperties: false
+    KubernetesImportEntityRef:
+      type: object
+      required: [id, key, name, created]
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        created:
+          type: boolean
+      additionalProperties: false
+    KubernetesImportedService:
+      type: object
+      required: [id, key, name, workloadKind, workloadName, created]
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        workloadKind:
+          type: string
+          enum: [Deployment, StatefulSet, DaemonSet]
+        workloadName:
+          type: string
+        created:
+          type: boolean
+      additionalProperties: false
+    KubernetesImportedTarget:
+      type: object
+      required: [id, workloadKind, workloadName, created]
+      properties:
+        id:
+          type: string
+        workloadKind:
+          type: string
+          enum: [Deployment, StatefulSet, DaemonSet]
+        workloadName:
+          type: string
+        created:
+          type: boolean
+      additionalProperties: false
+    KubernetesServiceImportResult:
+      type: object
+      required: [application, environment, applicationEnvironmentId, applicationEnvironmentCreated, ownershipMode, services, targets]
+      properties:
+        application:
+          $ref: "#/components/schemas/KubernetesImportEntityRef"
+        environment:
+          $ref: "#/components/schemas/KubernetesImportEntityRef"
+        applicationEnvironmentId:
+          type: string
+        applicationEnvironmentCreated:
+          type: boolean
+        ownershipMode:
+          type: string
+          enum: [observe_only, managed]
+        services:
+          type: array
+          items:
+            $ref: "#/components/schemas/KubernetesImportedService"
+        targets:
+          type: array
+          items:
+            $ref: "#/components/schemas/KubernetesImportedTarget"
+      additionalProperties: false
+    KubernetesServiceImportResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/KubernetesServiceImportResult"
+      additionalProperties: false
+    HelmReleaseImportInput:
+      type: object
+      required: [releaseName]
+      properties:
+        releaseName:
+          type: string
+          minLength: 1
+      additionalProperties: false
+    HelmReleaseImportRequest:
+      type: object
+      required: [clusterId, namespace, applicationKey, applicationName, environmentKey, environmentName, ownershipMode, releases]
+      properties:
+        clusterId:
+          type: string
+          minLength: 1
+        namespace:
+          type: string
+          minLength: 1
+        applicationKey:
+          type: string
+          minLength: 1
+        applicationName:
+          type: string
+          minLength: 1
+        environmentKey:
+          type: string
+          minLength: 1
+        environmentName:
+          type: string
+          minLength: 1
+        ownershipMode:
+          type: string
+          enum: [observe_only, managed]
+        releases:
+          type: array
+          minItems: 1
+          maxItems: 100
+          uniqueItems: true
+          items:
+            $ref: "#/components/schemas/HelmReleaseImportInput"
+      additionalProperties: false
+    HelmImportedService:
+      type: object
+      required: [id, key, name, releaseName, created]
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        releaseName:
+          type: string
+        created:
+          type: boolean
+      additionalProperties: false
+    HelmImportedTarget:
+      type: object
+      required: [id, releaseName, created]
+      properties:
+        id:
+          type: string
+        releaseName:
+          type: string
+        created:
+          type: boolean
+      additionalProperties: false
+    HelmReleaseImportResult:
+      type: object
+      required: [application, environment, applicationEnvironmentId, applicationEnvironmentCreated, ownershipMode, services, targets]
+      properties:
+        application:
+          $ref: "#/components/schemas/KubernetesImportEntityRef"
+        environment:
+          $ref: "#/components/schemas/KubernetesImportEntityRef"
+        applicationEnvironmentId:
+          type: string
+        applicationEnvironmentCreated:
+          type: boolean
+        ownershipMode:
+          type: string
+          enum: [observe_only, managed]
+        services:
+          type: array
+          items:
+            $ref: "#/components/schemas/HelmImportedService"
+        targets:
+          type: array
+          items:
+            $ref: "#/components/schemas/HelmImportedTarget"
+      additionalProperties: false
+    HelmReleaseImportResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/HelmReleaseImportResult"
       additionalProperties: false
     BuildTemplate:
       type: object
@@ -15072,6 +15979,10 @@ components:
           type: string
         containerName:
           type: string
+        valuesContent:
+          type: string
+          maxLength: 1048576
+          description: Complete Helm values YAML used when the selected target is a managed Helm release.
         variables:
           type: object
           additionalProperties: true
@@ -17084,6 +17995,30 @@ components:
           items:
             $ref: "#/components/schemas/ClusterCapabilityMatrixEntry"
       additionalProperties: false
+    AgentInstallation:
+      type: object
+      required: [clusterId, manifestUrl, command, expiresAt]
+      properties:
+        clusterId:
+          type: string
+          minLength: 1
+        manifestUrl:
+          type: string
+          format: uri
+        command:
+          type: string
+          minLength: 1
+        expiresAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    AgentInstallationEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/AgentInstallation"
+      additionalProperties: false
     ObservabilityProviderSignal:
       type: string
       enum: [logs, metrics, traces, profiles]
@@ -17162,6 +18097,231 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ObservabilityProviderDefinition"
+      additionalProperties: false
+    ObservabilityDashboardSource:
+      type: string
+      enum: [grafana]
+      x-enum-varnames:
+        - ObservabilityDashboardSourceGrafana
+    ObservabilityDashboardPanelType:
+      type: string
+      enum: [timeseries, stat, text, row]
+      x-enum-varnames:
+        - ObservabilityDashboardPanelTypeTimeseries
+        - ObservabilityDashboardPanelTypeStat
+        - ObservabilityDashboardPanelTypeText
+        - ObservabilityDashboardPanelTypeRow
+    ObservabilityDashboardPanelLayout:
+      type: object
+      required: [x, y, w, h]
+      properties:
+        x:
+          type: integer
+          minimum: 0
+          maximum: 23
+        y:
+          type: integer
+          minimum: 0
+        w:
+          type: integer
+          minimum: 1
+          maximum: 24
+        h:
+          type: integer
+          minimum: 1
+          maximum: 100
+      additionalProperties: false
+    ObservabilityDashboardTarget:
+      type: object
+      required: [refId, expression]
+      properties:
+        refId:
+          type: string
+          minLength: 1
+          maxLength: 16
+        expression:
+          type: string
+          minLength: 1
+          maxLength: 8192
+        legend:
+          type: string
+          maxLength: 256
+      additionalProperties: false
+    ObservabilityDashboardPanel:
+      type: object
+      required: [id, title, type, layout, targets, queryable]
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        type:
+          $ref: "#/components/schemas/ObservabilityDashboardPanelType"
+        layout:
+          $ref: "#/components/schemas/ObservabilityDashboardPanelLayout"
+        targets:
+          type: array
+          maxItems: 8
+          items:
+            $ref: "#/components/schemas/ObservabilityDashboardTarget"
+        queryable:
+          type: boolean
+        markdown:
+          type: string
+          maxLength: 32768
+      additionalProperties: false
+    ObservabilityDashboard:
+      type: object
+      required: [id, name, source, tags, panels, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        source:
+          $ref: "#/components/schemas/ObservabilityDashboardSource"
+        sourceSchemaVersion:
+          type: integer
+          minimum: 0
+        dataSourceId:
+          type: string
+          maxLength: 200
+        tags:
+          type: array
+          maxItems: 50
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 100
+        panels:
+          type: array
+          maxItems: 200
+          items:
+            $ref: "#/components/schemas/ObservabilityDashboardPanel"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ObservabilityDashboardEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ObservabilityDashboard"
+      additionalProperties: false
+    ObservabilityDashboardListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ObservabilityDashboard"
+      additionalProperties: false
+    ObservabilityGrafanaDashboardImportInput:
+      type: object
+      required: [json, dataSourceId]
+      properties:
+        json:
+          type: string
+          minLength: 2
+          maxLength: 2097152
+          description: Grafana Classic dashboard JSON or a V1 resource whose spec contains the Classic dashboard model.
+        dataSourceId:
+          type: string
+          minLength: 1
+          maxLength: 200
+          description: Enabled Soha Prometheus data source used by every imported queryable panel.
+      additionalProperties: false
+    ObservabilityMetricDataSource:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 200
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+      additionalProperties: false
+    ObservabilityMetricDataSourceListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ObservabilityMetricDataSource"
+      additionalProperties: false
+    ObservabilityDashboardImportWarning:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          enum: [unsupported_panel_type, skipped_target, unsupported_variable, datasource_rebound, unsupported_feature]
+        message:
+          type: string
+          minLength: 1
+          maxLength: 500
+        panelId:
+          type: string
+          maxLength: 128
+      additionalProperties: false
+    ObservabilityDashboardImportResult:
+      type: object
+      required: [dashboard, warnings, importedPanelCount, skippedPanelCount]
+      properties:
+        dashboard:
+          $ref: "#/components/schemas/ObservabilityDashboard"
+        warnings:
+          type: array
+          maxItems: 500
+          items:
+            $ref: "#/components/schemas/ObservabilityDashboardImportWarning"
+        importedPanelCount:
+          type: integer
+          minimum: 1
+        skippedPanelCount:
+          type: integer
+          minimum: 0
+      additionalProperties: false
+    ObservabilityDashboardImportResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ObservabilityDashboardImportResult"
+      additionalProperties: false
+    ObservabilityDashboardPanelQueryInput:
+      type: object
+      required: [timeFrom, timeTo]
+      properties:
+        timeFrom:
+          type: string
+          format: date-time
+        timeTo:
+          type: string
+          format: date-time
+        stepSeconds:
+          type: integer
+          minimum: 1
+          maximum: 3600
+          default: 60
       additionalProperties: false
     ObservabilityQueryScope:
       type: object
@@ -20766,6 +21926,188 @@ components:
           $ref: "#/components/schemas/PluginManifest"
         installed:
           type: boolean
+      additionalProperties: false
+    SoftwarePackage:
+      type: object
+      required:
+        [id, softwareId, name, publisher, version, platform, arch, fileName, sizeBytes, sha256, downloadPath, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        softwareId:
+          type: string
+          pattern: "^[a-z0-9][a-z0-9._-]{0,63}$"
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        publisher:
+          type: string
+          minLength: 1
+          maxLength: 100
+        category:
+          type: string
+          maxLength: 50
+        version:
+          type: string
+          minLength: 1
+          maxLength: 64
+        platform:
+          type: string
+          pattern: "^[a-z0-9][a-z0-9._-]{0,63}$"
+        arch:
+          type: string
+          pattern: "^[a-z0-9][a-z0-9._-]{0,63}$"
+        fileName:
+          type: string
+          minLength: 1
+          maxLength: 255
+        sizeBytes:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 4294967296
+        sha256:
+          type: string
+          pattern: "^[0-9a-f]{64}$"
+        downloadPath:
+          type: string
+          pattern: "^/api/v1/software/packages/[^/]+/download$"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    SoftwarePackageEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/SoftwarePackage"
+      additionalProperties: false
+    SoftwarePackageListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SoftwarePackage"
+        nextCursor:
+          type: string
+      additionalProperties: false
+    SoftwarePackageUploadRequest:
+      type: object
+      required: [softwareId, name, publisher, version, platform, arch, file]
+      properties:
+        softwareId:
+          type: string
+          pattern: "^[a-z0-9][a-z0-9._-]{0,63}$"
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        publisher:
+          type: string
+          minLength: 1
+          maxLength: 100
+        category:
+          type: string
+          maxLength: 50
+        version:
+          type: string
+          minLength: 1
+          maxLength: 64
+        platform:
+          type: string
+          pattern: "^[a-z0-9][a-z0-9._-]{0,63}$"
+        arch:
+          type: string
+          pattern: "^[a-z0-9][a-z0-9._-]{0,63}$"
+        file:
+          type: string
+          format: binary
+      additionalProperties: false
+    SoftwarePackageURLImportRequest:
+      type: object
+      required: [softwareId, name, publisher, version, platform, arch, url]
+      properties:
+        softwareId:
+          type: string
+          pattern: "^[a-z0-9][a-z0-9._-]{0,63}$"
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        publisher:
+          type: string
+          minLength: 1
+          maxLength: 100
+        category:
+          type: string
+          maxLength: 50
+        version:
+          type: string
+          minLength: 1
+          maxLength: 64
+        platform:
+          type: string
+          pattern: "^[a-z0-9][a-z0-9._-]{0,63}$"
+        arch:
+          type: string
+          pattern: "^[a-z0-9][a-z0-9._-]{0,63}$"
+        url:
+          type: string
+          format: uri
+          pattern: "^https://"
+          maxLength: 2048
+        fileName:
+          type: string
+          minLength: 1
+          maxLength: 255
+      additionalProperties: false
+    SoftwareStorage:
+      type: object
+      required: [backend, objectCount, totalBytes, items]
+      properties:
+        backend:
+          type: string
+          minLength: 1
+          maxLength: 64
+        objectCount:
+          type: integer
+          format: int64
+          minimum: 0
+        totalBytes:
+          type: integer
+          format: int64
+          minimum: 0
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SoftwarePackage"
+        nextCursor:
+          type: string
+      additionalProperties: false
+    SoftwareStorageEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/SoftwareStorage"
       additionalProperties: false
     InstalledPlugin:
       type: object

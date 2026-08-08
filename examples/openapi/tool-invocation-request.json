@@ -1,5 +1,5 @@
 {
-  "toolName": "k8s.list_pods",
+  "toolName": "k8s.pods.list",
   "input": {
     "clusterId": "default",
     "namespace": "default"

@@ -1,6 +1,6 @@
 {
   "data": {
-    "toolName": "k8s.list_pods",
+    "toolName": "k8s.pods.list",
     "riskLevel": "read",
     "requiresApproval": false,
     "result": "succeeded",

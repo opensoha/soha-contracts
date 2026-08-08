@@ -2,7 +2,7 @@
   "data": {
     "runId": "run-01",
     "toolExecution": {
-      "toolName": "k8s.list_pods",
+      "toolName": "k8s.pods.list",
       "status": "succeeded",
       "requestId": "req-01"
     },

@@ -10,22 +10,22 @@
     "teams": [],
     "projects": [],
     "tags": [],
-    "permissionKeys": ["ai.gateway.tools.read"]
+    "permissionKeys": ["ai.gateway.view"]
   },
   "caller": {
     "identityMode": "user",
     "source": "cli"
   },
-  "permissionKeys": ["ai.gateway.tools.read"],
+  "permissionKeys": ["ai.gateway.view"],
   "tools": [
     {
-      "name": "k8s.list_pods",
+      "name": "k8s.pods.list",
       "title": "List pods",
       "description": "List Kubernetes pods in a namespace.",
       "domain": "kubernetes",
       "action": "read",
       "riskLevel": "read",
-      "permissionKeys": ["k8s.pods.read"],
+      "permissionKeys": ["platform.pods.view"],
       "requiresApproval": false,
       "inputSchema": {
         "type": "object",

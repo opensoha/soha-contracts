@@ -14,11 +14,11 @@
     "skills": ["skills/ai-gateway/k8s-sre/SKILL.md"]
   },
   "capabilities": {
-    "tools": ["k8s.list_pods"],
+    "tools": ["k8s.pods.list"],
     "skills": ["k8s-sre"]
   },
   "permissions": {
-    "required": ["k8s.pods.read"],
+    "required": ["platform.pods.view"],
     "domain": ["kubernetes"]
   },
   "runtime": {

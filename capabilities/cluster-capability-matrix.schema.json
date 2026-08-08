@@ -48,6 +48,11 @@
       "properties": {
         "status": { "$ref": "#/$defs/CapabilityStatus" },
         "reason": { "type": "string", "minLength": 1 },
+        "notes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
         "diagnostic": { "type": "string" },
         "requiredAgentVersion": { "type": "string" },
         "requiredScopes": {
@@ -71,10 +76,34 @@
         "label": { "type": "string", "minLength": 1 },
         "category": {
           "type": "string",
-          "enum": ["kubernetes", "helm", "yaml", "logs", "exec", "port-forward", "docker", "runtime"]
+          "enum": [
+            "kubernetes",
+            "helm",
+            "yaml",
+            "logs",
+            "exec",
+            "port-forward",
+            "docker",
+            "runtime",
+            "platform",
+            "workloads",
+            "configuration",
+            "access",
+            "network",
+            "storage",
+            "extensions",
+            "delivery",
+            "observability"
+          ]
+        },
+        "requiredScopes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
         },
         "riskLevel": { "$ref": "#/$defs/RiskLevel" },
         "requiresApproval": { "type": "boolean" },
+        "docsUrl": { "type": "string", "minLength": 1 },
         "direct": { "$ref": "#/$defs/ModeSupport" },
         "agent": { "$ref": "#/$defs/ModeSupport" },
         "metadata": {

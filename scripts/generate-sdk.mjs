@@ -181,6 +181,8 @@ function applyGoCompatibility(spec) {
     "KubernetesResourceAgentCreateResult",
     "KubernetesResourceAgentPreflightItem",
     "KubernetesResourceAgentPreflightResult",
+    "ObservabilityMetricDataSource",
+    "ObservabilityMetricDataSourceListEnvelope",
   ]);
 
   const riskLevel = schemas.RiskLevel;
