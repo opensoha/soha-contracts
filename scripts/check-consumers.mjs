@@ -7,6 +7,7 @@ import { spawnSync } from "node:child_process";
 
 const contractsRoot = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const consumerRoot = resolve(process.env.SOHA_CONSUMER_ROOT ?? dirname(contractsRoot));
+const contractsTarballPlaceholder = "<contracts-tarball>";
 
 const consumers = [
   {
@@ -21,6 +22,19 @@ const consumers = [
     kind: "npm",
     commands: [
       ["npm", ["ci"]],
+      [
+        "npm",
+        [
+          "install",
+          "--no-save",
+          "--package-lock=false",
+          "--ignore-scripts",
+          "--no-audit",
+          "--no-fund",
+          "--prefer-offline",
+          contractsTarballPlaceholder,
+        ],
+      ],
       ["npm", ["run", "build"]],
     ],
   },
@@ -101,13 +115,20 @@ for (const consumer of targets) {
 
   console.log(`checking consumer ${consumer.name} in ${dir}`);
   const env = consumer.kind === "go" ? await goWorkspaceEnv(dir) : process.env;
+  const packageDir = consumer.kind === "npm" ? await packContracts() : undefined;
   try {
     for (const [command, commandArgs] of consumer.commands) {
-      run(command, commandArgs, dir, env);
+      const resolvedArgs = commandArgs.map((arg) =>
+        arg === contractsTarballPlaceholder ? contractsTarball(packageDir) : arg,
+      );
+      run(command, resolvedArgs, dir, env);
     }
   } finally {
     if (env !== process.env && env.GOWORK) {
       await rm(dirname(env.GOWORK), { recursive: true, force: true });
+    }
+    if (packageDir) {
+      await rm(packageDir, { recursive: true, force: true });
     }
   }
   results.push({
@@ -175,6 +196,21 @@ function valueArg(name) {
 function packageVersion() {
   const packageJson = JSON.parse(readFileSync(join(contractsRoot, "package.json"), "utf8"));
   return packageJson.version;
+}
+
+async function packContracts() {
+  const packageDir = await mkdtemp(join(tmpdir(), "opensoha-contracts-pack-"));
+  try {
+    run("npm", ["pack", "--silent", "--pack-destination", packageDir], contractsRoot, process.env);
+    return packageDir;
+  } catch (error) {
+    await rm(packageDir, { recursive: true, force: true });
+    throw error;
+  }
+}
+
+function contractsTarball(packageDir) {
+  return join(packageDir, `opensoha-contracts-${packageVersion()}.tgz`);
 }
 
 async function goWorkspaceEnv(consumerDir) {
