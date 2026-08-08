@@ -29592,7 +29592,7 @@
   "info": {
     "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery.\n",
     "title": "Soha API",
-    "version": "0.1.7"
+    "version": "0.1.8"
   },
   "openapi": "3.1.0",
   "paths": {
