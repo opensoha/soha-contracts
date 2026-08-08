@@ -3506,6 +3506,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/marketplace/plugins/{pluginID}/{version}/provenance.json": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPublicMarketplacePluginProvenance"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/plugins/marketplace": {
         parameters: {
             query?: never;
@@ -3740,6 +3756,102 @@ export interface paths {
         get?: never;
         put: operations["configureInstalledPlugin"];
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/plugins/{pluginID}/activate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["activateInstalledPlugin"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/plugins/{pluginID}/rollback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["rollbackInstalledPlugin"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/plugins/{pluginID}/assets/{assetPath}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getInstalledPluginAsset"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/companion/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getCompanionProfile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/companion/interactions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["recordCompanionInteraction"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/companion/profile/reset": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["resetCompanionProfile"];
         delete?: never;
         options?: never;
         head?: never;
@@ -11503,6 +11615,113 @@ export interface components {
             agentProfiles?: string[];
             gatewayPolicyPacks?: string[];
         };
+        CompanionAsset: {
+            path: string;
+            /** @enum {string} */
+            kind: "entry" | "model" | "texture" | "motion" | "expression" | "physics" | "pose" | "thumbnail" | "audio";
+            /** @enum {string} */
+            contentType: "application/json" | "application/octet-stream" | "image/png" | "image/jpeg" | "image/webp" | "image/svg+xml" | "audio/mpeg" | "audio/ogg";
+            /** Format: int64 */
+            sizeBytes: number;
+            sha256: string;
+        };
+        CompanionAnimationBindings: {
+            idle?: string;
+            listening?: string;
+            thinking?: string;
+            speaking?: string;
+            error?: string;
+            dragging?: string;
+            hover?: string;
+            tap?: string;
+        };
+        CompanionInteractionDefinition: {
+            id: string;
+            label?: string;
+            /** @enum {string} */
+            action: "tap" | "pet" | "feed" | "play" | "greet";
+            animation?: string;
+            cooldownSeconds?: number;
+            rewardXp?: number;
+            rewardAffinity?: number;
+        };
+        CompanionUnlockDefinition: {
+            id: string;
+            /** @enum {string} */
+            kind: "interaction" | "animation" | "expression" | "asset";
+            level: number;
+            ref: string;
+        };
+        CompanionPackLicense: {
+            name: string;
+            spdxId?: string;
+            /** Format: uri */
+            url: string;
+            /** Format: uri */
+            sourceUrl?: string;
+            attribution?: string;
+            /** @enum {boolean} */
+            redistributionAllowed: true;
+            commercialUseAllowed: boolean;
+        };
+        CompanionPackManifest: {
+            /** @enum {string} */
+            renderer: "svg" | "sprite" | "live2d-cubism";
+            entryAsset: string;
+            thumbnailAsset?: string;
+            modelFormatVersion?: string;
+            assets: components["schemas"]["CompanionAsset"][];
+            animations?: components["schemas"]["CompanionAnimationBindings"];
+            interactions?: components["schemas"]["CompanionInteractionDefinition"][];
+            unlocks?: components["schemas"]["CompanionUnlockDefinition"][];
+            license: components["schemas"]["CompanionPackLicense"];
+        };
+        PluginPackageDescriptor: {
+            /** Format: uri */
+            url: string;
+            /** @enum {string} */
+            contentType: "application/zip" | "application/gzip" | "application/x-tar";
+            /** Format: int64 */
+            sizeBytes: number;
+            sha256: string;
+            signature?: string;
+            /** @enum {string} */
+            signatureAlgorithm?: "ed25519";
+            signingKeyId?: string;
+            /** Format: uri */
+            provenanceUrl?: string;
+            /** Format: uri */
+            sbomUrl?: string;
+        };
+        /** @description The Ed25519 signature covers UTF-8 lines subjectSha256, builderId, sourceUri, sourceCommit, and builtAt in that order, joined with LF and without a trailing LF. */
+        PluginProvenanceStatement: {
+            subjectSha256: string;
+            builderId: string;
+            /** Format: uri */
+            sourceUri: string;
+            sourceCommit: string;
+            /** Format: date-time */
+            builtAt: string;
+            signingKeyId: string;
+            /** @enum {string} */
+            signatureAlgorithm: "ed25519";
+            signature: string;
+        };
+        PluginArtifactRecord: {
+            version: string;
+            sha256: string;
+            /** Format: int64 */
+            sizeBytes: number;
+            /** @enum {string} */
+            checksumStatus: "verified" | "mismatch";
+            /** @enum {string} */
+            signatureStatus: "verified" | "not_provided" | "untrusted" | "invalid";
+            /** @enum {string} */
+            provenanceStatus: "verified" | "not_provided" | "invalid";
+            active: boolean;
+            /** Format: date-time */
+            installedAt?: string;
+        };
         PluginCompatibility: {
             soha?: string;
             contracts?: string;
@@ -11687,6 +11906,7 @@ export interface components {
             packageUrl?: string;
             checksum?: string;
             signature?: string;
+            package?: components["schemas"]["PluginPackageDescriptor"];
             /** Format: date-time */
             publishedAt?: string;
             deprecated?: boolean;
@@ -11725,7 +11945,7 @@ export interface components {
             version: string;
             publisher: string;
             /** @enum {string} */
-            type: "skill" | "skill-pack" | "mcp-preset" | "connector" | "ai-provider-adapter" | "agent-profile" | "gateway-policy-pack" | "diagnostic" | "resource-extension" | "observability-provider" | "metric-extension" | "notification-channel" | "identity-template" | "ui-extension";
+            type: "skill" | "skill-pack" | "mcp-preset" | "connector" | "ai-provider-adapter" | "agent-profile" | "gateway-policy-pack" | "diagnostic" | "resource-extension" | "observability-provider" | "metric-extension" | "notification-channel" | "identity-template" | "ui-extension" | "companion-pack";
             description?: string;
             homepage?: string;
             compatibility?: components["schemas"]["PluginCompatibility"];
@@ -11737,6 +11957,7 @@ export interface components {
             };
             integrity?: components["schemas"]["PluginIntegrity"];
             runtime?: components["schemas"]["PluginRuntimeSpec"];
+            companionPack?: components["schemas"]["CompanionPackManifest"];
             configSchema?: components["schemas"]["JSONSchema"];
             extensionPoints?: components["schemas"]["PluginExtensionPoints"];
             metadata?: {
@@ -11863,6 +12084,8 @@ export interface components {
             manifest: components["schemas"]["PluginManifest"];
             checksumStatus: string;
             signatureStatus?: string;
+            activeVersion?: string;
+            artifacts?: components["schemas"]["PluginArtifactRecord"][];
             requestedPermissions?: components["schemas"]["PluginPermissionRequest"];
             configuredSecretRefs?: {
                 [key: string]: string;
@@ -11888,7 +12111,58 @@ export interface components {
             version?: string;
             manifest?: components["schemas"]["PluginManifest"];
             expectedChecksum?: string;
+            package?: components["schemas"]["PluginPackageDescriptor"];
             enable?: boolean;
+        };
+        CompanionActivationRequest: {
+            version?: string;
+        };
+        CompanionRollbackRequest: {
+            version: string;
+            reason?: string;
+        };
+        CompanionProfile: {
+            id: string;
+            ownerId: string;
+            activePluginId: string;
+            activeVersion: string;
+            level: number;
+            xp: number;
+            affinity: number;
+            unlockedIds: string[];
+            /** Format: int64 */
+            revision: number;
+            /** Format: date-time */
+            lastInteractionAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        CompanionInteractionRequest: {
+            pluginId: string;
+            interactionId: string;
+            sessionId?: string;
+            messageId?: string;
+            /** Format: int64 */
+            clientRevision?: number;
+        };
+        CompanionInteractionReceipt: {
+            idempotencyKey: string;
+            applied: boolean;
+            xpAwarded: number;
+            affinityAwarded: number;
+            unlockedIds: string[];
+            profile: components["schemas"]["CompanionProfile"];
+        };
+        CompanionProfileResetRequest: {
+            pluginId?: string;
+        };
+        CompanionProfileEnvelope: {
+            data: components["schemas"]["CompanionProfile"];
+        };
+        CompanionInteractionReceiptEnvelope: {
+            data: components["schemas"]["CompanionInteractionReceipt"];
         };
         PluginConfigRequest: {
             enabled?: boolean;
@@ -12545,6 +12819,8 @@ export interface components {
         OperationID: string;
         ProviderID: string;
         PluginID: string;
+        /** @description Slash-separated relative path declared by the active companion pack. */
+        PluginAssetPath: string;
         KnowledgeBaseID: string;
         KnowledgeSourceID: string;
         KnowledgeConnectorID: string;
@@ -13422,6 +13698,15 @@ export type AnthropicModel = components['schemas']['AnthropicModel'];
 export type AnthropicModelsResponse = components['schemas']['AnthropicModelsResponse'];
 export type AnthropicMessagesRequest = components['schemas']['AnthropicMessagesRequest'];
 export type PluginAssetSnapshot = components['schemas']['PluginAssetSnapshot'];
+export type CompanionAsset = components['schemas']['CompanionAsset'];
+export type CompanionAnimationBindings = components['schemas']['CompanionAnimationBindings'];
+export type CompanionInteractionDefinition = components['schemas']['CompanionInteractionDefinition'];
+export type CompanionUnlockDefinition = components['schemas']['CompanionUnlockDefinition'];
+export type CompanionPackLicense = components['schemas']['CompanionPackLicense'];
+export type CompanionPackManifest = components['schemas']['CompanionPackManifest'];
+export type PluginPackageDescriptor = components['schemas']['PluginPackageDescriptor'];
+export type PluginProvenanceStatement = components['schemas']['PluginProvenanceStatement'];
+export type PluginArtifactRecord = components['schemas']['PluginArtifactRecord'];
 export type PluginCompatibility = components['schemas']['PluginCompatibility'];
 export type PluginCapabilityRequest = components['schemas']['PluginCapabilityRequest'];
 export type PluginPermissionRequest = components['schemas']['PluginPermissionRequest'];
@@ -13464,6 +13749,14 @@ export type SoftwareStorage = components['schemas']['SoftwareStorage'];
 export type SoftwareStorageEnvelope = components['schemas']['SoftwareStorageEnvelope'];
 export type InstalledPlugin = components['schemas']['InstalledPlugin'];
 export type PluginInstallRequest = components['schemas']['PluginInstallRequest'];
+export type CompanionActivationRequest = components['schemas']['CompanionActivationRequest'];
+export type CompanionRollbackRequest = components['schemas']['CompanionRollbackRequest'];
+export type CompanionProfile = components['schemas']['CompanionProfile'];
+export type CompanionInteractionRequest = components['schemas']['CompanionInteractionRequest'];
+export type CompanionInteractionReceipt = components['schemas']['CompanionInteractionReceipt'];
+export type CompanionProfileResetRequest = components['schemas']['CompanionProfileResetRequest'];
+export type CompanionProfileEnvelope = components['schemas']['CompanionProfileEnvelope'];
+export type CompanionInteractionReceiptEnvelope = components['schemas']['CompanionInteractionReceiptEnvelope'];
 export type PluginConfigRequest = components['schemas']['PluginConfigRequest'];
 export type PluginManifestEnvelope = components['schemas']['PluginManifestEnvelope'];
 export type MarketplacePluginEnvelope = components['schemas']['MarketplacePluginEnvelope'];
@@ -13593,6 +13886,7 @@ export type ParameterOidcState = components['parameters']['OIDCState'];
 export type ParameterOperationId = components['parameters']['OperationID'];
 export type ParameterProviderId = components['parameters']['ProviderID'];
 export type ParameterPluginId = components['parameters']['PluginID'];
+export type ParameterPluginAssetPath = components['parameters']['PluginAssetPath'];
 export type ParameterKnowledgeBaseId = components['parameters']['KnowledgeBaseID'];
 export type ParameterKnowledgeSourceId = components['parameters']['KnowledgeSourceID'];
 export type ParameterKnowledgeConnectorId = components['parameters']['KnowledgeConnectorID'];
@@ -20659,6 +20953,29 @@ export interface operations {
             };
         };
     };
+    getPublicMarketplacePluginProvenance: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                pluginID: components["parameters"]["PluginID"];
+                version: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Immutable signed provenance statement for a plugin package. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PluginProvenanceStatement"];
+                };
+            };
+        };
+    };
     listMarketplacePlugins: {
         parameters: {
             query?: {
@@ -21075,6 +21392,203 @@ export interface operations {
                     "application/json": components["schemas"]["InstalledPluginEnvelope"];
                 };
             };
+        };
+    };
+    activateInstalledPlugin: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
+            };
+            path: {
+                pluginID: components["parameters"]["PluginID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CompanionActivationRequest"];
+            };
+        };
+        responses: {
+            /** @description Companion pack version activated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InstalledPluginEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            422: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    rollbackInstalledPlugin: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
+            };
+            path: {
+                pluginID: components["parameters"]["PluginID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CompanionRollbackRequest"];
+            };
+        };
+        responses: {
+            /** @description Companion pack rolled back to a retained verified version. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InstalledPluginEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            422: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getInstalledPluginAsset: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                pluginID: components["parameters"]["PluginID"];
+                /** @description Slash-separated relative path declared by the active companion pack. */
+                assetPath: components["parameters"]["PluginAssetPath"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Immutable verified asset from the active companion pack. */
+            200: {
+                headers: {
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
+                    "application/json": string;
+                    "image/png": string;
+                    "image/jpeg": string;
+                    "image/webp": string;
+                    "image/svg+xml": string;
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    getCompanionProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current principal's companion profile. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CompanionProfileEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    recordCompanionInteraction: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CompanionInteractionRequest"];
+            };
+        };
+        responses: {
+            /** @description Existing idempotent interaction result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CompanionInteractionReceiptEnvelope"];
+                };
+            };
+            /** @description Interaction applied to the companion profile. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CompanionInteractionReceiptEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            422: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    resetCompanionProfile: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CompanionProfileResetRequest"];
+            };
+        };
+        responses: {
+            /** @description Companion progression reset for the selected pack. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CompanionProfileEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
         };
     };
     getAgentProviderCatalog: {

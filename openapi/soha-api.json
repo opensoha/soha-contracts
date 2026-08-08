@@ -637,6 +637,18 @@
           "type": "string"
         }
       },
+      "PluginAssetPath": {
+        "description": "Slash-separated relative path declared by the active companion pack.",
+        "in": "path",
+        "name": "assetPath",
+        "required": true,
+        "schema": {
+          "maxLength": 512,
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)[A-Za-z0-9._/-]+$",
+          "type": "string"
+        }
+      },
       "PluginID": {
         "in": "path",
         "name": "pluginID",
@@ -6326,6 +6338,481 @@
           "model",
           "query",
           "documents"
+        ],
+        "type": "object"
+      },
+      "CompanionActivationRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "version": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "CompanionAnimationBindings": {
+        "additionalProperties": false,
+        "properties": {
+          "dragging": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "error": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "hover": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "idle": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "listening": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "speaking": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "tap": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "thinking": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "CompanionAsset": {
+        "additionalProperties": false,
+        "properties": {
+          "contentType": {
+            "enum": [
+              "application/json",
+              "application/octet-stream",
+              "image/png",
+              "image/jpeg",
+              "image/webp",
+              "image/svg+xml",
+              "audio/mpeg",
+              "audio/ogg"
+            ],
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "entry",
+              "model",
+              "texture",
+              "motion",
+              "expression",
+              "physics",
+              "pose",
+              "thumbnail",
+              "audio"
+            ],
+            "type": "string"
+          },
+          "path": {
+            "maxLength": 512,
+            "minLength": 1,
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)[A-Za-z0-9._/-]+$",
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "sizeBytes": {
+            "format": "int64",
+            "maximum": 67108864,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "path",
+          "kind",
+          "contentType",
+          "sizeBytes",
+          "sha256"
+        ],
+        "type": "object"
+      },
+      "CompanionInteractionDefinition": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "enum": [
+              "tap",
+              "pet",
+              "feed",
+              "play",
+              "greet"
+            ],
+            "type": "string"
+          },
+          "animation": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "cooldownSeconds": {
+            "maximum": 86400,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "id": {
+            "pattern": "^[a-z][a-z0-9._-]*$",
+            "type": "string"
+          },
+          "label": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "rewardAffinity": {
+            "maximum": 100,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "rewardXp": {
+            "maximum": 1000,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "action"
+        ],
+        "type": "object"
+      },
+      "CompanionInteractionReceipt": {
+        "additionalProperties": false,
+        "properties": {
+          "affinityAwarded": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "applied": {
+            "type": "boolean"
+          },
+          "idempotencyKey": {
+            "type": "string"
+          },
+          "profile": {
+            "$ref": "#/components/schemas/CompanionProfile"
+          },
+          "unlockedIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "xpAwarded": {
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "idempotencyKey",
+          "applied",
+          "xpAwarded",
+          "affinityAwarded",
+          "unlockedIds",
+          "profile"
+        ],
+        "type": "object"
+      },
+      "CompanionInteractionReceiptEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CompanionInteractionReceipt"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "CompanionInteractionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "clientRevision": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "interactionId": {
+            "pattern": "^[a-z][a-z0-9._-]*$",
+            "type": "string"
+          },
+          "messageId": {
+            "type": "string"
+          },
+          "pluginId": {
+            "type": "string"
+          },
+          "sessionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "pluginId",
+          "interactionId"
+        ],
+        "type": "object"
+      },
+      "CompanionPackLicense": {
+        "additionalProperties": false,
+        "properties": {
+          "attribution": {
+            "maxLength": 2048,
+            "type": "string"
+          },
+          "commercialUseAllowed": {
+            "type": "boolean"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "redistributionAllowed": {
+            "enum": [
+              true
+            ],
+            "type": "boolean"
+          },
+          "sourceUrl": {
+            "format": "uri",
+            "type": "string"
+          },
+          "spdxId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "url": {
+            "format": "uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "url",
+          "redistributionAllowed",
+          "commercialUseAllowed"
+        ],
+        "type": "object"
+      },
+      "CompanionPackManifest": {
+        "additionalProperties": false,
+        "properties": {
+          "animations": {
+            "$ref": "#/components/schemas/CompanionAnimationBindings"
+          },
+          "assets": {
+            "items": {
+              "$ref": "#/components/schemas/CompanionAsset"
+            },
+            "maxItems": 512,
+            "minItems": 1,
+            "type": "array"
+          },
+          "entryAsset": {
+            "maxLength": 512,
+            "minLength": 1,
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)[A-Za-z0-9._/-]+$",
+            "type": "string"
+          },
+          "interactions": {
+            "items": {
+              "$ref": "#/components/schemas/CompanionInteractionDefinition"
+            },
+            "maxItems": 64,
+            "type": "array"
+          },
+          "license": {
+            "$ref": "#/components/schemas/CompanionPackLicense"
+          },
+          "modelFormatVersion": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "renderer": {
+            "enum": [
+              "svg",
+              "sprite",
+              "live2d-cubism"
+            ],
+            "type": "string"
+          },
+          "thumbnailAsset": {
+            "maxLength": 512,
+            "minLength": 1,
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)[A-Za-z0-9._/-]+$",
+            "type": "string"
+          },
+          "unlocks": {
+            "items": {
+              "$ref": "#/components/schemas/CompanionUnlockDefinition"
+            },
+            "maxItems": 128,
+            "type": "array"
+          }
+        },
+        "required": [
+          "renderer",
+          "entryAsset",
+          "assets",
+          "license"
+        ],
+        "type": "object"
+      },
+      "CompanionProfile": {
+        "additionalProperties": false,
+        "properties": {
+          "activePluginId": {
+            "type": "string"
+          },
+          "activeVersion": {
+            "type": "string"
+          },
+          "affinity": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "lastInteractionAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "level": {
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "ownerId": {
+            "type": "string"
+          },
+          "revision": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "unlockedIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "xp": {
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "ownerId",
+          "activePluginId",
+          "activeVersion",
+          "level",
+          "xp",
+          "affinity",
+          "unlockedIds",
+          "revision",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "CompanionProfileEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CompanionProfile"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "CompanionProfileResetRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "pluginId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "CompanionRollbackRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "reason": {
+            "maxLength": 512,
+            "type": "string"
+          },
+          "version": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "version"
+        ],
+        "type": "object"
+      },
+      "CompanionUnlockDefinition": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "pattern": "^[a-z][a-z0-9._-]*$",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "interaction",
+              "animation",
+              "expression",
+              "asset"
+            ],
+            "type": "string"
+          },
+          "level": {
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "ref": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "level",
+          "ref"
         ],
         "type": "object"
       },
@@ -12803,6 +13290,15 @@
       "InstalledPlugin": {
         "additionalProperties": false,
         "properties": {
+          "activeVersion": {
+            "type": "string"
+          },
+          "artifacts": {
+            "items": {
+              "$ref": "#/components/schemas/PluginArtifactRecord"
+            },
+            "type": "array"
+          },
           "checksumStatus": {
             "type": "string"
           },
@@ -19627,6 +20123,9 @@
           "minSohaVersion": {
             "type": "string"
           },
+          "package": {
+            "$ref": "#/components/schemas/PluginPackageDescriptor"
+          },
           "packageUrl": {
             "type": "string"
           },
@@ -22581,6 +23080,64 @@
         },
         "type": "object"
       },
+      "PluginArtifactRecord": {
+        "additionalProperties": false,
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "checksumStatus": {
+            "enum": [
+              "verified",
+              "mismatch"
+            ],
+            "type": "string"
+          },
+          "installedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "provenanceStatus": {
+            "enum": [
+              "verified",
+              "not_provided",
+              "invalid"
+            ],
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "signatureStatus": {
+            "enum": [
+              "verified",
+              "not_provided",
+              "untrusted",
+              "invalid"
+            ],
+            "type": "string"
+          },
+          "sizeBytes": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "version": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "version",
+          "sha256",
+          "sizeBytes",
+          "checksumStatus",
+          "signatureStatus",
+          "provenanceStatus",
+          "active"
+        ],
+        "type": "object"
+      },
       "PluginAssetSnapshot": {
         "additionalProperties": false,
         "properties": {
@@ -23048,6 +23605,9 @@
           "marketplaceUrl": {
             "type": "string"
           },
+          "package": {
+            "$ref": "#/components/schemas/PluginPackageDescriptor"
+          },
           "pluginId": {
             "type": "string"
           },
@@ -23089,6 +23649,9 @@
           },
           "capabilities": {
             "$ref": "#/components/schemas/PluginCapabilityRequest"
+          },
+          "companionPack": {
+            "$ref": "#/components/schemas/CompanionPackManifest"
           },
           "compatibility": {
             "$ref": "#/components/schemas/PluginCompatibility"
@@ -23154,7 +23717,8 @@
               "metric-extension",
               "notification-channel",
               "identity-template",
-              "ui-extension"
+              "ui-extension",
+              "companion-pack"
             ],
             "type": "string"
           },
@@ -23288,6 +23852,62 @@
         ],
         "type": "object"
       },
+      "PluginPackageDescriptor": {
+        "additionalProperties": false,
+        "properties": {
+          "contentType": {
+            "enum": [
+              "application/zip",
+              "application/gzip",
+              "application/x-tar"
+            ],
+            "type": "string"
+          },
+          "provenanceUrl": {
+            "format": "uri",
+            "type": "string"
+          },
+          "sbomUrl": {
+            "format": "uri",
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "signature": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "signatureAlgorithm": {
+            "enum": [
+              "ed25519"
+            ],
+            "type": "string"
+          },
+          "signingKeyId": {
+            "pattern": "^[a-z][a-z0-9._-]*$",
+            "type": "string"
+          },
+          "sizeBytes": {
+            "format": "int64",
+            "maximum": 268435456,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "url": {
+            "format": "uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url",
+          "contentType",
+          "sizeBytes",
+          "sha256"
+        ],
+        "type": "object"
+      },
       "PluginPermissionRequest": {
         "additionalProperties": false,
         "properties": {
@@ -23304,6 +23924,58 @@
             "type": "array"
           }
         },
+        "type": "object"
+      },
+      "PluginProvenanceStatement": {
+        "additionalProperties": false,
+        "description": "The Ed25519 signature covers UTF-8 lines subjectSha256, builderId, sourceUri, sourceCommit, and builtAt in that order, joined with LF and without a trailing LF.",
+        "properties": {
+          "builderId": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "builtAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "signature": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "signatureAlgorithm": {
+            "enum": [
+              "ed25519"
+            ],
+            "type": "string"
+          },
+          "signingKeyId": {
+            "pattern": "^[a-z][a-z0-9._-]*$",
+            "type": "string"
+          },
+          "sourceCommit": {
+            "pattern": "^[A-Fa-f0-9]{7,64}$",
+            "type": "string"
+          },
+          "sourceUri": {
+            "format": "uri",
+            "type": "string"
+          },
+          "subjectSha256": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subjectSha256",
+          "builderId",
+          "sourceUri",
+          "sourceCommit",
+          "builtAt",
+          "signingKeyId",
+          "signatureAlgorithm",
+          "signature"
+        ],
         "type": "object"
       },
       "PluginResourceExtensions": {
@@ -37409,6 +38081,151 @@
         ]
       }
     },
+    "/companion/interactions": {
+      "post": {
+        "operationId": "recordCompanionInteraction",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionInteractionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanionInteractionReceiptEnvelope"
+                }
+              }
+            },
+            "description": "Existing idempotent interaction result."
+          },
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanionInteractionReceiptEnvelope"
+                }
+              }
+            },
+            "description": "Interaction applied to the companion profile."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Companion"
+        ]
+      }
+    },
+    "/companion/profile": {
+      "get": {
+        "operationId": "getCompanionProfile",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanionProfileEnvelope"
+                }
+              }
+            },
+            "description": "Current principal's companion profile."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Companion"
+        ]
+      }
+    },
+    "/companion/profile/reset": {
+      "post": {
+        "operationId": "resetCompanionProfile",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionProfileResetRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanionProfileEnvelope"
+                }
+              }
+            },
+            "description": "Companion progression reset for the selected pack."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Companion"
+        ]
+      }
+    },
     "/compute/access-sources": {
       "get": {
         "operationId": "listComputeAccessSources",
@@ -42155,6 +42972,40 @@
         ]
       }
     },
+    "/marketplace/plugins/{pluginID}/{version}/provenance.json": {
+      "get": {
+        "operationId": "getPublicMarketplacePluginProvenance",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PluginID"
+          },
+          {
+            "in": "path",
+            "name": "version",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PluginProvenanceStatement"
+                }
+              }
+            },
+            "description": "Immutable signed provenance statement for a plugin package."
+          }
+        },
+        "security": [],
+        "tags": [
+          "Marketplace"
+        ]
+      }
+    },
     "/mcp/capabilities": {
       "get": {
         "operationId": "listMCPCapabilities",
@@ -42660,6 +43511,137 @@
         ]
       }
     },
+    "/plugins/{pluginID}/activate": {
+      "post": {
+        "operationId": "activateInstalledPlugin",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PluginID"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionActivationRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstalledPluginEnvelope"
+                }
+              }
+            },
+            "description": "Companion pack version activated."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Plugins"
+        ]
+      }
+    },
+    "/plugins/{pluginID}/assets/{assetPath}": {
+      "get": {
+        "operationId": "getInstalledPluginAsset",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PluginID"
+          },
+          {
+            "$ref": "#/components/parameters/PluginAssetPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              },
+              "image/jpeg": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              },
+              "image/png": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              },
+              "image/svg+xml": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              },
+              "image/webp": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Immutable verified asset from the active companion pack.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Plugins"
+        ]
+      }
+    },
     "/plugins/{pluginID}/config": {
       "put": {
         "operationId": "configureInstalledPlugin",
@@ -42763,6 +43745,62 @@
               }
             },
             "description": "Installed plugin manifest snapshot."
+          }
+        },
+        "tags": [
+          "Plugins"
+        ]
+      }
+    },
+    "/plugins/{pluginID}/rollback": {
+      "post": {
+        "operationId": "rollbackInstalledPlugin",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PluginID"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionRollbackRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstalledPluginEnvelope"
+                }
+              }
+            },
+            "description": "Companion pack rolled back to a retained verified version."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
           }
         },
         "tags": [

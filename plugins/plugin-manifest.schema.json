@@ -28,7 +28,8 @@
         "metric-extension",
         "notification-channel",
         "identity-template",
-        "ui-extension"
+        "ui-extension",
+        "companion-pack"
       ]
     },
     "description": { "type": "string" },
@@ -123,6 +124,9 @@
       },
       "additionalProperties": false
     },
+    "companionPack": {
+      "$ref": "https://contracts.opensoha.dev/plugins/companion-pack.schema.json"
+    },
     "configSchema": { "$ref": "#/$defs/jsonSchema" },
     "extensionPoints": { "$ref": "#/$defs/extensionPoints" },
     "metadata": {
@@ -131,6 +135,20 @@
     }
   },
   "allOf": [
+    {
+      "if": {
+        "properties": { "type": { "const": "companion-pack" } },
+        "required": ["type"]
+      },
+      "then": {
+        "required": ["companionPack"],
+        "properties": {
+          "runtime": {
+            "properties": { "mode": { "const": "manifest-only" } }
+          }
+        }
+      }
+    },
     {
       "if": {
         "anyOf": [

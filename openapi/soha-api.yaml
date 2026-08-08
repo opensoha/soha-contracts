@@ -6403,6 +6403,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PluginManifest"
+  /marketplace/plugins/{pluginID}/{version}/provenance.json:
+    get:
+      tags: [Marketplace]
+      operationId: getPublicMarketplacePluginProvenance
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/PluginID"
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Immutable signed provenance statement for a plugin package.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PluginProvenanceStatement"
   /plugins/marketplace:
     get:
       tags: [Plugins]
@@ -6763,6 +6782,170 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InstalledPluginEnvelope"
+  /plugins/{pluginID}/activate:
+    post:
+      tags: [Plugins]
+      operationId: activateInstalledPlugin
+      parameters:
+        - $ref: "#/components/parameters/PluginID"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CompanionActivationRequest"
+      responses:
+        "200":
+          description: Companion pack version activated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InstalledPluginEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "422": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /plugins/{pluginID}/rollback:
+    post:
+      tags: [Plugins]
+      operationId: rollbackInstalledPlugin
+      parameters:
+        - $ref: "#/components/parameters/PluginID"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CompanionRollbackRequest"
+      responses:
+        "200":
+          description: Companion pack rolled back to a retained verified version.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InstalledPluginEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "422": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /plugins/{pluginID}/assets/{assetPath}:
+    get:
+      tags: [Plugins]
+      operationId: getInstalledPluginAsset
+      parameters:
+        - $ref: "#/components/parameters/PluginID"
+        - $ref: "#/components/parameters/PluginAssetPath"
+      responses:
+        "200":
+          description: Immutable verified asset from the active companion pack.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+            application/json:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/webp:
+              schema:
+                type: string
+                format: binary
+            image/svg+xml:
+              schema:
+                type: string
+                format: binary
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /companion/profile:
+    get:
+      tags: [Companion]
+      operationId: getCompanionProfile
+      responses:
+        "200":
+          description: Current principal's companion profile.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompanionProfileEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /companion/interactions:
+    post:
+      tags: [Companion]
+      operationId: recordCompanionInteraction
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CompanionInteractionRequest"
+      responses:
+        "200":
+          description: Existing idempotent interaction result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompanionInteractionReceiptEnvelope"
+        "201":
+          description: Interaction applied to the companion profile.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompanionInteractionReceiptEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "422": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /companion/profile/reset:
+    post:
+      tags: [Companion]
+      operationId: resetCompanionProfile
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CompanionProfileResetRequest"
+      responses:
+        "200":
+          description: Companion progression reset for the selected pack.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompanionProfileEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
   /ai/agent-providers/catalog:
     get:
       tags: [Agent Providers]
@@ -9215,6 +9398,16 @@ components:
       required: true
       schema:
         type: string
+    PluginAssetPath:
+      name: assetPath
+      in: path
+      required: true
+      description: Slash-separated relative path declared by the active companion pack.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 512
+        pattern: "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)[A-Za-z0-9._/-]+$"
     KnowledgeBaseID:
       name: baseID
       in: path
@@ -21193,6 +21386,185 @@ components:
           items:
             type: string
       additionalProperties: false
+    CompanionAsset:
+      type: object
+      required: [path, kind, contentType, sizeBytes, sha256]
+      properties:
+        path:
+          type: string
+          minLength: 1
+          maxLength: 512
+          pattern: "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)[A-Za-z0-9._/-]+$"
+        kind:
+          type: string
+          enum: [entry, model, texture, motion, expression, physics, pose, thumbnail, audio]
+        contentType:
+          type: string
+          enum: [application/json, application/octet-stream, image/png, image/jpeg, image/webp, image/svg+xml, audio/mpeg, audio/ogg]
+        sizeBytes:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 67108864
+        sha256:
+          type: string
+          pattern: "^sha256:[a-f0-9]{64}$"
+      additionalProperties: false
+    CompanionAnimationBindings:
+      type: object
+      properties:
+        idle: { type: string, minLength: 1 }
+        listening: { type: string, minLength: 1 }
+        thinking: { type: string, minLength: 1 }
+        speaking: { type: string, minLength: 1 }
+        error: { type: string, minLength: 1 }
+        dragging: { type: string, minLength: 1 }
+        hover: { type: string, minLength: 1 }
+        tap: { type: string, minLength: 1 }
+      additionalProperties: false
+    CompanionInteractionDefinition:
+      type: object
+      required: [id, action]
+      properties:
+        id:
+          type: string
+          pattern: "^[a-z][a-z0-9._-]*$"
+        label: { type: string, minLength: 1, maxLength: 64 }
+        action:
+          type: string
+          enum: [tap, pet, feed, play, greet]
+        animation: { type: string, minLength: 1 }
+        cooldownSeconds: { type: integer, minimum: 0, maximum: 86400 }
+        rewardXp: { type: integer, minimum: 0, maximum: 1000 }
+        rewardAffinity: { type: integer, minimum: 0, maximum: 100 }
+      additionalProperties: false
+    CompanionUnlockDefinition:
+      type: object
+      required: [id, kind, level, ref]
+      properties:
+        id:
+          type: string
+          pattern: "^[a-z][a-z0-9._-]*$"
+        kind:
+          type: string
+          enum: [interaction, animation, expression, asset]
+        level: { type: integer, minimum: 1, maximum: 100 }
+        ref: { type: string, minLength: 1 }
+      additionalProperties: false
+    CompanionPackLicense:
+      type: object
+      required: [name, url, redistributionAllowed, commercialUseAllowed]
+      properties:
+        name: { type: string, minLength: 1 }
+        spdxId: { type: string, minLength: 1 }
+        url: { type: string, format: uri }
+        sourceUrl: { type: string, format: uri }
+        attribution: { type: string, maxLength: 2048 }
+        redistributionAllowed: { type: boolean, enum: [true] }
+        commercialUseAllowed: { type: boolean }
+      additionalProperties: false
+    CompanionPackManifest:
+      type: object
+      required: [renderer, entryAsset, assets, license]
+      properties:
+        renderer:
+          type: string
+          enum: [svg, sprite, live2d-cubism]
+        entryAsset:
+          type: string
+          minLength: 1
+          maxLength: 512
+          pattern: "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)[A-Za-z0-9._/-]+$"
+        thumbnailAsset:
+          type: string
+          minLength: 1
+          maxLength: 512
+          pattern: "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)[A-Za-z0-9._/-]+$"
+        modelFormatVersion: { type: string, minLength: 1 }
+        assets:
+          type: array
+          minItems: 1
+          maxItems: 512
+          items:
+            $ref: "#/components/schemas/CompanionAsset"
+        animations:
+          $ref: "#/components/schemas/CompanionAnimationBindings"
+        interactions:
+          type: array
+          maxItems: 64
+          items:
+            $ref: "#/components/schemas/CompanionInteractionDefinition"
+        unlocks:
+          type: array
+          maxItems: 128
+          items:
+            $ref: "#/components/schemas/CompanionUnlockDefinition"
+        license:
+          $ref: "#/components/schemas/CompanionPackLicense"
+      additionalProperties: false
+    PluginPackageDescriptor:
+      type: object
+      required: [url, contentType, sizeBytes, sha256]
+      properties:
+        url: { type: string, format: uri }
+        contentType:
+          type: string
+          enum: [application/zip, application/gzip, application/x-tar]
+        sizeBytes:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 268435456
+        sha256:
+          type: string
+          pattern: "^sha256:[a-f0-9]{64}$"
+        signature: { type: string, minLength: 1 }
+        signatureAlgorithm:
+          type: string
+          enum: [ed25519]
+        signingKeyId:
+          type: string
+          pattern: "^[a-z][a-z0-9._-]*$"
+        provenanceUrl: { type: string, format: uri }
+        sbomUrl: { type: string, format: uri }
+      additionalProperties: false
+    PluginProvenanceStatement:
+      type: object
+      description: The Ed25519 signature covers UTF-8 lines subjectSha256, builderId, sourceUri, sourceCommit, and builtAt in that order, joined with LF and without a trailing LF.
+      required: [subjectSha256, builderId, sourceUri, sourceCommit, builtAt, signingKeyId, signatureAlgorithm, signature]
+      properties:
+        subjectSha256:
+          type: string
+          pattern: "^sha256:[a-f0-9]{64}$"
+        builderId: { type: string, minLength: 1, maxLength: 512 }
+        sourceUri: { type: string, format: uri }
+        sourceCommit: { type: string, pattern: "^[A-Fa-f0-9]{7,64}$" }
+        builtAt: { type: string, format: date-time }
+        signingKeyId: { type: string, pattern: "^[a-z][a-z0-9._-]*$" }
+        signatureAlgorithm: { type: string, enum: [ed25519] }
+        signature: { type: string, minLength: 1 }
+      additionalProperties: false
+    PluginArtifactRecord:
+      type: object
+      required: [version, sha256, sizeBytes, checksumStatus, signatureStatus, provenanceStatus, active]
+      properties:
+        version: { type: string }
+        sha256:
+          type: string
+          pattern: "^sha256:[a-f0-9]{64}$"
+        sizeBytes: { type: integer, format: int64, minimum: 1 }
+        checksumStatus:
+          type: string
+          enum: [verified, mismatch]
+        signatureStatus:
+          type: string
+          enum: [verified, not_provided, untrusted, invalid]
+        provenanceStatus:
+          type: string
+          enum: [verified, not_provided, invalid]
+        active: { type: boolean }
+        installedAt: { type: string, format: date-time }
+      additionalProperties: false
     PluginCompatibility:
       type: object
       properties:
@@ -21696,6 +22068,8 @@ components:
           type: string
         signature:
           type: string
+        package:
+          $ref: "#/components/schemas/PluginPackageDescriptor"
         publishedAt:
           type: string
           format: date-time
@@ -21786,6 +22160,7 @@ components:
             - notification-channel
             - identity-template
             - ui-extension
+            - companion-pack
         description:
           type: string
         homepage:
@@ -21810,6 +22185,8 @@ components:
           $ref: "#/components/schemas/PluginIntegrity"
         runtime:
           $ref: "#/components/schemas/PluginRuntimeSpec"
+        companionPack:
+          $ref: "#/components/schemas/CompanionPackManifest"
         configSchema:
           $ref: "#/components/schemas/JSONSchema"
         extensionPoints:
@@ -22134,6 +22511,12 @@ components:
           type: string
         signatureStatus:
           type: string
+        activeVersion:
+          type: string
+        artifacts:
+          type: array
+          items:
+            $ref: "#/components/schemas/PluginArtifactRecord"
         requestedPermissions:
           $ref: "#/components/schemas/PluginPermissionRequest"
         configuredSecretRefs:
@@ -22175,8 +22558,88 @@ components:
           $ref: "#/components/schemas/PluginManifest"
         expectedChecksum:
           type: string
+        package:
+          $ref: "#/components/schemas/PluginPackageDescriptor"
         enable:
           type: boolean
+      additionalProperties: false
+    CompanionActivationRequest:
+      type: object
+      properties:
+        version: { type: string, minLength: 1 }
+      additionalProperties: false
+    CompanionRollbackRequest:
+      type: object
+      required: [version]
+      properties:
+        version: { type: string, minLength: 1 }
+        reason: { type: string, maxLength: 512 }
+      additionalProperties: false
+    CompanionProfile:
+      type: object
+      required: [id, ownerId, activePluginId, activeVersion, level, xp, affinity, unlockedIds, revision, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        ownerId: { type: string }
+        activePluginId: { type: string }
+        activeVersion: { type: string }
+        level: { type: integer, minimum: 1, maximum: 100 }
+        xp: { type: integer, minimum: 0 }
+        affinity: { type: integer, minimum: 0 }
+        unlockedIds:
+          type: array
+          uniqueItems: true
+          items: { type: string }
+        revision: { type: integer, format: int64, minimum: 1 }
+        lastInteractionAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    CompanionInteractionRequest:
+      type: object
+      required: [pluginId, interactionId]
+      properties:
+        pluginId: { type: string }
+        interactionId:
+          type: string
+          pattern: "^[a-z][a-z0-9._-]*$"
+        sessionId: { type: string }
+        messageId: { type: string }
+        clientRevision: { type: integer, format: int64, minimum: 1 }
+      additionalProperties: false
+    CompanionInteractionReceipt:
+      type: object
+      required: [idempotencyKey, applied, xpAwarded, affinityAwarded, unlockedIds, profile]
+      properties:
+        idempotencyKey: { type: string }
+        applied: { type: boolean }
+        xpAwarded: { type: integer, minimum: 0 }
+        affinityAwarded: { type: integer, minimum: 0 }
+        unlockedIds:
+          type: array
+          uniqueItems: true
+          items: { type: string }
+        profile:
+          $ref: "#/components/schemas/CompanionProfile"
+      additionalProperties: false
+    CompanionProfileResetRequest:
+      type: object
+      properties:
+        pluginId: { type: string }
+      additionalProperties: false
+    CompanionProfileEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/CompanionProfile"
+      additionalProperties: false
+    CompanionInteractionReceiptEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/CompanionInteractionReceipt"
       additionalProperties: false
     PluginConfigRequest:
       type: object

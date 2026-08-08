@@ -694,6 +694,168 @@ func (e ClusterCapabilityStatus) Valid() bool {
 	}
 }
 
+// Defines values for CompanionAssetContentType.
+const (
+	ApplicationJSON        CompanionAssetContentType = "application/json"
+	ApplicationOctetStream CompanionAssetContentType = "application/octet-stream"
+	AudioMpeg              CompanionAssetContentType = "audio/mpeg"
+	AudioOgg               CompanionAssetContentType = "audio/ogg"
+	ImageJpeg              CompanionAssetContentType = "image/jpeg"
+	ImagePng               CompanionAssetContentType = "image/png"
+	ImageSvgXML            CompanionAssetContentType = "image/svg+xml"
+	ImageWebp              CompanionAssetContentType = "image/webp"
+)
+
+// Valid indicates whether the value is a known member of the CompanionAssetContentType enum.
+func (e CompanionAssetContentType) Valid() bool {
+	switch e {
+	case ApplicationJSON:
+		return true
+	case ApplicationOctetStream:
+		return true
+	case AudioMpeg:
+		return true
+	case AudioOgg:
+		return true
+	case ImageJpeg:
+		return true
+	case ImagePng:
+		return true
+	case ImageSvgXML:
+		return true
+	case ImageWebp:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CompanionAssetKind.
+const (
+	CompanionAssetKindAudio      CompanionAssetKind = "audio"
+	CompanionAssetKindEntry      CompanionAssetKind = "entry"
+	CompanionAssetKindExpression CompanionAssetKind = "expression"
+	CompanionAssetKindModel      CompanionAssetKind = "model"
+	CompanionAssetKindMotion     CompanionAssetKind = "motion"
+	CompanionAssetKindPhysics    CompanionAssetKind = "physics"
+	CompanionAssetKindPose       CompanionAssetKind = "pose"
+	CompanionAssetKindTexture    CompanionAssetKind = "texture"
+	CompanionAssetKindThumbnail  CompanionAssetKind = "thumbnail"
+)
+
+// Valid indicates whether the value is a known member of the CompanionAssetKind enum.
+func (e CompanionAssetKind) Valid() bool {
+	switch e {
+	case CompanionAssetKindAudio:
+		return true
+	case CompanionAssetKindEntry:
+		return true
+	case CompanionAssetKindExpression:
+		return true
+	case CompanionAssetKindModel:
+		return true
+	case CompanionAssetKindMotion:
+		return true
+	case CompanionAssetKindPhysics:
+		return true
+	case CompanionAssetKindPose:
+		return true
+	case CompanionAssetKindTexture:
+		return true
+	case CompanionAssetKindThumbnail:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CompanionInteractionDefinitionAction.
+const (
+	Feed  CompanionInteractionDefinitionAction = "feed"
+	Greet CompanionInteractionDefinitionAction = "greet"
+	Pet   CompanionInteractionDefinitionAction = "pet"
+	Play  CompanionInteractionDefinitionAction = "play"
+	Tap   CompanionInteractionDefinitionAction = "tap"
+)
+
+// Valid indicates whether the value is a known member of the CompanionInteractionDefinitionAction enum.
+func (e CompanionInteractionDefinitionAction) Valid() bool {
+	switch e {
+	case Feed:
+		return true
+	case Greet:
+		return true
+	case Pet:
+		return true
+	case Play:
+		return true
+	case Tap:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CompanionPackLicenseRedistributionAllowed.
+const (
+	True CompanionPackLicenseRedistributionAllowed = true
+)
+
+// Valid indicates whether the value is a known member of the CompanionPackLicenseRedistributionAllowed enum.
+func (e CompanionPackLicenseRedistributionAllowed) Valid() bool {
+	switch e {
+	case True:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CompanionPackManifestRenderer.
+const (
+	Live2DCubism CompanionPackManifestRenderer = "live2d-cubism"
+	Sprite       CompanionPackManifestRenderer = "sprite"
+	Svg          CompanionPackManifestRenderer = "svg"
+)
+
+// Valid indicates whether the value is a known member of the CompanionPackManifestRenderer enum.
+func (e CompanionPackManifestRenderer) Valid() bool {
+	switch e {
+	case Live2DCubism:
+		return true
+	case Sprite:
+		return true
+	case Svg:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CompanionUnlockDefinitionKind.
+const (
+	CompanionUnlockDefinitionKindAnimation   CompanionUnlockDefinitionKind = "animation"
+	CompanionUnlockDefinitionKindAsset       CompanionUnlockDefinitionKind = "asset"
+	CompanionUnlockDefinitionKindExpression  CompanionUnlockDefinitionKind = "expression"
+	CompanionUnlockDefinitionKindInteraction CompanionUnlockDefinitionKind = "interaction"
+)
+
+// Valid indicates whether the value is a known member of the CompanionUnlockDefinitionKind enum.
+func (e CompanionUnlockDefinitionKind) Valid() bool {
+	switch e {
+	case CompanionUnlockDefinitionKindAnimation:
+		return true
+	case CompanionUnlockDefinitionKindAsset:
+		return true
+	case CompanionUnlockDefinitionKindExpression:
+		return true
+	case CompanionUnlockDefinitionKindInteraction:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ComputeAccessMode.
 const (
 	ComputeAccessModeAgentProxy ComputeAccessMode = "agent_proxy"
@@ -4177,6 +4339,69 @@ func (e PermissionStatus) Valid() bool {
 	}
 }
 
+// Defines values for PluginArtifactRecordChecksumStatus.
+const (
+	PluginArtifactRecordChecksumStatusMismatch PluginArtifactRecordChecksumStatus = "mismatch"
+	PluginArtifactRecordChecksumStatusVerified PluginArtifactRecordChecksumStatus = "verified"
+)
+
+// Valid indicates whether the value is a known member of the PluginArtifactRecordChecksumStatus enum.
+func (e PluginArtifactRecordChecksumStatus) Valid() bool {
+	switch e {
+	case PluginArtifactRecordChecksumStatusMismatch:
+		return true
+	case PluginArtifactRecordChecksumStatusVerified:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PluginArtifactRecordProvenanceStatus.
+const (
+	PluginArtifactRecordProvenanceStatusInvalid     PluginArtifactRecordProvenanceStatus = "invalid"
+	PluginArtifactRecordProvenanceStatusNotProvided PluginArtifactRecordProvenanceStatus = "not_provided"
+	PluginArtifactRecordProvenanceStatusVerified    PluginArtifactRecordProvenanceStatus = "verified"
+)
+
+// Valid indicates whether the value is a known member of the PluginArtifactRecordProvenanceStatus enum.
+func (e PluginArtifactRecordProvenanceStatus) Valid() bool {
+	switch e {
+	case PluginArtifactRecordProvenanceStatusInvalid:
+		return true
+	case PluginArtifactRecordProvenanceStatusNotProvided:
+		return true
+	case PluginArtifactRecordProvenanceStatusVerified:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PluginArtifactRecordSignatureStatus.
+const (
+	Invalid     PluginArtifactRecordSignatureStatus = "invalid"
+	NotProvided PluginArtifactRecordSignatureStatus = "not_provided"
+	Untrusted   PluginArtifactRecordSignatureStatus = "untrusted"
+	Verified    PluginArtifactRecordSignatureStatus = "verified"
+)
+
+// Valid indicates whether the value is a known member of the PluginArtifactRecordSignatureStatus enum.
+func (e PluginArtifactRecordSignatureStatus) Valid() bool {
+	switch e {
+	case Invalid:
+		return true
+	case NotProvided:
+		return true
+	case Untrusted:
+		return true
+	case Verified:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for PluginComputeContainerRuntimeProviderResourceKinds.
 const (
 	PluginComputeContainerRuntimeResourceKindContainer   PluginComputeContainerRuntimeProviderResourceKinds = "container"
@@ -4252,6 +4477,57 @@ func (e PluginObservabilityProviderSignals) Valid() bool {
 	case Profiles:
 		return true
 	case Traces:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PluginPackageDescriptorContentType.
+const (
+	ApplicationGzip PluginPackageDescriptorContentType = "application/gzip"
+	ApplicationXTar PluginPackageDescriptorContentType = "application/x-tar"
+	ApplicationZip  PluginPackageDescriptorContentType = "application/zip"
+)
+
+// Valid indicates whether the value is a known member of the PluginPackageDescriptorContentType enum.
+func (e PluginPackageDescriptorContentType) Valid() bool {
+	switch e {
+	case ApplicationGzip:
+		return true
+	case ApplicationXTar:
+		return true
+	case ApplicationZip:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PluginPackageDescriptorSignatureAlgorithm.
+const (
+	PluginPackageDescriptorSignatureAlgorithmEd25519 PluginPackageDescriptorSignatureAlgorithm = "ed25519"
+)
+
+// Valid indicates whether the value is a known member of the PluginPackageDescriptorSignatureAlgorithm enum.
+func (e PluginPackageDescriptorSignatureAlgorithm) Valid() bool {
+	switch e {
+	case PluginPackageDescriptorSignatureAlgorithmEd25519:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PluginProvenanceStatementSignatureAlgorithm.
+const (
+	PluginProvenanceStatementSignatureAlgorithmEd25519 PluginProvenanceStatementSignatureAlgorithm = "ed25519"
+)
+
+// Valid indicates whether the value is a known member of the PluginProvenanceStatementSignatureAlgorithm enum.
+func (e PluginProvenanceStatementSignatureAlgorithm) Valid() bool {
+	switch e {
+	case PluginProvenanceStatementSignatureAlgorithmEd25519:
 		return true
 	default:
 		return false
@@ -7975,6 +8251,149 @@ type CohereRerankRequest_Documents_Item struct {
 	union json.RawMessage
 }
 
+// CompanionActivationRequest defines model for CompanionActivationRequest.
+type CompanionActivationRequest struct {
+	Version string `json:"version,omitempty"`
+}
+
+// CompanionAnimationBindings defines model for CompanionAnimationBindings.
+type CompanionAnimationBindings struct {
+	Dragging  string `json:"dragging,omitempty"`
+	Error     string `json:"error,omitempty"`
+	Hover     string `json:"hover,omitempty"`
+	Idle      string `json:"idle,omitempty"`
+	Listening string `json:"listening,omitempty"`
+	Speaking  string `json:"speaking,omitempty"`
+	Tap       string `json:"tap,omitempty"`
+	Thinking  string `json:"thinking,omitempty"`
+}
+
+// CompanionAsset defines model for CompanionAsset.
+type CompanionAsset struct {
+	ContentType CompanionAssetContentType `json:"contentType"`
+	Kind        CompanionAssetKind        `json:"kind"`
+	Path        string                    `json:"path"`
+	Sha256      string                    `json:"sha256"`
+	SizeBytes   int64                     `json:"sizeBytes"`
+}
+
+// CompanionAssetContentType defines model for CompanionAsset.ContentType.
+type CompanionAssetContentType string
+
+// CompanionAssetKind defines model for CompanionAsset.Kind.
+type CompanionAssetKind string
+
+// CompanionInteractionDefinition defines model for CompanionInteractionDefinition.
+type CompanionInteractionDefinition struct {
+	Action          CompanionInteractionDefinitionAction `json:"action"`
+	Animation       string                               `json:"animation,omitempty"`
+	CooldownSeconds int                                  `json:"cooldownSeconds,omitempty"`
+	ID              string                               `json:"id"`
+	Label           string                               `json:"label,omitempty"`
+	RewardAffinity  int                                  `json:"rewardAffinity,omitempty"`
+	RewardXp        int                                  `json:"rewardXp,omitempty"`
+}
+
+// CompanionInteractionDefinitionAction defines model for CompanionInteractionDefinition.Action.
+type CompanionInteractionDefinitionAction string
+
+// CompanionInteractionReceipt defines model for CompanionInteractionReceipt.
+type CompanionInteractionReceipt struct {
+	AffinityAwarded int              `json:"affinityAwarded"`
+	Applied         bool             `json:"applied"`
+	IdempotencyKey  string           `json:"idempotencyKey"`
+	Profile         CompanionProfile `json:"profile"`
+	UnlockedIDs     []string         `json:"unlockedIds"`
+	XpAwarded       int              `json:"xpAwarded"`
+}
+
+// CompanionInteractionReceiptEnvelope defines model for CompanionInteractionReceiptEnvelope.
+type CompanionInteractionReceiptEnvelope struct {
+	Data CompanionInteractionReceipt `json:"data"`
+}
+
+// CompanionInteractionRequest defines model for CompanionInteractionRequest.
+type CompanionInteractionRequest struct {
+	ClientRevision int64  `json:"clientRevision,omitempty"`
+	InteractionID  string `json:"interactionId"`
+	MessageID      string `json:"messageId,omitempty"`
+	PluginID       string `json:"pluginId"`
+	SessionID      string `json:"sessionId,omitempty"`
+}
+
+// CompanionPackLicense defines model for CompanionPackLicense.
+type CompanionPackLicense struct {
+	Attribution           string                                    `json:"attribution,omitempty"`
+	CommercialUseAllowed  bool                                      `json:"commercialUseAllowed"`
+	Name                  string                                    `json:"name"`
+	RedistributionAllowed CompanionPackLicenseRedistributionAllowed `json:"redistributionAllowed"`
+	SourceURL             string                                    `json:"sourceUrl,omitempty"`
+	SpdxID                string                                    `json:"spdxId,omitempty"`
+	URL                   string                                    `json:"url"`
+}
+
+// CompanionPackLicenseRedistributionAllowed defines model for CompanionPackLicense.RedistributionAllowed.
+type CompanionPackLicenseRedistributionAllowed bool
+
+// CompanionPackManifest defines model for CompanionPackManifest.
+type CompanionPackManifest struct {
+	Animations         *CompanionAnimationBindings      `json:"animations,omitempty"`
+	Assets             []CompanionAsset                 `json:"assets"`
+	EntryAsset         string                           `json:"entryAsset"`
+	Interactions       []CompanionInteractionDefinition `json:"interactions,omitempty"`
+	License            CompanionPackLicense             `json:"license"`
+	ModelFormatVersion string                           `json:"modelFormatVersion,omitempty"`
+	Renderer           CompanionPackManifestRenderer    `json:"renderer"`
+	ThumbnailAsset     string                           `json:"thumbnailAsset,omitempty"`
+	Unlocks            []CompanionUnlockDefinition      `json:"unlocks,omitempty"`
+}
+
+// CompanionPackManifestRenderer defines model for CompanionPackManifest.Renderer.
+type CompanionPackManifestRenderer string
+
+// CompanionProfile defines model for CompanionProfile.
+type CompanionProfile struct {
+	ActivePluginID    string     `json:"activePluginId"`
+	ActiveVersion     string     `json:"activeVersion"`
+	Affinity          int        `json:"affinity"`
+	CreatedAt         time.Time  `json:"createdAt"`
+	ID                string     `json:"id"`
+	LastInteractionAt *time.Time `json:"lastInteractionAt,omitempty"`
+	Level             int        `json:"level"`
+	OwnerID           string     `json:"ownerId"`
+	Revision          int64      `json:"revision"`
+	UnlockedIDs       []string   `json:"unlockedIds"`
+	UpdatedAt         time.Time  `json:"updatedAt"`
+	Xp                int        `json:"xp"`
+}
+
+// CompanionProfileEnvelope defines model for CompanionProfileEnvelope.
+type CompanionProfileEnvelope struct {
+	Data CompanionProfile `json:"data"`
+}
+
+// CompanionProfileResetRequest defines model for CompanionProfileResetRequest.
+type CompanionProfileResetRequest struct {
+	PluginID string `json:"pluginId,omitempty"`
+}
+
+// CompanionRollbackRequest defines model for CompanionRollbackRequest.
+type CompanionRollbackRequest struct {
+	Reason  string `json:"reason,omitempty"`
+	Version string `json:"version"`
+}
+
+// CompanionUnlockDefinition defines model for CompanionUnlockDefinition.
+type CompanionUnlockDefinition struct {
+	ID    string                        `json:"id"`
+	Kind  CompanionUnlockDefinitionKind `json:"kind"`
+	Level int                           `json:"level"`
+	Ref   string                        `json:"ref"`
+}
+
+// CompanionUnlockDefinitionKind defines model for CompanionUnlockDefinition.Kind.
+type CompanionUnlockDefinitionKind string
+
 // ComputeAccessMode defines model for ComputeAccessMode.
 type ComputeAccessMode string
 
@@ -9937,6 +10356,8 @@ type IdentityRuntimeCapabilityEnvelope struct {
 
 // InstalledPlugin defines model for InstalledPlugin.
 type InstalledPlugin struct {
+	ActiveVersion        string                   `json:"activeVersion,omitempty"`
+	Artifacts            []PluginArtifactRecord   `json:"artifacts,omitempty"`
 	ChecksumStatus       string                   `json:"checksumStatus"`
 	ConfiguredSecretRefs map[string]string        `json:"configuredSecretRefs,omitempty"`
 	DisabledAt           *time.Time               `json:"disabledAt,omitempty"`
@@ -12152,16 +12573,17 @@ type MarketplacePluginListEnvelope struct {
 
 // MarketplacePluginVersion defines model for MarketplacePluginVersion.
 type MarketplacePluginVersion struct {
-	Checksum       string         `json:"checksum,omitempty"`
-	Deprecated     bool           `json:"deprecated,omitempty"`
-	ManifestURL    string         `json:"manifestUrl"`
-	Metadata       map[string]any `json:"metadata,omitempty"`
-	MinSohaVersion string         `json:"minSohaVersion,omitempty"`
-	PackageURL     string         `json:"packageUrl,omitempty"`
-	PublishedAt    *time.Time     `json:"publishedAt,omitempty"`
-	Signature      string         `json:"signature,omitempty"`
-	Suspended      bool           `json:"suspended,omitempty"`
-	Version        string         `json:"version"`
+	Checksum       string                   `json:"checksum,omitempty"`
+	Deprecated     bool                     `json:"deprecated,omitempty"`
+	ManifestURL    string                   `json:"manifestUrl"`
+	Metadata       map[string]any           `json:"metadata,omitempty"`
+	MinSohaVersion string                   `json:"minSohaVersion,omitempty"`
+	Package        *PluginPackageDescriptor `json:"package,omitempty"`
+	PackageURL     string                   `json:"packageUrl,omitempty"`
+	PublishedAt    *time.Time               `json:"publishedAt,omitempty"`
+	Signature      string                   `json:"signature,omitempty"`
+	Suspended      bool                     `json:"suspended,omitempty"`
+	Version        string                   `json:"version"`
 }
 
 // MarketplacePublisher defines model for MarketplacePublisher.
@@ -12894,6 +13316,27 @@ type PluginAlertExtensions struct {
 	SilenceAdapters      []PluginExtensionContribution `json:"silenceAdapters,omitempty"`
 }
 
+// PluginArtifactRecord defines model for PluginArtifactRecord.
+type PluginArtifactRecord struct {
+	Active           bool                                 `json:"active"`
+	ChecksumStatus   PluginArtifactRecordChecksumStatus   `json:"checksumStatus"`
+	InstalledAt      *time.Time                           `json:"installedAt,omitempty"`
+	ProvenanceStatus PluginArtifactRecordProvenanceStatus `json:"provenanceStatus"`
+	Sha256           string                               `json:"sha256"`
+	SignatureStatus  PluginArtifactRecordSignatureStatus  `json:"signatureStatus"`
+	SizeBytes        int64                                `json:"sizeBytes"`
+	Version          string                               `json:"version"`
+}
+
+// PluginArtifactRecordChecksumStatus defines model for PluginArtifactRecord.ChecksumStatus.
+type PluginArtifactRecordChecksumStatus string
+
+// PluginArtifactRecordProvenanceStatus defines model for PluginArtifactRecord.ProvenanceStatus.
+type PluginArtifactRecordProvenanceStatus string
+
+// PluginArtifactRecordSignatureStatus defines model for PluginArtifactRecord.SignatureStatus.
+type PluginArtifactRecordSignatureStatus string
+
 // PluginAssetSnapshot defines model for PluginAssetSnapshot.
 type PluginAssetSnapshot struct {
 	AgentProfiles      []string `json:"agentProfiles,omitempty"`
@@ -13025,14 +13468,15 @@ type PluginIdentityExtensions struct {
 
 // PluginInstallRequest defines model for PluginInstallRequest.
 type PluginInstallRequest struct {
-	Enable           bool            `json:"enable,omitempty"`
-	ExpectedChecksum string          `json:"expectedChecksum,omitempty"`
-	Manifest         *PluginManifest `json:"manifest,omitempty"`
-	MarketplaceURL   string          `json:"marketplaceUrl,omitempty"`
-	PluginID         string          `json:"pluginId,omitempty"`
-	Source           string          `json:"source,omitempty"`
-	SourceID         string          `json:"sourceId,omitempty"`
-	Version          string          `json:"version,omitempty"`
+	Enable           bool                     `json:"enable,omitempty"`
+	ExpectedChecksum string                   `json:"expectedChecksum,omitempty"`
+	Manifest         *PluginManifest          `json:"manifest,omitempty"`
+	MarketplaceURL   string                   `json:"marketplaceUrl,omitempty"`
+	Package          *PluginPackageDescriptor `json:"package,omitempty"`
+	PluginID         string                   `json:"pluginId,omitempty"`
+	Source           string                   `json:"source,omitempty"`
+	SourceID         string                   `json:"sourceId,omitempty"`
+	Version          string                   `json:"version,omitempty"`
 }
 
 // PluginIntegrity defines model for PluginIntegrity.
@@ -13047,6 +13491,7 @@ type PluginIntegrity struct {
 type PluginManifest struct {
 	Assets          *PluginAssetSnapshot     `json:"assets,omitempty"`
 	Capabilities    *PluginCapabilityRequest `json:"capabilities,omitempty"`
+	CompanionPack   *CompanionPackManifest   `json:"companionPack,omitempty"`
 	Compatibility   *PluginCompatibility     `json:"compatibility,omitempty"`
 	ConfigSchema    JSONSchema               `json:"configSchema,omitempty"`
 	Description     string                   `json:"description,omitempty"`
@@ -13099,11 +13544,45 @@ type PluginObservabilityProvider struct {
 // PluginObservabilityProviderSignals defines model for PluginObservabilityProvider.Signals.
 type PluginObservabilityProviderSignals string
 
+// PluginPackageDescriptor defines model for PluginPackageDescriptor.
+type PluginPackageDescriptor struct {
+	ContentType        PluginPackageDescriptorContentType        `json:"contentType"`
+	ProvenanceURL      string                                    `json:"provenanceUrl,omitempty"`
+	SbomURL            string                                    `json:"sbomUrl,omitempty"`
+	Sha256             string                                    `json:"sha256"`
+	Signature          string                                    `json:"signature,omitempty"`
+	SignatureAlgorithm PluginPackageDescriptorSignatureAlgorithm `json:"signatureAlgorithm,omitempty"`
+	SigningKeyID       string                                    `json:"signingKeyId,omitempty"`
+	SizeBytes          int64                                     `json:"sizeBytes"`
+	URL                string                                    `json:"url"`
+}
+
+// PluginPackageDescriptorContentType defines model for PluginPackageDescriptor.ContentType.
+type PluginPackageDescriptorContentType string
+
+// PluginPackageDescriptorSignatureAlgorithm defines model for PluginPackageDescriptor.SignatureAlgorithm.
+type PluginPackageDescriptorSignatureAlgorithm string
+
 // PluginPermissionRequest defines model for PluginPermissionRequest.
 type PluginPermissionRequest struct {
 	Domain   []string `json:"domain,omitempty"`
 	Required []string `json:"required,omitempty"`
 }
+
+// PluginProvenanceStatement The Ed25519 signature covers UTF-8 lines subjectSha256, builderId, sourceUri, sourceCommit, and builtAt in that order, joined with LF and without a trailing LF.
+type PluginProvenanceStatement struct {
+	BuilderID          string                                      `json:"builderId"`
+	BuiltAt            time.Time                                   `json:"builtAt"`
+	Signature          string                                      `json:"signature"`
+	SignatureAlgorithm PluginProvenanceStatementSignatureAlgorithm `json:"signatureAlgorithm"`
+	SigningKeyID       string                                      `json:"signingKeyId"`
+	SourceCommit       string                                      `json:"sourceCommit"`
+	SourceURI          string                                      `json:"sourceUri"`
+	SubjectSha256      string                                      `json:"subjectSha256"`
+}
+
+// PluginProvenanceStatementSignatureAlgorithm defines model for PluginProvenanceStatement.SignatureAlgorithm.
+type PluginProvenanceStatementSignatureAlgorithm string
 
 // PluginResourceExtensions defines model for PluginResourceExtensions.
 type PluginResourceExtensions struct {
@@ -15015,6 +15494,9 @@ type OperationID = string
 // PlanID defines model for PlanID.
 type PlanID = string
 
+// PluginAssetPath defines model for PluginAssetPath.
+type PluginAssetPath = string
+
 // PluginID defines model for PluginID.
 type PluginID = string
 
@@ -15714,6 +16196,16 @@ type ExecuteKubernetesResourceCreateParams struct {
 	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
 }
 
+// RecordCompanionInteractionParams defines parameters for RecordCompanionInteraction.
+type RecordCompanionInteractionParams struct {
+	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
+// ResetCompanionProfileParams defines parameters for ResetCompanionProfile.
+type ResetCompanionProfileParams struct {
+	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
 // ListComputeAccessSourcesParams defines parameters for ListComputeAccessSources.
 type ListComputeAccessSourcesParams struct {
 	SourceType  ComputeAccessSourceType `form:"sourceType,omitempty" json:"sourceType,omitempty"`
@@ -15896,6 +16388,16 @@ type GetMarketplacePluginParams struct {
 	SourceID       string `form:"sourceId,omitempty" json:"sourceId,omitempty"`
 	MarketplaceURL string `form:"marketplaceUrl,omitempty" json:"marketplaceUrl,omitempty"`
 	Version        string `form:"version,omitempty" json:"version,omitempty"`
+}
+
+// ActivateInstalledPluginParams defines parameters for ActivateInstalledPlugin.
+type ActivateInstalledPluginParams struct {
+	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
+// RollbackInstalledPluginParams defines parameters for RollbackInstalledPlugin.
+type RollbackInstalledPluginParams struct {
+	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
 }
 
 // ListRegistryConnectionsParams defines parameters for ListRegistryConnections.
@@ -16254,6 +16756,12 @@ type PreflightKubernetesResourceCreateJSONRequestBody = KubernetesResourceCreate
 // DecideKubernetesResourceCreateScopeJSONRequestBody defines body for DecideKubernetesResourceCreateScope for application/json ContentType.
 type DecideKubernetesResourceCreateScopeJSONRequestBody = KubernetesResourceCreateScopeDecisionRequest
 
+// RecordCompanionInteractionJSONRequestBody defines body for RecordCompanionInteraction for application/json ContentType.
+type RecordCompanionInteractionJSONRequestBody = CompanionInteractionRequest
+
+// ResetCompanionProfileJSONRequestBody defines body for ResetCompanionProfile for application/json ContentType.
+type ResetCompanionProfileJSONRequestBody = CompanionProfileResetRequest
+
 // DiscoverComputeProviderInstanceJSONRequestBody defines body for DiscoverComputeProviderInstance for application/json ContentType.
 type DiscoverComputeProviderInstanceJSONRequestBody = ComputeProviderDiscoverRequest
 
@@ -16464,8 +16972,14 @@ type QueryObservabilityTracesJSONRequestBody = ObservabilityTraceQueryInput
 // InstallPluginJSONRequestBody defines body for InstallPlugin for application/json ContentType.
 type InstallPluginJSONRequestBody = PluginInstallRequest
 
+// ActivateInstalledPluginJSONRequestBody defines body for ActivateInstalledPlugin for application/json ContentType.
+type ActivateInstalledPluginJSONRequestBody = CompanionActivationRequest
+
 // ConfigureInstalledPluginJSONRequestBody defines body for ConfigureInstalledPlugin for application/json ContentType.
 type ConfigureInstalledPluginJSONRequestBody = PluginConfigRequest
+
+// RollbackInstalledPluginJSONRequestBody defines body for RollbackInstalledPlugin for application/json ContentType.
+type RollbackInstalledPluginJSONRequestBody = CompanionRollbackRequest
 
 // UpgradeInstalledPluginJSONRequestBody defines body for UpgradeInstalledPlugin for application/json ContentType.
 type UpgradeInstalledPluginJSONRequestBody = PluginInstallRequest
