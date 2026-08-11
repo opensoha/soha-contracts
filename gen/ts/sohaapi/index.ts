@@ -257,6 +257,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/settings/identity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getIdentitySettings"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/settings/identity/providers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateLoginProvidersSettings"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/settings/branding": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getBrandingSettings"];
+        put: operations["updateBrandingSettings"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/settings/branding/upload": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["uploadBrandingAsset"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/settings/ai": {
         parameters: {
             query?: never;
@@ -1537,6 +1601,86 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/virtualization/clusters": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listVirtualizationClusters"];
+        put?: never;
+        post: operations["createVirtualizationCluster"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/clusters/{connectionID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateVirtualizationCluster"];
+        post?: never;
+        delete: operations["deleteVirtualizationCluster"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/clusters/{connectionID}/delete-dependencies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getVirtualizationClusterDeleteDependencies"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/clusters/{connectionID}/test": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["testVirtualizationCluster"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/clusters/{connectionID}/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["syncVirtualizationCluster"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/virtualization/vms/plan": {
         parameters: {
             query?: never;
@@ -1560,9 +1704,329 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        get: operations["listVirtualMachines"];
         put?: never;
         post: operations["createVirtualMachine"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/vms/{vmID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getVirtualMachine"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/vms/{vmID}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getVirtualMachineDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/vms/{vmID}/devices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listVirtualMachineDevices"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/vms/{vmID}/actions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["performVirtualMachineAction"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/vms/{vmID}/power": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["powerVirtualMachine"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/vms/{vmID}/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getVirtualMachineMetrics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/vms/{vmID}/console": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getVirtualMachineConsole"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/vms/{vmID}/console/vnc": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["streamVirtualMachineConsoleVNC"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/vms/{vmID}/console/novnc": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["streamVirtualMachineConsoleNoVNC"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/images": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listVirtualizationImages"];
+        put?: never;
+        post: operations["createVirtualizationImage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/images/{imageID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateVirtualizationImage"];
+        post?: never;
+        delete: operations["deleteVirtualizationImage"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/flavors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listVirtualizationFlavors"];
+        put?: never;
+        post: operations["createVirtualizationFlavor"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/flavors/{flavorID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateVirtualizationFlavor"];
+        post?: never;
+        delete: operations["deleteVirtualizationFlavor"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/operations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listVirtualizationOperations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/operations/{taskID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getVirtualizationOperation"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/operations/{taskID}/logs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listVirtualizationOperationLogs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/operations/{taskID}/stream": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["streamVirtualizationOperation"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/operations/{taskID}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["cancelVirtualizationOperation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/operations/{taskID}/retry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["retryVirtualizationOperation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["syncAllVirtualizationClusters"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1793,6 +2257,1766 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/audit/logs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listPlatformAuditLogs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/audit/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["summarizePlatformAuditLogs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/audit/logs/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["exportPlatformAuditLogs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/operations/logs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listPlatformOperationLogs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/operations/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["summarizePlatformOperationLogs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/operations/logs/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["exportPlatformOperationLogs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesClusters"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesClusterDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/namespaces": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesNamespaces"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/infrastructure/nodes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesNodes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/infrastructure/nodes/{nodeName}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesNodeDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/overview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesWorkloadOverview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/pods": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesPods"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/pods/{podName}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesPodDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/deployments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesDeployments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/deployments/{deploymentName}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesDeploymentDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/pods/{podName}/logs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesPodLogs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/pods/{podName}/yaml": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesPodYaml"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/deployments/{deploymentName}/yaml": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesDeploymentYaml"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/deployments/{deploymentName}/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesDeploymentMetrics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/deployments/{deploymentName}/rollout-status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesDeploymentRolloutStatus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/deployments/{deploymentName}/rollouts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesDeploymentRollouts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/statefulsets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesStatefulSets"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/statefulsets/{statefulSetName}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesStatefulSetDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/statefulsets/{statefulSetName}/yaml": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesStatefulSetYaml"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/statefulsets/{statefulSetName}/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesStatefulSetMetrics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/daemonsets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesDaemonSets"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/daemonsets/{daemonSetName}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesDaemonSetDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/daemonsets/{daemonSetName}/yaml": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesDaemonSetYaml"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/daemonsets/{daemonSetName}/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesDaemonSetMetrics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/jobs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesJobs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/jobs/{jobName}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesJobDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/jobs/{jobName}/yaml": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesJobYaml"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/cronjobs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesCronJobs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/cronjobs/{cronJobName}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesCronJobDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/cronjobs/{cronJobName}/yaml": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesCronJobYaml"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/replicasets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesReplicaSets"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/replicasets/{replicaSetName}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesReplicaSetDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/replicasets/{replicaSetName}/yaml": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesReplicaSetYaml"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/replicationcontrollers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesReplicationControllers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/replicationcontrollers/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesReplicationControllerDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/replicationcontrollers/{name}/yaml": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesReplicationControllerYaml"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/configmaps": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesConfigMaps"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/configmaps/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesConfigMapDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/secrets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesSecretMetadata"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/configmaps/{name}/references": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesConfigMapReferences"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/secrets/{name}/references": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesSecretReferences"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/hpas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesHorizontalPodAutoscalers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/hpas/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesHorizontalPodAutoscalerDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/poddisruptionbudgets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesPodDisruptionBudgets"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/poddisruptionbudgets/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesPodDisruptionBudgetDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/priorityclasses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesPriorityClasses"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/runtimeclasses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesRuntimeClasses"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/mutatingwebhookconfigurations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesMutatingWebhookConfigurations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/mutatingwebhookconfigurations/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesMutatingWebhookConfigurationDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/validatingwebhookconfigurations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesValidatingWebhookConfigurations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/validatingwebhookconfigurations/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesValidatingWebhookConfigurationDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/resourcequotas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesResourceQuotas"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/resourcequotas/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesResourceQuotaDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/limitranges": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesLimitRanges"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/limitranges/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesLimitRangeDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/leases": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesLeases"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/access-control/serviceaccounts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesServiceAccounts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/access-control/serviceaccounts/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesServiceAccountDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/access-control/roles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesRoles"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/access-control/roles/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesRoleDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/access-control/rolebindings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesRoleBindings"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/access-control/rolebindings/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesRoleBindingDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/access-control/clusterroles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesClusterRoles"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/access-control/clusterroles/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesClusterRoleDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/access-control/clusterrolebindings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesClusterRoleBindings"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/access-control/clusterrolebindings/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesClusterRoleBindingDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/storage/persistentvolumeclaims": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesPersistentVolumeClaims"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/storage/persistentvolumeclaims/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesPersistentVolumeClaimDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/storage/persistentvolumes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesPersistentVolumes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/storage/persistentvolumes/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesPersistentVolumeDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/storage/storageclasses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesStorageClasses"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/storage/storageclasses/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesStorageClassDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/services": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesServices"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/services/{serviceName}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesServiceDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/topology": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesNetworkTopology"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/services/{serviceName}/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesServiceMetrics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/ingresses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesIngresses"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/ingresses/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesIngressDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/endpointslices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesEndpointSlices"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/endpointslices/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesEndpointSliceDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/networkpolicies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesNetworkPolicies"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/networkpolicies/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesNetworkPolicyDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/gatewayclasses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesGatewayClasses"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/gatewayclasses/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesGatewayClassDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/gateways": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesGateways"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/gateways/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesGatewayDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/httproutes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesHTTPRoutes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/httproutes/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesHTTPRouteDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/backendtlspolicies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesBackendTLSPolicies"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/backendtlspolicies/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesBackendTLSPolicyDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/grpcroutes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesGRPCRoutes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/grpcroutes/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesGRPCRouteDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/referencegrants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesReferenceGrants"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/referencegrants/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesReferenceGrantDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/ingressclasses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesIngressClasses"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/ingressclasses/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesIngressClassDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/extensions/crds": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesCustomResourceDefinitions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/extensions/crds/{crdName}/resources": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesCustomResources"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/helm/charts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesHelmCharts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/helm/charts/{repositoryName}/{chartName}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesHelmChartDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/helm/releases": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesHelmReleases"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/helm/releases/{releaseName}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesHelmReleaseDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/helm/releases/{releaseName}/history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesHelmReleaseHistory"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listKubernetesClusterEvents"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/clusters/capabilities": {
         parameters: {
             query?: never;
@@ -1801,6 +4025,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["listClusterCapabilityMatrix"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/pods/{podName}/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getClusterPodMetrics"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7768,6 +10008,112 @@ export interface components {
         AISettingsEnvelope: {
             data: components["schemas"]["AISettings"];
         };
+        LoginProviderSettings: {
+            id: string;
+            name: string;
+            type: string;
+            iconUrl?: string;
+            enabled: boolean;
+            clientId?: string;
+            issuer?: string;
+            authorizeUrl?: string;
+            tokenUrl?: string;
+            userInfoUrl?: string;
+            profileUrl?: string;
+            redirectUrl?: string;
+            frontendRedirectUrl?: string;
+            scopes?: string[];
+            defaultRoles?: string[];
+            userIdField?: string;
+            userNameField?: string;
+            emailField?: string;
+            phoneField?: string;
+            avatarField?: string;
+            roleField?: string;
+            organizationField?: string;
+            syncRolesOnLogin?: boolean;
+            syncOrgsOnLogin?: boolean;
+            roleSyncMode?: string;
+            orgSyncMode?: string;
+            metadataUrl?: string;
+            entityId?: string;
+        };
+        LoginProviderSettingsInput: {
+            id: string;
+            name: string;
+            type: string;
+            iconUrl?: string;
+            enabled: boolean;
+            clientId?: string;
+            /** @description Omit or send an empty string to retain the stored secret. */
+            clientSecret?: string;
+            issuer?: string;
+            authorizeUrl?: string;
+            tokenUrl?: string;
+            userInfoUrl?: string;
+            profileUrl?: string;
+            redirectUrl?: string;
+            frontendRedirectUrl?: string;
+            scopes?: string[];
+            defaultRoles?: string[];
+            userIdField?: string;
+            userNameField?: string;
+            emailField?: string;
+            phoneField?: string;
+            avatarField?: string;
+            roleField?: string;
+            organizationField?: string;
+            syncRolesOnLogin?: boolean;
+            syncOrgsOnLogin?: boolean;
+            roleSyncMode?: string;
+            orgSyncMode?: string;
+            metadataUrl?: string;
+            entityId?: string;
+            /** @description Omit or send an empty string to retain the stored certificate. */
+            certificate?: string;
+        };
+        IdentitySettings: {
+            providers?: components["schemas"]["LoginProviderSettings"][];
+            defaultProviderId?: string;
+            localPasswordLoginEnabled: boolean;
+        };
+        IdentitySettingsEnvelope: {
+            data: components["schemas"]["IdentitySettings"];
+        };
+        UpdateLoginProvidersSettingsRequest: {
+            providers: components["schemas"]["LoginProviderSettingsInput"][];
+            defaultProviderId?: string;
+            localPasswordLoginEnabled?: boolean;
+        };
+        BrandingSettings: {
+            appTitle: string;
+            sidebarTitle: string;
+            loginLogoUrl: string;
+            expandedLogoUrl: string;
+            collapsedLogoUrl: string;
+            faviconUrl: string;
+        };
+        BrandingSettingsEnvelope: {
+            data: components["schemas"]["BrandingSettings"];
+        };
+        UpdateBrandingSettingsRequest: {
+            appTitle: string;
+            sidebarTitle: string;
+            loginLogoUrl: string;
+            expandedLogoUrl: string;
+            collapsedLogoUrl: string;
+            faviconUrl: string;
+        };
+        BrandingAssetUpload: {
+            url: string;
+        };
+        BrandingAssetUploadEnvelope: {
+            data: components["schemas"]["BrandingAssetUpload"];
+        };
+        UploadBrandingAssetRequest: {
+            /** Format: binary */
+            file: string;
+        };
         UpdateAIWorkbenchModelRequest: {
             workbenchModel: components["schemas"]["AIWorkbenchModelSettings"];
         };
@@ -9853,9 +12199,353 @@ export interface components {
             updatedAt?: string;
             operationState?: components["schemas"]["NativeProviderObject"];
             allowedActions?: string[];
+            logs?: components["schemas"]["VirtualizationOperationLog"][];
         };
         VirtualizationOperationEnvelope: {
             data: components["schemas"]["VirtualizationOperation"];
+        };
+        VirtualizationConnectionInput: {
+            id?: string;
+            /** @enum {string} */
+            provider: "pve" | "kubevirt";
+            name: string;
+            endpoint?: string;
+            kubernetesClusterId?: string;
+            defaultNamespace?: string;
+            enabled?: boolean;
+            verifyTls?: boolean;
+            /** @description Provider credential input. Values are encrypted at rest and never returned. */
+            credential?: components["schemas"]["NativeProviderObject"];
+            config?: components["schemas"]["NativeProviderObject"];
+            region?: string;
+            description?: string;
+        };
+        VirtualizationConnection: {
+            id: string;
+            name: string;
+            /** @enum {string} */
+            provider: "pve" | "kubevirt";
+            endpoint?: string;
+            kubernetesClusterId?: string;
+            defaultNamespace?: string;
+            enabled: boolean;
+            verifyTls: boolean;
+            credentialConfigured: boolean;
+            /** @description Sanitized provider configuration. Credential and bearer-token values are omitted. */
+            config?: components["schemas"]["NativeProviderObject"];
+            health?: string;
+            status?: string;
+            region?: string;
+            description?: string;
+            riskLevel?: string;
+            riskReasons?: string[];
+            /** Format: date-time */
+            lastSyncedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            capabilities?: string[];
+        };
+        VirtualizationConnectionEnvelope: {
+            data: components["schemas"]["VirtualizationConnection"];
+        };
+        VirtualizationConnectionListEnvelope: {
+            items: components["schemas"]["VirtualizationConnection"][];
+        };
+        VirtualizationConnectionDeleteDependencySample: {
+            id: string;
+            kind?: string;
+            name?: string;
+            externalId?: string;
+            status?: string;
+            nodeName?: string;
+            taskKind?: string;
+            vmId?: string;
+        };
+        VirtualizationConnectionDeleteDependencies: {
+            connection: components["schemas"]["VirtualizationConnection"];
+            vmCount: number;
+            imageCount: number;
+            flavorCount: number;
+            taskCount: number;
+            pendingTaskCount: number;
+            dockerHostCount: number;
+            vmSamples?: components["schemas"]["VirtualizationConnectionDeleteDependencySample"][];
+            imageSamples?: components["schemas"]["VirtualizationConnectionDeleteDependencySample"][];
+            flavorSamples?: components["schemas"]["VirtualizationConnectionDeleteDependencySample"][];
+            taskSamples?: components["schemas"]["VirtualizationConnectionDeleteDependencySample"][];
+            forceRequired: boolean;
+            blocking: boolean;
+            blockingReasons?: string[];
+        };
+        VirtualizationConnectionDeleteDependenciesEnvelope: {
+            data: components["schemas"]["VirtualizationConnectionDeleteDependencies"];
+        };
+        VirtualMachine: {
+            id: string;
+            name: string;
+            provider: string;
+            connectionId: string;
+            externalId?: string;
+            namespace?: string;
+            node?: string;
+            status: string;
+            powerState?: string;
+            bootImageId?: string;
+            bootImageName?: string;
+            imageId?: string;
+            flavorId?: string;
+            flavorName?: string;
+            sourceMode?: string;
+            sourceRef?: string;
+            cpu?: number;
+            memoryMiB?: number;
+            diskGiB?: number;
+            network?: string;
+            ipAddresses?: string[];
+            labels?: components["schemas"]["NativeProviderObject"];
+            orphanHint?: string;
+            config?: components["schemas"]["NativeProviderObject"];
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            capabilities?: string[];
+            allowedActions?: string[];
+        };
+        VirtualMachineEnvelope: {
+            data: components["schemas"]["VirtualMachine"];
+        };
+        VirtualMachineListEnvelope: {
+            items: components["schemas"]["VirtualMachine"][];
+        };
+        VirtualMachinePage: {
+            items: components["schemas"]["VirtualMachine"][];
+            total: number;
+            page: number;
+            pageSize: number;
+        };
+        VirtualMachinePageEnvelope: {
+            data: components["schemas"]["VirtualMachinePage"];
+        };
+        VirtualMachineActionInput: {
+            /** @enum {string} */
+            action: "start" | "stop" | "reboot" | "delete" | "resize";
+            config?: components["schemas"]["NativeProviderObject"];
+            cpu?: number;
+            memoryMiB?: number;
+            diskGiB?: number;
+            disks?: components["schemas"]["VirtualMachineDiskChange"][];
+            networks?: components["schemas"]["VirtualMachineNetworkChange"][];
+        };
+        VirtualMachinePowerInput: {
+            /** @enum {string} */
+            action: "start" | "stop" | "reboot" | "delete";
+        };
+        VirtualMachineDevice: {
+            id: string;
+            kind: string;
+            name?: string;
+            sizeGiB?: number;
+            storage?: string;
+            network?: string;
+            model?: string;
+            details?: components["schemas"]["NativeProviderObject"];
+        };
+        VirtualMachineDeviceListEnvelope: {
+            items: components["schemas"]["VirtualMachineDevice"][];
+        };
+        VirtualMachineDetail: {
+            vm: components["schemas"]["VirtualMachine"];
+            connection?: components["schemas"]["VirtualizationConnection"];
+            image?: components["schemas"]["VirtualizationImage"];
+            flavor?: components["schemas"]["VirtualizationFlavor"];
+            /** @description Provider-native object sanitized by the Core mapper. */
+            providerRaw: components["schemas"]["NativeProviderObject"];
+            operations: components["schemas"]["VirtualizationOperation"][];
+            logs: components["schemas"]["VirtualizationOperationLog"][];
+        };
+        VirtualMachineDetailEnvelope: {
+            data: components["schemas"]["VirtualMachineDetail"];
+        };
+        VirtualMachineMetricPoint: {
+            /** Format: int64 */
+            timestamp: number;
+            /** Format: double */
+            value: number;
+        };
+        VirtualMachineMetricSeries: {
+            key: string;
+            label: string;
+            unit: string;
+            points: components["schemas"]["VirtualMachineMetricPoint"][];
+        };
+        VirtualMachineMetrics: {
+            series: components["schemas"]["VirtualMachineMetricSeries"][];
+            message?: string;
+            ready: boolean;
+            source?: string;
+        };
+        VirtualMachineMetricsEnvelope: {
+            data: components["schemas"]["VirtualMachineMetrics"];
+        };
+        VirtualMachineConsole: {
+            type: string;
+            url: string;
+            backendUrl?: string;
+            token?: string;
+            message?: string;
+            ready: boolean;
+            provider?: string;
+            proxyMode?: string;
+        };
+        VirtualMachineConsoleEnvelope: {
+            data: components["schemas"]["VirtualMachineConsole"];
+        };
+        VirtualizationImageInput: {
+            id?: string;
+            provider?: string;
+            connectionId: string;
+            externalId?: string;
+            name: string;
+            status?: string;
+            description?: string;
+            osType?: string;
+            architecture?: string;
+            /** Format: int64 */
+            sizeBytes?: number;
+            /** Format: int64 */
+            sizeGiB?: number;
+            sourceKind?: string;
+            sourceRef?: string;
+            namespace?: string;
+            storageClass?: string;
+            url?: string;
+            config?: components["schemas"]["NativeProviderObject"];
+        };
+        VirtualizationImage: {
+            id: string;
+            name: string;
+            provider: string;
+            connectionId: string;
+            externalId?: string;
+            status: string;
+            osType?: string;
+            architecture?: string;
+            /** Format: int64 */
+            sizeBytes?: number;
+            /** Format: int64 */
+            sizeGiB?: number;
+            sourceKind?: string;
+            assetKind?: string;
+            source?: string;
+            sourceRef?: string;
+            namespace?: string;
+            node?: string;
+            storage?: string;
+            storageClass?: string;
+            ready?: boolean;
+            description?: string;
+            orphanHint?: string;
+            config?: components["schemas"]["NativeProviderObject"];
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            allowedActions?: string[];
+        };
+        VirtualizationImageEnvelope: {
+            data: components["schemas"]["VirtualizationImage"];
+        };
+        VirtualizationImageListEnvelope: {
+            items: components["schemas"]["VirtualizationImage"][];
+        };
+        VirtualizationImagePage: {
+            items: components["schemas"]["VirtualizationImage"][];
+            total: number;
+            page: number;
+            pageSize: number;
+        };
+        VirtualizationImagePageEnvelope: {
+            data: components["schemas"]["VirtualizationImagePage"];
+        };
+        VirtualizationFlavorInput: {
+            id?: string;
+            provider?: string;
+            connectionId?: string;
+            externalId?: string;
+            name: string;
+            description?: string;
+            cpuCores?: number;
+            cpu?: number;
+            memoryMb?: number;
+            memoryMiB?: number;
+            diskGb?: number;
+            diskGiB?: number;
+            enabled?: boolean;
+            config?: components["schemas"]["NativeProviderObject"];
+        };
+        VirtualizationFlavor: {
+            id: string;
+            name: string;
+            provider: string;
+            connectionId?: string;
+            externalId?: string;
+            status: string;
+            cpuCores?: number;
+            cpu?: number;
+            memoryMb?: number;
+            memoryMiB?: number;
+            diskGb?: number;
+            diskGiB?: number;
+            description?: string;
+            enabled?: boolean;
+            config?: components["schemas"]["NativeProviderObject"];
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            allowedActions?: string[];
+        };
+        VirtualizationFlavorEnvelope: {
+            data: components["schemas"]["VirtualizationFlavor"];
+        };
+        VirtualizationFlavorListEnvelope: {
+            items: components["schemas"]["VirtualizationFlavor"][];
+        };
+        VirtualizationFlavorPage: {
+            items: components["schemas"]["VirtualizationFlavor"][];
+            total: number;
+            page: number;
+            pageSize: number;
+        };
+        VirtualizationFlavorPageEnvelope: {
+            data: components["schemas"]["VirtualizationFlavorPage"];
+        };
+        VirtualizationOperationLog: {
+            id: string;
+            taskId: string;
+            logLevel: string;
+            message: string;
+            payload?: components["schemas"]["NativeProviderObject"];
+            /** Format: date-time */
+            createdAt: string;
+        };
+        VirtualizationOperationLogListEnvelope: {
+            items: components["schemas"]["VirtualizationOperationLog"][];
+        };
+        VirtualizationOperationListEnvelope: {
+            items: components["schemas"]["VirtualizationOperation"][];
+        };
+        VirtualizationOperationPage: {
+            items: components["schemas"]["VirtualizationOperation"][];
+            total: number;
+            page: number;
+            pageSize: number;
+        };
+        VirtualizationOperationPageEnvelope: {
+            data: components["schemas"]["VirtualizationOperationPage"];
         };
         DockerQuickCreateHostInput: {
             name: string;
@@ -9987,6 +12677,8 @@ export interface components {
             operationKind: string;
             status: string;
             claimedByWorkerId?: string;
+            /** @description Opaque per-claim credential returned only by the authenticated runner claim endpoint when callback-token fencing is negotiated. */
+            callbackToken?: string;
             payload: {
                 [key: string]: unknown;
             };
@@ -9999,10 +12691,14 @@ export interface components {
             agentId: string;
             hostIds?: string[];
             operationKinds?: string[];
+            /** @description Set by upgraded runners that can return the per-claim callback token. */
+            callbackTokenSupported?: boolean;
         };
         DockerOperationCallbackRequest: {
             operationId: string;
             workerId: string;
+            /** @description Required when the claimed operation included a callback token; omitted only for legacy unfenced claims. */
+            callbackToken?: string;
             status: string;
             payload: {
                 [key: string]: unknown;
@@ -10101,6 +12797,1940 @@ export interface components {
         AgentToolCallResultEnvelope: {
             data: components["schemas"]["AgentToolCallResult"];
         };
+        KubernetesStringMap: {
+            [key: string]: string;
+        };
+        /** @enum {string} */
+        KubernetesConnectionMode: "direct_kubeconfig" | "agent";
+        KubernetesClusterHealth: {
+            status: string;
+            message?: string;
+            /** Format: date-time */
+            lastChecked?: string;
+        };
+        KubernetesClusterSummary: {
+            id: string;
+            name: string;
+            region: string;
+            environment: string;
+            labels: components["schemas"]["KubernetesStringMap"];
+            connectionMode: components["schemas"]["KubernetesConnectionMode"];
+            version?: string;
+            capabilities?: string[];
+            health: components["schemas"]["KubernetesClusterHealth"];
+        };
+        KubernetesClusterListEnvelope: {
+            items: components["schemas"]["KubernetesClusterSummary"][];
+        };
+        KubernetesCacheResourceDiagnostic: {
+            resource: string;
+            status: string;
+            ready: boolean;
+            message?: string;
+            /** Format: date-time */
+            lastTransition?: string;
+        };
+        KubernetesClusterDiagnostics: {
+            transport: string;
+            syncStrategy: string;
+            cacheStatus: string;
+            cacheReady: boolean;
+            cacheResources?: components["schemas"]["KubernetesCacheResourceDiagnostic"][];
+            /** Format: date-time */
+            lastChecked?: string;
+            connectionState: string;
+            message?: string;
+        };
+        KubernetesClusterConnectionDetail: {
+            mode: components["schemas"]["KubernetesConnectionMode"];
+            credentialType: string;
+            sourceType: string;
+            sourceRef?: string;
+            context?: string;
+            endpoint?: string;
+            hasInlineKubeconfig: boolean;
+            hasToken: boolean;
+            usesInformerCache: boolean;
+        };
+        KubernetesPrometheusDetail: {
+            baseUrl?: string;
+            clusterLabel?: string;
+            grafanaBaseUrl?: string;
+            hasBearerToken: boolean;
+        };
+        KubernetesMonitoringDetail: {
+            prometheus: components["schemas"]["KubernetesPrometheusDetail"];
+        };
+        KubernetesClusterDetail: {
+            summary: components["schemas"]["KubernetesClusterSummary"];
+            diagnostics: components["schemas"]["KubernetesClusterDiagnostics"];
+            connection: components["schemas"]["KubernetesClusterConnectionDetail"];
+            monitoring: components["schemas"]["KubernetesMonitoringDetail"];
+            capabilityMatrix: components["schemas"]["ClusterCapabilityMatrixEntry"][];
+        };
+        KubernetesClusterDetailEnvelope: {
+            data: components["schemas"]["KubernetesClusterDetail"];
+        };
+        KubernetesNamespace: {
+            name: string;
+            status: string;
+            labels: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesNamespaceListEnvelope: {
+            items: components["schemas"]["KubernetesNamespace"][];
+        };
+        KubernetesResourceQuantity: {
+            cpu?: string;
+            memory?: string;
+            ephemeralStorage?: string;
+            pods?: string;
+        };
+        KubernetesResourcePercentage: {
+            /** Format: double */
+            cpu?: number;
+            /** Format: double */
+            memory?: number;
+            /** Format: double */
+            ephemeralStorage?: number;
+            /** Format: double */
+            pods?: number;
+        };
+        KubernetesNodeResourceSummary: {
+            capacity?: components["schemas"]["KubernetesResourceQuantity"];
+            allocatable?: components["schemas"]["KubernetesResourceQuantity"];
+            requests?: components["schemas"]["KubernetesResourceQuantity"];
+            limits?: components["schemas"]["KubernetesResourceQuantity"];
+            usage?: components["schemas"]["KubernetesResourceQuantity"];
+            requestPercentages?: components["schemas"]["KubernetesResourcePercentage"];
+            limitPercentages?: components["schemas"]["KubernetesResourcePercentage"];
+            usagePercentages?: components["schemas"]["KubernetesResourcePercentage"];
+        };
+        KubernetesNode: {
+            name: string;
+            status: string;
+            unschedulable: boolean;
+            roles?: string[];
+            version?: string;
+            internalIp?: string;
+            podCount: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            resources?: components["schemas"]["KubernetesNodeResourceSummary"];
+            allowedActions?: string[];
+        };
+        KubernetesNodeListEnvelope: {
+            items: components["schemas"]["KubernetesNode"][];
+        };
+        KubernetesNodeTaint: {
+            key: string;
+            value?: string;
+            effect: string;
+        };
+        KubernetesNodePod: {
+            name: string;
+            namespace: string;
+            phase: string;
+            podIp?: string;
+            readyContainers: string;
+            /** Format: int32 */
+            restarts: number;
+            cpu?: string;
+            memory?: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            requests?: components["schemas"]["KubernetesResourceQuantity"];
+            limits?: components["schemas"]["KubernetesResourceQuantity"];
+            /** Format: int64 */
+            ageSeconds: number;
+        };
+        KubernetesWorkloadCondition: {
+            type: string;
+            status: string;
+            reason?: string;
+            message?: string;
+            lastTransitionTime?: string;
+        };
+        KubernetesNodeDetail: {
+            name: string;
+            status: string;
+            unschedulable: boolean;
+            roles?: string[];
+            version?: string;
+            internalIp?: string;
+            podCount: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            taints?: components["schemas"]["KubernetesNodeTaint"][];
+            conditions?: components["schemas"]["KubernetesWorkloadCondition"][];
+            resources?: components["schemas"]["KubernetesNodeResourceSummary"];
+            metricsConfigured: boolean;
+            metricsMessage?: string;
+            pods?: components["schemas"]["KubernetesNodePod"][];
+            allowedActions?: string[];
+        };
+        KubernetesNodeDetailEnvelope: {
+            data: components["schemas"]["KubernetesNodeDetail"];
+        };
+        KubernetesWorkloadOverviewNamespace: {
+            namespace: string;
+            totalPods: number;
+            runningPods: number;
+            atRiskPods: number;
+            restartingPods: number;
+        };
+        KubernetesWorkloadOverviewPod: {
+            name: string;
+            namespace: string;
+            phase: string;
+            readyContainers: string;
+            /** Format: int32 */
+            restarts: number;
+            nodeName?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+        };
+        KubernetesWorkloadOverview: {
+            clusterId: string;
+            namespace?: string;
+            source: string;
+            generatedAt: string;
+            totalPods: number;
+            runningPods: number;
+            pendingPods: number;
+            succeededPods: number;
+            failedPods: number;
+            unknownPods: number;
+            restartingPods: number;
+            atRiskPods: number;
+            namespaceBreakdown?: components["schemas"]["KubernetesWorkloadOverviewNamespace"][];
+            problematicPods?: components["schemas"]["KubernetesWorkloadOverviewPod"][];
+        };
+        KubernetesWorkloadOverviewEnvelope: {
+            data: components["schemas"]["KubernetesWorkloadOverview"];
+        };
+        KubernetesPod: {
+            name: string;
+            namespace: string;
+            phase: string;
+            nodeName?: string;
+            podIp?: string;
+            createdAt?: string;
+            cpu?: string;
+            memory?: string;
+            requests?: components["schemas"]["KubernetesResourceQuantity"];
+            limits?: components["schemas"]["KubernetesResourceQuantity"];
+            labels?: components["schemas"]["KubernetesStringMap"];
+            persistentVolumeClaims?: string[];
+            readyContainers: string;
+            /** Format: int32 */
+            restarts: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesPodListEnvelope: {
+            items: components["schemas"]["KubernetesPod"][];
+        };
+        KubernetesWorkloadContainer: {
+            name: string;
+            image: string;
+            role?: string;
+            ready: boolean;
+            /** Format: int32 */
+            restartCount: number;
+            state?: string;
+            lastState?: string;
+            containerId?: string;
+            startedAt?: string;
+            reason?: string;
+            message?: string;
+        };
+        KubernetesPodVolumeMount: {
+            name: string;
+            mountPath: string;
+            subPath?: string;
+            readOnly: boolean;
+            volumeType?: string;
+            sourceName?: string;
+            description?: string;
+        };
+        KubernetesPodVolume: {
+            name: string;
+            type: string;
+            sourceName?: string;
+            readOnly: boolean;
+            details?: string[];
+            volumeMounts?: components["schemas"]["KubernetesPodVolumeMount"][];
+            referencedConfigMaps?: string[];
+        };
+        KubernetesPodRelatedResource: {
+            kind: string;
+            name: string;
+            namespace?: string;
+            relations?: string[];
+            details?: string[];
+        };
+        KubernetesWorkloadRelation: {
+            kind: string;
+            name: string;
+            namespace?: string;
+            relation?: string;
+        };
+        KubernetesPodDetail: {
+            name: string;
+            namespace: string;
+            phase: string;
+            podIp?: string;
+            hostIp?: string;
+            nodeName?: string;
+            serviceAccountName?: string;
+            qosClass?: string;
+            createdAt?: string;
+            startTime?: string;
+            requests?: components["schemas"]["KubernetesResourceQuantity"];
+            limits?: components["schemas"]["KubernetesResourceQuantity"];
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            containers?: components["schemas"]["KubernetesWorkloadContainer"][];
+            conditions?: components["schemas"]["KubernetesWorkloadCondition"][];
+            volumes?: components["schemas"]["KubernetesPodVolume"][];
+            relatedResources?: components["schemas"]["KubernetesPodRelatedResource"][];
+            allowedActions?: string[];
+        };
+        KubernetesPodDetailEnvelope: {
+            data: components["schemas"]["KubernetesPodDetail"];
+        };
+        KubernetesDeployment: {
+            name: string;
+            namespace: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            /** Format: int32 */
+            desiredReplicas: number;
+            /** Format: int32 */
+            readyReplicas: number;
+            /** Format: int32 */
+            updatedReplicas: number;
+            /** Format: int32 */
+            available: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesDeploymentListEnvelope: {
+            items: components["schemas"]["KubernetesDeployment"][];
+        };
+        KubernetesDeploymentDetail: {
+            name: string;
+            namespace: string;
+            /** Format: int32 */
+            desiredReplicas: number;
+            /** Format: int32 */
+            readyReplicas: number;
+            /** Format: int32 */
+            updatedReplicas: number;
+            /** Format: int32 */
+            availableReplicas: number;
+            /** Format: int64 */
+            observedGeneration: number;
+            strategy: string;
+            createdAt?: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            selector?: components["schemas"]["KubernetesStringMap"];
+            containers?: components["schemas"]["KubernetesWorkloadContainer"][];
+            conditions?: components["schemas"]["KubernetesWorkloadCondition"][];
+            pods?: components["schemas"]["KubernetesPod"][];
+            relatedResources?: components["schemas"]["KubernetesWorkloadRelation"][];
+            allowedActions?: string[];
+        };
+        KubernetesDeploymentDetailEnvelope: {
+            data: components["schemas"]["KubernetesDeploymentDetail"];
+        };
+        KubernetesPodLogs: {
+            podName: string;
+            namespace: string;
+            container?: string;
+            content: string;
+            /** Format: int64 */
+            contentBytes: number;
+            /** Format: int64 */
+            maxBytes?: number;
+            /** Format: int64 */
+            tailLines?: number;
+            previous?: boolean;
+            truncated: boolean;
+        };
+        KubernetesPodLogsEnvelope: {
+            data: components["schemas"]["KubernetesPodLogs"];
+        };
+        KubernetesResourceYaml: {
+            kind: string;
+            name: string;
+            namespace?: string;
+            content: string;
+        };
+        KubernetesResourceYamlEnvelope: {
+            data: components["schemas"]["KubernetesResourceYaml"];
+        };
+        KubernetesResourceMetrics: {
+            resourceKind: string;
+            resourceName: string;
+            namespace?: string;
+            configured: boolean;
+            source: string;
+            /** Format: date-time */
+            generatedAt: string;
+            rangeMinutes: number;
+            stepSeconds: number;
+            message?: string;
+            /** Format: uri */
+            grafanaBaseUrl?: string;
+            series?: components["schemas"]["ObservabilityMetricSeries"][];
+        };
+        KubernetesResourceMetricsEnvelope: {
+            data: components["schemas"]["KubernetesResourceMetrics"];
+        };
+        KubernetesDeploymentRolloutStatus: {
+            name: string;
+            namespace: string;
+            revision: string;
+            status: string;
+            message: string;
+            /** Format: int32 */
+            desiredReplicas: number;
+            /** Format: int32 */
+            updatedReplicas: number;
+            /** Format: int32 */
+            readyReplicas: number;
+            /** Format: int32 */
+            availableReplicas: number;
+            /** Format: int64 */
+            observedGeneration: number;
+            conditions?: components["schemas"]["KubernetesWorkloadCondition"][];
+        };
+        KubernetesDeploymentRolloutStatusEnvelope: {
+            data: components["schemas"]["KubernetesDeploymentRolloutStatus"];
+        };
+        KubernetesDeploymentRollout: {
+            name: string;
+            namespace: string;
+            revision: string;
+            images?: string[];
+            /** Format: int32 */
+            replicas: number;
+            /** Format: int32 */
+            readyReplicas: number;
+            createdAt?: string;
+        };
+        KubernetesDeploymentRolloutListEnvelope: {
+            items: components["schemas"]["KubernetesDeploymentRollout"][];
+        };
+        KubernetesStatefulSet: {
+            name: string;
+            namespace: string;
+            serviceName?: string;
+            /** Format: int32 */
+            desiredReplicas: number;
+            /** Format: int32 */
+            readyReplicas: number;
+            /** Format: int32 */
+            currentReplicas: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesStatefulSetListEnvelope: {
+            items: components["schemas"]["KubernetesStatefulSet"][];
+        };
+        KubernetesStatefulSetDetail: {
+            name: string;
+            namespace: string;
+            serviceName?: string;
+            /** Format: int32 */
+            desiredReplicas: number;
+            /** Format: int32 */
+            readyReplicas: number;
+            /** Format: int32 */
+            currentReplicas: number;
+            updateStrategy?: string;
+            currentRevision?: string;
+            updateRevision?: string;
+            createdAt?: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            selector?: components["schemas"]["KubernetesStringMap"];
+            pods?: components["schemas"]["KubernetesPod"][];
+            relatedResources?: components["schemas"]["KubernetesWorkloadRelation"][];
+            allowedActions?: string[];
+        };
+        KubernetesStatefulSetDetailEnvelope: {
+            data: components["schemas"]["KubernetesStatefulSetDetail"];
+        };
+        KubernetesDaemonSet: {
+            name: string;
+            namespace: string;
+            /** Format: int32 */
+            desiredNumber: number;
+            /** Format: int32 */
+            currentNumber: number;
+            /** Format: int32 */
+            readyNumber: number;
+            /** Format: int32 */
+            availableNumber: number;
+            /** Format: int32 */
+            updatedNumber: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesDaemonSetListEnvelope: {
+            items: components["schemas"]["KubernetesDaemonSet"][];
+        };
+        KubernetesDaemonSetDetail: {
+            name: string;
+            namespace: string;
+            /** Format: int32 */
+            desiredNumber: number;
+            /** Format: int32 */
+            currentNumber: number;
+            /** Format: int32 */
+            readyNumber: number;
+            /** Format: int32 */
+            availableNumber: number;
+            /** Format: int32 */
+            updatedNumber: number;
+            updateStrategy?: string;
+            createdAt?: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            selector?: components["schemas"]["KubernetesStringMap"];
+            pods?: components["schemas"]["KubernetesPod"][];
+            relatedResources?: components["schemas"]["KubernetesWorkloadRelation"][];
+            allowedActions?: string[];
+        };
+        KubernetesDaemonSetDetailEnvelope: {
+            data: components["schemas"]["KubernetesDaemonSetDetail"];
+        };
+        KubernetesJob: {
+            name: string;
+            namespace: string;
+            /** Format: int32 */
+            completions: number;
+            /** Format: int32 */
+            succeeded: number;
+            /** Format: int32 */
+            failed: number;
+            /** Format: int32 */
+            active: number;
+            completionMode?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesJobListEnvelope: {
+            items: components["schemas"]["KubernetesJob"][];
+        };
+        KubernetesJobDetail: {
+            name: string;
+            namespace: string;
+            /** Format: int32 */
+            completions: number;
+            /** Format: int32 */
+            parallelism: number;
+            /** Format: int32 */
+            succeeded: number;
+            /** Format: int32 */
+            failed: number;
+            /** Format: int32 */
+            active: number;
+            completionMode?: string;
+            createdAt?: string;
+            startTime?: string;
+            completionTime?: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            pods?: components["schemas"]["KubernetesPod"][];
+            relatedResources?: components["schemas"]["KubernetesWorkloadRelation"][];
+            allowedActions?: string[];
+        };
+        KubernetesJobDetailEnvelope: {
+            data: components["schemas"]["KubernetesJobDetail"];
+        };
+        KubernetesCronJob: {
+            name: string;
+            namespace: string;
+            schedule: string;
+            suspend: boolean;
+            /** Format: int32 */
+            activeJobs: number;
+            lastScheduleTime?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesCronJobListEnvelope: {
+            items: components["schemas"]["KubernetesCronJob"][];
+        };
+        KubernetesCronJobDetail: {
+            name: string;
+            namespace: string;
+            schedule: string;
+            suspend: boolean;
+            /** Format: int32 */
+            activeJobs: number;
+            lastScheduleTime?: string;
+            concurrencyPolicy?: string;
+            timeZone?: string;
+            createdAt?: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            jobs?: components["schemas"]["KubernetesJob"][];
+            relatedResources?: components["schemas"]["KubernetesWorkloadRelation"][];
+            allowedActions?: string[];
+        };
+        KubernetesCronJobDetailEnvelope: {
+            data: components["schemas"]["KubernetesCronJobDetail"];
+        };
+        KubernetesReplicaSet: {
+            name: string;
+            namespace: string;
+            /** Format: int32 */
+            desiredReplicas: number;
+            /** Format: int32 */
+            readyReplicas: number;
+            /** Format: int32 */
+            availableReplicas: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesReplicaSetListEnvelope: {
+            items: components["schemas"]["KubernetesReplicaSet"][];
+        };
+        KubernetesReplicaSetDetail: {
+            name: string;
+            namespace: string;
+            /** Format: int32 */
+            desiredReplicas: number;
+            /** Format: int32 */
+            readyReplicas: number;
+            /** Format: int32 */
+            availableReplicas: number;
+            createdAt?: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            selector?: components["schemas"]["KubernetesStringMap"];
+            pods?: components["schemas"]["KubernetesPod"][];
+            relatedResources?: components["schemas"]["KubernetesWorkloadRelation"][];
+            allowedActions?: string[];
+        };
+        KubernetesReplicaSetDetailEnvelope: {
+            data: components["schemas"]["KubernetesReplicaSetDetail"];
+        };
+        KubernetesReplicationController: {
+            name: string;
+            namespace: string;
+            /** Format: int32 */
+            desiredReplicas: number;
+            /** Format: int32 */
+            currentReplicas: number;
+            /** Format: int32 */
+            readyReplicas: number;
+            /** Format: int32 */
+            availableReplicas: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesReplicationControllerListEnvelope: {
+            items: components["schemas"]["KubernetesReplicationController"][];
+        };
+        KubernetesReplicationControllerDetail: {
+            name: string;
+            namespace: string;
+            /** Format: int32 */
+            desiredReplicas: number;
+            /** Format: int32 */
+            currentReplicas: number;
+            /** Format: int32 */
+            readyReplicas: number;
+            /** Format: int32 */
+            availableReplicas: number;
+            createdAt?: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            selector?: components["schemas"]["KubernetesStringMap"];
+            pods?: components["schemas"]["KubernetesPod"][];
+            relatedResources?: components["schemas"]["KubernetesWorkloadRelation"][];
+            allowedActions?: string[];
+        };
+        KubernetesReplicationControllerDetailEnvelope: {
+            data: components["schemas"]["KubernetesReplicationControllerDetail"];
+        };
+        KubernetesConfigMap: {
+            name: string;
+            namespace: string;
+            dataEntries: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesConfigMapListEnvelope: {
+            items: components["schemas"]["KubernetesConfigMap"][];
+        };
+        KubernetesConfigMapDetail: {
+            name: string;
+            namespace: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            data?: components["schemas"]["KubernetesStringMap"];
+            binaryData?: components["schemas"]["KubernetesStringMap"];
+            immutable: boolean;
+            createdAt?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+        };
+        KubernetesConfigMapDetailEnvelope: {
+            data: components["schemas"]["KubernetesConfigMapDetail"];
+        };
+        KubernetesSecretMetadata: {
+            name: string;
+            namespace: string;
+            type: string;
+            dataEntries: number;
+            immutable: boolean | null;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesSecretMetadataListEnvelope: {
+            items: components["schemas"]["KubernetesSecretMetadata"][];
+        };
+        KubernetesConfigReference: {
+            kind: string;
+            name: string;
+            namespace: string;
+            path: string;
+        };
+        KubernetesConfigReferenceListEnvelope: {
+            items: components["schemas"]["KubernetesConfigReference"][];
+        };
+        KubernetesHorizontalPodAutoscaler: {
+            name: string;
+            namespace: string;
+            targetRef: string;
+            /** Format: int32 */
+            minReplicas: number;
+            /** Format: int32 */
+            maxReplicas: number;
+            /** Format: int32 */
+            currentReplicas: number;
+            /** Format: int32 */
+            desiredReplicas: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesHorizontalPodAutoscalerListEnvelope: {
+            items: components["schemas"]["KubernetesHorizontalPodAutoscaler"][];
+        };
+        KubernetesHorizontalPodAutoscalerMetric: {
+            type: string;
+            name?: string;
+            target?: string;
+            current?: string;
+        };
+        KubernetesHorizontalPodAutoscalerDetail: {
+            name: string;
+            namespace: string;
+            targetRef: string;
+            /** Format: int32 */
+            minReplicas: number;
+            /** Format: int32 */
+            maxReplicas: number;
+            /** Format: int32 */
+            currentReplicas: number;
+            /** Format: int32 */
+            desiredReplicas: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            createdAt?: string;
+            metrics?: components["schemas"]["KubernetesHorizontalPodAutoscalerMetric"][];
+            conditions?: components["schemas"]["KubernetesWorkloadCondition"][];
+        };
+        KubernetesHorizontalPodAutoscalerDetailEnvelope: {
+            data: components["schemas"]["KubernetesHorizontalPodAutoscalerDetail"];
+        };
+        KubernetesPodDisruptionBudget: {
+            name: string;
+            namespace: string;
+            minAvailable?: string;
+            maxUnavailable?: string;
+            /** Format: int32 */
+            currentHealthy: number;
+            /** Format: int32 */
+            desiredHealthy: number;
+            /** Format: int32 */
+            disruptionsAllowed: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesPodDisruptionBudgetListEnvelope: {
+            items: components["schemas"]["KubernetesPodDisruptionBudget"][];
+        };
+        KubernetesPodDisruptionBudgetDetail: {
+            name: string;
+            namespace: string;
+            minAvailable?: string;
+            maxUnavailable?: string;
+            /** Format: int32 */
+            currentHealthy: number;
+            /** Format: int32 */
+            desiredHealthy: number;
+            /** Format: int32 */
+            disruptionsAllowed: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            createdAt?: string;
+            selector?: string;
+            pods?: components["schemas"]["KubernetesPod"][];
+            workload?: components["schemas"]["KubernetesPodRelatedResource"];
+            conditions?: components["schemas"]["KubernetesWorkloadCondition"][];
+        };
+        KubernetesPodDisruptionBudgetDetailEnvelope: {
+            data: components["schemas"]["KubernetesPodDisruptionBudgetDetail"];
+        };
+        KubernetesPriorityClass: {
+            name: string;
+            /** Format: int32 */
+            value: number;
+            globalDefault: boolean;
+            preemptionPolicy?: string;
+            description?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesPriorityClassListEnvelope: {
+            items: components["schemas"]["KubernetesPriorityClass"][];
+        };
+        KubernetesRuntimeClass: {
+            name: string;
+            handler: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesRuntimeClassListEnvelope: {
+            items: components["schemas"]["KubernetesRuntimeClass"][];
+        };
+        KubernetesAdmissionWebhookConfiguration: {
+            name: string;
+            webhooks: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesAdmissionWebhookConfigurationListEnvelope: {
+            items: components["schemas"]["KubernetesAdmissionWebhookConfiguration"][];
+        };
+        KubernetesAdmissionWebhookRule: {
+            operations?: string[];
+            apiGroups?: string[];
+            apiVersions?: string[];
+            resources?: string[];
+            scope?: string;
+        };
+        KubernetesAdmissionWebhook: {
+            name: string;
+            clientTarget: string;
+            url?: string;
+            serviceName?: string;
+            serviceNamespace?: string;
+            servicePath?: string;
+            /** Format: int32 */
+            servicePort?: number;
+            caBundleConfigured: boolean;
+            failurePolicy?: string;
+            matchPolicy?: string;
+            sideEffects?: string;
+            /** Format: int32 */
+            timeoutSeconds?: number;
+            admissionReviewVersions?: string[];
+            namespaceSelector?: string;
+            objectSelector?: string;
+            rules?: components["schemas"]["KubernetesAdmissionWebhookRule"][];
+        };
+        KubernetesAdmissionWebhookConfigurationDetail: {
+            name: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            createdAt?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            webhooks?: components["schemas"]["KubernetesAdmissionWebhook"][];
+        };
+        KubernetesAdmissionWebhookConfigurationDetailEnvelope: {
+            data: components["schemas"]["KubernetesAdmissionWebhookConfigurationDetail"];
+        };
+        KubernetesResourceQuota: {
+            name: string;
+            namespace: string;
+            scopes?: string[];
+            hard?: components["schemas"]["KubernetesStringMap"];
+            used?: components["schemas"]["KubernetesStringMap"];
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesResourceQuotaListEnvelope: {
+            items: components["schemas"]["KubernetesResourceQuota"][];
+        };
+        KubernetesResourceQuotaDetail: {
+            name: string;
+            namespace: string;
+            scopes?: string[];
+            hard?: components["schemas"]["KubernetesStringMap"];
+            used?: components["schemas"]["KubernetesStringMap"];
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            createdAt?: string;
+        };
+        KubernetesResourceQuotaDetailEnvelope: {
+            data: components["schemas"]["KubernetesResourceQuotaDetail"];
+        };
+        KubernetesLimitRange: {
+            name: string;
+            namespace: string;
+            limits: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesLimitRangeListEnvelope: {
+            items: components["schemas"]["KubernetesLimitRange"][];
+        };
+        KubernetesLimitRangeRule: {
+            type: string;
+            min?: components["schemas"]["KubernetesStringMap"];
+            max?: components["schemas"]["KubernetesStringMap"];
+            default?: components["schemas"]["KubernetesStringMap"];
+            defaultRequest?: components["schemas"]["KubernetesStringMap"];
+            maxLimitRequestRatio?: components["schemas"]["KubernetesStringMap"];
+        };
+        KubernetesLimitRangeDetail: {
+            name: string;
+            namespace: string;
+            limits: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            createdAt?: string;
+            rules?: components["schemas"]["KubernetesLimitRangeRule"][];
+        };
+        KubernetesLimitRangeDetailEnvelope: {
+            data: components["schemas"]["KubernetesLimitRangeDetail"];
+        };
+        KubernetesLease: {
+            name: string;
+            namespace: string;
+            holderIdentity?: string;
+            /** Format: int32 */
+            leaseDurationSeconds?: number;
+            acquireTime?: string;
+            renewTime?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesLeaseListEnvelope: {
+            items: components["schemas"]["KubernetesLease"][];
+        };
+        KubernetesServiceAccount: {
+            name: string;
+            namespace: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesServiceAccountListEnvelope: {
+            items: components["schemas"]["KubernetesServiceAccount"][];
+        };
+        KubernetesServiceAccountDetail: {
+            name: string;
+            namespace: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            /** @description Secret names only. Secret values are never returned. */
+            secrets?: string[];
+            /** @description Image pull Secret names only. */
+            imagePullSecrets?: string[];
+            automountServiceAccountToken: boolean;
+            createdAt?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesServiceAccountDetailEnvelope: {
+            data: components["schemas"]["KubernetesServiceAccountDetail"];
+        };
+        KubernetesRole: {
+            name: string;
+            namespace: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesRoleListEnvelope: {
+            items: components["schemas"]["KubernetesRole"][];
+        };
+        KubernetesRoleDetail: {
+            name: string;
+            namespace: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            rules: number;
+            ruleSummaries?: string[];
+            createdAt?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesRoleDetailEnvelope: {
+            data: components["schemas"]["KubernetesRoleDetail"];
+        };
+        KubernetesRoleBinding: {
+            name: string;
+            namespace: string;
+            roleRef: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesRoleBindingListEnvelope: {
+            items: components["schemas"]["KubernetesRoleBinding"][];
+        };
+        KubernetesRoleBindingDetail: {
+            name: string;
+            namespace: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            roleRef: string;
+            subjects?: string[];
+            createdAt?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesRoleBindingDetailEnvelope: {
+            data: components["schemas"]["KubernetesRoleBindingDetail"];
+        };
+        KubernetesClusterRole: {
+            name: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesClusterRoleListEnvelope: {
+            items: components["schemas"]["KubernetesClusterRole"][];
+        };
+        KubernetesClusterRoleDetail: {
+            name: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            rules: number;
+            aggregationRules: number;
+            ruleSummaries?: string[];
+            createdAt?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesClusterRoleDetailEnvelope: {
+            data: components["schemas"]["KubernetesClusterRoleDetail"];
+        };
+        KubernetesClusterRoleBinding: {
+            name: string;
+            roleRef: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesClusterRoleBindingListEnvelope: {
+            items: components["schemas"]["KubernetesClusterRoleBinding"][];
+        };
+        KubernetesClusterRoleBindingDetail: {
+            name: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            roleRef: string;
+            subjects?: string[];
+            createdAt?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesClusterRoleBindingDetailEnvelope: {
+            data: components["schemas"]["KubernetesClusterRoleBindingDetail"];
+        };
+        KubernetesPersistentVolumeClaim: {
+            name: string;
+            namespace: string;
+            status: string;
+            volumeName?: string;
+            storageClass?: string;
+            accessModes?: string[];
+            requested?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesPersistentVolumeClaimListEnvelope: {
+            items: components["schemas"]["KubernetesPersistentVolumeClaim"][];
+        };
+        KubernetesStoragePodReference: {
+            name: string;
+            namespace: string;
+            phase?: string;
+            nodeName?: string;
+        };
+        KubernetesPersistentVolumeClaimDetail: {
+            name: string;
+            namespace: string;
+            status: string;
+            volumeName?: string;
+            storageClass?: string;
+            accessModes?: string[];
+            requested?: string;
+            volumeMode?: string;
+            capacity?: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            createdAt?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            pods?: components["schemas"]["KubernetesStoragePodReference"][];
+            podsTruncated?: boolean;
+            allowedActions?: string[];
+        };
+        KubernetesPersistentVolumeClaimDetailEnvelope: {
+            data: components["schemas"]["KubernetesPersistentVolumeClaimDetail"];
+        };
+        KubernetesPersistentVolume: {
+            name: string;
+            status: string;
+            storageClass?: string;
+            claimRef?: string;
+            claimNamespace?: string;
+            claimName?: string;
+            accessModes?: string[];
+            capacity?: string;
+            reclaimPolicy?: string;
+            volumeMode?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesPersistentVolumeListEnvelope: {
+            items: components["schemas"]["KubernetesPersistentVolume"][];
+        };
+        KubernetesPersistentVolumeDetail: {
+            name: string;
+            status: string;
+            storageClass?: string;
+            claimRef?: string;
+            claimNamespace?: string;
+            claimName?: string;
+            accessModes?: string[];
+            capacity?: string;
+            reclaimPolicy?: string;
+            volumeMode?: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            createdAt?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesPersistentVolumeDetailEnvelope: {
+            data: components["schemas"]["KubernetesPersistentVolumeDetail"];
+        };
+        KubernetesStorageClass: {
+            name: string;
+            provisioner: string;
+            reclaimPolicy?: string;
+            volumeBindingMode?: string;
+            allowVolumeExpansion: boolean;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesStorageClassListEnvelope: {
+            items: components["schemas"]["KubernetesStorageClass"][];
+        };
+        KubernetesStorageClassDetail: {
+            name: string;
+            provisioner: string;
+            reclaimPolicy?: string;
+            volumeBindingMode?: string;
+            allowVolumeExpansion: boolean;
+            parameters?: components["schemas"]["KubernetesStringMap"];
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            createdAt?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            volumes?: components["schemas"]["KubernetesPersistentVolume"][];
+            claims?: components["schemas"]["KubernetesPersistentVolumeClaim"][];
+            volumesTruncated?: boolean;
+            claimsTruncated?: boolean;
+            allowedActions?: string[];
+        };
+        KubernetesStorageClassDetailEnvelope: {
+            data: components["schemas"]["KubernetesStorageClassDetail"];
+        };
+        KubernetesService: {
+            name: string;
+            namespace: string;
+            type: string;
+            clusterIp?: string;
+            ports?: string[];
+            selector?: components["schemas"]["KubernetesStringMap"];
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesServiceListEnvelope: {
+            items: components["schemas"]["KubernetesService"][];
+        };
+        KubernetesServiceEndpoint: {
+            address: string;
+            ready?: boolean | null;
+            serving?: boolean | null;
+            terminating?: boolean | null;
+            targetRef?: string;
+            nodeName?: string;
+            zone?: string;
+        };
+        KubernetesServiceDetail: {
+            name: string;
+            namespace: string;
+            type: string;
+            clusterIp?: string;
+            ports?: string[];
+            selector?: components["schemas"]["KubernetesStringMap"];
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            endpoints?: components["schemas"]["KubernetesServiceEndpoint"][];
+            backendPods?: components["schemas"]["KubernetesPod"][];
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesServiceDetailEnvelope: {
+            data: components["schemas"]["KubernetesServiceDetail"];
+        };
+        KubernetesIngress: {
+            name: string;
+            namespace: string;
+            className?: string;
+            hosts?: string[];
+            address?: string;
+            backendServices?: string[];
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesIngressListEnvelope: {
+            items: components["schemas"]["KubernetesIngress"][];
+        };
+        KubernetesIngressRoute: {
+            host?: string;
+            path?: string;
+            pathType?: string;
+            tls: boolean;
+            serviceName: string;
+            servicePort?: string;
+        };
+        KubernetesNetworkRelatedPod: {
+            name: string;
+            namespace: string;
+            phase: string;
+            nodeName?: string;
+            podIp?: string;
+            createdAt?: string;
+            cpu?: string;
+            memory?: string;
+            requests?: components["schemas"]["KubernetesResourceQuantity"];
+            limits?: components["schemas"]["KubernetesResourceQuantity"];
+            labels?: components["schemas"]["KubernetesStringMap"];
+            persistentVolumeClaims?: string[];
+            readyContainers: string;
+            /** Format: int32 */
+            restarts: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+            workloads?: components["schemas"]["KubernetesPodRelatedResource"][];
+        };
+        KubernetesIngressBackend: {
+            serviceName: string;
+            endpoints?: components["schemas"]["KubernetesServiceEndpoint"][];
+            pods?: components["schemas"]["KubernetesNetworkRelatedPod"][];
+        };
+        KubernetesIngressDetail: {
+            name: string;
+            namespace: string;
+            className?: string;
+            address?: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            routes?: components["schemas"]["KubernetesIngressRoute"][];
+            backends?: components["schemas"]["KubernetesIngressBackend"][];
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesIngressDetailEnvelope: {
+            data: components["schemas"]["KubernetesIngressDetail"];
+        };
+        KubernetesEndpointSlice: {
+            name: string;
+            namespace: string;
+            addressType: string;
+            endpoints: number;
+            ports?: string[];
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesEndpointSliceListEnvelope: {
+            items: components["schemas"]["KubernetesEndpointSlice"][];
+        };
+        KubernetesEndpointSliceDetail: {
+            name: string;
+            namespace: string;
+            addressType: string;
+            serviceName?: string;
+            ports?: string[];
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            endpoints?: components["schemas"]["KubernetesServiceEndpoint"][];
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesEndpointSliceDetailEnvelope: {
+            data: components["schemas"]["KubernetesEndpointSliceDetail"];
+        };
+        KubernetesNetworkPolicy: {
+            name: string;
+            namespace: string;
+            policyTypes?: string[];
+            ingressRules: number;
+            egressRules: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesNetworkPolicyListEnvelope: {
+            items: components["schemas"]["KubernetesNetworkPolicy"][];
+        };
+        KubernetesNetworkPolicyPeer: {
+            podSelector?: string;
+            namespaceSelector?: string;
+            ipBlock?: string;
+        };
+        KubernetesNetworkPolicyPort: {
+            protocol?: string;
+            port?: string;
+            /** Format: int32 */
+            endPort?: number;
+        };
+        KubernetesNetworkPolicyRule: {
+            direction: string;
+            peers?: components["schemas"]["KubernetesNetworkPolicyPeer"][];
+            ports?: components["schemas"]["KubernetesNetworkPolicyPort"][];
+        };
+        KubernetesNetworkPolicyDetail: {
+            name: string;
+            namespace: string;
+            policyTypes?: string[];
+            podSelector?: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            rules?: components["schemas"]["KubernetesNetworkPolicyRule"][];
+            matchingPods?: components["schemas"]["KubernetesPod"][];
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesNetworkPolicyDetailEnvelope: {
+            data: components["schemas"]["KubernetesNetworkPolicyDetail"];
+        };
+        KubernetesNetworkTopologySummary: {
+            entryCount: number;
+            routeCount: number;
+            serviceCount: number;
+            missingServiceCount: number;
+            backendPodCount: number;
+            pendingRouteCount: number;
+        };
+        KubernetesNetworkTopologyNode: {
+            id: string;
+            name: string;
+            kind: string;
+            state: string;
+            namespace?: string;
+            resourceName?: string;
+            subtitle?: string;
+            badge?: string;
+        };
+        KubernetesNetworkTopologyTrace: {
+            id: string;
+            sourceType: string;
+            state: string;
+            entry: components["schemas"]["KubernetesNetworkTopologyNode"];
+            route: components["schemas"]["KubernetesNetworkTopologyNode"];
+            service?: components["schemas"]["KubernetesNetworkTopologyNode"];
+            backendPods?: components["schemas"]["KubernetesNetworkTopologyNode"][];
+            note?: string;
+        };
+        KubernetesNetworkTopology: {
+            clusterId: string;
+            namespace?: string;
+            source: string;
+            generatedAt: string;
+            summary: components["schemas"]["KubernetesNetworkTopologySummary"];
+            traces?: components["schemas"]["KubernetesNetworkTopologyTrace"][];
+            warnings?: string[];
+        };
+        KubernetesNetworkTopologyEnvelope: {
+            data: components["schemas"]["KubernetesNetworkTopology"];
+        };
+        KubernetesGatewayClass: {
+            name: string;
+            controllerName: string;
+            accepted?: string;
+            parametersRef?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesGatewayClassListEnvelope: {
+            items: components["schemas"]["KubernetesGatewayClass"][];
+        };
+        KubernetesGateway: {
+            name: string;
+            namespace: string;
+            gatewayClass?: string;
+            addresses?: string[];
+            /** Format: int32 */
+            listenerCount: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesGatewayListEnvelope: {
+            items: components["schemas"]["KubernetesGateway"][];
+        };
+        KubernetesGatewayClassDetail: {
+            name: string;
+            controllerName: string;
+            accepted?: string;
+            parametersRef?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            conditions?: components["schemas"]["KubernetesWorkloadCondition"][];
+            gateways?: components["schemas"]["KubernetesGateway"][];
+        };
+        KubernetesGatewayClassDetailEnvelope: {
+            data: components["schemas"]["KubernetesGatewayClassDetail"];
+        };
+        KubernetesGatewayListener: {
+            name: string;
+            protocol: string;
+            /** Format: int32 */
+            port: number;
+            hostname?: string;
+            tlsMode?: string;
+            certificateRefs?: string[];
+            allowedRouteKinds?: string[];
+            /** Format: int32 */
+            attachedRoutes: number;
+            conditions?: components["schemas"]["KubernetesWorkloadCondition"][];
+        };
+        KubernetesGatewayRouteReference: {
+            kind: string;
+            namespace?: string;
+            name: string;
+            hostnames?: string[];
+            accepted?: string;
+        };
+        KubernetesGatewayDetail: {
+            name: string;
+            namespace: string;
+            gatewayClass?: string;
+            addresses?: string[];
+            /** Format: int32 */
+            listenerCount: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            conditions?: components["schemas"]["KubernetesWorkloadCondition"][];
+            listeners?: components["schemas"]["KubernetesGatewayListener"][];
+            routes?: components["schemas"]["KubernetesGatewayRouteReference"][];
+        };
+        KubernetesGatewayDetailEnvelope: {
+            data: components["schemas"]["KubernetesGatewayDetail"];
+        };
+        KubernetesGatewayRouteBackend: {
+            kind?: string;
+            namespace?: string;
+            name: string;
+            /** Format: int32 */
+            port?: number;
+            /** Format: int32 */
+            weight?: number;
+            endpoints?: components["schemas"]["KubernetesServiceEndpoint"][];
+            backendPods?: components["schemas"]["KubernetesPod"][];
+        };
+        KubernetesGatewayRouteRule: {
+            matches?: string[];
+            filters?: string[];
+            backends?: components["schemas"]["KubernetesGatewayRouteBackend"][];
+        };
+        KubernetesGatewayRouteParentStatus: {
+            parentRef: string;
+            controllerName?: string;
+            conditions?: components["schemas"]["KubernetesWorkloadCondition"][];
+        };
+        KubernetesHTTPRoute: {
+            name: string;
+            namespace: string;
+            hostnames?: string[];
+            parentRefs?: string[];
+            backendServices?: string[];
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesHTTPRouteListEnvelope: {
+            items: components["schemas"]["KubernetesHTTPRoute"][];
+        };
+        KubernetesHTTPRouteDetail: {
+            name: string;
+            namespace: string;
+            hostnames?: string[];
+            parentRefs?: string[];
+            backendServices?: string[];
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            conditions?: components["schemas"]["KubernetesWorkloadCondition"][];
+            parentStatuses?: components["schemas"]["KubernetesGatewayRouteParentStatus"][];
+            rules?: components["schemas"]["KubernetesGatewayRouteRule"][];
+        };
+        KubernetesHTTPRouteDetailEnvelope: {
+            data: components["schemas"]["KubernetesHTTPRouteDetail"];
+        };
+        KubernetesBackendTLSPolicy: {
+            name: string;
+            namespace: string;
+            targetRefs?: string[];
+            hostname?: string;
+            caCertificateRefs?: string[];
+            wellKnownCACertificates?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesBackendTLSPolicyListEnvelope: {
+            items: components["schemas"]["KubernetesBackendTLSPolicy"][];
+        };
+        KubernetesBackendTLSPolicyDetail: {
+            name: string;
+            namespace: string;
+            targetRefs?: string[];
+            hostname?: string;
+            caCertificateRefs?: string[];
+            wellKnownCACertificates?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            conditions?: components["schemas"]["KubernetesWorkloadCondition"][];
+        };
+        KubernetesBackendTLSPolicyDetailEnvelope: {
+            data: components["schemas"]["KubernetesBackendTLSPolicyDetail"];
+        };
+        KubernetesGRPCRoute: {
+            name: string;
+            namespace: string;
+            hostnames?: string[];
+            parentRefs?: string[];
+            backendServices?: string[];
+            /** Format: int32 */
+            ruleCount: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesGRPCRouteListEnvelope: {
+            items: components["schemas"]["KubernetesGRPCRoute"][];
+        };
+        KubernetesGRPCRouteDetail: {
+            name: string;
+            namespace: string;
+            hostnames?: string[];
+            parentRefs?: string[];
+            backendServices?: string[];
+            /** Format: int32 */
+            ruleCount: number;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            conditions?: components["schemas"]["KubernetesWorkloadCondition"][];
+            parentStatuses?: components["schemas"]["KubernetesGatewayRouteParentStatus"][];
+            rules?: components["schemas"]["KubernetesGatewayRouteRule"][];
+        };
+        KubernetesGRPCRouteDetailEnvelope: {
+            data: components["schemas"]["KubernetesGRPCRouteDetail"];
+        };
+        KubernetesReferenceGrant: {
+            name: string;
+            namespace: string;
+            from?: string[];
+            to?: string[];
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesReferenceGrantListEnvelope: {
+            items: components["schemas"]["KubernetesReferenceGrant"][];
+        };
+        KubernetesReferenceGrantFrom: {
+            group: string;
+            kind: string;
+            namespace: string;
+        };
+        KubernetesReferenceGrantTo: {
+            group: string;
+            kind: string;
+            name?: string;
+        };
+        KubernetesReferenceGrantDetail: {
+            name: string;
+            namespace: string;
+            from?: string[];
+            to?: string[];
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            fromRefs?: components["schemas"]["KubernetesReferenceGrantFrom"][];
+            toRefs?: components["schemas"]["KubernetesReferenceGrantTo"][];
+        };
+        KubernetesReferenceGrantDetailEnvelope: {
+            data: components["schemas"]["KubernetesReferenceGrantDetail"];
+        };
+        KubernetesIngressClass: {
+            name: string;
+            controller: string;
+            isDefault: boolean;
+            parameters?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesIngressClassListEnvelope: {
+            items: components["schemas"]["KubernetesIngressClass"][];
+        };
+        KubernetesIngressClassDetail: {
+            name: string;
+            controller: string;
+            isDefault: boolean;
+            parameters?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            ingresses?: components["schemas"]["KubernetesIngress"][];
+        };
+        KubernetesIngressClassDetailEnvelope: {
+            data: components["schemas"]["KubernetesIngressClassDetail"];
+        };
+        KubernetesCustomResourceDefinition: {
+            name: string;
+            group: string;
+            scope: string;
+            kind: string;
+            plural: string;
+            version?: string;
+            versions?: string[];
+            createdAt?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesCustomResourceDefinitionListEnvelope: {
+            items: components["schemas"]["KubernetesCustomResourceDefinition"][];
+        };
+        KubernetesCustomResource: {
+            apiVersion?: string;
+            kind: string;
+            name: string;
+            namespace?: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            createdAt?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesCustomResourceListEnvelope: {
+            items: components["schemas"]["KubernetesCustomResource"][];
+        };
+        KubernetesHelmRelease: {
+            name: string;
+            namespace: string;
+            revision?: string;
+            status?: string;
+            chart?: string;
+            appVersion?: string;
+            storageDriver?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+        };
+        KubernetesHelmReleaseListEnvelope: {
+            items: components["schemas"]["KubernetesHelmRelease"][];
+        };
+        KubernetesHelmReleaseDetail: {
+            name: string;
+            namespace: string;
+            revision?: string;
+            status?: string;
+            chart?: string;
+            chartName?: string;
+            chartVersion?: string;
+            appVersion?: string;
+            storageDriver?: string;
+            description?: string;
+            createdAt?: string;
+            updatedAt?: string;
+            firstDeployedAt?: string;
+            lastDeployedAt?: string;
+            notes?: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            /** Format: int64 */
+            ageSeconds: number;
+            allowedActions?: string[];
+            valuesEditable: boolean;
+            valuesDiffEnabled: boolean;
+        };
+        KubernetesHelmReleaseDetailEnvelope: {
+            data: components["schemas"]["KubernetesHelmReleaseDetail"];
+        };
+        KubernetesHelmReleaseHistory: {
+            name: string;
+            namespace: string;
+            revision: string;
+            status?: string;
+            chart?: string;
+            chartVersion?: string;
+            appVersion?: string;
+            description?: string;
+            updatedAt?: string;
+            createdAt?: string;
+            manifestDigest?: string;
+            valuesDigest?: string;
+            allowedActions?: string[];
+        };
+        KubernetesHelmReleaseHistoryListEnvelope: {
+            items: components["schemas"]["KubernetesHelmReleaseHistory"][];
+        };
+        KubernetesClusterEvent: {
+            name: string;
+            namespace?: string;
+            type: string;
+            reason: string;
+            involvedKind?: string;
+            involvedName?: string;
+            message: string;
+            /** Format: int32 */
+            count: number;
+            lastTimestamp?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+        };
+        KubernetesClusterEventListEnvelope: {
+            items: components["schemas"]["KubernetesClusterEvent"][];
+        };
+        KubernetesHelmChartRepository: {
+            id: string;
+            name: string;
+            displayName?: string;
+            url: string;
+            indexUrl?: string;
+            organizationName?: string;
+            organizationDisplayName?: string;
+            official?: boolean;
+            verifiedPublisher?: boolean;
+        };
+        KubernetesHelmChartMaintainer: {
+            name?: string;
+            email?: string;
+            url?: string;
+        };
+        KubernetesHelmChart: {
+            packageId?: string;
+            name: string;
+            normalizedName?: string;
+            repositoryName?: string;
+            repositoryUrl?: string;
+            repositoryDisplay?: string;
+            latestVersion?: string;
+            appVersion?: string;
+            description?: string;
+            type?: string;
+            category?: string;
+            deprecated?: boolean;
+            home?: string;
+            homeUrl?: string;
+            icon?: string;
+            logoImageId?: string;
+            logoImageUrl?: string;
+            artifactHubUrl?: string;
+            kubeVersion?: string;
+            createdAt?: string;
+            updatedAt?: string;
+            digest?: string;
+            urls?: string[];
+            sources?: string[];
+            keywords?: string[];
+            maintainers?: components["schemas"]["KubernetesHelmChartMaintainer"][];
+            versions?: string[];
+            versionCount: number;
+            stars?: number;
+            official?: boolean;
+            cncf?: boolean;
+            signed?: boolean;
+            hasValuesSchema?: boolean;
+            verifiedPublisher?: boolean;
+            securityCritical?: number;
+            securityHigh?: number;
+            securityMedium?: number;
+            securityLow?: number;
+            securityUnknown?: number;
+            allowedActions?: string[];
+        };
+        KubernetesHelmChartCatalog: {
+            repository: components["schemas"]["KubernetesHelmChartRepository"];
+            source?: string;
+            query?: string;
+            limit?: number;
+            offset?: number;
+            generatedAt?: string;
+            refreshedAt: string;
+            totalCount?: number;
+            loadedCount?: number;
+            chartCount: number;
+            versionCount: number;
+            charts: components["schemas"]["KubernetesHelmChart"][];
+        };
+        KubernetesHelmChartCatalogEnvelope: {
+            data: components["schemas"]["KubernetesHelmChartCatalog"];
+        };
+        KubernetesHelmChartLink: {
+            name?: string;
+            url?: string;
+        };
+        KubernetesHelmChartVersion: {
+            version: string;
+            appVersion?: string;
+            createdAt?: string;
+            prerelease?: boolean;
+            containsSecurityUpdates?: boolean;
+        };
+        KubernetesHelmChartDetail: {
+            packageId?: string;
+            name: string;
+            normalizedName?: string;
+            repositoryName?: string;
+            repositoryUrl?: string;
+            repositoryDisplay?: string;
+            latestVersion?: string;
+            appVersion?: string;
+            description?: string;
+            type?: string;
+            category?: string;
+            deprecated?: boolean;
+            home?: string;
+            homeUrl?: string;
+            icon?: string;
+            logoImageId?: string;
+            logoImageUrl?: string;
+            artifactHubUrl?: string;
+            kubeVersion?: string;
+            createdAt?: string;
+            updatedAt?: string;
+            digest?: string;
+            urls?: string[];
+            sources?: string[];
+            keywords?: string[];
+            maintainers?: components["schemas"]["KubernetesHelmChartMaintainer"][];
+            versions?: string[];
+            versionCount: number;
+            stars?: number;
+            official?: boolean;
+            cncf?: boolean;
+            signed?: boolean;
+            hasValuesSchema?: boolean;
+            verifiedPublisher?: boolean;
+            securityCritical?: number;
+            securityHigh?: number;
+            securityMedium?: number;
+            securityLow?: number;
+            securityUnknown?: number;
+            allowedActions?: string[];
+            readme?: string;
+            contentUrl?: string;
+            links?: components["schemas"]["KubernetesHelmChartLink"][];
+            availableVersions?: components["schemas"]["KubernetesHelmChartVersion"][];
+        };
+        KubernetesHelmChartDetailEnvelope: {
+            data: components["schemas"]["KubernetesHelmChartDetail"];
+        };
         /** @enum {string} */
         RiskLevel: "read" | "analyze" | "mutate" | "execute" | "high";
         /** @enum {string} */
@@ -10123,6 +14753,106 @@ export interface components {
         };
         ClusterCapabilityMatrixEnvelope: {
             items: components["schemas"]["ClusterCapabilityMatrixEntry"][];
+        };
+        PodMetrics: {
+            podName: string;
+            namespace: string;
+            configured: boolean;
+            source: string;
+            /** Format: date-time */
+            generatedAt: string;
+            rangeMinutes: number;
+            stepSeconds: number;
+            message?: string;
+            /** Format: uri */
+            grafanaBaseUrl?: string;
+            series?: components["schemas"]["ObservabilityMetricSeries"][];
+        };
+        PodMetricsEnvelope: {
+            data: components["schemas"]["PodMetrics"];
+        };
+        PlatformAuditLog: {
+            id: string;
+            actorId: string;
+            actorName: string;
+            roles: string[];
+            teams: string[];
+            clusterId?: string;
+            namespace?: string;
+            resourceKind?: string;
+            resourceName?: string;
+            action: string;
+            /** @enum {string} */
+            result: "success" | "failure" | "deny";
+            summary: string;
+            requestPath?: string;
+            requestMethod?: string;
+            requestId?: string;
+            sourceIp?: string;
+            metadata?: components["schemas"]["GenericObject"];
+            /** Format: date-time */
+            createdAt: string;
+        };
+        PlatformAuditLogListEnvelope: {
+            items: components["schemas"]["PlatformAuditLog"][];
+        };
+        PlatformAuditSummary: {
+            /** Format: int64 */
+            total: number;
+            retentionDays: number;
+            /** Format: date-time */
+            retentionCutoff?: string;
+            /** Format: date-time */
+            oldestEntryAt?: string;
+            /** Format: date-time */
+            newestEntryAt?: string;
+            /** Format: int64 */
+            expiredEntryCount: number;
+            exportRecommended: boolean;
+            recommendedNextAction?: string;
+        };
+        PlatformAuditSummaryEnvelope: {
+            data: components["schemas"]["PlatformAuditSummary"];
+        };
+        PlatformOperationLog: {
+            id: string;
+            actorId: string;
+            actorName?: string;
+            operationType: string;
+            targetScope: components["schemas"]["GenericObject"];
+            /** @enum {string} */
+            result: "success" | "failure";
+            summary: string;
+            requestPath?: string;
+            requestMethod?: string;
+            requestId?: string;
+            sourceIp?: string;
+            metadata: components["schemas"]["GenericObject"];
+            /** Format: date-time */
+            createdAt: string;
+        };
+        PlatformOperationLogListEnvelope: {
+            items: components["schemas"]["PlatformOperationLog"][];
+        };
+        PlatformOperationSummary: {
+            /** Format: int64 */
+            total: number;
+            /** Format: int64 */
+            failureCount: number;
+            retentionDays: number;
+            /** Format: date-time */
+            retentionCutoff?: string;
+            /** Format: date-time */
+            oldestEntryAt?: string;
+            /** Format: date-time */
+            newestEntryAt?: string;
+            /** Format: int64 */
+            expiredEntryCount: number;
+            exportRecommended: boolean;
+            recommendedNextAction?: string;
+        };
+        PlatformOperationSummaryEnvelope: {
+            data: components["schemas"]["PlatformOperationSummary"];
         };
         AgentInstallation: {
             clusterId: string;
@@ -12776,6 +17506,35 @@ export interface components {
         RuntimeConfigApplicationID: string;
         ClusterID: string;
         ClusterIDQuery: string;
+        /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+        KubernetesNamespaceQuery: string;
+        KubernetesNamespaceDefaultQuery: string;
+        /** @description Optional RBAC subject filter. The current implementation accepts ServiceAccount. */
+        KubernetesSubjectKindQuery: string;
+        KubernetesSubjectNameQuery: string;
+        KubernetesSubjectNamespaceQuery: string;
+        KubernetesNodeName: string;
+        KubernetesPodName: string;
+        KubernetesServiceName: string;
+        KubernetesCRDName: string;
+        KubernetesRepositoryName: string;
+        KubernetesChartName: string;
+        KubernetesReleaseName: string;
+        KubernetesKeywordQuery: string;
+        KubernetesLimitQuery: number;
+        KubernetesOffsetQuery: number;
+        KubernetesVersionQuery: string;
+        KubernetesEventLimitQuery: number;
+        KubernetesDeploymentName: string;
+        KubernetesStatefulSetName: string;
+        KubernetesDaemonSetName: string;
+        KubernetesJobName: string;
+        KubernetesCronJobName: string;
+        KubernetesReplicaSetName: string;
+        KubernetesMetricsRangeMinutesQuery: number;
+        /** @description Requested step. The server may increase it to keep the response below 1440 points per series. */
+        KubernetesMetricsStepSecondsQuery: number;
+        KubernetesResourceName: string;
         AgentInstallTicket: string;
         DataSourceID: string;
         DashboardID: string;
@@ -13252,6 +18011,17 @@ export type AIWorkbenchModelSettings = components['schemas']['AIWorkbenchModelSe
 export type AISkillSettings = components['schemas']['AISkillSettings'];
 export type AISettings = components['schemas']['AISettings'];
 export type AISettingsEnvelope = components['schemas']['AISettingsEnvelope'];
+export type LoginProviderSettings = components['schemas']['LoginProviderSettings'];
+export type LoginProviderSettingsInput = components['schemas']['LoginProviderSettingsInput'];
+export type IdentitySettings = components['schemas']['IdentitySettings'];
+export type IdentitySettingsEnvelope = components['schemas']['IdentitySettingsEnvelope'];
+export type UpdateLoginProvidersSettingsRequest = components['schemas']['UpdateLoginProvidersSettingsRequest'];
+export type BrandingSettings = components['schemas']['BrandingSettings'];
+export type BrandingSettingsEnvelope = components['schemas']['BrandingSettingsEnvelope'];
+export type UpdateBrandingSettingsRequest = components['schemas']['UpdateBrandingSettingsRequest'];
+export type BrandingAssetUpload = components['schemas']['BrandingAssetUpload'];
+export type BrandingAssetUploadEnvelope = components['schemas']['BrandingAssetUploadEnvelope'];
+export type UploadBrandingAssetRequest = components['schemas']['UploadBrandingAssetRequest'];
 export type UpdateAIWorkbenchModelRequest = components['schemas']['UpdateAIWorkbenchModelRequest'];
 export type UpdateAISkillsRequest = components['schemas']['UpdateAISkillsRequest'];
 export type WorkbenchLaunchContext = components['schemas']['WorkbenchLaunchContext'];
@@ -13483,6 +18253,47 @@ export type VirtualMachineNetworkChange = components['schemas']['VirtualMachineN
 export type VirtualMachineCreateInput = components['schemas']['VirtualMachineCreateInput'];
 export type VirtualizationOperation = components['schemas']['VirtualizationOperation'];
 export type VirtualizationOperationEnvelope = components['schemas']['VirtualizationOperationEnvelope'];
+export type VirtualizationConnectionInput = components['schemas']['VirtualizationConnectionInput'];
+export type VirtualizationConnection = components['schemas']['VirtualizationConnection'];
+export type VirtualizationConnectionEnvelope = components['schemas']['VirtualizationConnectionEnvelope'];
+export type VirtualizationConnectionListEnvelope = components['schemas']['VirtualizationConnectionListEnvelope'];
+export type VirtualizationConnectionDeleteDependencySample = components['schemas']['VirtualizationConnectionDeleteDependencySample'];
+export type VirtualizationConnectionDeleteDependencies = components['schemas']['VirtualizationConnectionDeleteDependencies'];
+export type VirtualizationConnectionDeleteDependenciesEnvelope = components['schemas']['VirtualizationConnectionDeleteDependenciesEnvelope'];
+export type VirtualMachine = components['schemas']['VirtualMachine'];
+export type VirtualMachineEnvelope = components['schemas']['VirtualMachineEnvelope'];
+export type VirtualMachineListEnvelope = components['schemas']['VirtualMachineListEnvelope'];
+export type VirtualMachinePage = components['schemas']['VirtualMachinePage'];
+export type VirtualMachinePageEnvelope = components['schemas']['VirtualMachinePageEnvelope'];
+export type VirtualMachineActionInput = components['schemas']['VirtualMachineActionInput'];
+export type VirtualMachinePowerInput = components['schemas']['VirtualMachinePowerInput'];
+export type VirtualMachineDevice = components['schemas']['VirtualMachineDevice'];
+export type VirtualMachineDeviceListEnvelope = components['schemas']['VirtualMachineDeviceListEnvelope'];
+export type VirtualMachineDetail = components['schemas']['VirtualMachineDetail'];
+export type VirtualMachineDetailEnvelope = components['schemas']['VirtualMachineDetailEnvelope'];
+export type VirtualMachineMetricPoint = components['schemas']['VirtualMachineMetricPoint'];
+export type VirtualMachineMetricSeries = components['schemas']['VirtualMachineMetricSeries'];
+export type VirtualMachineMetrics = components['schemas']['VirtualMachineMetrics'];
+export type VirtualMachineMetricsEnvelope = components['schemas']['VirtualMachineMetricsEnvelope'];
+export type VirtualMachineConsole = components['schemas']['VirtualMachineConsole'];
+export type VirtualMachineConsoleEnvelope = components['schemas']['VirtualMachineConsoleEnvelope'];
+export type VirtualizationImageInput = components['schemas']['VirtualizationImageInput'];
+export type VirtualizationImage = components['schemas']['VirtualizationImage'];
+export type VirtualizationImageEnvelope = components['schemas']['VirtualizationImageEnvelope'];
+export type VirtualizationImageListEnvelope = components['schemas']['VirtualizationImageListEnvelope'];
+export type VirtualizationImagePage = components['schemas']['VirtualizationImagePage'];
+export type VirtualizationImagePageEnvelope = components['schemas']['VirtualizationImagePageEnvelope'];
+export type VirtualizationFlavorInput = components['schemas']['VirtualizationFlavorInput'];
+export type VirtualizationFlavor = components['schemas']['VirtualizationFlavor'];
+export type VirtualizationFlavorEnvelope = components['schemas']['VirtualizationFlavorEnvelope'];
+export type VirtualizationFlavorListEnvelope = components['schemas']['VirtualizationFlavorListEnvelope'];
+export type VirtualizationFlavorPage = components['schemas']['VirtualizationFlavorPage'];
+export type VirtualizationFlavorPageEnvelope = components['schemas']['VirtualizationFlavorPageEnvelope'];
+export type VirtualizationOperationLog = components['schemas']['VirtualizationOperationLog'];
+export type VirtualizationOperationLogListEnvelope = components['schemas']['VirtualizationOperationLogListEnvelope'];
+export type VirtualizationOperationListEnvelope = components['schemas']['VirtualizationOperationListEnvelope'];
+export type VirtualizationOperationPage = components['schemas']['VirtualizationOperationPage'];
+export type VirtualizationOperationPageEnvelope = components['schemas']['VirtualizationOperationPageEnvelope'];
 export type DockerQuickCreateHostInput = components['schemas']['DockerQuickCreateHostInput'];
 export type DockerProjectDeployInput = components['schemas']['DockerProjectDeployInput'];
 export type DockerPayloadScalarValue = components['schemas']['DockerPayloadScalarValue'];
@@ -13505,11 +18316,251 @@ export type ExecutionTaskEnvelope = components['schemas']['ExecutionTaskEnvelope
 export type DockerOperationEnvelope = components['schemas']['DockerOperationEnvelope'];
 export type AgentRunEnvelope = components['schemas']['AgentRunEnvelope'];
 export type AgentToolCallResultEnvelope = components['schemas']['AgentToolCallResultEnvelope'];
+export type KubernetesStringMap = components['schemas']['KubernetesStringMap'];
+export type KubernetesConnectionMode = components['schemas']['KubernetesConnectionMode'];
+export type KubernetesClusterHealth = components['schemas']['KubernetesClusterHealth'];
+export type KubernetesClusterSummary = components['schemas']['KubernetesClusterSummary'];
+export type KubernetesClusterListEnvelope = components['schemas']['KubernetesClusterListEnvelope'];
+export type KubernetesCacheResourceDiagnostic = components['schemas']['KubernetesCacheResourceDiagnostic'];
+export type KubernetesClusterDiagnostics = components['schemas']['KubernetesClusterDiagnostics'];
+export type KubernetesClusterConnectionDetail = components['schemas']['KubernetesClusterConnectionDetail'];
+export type KubernetesPrometheusDetail = components['schemas']['KubernetesPrometheusDetail'];
+export type KubernetesMonitoringDetail = components['schemas']['KubernetesMonitoringDetail'];
+export type KubernetesClusterDetail = components['schemas']['KubernetesClusterDetail'];
+export type KubernetesClusterDetailEnvelope = components['schemas']['KubernetesClusterDetailEnvelope'];
+export type KubernetesNamespace = components['schemas']['KubernetesNamespace'];
+export type KubernetesNamespaceListEnvelope = components['schemas']['KubernetesNamespaceListEnvelope'];
+export type KubernetesResourceQuantity = components['schemas']['KubernetesResourceQuantity'];
+export type KubernetesResourcePercentage = components['schemas']['KubernetesResourcePercentage'];
+export type KubernetesNodeResourceSummary = components['schemas']['KubernetesNodeResourceSummary'];
+export type KubernetesNode = components['schemas']['KubernetesNode'];
+export type KubernetesNodeListEnvelope = components['schemas']['KubernetesNodeListEnvelope'];
+export type KubernetesNodeTaint = components['schemas']['KubernetesNodeTaint'];
+export type KubernetesNodePod = components['schemas']['KubernetesNodePod'];
+export type KubernetesWorkloadCondition = components['schemas']['KubernetesWorkloadCondition'];
+export type KubernetesNodeDetail = components['schemas']['KubernetesNodeDetail'];
+export type KubernetesNodeDetailEnvelope = components['schemas']['KubernetesNodeDetailEnvelope'];
+export type KubernetesWorkloadOverviewNamespace = components['schemas']['KubernetesWorkloadOverviewNamespace'];
+export type KubernetesWorkloadOverviewPod = components['schemas']['KubernetesWorkloadOverviewPod'];
+export type KubernetesWorkloadOverview = components['schemas']['KubernetesWorkloadOverview'];
+export type KubernetesWorkloadOverviewEnvelope = components['schemas']['KubernetesWorkloadOverviewEnvelope'];
+export type KubernetesPod = components['schemas']['KubernetesPod'];
+export type KubernetesPodListEnvelope = components['schemas']['KubernetesPodListEnvelope'];
+export type KubernetesWorkloadContainer = components['schemas']['KubernetesWorkloadContainer'];
+export type KubernetesPodVolumeMount = components['schemas']['KubernetesPodVolumeMount'];
+export type KubernetesPodVolume = components['schemas']['KubernetesPodVolume'];
+export type KubernetesPodRelatedResource = components['schemas']['KubernetesPodRelatedResource'];
+export type KubernetesWorkloadRelation = components['schemas']['KubernetesWorkloadRelation'];
+export type KubernetesPodDetail = components['schemas']['KubernetesPodDetail'];
+export type KubernetesPodDetailEnvelope = components['schemas']['KubernetesPodDetailEnvelope'];
+export type KubernetesDeployment = components['schemas']['KubernetesDeployment'];
+export type KubernetesDeploymentListEnvelope = components['schemas']['KubernetesDeploymentListEnvelope'];
+export type KubernetesDeploymentDetail = components['schemas']['KubernetesDeploymentDetail'];
+export type KubernetesDeploymentDetailEnvelope = components['schemas']['KubernetesDeploymentDetailEnvelope'];
+export type KubernetesPodLogs = components['schemas']['KubernetesPodLogs'];
+export type KubernetesPodLogsEnvelope = components['schemas']['KubernetesPodLogsEnvelope'];
+export type KubernetesResourceYaml = components['schemas']['KubernetesResourceYaml'];
+export type KubernetesResourceYamlEnvelope = components['schemas']['KubernetesResourceYamlEnvelope'];
+export type KubernetesResourceMetrics = components['schemas']['KubernetesResourceMetrics'];
+export type KubernetesResourceMetricsEnvelope = components['schemas']['KubernetesResourceMetricsEnvelope'];
+export type KubernetesDeploymentRolloutStatus = components['schemas']['KubernetesDeploymentRolloutStatus'];
+export type KubernetesDeploymentRolloutStatusEnvelope = components['schemas']['KubernetesDeploymentRolloutStatusEnvelope'];
+export type KubernetesDeploymentRollout = components['schemas']['KubernetesDeploymentRollout'];
+export type KubernetesDeploymentRolloutListEnvelope = components['schemas']['KubernetesDeploymentRolloutListEnvelope'];
+export type KubernetesStatefulSet = components['schemas']['KubernetesStatefulSet'];
+export type KubernetesStatefulSetListEnvelope = components['schemas']['KubernetesStatefulSetListEnvelope'];
+export type KubernetesStatefulSetDetail = components['schemas']['KubernetesStatefulSetDetail'];
+export type KubernetesStatefulSetDetailEnvelope = components['schemas']['KubernetesStatefulSetDetailEnvelope'];
+export type KubernetesDaemonSet = components['schemas']['KubernetesDaemonSet'];
+export type KubernetesDaemonSetListEnvelope = components['schemas']['KubernetesDaemonSetListEnvelope'];
+export type KubernetesDaemonSetDetail = components['schemas']['KubernetesDaemonSetDetail'];
+export type KubernetesDaemonSetDetailEnvelope = components['schemas']['KubernetesDaemonSetDetailEnvelope'];
+export type KubernetesJob = components['schemas']['KubernetesJob'];
+export type KubernetesJobListEnvelope = components['schemas']['KubernetesJobListEnvelope'];
+export type KubernetesJobDetail = components['schemas']['KubernetesJobDetail'];
+export type KubernetesJobDetailEnvelope = components['schemas']['KubernetesJobDetailEnvelope'];
+export type KubernetesCronJob = components['schemas']['KubernetesCronJob'];
+export type KubernetesCronJobListEnvelope = components['schemas']['KubernetesCronJobListEnvelope'];
+export type KubernetesCronJobDetail = components['schemas']['KubernetesCronJobDetail'];
+export type KubernetesCronJobDetailEnvelope = components['schemas']['KubernetesCronJobDetailEnvelope'];
+export type KubernetesReplicaSet = components['schemas']['KubernetesReplicaSet'];
+export type KubernetesReplicaSetListEnvelope = components['schemas']['KubernetesReplicaSetListEnvelope'];
+export type KubernetesReplicaSetDetail = components['schemas']['KubernetesReplicaSetDetail'];
+export type KubernetesReplicaSetDetailEnvelope = components['schemas']['KubernetesReplicaSetDetailEnvelope'];
+export type KubernetesReplicationController = components['schemas']['KubernetesReplicationController'];
+export type KubernetesReplicationControllerListEnvelope = components['schemas']['KubernetesReplicationControllerListEnvelope'];
+export type KubernetesReplicationControllerDetail = components['schemas']['KubernetesReplicationControllerDetail'];
+export type KubernetesReplicationControllerDetailEnvelope = components['schemas']['KubernetesReplicationControllerDetailEnvelope'];
+export type KubernetesConfigMap = components['schemas']['KubernetesConfigMap'];
+export type KubernetesConfigMapListEnvelope = components['schemas']['KubernetesConfigMapListEnvelope'];
+export type KubernetesConfigMapDetail = components['schemas']['KubernetesConfigMapDetail'];
+export type KubernetesConfigMapDetailEnvelope = components['schemas']['KubernetesConfigMapDetailEnvelope'];
+export type KubernetesSecretMetadata = components['schemas']['KubernetesSecretMetadata'];
+export type KubernetesSecretMetadataListEnvelope = components['schemas']['KubernetesSecretMetadataListEnvelope'];
+export type KubernetesConfigReference = components['schemas']['KubernetesConfigReference'];
+export type KubernetesConfigReferenceListEnvelope = components['schemas']['KubernetesConfigReferenceListEnvelope'];
+export type KubernetesHorizontalPodAutoscaler = components['schemas']['KubernetesHorizontalPodAutoscaler'];
+export type KubernetesHorizontalPodAutoscalerListEnvelope = components['schemas']['KubernetesHorizontalPodAutoscalerListEnvelope'];
+export type KubernetesHorizontalPodAutoscalerMetric = components['schemas']['KubernetesHorizontalPodAutoscalerMetric'];
+export type KubernetesHorizontalPodAutoscalerDetail = components['schemas']['KubernetesHorizontalPodAutoscalerDetail'];
+export type KubernetesHorizontalPodAutoscalerDetailEnvelope = components['schemas']['KubernetesHorizontalPodAutoscalerDetailEnvelope'];
+export type KubernetesPodDisruptionBudget = components['schemas']['KubernetesPodDisruptionBudget'];
+export type KubernetesPodDisruptionBudgetListEnvelope = components['schemas']['KubernetesPodDisruptionBudgetListEnvelope'];
+export type KubernetesPodDisruptionBudgetDetail = components['schemas']['KubernetesPodDisruptionBudgetDetail'];
+export type KubernetesPodDisruptionBudgetDetailEnvelope = components['schemas']['KubernetesPodDisruptionBudgetDetailEnvelope'];
+export type KubernetesPriorityClass = components['schemas']['KubernetesPriorityClass'];
+export type KubernetesPriorityClassListEnvelope = components['schemas']['KubernetesPriorityClassListEnvelope'];
+export type KubernetesRuntimeClass = components['schemas']['KubernetesRuntimeClass'];
+export type KubernetesRuntimeClassListEnvelope = components['schemas']['KubernetesRuntimeClassListEnvelope'];
+export type KubernetesAdmissionWebhookConfiguration = components['schemas']['KubernetesAdmissionWebhookConfiguration'];
+export type KubernetesAdmissionWebhookConfigurationListEnvelope = components['schemas']['KubernetesAdmissionWebhookConfigurationListEnvelope'];
+export type KubernetesAdmissionWebhookRule = components['schemas']['KubernetesAdmissionWebhookRule'];
+export type KubernetesAdmissionWebhook = components['schemas']['KubernetesAdmissionWebhook'];
+export type KubernetesAdmissionWebhookConfigurationDetail = components['schemas']['KubernetesAdmissionWebhookConfigurationDetail'];
+export type KubernetesAdmissionWebhookConfigurationDetailEnvelope = components['schemas']['KubernetesAdmissionWebhookConfigurationDetailEnvelope'];
+export type KubernetesResourceQuota = components['schemas']['KubernetesResourceQuota'];
+export type KubernetesResourceQuotaListEnvelope = components['schemas']['KubernetesResourceQuotaListEnvelope'];
+export type KubernetesResourceQuotaDetail = components['schemas']['KubernetesResourceQuotaDetail'];
+export type KubernetesResourceQuotaDetailEnvelope = components['schemas']['KubernetesResourceQuotaDetailEnvelope'];
+export type KubernetesLimitRange = components['schemas']['KubernetesLimitRange'];
+export type KubernetesLimitRangeListEnvelope = components['schemas']['KubernetesLimitRangeListEnvelope'];
+export type KubernetesLimitRangeRule = components['schemas']['KubernetesLimitRangeRule'];
+export type KubernetesLimitRangeDetail = components['schemas']['KubernetesLimitRangeDetail'];
+export type KubernetesLimitRangeDetailEnvelope = components['schemas']['KubernetesLimitRangeDetailEnvelope'];
+export type KubernetesLease = components['schemas']['KubernetesLease'];
+export type KubernetesLeaseListEnvelope = components['schemas']['KubernetesLeaseListEnvelope'];
+export type KubernetesServiceAccount = components['schemas']['KubernetesServiceAccount'];
+export type KubernetesServiceAccountListEnvelope = components['schemas']['KubernetesServiceAccountListEnvelope'];
+export type KubernetesServiceAccountDetail = components['schemas']['KubernetesServiceAccountDetail'];
+export type KubernetesServiceAccountDetailEnvelope = components['schemas']['KubernetesServiceAccountDetailEnvelope'];
+export type KubernetesRole = components['schemas']['KubernetesRole'];
+export type KubernetesRoleListEnvelope = components['schemas']['KubernetesRoleListEnvelope'];
+export type KubernetesRoleDetail = components['schemas']['KubernetesRoleDetail'];
+export type KubernetesRoleDetailEnvelope = components['schemas']['KubernetesRoleDetailEnvelope'];
+export type KubernetesRoleBinding = components['schemas']['KubernetesRoleBinding'];
+export type KubernetesRoleBindingListEnvelope = components['schemas']['KubernetesRoleBindingListEnvelope'];
+export type KubernetesRoleBindingDetail = components['schemas']['KubernetesRoleBindingDetail'];
+export type KubernetesRoleBindingDetailEnvelope = components['schemas']['KubernetesRoleBindingDetailEnvelope'];
+export type KubernetesClusterRole = components['schemas']['KubernetesClusterRole'];
+export type KubernetesClusterRoleListEnvelope = components['schemas']['KubernetesClusterRoleListEnvelope'];
+export type KubernetesClusterRoleDetail = components['schemas']['KubernetesClusterRoleDetail'];
+export type KubernetesClusterRoleDetailEnvelope = components['schemas']['KubernetesClusterRoleDetailEnvelope'];
+export type KubernetesClusterRoleBinding = components['schemas']['KubernetesClusterRoleBinding'];
+export type KubernetesClusterRoleBindingListEnvelope = components['schemas']['KubernetesClusterRoleBindingListEnvelope'];
+export type KubernetesClusterRoleBindingDetail = components['schemas']['KubernetesClusterRoleBindingDetail'];
+export type KubernetesClusterRoleBindingDetailEnvelope = components['schemas']['KubernetesClusterRoleBindingDetailEnvelope'];
+export type KubernetesPersistentVolumeClaim = components['schemas']['KubernetesPersistentVolumeClaim'];
+export type KubernetesPersistentVolumeClaimListEnvelope = components['schemas']['KubernetesPersistentVolumeClaimListEnvelope'];
+export type KubernetesStoragePodReference = components['schemas']['KubernetesStoragePodReference'];
+export type KubernetesPersistentVolumeClaimDetail = components['schemas']['KubernetesPersistentVolumeClaimDetail'];
+export type KubernetesPersistentVolumeClaimDetailEnvelope = components['schemas']['KubernetesPersistentVolumeClaimDetailEnvelope'];
+export type KubernetesPersistentVolume = components['schemas']['KubernetesPersistentVolume'];
+export type KubernetesPersistentVolumeListEnvelope = components['schemas']['KubernetesPersistentVolumeListEnvelope'];
+export type KubernetesPersistentVolumeDetail = components['schemas']['KubernetesPersistentVolumeDetail'];
+export type KubernetesPersistentVolumeDetailEnvelope = components['schemas']['KubernetesPersistentVolumeDetailEnvelope'];
+export type KubernetesStorageClass = components['schemas']['KubernetesStorageClass'];
+export type KubernetesStorageClassListEnvelope = components['schemas']['KubernetesStorageClassListEnvelope'];
+export type KubernetesStorageClassDetail = components['schemas']['KubernetesStorageClassDetail'];
+export type KubernetesStorageClassDetailEnvelope = components['schemas']['KubernetesStorageClassDetailEnvelope'];
+export type KubernetesService = components['schemas']['KubernetesService'];
+export type KubernetesServiceListEnvelope = components['schemas']['KubernetesServiceListEnvelope'];
+export type KubernetesServiceEndpoint = components['schemas']['KubernetesServiceEndpoint'];
+export type KubernetesServiceDetail = components['schemas']['KubernetesServiceDetail'];
+export type KubernetesServiceDetailEnvelope = components['schemas']['KubernetesServiceDetailEnvelope'];
+export type KubernetesIngress = components['schemas']['KubernetesIngress'];
+export type KubernetesIngressListEnvelope = components['schemas']['KubernetesIngressListEnvelope'];
+export type KubernetesIngressRoute = components['schemas']['KubernetesIngressRoute'];
+export type KubernetesNetworkRelatedPod = components['schemas']['KubernetesNetworkRelatedPod'];
+export type KubernetesIngressBackend = components['schemas']['KubernetesIngressBackend'];
+export type KubernetesIngressDetail = components['schemas']['KubernetesIngressDetail'];
+export type KubernetesIngressDetailEnvelope = components['schemas']['KubernetesIngressDetailEnvelope'];
+export type KubernetesEndpointSlice = components['schemas']['KubernetesEndpointSlice'];
+export type KubernetesEndpointSliceListEnvelope = components['schemas']['KubernetesEndpointSliceListEnvelope'];
+export type KubernetesEndpointSliceDetail = components['schemas']['KubernetesEndpointSliceDetail'];
+export type KubernetesEndpointSliceDetailEnvelope = components['schemas']['KubernetesEndpointSliceDetailEnvelope'];
+export type KubernetesNetworkPolicy = components['schemas']['KubernetesNetworkPolicy'];
+export type KubernetesNetworkPolicyListEnvelope = components['schemas']['KubernetesNetworkPolicyListEnvelope'];
+export type KubernetesNetworkPolicyPeer = components['schemas']['KubernetesNetworkPolicyPeer'];
+export type KubernetesNetworkPolicyPort = components['schemas']['KubernetesNetworkPolicyPort'];
+export type KubernetesNetworkPolicyRule = components['schemas']['KubernetesNetworkPolicyRule'];
+export type KubernetesNetworkPolicyDetail = components['schemas']['KubernetesNetworkPolicyDetail'];
+export type KubernetesNetworkPolicyDetailEnvelope = components['schemas']['KubernetesNetworkPolicyDetailEnvelope'];
+export type KubernetesNetworkTopologySummary = components['schemas']['KubernetesNetworkTopologySummary'];
+export type KubernetesNetworkTopologyNode = components['schemas']['KubernetesNetworkTopologyNode'];
+export type KubernetesNetworkTopologyTrace = components['schemas']['KubernetesNetworkTopologyTrace'];
+export type KubernetesNetworkTopology = components['schemas']['KubernetesNetworkTopology'];
+export type KubernetesNetworkTopologyEnvelope = components['schemas']['KubernetesNetworkTopologyEnvelope'];
+export type KubernetesGatewayClass = components['schemas']['KubernetesGatewayClass'];
+export type KubernetesGatewayClassListEnvelope = components['schemas']['KubernetesGatewayClassListEnvelope'];
+export type KubernetesGateway = components['schemas']['KubernetesGateway'];
+export type KubernetesGatewayListEnvelope = components['schemas']['KubernetesGatewayListEnvelope'];
+export type KubernetesGatewayClassDetail = components['schemas']['KubernetesGatewayClassDetail'];
+export type KubernetesGatewayClassDetailEnvelope = components['schemas']['KubernetesGatewayClassDetailEnvelope'];
+export type KubernetesGatewayListener = components['schemas']['KubernetesGatewayListener'];
+export type KubernetesGatewayRouteReference = components['schemas']['KubernetesGatewayRouteReference'];
+export type KubernetesGatewayDetail = components['schemas']['KubernetesGatewayDetail'];
+export type KubernetesGatewayDetailEnvelope = components['schemas']['KubernetesGatewayDetailEnvelope'];
+export type KubernetesGatewayRouteBackend = components['schemas']['KubernetesGatewayRouteBackend'];
+export type KubernetesGatewayRouteRule = components['schemas']['KubernetesGatewayRouteRule'];
+export type KubernetesGatewayRouteParentStatus = components['schemas']['KubernetesGatewayRouteParentStatus'];
+export type KubernetesHTTPRoute = components['schemas']['KubernetesHTTPRoute'];
+export type KubernetesHTTPRouteListEnvelope = components['schemas']['KubernetesHTTPRouteListEnvelope'];
+export type KubernetesHTTPRouteDetail = components['schemas']['KubernetesHTTPRouteDetail'];
+export type KubernetesHTTPRouteDetailEnvelope = components['schemas']['KubernetesHTTPRouteDetailEnvelope'];
+export type KubernetesBackendTLSPolicy = components['schemas']['KubernetesBackendTLSPolicy'];
+export type KubernetesBackendTLSPolicyListEnvelope = components['schemas']['KubernetesBackendTLSPolicyListEnvelope'];
+export type KubernetesBackendTLSPolicyDetail = components['schemas']['KubernetesBackendTLSPolicyDetail'];
+export type KubernetesBackendTLSPolicyDetailEnvelope = components['schemas']['KubernetesBackendTLSPolicyDetailEnvelope'];
+export type KubernetesGRPCRoute = components['schemas']['KubernetesGRPCRoute'];
+export type KubernetesGRPCRouteListEnvelope = components['schemas']['KubernetesGRPCRouteListEnvelope'];
+export type KubernetesGRPCRouteDetail = components['schemas']['KubernetesGRPCRouteDetail'];
+export type KubernetesGRPCRouteDetailEnvelope = components['schemas']['KubernetesGRPCRouteDetailEnvelope'];
+export type KubernetesReferenceGrant = components['schemas']['KubernetesReferenceGrant'];
+export type KubernetesReferenceGrantListEnvelope = components['schemas']['KubernetesReferenceGrantListEnvelope'];
+export type KubernetesReferenceGrantFrom = components['schemas']['KubernetesReferenceGrantFrom'];
+export type KubernetesReferenceGrantTo = components['schemas']['KubernetesReferenceGrantTo'];
+export type KubernetesReferenceGrantDetail = components['schemas']['KubernetesReferenceGrantDetail'];
+export type KubernetesReferenceGrantDetailEnvelope = components['schemas']['KubernetesReferenceGrantDetailEnvelope'];
+export type KubernetesIngressClass = components['schemas']['KubernetesIngressClass'];
+export type KubernetesIngressClassListEnvelope = components['schemas']['KubernetesIngressClassListEnvelope'];
+export type KubernetesIngressClassDetail = components['schemas']['KubernetesIngressClassDetail'];
+export type KubernetesIngressClassDetailEnvelope = components['schemas']['KubernetesIngressClassDetailEnvelope'];
+export type KubernetesCustomResourceDefinition = components['schemas']['KubernetesCustomResourceDefinition'];
+export type KubernetesCustomResourceDefinitionListEnvelope = components['schemas']['KubernetesCustomResourceDefinitionListEnvelope'];
+export type KubernetesCustomResource = components['schemas']['KubernetesCustomResource'];
+export type KubernetesCustomResourceListEnvelope = components['schemas']['KubernetesCustomResourceListEnvelope'];
+export type KubernetesHelmRelease = components['schemas']['KubernetesHelmRelease'];
+export type KubernetesHelmReleaseListEnvelope = components['schemas']['KubernetesHelmReleaseListEnvelope'];
+export type KubernetesHelmReleaseDetail = components['schemas']['KubernetesHelmReleaseDetail'];
+export type KubernetesHelmReleaseDetailEnvelope = components['schemas']['KubernetesHelmReleaseDetailEnvelope'];
+export type KubernetesHelmReleaseHistory = components['schemas']['KubernetesHelmReleaseHistory'];
+export type KubernetesHelmReleaseHistoryListEnvelope = components['schemas']['KubernetesHelmReleaseHistoryListEnvelope'];
+export type KubernetesClusterEvent = components['schemas']['KubernetesClusterEvent'];
+export type KubernetesClusterEventListEnvelope = components['schemas']['KubernetesClusterEventListEnvelope'];
+export type KubernetesHelmChartRepository = components['schemas']['KubernetesHelmChartRepository'];
+export type KubernetesHelmChartMaintainer = components['schemas']['KubernetesHelmChartMaintainer'];
+export type KubernetesHelmChart = components['schemas']['KubernetesHelmChart'];
+export type KubernetesHelmChartCatalog = components['schemas']['KubernetesHelmChartCatalog'];
+export type KubernetesHelmChartCatalogEnvelope = components['schemas']['KubernetesHelmChartCatalogEnvelope'];
+export type KubernetesHelmChartLink = components['schemas']['KubernetesHelmChartLink'];
+export type KubernetesHelmChartVersion = components['schemas']['KubernetesHelmChartVersion'];
+export type KubernetesHelmChartDetail = components['schemas']['KubernetesHelmChartDetail'];
+export type KubernetesHelmChartDetailEnvelope = components['schemas']['KubernetesHelmChartDetailEnvelope'];
 export type RiskLevel = components['schemas']['RiskLevel'];
 export type ClusterCapabilityStatus = components['schemas']['ClusterCapabilityStatus'];
 export type ClusterCapabilityModeSupport = components['schemas']['ClusterCapabilityModeSupport'];
 export type ClusterCapabilityMatrixEntry = components['schemas']['ClusterCapabilityMatrixEntry'];
 export type ClusterCapabilityMatrixEnvelope = components['schemas']['ClusterCapabilityMatrixEnvelope'];
+export type PodMetrics = components['schemas']['PodMetrics'];
+export type PodMetricsEnvelope = components['schemas']['PodMetricsEnvelope'];
+export type PlatformAuditLog = components['schemas']['PlatformAuditLog'];
+export type PlatformAuditLogListEnvelope = components['schemas']['PlatformAuditLogListEnvelope'];
+export type PlatformAuditSummary = components['schemas']['PlatformAuditSummary'];
+export type PlatformAuditSummaryEnvelope = components['schemas']['PlatformAuditSummaryEnvelope'];
+export type PlatformOperationLog = components['schemas']['PlatformOperationLog'];
+export type PlatformOperationLogListEnvelope = components['schemas']['PlatformOperationLogListEnvelope'];
+export type PlatformOperationSummary = components['schemas']['PlatformOperationSummary'];
+export type PlatformOperationSummaryEnvelope = components['schemas']['PlatformOperationSummaryEnvelope'];
 export type AgentInstallation = components['schemas']['AgentInstallation'];
 export type AgentInstallationEnvelope = components['schemas']['AgentInstallationEnvelope'];
 export type ObservabilityProviderSignal = components['schemas']['ObservabilityProviderSignal'];
@@ -13845,6 +18896,32 @@ export type ParameterSourceRepositoryId = components['parameters']['SourceReposi
 export type ParameterRuntimeConfigApplicationId = components['parameters']['RuntimeConfigApplicationID'];
 export type ParameterClusterId = components['parameters']['ClusterID'];
 export type ParameterClusterIdQuery = components['parameters']['ClusterIDQuery'];
+export type ParameterKubernetesNamespaceQuery = components['parameters']['KubernetesNamespaceQuery'];
+export type ParameterKubernetesNamespaceDefaultQuery = components['parameters']['KubernetesNamespaceDefaultQuery'];
+export type ParameterKubernetesSubjectKindQuery = components['parameters']['KubernetesSubjectKindQuery'];
+export type ParameterKubernetesSubjectNameQuery = components['parameters']['KubernetesSubjectNameQuery'];
+export type ParameterKubernetesSubjectNamespaceQuery = components['parameters']['KubernetesSubjectNamespaceQuery'];
+export type ParameterKubernetesNodeName = components['parameters']['KubernetesNodeName'];
+export type ParameterKubernetesPodName = components['parameters']['KubernetesPodName'];
+export type ParameterKubernetesServiceName = components['parameters']['KubernetesServiceName'];
+export type ParameterKubernetesCrdName = components['parameters']['KubernetesCRDName'];
+export type ParameterKubernetesRepositoryName = components['parameters']['KubernetesRepositoryName'];
+export type ParameterKubernetesChartName = components['parameters']['KubernetesChartName'];
+export type ParameterKubernetesReleaseName = components['parameters']['KubernetesReleaseName'];
+export type ParameterKubernetesKeywordQuery = components['parameters']['KubernetesKeywordQuery'];
+export type ParameterKubernetesLimitQuery = components['parameters']['KubernetesLimitQuery'];
+export type ParameterKubernetesOffsetQuery = components['parameters']['KubernetesOffsetQuery'];
+export type ParameterKubernetesVersionQuery = components['parameters']['KubernetesVersionQuery'];
+export type ParameterKubernetesEventLimitQuery = components['parameters']['KubernetesEventLimitQuery'];
+export type ParameterKubernetesDeploymentName = components['parameters']['KubernetesDeploymentName'];
+export type ParameterKubernetesStatefulSetName = components['parameters']['KubernetesStatefulSetName'];
+export type ParameterKubernetesDaemonSetName = components['parameters']['KubernetesDaemonSetName'];
+export type ParameterKubernetesJobName = components['parameters']['KubernetesJobName'];
+export type ParameterKubernetesCronJobName = components['parameters']['KubernetesCronJobName'];
+export type ParameterKubernetesReplicaSetName = components['parameters']['KubernetesReplicaSetName'];
+export type ParameterKubernetesMetricsRangeMinutesQuery = components['parameters']['KubernetesMetricsRangeMinutesQuery'];
+export type ParameterKubernetesMetricsStepSecondsQuery = components['parameters']['KubernetesMetricsStepSecondsQuery'];
+export type ParameterKubernetesResourceName = components['parameters']['KubernetesResourceName'];
 export type ParameterAgentInstallTicket = components['parameters']['AgentInstallTicket'];
 export type ParameterDataSourceId = components['parameters']['DataSourceID'];
 export type ParameterDashboardId = components['parameters']['DashboardID'];
@@ -14272,6 +19349,131 @@ export interface operations {
             };
         };
     };
+    getIdentitySettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Login provider settings with client secrets, certificates, and raw metadata excluded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentitySettingsEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    updateLoginProvidersSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateLoginProvidersSettingsRequest"];
+            };
+        };
+        responses: {
+            /** @description Updated login provider settings with sensitive provider material excluded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentitySettingsEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    getBrandingSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Console branding settings. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BrandingSettingsEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    updateBrandingSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateBrandingSettingsRequest"];
+            };
+        };
+        responses: {
+            /** @description Updated console branding settings. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BrandingSettingsEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    uploadBrandingAsset: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["UploadBrandingAssetRequest"];
+            };
+        };
+        responses: {
+            /** @description Validated branding asset encoded as a data URL for a subsequent branding update. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BrandingAssetUploadEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
     getAISettings: {
         parameters: {
             query?: never;
@@ -14290,6 +19492,7 @@ export interface operations {
                     "application/json": components["schemas"]["AISettingsEnvelope"];
                 };
             };
+            401: components["responses"]["Error"];
             403: components["responses"]["Error"];
         };
     };
@@ -14316,6 +19519,7 @@ export interface operations {
                 };
             };
             400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
             403: components["responses"]["Error"];
         };
     };
@@ -14342,6 +19546,7 @@ export interface operations {
                 };
             };
             400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
             403: components["responses"]["Error"];
         };
     };
@@ -16988,6 +22193,185 @@ export interface operations {
             };
         };
     };
+    listVirtualizationClusters: {
+        parameters: {
+            query?: {
+                provider?: string;
+                kubernetesClusterId?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Virtualization connections visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationConnectionListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createVirtualizationCluster: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VirtualizationConnectionInput"];
+            };
+        };
+        responses: {
+            /** @description Virtualization connection created. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationConnectionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    updateVirtualizationCluster: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                connectionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VirtualizationConnectionInput"];
+            };
+        };
+        responses: {
+            /** @description Virtualization connection updated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationConnectionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteVirtualizationCluster: {
+        parameters: {
+            query?: {
+                force?: boolean;
+            };
+            header?: never;
+            path: {
+                connectionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Virtualization connection deleted. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    getVirtualizationClusterDeleteDependencies: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                connectionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Dependent records and force-delete blockers for a virtualization connection. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationConnectionDeleteDependenciesEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    testVirtualizationCluster: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                connectionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Completed connection-test operation. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationOperationEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    syncVirtualizationCluster: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                connectionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Asset synchronization accepted. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationOperationEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
     planVirtualMachineCreate: {
         parameters: {
             query?: never;
@@ -17011,6 +22395,36 @@ export interface operations {
                 };
             };
             400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listVirtualMachines: {
+        parameters: {
+            query?: {
+                provider?: string;
+                connectionId?: string;
+                namespace?: string;
+                status?: string;
+                search?: string;
+                page?: number;
+                pageSize?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Virtual machines, optionally paged. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualMachineListEnvelope"] | components["schemas"]["VirtualMachinePageEnvelope"];
+                };
+            };
             403: components["responses"]["Error"];
         };
     };
@@ -17041,6 +22455,640 @@ export interface operations {
             400: components["responses"]["Error"];
             403: components["responses"]["Error"];
             409: components["responses"]["Error"];
+        };
+    };
+    getVirtualMachine: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                vmID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Virtual machine summary. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualMachineEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    getVirtualMachineDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                vmID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Virtual machine detail with related connection, image, flavor, operations, and logs. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualMachineDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listVirtualMachineDevices: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                vmID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Provider-reported virtual machine devices. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualMachineDeviceListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    performVirtualMachineAction: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
+            };
+            path: {
+                vmID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VirtualMachineActionInput"];
+            };
+        };
+        responses: {
+            /** @description Virtual machine action accepted. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationOperationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    powerVirtualMachine: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
+            };
+            path: {
+                vmID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VirtualMachinePowerInput"];
+            };
+        };
+        responses: {
+            /** @description Virtual machine power action accepted. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationOperationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getVirtualMachineMetrics: {
+        parameters: {
+            query?: {
+                rangeMinutes?: number;
+                stepSeconds?: number;
+            };
+            header?: never;
+            path: {
+                vmID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Provider metric series for a virtual machine. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualMachineMetricsEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    getVirtualMachineConsole: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                vmID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Short-lived console proxy information. Treat the token as sensitive. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualMachineConsoleEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    streamVirtualMachineConsoleVNC: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                vmID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description WebSocket protocol upgraded to the provider VNC console stream. */
+            101: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            403: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    streamVirtualMachineConsoleNoVNC: {
+        parameters: {
+            query?: {
+                /** @description Short-lived console token. */
+                token?: string;
+            };
+            header?: never;
+            path: {
+                vmID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description WebSocket protocol upgraded to the provider noVNC console stream. */
+            101: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            403: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listVirtualizationImages: {
+        parameters: {
+            query?: {
+                provider?: string;
+                connectionId?: string;
+                category?: string;
+                status?: string;
+                search?: string;
+                page?: number;
+                pageSize?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Virtualization images, templates, and storage assets, optionally paged. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationImageListEnvelope"] | components["schemas"]["VirtualizationImagePageEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createVirtualizationImage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VirtualizationImageInput"];
+            };
+        };
+        responses: {
+            /** @description Virtualization image or template record created. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationImageEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    updateVirtualizationImage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                imageID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VirtualizationImageInput"];
+            };
+        };
+        responses: {
+            /** @description Virtualization image or template record updated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationImageEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteVirtualizationImage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                imageID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Virtualization image or template record deleted. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listVirtualizationFlavors: {
+        parameters: {
+            query?: {
+                provider?: string;
+                connectionId?: string;
+                status?: string;
+                search?: string;
+                page?: number;
+                pageSize?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Virtualization flavors, optionally paged. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationFlavorListEnvelope"] | components["schemas"]["VirtualizationFlavorPageEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createVirtualizationFlavor: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VirtualizationFlavorInput"];
+            };
+        };
+        responses: {
+            /** @description Virtualization flavor created. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationFlavorEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    updateVirtualizationFlavor: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                flavorID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VirtualizationFlavorInput"];
+            };
+        };
+        responses: {
+            /** @description Virtualization flavor updated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationFlavorEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteVirtualizationFlavor: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                flavorID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Virtualization flavor deleted. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listVirtualizationOperations: {
+        parameters: {
+            query?: {
+                taskKind?: string;
+                assetType?: string;
+                type?: string;
+                /** @description Comma-separated statuses. */
+                statuses?: string;
+                provider?: string;
+                connectionId?: string;
+                vmId?: string;
+                status?: string;
+                abnormal?: boolean;
+                pending?: boolean;
+                search?: string;
+                page?: number;
+                pageSize?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Virtualization operations, optionally paged. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationOperationListEnvelope"] | components["schemas"]["VirtualizationOperationPageEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    getVirtualizationOperation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Virtualization operation. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationOperationEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listVirtualizationOperationLogs: {
+        parameters: {
+            query?: {
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                taskID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Durable logs for a virtualization operation. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationOperationLogListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    streamVirtualizationOperation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Server-sent events containing VirtualizationOperation JSON values until terminal state. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": string;
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    cancelVirtualizationOperation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Virtualization operation canceled. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationOperationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    retryVirtualizationOperation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Virtualization operation queued for retry. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationOperationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    syncAllVirtualizationClusters: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Synchronization accepted for all enabled virtualization connections. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationOperationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
         };
     };
     planDockerHostQuickCreate: {
@@ -17415,6 +23463,3115 @@ export interface operations {
             403: components["responses"]["Error"];
         };
     };
+    listPlatformAuditLogs: {
+        parameters: {
+            query?: {
+                actorId?: string;
+                actorName?: string;
+                clusterId?: string;
+                namespace?: string;
+                resourceKind?: string;
+                resourceName?: string;
+                action?: string;
+                result?: string;
+                requestId?: string;
+                from?: string;
+                to?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized platform audit entries after server-side redaction. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlatformAuditLogListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    summarizePlatformAuditLogs: {
+        parameters: {
+            query?: {
+                actorId?: string;
+                clusterId?: string;
+                namespace?: string;
+                resourceKind?: string;
+                action?: string;
+                result?: string;
+                from?: string;
+                to?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Retention-aware summary for the selected audit filters. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlatformAuditSummaryEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    exportPlatformAuditLogs: {
+        parameters: {
+            query?: {
+                actorId?: string;
+                clusterId?: string;
+                namespace?: string;
+                resourceKind?: string;
+                action?: string;
+                result?: string;
+                from?: string;
+                to?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Redacted platform audit entries in CSV format. */
+            200: {
+                headers: {
+                    "X-Soha-Audit-Export-Count"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/csv": string;
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listPlatformOperationLogs: {
+        parameters: {
+            query?: {
+                operationType?: string;
+                actorId?: string;
+                clusterId?: string;
+                namespace?: string;
+                resourceKind?: string;
+                resourceName?: string;
+                result?: string;
+                requestId?: string;
+                from?: string;
+                to?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized platform operation entries after server-side redaction. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlatformOperationLogListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    summarizePlatformOperationLogs: {
+        parameters: {
+            query?: {
+                operationType?: string;
+                actorId?: string;
+                clusterId?: string;
+                namespace?: string;
+                resourceKind?: string;
+                result?: string;
+                from?: string;
+                to?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Retention-aware summary for the selected operation filters. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlatformOperationSummaryEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    exportPlatformOperationLogs: {
+        parameters: {
+            query?: {
+                operationType?: string;
+                actorId?: string;
+                clusterId?: string;
+                namespace?: string;
+                resourceKind?: string;
+                result?: string;
+                from?: string;
+                to?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Redacted platform operation entries in CSV format. */
+            200: {
+                headers: {
+                    "X-Soha-Operation-Export-Count"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/csv": string;
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listKubernetesClusters: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Clusters visible to the authenticated principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesClusterListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    getKubernetesClusterDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Cluster connection, diagnostics, monitoring, and capability details. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesClusterDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listKubernetesNamespaces: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes namespaces visible in the selected cluster scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesNamespaceListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesNodes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes nodes visible in the selected cluster scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesNodeListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesNodeDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                nodeName: components["parameters"]["KubernetesNodeName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes node status, resources, conditions, and bounded Pod context. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesNodeDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesWorkloadOverview: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Cluster or namespace-scoped Pod health summary and bounded problem context. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesWorkloadOverviewEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesPods: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes Pods visible in the selected cluster and namespace scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesPodListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesPodDetail: {
+        parameters: {
+            query?: {
+                namespace?: components["parameters"]["KubernetesNamespaceDefaultQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                podName: components["parameters"]["KubernetesPodName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes Pod status, containers, volumes, conditions, and related resources. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesPodDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesDeployments: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes Deployments visible in the selected cluster and namespace scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesDeploymentListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesDeploymentDetail: {
+        parameters: {
+            query?: {
+                namespace?: components["parameters"]["KubernetesNamespaceDefaultQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                deploymentName: components["parameters"]["KubernetesDeploymentName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes Deployment status, containers, conditions, Pods, and related resources. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesDeploymentDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesPodLogs: {
+        parameters: {
+            query?: {
+                namespace?: components["parameters"]["KubernetesNamespaceDefaultQuery"];
+                container?: string;
+                tailLines?: number;
+                sinceSeconds?: number;
+                previous?: boolean;
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                podName: components["parameters"]["KubernetesPodName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded Pod logs. Callers must still treat returned content as potentially sensitive. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesPodLogsEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesPodYaml: {
+        parameters: {
+            query?: {
+                namespace?: components["parameters"]["KubernetesNamespaceDefaultQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                podName: components["parameters"]["KubernetesPodName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized Kubernetes Pod YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesDeploymentYaml: {
+        parameters: {
+            query?: {
+                namespace?: components["parameters"]["KubernetesNamespaceDefaultQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                deploymentName: components["parameters"]["KubernetesDeploymentName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized Kubernetes Deployment YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesDeploymentMetrics: {
+        parameters: {
+            query?: {
+                namespace?: components["parameters"]["KubernetesNamespaceDefaultQuery"];
+                rangeMinutes?: components["parameters"]["KubernetesMetricsRangeMinutesQuery"];
+                /** @description Requested step. The server may increase it to keep the response below 1440 points per series. */
+                stepSeconds?: components["parameters"]["KubernetesMetricsStepSecondsQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                deploymentName: components["parameters"]["KubernetesDeploymentName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded Prometheus metrics for the selected Deployment, or an explicit unconfigured result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceMetricsEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesDeploymentRolloutStatus: {
+        parameters: {
+            query?: {
+                namespace?: components["parameters"]["KubernetesNamespaceDefaultQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                deploymentName: components["parameters"]["KubernetesDeploymentName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current Kubernetes Deployment rollout state and conditions. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesDeploymentRolloutStatusEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesDeploymentRollouts: {
+        parameters: {
+            query?: {
+                namespace?: components["parameters"]["KubernetesNamespaceDefaultQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                deploymentName: components["parameters"]["KubernetesDeploymentName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded Kubernetes Deployment rollout history. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesDeploymentRolloutListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesStatefulSets: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes StatefulSets visible in the selected cluster and namespace scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesStatefulSetListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesStatefulSetDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                statefulSetName: components["parameters"]["KubernetesStatefulSetName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes StatefulSet status, Pods, and related resources. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesStatefulSetDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesStatefulSetYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                statefulSetName: components["parameters"]["KubernetesStatefulSetName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized Kubernetes StatefulSet YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesStatefulSetMetrics: {
+        parameters: {
+            query?: {
+                namespace?: components["parameters"]["KubernetesNamespaceDefaultQuery"];
+                rangeMinutes?: components["parameters"]["KubernetesMetricsRangeMinutesQuery"];
+                /** @description Requested step. The server may increase it to keep the response below 1440 points per series. */
+                stepSeconds?: components["parameters"]["KubernetesMetricsStepSecondsQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                statefulSetName: components["parameters"]["KubernetesStatefulSetName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded Prometheus metrics for the selected StatefulSet, or an explicit unconfigured result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceMetricsEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesDaemonSets: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes DaemonSets visible in the selected cluster and namespace scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesDaemonSetListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesDaemonSetDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                daemonSetName: components["parameters"]["KubernetesDaemonSetName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes DaemonSet status, Pods, and related resources. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesDaemonSetDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesDaemonSetYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                daemonSetName: components["parameters"]["KubernetesDaemonSetName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized Kubernetes DaemonSet YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesDaemonSetMetrics: {
+        parameters: {
+            query?: {
+                namespace?: components["parameters"]["KubernetesNamespaceDefaultQuery"];
+                rangeMinutes?: components["parameters"]["KubernetesMetricsRangeMinutesQuery"];
+                /** @description Requested step. The server may increase it to keep the response below 1440 points per series. */
+                stepSeconds?: components["parameters"]["KubernetesMetricsStepSecondsQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                daemonSetName: components["parameters"]["KubernetesDaemonSetName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded Prometheus metrics for the selected DaemonSet, or an explicit unconfigured result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceMetricsEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesJobs: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes Jobs visible in the selected cluster and namespace scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesJobListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesJobDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                jobName: components["parameters"]["KubernetesJobName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes Job status, Pods, and related resources. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesJobDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesJobYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                jobName: components["parameters"]["KubernetesJobName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized Kubernetes Job YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesCronJobs: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes CronJobs visible in the selected cluster and namespace scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesCronJobListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesCronJobDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                cronJobName: components["parameters"]["KubernetesCronJobName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes CronJob status, Jobs, and related resources. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesCronJobDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesCronJobYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                cronJobName: components["parameters"]["KubernetesCronJobName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized Kubernetes CronJob YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesReplicaSets: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes ReplicaSets visible in the selected cluster and namespace scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesReplicaSetListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesReplicaSetDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                replicaSetName: components["parameters"]["KubernetesReplicaSetName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes ReplicaSet status, Pods, and related resources. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesReplicaSetDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesReplicaSetYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                replicaSetName: components["parameters"]["KubernetesReplicaSetName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized Kubernetes ReplicaSet YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesReplicationControllers: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes ReplicationControllers visible in the selected cluster and namespace scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesReplicationControllerListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesReplicationControllerDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes ReplicationController status, Pods, and related resources. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesReplicationControllerDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesReplicationControllerYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized Kubernetes ReplicationController YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesConfigMaps: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes ConfigMaps visible in the selected cluster and namespace scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesConfigMapListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesConfigMapDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes ConfigMap metadata and data visible to the authenticated principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesConfigMapDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesSecretMetadata: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes Secret metadata only. Secret values are never returned by this operation. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesSecretMetadataListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesConfigMapReferences: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Workloads and resources that reference the selected ConfigMap. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesConfigReferenceListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesSecretReferences: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Workloads and resources that reference the selected Secret. Secret values are never returned. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesConfigReferenceListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesHorizontalPodAutoscalers: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description HorizontalPodAutoscalers visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesHorizontalPodAutoscalerListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesHorizontalPodAutoscalerDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description HorizontalPodAutoscaler targets, metrics, and conditions. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesHorizontalPodAutoscalerDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesPodDisruptionBudgets: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description PodDisruptionBudgets visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesPodDisruptionBudgetListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesPodDisruptionBudgetDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description PodDisruptionBudget selectors, matching Pods, workload, and conditions. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesPodDisruptionBudgetDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesPriorityClasses: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Cluster-scoped Kubernetes PriorityClasses. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesPriorityClassListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesRuntimeClasses: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Cluster-scoped Kubernetes RuntimeClasses. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesRuntimeClassListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesMutatingWebhookConfigurations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Cluster-scoped MutatingWebhookConfigurations. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesAdmissionWebhookConfigurationListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesMutatingWebhookConfigurationDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Mutating admission webhook clients, selectors, rules, and timeout policy. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesAdmissionWebhookConfigurationDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesValidatingWebhookConfigurations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Cluster-scoped ValidatingWebhookConfigurations. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesAdmissionWebhookConfigurationListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesValidatingWebhookConfigurationDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Validating admission webhook clients, selectors, rules, and timeout policy. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesAdmissionWebhookConfigurationDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesResourceQuotas: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description ResourceQuotas visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceQuotaListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesResourceQuotaDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description ResourceQuota hard limits, current usage, labels, and annotations. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceQuotaDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesLimitRanges: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description LimitRanges visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesLimitRangeListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesLimitRangeDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description LimitRange rules, labels, and annotations. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesLimitRangeDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesLeases: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes Lease metadata visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesLeaseListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesServiceAccounts: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description ServiceAccounts visible in the selected scope. Secret values are never returned. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesServiceAccountListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesServiceAccountDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description ServiceAccount metadata and referenced Secret names without Secret data. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesServiceAccountDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesRoles: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Namespaced Kubernetes Roles visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesRoleListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesRoleDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Namespaced Role metadata and permission rule summaries. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesRoleDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesRoleBindings: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+                /** @description Optional RBAC subject filter. The current implementation accepts ServiceAccount. */
+                subjectKind?: components["parameters"]["KubernetesSubjectKindQuery"];
+                subjectName?: components["parameters"]["KubernetesSubjectNameQuery"];
+                subjectNamespace?: components["parameters"]["KubernetesSubjectNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Namespaced RoleBindings visible to the authenticated principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesRoleBindingListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesRoleBindingDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Namespaced RoleBinding role and subject mapping. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesRoleBindingDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesClusterRoles: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description ClusterRoles visible to the authenticated principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesClusterRoleListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesClusterRoleDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description ClusterRole metadata and permission rule summaries. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesClusterRoleDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesClusterRoleBindings: {
+        parameters: {
+            query?: {
+                /** @description Optional RBAC subject filter. The current implementation accepts ServiceAccount. */
+                subjectKind?: components["parameters"]["KubernetesSubjectKindQuery"];
+                subjectName?: components["parameters"]["KubernetesSubjectNameQuery"];
+                subjectNamespace?: components["parameters"]["KubernetesSubjectNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description ClusterRoleBindings visible to the authenticated principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesClusterRoleBindingListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesClusterRoleBindingDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description ClusterRoleBinding role and subject mapping. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesClusterRoleBindingDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesPersistentVolumeClaims: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description PersistentVolumeClaims visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesPersistentVolumeClaimListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesPersistentVolumeClaimDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description PersistentVolumeClaim capacity, metadata, and authorized Pod relations. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesPersistentVolumeClaimDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesPersistentVolumes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description PersistentVolumes visible to the authenticated principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesPersistentVolumeListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesPersistentVolumeDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description PersistentVolume details with unauthorized claim references removed. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesPersistentVolumeDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesStorageClasses: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description StorageClasses visible to the authenticated principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesStorageClassListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesStorageClassDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description StorageClass parameters and authorized related volume and claim summaries. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesStorageClassDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesServices: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes Services visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesServiceListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesServiceDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                serviceName: components["parameters"]["KubernetesServiceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Service metadata */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesServiceDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesNetworkTopology: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Resolved ingress and Gateway API topology for the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesNetworkTopologyEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesServiceMetrics: {
+        parameters: {
+            query?: {
+                namespace?: components["parameters"]["KubernetesNamespaceDefaultQuery"];
+                rangeMinutes?: components["parameters"]["KubernetesMetricsRangeMinutesQuery"];
+                /** @description Requested step. The server may increase it to keep the response below 1440 points per series. */
+                stepSeconds?: components["parameters"]["KubernetesMetricsStepSecondsQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                serviceName: components["parameters"]["KubernetesServiceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded Prometheus-backed Service metrics or an explicit unconfigured response. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceMetricsEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesIngresses: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes Ingress resources visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesIngressListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesIngressDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ingress routes and authorized backend relations. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesIngressDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesEndpointSlices: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description EndpointSlices visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesEndpointSliceListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesEndpointSliceDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description EndpointSlice ports */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesEndpointSliceDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesNetworkPolicies: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description NetworkPolicies visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesNetworkPolicyListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesNetworkPolicyDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description NetworkPolicy selectors */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesNetworkPolicyDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesGatewayClasses: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Cluster-scoped GatewayClasses. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesGatewayClassListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesGatewayClassDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description GatewayClass status */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesGatewayClassDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesGateways: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Gateway API Gateways visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesGatewayListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesGatewayDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Gateway listeners */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesGatewayDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesHTTPRoutes: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description HTTPRoutes visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesHTTPRouteListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesHTTPRouteDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description HTTPRoute parents */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesHTTPRouteDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesBackendTLSPolicies: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description BackendTLSPolicies visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesBackendTLSPolicyListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesBackendTLSPolicyDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description BackendTLSPolicy targets */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesBackendTLSPolicyDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesGRPCRoutes: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description GRPCRoutes visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesGRPCRouteListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesGRPCRouteDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description GRPCRoute parents */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesGRPCRouteDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesReferenceGrants: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description ReferenceGrants visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesReferenceGrantListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesReferenceGrantDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description ReferenceGrant source and target references. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesReferenceGrantDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesIngressClasses: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Cluster-scoped IngressClasses. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesIngressClassListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesIngressClassDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description IngressClass metadata and authorized related Ingresses. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesIngressClassDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesCustomResourceDefinitions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description CustomResourceDefinitions visible to the authenticated principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesCustomResourceDefinitionListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesCustomResources: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                crdName: components["parameters"]["KubernetesCRDName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Custom resource metadata only. Raw YAML is not returned. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesCustomResourceListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesHelmCharts: {
+        parameters: {
+            query?: {
+                keyword?: components["parameters"]["KubernetesKeywordQuery"];
+                limit?: components["parameters"]["KubernetesLimitQuery"];
+                offset?: components["parameters"]["KubernetesOffsetQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Paginated Helm chart catalog metadata. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesHelmChartCatalogEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesHelmChartDetail: {
+        parameters: {
+            query?: {
+                version?: components["parameters"]["KubernetesVersionQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                repositoryName: components["parameters"]["KubernetesRepositoryName"];
+                chartName: components["parameters"]["KubernetesChartName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Helm chart metadata */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesHelmChartDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesHelmReleases: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Helm release metadata visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesHelmReleaseListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesHelmReleaseDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                releaseName: components["parameters"]["KubernetesReleaseName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Helm release metadata and status. Release values are not returned. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesHelmReleaseDetailEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesHelmReleaseHistory: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                releaseName: components["parameters"]["KubernetesReleaseName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Helm release revision metadata and content digests without release values. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesHelmReleaseHistoryListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listKubernetesClusterEvents: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+                limit?: components["parameters"]["KubernetesEventLimitQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded Kubernetes event history visible in the selected scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesClusterEventListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
     listClusterCapabilityMatrix: {
         parameters: {
             query?: never;
@@ -17434,6 +26591,38 @@ export interface operations {
                 };
             };
             403: components["responses"]["Error"];
+        };
+    };
+    getClusterPodMetrics: {
+        parameters: {
+            query?: {
+                namespace?: string;
+                rangeMinutes?: number;
+                /** @description Requested step. The server may increase it to keep the response below 1440 points per series. */
+                stepSeconds?: number;
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                podName: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded Prometheus series for the selected Pod, or an explicit unconfigured result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PodMetricsEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
         };
     };
     createClusterAgentInstallation: {

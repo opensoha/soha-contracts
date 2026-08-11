@@ -1,5 +1,5 @@
 {
-  "version": "0.1.8",
+  "version": "0.1.9",
   "generatedFrom": "openapi/soha-api.yaml",
   "entries": [
     {
@@ -709,6 +709,21 @@
       "kind": "schemaRef",
       "path": "components/schemas/OpenAIResponseRequest/properties/input",
       "target": "#/components/schemas/AnyValue"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/PlatformAuditLog/properties/metadata",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/PlatformOperationLog/properties/metadata",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/PlatformOperationLog/properties/targetScope",
+      "target": "#/components/schemas/GenericObject"
     },
     {
       "kind": "schemaRef",

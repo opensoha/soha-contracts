@@ -1,0 +1,15 @@
+{
+  "items": [
+    {
+      "name": "api-7c8d9f",
+      "namespace": "production",
+      "phase": "Running",
+      "nodeName": "worker-1",
+      "podIp": "10.42.1.8",
+      "readyContainers": "2/2",
+      "restarts": 0,
+      "ageSeconds": 3600,
+      "allowedActions": ["logs", "view"]
+    }
+  ]
+}

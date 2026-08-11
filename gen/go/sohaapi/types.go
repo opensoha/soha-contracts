@@ -2344,6 +2344,24 @@ func (e KnowledgeSyncRunStatus) Valid() bool {
 	}
 }
 
+// Defines values for KubernetesConnectionMode.
+const (
+	KubernetesConnectionModeAgent            KubernetesConnectionMode = "agent"
+	KubernetesConnectionModeDirectKubeconfig KubernetesConnectionMode = "direct_kubeconfig"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesConnectionMode enum.
+func (e KubernetesConnectionMode) Valid() bool {
+	switch e {
+	case KubernetesConnectionModeAgent:
+		return true
+	case KubernetesConnectionModeDirectKubeconfig:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for KubernetesImportCandidateWorkloadKind.
 const (
 	KubernetesImportCandidateWorkloadKindDaemonSet   KubernetesImportCandidateWorkloadKind = "DaemonSet"
@@ -4339,6 +4357,45 @@ func (e PermissionStatus) Valid() bool {
 	}
 }
 
+// Defines values for PlatformAuditLogResult.
+const (
+	PlatformAuditLogResultDeny    PlatformAuditLogResult = "deny"
+	PlatformAuditLogResultFailure PlatformAuditLogResult = "failure"
+	PlatformAuditLogResultSuccess PlatformAuditLogResult = "success"
+)
+
+// Valid indicates whether the value is a known member of the PlatformAuditLogResult enum.
+func (e PlatformAuditLogResult) Valid() bool {
+	switch e {
+	case PlatformAuditLogResultDeny:
+		return true
+	case PlatformAuditLogResultFailure:
+		return true
+	case PlatformAuditLogResultSuccess:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PlatformOperationLogResult.
+const (
+	PlatformOperationLogResultFailure PlatformOperationLogResult = "failure"
+	PlatformOperationLogResultSuccess PlatformOperationLogResult = "success"
+)
+
+// Valid indicates whether the value is a known member of the PlatformOperationLogResult enum.
+func (e PlatformOperationLogResult) Valid() bool {
+	switch e {
+	case PlatformOperationLogResultFailure:
+		return true
+	case PlatformOperationLogResultSuccess:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for PluginArtifactRecordChecksumStatus.
 const (
 	PluginArtifactRecordChecksumStatusMismatch PluginArtifactRecordChecksumStatus = "mismatch"
@@ -5026,6 +5083,93 @@ func (e SystemIntegrationTestStatus) Valid() bool {
 	case SystemIntegrationTestStatusFailed:
 		return true
 	case SystemIntegrationTestStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VirtualMachineActionInputAction.
+const (
+	VirtualMachineActionInputActionDelete VirtualMachineActionInputAction = "delete"
+	VirtualMachineActionInputActionReboot VirtualMachineActionInputAction = "reboot"
+	VirtualMachineActionInputActionResize VirtualMachineActionInputAction = "resize"
+	VirtualMachineActionInputActionStart  VirtualMachineActionInputAction = "start"
+	VirtualMachineActionInputActionStop   VirtualMachineActionInputAction = "stop"
+)
+
+// Valid indicates whether the value is a known member of the VirtualMachineActionInputAction enum.
+func (e VirtualMachineActionInputAction) Valid() bool {
+	switch e {
+	case VirtualMachineActionInputActionDelete:
+		return true
+	case VirtualMachineActionInputActionReboot:
+		return true
+	case VirtualMachineActionInputActionResize:
+		return true
+	case VirtualMachineActionInputActionStart:
+		return true
+	case VirtualMachineActionInputActionStop:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VirtualMachinePowerInputAction.
+const (
+	VirtualMachinePowerInputActionDelete VirtualMachinePowerInputAction = "delete"
+	VirtualMachinePowerInputActionReboot VirtualMachinePowerInputAction = "reboot"
+	VirtualMachinePowerInputActionStart  VirtualMachinePowerInputAction = "start"
+	VirtualMachinePowerInputActionStop   VirtualMachinePowerInputAction = "stop"
+)
+
+// Valid indicates whether the value is a known member of the VirtualMachinePowerInputAction enum.
+func (e VirtualMachinePowerInputAction) Valid() bool {
+	switch e {
+	case VirtualMachinePowerInputActionDelete:
+		return true
+	case VirtualMachinePowerInputActionReboot:
+		return true
+	case VirtualMachinePowerInputActionStart:
+		return true
+	case VirtualMachinePowerInputActionStop:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VirtualizationConnectionProvider.
+const (
+	VirtualizationConnectionProviderKubevirt VirtualizationConnectionProvider = "kubevirt"
+	VirtualizationConnectionProviderPve      VirtualizationConnectionProvider = "pve"
+)
+
+// Valid indicates whether the value is a known member of the VirtualizationConnectionProvider enum.
+func (e VirtualizationConnectionProvider) Valid() bool {
+	switch e {
+	case VirtualizationConnectionProviderKubevirt:
+		return true
+	case VirtualizationConnectionProviderPve:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VirtualizationConnectionInputProvider.
+const (
+	VirtualizationConnectionInputProviderKubevirt VirtualizationConnectionInputProvider = "kubevirt"
+	VirtualizationConnectionInputProviderPve      VirtualizationConnectionInputProvider = "pve"
+)
+
+// Valid indicates whether the value is a known member of the VirtualizationConnectionInputProvider enum.
+func (e VirtualizationConnectionInputProvider) Valid() bool {
+	switch e {
+	case VirtualizationConnectionInputProviderKubevirt:
+		return true
+	case VirtualizationConnectionInputProviderPve:
 		return true
 	default:
 		return false
@@ -8031,6 +8175,31 @@ type AuthResultEnvelope struct {
 	Data AuthResult `json:"data"`
 }
 
+// BrandingAssetUpload defines model for BrandingAssetUpload.
+type BrandingAssetUpload struct {
+	URL string `json:"url"`
+}
+
+// BrandingAssetUploadEnvelope defines model for BrandingAssetUploadEnvelope.
+type BrandingAssetUploadEnvelope struct {
+	Data BrandingAssetUpload `json:"data"`
+}
+
+// BrandingSettings defines model for BrandingSettings.
+type BrandingSettings struct {
+	AppTitle         string `json:"appTitle"`
+	CollapsedLogoURL string `json:"collapsedLogoUrl"`
+	ExpandedLogoURL  string `json:"expandedLogoUrl"`
+	FaviconURL       string `json:"faviconUrl"`
+	LoginLogoURL     string `json:"loginLogoUrl"`
+	SidebarTitle     string `json:"sidebarTitle"`
+}
+
+// BrandingSettingsEnvelope defines model for BrandingSettingsEnvelope.
+type BrandingSettingsEnvelope struct {
+	Data BrandingSettings `json:"data"`
+}
+
 // BuildPolicy defines model for BuildPolicy.
 type BuildPolicy struct {
 	BuildArgs        map[string]any `json:"buildArgs,omitempty"`
@@ -9245,6 +9414,8 @@ type DockerGitBuildInput struct {
 
 // DockerOperation defines model for DockerOperation.
 type DockerOperation struct {
+	// CallbackToken Opaque per-claim credential returned only by the authenticated runner claim endpoint when callback-token fencing is negotiated.
+	CallbackToken        string         `json:"callbackToken,omitempty"`
 	ClaimedByWorkerID    string         `json:"claimedByWorkerId,omitempty"`
 	HostID               string         `json:"hostId,omitempty"`
 	ID                   string         `json:"id"`
@@ -9259,19 +9430,24 @@ type DockerOperation struct {
 
 // DockerOperationCallbackRequest defines model for DockerOperationCallbackRequest.
 type DockerOperationCallbackRequest struct {
-	Logs        []string       `json:"logs"`
-	OperationID string         `json:"operationId"`
-	Payload     map[string]any `json:"payload"`
-	Status      string         `json:"status"`
-	WorkerID    string         `json:"workerId"`
+	// CallbackToken Required when the claimed operation included a callback token; omitted only for legacy unfenced claims.
+	CallbackToken string         `json:"callbackToken,omitempty"`
+	Logs          []string       `json:"logs"`
+	OperationID   string         `json:"operationId"`
+	Payload       map[string]any `json:"payload"`
+	Status        string         `json:"status"`
+	WorkerID      string         `json:"workerId"`
 }
 
 // DockerOperationClaimRequest defines model for DockerOperationClaimRequest.
 type DockerOperationClaimRequest struct {
-	AgentID        string   `json:"agentId"`
-	HostIDs        []string `json:"hostIds,omitempty"`
-	OperationKinds []string `json:"operationKinds,omitempty"`
-	WorkerID       string   `json:"workerId"`
+	AgentID string `json:"agentId"`
+
+	// CallbackTokenSupported Set by upgraded runners that can return the per-claim callback token.
+	CallbackTokenSupported bool     `json:"callbackTokenSupported,omitempty"`
+	HostIDs                []string `json:"hostIds,omitempty"`
+	OperationKinds         []string `json:"operationKinds,omitempty"`
+	WorkerID               string   `json:"workerId"`
 }
 
 // DockerOperationEnvelope defines model for DockerOperationEnvelope.
@@ -10354,6 +10530,18 @@ type IdentityRuntimeCapabilityEnvelope struct {
 	Data IdentityRuntimeCapability `json:"data"`
 }
 
+// IdentitySettings defines model for IdentitySettings.
+type IdentitySettings struct {
+	DefaultProviderID         string                  `json:"defaultProviderId,omitempty"`
+	LocalPasswordLoginEnabled bool                    `json:"localPasswordLoginEnabled"`
+	Providers                 []LoginProviderSettings `json:"providers,omitempty"`
+}
+
+// IdentitySettingsEnvelope defines model for IdentitySettingsEnvelope.
+type IdentitySettingsEnvelope struct {
+	Data IdentitySettings `json:"data"`
+}
+
 // InstalledPlugin defines model for InstalledPlugin.
 type InstalledPlugin struct {
 	ActiveVersion        string                   `json:"activeVersion,omitempty"`
@@ -10834,6 +11022,999 @@ type KnowledgeSyncRunListEnvelope struct {
 	Items []KnowledgeSyncRun `json:"items"`
 }
 
+// KubernetesAdmissionWebhook defines model for KubernetesAdmissionWebhook.
+type KubernetesAdmissionWebhook struct {
+	AdmissionReviewVersions []string                         `json:"admissionReviewVersions,omitempty"`
+	CaBundleConfigured      bool                             `json:"caBundleConfigured"`
+	ClientTarget            string                           `json:"clientTarget"`
+	FailurePolicy           string                           `json:"failurePolicy,omitempty"`
+	MatchPolicy             string                           `json:"matchPolicy,omitempty"`
+	Name                    string                           `json:"name"`
+	NamespaceSelector       string                           `json:"namespaceSelector,omitempty"`
+	ObjectSelector          string                           `json:"objectSelector,omitempty"`
+	Rules                   []KubernetesAdmissionWebhookRule `json:"rules,omitempty"`
+	ServiceName             string                           `json:"serviceName,omitempty"`
+	ServiceNamespace        string                           `json:"serviceNamespace,omitempty"`
+	ServicePath             string                           `json:"servicePath,omitempty"`
+	ServicePort             int32                            `json:"servicePort,omitempty"`
+	SideEffects             string                           `json:"sideEffects,omitempty"`
+	TimeoutSeconds          int32                            `json:"timeoutSeconds,omitempty"`
+	URL                     string                           `json:"url,omitempty"`
+}
+
+// KubernetesAdmissionWebhookConfiguration defines model for KubernetesAdmissionWebhookConfiguration.
+type KubernetesAdmissionWebhookConfiguration struct {
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	Name           string   `json:"name"`
+	Webhooks       int      `json:"webhooks"`
+}
+
+// KubernetesAdmissionWebhookConfigurationDetail defines model for KubernetesAdmissionWebhookConfigurationDetail.
+type KubernetesAdmissionWebhookConfigurationDetail struct {
+	AgeSeconds  int64                        `json:"ageSeconds"`
+	Annotations *KubernetesStringMap         `json:"annotations,omitempty"`
+	CreatedAt   string                       `json:"createdAt,omitempty"`
+	Labels      *KubernetesStringMap         `json:"labels,omitempty"`
+	Name        string                       `json:"name"`
+	Webhooks    []KubernetesAdmissionWebhook `json:"webhooks,omitempty"`
+}
+
+// KubernetesAdmissionWebhookConfigurationDetailEnvelope defines model for KubernetesAdmissionWebhookConfigurationDetailEnvelope.
+type KubernetesAdmissionWebhookConfigurationDetailEnvelope struct {
+	Data KubernetesAdmissionWebhookConfigurationDetail `json:"data"`
+}
+
+// KubernetesAdmissionWebhookConfigurationListEnvelope defines model for KubernetesAdmissionWebhookConfigurationListEnvelope.
+type KubernetesAdmissionWebhookConfigurationListEnvelope struct {
+	Items []KubernetesAdmissionWebhookConfiguration `json:"items"`
+}
+
+// KubernetesAdmissionWebhookRule defines model for KubernetesAdmissionWebhookRule.
+type KubernetesAdmissionWebhookRule struct {
+	APIGroups   []string `json:"apiGroups,omitempty"`
+	APIVersions []string `json:"apiVersions,omitempty"`
+	Operations  []string `json:"operations,omitempty"`
+	Resources   []string `json:"resources,omitempty"`
+	Scope       string   `json:"scope,omitempty"`
+}
+
+// KubernetesBackendTLSPolicy defines model for KubernetesBackendTLSPolicy.
+type KubernetesBackendTLSPolicy struct {
+	AgeSeconds              int64    `json:"ageSeconds"`
+	AllowedActions          []string `json:"allowedActions,omitempty"`
+	CaCertificateRefs       []string `json:"caCertificateRefs,omitempty"`
+	Hostname                string   `json:"hostname,omitempty"`
+	Name                    string   `json:"name"`
+	Namespace               string   `json:"namespace"`
+	TargetRefs              []string `json:"targetRefs,omitempty"`
+	WellKnownCACertificates string   `json:"wellKnownCACertificates,omitempty"`
+}
+
+// KubernetesBackendTLSPolicyDetail defines model for KubernetesBackendTLSPolicyDetail.
+type KubernetesBackendTLSPolicyDetail struct {
+	AgeSeconds              int64                         `json:"ageSeconds"`
+	AllowedActions          []string                      `json:"allowedActions,omitempty"`
+	Annotations             *KubernetesStringMap          `json:"annotations,omitempty"`
+	CaCertificateRefs       []string                      `json:"caCertificateRefs,omitempty"`
+	Conditions              []KubernetesWorkloadCondition `json:"conditions,omitempty"`
+	Hostname                string                        `json:"hostname,omitempty"`
+	Labels                  *KubernetesStringMap          `json:"labels,omitempty"`
+	Name                    string                        `json:"name"`
+	Namespace               string                        `json:"namespace"`
+	TargetRefs              []string                      `json:"targetRefs,omitempty"`
+	WellKnownCACertificates string                        `json:"wellKnownCACertificates,omitempty"`
+}
+
+// KubernetesBackendTLSPolicyDetailEnvelope defines model for KubernetesBackendTLSPolicyDetailEnvelope.
+type KubernetesBackendTLSPolicyDetailEnvelope struct {
+	Data KubernetesBackendTLSPolicyDetail `json:"data"`
+}
+
+// KubernetesBackendTLSPolicyListEnvelope defines model for KubernetesBackendTLSPolicyListEnvelope.
+type KubernetesBackendTLSPolicyListEnvelope struct {
+	Items []KubernetesBackendTLSPolicy `json:"items"`
+}
+
+// KubernetesCacheResourceDiagnostic defines model for KubernetesCacheResourceDiagnostic.
+type KubernetesCacheResourceDiagnostic struct {
+	LastTransition *time.Time `json:"lastTransition,omitempty"`
+	Message        string     `json:"message,omitempty"`
+	Ready          bool       `json:"ready"`
+	Resource       string     `json:"resource"`
+	Status         string     `json:"status"`
+}
+
+// KubernetesClusterConnectionDetail defines model for KubernetesClusterConnectionDetail.
+type KubernetesClusterConnectionDetail struct {
+	Context             string                   `json:"context,omitempty"`
+	CredentialType      string                   `json:"credentialType"`
+	Endpoint            string                   `json:"endpoint,omitempty"`
+	HasInlineKubeconfig bool                     `json:"hasInlineKubeconfig"`
+	HasToken            bool                     `json:"hasToken"`
+	Mode                KubernetesConnectionMode `json:"mode"`
+	SourceRef           string                   `json:"sourceRef,omitempty"`
+	SourceType          string                   `json:"sourceType"`
+	UsesInformerCache   bool                     `json:"usesInformerCache"`
+}
+
+// KubernetesClusterDetail defines model for KubernetesClusterDetail.
+type KubernetesClusterDetail struct {
+	CapabilityMatrix []ClusterCapabilityMatrixEntry    `json:"capabilityMatrix"`
+	Connection       KubernetesClusterConnectionDetail `json:"connection"`
+	Diagnostics      KubernetesClusterDiagnostics      `json:"diagnostics"`
+	Monitoring       KubernetesMonitoringDetail        `json:"monitoring"`
+	Summary          KubernetesClusterSummary          `json:"summary"`
+}
+
+// KubernetesClusterDetailEnvelope defines model for KubernetesClusterDetailEnvelope.
+type KubernetesClusterDetailEnvelope struct {
+	Data KubernetesClusterDetail `json:"data"`
+}
+
+// KubernetesClusterDiagnostics defines model for KubernetesClusterDiagnostics.
+type KubernetesClusterDiagnostics struct {
+	CacheReady      bool                                `json:"cacheReady"`
+	CacheResources  []KubernetesCacheResourceDiagnostic `json:"cacheResources,omitempty"`
+	CacheStatus     string                              `json:"cacheStatus"`
+	ConnectionState string                              `json:"connectionState"`
+	LastChecked     *time.Time                          `json:"lastChecked,omitempty"`
+	Message         string                              `json:"message,omitempty"`
+	SyncStrategy    string                              `json:"syncStrategy"`
+	Transport       string                              `json:"transport"`
+}
+
+// KubernetesClusterEvent defines model for KubernetesClusterEvent.
+type KubernetesClusterEvent struct {
+	AgeSeconds    int64  `json:"ageSeconds"`
+	Count         int32  `json:"count"`
+	InvolvedKind  string `json:"involvedKind,omitempty"`
+	InvolvedName  string `json:"involvedName,omitempty"`
+	LastTimestamp string `json:"lastTimestamp,omitempty"`
+	Message       string `json:"message"`
+	Name          string `json:"name"`
+	Namespace     string `json:"namespace,omitempty"`
+	Reason        string `json:"reason"`
+	Type          string `json:"type"`
+}
+
+// KubernetesClusterEventListEnvelope defines model for KubernetesClusterEventListEnvelope.
+type KubernetesClusterEventListEnvelope struct {
+	Items []KubernetesClusterEvent `json:"items"`
+}
+
+// KubernetesClusterHealth defines model for KubernetesClusterHealth.
+type KubernetesClusterHealth struct {
+	LastChecked *time.Time `json:"lastChecked,omitempty"`
+	Message     string     `json:"message,omitempty"`
+	Status      string     `json:"status"`
+}
+
+// KubernetesClusterListEnvelope defines model for KubernetesClusterListEnvelope.
+type KubernetesClusterListEnvelope struct {
+	Items []KubernetesClusterSummary `json:"items"`
+}
+
+// KubernetesClusterRole defines model for KubernetesClusterRole.
+type KubernetesClusterRole struct {
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	Name           string   `json:"name"`
+}
+
+// KubernetesClusterRoleBinding defines model for KubernetesClusterRoleBinding.
+type KubernetesClusterRoleBinding struct {
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	Name           string   `json:"name"`
+	RoleRef        string   `json:"roleRef"`
+}
+
+// KubernetesClusterRoleBindingDetail defines model for KubernetesClusterRoleBindingDetail.
+type KubernetesClusterRoleBindingDetail struct {
+	AgeSeconds     int64                `json:"ageSeconds"`
+	AllowedActions []string             `json:"allowedActions,omitempty"`
+	Annotations    *KubernetesStringMap `json:"annotations,omitempty"`
+	CreatedAt      string               `json:"createdAt,omitempty"`
+	Labels         *KubernetesStringMap `json:"labels,omitempty"`
+	Name           string               `json:"name"`
+	RoleRef        string               `json:"roleRef"`
+	Subjects       []string             `json:"subjects,omitempty"`
+}
+
+// KubernetesClusterRoleBindingDetailEnvelope defines model for KubernetesClusterRoleBindingDetailEnvelope.
+type KubernetesClusterRoleBindingDetailEnvelope struct {
+	Data KubernetesClusterRoleBindingDetail `json:"data"`
+}
+
+// KubernetesClusterRoleBindingListEnvelope defines model for KubernetesClusterRoleBindingListEnvelope.
+type KubernetesClusterRoleBindingListEnvelope struct {
+	Items []KubernetesClusterRoleBinding `json:"items"`
+}
+
+// KubernetesClusterRoleDetail defines model for KubernetesClusterRoleDetail.
+type KubernetesClusterRoleDetail struct {
+	AgeSeconds       int64                `json:"ageSeconds"`
+	AggregationRules int                  `json:"aggregationRules"`
+	AllowedActions   []string             `json:"allowedActions,omitempty"`
+	Annotations      *KubernetesStringMap `json:"annotations,omitempty"`
+	CreatedAt        string               `json:"createdAt,omitempty"`
+	Labels           *KubernetesStringMap `json:"labels,omitempty"`
+	Name             string               `json:"name"`
+	RuleSummaries    []string             `json:"ruleSummaries,omitempty"`
+	Rules            int                  `json:"rules"`
+}
+
+// KubernetesClusterRoleDetailEnvelope defines model for KubernetesClusterRoleDetailEnvelope.
+type KubernetesClusterRoleDetailEnvelope struct {
+	Data KubernetesClusterRoleDetail `json:"data"`
+}
+
+// KubernetesClusterRoleListEnvelope defines model for KubernetesClusterRoleListEnvelope.
+type KubernetesClusterRoleListEnvelope struct {
+	Items []KubernetesClusterRole `json:"items"`
+}
+
+// KubernetesClusterSummary defines model for KubernetesClusterSummary.
+type KubernetesClusterSummary struct {
+	Capabilities   []string                 `json:"capabilities,omitempty"`
+	ConnectionMode KubernetesConnectionMode `json:"connectionMode"`
+	Environment    string                   `json:"environment"`
+	Health         KubernetesClusterHealth  `json:"health"`
+	ID             string                   `json:"id"`
+	Labels         KubernetesStringMap      `json:"labels"`
+	Name           string                   `json:"name"`
+	Region         string                   `json:"region"`
+	Version        string                   `json:"version,omitempty"`
+}
+
+// KubernetesConfigMap defines model for KubernetesConfigMap.
+type KubernetesConfigMap struct {
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	DataEntries    int      `json:"dataEntries"`
+	Name           string   `json:"name"`
+	Namespace      string   `json:"namespace"`
+}
+
+// KubernetesConfigMapDetail defines model for KubernetesConfigMapDetail.
+type KubernetesConfigMapDetail struct {
+	AgeSeconds  int64                `json:"ageSeconds"`
+	Annotations *KubernetesStringMap `json:"annotations,omitempty"`
+	BinaryData  *KubernetesStringMap `json:"binaryData,omitempty"`
+	CreatedAt   string               `json:"createdAt,omitempty"`
+	Data        *KubernetesStringMap `json:"data,omitempty"`
+	Immutable   bool                 `json:"immutable"`
+	Labels      *KubernetesStringMap `json:"labels,omitempty"`
+	Name        string               `json:"name"`
+	Namespace   string               `json:"namespace"`
+}
+
+// KubernetesConfigMapDetailEnvelope defines model for KubernetesConfigMapDetailEnvelope.
+type KubernetesConfigMapDetailEnvelope struct {
+	Data KubernetesConfigMapDetail `json:"data"`
+}
+
+// KubernetesConfigMapListEnvelope defines model for KubernetesConfigMapListEnvelope.
+type KubernetesConfigMapListEnvelope struct {
+	Items []KubernetesConfigMap `json:"items"`
+}
+
+// KubernetesConfigReference defines model for KubernetesConfigReference.
+type KubernetesConfigReference struct {
+	Kind      string `json:"kind"`
+	Name      string `json:"name"`
+	Namespace string `json:"namespace"`
+	Path      string `json:"path"`
+}
+
+// KubernetesConfigReferenceListEnvelope defines model for KubernetesConfigReferenceListEnvelope.
+type KubernetesConfigReferenceListEnvelope struct {
+	Items []KubernetesConfigReference `json:"items"`
+}
+
+// KubernetesConnectionMode defines model for KubernetesConnectionMode.
+type KubernetesConnectionMode string
+
+// KubernetesCronJob defines model for KubernetesCronJob.
+type KubernetesCronJob struct {
+	ActiveJobs       int32    `json:"activeJobs"`
+	AgeSeconds       int64    `json:"ageSeconds"`
+	AllowedActions   []string `json:"allowedActions,omitempty"`
+	LastScheduleTime string   `json:"lastScheduleTime,omitempty"`
+	Name             string   `json:"name"`
+	Namespace        string   `json:"namespace"`
+	Schedule         string   `json:"schedule"`
+	Suspend          bool     `json:"suspend"`
+}
+
+// KubernetesCronJobDetail defines model for KubernetesCronJobDetail.
+type KubernetesCronJobDetail struct {
+	ActiveJobs        int32                        `json:"activeJobs"`
+	AllowedActions    []string                     `json:"allowedActions,omitempty"`
+	Annotations       *KubernetesStringMap         `json:"annotations,omitempty"`
+	ConcurrencyPolicy string                       `json:"concurrencyPolicy,omitempty"`
+	CreatedAt         string                       `json:"createdAt,omitempty"`
+	Jobs              []KubernetesJob              `json:"jobs,omitempty"`
+	Labels            *KubernetesStringMap         `json:"labels,omitempty"`
+	LastScheduleTime  string                       `json:"lastScheduleTime,omitempty"`
+	Name              string                       `json:"name"`
+	Namespace         string                       `json:"namespace"`
+	RelatedResources  []KubernetesWorkloadRelation `json:"relatedResources,omitempty"`
+	Schedule          string                       `json:"schedule"`
+	Suspend           bool                         `json:"suspend"`
+	TimeZone          string                       `json:"timeZone,omitempty"`
+}
+
+// KubernetesCronJobDetailEnvelope defines model for KubernetesCronJobDetailEnvelope.
+type KubernetesCronJobDetailEnvelope struct {
+	Data KubernetesCronJobDetail `json:"data"`
+}
+
+// KubernetesCronJobListEnvelope defines model for KubernetesCronJobListEnvelope.
+type KubernetesCronJobListEnvelope struct {
+	Items []KubernetesCronJob `json:"items"`
+}
+
+// KubernetesCustomResource defines model for KubernetesCustomResource.
+type KubernetesCustomResource struct {
+	AgeSeconds     int64                `json:"ageSeconds"`
+	AllowedActions []string             `json:"allowedActions,omitempty"`
+	APIVersion     string               `json:"apiVersion,omitempty"`
+	CreatedAt      string               `json:"createdAt,omitempty"`
+	Kind           string               `json:"kind"`
+	Labels         *KubernetesStringMap `json:"labels,omitempty"`
+	Name           string               `json:"name"`
+	Namespace      string               `json:"namespace,omitempty"`
+}
+
+// KubernetesCustomResourceDefinition defines model for KubernetesCustomResourceDefinition.
+type KubernetesCustomResourceDefinition struct {
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	CreatedAt      string   `json:"createdAt,omitempty"`
+	Group          string   `json:"group"`
+	Kind           string   `json:"kind"`
+	Name           string   `json:"name"`
+	Plural         string   `json:"plural"`
+	Scope          string   `json:"scope"`
+	Version        string   `json:"version,omitempty"`
+	Versions       []string `json:"versions,omitempty"`
+}
+
+// KubernetesCustomResourceDefinitionListEnvelope defines model for KubernetesCustomResourceDefinitionListEnvelope.
+type KubernetesCustomResourceDefinitionListEnvelope struct {
+	Items []KubernetesCustomResourceDefinition `json:"items"`
+}
+
+// KubernetesCustomResourceListEnvelope defines model for KubernetesCustomResourceListEnvelope.
+type KubernetesCustomResourceListEnvelope struct {
+	Items []KubernetesCustomResource `json:"items"`
+}
+
+// KubernetesDaemonSet defines model for KubernetesDaemonSet.
+type KubernetesDaemonSet struct {
+	AgeSeconds      int64    `json:"ageSeconds"`
+	AllowedActions  []string `json:"allowedActions,omitempty"`
+	AvailableNumber int32    `json:"availableNumber"`
+	CurrentNumber   int32    `json:"currentNumber"`
+	DesiredNumber   int32    `json:"desiredNumber"`
+	Name            string   `json:"name"`
+	Namespace       string   `json:"namespace"`
+	ReadyNumber     int32    `json:"readyNumber"`
+	UpdatedNumber   int32    `json:"updatedNumber"`
+}
+
+// KubernetesDaemonSetDetail defines model for KubernetesDaemonSetDetail.
+type KubernetesDaemonSetDetail struct {
+	AllowedActions   []string                     `json:"allowedActions,omitempty"`
+	Annotations      *KubernetesStringMap         `json:"annotations,omitempty"`
+	AvailableNumber  int32                        `json:"availableNumber"`
+	CreatedAt        string                       `json:"createdAt,omitempty"`
+	CurrentNumber    int32                        `json:"currentNumber"`
+	DesiredNumber    int32                        `json:"desiredNumber"`
+	Labels           *KubernetesStringMap         `json:"labels,omitempty"`
+	Name             string                       `json:"name"`
+	Namespace        string                       `json:"namespace"`
+	Pods             []KubernetesPod              `json:"pods,omitempty"`
+	ReadyNumber      int32                        `json:"readyNumber"`
+	RelatedResources []KubernetesWorkloadRelation `json:"relatedResources,omitempty"`
+	Selector         *KubernetesStringMap         `json:"selector,omitempty"`
+	UpdateStrategy   string                       `json:"updateStrategy,omitempty"`
+	UpdatedNumber    int32                        `json:"updatedNumber"`
+}
+
+// KubernetesDaemonSetDetailEnvelope defines model for KubernetesDaemonSetDetailEnvelope.
+type KubernetesDaemonSetDetailEnvelope struct {
+	Data KubernetesDaemonSetDetail `json:"data"`
+}
+
+// KubernetesDaemonSetListEnvelope defines model for KubernetesDaemonSetListEnvelope.
+type KubernetesDaemonSetListEnvelope struct {
+	Items []KubernetesDaemonSet `json:"items"`
+}
+
+// KubernetesDeployment defines model for KubernetesDeployment.
+type KubernetesDeployment struct {
+	AgeSeconds      int64                `json:"ageSeconds"`
+	AllowedActions  []string             `json:"allowedActions,omitempty"`
+	Available       int32                `json:"available"`
+	DesiredReplicas int32                `json:"desiredReplicas"`
+	Labels          *KubernetesStringMap `json:"labels,omitempty"`
+	Name            string               `json:"name"`
+	Namespace       string               `json:"namespace"`
+	ReadyReplicas   int32                `json:"readyReplicas"`
+	UpdatedReplicas int32                `json:"updatedReplicas"`
+}
+
+// KubernetesDeploymentDetail defines model for KubernetesDeploymentDetail.
+type KubernetesDeploymentDetail struct {
+	AllowedActions     []string                      `json:"allowedActions,omitempty"`
+	Annotations        *KubernetesStringMap          `json:"annotations,omitempty"`
+	AvailableReplicas  int32                         `json:"availableReplicas"`
+	Conditions         []KubernetesWorkloadCondition `json:"conditions,omitempty"`
+	Containers         []KubernetesWorkloadContainer `json:"containers,omitempty"`
+	CreatedAt          string                        `json:"createdAt,omitempty"`
+	DesiredReplicas    int32                         `json:"desiredReplicas"`
+	Labels             *KubernetesStringMap          `json:"labels,omitempty"`
+	Name               string                        `json:"name"`
+	Namespace          string                        `json:"namespace"`
+	ObservedGeneration int64                         `json:"observedGeneration"`
+	Pods               []KubernetesPod               `json:"pods,omitempty"`
+	ReadyReplicas      int32                         `json:"readyReplicas"`
+	RelatedResources   []KubernetesWorkloadRelation  `json:"relatedResources,omitempty"`
+	Selector           *KubernetesStringMap          `json:"selector,omitempty"`
+	Strategy           string                        `json:"strategy"`
+	UpdatedReplicas    int32                         `json:"updatedReplicas"`
+}
+
+// KubernetesDeploymentDetailEnvelope defines model for KubernetesDeploymentDetailEnvelope.
+type KubernetesDeploymentDetailEnvelope struct {
+	Data KubernetesDeploymentDetail `json:"data"`
+}
+
+// KubernetesDeploymentListEnvelope defines model for KubernetesDeploymentListEnvelope.
+type KubernetesDeploymentListEnvelope struct {
+	Items []KubernetesDeployment `json:"items"`
+}
+
+// KubernetesDeploymentRollout defines model for KubernetesDeploymentRollout.
+type KubernetesDeploymentRollout struct {
+	CreatedAt     string   `json:"createdAt,omitempty"`
+	Images        []string `json:"images,omitempty"`
+	Name          string   `json:"name"`
+	Namespace     string   `json:"namespace"`
+	ReadyReplicas int32    `json:"readyReplicas"`
+	Replicas      int32    `json:"replicas"`
+	Revision      string   `json:"revision"`
+}
+
+// KubernetesDeploymentRolloutListEnvelope defines model for KubernetesDeploymentRolloutListEnvelope.
+type KubernetesDeploymentRolloutListEnvelope struct {
+	Items []KubernetesDeploymentRollout `json:"items"`
+}
+
+// KubernetesDeploymentRolloutStatus defines model for KubernetesDeploymentRolloutStatus.
+type KubernetesDeploymentRolloutStatus struct {
+	AvailableReplicas  int32                         `json:"availableReplicas"`
+	Conditions         []KubernetesWorkloadCondition `json:"conditions,omitempty"`
+	DesiredReplicas    int32                         `json:"desiredReplicas"`
+	Message            string                        `json:"message"`
+	Name               string                        `json:"name"`
+	Namespace          string                        `json:"namespace"`
+	ObservedGeneration int64                         `json:"observedGeneration"`
+	ReadyReplicas      int32                         `json:"readyReplicas"`
+	Revision           string                        `json:"revision"`
+	Status             string                        `json:"status"`
+	UpdatedReplicas    int32                         `json:"updatedReplicas"`
+}
+
+// KubernetesDeploymentRolloutStatusEnvelope defines model for KubernetesDeploymentRolloutStatusEnvelope.
+type KubernetesDeploymentRolloutStatusEnvelope struct {
+	Data KubernetesDeploymentRolloutStatus `json:"data"`
+}
+
+// KubernetesEndpointSlice defines model for KubernetesEndpointSlice.
+type KubernetesEndpointSlice struct {
+	AddressType    string   `json:"addressType"`
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	Endpoints      int      `json:"endpoints"`
+	Name           string   `json:"name"`
+	Namespace      string   `json:"namespace"`
+	Ports          []string `json:"ports,omitempty"`
+}
+
+// KubernetesEndpointSliceDetail defines model for KubernetesEndpointSliceDetail.
+type KubernetesEndpointSliceDetail struct {
+	AddressType    string                      `json:"addressType"`
+	AgeSeconds     int64                       `json:"ageSeconds"`
+	AllowedActions []string                    `json:"allowedActions,omitempty"`
+	Annotations    *KubernetesStringMap        `json:"annotations,omitempty"`
+	Endpoints      []KubernetesServiceEndpoint `json:"endpoints,omitempty"`
+	Labels         *KubernetesStringMap        `json:"labels,omitempty"`
+	Name           string                      `json:"name"`
+	Namespace      string                      `json:"namespace"`
+	Ports          []string                    `json:"ports,omitempty"`
+	ServiceName    string                      `json:"serviceName,omitempty"`
+}
+
+// KubernetesEndpointSliceDetailEnvelope defines model for KubernetesEndpointSliceDetailEnvelope.
+type KubernetesEndpointSliceDetailEnvelope struct {
+	Data KubernetesEndpointSliceDetail `json:"data"`
+}
+
+// KubernetesEndpointSliceListEnvelope defines model for KubernetesEndpointSliceListEnvelope.
+type KubernetesEndpointSliceListEnvelope struct {
+	Items []KubernetesEndpointSlice `json:"items"`
+}
+
+// KubernetesGRPCRoute defines model for KubernetesGRPCRoute.
+type KubernetesGRPCRoute struct {
+	AgeSeconds      int64    `json:"ageSeconds"`
+	AllowedActions  []string `json:"allowedActions,omitempty"`
+	BackendServices []string `json:"backendServices,omitempty"`
+	Hostnames       []string `json:"hostnames,omitempty"`
+	Name            string   `json:"name"`
+	Namespace       string   `json:"namespace"`
+	ParentRefs      []string `json:"parentRefs,omitempty"`
+	RuleCount       int32    `json:"ruleCount"`
+}
+
+// KubernetesGRPCRouteDetail defines model for KubernetesGRPCRouteDetail.
+type KubernetesGRPCRouteDetail struct {
+	AgeSeconds      int64                                `json:"ageSeconds"`
+	AllowedActions  []string                             `json:"allowedActions,omitempty"`
+	Annotations     *KubernetesStringMap                 `json:"annotations,omitempty"`
+	BackendServices []string                             `json:"backendServices,omitempty"`
+	Conditions      []KubernetesWorkloadCondition        `json:"conditions,omitempty"`
+	Hostnames       []string                             `json:"hostnames,omitempty"`
+	Labels          *KubernetesStringMap                 `json:"labels,omitempty"`
+	Name            string                               `json:"name"`
+	Namespace       string                               `json:"namespace"`
+	ParentRefs      []string                             `json:"parentRefs,omitempty"`
+	ParentStatuses  []KubernetesGatewayRouteParentStatus `json:"parentStatuses,omitempty"`
+	RuleCount       int32                                `json:"ruleCount"`
+	Rules           []KubernetesGatewayRouteRule         `json:"rules,omitempty"`
+}
+
+// KubernetesGRPCRouteDetailEnvelope defines model for KubernetesGRPCRouteDetailEnvelope.
+type KubernetesGRPCRouteDetailEnvelope struct {
+	Data KubernetesGRPCRouteDetail `json:"data"`
+}
+
+// KubernetesGRPCRouteListEnvelope defines model for KubernetesGRPCRouteListEnvelope.
+type KubernetesGRPCRouteListEnvelope struct {
+	Items []KubernetesGRPCRoute `json:"items"`
+}
+
+// KubernetesGateway defines model for KubernetesGateway.
+type KubernetesGateway struct {
+	Addresses      []string `json:"addresses,omitempty"`
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	GatewayClass   string   `json:"gatewayClass,omitempty"`
+	ListenerCount  int32    `json:"listenerCount"`
+	Name           string   `json:"name"`
+	Namespace      string   `json:"namespace"`
+}
+
+// KubernetesGatewayClass defines model for KubernetesGatewayClass.
+type KubernetesGatewayClass struct {
+	Accepted       string   `json:"accepted,omitempty"`
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	ControllerName string   `json:"controllerName"`
+	Name           string   `json:"name"`
+	ParametersRef  string   `json:"parametersRef,omitempty"`
+}
+
+// KubernetesGatewayClassDetail defines model for KubernetesGatewayClassDetail.
+type KubernetesGatewayClassDetail struct {
+	Accepted       string                        `json:"accepted,omitempty"`
+	AgeSeconds     int64                         `json:"ageSeconds"`
+	AllowedActions []string                      `json:"allowedActions,omitempty"`
+	Annotations    *KubernetesStringMap          `json:"annotations,omitempty"`
+	Conditions     []KubernetesWorkloadCondition `json:"conditions,omitempty"`
+	ControllerName string                        `json:"controllerName"`
+	Gateways       []KubernetesGateway           `json:"gateways,omitempty"`
+	Labels         *KubernetesStringMap          `json:"labels,omitempty"`
+	Name           string                        `json:"name"`
+	ParametersRef  string                        `json:"parametersRef,omitempty"`
+}
+
+// KubernetesGatewayClassDetailEnvelope defines model for KubernetesGatewayClassDetailEnvelope.
+type KubernetesGatewayClassDetailEnvelope struct {
+	Data KubernetesGatewayClassDetail `json:"data"`
+}
+
+// KubernetesGatewayClassListEnvelope defines model for KubernetesGatewayClassListEnvelope.
+type KubernetesGatewayClassListEnvelope struct {
+	Items []KubernetesGatewayClass `json:"items"`
+}
+
+// KubernetesGatewayDetail defines model for KubernetesGatewayDetail.
+type KubernetesGatewayDetail struct {
+	Addresses      []string                          `json:"addresses,omitempty"`
+	AgeSeconds     int64                             `json:"ageSeconds"`
+	AllowedActions []string                          `json:"allowedActions,omitempty"`
+	Annotations    *KubernetesStringMap              `json:"annotations,omitempty"`
+	Conditions     []KubernetesWorkloadCondition     `json:"conditions,omitempty"`
+	GatewayClass   string                            `json:"gatewayClass,omitempty"`
+	Labels         *KubernetesStringMap              `json:"labels,omitempty"`
+	ListenerCount  int32                             `json:"listenerCount"`
+	Listeners      []KubernetesGatewayListener       `json:"listeners,omitempty"`
+	Name           string                            `json:"name"`
+	Namespace      string                            `json:"namespace"`
+	Routes         []KubernetesGatewayRouteReference `json:"routes,omitempty"`
+}
+
+// KubernetesGatewayDetailEnvelope defines model for KubernetesGatewayDetailEnvelope.
+type KubernetesGatewayDetailEnvelope struct {
+	Data KubernetesGatewayDetail `json:"data"`
+}
+
+// KubernetesGatewayListEnvelope defines model for KubernetesGatewayListEnvelope.
+type KubernetesGatewayListEnvelope struct {
+	Items []KubernetesGateway `json:"items"`
+}
+
+// KubernetesGatewayListener defines model for KubernetesGatewayListener.
+type KubernetesGatewayListener struct {
+	AllowedRouteKinds []string                      `json:"allowedRouteKinds,omitempty"`
+	AttachedRoutes    int32                         `json:"attachedRoutes"`
+	CertificateRefs   []string                      `json:"certificateRefs,omitempty"`
+	Conditions        []KubernetesWorkloadCondition `json:"conditions,omitempty"`
+	Hostname          string                        `json:"hostname,omitempty"`
+	Name              string                        `json:"name"`
+	Port              int32                         `json:"port"`
+	Protocol          string                        `json:"protocol"`
+	TLSMode           string                        `json:"tlsMode,omitempty"`
+}
+
+// KubernetesGatewayRouteBackend defines model for KubernetesGatewayRouteBackend.
+type KubernetesGatewayRouteBackend struct {
+	BackendPods []KubernetesPod             `json:"backendPods,omitempty"`
+	Endpoints   []KubernetesServiceEndpoint `json:"endpoints,omitempty"`
+	Kind        string                      `json:"kind,omitempty"`
+	Name        string                      `json:"name"`
+	Namespace   string                      `json:"namespace,omitempty"`
+	Port        int32                       `json:"port,omitempty"`
+	Weight      int32                       `json:"weight,omitempty"`
+}
+
+// KubernetesGatewayRouteParentStatus defines model for KubernetesGatewayRouteParentStatus.
+type KubernetesGatewayRouteParentStatus struct {
+	Conditions     []KubernetesWorkloadCondition `json:"conditions,omitempty"`
+	ControllerName string                        `json:"controllerName,omitempty"`
+	ParentRef      string                        `json:"parentRef"`
+}
+
+// KubernetesGatewayRouteReference defines model for KubernetesGatewayRouteReference.
+type KubernetesGatewayRouteReference struct {
+	Accepted  string   `json:"accepted,omitempty"`
+	Hostnames []string `json:"hostnames,omitempty"`
+	Kind      string   `json:"kind"`
+	Name      string   `json:"name"`
+	Namespace string   `json:"namespace,omitempty"`
+}
+
+// KubernetesGatewayRouteRule defines model for KubernetesGatewayRouteRule.
+type KubernetesGatewayRouteRule struct {
+	Backends []KubernetesGatewayRouteBackend `json:"backends,omitempty"`
+	Filters  []string                        `json:"filters,omitempty"`
+	Matches  []string                        `json:"matches,omitempty"`
+}
+
+// KubernetesHTTPRoute defines model for KubernetesHTTPRoute.
+type KubernetesHTTPRoute struct {
+	AgeSeconds      int64    `json:"ageSeconds"`
+	AllowedActions  []string `json:"allowedActions,omitempty"`
+	BackendServices []string `json:"backendServices,omitempty"`
+	Hostnames       []string `json:"hostnames,omitempty"`
+	Name            string   `json:"name"`
+	Namespace       string   `json:"namespace"`
+	ParentRefs      []string `json:"parentRefs,omitempty"`
+}
+
+// KubernetesHTTPRouteDetail defines model for KubernetesHTTPRouteDetail.
+type KubernetesHTTPRouteDetail struct {
+	AgeSeconds      int64                                `json:"ageSeconds"`
+	AllowedActions  []string                             `json:"allowedActions,omitempty"`
+	Annotations     *KubernetesStringMap                 `json:"annotations,omitempty"`
+	BackendServices []string                             `json:"backendServices,omitempty"`
+	Conditions      []KubernetesWorkloadCondition        `json:"conditions,omitempty"`
+	Hostnames       []string                             `json:"hostnames,omitempty"`
+	Labels          *KubernetesStringMap                 `json:"labels,omitempty"`
+	Name            string                               `json:"name"`
+	Namespace       string                               `json:"namespace"`
+	ParentRefs      []string                             `json:"parentRefs,omitempty"`
+	ParentStatuses  []KubernetesGatewayRouteParentStatus `json:"parentStatuses,omitempty"`
+	Rules           []KubernetesGatewayRouteRule         `json:"rules,omitempty"`
+}
+
+// KubernetesHTTPRouteDetailEnvelope defines model for KubernetesHTTPRouteDetailEnvelope.
+type KubernetesHTTPRouteDetailEnvelope struct {
+	Data KubernetesHTTPRouteDetail `json:"data"`
+}
+
+// KubernetesHTTPRouteListEnvelope defines model for KubernetesHTTPRouteListEnvelope.
+type KubernetesHTTPRouteListEnvelope struct {
+	Items []KubernetesHTTPRoute `json:"items"`
+}
+
+// KubernetesHelmChart defines model for KubernetesHelmChart.
+type KubernetesHelmChart struct {
+	AllowedActions    []string                        `json:"allowedActions,omitempty"`
+	AppVersion        string                          `json:"appVersion,omitempty"`
+	ArtifactHubURL    string                          `json:"artifactHubUrl,omitempty"`
+	Category          string                          `json:"category,omitempty"`
+	Cncf              bool                            `json:"cncf,omitempty"`
+	CreatedAt         string                          `json:"createdAt,omitempty"`
+	Deprecated        bool                            `json:"deprecated,omitempty"`
+	Description       string                          `json:"description,omitempty"`
+	Digest            string                          `json:"digest,omitempty"`
+	HasValuesSchema   bool                            `json:"hasValuesSchema,omitempty"`
+	Home              string                          `json:"home,omitempty"`
+	HomeURL           string                          `json:"homeUrl,omitempty"`
+	Icon              string                          `json:"icon,omitempty"`
+	Keywords          []string                        `json:"keywords,omitempty"`
+	KubeVersion       string                          `json:"kubeVersion,omitempty"`
+	LatestVersion     string                          `json:"latestVersion,omitempty"`
+	LogoImageID       string                          `json:"logoImageId,omitempty"`
+	LogoImageURL      string                          `json:"logoImageUrl,omitempty"`
+	Maintainers       []KubernetesHelmChartMaintainer `json:"maintainers,omitempty"`
+	Name              string                          `json:"name"`
+	NormalizedName    string                          `json:"normalizedName,omitempty"`
+	Official          bool                            `json:"official,omitempty"`
+	PackageID         string                          `json:"packageId,omitempty"`
+	RepositoryDisplay string                          `json:"repositoryDisplay,omitempty"`
+	RepositoryName    string                          `json:"repositoryName,omitempty"`
+	RepositoryURL     string                          `json:"repositoryUrl,omitempty"`
+	SecurityCritical  int                             `json:"securityCritical,omitempty"`
+	SecurityHigh      int                             `json:"securityHigh,omitempty"`
+	SecurityLow       int                             `json:"securityLow,omitempty"`
+	SecurityMedium    int                             `json:"securityMedium,omitempty"`
+	SecurityUnknown   int                             `json:"securityUnknown,omitempty"`
+	Signed            bool                            `json:"signed,omitempty"`
+	Sources           []string                        `json:"sources,omitempty"`
+	Stars             int                             `json:"stars,omitempty"`
+	Type              string                          `json:"type,omitempty"`
+	UpdatedAt         string                          `json:"updatedAt,omitempty"`
+	Urls              []string                        `json:"urls,omitempty"`
+	VerifiedPublisher bool                            `json:"verifiedPublisher,omitempty"`
+	VersionCount      int                             `json:"versionCount"`
+	Versions          []string                        `json:"versions,omitempty"`
+}
+
+// KubernetesHelmChartCatalog defines model for KubernetesHelmChartCatalog.
+type KubernetesHelmChartCatalog struct {
+	ChartCount   int                           `json:"chartCount"`
+	Charts       []KubernetesHelmChart         `json:"charts"`
+	GeneratedAt  string                        `json:"generatedAt,omitempty"`
+	Limit        int                           `json:"limit,omitempty"`
+	LoadedCount  int                           `json:"loadedCount,omitempty"`
+	Offset       int                           `json:"offset,omitempty"`
+	Query        string                        `json:"query,omitempty"`
+	RefreshedAt  string                        `json:"refreshedAt"`
+	Repository   KubernetesHelmChartRepository `json:"repository"`
+	Source       string                        `json:"source,omitempty"`
+	TotalCount   int                           `json:"totalCount,omitempty"`
+	VersionCount int                           `json:"versionCount"`
+}
+
+// KubernetesHelmChartCatalogEnvelope defines model for KubernetesHelmChartCatalogEnvelope.
+type KubernetesHelmChartCatalogEnvelope struct {
+	Data KubernetesHelmChartCatalog `json:"data"`
+}
+
+// KubernetesHelmChartDetail defines model for KubernetesHelmChartDetail.
+type KubernetesHelmChartDetail struct {
+	AllowedActions    []string                        `json:"allowedActions,omitempty"`
+	AppVersion        string                          `json:"appVersion,omitempty"`
+	ArtifactHubURL    string                          `json:"artifactHubUrl,omitempty"`
+	AvailableVersions []KubernetesHelmChartVersion    `json:"availableVersions,omitempty"`
+	Category          string                          `json:"category,omitempty"`
+	Cncf              bool                            `json:"cncf,omitempty"`
+	ContentURL        string                          `json:"contentUrl,omitempty"`
+	CreatedAt         string                          `json:"createdAt,omitempty"`
+	Deprecated        bool                            `json:"deprecated,omitempty"`
+	Description       string                          `json:"description,omitempty"`
+	Digest            string                          `json:"digest,omitempty"`
+	HasValuesSchema   bool                            `json:"hasValuesSchema,omitempty"`
+	Home              string                          `json:"home,omitempty"`
+	HomeURL           string                          `json:"homeUrl,omitempty"`
+	Icon              string                          `json:"icon,omitempty"`
+	Keywords          []string                        `json:"keywords,omitempty"`
+	KubeVersion       string                          `json:"kubeVersion,omitempty"`
+	LatestVersion     string                          `json:"latestVersion,omitempty"`
+	Links             []KubernetesHelmChartLink       `json:"links,omitempty"`
+	LogoImageID       string                          `json:"logoImageId,omitempty"`
+	LogoImageURL      string                          `json:"logoImageUrl,omitempty"`
+	Maintainers       []KubernetesHelmChartMaintainer `json:"maintainers,omitempty"`
+	Name              string                          `json:"name"`
+	NormalizedName    string                          `json:"normalizedName,omitempty"`
+	Official          bool                            `json:"official,omitempty"`
+	PackageID         string                          `json:"packageId,omitempty"`
+	Readme            string                          `json:"readme,omitempty"`
+	RepositoryDisplay string                          `json:"repositoryDisplay,omitempty"`
+	RepositoryName    string                          `json:"repositoryName,omitempty"`
+	RepositoryURL     string                          `json:"repositoryUrl,omitempty"`
+	SecurityCritical  int                             `json:"securityCritical,omitempty"`
+	SecurityHigh      int                             `json:"securityHigh,omitempty"`
+	SecurityLow       int                             `json:"securityLow,omitempty"`
+	SecurityMedium    int                             `json:"securityMedium,omitempty"`
+	SecurityUnknown   int                             `json:"securityUnknown,omitempty"`
+	Signed            bool                            `json:"signed,omitempty"`
+	Sources           []string                        `json:"sources,omitempty"`
+	Stars             int                             `json:"stars,omitempty"`
+	Type              string                          `json:"type,omitempty"`
+	UpdatedAt         string                          `json:"updatedAt,omitempty"`
+	Urls              []string                        `json:"urls,omitempty"`
+	VerifiedPublisher bool                            `json:"verifiedPublisher,omitempty"`
+	VersionCount      int                             `json:"versionCount"`
+	Versions          []string                        `json:"versions,omitempty"`
+}
+
+// KubernetesHelmChartDetailEnvelope defines model for KubernetesHelmChartDetailEnvelope.
+type KubernetesHelmChartDetailEnvelope struct {
+	Data KubernetesHelmChartDetail `json:"data"`
+}
+
+// KubernetesHelmChartLink defines model for KubernetesHelmChartLink.
+type KubernetesHelmChartLink struct {
+	Name string `json:"name,omitempty"`
+	URL  string `json:"url,omitempty"`
+}
+
+// KubernetesHelmChartMaintainer defines model for KubernetesHelmChartMaintainer.
+type KubernetesHelmChartMaintainer struct {
+	Email string `json:"email,omitempty"`
+	Name  string `json:"name,omitempty"`
+	URL   string `json:"url,omitempty"`
+}
+
+// KubernetesHelmChartRepository defines model for KubernetesHelmChartRepository.
+type KubernetesHelmChartRepository struct {
+	DisplayName             string `json:"displayName,omitempty"`
+	ID                      string `json:"id"`
+	IndexURL                string `json:"indexUrl,omitempty"`
+	Name                    string `json:"name"`
+	Official                bool   `json:"official,omitempty"`
+	OrganizationDisplayName string `json:"organizationDisplayName,omitempty"`
+	OrganizationName        string `json:"organizationName,omitempty"`
+	URL                     string `json:"url"`
+	VerifiedPublisher       bool   `json:"verifiedPublisher,omitempty"`
+}
+
+// KubernetesHelmChartVersion defines model for KubernetesHelmChartVersion.
+type KubernetesHelmChartVersion struct {
+	AppVersion              string `json:"appVersion,omitempty"`
+	ContainsSecurityUpdates bool   `json:"containsSecurityUpdates,omitempty"`
+	CreatedAt               string `json:"createdAt,omitempty"`
+	Prerelease              bool   `json:"prerelease,omitempty"`
+	Version                 string `json:"version"`
+}
+
+// KubernetesHelmRelease defines model for KubernetesHelmRelease.
+type KubernetesHelmRelease struct {
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	AppVersion     string   `json:"appVersion,omitempty"`
+	Chart          string   `json:"chart,omitempty"`
+	Name           string   `json:"name"`
+	Namespace      string   `json:"namespace"`
+	Revision       string   `json:"revision,omitempty"`
+	Status         string   `json:"status,omitempty"`
+	StorageDriver  string   `json:"storageDriver,omitempty"`
+}
+
+// KubernetesHelmReleaseDetail defines model for KubernetesHelmReleaseDetail.
+type KubernetesHelmReleaseDetail struct {
+	AgeSeconds        int64                `json:"ageSeconds"`
+	AllowedActions    []string             `json:"allowedActions,omitempty"`
+	Annotations       *KubernetesStringMap `json:"annotations,omitempty"`
+	AppVersion        string               `json:"appVersion,omitempty"`
+	Chart             string               `json:"chart,omitempty"`
+	ChartName         string               `json:"chartName,omitempty"`
+	ChartVersion      string               `json:"chartVersion,omitempty"`
+	CreatedAt         string               `json:"createdAt,omitempty"`
+	Description       string               `json:"description,omitempty"`
+	FirstDeployedAt   string               `json:"firstDeployedAt,omitempty"`
+	Labels            *KubernetesStringMap `json:"labels,omitempty"`
+	LastDeployedAt    string               `json:"lastDeployedAt,omitempty"`
+	Name              string               `json:"name"`
+	Namespace         string               `json:"namespace"`
+	Notes             string               `json:"notes,omitempty"`
+	Revision          string               `json:"revision,omitempty"`
+	Status            string               `json:"status,omitempty"`
+	StorageDriver     string               `json:"storageDriver,omitempty"`
+	UpdatedAt         string               `json:"updatedAt,omitempty"`
+	ValuesDiffEnabled bool                 `json:"valuesDiffEnabled"`
+	ValuesEditable    bool                 `json:"valuesEditable"`
+}
+
+// KubernetesHelmReleaseDetailEnvelope defines model for KubernetesHelmReleaseDetailEnvelope.
+type KubernetesHelmReleaseDetailEnvelope struct {
+	Data KubernetesHelmReleaseDetail `json:"data"`
+}
+
+// KubernetesHelmReleaseHistory defines model for KubernetesHelmReleaseHistory.
+type KubernetesHelmReleaseHistory struct {
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	AppVersion     string   `json:"appVersion,omitempty"`
+	Chart          string   `json:"chart,omitempty"`
+	ChartVersion   string   `json:"chartVersion,omitempty"`
+	CreatedAt      string   `json:"createdAt,omitempty"`
+	Description    string   `json:"description,omitempty"`
+	ManifestDigest string   `json:"manifestDigest,omitempty"`
+	Name           string   `json:"name"`
+	Namespace      string   `json:"namespace"`
+	Revision       string   `json:"revision"`
+	Status         string   `json:"status,omitempty"`
+	UpdatedAt      string   `json:"updatedAt,omitempty"`
+	ValuesDigest   string   `json:"valuesDigest,omitempty"`
+}
+
+// KubernetesHelmReleaseHistoryListEnvelope defines model for KubernetesHelmReleaseHistoryListEnvelope.
+type KubernetesHelmReleaseHistoryListEnvelope struct {
+	Items []KubernetesHelmReleaseHistory `json:"items"`
+}
+
+// KubernetesHelmReleaseListEnvelope defines model for KubernetesHelmReleaseListEnvelope.
+type KubernetesHelmReleaseListEnvelope struct {
+	Items []KubernetesHelmRelease `json:"items"`
+}
+
+// KubernetesHorizontalPodAutoscaler defines model for KubernetesHorizontalPodAutoscaler.
+type KubernetesHorizontalPodAutoscaler struct {
+	AgeSeconds      int64    `json:"ageSeconds"`
+	AllowedActions  []string `json:"allowedActions,omitempty"`
+	CurrentReplicas int32    `json:"currentReplicas"`
+	DesiredReplicas int32    `json:"desiredReplicas"`
+	MaxReplicas     int32    `json:"maxReplicas"`
+	MinReplicas     int32    `json:"minReplicas"`
+	Name            string   `json:"name"`
+	Namespace       string   `json:"namespace"`
+	TargetRef       string   `json:"targetRef"`
+}
+
+// KubernetesHorizontalPodAutoscalerDetail defines model for KubernetesHorizontalPodAutoscalerDetail.
+type KubernetesHorizontalPodAutoscalerDetail struct {
+	AgeSeconds      int64                                     `json:"ageSeconds"`
+	AllowedActions  []string                                  `json:"allowedActions,omitempty"`
+	Annotations     *KubernetesStringMap                      `json:"annotations,omitempty"`
+	Conditions      []KubernetesWorkloadCondition             `json:"conditions,omitempty"`
+	CreatedAt       string                                    `json:"createdAt,omitempty"`
+	CurrentReplicas int32                                     `json:"currentReplicas"`
+	DesiredReplicas int32                                     `json:"desiredReplicas"`
+	Labels          *KubernetesStringMap                      `json:"labels,omitempty"`
+	MaxReplicas     int32                                     `json:"maxReplicas"`
+	Metrics         []KubernetesHorizontalPodAutoscalerMetric `json:"metrics,omitempty"`
+	MinReplicas     int32                                     `json:"minReplicas"`
+	Name            string                                    `json:"name"`
+	Namespace       string                                    `json:"namespace"`
+	TargetRef       string                                    `json:"targetRef"`
+}
+
+// KubernetesHorizontalPodAutoscalerDetailEnvelope defines model for KubernetesHorizontalPodAutoscalerDetailEnvelope.
+type KubernetesHorizontalPodAutoscalerDetailEnvelope struct {
+	Data KubernetesHorizontalPodAutoscalerDetail `json:"data"`
+}
+
+// KubernetesHorizontalPodAutoscalerListEnvelope defines model for KubernetesHorizontalPodAutoscalerListEnvelope.
+type KubernetesHorizontalPodAutoscalerListEnvelope struct {
+	Items []KubernetesHorizontalPodAutoscaler `json:"items"`
+}
+
+// KubernetesHorizontalPodAutoscalerMetric defines model for KubernetesHorizontalPodAutoscalerMetric.
+type KubernetesHorizontalPodAutoscalerMetric struct {
+	Current string `json:"current,omitempty"`
+	Name    string `json:"name,omitempty"`
+	Target  string `json:"target,omitempty"`
+	Type    string `json:"type"`
+}
+
 // KubernetesImportCandidate defines model for KubernetesImportCandidate.
 type KubernetesImportCandidate struct {
 	ClusterID        string                                `json:"clusterId"`
@@ -10888,6 +12069,726 @@ type KubernetesImportedTarget struct {
 // KubernetesImportedTargetWorkloadKind defines model for KubernetesImportedTarget.WorkloadKind.
 type KubernetesImportedTargetWorkloadKind string
 
+// KubernetesIngress defines model for KubernetesIngress.
+type KubernetesIngress struct {
+	Address         string   `json:"address,omitempty"`
+	AgeSeconds      int64    `json:"ageSeconds"`
+	AllowedActions  []string `json:"allowedActions,omitempty"`
+	BackendServices []string `json:"backendServices,omitempty"`
+	ClassName       string   `json:"className,omitempty"`
+	Hosts           []string `json:"hosts,omitempty"`
+	Name            string   `json:"name"`
+	Namespace       string   `json:"namespace"`
+}
+
+// KubernetesIngressBackend defines model for KubernetesIngressBackend.
+type KubernetesIngressBackend struct {
+	Endpoints   []KubernetesServiceEndpoint   `json:"endpoints,omitempty"`
+	Pods        []KubernetesNetworkRelatedPod `json:"pods,omitempty"`
+	ServiceName string                        `json:"serviceName"`
+}
+
+// KubernetesIngressClass defines model for KubernetesIngressClass.
+type KubernetesIngressClass struct {
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	Controller     string   `json:"controller"`
+	IsDefault      bool     `json:"isDefault"`
+	Name           string   `json:"name"`
+	Parameters     string   `json:"parameters,omitempty"`
+}
+
+// KubernetesIngressClassDetail defines model for KubernetesIngressClassDetail.
+type KubernetesIngressClassDetail struct {
+	AgeSeconds     int64                `json:"ageSeconds"`
+	AllowedActions []string             `json:"allowedActions,omitempty"`
+	Annotations    *KubernetesStringMap `json:"annotations,omitempty"`
+	Controller     string               `json:"controller"`
+	Ingresses      []KubernetesIngress  `json:"ingresses,omitempty"`
+	IsDefault      bool                 `json:"isDefault"`
+	Labels         *KubernetesStringMap `json:"labels,omitempty"`
+	Name           string               `json:"name"`
+	Parameters     string               `json:"parameters,omitempty"`
+}
+
+// KubernetesIngressClassDetailEnvelope defines model for KubernetesIngressClassDetailEnvelope.
+type KubernetesIngressClassDetailEnvelope struct {
+	Data KubernetesIngressClassDetail `json:"data"`
+}
+
+// KubernetesIngressClassListEnvelope defines model for KubernetesIngressClassListEnvelope.
+type KubernetesIngressClassListEnvelope struct {
+	Items []KubernetesIngressClass `json:"items"`
+}
+
+// KubernetesIngressDetail defines model for KubernetesIngressDetail.
+type KubernetesIngressDetail struct {
+	Address        string                     `json:"address,omitempty"`
+	AgeSeconds     int64                      `json:"ageSeconds"`
+	AllowedActions []string                   `json:"allowedActions,omitempty"`
+	Annotations    *KubernetesStringMap       `json:"annotations,omitempty"`
+	Backends       []KubernetesIngressBackend `json:"backends,omitempty"`
+	ClassName      string                     `json:"className,omitempty"`
+	Labels         *KubernetesStringMap       `json:"labels,omitempty"`
+	Name           string                     `json:"name"`
+	Namespace      string                     `json:"namespace"`
+	Routes         []KubernetesIngressRoute   `json:"routes,omitempty"`
+}
+
+// KubernetesIngressDetailEnvelope defines model for KubernetesIngressDetailEnvelope.
+type KubernetesIngressDetailEnvelope struct {
+	Data KubernetesIngressDetail `json:"data"`
+}
+
+// KubernetesIngressListEnvelope defines model for KubernetesIngressListEnvelope.
+type KubernetesIngressListEnvelope struct {
+	Items []KubernetesIngress `json:"items"`
+}
+
+// KubernetesIngressRoute defines model for KubernetesIngressRoute.
+type KubernetesIngressRoute struct {
+	Host        string `json:"host,omitempty"`
+	Path        string `json:"path,omitempty"`
+	PathType    string `json:"pathType,omitempty"`
+	ServiceName string `json:"serviceName"`
+	ServicePort string `json:"servicePort,omitempty"`
+	TLS         bool   `json:"tls"`
+}
+
+// KubernetesJob defines model for KubernetesJob.
+type KubernetesJob struct {
+	Active         int32    `json:"active"`
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	CompletionMode string   `json:"completionMode,omitempty"`
+	Completions    int32    `json:"completions"`
+	Failed         int32    `json:"failed"`
+	Name           string   `json:"name"`
+	Namespace      string   `json:"namespace"`
+	Succeeded      int32    `json:"succeeded"`
+}
+
+// KubernetesJobDetail defines model for KubernetesJobDetail.
+type KubernetesJobDetail struct {
+	Active           int32                        `json:"active"`
+	AllowedActions   []string                     `json:"allowedActions,omitempty"`
+	Annotations      *KubernetesStringMap         `json:"annotations,omitempty"`
+	CompletionMode   string                       `json:"completionMode,omitempty"`
+	CompletionTime   string                       `json:"completionTime,omitempty"`
+	Completions      int32                        `json:"completions"`
+	CreatedAt        string                       `json:"createdAt,omitempty"`
+	Failed           int32                        `json:"failed"`
+	Labels           *KubernetesStringMap         `json:"labels,omitempty"`
+	Name             string                       `json:"name"`
+	Namespace        string                       `json:"namespace"`
+	Parallelism      int32                        `json:"parallelism"`
+	Pods             []KubernetesPod              `json:"pods,omitempty"`
+	RelatedResources []KubernetesWorkloadRelation `json:"relatedResources,omitempty"`
+	StartTime        string                       `json:"startTime,omitempty"`
+	Succeeded        int32                        `json:"succeeded"`
+}
+
+// KubernetesJobDetailEnvelope defines model for KubernetesJobDetailEnvelope.
+type KubernetesJobDetailEnvelope struct {
+	Data KubernetesJobDetail `json:"data"`
+}
+
+// KubernetesJobListEnvelope defines model for KubernetesJobListEnvelope.
+type KubernetesJobListEnvelope struct {
+	Items []KubernetesJob `json:"items"`
+}
+
+// KubernetesLease defines model for KubernetesLease.
+type KubernetesLease struct {
+	AcquireTime          string   `json:"acquireTime,omitempty"`
+	AgeSeconds           int64    `json:"ageSeconds"`
+	AllowedActions       []string `json:"allowedActions,omitempty"`
+	HolderIdentity       string   `json:"holderIdentity,omitempty"`
+	LeaseDurationSeconds int32    `json:"leaseDurationSeconds,omitempty"`
+	Name                 string   `json:"name"`
+	Namespace            string   `json:"namespace"`
+	RenewTime            string   `json:"renewTime,omitempty"`
+}
+
+// KubernetesLeaseListEnvelope defines model for KubernetesLeaseListEnvelope.
+type KubernetesLeaseListEnvelope struct {
+	Items []KubernetesLease `json:"items"`
+}
+
+// KubernetesLimitRange defines model for KubernetesLimitRange.
+type KubernetesLimitRange struct {
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	Limits         int      `json:"limits"`
+	Name           string   `json:"name"`
+	Namespace      string   `json:"namespace"`
+}
+
+// KubernetesLimitRangeDetail defines model for KubernetesLimitRangeDetail.
+type KubernetesLimitRangeDetail struct {
+	AgeSeconds     int64                      `json:"ageSeconds"`
+	AllowedActions []string                   `json:"allowedActions,omitempty"`
+	Annotations    *KubernetesStringMap       `json:"annotations,omitempty"`
+	CreatedAt      string                     `json:"createdAt,omitempty"`
+	Labels         *KubernetesStringMap       `json:"labels,omitempty"`
+	Limits         int                        `json:"limits"`
+	Name           string                     `json:"name"`
+	Namespace      string                     `json:"namespace"`
+	Rules          []KubernetesLimitRangeRule `json:"rules,omitempty"`
+}
+
+// KubernetesLimitRangeDetailEnvelope defines model for KubernetesLimitRangeDetailEnvelope.
+type KubernetesLimitRangeDetailEnvelope struct {
+	Data KubernetesLimitRangeDetail `json:"data"`
+}
+
+// KubernetesLimitRangeListEnvelope defines model for KubernetesLimitRangeListEnvelope.
+type KubernetesLimitRangeListEnvelope struct {
+	Items []KubernetesLimitRange `json:"items"`
+}
+
+// KubernetesLimitRangeRule defines model for KubernetesLimitRangeRule.
+type KubernetesLimitRangeRule struct {
+	Default              *KubernetesStringMap `json:"default,omitempty"`
+	DefaultRequest       *KubernetesStringMap `json:"defaultRequest,omitempty"`
+	Max                  *KubernetesStringMap `json:"max,omitempty"`
+	MaxLimitRequestRatio *KubernetesStringMap `json:"maxLimitRequestRatio,omitempty"`
+	Min                  *KubernetesStringMap `json:"min,omitempty"`
+	Type                 string               `json:"type"`
+}
+
+// KubernetesMonitoringDetail defines model for KubernetesMonitoringDetail.
+type KubernetesMonitoringDetail struct {
+	Prometheus KubernetesPrometheusDetail `json:"prometheus"`
+}
+
+// KubernetesNamespace defines model for KubernetesNamespace.
+type KubernetesNamespace struct {
+	AgeSeconds     int64                `json:"ageSeconds"`
+	AllowedActions []string             `json:"allowedActions,omitempty"`
+	Annotations    *KubernetesStringMap `json:"annotations,omitempty"`
+	Labels         KubernetesStringMap  `json:"labels"`
+	Name           string               `json:"name"`
+	Status         string               `json:"status"`
+}
+
+// KubernetesNamespaceListEnvelope defines model for KubernetesNamespaceListEnvelope.
+type KubernetesNamespaceListEnvelope struct {
+	Items []KubernetesNamespace `json:"items"`
+}
+
+// KubernetesNetworkPolicy defines model for KubernetesNetworkPolicy.
+type KubernetesNetworkPolicy struct {
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	EgressRules    int      `json:"egressRules"`
+	IngressRules   int      `json:"ingressRules"`
+	Name           string   `json:"name"`
+	Namespace      string   `json:"namespace"`
+	PolicyTypes    []string `json:"policyTypes,omitempty"`
+}
+
+// KubernetesNetworkPolicyDetail defines model for KubernetesNetworkPolicyDetail.
+type KubernetesNetworkPolicyDetail struct {
+	AgeSeconds     int64                         `json:"ageSeconds"`
+	AllowedActions []string                      `json:"allowedActions,omitempty"`
+	Annotations    *KubernetesStringMap          `json:"annotations,omitempty"`
+	Labels         *KubernetesStringMap          `json:"labels,omitempty"`
+	MatchingPods   []KubernetesPod               `json:"matchingPods,omitempty"`
+	Name           string                        `json:"name"`
+	Namespace      string                        `json:"namespace"`
+	PodSelector    string                        `json:"podSelector,omitempty"`
+	PolicyTypes    []string                      `json:"policyTypes,omitempty"`
+	Rules          []KubernetesNetworkPolicyRule `json:"rules,omitempty"`
+}
+
+// KubernetesNetworkPolicyDetailEnvelope defines model for KubernetesNetworkPolicyDetailEnvelope.
+type KubernetesNetworkPolicyDetailEnvelope struct {
+	Data KubernetesNetworkPolicyDetail `json:"data"`
+}
+
+// KubernetesNetworkPolicyListEnvelope defines model for KubernetesNetworkPolicyListEnvelope.
+type KubernetesNetworkPolicyListEnvelope struct {
+	Items []KubernetesNetworkPolicy `json:"items"`
+}
+
+// KubernetesNetworkPolicyPeer defines model for KubernetesNetworkPolicyPeer.
+type KubernetesNetworkPolicyPeer struct {
+	IPBlock           string `json:"ipBlock,omitempty"`
+	NamespaceSelector string `json:"namespaceSelector,omitempty"`
+	PodSelector       string `json:"podSelector,omitempty"`
+}
+
+// KubernetesNetworkPolicyPort defines model for KubernetesNetworkPolicyPort.
+type KubernetesNetworkPolicyPort struct {
+	EndPort  int32  `json:"endPort,omitempty"`
+	Port     string `json:"port,omitempty"`
+	Protocol string `json:"protocol,omitempty"`
+}
+
+// KubernetesNetworkPolicyRule defines model for KubernetesNetworkPolicyRule.
+type KubernetesNetworkPolicyRule struct {
+	Direction string                        `json:"direction"`
+	Peers     []KubernetesNetworkPolicyPeer `json:"peers,omitempty"`
+	Ports     []KubernetesNetworkPolicyPort `json:"ports,omitempty"`
+}
+
+// KubernetesNetworkRelatedPod defines model for KubernetesNetworkRelatedPod.
+type KubernetesNetworkRelatedPod struct {
+	AgeSeconds             int64                          `json:"ageSeconds"`
+	AllowedActions         []string                       `json:"allowedActions,omitempty"`
+	CPU                    string                         `json:"cpu,omitempty"`
+	CreatedAt              string                         `json:"createdAt,omitempty"`
+	Labels                 *KubernetesStringMap           `json:"labels,omitempty"`
+	Limits                 *KubernetesResourceQuantity    `json:"limits,omitempty"`
+	Memory                 string                         `json:"memory,omitempty"`
+	Name                   string                         `json:"name"`
+	Namespace              string                         `json:"namespace"`
+	NodeName               string                         `json:"nodeName,omitempty"`
+	PersistentVolumeClaims []string                       `json:"persistentVolumeClaims,omitempty"`
+	Phase                  string                         `json:"phase"`
+	PodIP                  string                         `json:"podIp,omitempty"`
+	ReadyContainers        string                         `json:"readyContainers"`
+	Requests               *KubernetesResourceQuantity    `json:"requests,omitempty"`
+	Restarts               int32                          `json:"restarts"`
+	Workloads              []KubernetesPodRelatedResource `json:"workloads,omitempty"`
+}
+
+// KubernetesNetworkTopology defines model for KubernetesNetworkTopology.
+type KubernetesNetworkTopology struct {
+	ClusterID   string                           `json:"clusterId"`
+	GeneratedAt string                           `json:"generatedAt"`
+	Namespace   string                           `json:"namespace,omitempty"`
+	Source      string                           `json:"source"`
+	Summary     KubernetesNetworkTopologySummary `json:"summary"`
+	Traces      []KubernetesNetworkTopologyTrace `json:"traces,omitempty"`
+	Warnings    []string                         `json:"warnings,omitempty"`
+}
+
+// KubernetesNetworkTopologyEnvelope defines model for KubernetesNetworkTopologyEnvelope.
+type KubernetesNetworkTopologyEnvelope struct {
+	Data KubernetesNetworkTopology `json:"data"`
+}
+
+// KubernetesNetworkTopologyNode defines model for KubernetesNetworkTopologyNode.
+type KubernetesNetworkTopologyNode struct {
+	Badge        string `json:"badge,omitempty"`
+	ID           string `json:"id"`
+	Kind         string `json:"kind"`
+	Name         string `json:"name"`
+	Namespace    string `json:"namespace,omitempty"`
+	ResourceName string `json:"resourceName,omitempty"`
+	State        string `json:"state"`
+	Subtitle     string `json:"subtitle,omitempty"`
+}
+
+// KubernetesNetworkTopologySummary defines model for KubernetesNetworkTopologySummary.
+type KubernetesNetworkTopologySummary struct {
+	BackendPodCount     int `json:"backendPodCount"`
+	EntryCount          int `json:"entryCount"`
+	MissingServiceCount int `json:"missingServiceCount"`
+	PendingRouteCount   int `json:"pendingRouteCount"`
+	RouteCount          int `json:"routeCount"`
+	ServiceCount        int `json:"serviceCount"`
+}
+
+// KubernetesNetworkTopologyTrace defines model for KubernetesNetworkTopologyTrace.
+type KubernetesNetworkTopologyTrace struct {
+	BackendPods []KubernetesNetworkTopologyNode `json:"backendPods,omitempty"`
+	Entry       KubernetesNetworkTopologyNode   `json:"entry"`
+	ID          string                          `json:"id"`
+	Note        string                          `json:"note,omitempty"`
+	Route       KubernetesNetworkTopologyNode   `json:"route"`
+	Service     *KubernetesNetworkTopologyNode  `json:"service,omitempty"`
+	SourceType  string                          `json:"sourceType"`
+	State       string                          `json:"state"`
+}
+
+// KubernetesNode defines model for KubernetesNode.
+type KubernetesNode struct {
+	AgeSeconds     int64                          `json:"ageSeconds"`
+	AllowedActions []string                       `json:"allowedActions,omitempty"`
+	InternalIP     string                         `json:"internalIp,omitempty"`
+	Name           string                         `json:"name"`
+	PodCount       int                            `json:"podCount"`
+	Resources      *KubernetesNodeResourceSummary `json:"resources,omitempty"`
+	Roles          []string                       `json:"roles,omitempty"`
+	Status         string                         `json:"status"`
+	Unschedulable  bool                           `json:"unschedulable"`
+	Version        string                         `json:"version,omitempty"`
+}
+
+// KubernetesNodeDetail defines model for KubernetesNodeDetail.
+type KubernetesNodeDetail struct {
+	AgeSeconds        int64                          `json:"ageSeconds"`
+	AllowedActions    []string                       `json:"allowedActions,omitempty"`
+	Annotations       *KubernetesStringMap           `json:"annotations,omitempty"`
+	Conditions        []KubernetesWorkloadCondition  `json:"conditions,omitempty"`
+	InternalIP        string                         `json:"internalIp,omitempty"`
+	Labels            *KubernetesStringMap           `json:"labels,omitempty"`
+	MetricsConfigured bool                           `json:"metricsConfigured"`
+	MetricsMessage    string                         `json:"metricsMessage,omitempty"`
+	Name              string                         `json:"name"`
+	PodCount          int                            `json:"podCount"`
+	Pods              []KubernetesNodePod            `json:"pods,omitempty"`
+	Resources         *KubernetesNodeResourceSummary `json:"resources,omitempty"`
+	Roles             []string                       `json:"roles,omitempty"`
+	Status            string                         `json:"status"`
+	Taints            []KubernetesNodeTaint          `json:"taints,omitempty"`
+	Unschedulable     bool                           `json:"unschedulable"`
+	Version           string                         `json:"version,omitempty"`
+}
+
+// KubernetesNodeDetailEnvelope defines model for KubernetesNodeDetailEnvelope.
+type KubernetesNodeDetailEnvelope struct {
+	Data KubernetesNodeDetail `json:"data"`
+}
+
+// KubernetesNodeListEnvelope defines model for KubernetesNodeListEnvelope.
+type KubernetesNodeListEnvelope struct {
+	Items []KubernetesNode `json:"items"`
+}
+
+// KubernetesNodePod defines model for KubernetesNodePod.
+type KubernetesNodePod struct {
+	AgeSeconds      int64                       `json:"ageSeconds"`
+	CPU             string                      `json:"cpu,omitempty"`
+	Labels          *KubernetesStringMap        `json:"labels,omitempty"`
+	Limits          *KubernetesResourceQuantity `json:"limits,omitempty"`
+	Memory          string                      `json:"memory,omitempty"`
+	Name            string                      `json:"name"`
+	Namespace       string                      `json:"namespace"`
+	Phase           string                      `json:"phase"`
+	PodIP           string                      `json:"podIp,omitempty"`
+	ReadyContainers string                      `json:"readyContainers"`
+	Requests        *KubernetesResourceQuantity `json:"requests,omitempty"`
+	Restarts        int32                       `json:"restarts"`
+}
+
+// KubernetesNodeResourceSummary defines model for KubernetesNodeResourceSummary.
+type KubernetesNodeResourceSummary struct {
+	Allocatable        *KubernetesResourceQuantity   `json:"allocatable,omitempty"`
+	Capacity           *KubernetesResourceQuantity   `json:"capacity,omitempty"`
+	LimitPercentages   *KubernetesResourcePercentage `json:"limitPercentages,omitempty"`
+	Limits             *KubernetesResourceQuantity   `json:"limits,omitempty"`
+	RequestPercentages *KubernetesResourcePercentage `json:"requestPercentages,omitempty"`
+	Requests           *KubernetesResourceQuantity   `json:"requests,omitempty"`
+	Usage              *KubernetesResourceQuantity   `json:"usage,omitempty"`
+	UsagePercentages   *KubernetesResourcePercentage `json:"usagePercentages,omitempty"`
+}
+
+// KubernetesNodeTaint defines model for KubernetesNodeTaint.
+type KubernetesNodeTaint struct {
+	Effect string `json:"effect"`
+	Key    string `json:"key"`
+	Value  string `json:"value,omitempty"`
+}
+
+// KubernetesPersistentVolume defines model for KubernetesPersistentVolume.
+type KubernetesPersistentVolume struct {
+	AccessModes    []string `json:"accessModes,omitempty"`
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	Capacity       string   `json:"capacity,omitempty"`
+	ClaimName      string   `json:"claimName,omitempty"`
+	ClaimNamespace string   `json:"claimNamespace,omitempty"`
+	ClaimRef       string   `json:"claimRef,omitempty"`
+	Name           string   `json:"name"`
+	ReclaimPolicy  string   `json:"reclaimPolicy,omitempty"`
+	Status         string   `json:"status"`
+	StorageClass   string   `json:"storageClass,omitempty"`
+	VolumeMode     string   `json:"volumeMode,omitempty"`
+}
+
+// KubernetesPersistentVolumeClaim defines model for KubernetesPersistentVolumeClaim.
+type KubernetesPersistentVolumeClaim struct {
+	AccessModes    []string `json:"accessModes,omitempty"`
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	Name           string   `json:"name"`
+	Namespace      string   `json:"namespace"`
+	Requested      string   `json:"requested,omitempty"`
+	Status         string   `json:"status"`
+	StorageClass   string   `json:"storageClass,omitempty"`
+	VolumeName     string   `json:"volumeName,omitempty"`
+}
+
+// KubernetesPersistentVolumeClaimDetail defines model for KubernetesPersistentVolumeClaimDetail.
+type KubernetesPersistentVolumeClaimDetail struct {
+	AccessModes    []string                        `json:"accessModes,omitempty"`
+	AgeSeconds     int64                           `json:"ageSeconds"`
+	AllowedActions []string                        `json:"allowedActions,omitempty"`
+	Annotations    *KubernetesStringMap            `json:"annotations,omitempty"`
+	Capacity       string                          `json:"capacity,omitempty"`
+	CreatedAt      string                          `json:"createdAt,omitempty"`
+	Labels         *KubernetesStringMap            `json:"labels,omitempty"`
+	Name           string                          `json:"name"`
+	Namespace      string                          `json:"namespace"`
+	Pods           []KubernetesStoragePodReference `json:"pods,omitempty"`
+	PodsTruncated  bool                            `json:"podsTruncated,omitempty"`
+	Requested      string                          `json:"requested,omitempty"`
+	Status         string                          `json:"status"`
+	StorageClass   string                          `json:"storageClass,omitempty"`
+	VolumeMode     string                          `json:"volumeMode,omitempty"`
+	VolumeName     string                          `json:"volumeName,omitempty"`
+}
+
+// KubernetesPersistentVolumeClaimDetailEnvelope defines model for KubernetesPersistentVolumeClaimDetailEnvelope.
+type KubernetesPersistentVolumeClaimDetailEnvelope struct {
+	Data KubernetesPersistentVolumeClaimDetail `json:"data"`
+}
+
+// KubernetesPersistentVolumeClaimListEnvelope defines model for KubernetesPersistentVolumeClaimListEnvelope.
+type KubernetesPersistentVolumeClaimListEnvelope struct {
+	Items []KubernetesPersistentVolumeClaim `json:"items"`
+}
+
+// KubernetesPersistentVolumeDetail defines model for KubernetesPersistentVolumeDetail.
+type KubernetesPersistentVolumeDetail struct {
+	AccessModes    []string             `json:"accessModes,omitempty"`
+	AgeSeconds     int64                `json:"ageSeconds"`
+	AllowedActions []string             `json:"allowedActions,omitempty"`
+	Annotations    *KubernetesStringMap `json:"annotations,omitempty"`
+	Capacity       string               `json:"capacity,omitempty"`
+	ClaimName      string               `json:"claimName,omitempty"`
+	ClaimNamespace string               `json:"claimNamespace,omitempty"`
+	ClaimRef       string               `json:"claimRef,omitempty"`
+	CreatedAt      string               `json:"createdAt,omitempty"`
+	Labels         *KubernetesStringMap `json:"labels,omitempty"`
+	Name           string               `json:"name"`
+	ReclaimPolicy  string               `json:"reclaimPolicy,omitempty"`
+	Status         string               `json:"status"`
+	StorageClass   string               `json:"storageClass,omitempty"`
+	VolumeMode     string               `json:"volumeMode,omitempty"`
+}
+
+// KubernetesPersistentVolumeDetailEnvelope defines model for KubernetesPersistentVolumeDetailEnvelope.
+type KubernetesPersistentVolumeDetailEnvelope struct {
+	Data KubernetesPersistentVolumeDetail `json:"data"`
+}
+
+// KubernetesPersistentVolumeListEnvelope defines model for KubernetesPersistentVolumeListEnvelope.
+type KubernetesPersistentVolumeListEnvelope struct {
+	Items []KubernetesPersistentVolume `json:"items"`
+}
+
+// KubernetesPod defines model for KubernetesPod.
+type KubernetesPod struct {
+	AgeSeconds             int64                       `json:"ageSeconds"`
+	AllowedActions         []string                    `json:"allowedActions,omitempty"`
+	CPU                    string                      `json:"cpu,omitempty"`
+	CreatedAt              string                      `json:"createdAt,omitempty"`
+	Labels                 *KubernetesStringMap        `json:"labels,omitempty"`
+	Limits                 *KubernetesResourceQuantity `json:"limits,omitempty"`
+	Memory                 string                      `json:"memory,omitempty"`
+	Name                   string                      `json:"name"`
+	Namespace              string                      `json:"namespace"`
+	NodeName               string                      `json:"nodeName,omitempty"`
+	PersistentVolumeClaims []string                    `json:"persistentVolumeClaims,omitempty"`
+	Phase                  string                      `json:"phase"`
+	PodIP                  string                      `json:"podIp,omitempty"`
+	ReadyContainers        string                      `json:"readyContainers"`
+	Requests               *KubernetesResourceQuantity `json:"requests,omitempty"`
+	Restarts               int32                       `json:"restarts"`
+}
+
+// KubernetesPodDetail defines model for KubernetesPodDetail.
+type KubernetesPodDetail struct {
+	AllowedActions     []string                       `json:"allowedActions,omitempty"`
+	Annotations        *KubernetesStringMap           `json:"annotations,omitempty"`
+	Conditions         []KubernetesWorkloadCondition  `json:"conditions,omitempty"`
+	Containers         []KubernetesWorkloadContainer  `json:"containers,omitempty"`
+	CreatedAt          string                         `json:"createdAt,omitempty"`
+	HostIP             string                         `json:"hostIp,omitempty"`
+	Labels             *KubernetesStringMap           `json:"labels,omitempty"`
+	Limits             *KubernetesResourceQuantity    `json:"limits,omitempty"`
+	Name               string                         `json:"name"`
+	Namespace          string                         `json:"namespace"`
+	NodeName           string                         `json:"nodeName,omitempty"`
+	Phase              string                         `json:"phase"`
+	PodIP              string                         `json:"podIp,omitempty"`
+	QosClass           string                         `json:"qosClass,omitempty"`
+	RelatedResources   []KubernetesPodRelatedResource `json:"relatedResources,omitempty"`
+	Requests           *KubernetesResourceQuantity    `json:"requests,omitempty"`
+	ServiceAccountName string                         `json:"serviceAccountName,omitempty"`
+	StartTime          string                         `json:"startTime,omitempty"`
+	Volumes            []KubernetesPodVolume          `json:"volumes,omitempty"`
+}
+
+// KubernetesPodDetailEnvelope defines model for KubernetesPodDetailEnvelope.
+type KubernetesPodDetailEnvelope struct {
+	Data KubernetesPodDetail `json:"data"`
+}
+
+// KubernetesPodDisruptionBudget defines model for KubernetesPodDisruptionBudget.
+type KubernetesPodDisruptionBudget struct {
+	AgeSeconds         int64    `json:"ageSeconds"`
+	AllowedActions     []string `json:"allowedActions,omitempty"`
+	CurrentHealthy     int32    `json:"currentHealthy"`
+	DesiredHealthy     int32    `json:"desiredHealthy"`
+	DisruptionsAllowed int32    `json:"disruptionsAllowed"`
+	MaxUnavailable     string   `json:"maxUnavailable,omitempty"`
+	MinAvailable       string   `json:"minAvailable,omitempty"`
+	Name               string   `json:"name"`
+	Namespace          string   `json:"namespace"`
+}
+
+// KubernetesPodDisruptionBudgetDetail defines model for KubernetesPodDisruptionBudgetDetail.
+type KubernetesPodDisruptionBudgetDetail struct {
+	AgeSeconds         int64                         `json:"ageSeconds"`
+	AllowedActions     []string                      `json:"allowedActions,omitempty"`
+	Annotations        *KubernetesStringMap          `json:"annotations,omitempty"`
+	Conditions         []KubernetesWorkloadCondition `json:"conditions,omitempty"`
+	CreatedAt          string                        `json:"createdAt,omitempty"`
+	CurrentHealthy     int32                         `json:"currentHealthy"`
+	DesiredHealthy     int32                         `json:"desiredHealthy"`
+	DisruptionsAllowed int32                         `json:"disruptionsAllowed"`
+	Labels             *KubernetesStringMap          `json:"labels,omitempty"`
+	MaxUnavailable     string                        `json:"maxUnavailable,omitempty"`
+	MinAvailable       string                        `json:"minAvailable,omitempty"`
+	Name               string                        `json:"name"`
+	Namespace          string                        `json:"namespace"`
+	Pods               []KubernetesPod               `json:"pods,omitempty"`
+	Selector           string                        `json:"selector,omitempty"`
+	Workload           *KubernetesPodRelatedResource `json:"workload,omitempty"`
+}
+
+// KubernetesPodDisruptionBudgetDetailEnvelope defines model for KubernetesPodDisruptionBudgetDetailEnvelope.
+type KubernetesPodDisruptionBudgetDetailEnvelope struct {
+	Data KubernetesPodDisruptionBudgetDetail `json:"data"`
+}
+
+// KubernetesPodDisruptionBudgetListEnvelope defines model for KubernetesPodDisruptionBudgetListEnvelope.
+type KubernetesPodDisruptionBudgetListEnvelope struct {
+	Items []KubernetesPodDisruptionBudget `json:"items"`
+}
+
+// KubernetesPodListEnvelope defines model for KubernetesPodListEnvelope.
+type KubernetesPodListEnvelope struct {
+	Items []KubernetesPod `json:"items"`
+}
+
+// KubernetesPodLogs defines model for KubernetesPodLogs.
+type KubernetesPodLogs struct {
+	Container    string `json:"container,omitempty"`
+	Content      string `json:"content"`
+	ContentBytes int64  `json:"contentBytes"`
+	MaxBytes     int64  `json:"maxBytes,omitempty"`
+	Namespace    string `json:"namespace"`
+	PodName      string `json:"podName"`
+	Previous     bool   `json:"previous,omitempty"`
+	TailLines    int64  `json:"tailLines,omitempty"`
+	Truncated    bool   `json:"truncated"`
+}
+
+// KubernetesPodLogsEnvelope defines model for KubernetesPodLogsEnvelope.
+type KubernetesPodLogsEnvelope struct {
+	Data KubernetesPodLogs `json:"data"`
+}
+
+// KubernetesPodRelatedResource defines model for KubernetesPodRelatedResource.
+type KubernetesPodRelatedResource struct {
+	Details   []string `json:"details,omitempty"`
+	Kind      string   `json:"kind"`
+	Name      string   `json:"name"`
+	Namespace string   `json:"namespace,omitempty"`
+	Relations []string `json:"relations,omitempty"`
+}
+
+// KubernetesPodVolume defines model for KubernetesPodVolume.
+type KubernetesPodVolume struct {
+	Details              []string                   `json:"details,omitempty"`
+	Name                 string                     `json:"name"`
+	ReadOnly             bool                       `json:"readOnly"`
+	ReferencedConfigMaps []string                   `json:"referencedConfigMaps,omitempty"`
+	SourceName           string                     `json:"sourceName,omitempty"`
+	Type                 string                     `json:"type"`
+	VolumeMounts         []KubernetesPodVolumeMount `json:"volumeMounts,omitempty"`
+}
+
+// KubernetesPodVolumeMount defines model for KubernetesPodVolumeMount.
+type KubernetesPodVolumeMount struct {
+	Description string `json:"description,omitempty"`
+	MountPath   string `json:"mountPath"`
+	Name        string `json:"name"`
+	ReadOnly    bool   `json:"readOnly"`
+	SourceName  string `json:"sourceName,omitempty"`
+	SubPath     string `json:"subPath,omitempty"`
+	VolumeType  string `json:"volumeType,omitempty"`
+}
+
+// KubernetesPriorityClass defines model for KubernetesPriorityClass.
+type KubernetesPriorityClass struct {
+	AgeSeconds       int64    `json:"ageSeconds"`
+	AllowedActions   []string `json:"allowedActions,omitempty"`
+	Description      string   `json:"description,omitempty"`
+	GlobalDefault    bool     `json:"globalDefault"`
+	Name             string   `json:"name"`
+	PreemptionPolicy string   `json:"preemptionPolicy,omitempty"`
+	Value            int32    `json:"value"`
+}
+
+// KubernetesPriorityClassListEnvelope defines model for KubernetesPriorityClassListEnvelope.
+type KubernetesPriorityClassListEnvelope struct {
+	Items []KubernetesPriorityClass `json:"items"`
+}
+
+// KubernetesPrometheusDetail defines model for KubernetesPrometheusDetail.
+type KubernetesPrometheusDetail struct {
+	BaseURL        string `json:"baseUrl,omitempty"`
+	ClusterLabel   string `json:"clusterLabel,omitempty"`
+	GrafanaBaseURL string `json:"grafanaBaseUrl,omitempty"`
+	HasBearerToken bool   `json:"hasBearerToken"`
+}
+
+// KubernetesReferenceGrant defines model for KubernetesReferenceGrant.
+type KubernetesReferenceGrant struct {
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	From           []string `json:"from,omitempty"`
+	Name           string   `json:"name"`
+	Namespace      string   `json:"namespace"`
+	To             []string `json:"to,omitempty"`
+}
+
+// KubernetesReferenceGrantDetail defines model for KubernetesReferenceGrantDetail.
+type KubernetesReferenceGrantDetail struct {
+	AgeSeconds     int64                          `json:"ageSeconds"`
+	AllowedActions []string                       `json:"allowedActions,omitempty"`
+	Annotations    *KubernetesStringMap           `json:"annotations,omitempty"`
+	From           []string                       `json:"from,omitempty"`
+	FromRefs       []KubernetesReferenceGrantFrom `json:"fromRefs,omitempty"`
+	Labels         *KubernetesStringMap           `json:"labels,omitempty"`
+	Name           string                         `json:"name"`
+	Namespace      string                         `json:"namespace"`
+	To             []string                       `json:"to,omitempty"`
+	ToRefs         []KubernetesReferenceGrantTo   `json:"toRefs,omitempty"`
+}
+
+// KubernetesReferenceGrantDetailEnvelope defines model for KubernetesReferenceGrantDetailEnvelope.
+type KubernetesReferenceGrantDetailEnvelope struct {
+	Data KubernetesReferenceGrantDetail `json:"data"`
+}
+
+// KubernetesReferenceGrantFrom defines model for KubernetesReferenceGrantFrom.
+type KubernetesReferenceGrantFrom struct {
+	Group     string `json:"group"`
+	Kind      string `json:"kind"`
+	Namespace string `json:"namespace"`
+}
+
+// KubernetesReferenceGrantListEnvelope defines model for KubernetesReferenceGrantListEnvelope.
+type KubernetesReferenceGrantListEnvelope struct {
+	Items []KubernetesReferenceGrant `json:"items"`
+}
+
+// KubernetesReferenceGrantTo defines model for KubernetesReferenceGrantTo.
+type KubernetesReferenceGrantTo struct {
+	Group string `json:"group"`
+	Kind  string `json:"kind"`
+	Name  string `json:"name,omitempty"`
+}
+
 // KubernetesRelatedResource defines model for KubernetesRelatedResource.
 type KubernetesRelatedResource struct {
 	Kind KubernetesRelatedResourceKind `json:"kind"`
@@ -10896,6 +12797,82 @@ type KubernetesRelatedResource struct {
 
 // KubernetesRelatedResourceKind defines model for KubernetesRelatedResource.Kind.
 type KubernetesRelatedResourceKind string
+
+// KubernetesReplicaSet defines model for KubernetesReplicaSet.
+type KubernetesReplicaSet struct {
+	AgeSeconds        int64    `json:"ageSeconds"`
+	AllowedActions    []string `json:"allowedActions,omitempty"`
+	AvailableReplicas int32    `json:"availableReplicas"`
+	DesiredReplicas   int32    `json:"desiredReplicas"`
+	Name              string   `json:"name"`
+	Namespace         string   `json:"namespace"`
+	ReadyReplicas     int32    `json:"readyReplicas"`
+}
+
+// KubernetesReplicaSetDetail defines model for KubernetesReplicaSetDetail.
+type KubernetesReplicaSetDetail struct {
+	AllowedActions    []string                     `json:"allowedActions,omitempty"`
+	Annotations       *KubernetesStringMap         `json:"annotations,omitempty"`
+	AvailableReplicas int32                        `json:"availableReplicas"`
+	CreatedAt         string                       `json:"createdAt,omitempty"`
+	DesiredReplicas   int32                        `json:"desiredReplicas"`
+	Labels            *KubernetesStringMap         `json:"labels,omitempty"`
+	Name              string                       `json:"name"`
+	Namespace         string                       `json:"namespace"`
+	Pods              []KubernetesPod              `json:"pods,omitempty"`
+	ReadyReplicas     int32                        `json:"readyReplicas"`
+	RelatedResources  []KubernetesWorkloadRelation `json:"relatedResources,omitempty"`
+	Selector          *KubernetesStringMap         `json:"selector,omitempty"`
+}
+
+// KubernetesReplicaSetDetailEnvelope defines model for KubernetesReplicaSetDetailEnvelope.
+type KubernetesReplicaSetDetailEnvelope struct {
+	Data KubernetesReplicaSetDetail `json:"data"`
+}
+
+// KubernetesReplicaSetListEnvelope defines model for KubernetesReplicaSetListEnvelope.
+type KubernetesReplicaSetListEnvelope struct {
+	Items []KubernetesReplicaSet `json:"items"`
+}
+
+// KubernetesReplicationController defines model for KubernetesReplicationController.
+type KubernetesReplicationController struct {
+	AgeSeconds        int64    `json:"ageSeconds"`
+	AllowedActions    []string `json:"allowedActions,omitempty"`
+	AvailableReplicas int32    `json:"availableReplicas"`
+	CurrentReplicas   int32    `json:"currentReplicas"`
+	DesiredReplicas   int32    `json:"desiredReplicas"`
+	Name              string   `json:"name"`
+	Namespace         string   `json:"namespace"`
+	ReadyReplicas     int32    `json:"readyReplicas"`
+}
+
+// KubernetesReplicationControllerDetail defines model for KubernetesReplicationControllerDetail.
+type KubernetesReplicationControllerDetail struct {
+	AllowedActions    []string                     `json:"allowedActions,omitempty"`
+	Annotations       *KubernetesStringMap         `json:"annotations,omitempty"`
+	AvailableReplicas int32                        `json:"availableReplicas"`
+	CreatedAt         string                       `json:"createdAt,omitempty"`
+	CurrentReplicas   int32                        `json:"currentReplicas"`
+	DesiredReplicas   int32                        `json:"desiredReplicas"`
+	Labels            *KubernetesStringMap         `json:"labels,omitempty"`
+	Name              string                       `json:"name"`
+	Namespace         string                       `json:"namespace"`
+	Pods              []KubernetesPod              `json:"pods,omitempty"`
+	ReadyReplicas     int32                        `json:"readyReplicas"`
+	RelatedResources  []KubernetesWorkloadRelation `json:"relatedResources,omitempty"`
+	Selector          *KubernetesStringMap         `json:"selector,omitempty"`
+}
+
+// KubernetesReplicationControllerDetailEnvelope defines model for KubernetesReplicationControllerDetailEnvelope.
+type KubernetesReplicationControllerDetailEnvelope struct {
+	Data KubernetesReplicationControllerDetail `json:"data"`
+}
+
+// KubernetesReplicationControllerListEnvelope defines model for KubernetesReplicationControllerListEnvelope.
+type KubernetesReplicationControllerListEnvelope struct {
+	Items []KubernetesReplicationController `json:"items"`
+}
 
 // KubernetesResourceAction defines model for KubernetesResourceAction.
 type KubernetesResourceAction string
@@ -11079,6 +13056,34 @@ type KubernetesResourceDryRunDecision struct {
 // KubernetesResourceDryRunStatus defines model for KubernetesResourceDryRunStatus.
 type KubernetesResourceDryRunStatus string
 
+// KubernetesResourceMetrics defines model for KubernetesResourceMetrics.
+type KubernetesResourceMetrics struct {
+	Configured     bool                        `json:"configured"`
+	GeneratedAt    time.Time                   `json:"generatedAt"`
+	GrafanaBaseURL string                      `json:"grafanaBaseUrl,omitempty"`
+	Message        string                      `json:"message,omitempty"`
+	Namespace      string                      `json:"namespace,omitempty"`
+	RangeMinutes   int                         `json:"rangeMinutes"`
+	ResourceKind   string                      `json:"resourceKind"`
+	ResourceName   string                      `json:"resourceName"`
+	Series         []ObservabilityMetricSeries `json:"series,omitempty"`
+	Source         string                      `json:"source"`
+	StepSeconds    int                         `json:"stepSeconds"`
+}
+
+// KubernetesResourceMetricsEnvelope defines model for KubernetesResourceMetricsEnvelope.
+type KubernetesResourceMetricsEnvelope struct {
+	Data KubernetesResourceMetrics `json:"data"`
+}
+
+// KubernetesResourcePercentage defines model for KubernetesResourcePercentage.
+type KubernetesResourcePercentage struct {
+	CPU              float64 `json:"cpu,omitempty"`
+	EphemeralStorage float64 `json:"ephemeralStorage,omitempty"`
+	Memory           float64 `json:"memory,omitempty"`
+	Pods             float64 `json:"pods,omitempty"`
+}
+
 // KubernetesResourcePreflight defines model for KubernetesResourcePreflight.
 type KubernetesResourcePreflight struct {
 	// ContentHash SHA-256 of the normalized complete request content, for matching UI state only; it is not an authorization token.
@@ -11103,6 +13108,49 @@ type KubernetesResourcePreflightItem struct {
 	// ResolvedNamespace Final namespace used for authorization and creation; omitted for cluster-scoped resources.
 	ResolvedNamespace string                      `json:"resolvedNamespace,omitempty"`
 	Warnings          []KubernetesResourceWarning `json:"warnings"`
+}
+
+// KubernetesResourceQuantity defines model for KubernetesResourceQuantity.
+type KubernetesResourceQuantity struct {
+	CPU              string `json:"cpu,omitempty"`
+	EphemeralStorage string `json:"ephemeralStorage,omitempty"`
+	Memory           string `json:"memory,omitempty"`
+	Pods             string `json:"pods,omitempty"`
+}
+
+// KubernetesResourceQuota defines model for KubernetesResourceQuota.
+type KubernetesResourceQuota struct {
+	AgeSeconds     int64                `json:"ageSeconds"`
+	AllowedActions []string             `json:"allowedActions,omitempty"`
+	Hard           *KubernetesStringMap `json:"hard,omitempty"`
+	Name           string               `json:"name"`
+	Namespace      string               `json:"namespace"`
+	Scopes         []string             `json:"scopes,omitempty"`
+	Used           *KubernetesStringMap `json:"used,omitempty"`
+}
+
+// KubernetesResourceQuotaDetail defines model for KubernetesResourceQuotaDetail.
+type KubernetesResourceQuotaDetail struct {
+	AgeSeconds     int64                `json:"ageSeconds"`
+	AllowedActions []string             `json:"allowedActions,omitempty"`
+	Annotations    *KubernetesStringMap `json:"annotations,omitempty"`
+	CreatedAt      string               `json:"createdAt,omitempty"`
+	Hard           *KubernetesStringMap `json:"hard,omitempty"`
+	Labels         *KubernetesStringMap `json:"labels,omitempty"`
+	Name           string               `json:"name"`
+	Namespace      string               `json:"namespace"`
+	Scopes         []string             `json:"scopes,omitempty"`
+	Used           *KubernetesStringMap `json:"used,omitempty"`
+}
+
+// KubernetesResourceQuotaDetailEnvelope defines model for KubernetesResourceQuotaDetailEnvelope.
+type KubernetesResourceQuotaDetailEnvelope struct {
+	Data KubernetesResourceQuotaDetail `json:"data"`
+}
+
+// KubernetesResourceQuotaListEnvelope defines model for KubernetesResourceQuotaListEnvelope.
+type KubernetesResourceQuotaListEnvelope struct {
+	Items []KubernetesResourceQuota `json:"items"`
 }
 
 // KubernetesResourceRef defines model for KubernetesResourceRef.
@@ -11140,6 +13188,191 @@ type KubernetesResourceWarning struct {
 	Message string `json:"message"`
 }
 
+// KubernetesResourceYaml defines model for KubernetesResourceYaml.
+type KubernetesResourceYaml struct {
+	Content   string `json:"content"`
+	Kind      string `json:"kind"`
+	Name      string `json:"name"`
+	Namespace string `json:"namespace,omitempty"`
+}
+
+// KubernetesResourceYamlEnvelope defines model for KubernetesResourceYamlEnvelope.
+type KubernetesResourceYamlEnvelope struct {
+	Data KubernetesResourceYaml `json:"data"`
+}
+
+// KubernetesRole defines model for KubernetesRole.
+type KubernetesRole struct {
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	Name           string   `json:"name"`
+	Namespace      string   `json:"namespace"`
+}
+
+// KubernetesRoleBinding defines model for KubernetesRoleBinding.
+type KubernetesRoleBinding struct {
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	Name           string   `json:"name"`
+	Namespace      string   `json:"namespace"`
+	RoleRef        string   `json:"roleRef"`
+}
+
+// KubernetesRoleBindingDetail defines model for KubernetesRoleBindingDetail.
+type KubernetesRoleBindingDetail struct {
+	AgeSeconds     int64                `json:"ageSeconds"`
+	AllowedActions []string             `json:"allowedActions,omitempty"`
+	Annotations    *KubernetesStringMap `json:"annotations,omitempty"`
+	CreatedAt      string               `json:"createdAt,omitempty"`
+	Labels         *KubernetesStringMap `json:"labels,omitempty"`
+	Name           string               `json:"name"`
+	Namespace      string               `json:"namespace"`
+	RoleRef        string               `json:"roleRef"`
+	Subjects       []string             `json:"subjects,omitempty"`
+}
+
+// KubernetesRoleBindingDetailEnvelope defines model for KubernetesRoleBindingDetailEnvelope.
+type KubernetesRoleBindingDetailEnvelope struct {
+	Data KubernetesRoleBindingDetail `json:"data"`
+}
+
+// KubernetesRoleBindingListEnvelope defines model for KubernetesRoleBindingListEnvelope.
+type KubernetesRoleBindingListEnvelope struct {
+	Items []KubernetesRoleBinding `json:"items"`
+}
+
+// KubernetesRoleDetail defines model for KubernetesRoleDetail.
+type KubernetesRoleDetail struct {
+	AgeSeconds     int64                `json:"ageSeconds"`
+	AllowedActions []string             `json:"allowedActions,omitempty"`
+	Annotations    *KubernetesStringMap `json:"annotations,omitempty"`
+	CreatedAt      string               `json:"createdAt,omitempty"`
+	Labels         *KubernetesStringMap `json:"labels,omitempty"`
+	Name           string               `json:"name"`
+	Namespace      string               `json:"namespace"`
+	RuleSummaries  []string             `json:"ruleSummaries,omitempty"`
+	Rules          int                  `json:"rules"`
+}
+
+// KubernetesRoleDetailEnvelope defines model for KubernetesRoleDetailEnvelope.
+type KubernetesRoleDetailEnvelope struct {
+	Data KubernetesRoleDetail `json:"data"`
+}
+
+// KubernetesRoleListEnvelope defines model for KubernetesRoleListEnvelope.
+type KubernetesRoleListEnvelope struct {
+	Items []KubernetesRole `json:"items"`
+}
+
+// KubernetesRuntimeClass defines model for KubernetesRuntimeClass.
+type KubernetesRuntimeClass struct {
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	Handler        string   `json:"handler"`
+	Name           string   `json:"name"`
+}
+
+// KubernetesRuntimeClassListEnvelope defines model for KubernetesRuntimeClassListEnvelope.
+type KubernetesRuntimeClassListEnvelope struct {
+	Items []KubernetesRuntimeClass `json:"items"`
+}
+
+// KubernetesSecretMetadata defines model for KubernetesSecretMetadata.
+type KubernetesSecretMetadata struct {
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	DataEntries    int      `json:"dataEntries"`
+	Immutable      bool     `json:"immutable"`
+	Name           string   `json:"name"`
+	Namespace      string   `json:"namespace"`
+	Type           string   `json:"type"`
+}
+
+// KubernetesSecretMetadataListEnvelope defines model for KubernetesSecretMetadataListEnvelope.
+type KubernetesSecretMetadataListEnvelope struct {
+	Items []KubernetesSecretMetadata `json:"items"`
+}
+
+// KubernetesService defines model for KubernetesService.
+type KubernetesService struct {
+	AgeSeconds     int64                `json:"ageSeconds"`
+	AllowedActions []string             `json:"allowedActions,omitempty"`
+	ClusterIP      string               `json:"clusterIp,omitempty"`
+	Name           string               `json:"name"`
+	Namespace      string               `json:"namespace"`
+	Ports          []string             `json:"ports,omitempty"`
+	Selector       *KubernetesStringMap `json:"selector,omitempty"`
+	Type           string               `json:"type"`
+}
+
+// KubernetesServiceAccount defines model for KubernetesServiceAccount.
+type KubernetesServiceAccount struct {
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	Name           string   `json:"name"`
+	Namespace      string   `json:"namespace"`
+}
+
+// KubernetesServiceAccountDetail defines model for KubernetesServiceAccountDetail.
+type KubernetesServiceAccountDetail struct {
+	AgeSeconds                   int64                `json:"ageSeconds"`
+	AllowedActions               []string             `json:"allowedActions,omitempty"`
+	Annotations                  *KubernetesStringMap `json:"annotations,omitempty"`
+	AutomountServiceAccountToken bool                 `json:"automountServiceAccountToken"`
+	CreatedAt                    string               `json:"createdAt,omitempty"`
+
+	// ImagePullSecrets Image pull Secret names only.
+	ImagePullSecrets []string             `json:"imagePullSecrets,omitempty"`
+	Labels           *KubernetesStringMap `json:"labels,omitempty"`
+	Name             string               `json:"name"`
+	Namespace        string               `json:"namespace"`
+
+	// Secrets Secret names only. Secret values are never returned.
+	Secrets []string `json:"secrets,omitempty"`
+}
+
+// KubernetesServiceAccountDetailEnvelope defines model for KubernetesServiceAccountDetailEnvelope.
+type KubernetesServiceAccountDetailEnvelope struct {
+	Data KubernetesServiceAccountDetail `json:"data"`
+}
+
+// KubernetesServiceAccountListEnvelope defines model for KubernetesServiceAccountListEnvelope.
+type KubernetesServiceAccountListEnvelope struct {
+	Items []KubernetesServiceAccount `json:"items"`
+}
+
+// KubernetesServiceDetail defines model for KubernetesServiceDetail.
+type KubernetesServiceDetail struct {
+	AgeSeconds     int64                       `json:"ageSeconds"`
+	AllowedActions []string                    `json:"allowedActions,omitempty"`
+	Annotations    *KubernetesStringMap        `json:"annotations,omitempty"`
+	BackendPods    []KubernetesPod             `json:"backendPods,omitempty"`
+	ClusterIP      string                      `json:"clusterIp,omitempty"`
+	Endpoints      []KubernetesServiceEndpoint `json:"endpoints,omitempty"`
+	Labels         *KubernetesStringMap        `json:"labels,omitempty"`
+	Name           string                      `json:"name"`
+	Namespace      string                      `json:"namespace"`
+	Ports          []string                    `json:"ports,omitempty"`
+	Selector       *KubernetesStringMap        `json:"selector,omitempty"`
+	Type           string                      `json:"type"`
+}
+
+// KubernetesServiceDetailEnvelope defines model for KubernetesServiceDetailEnvelope.
+type KubernetesServiceDetailEnvelope struct {
+	Data KubernetesServiceDetail `json:"data"`
+}
+
+// KubernetesServiceEndpoint defines model for KubernetesServiceEndpoint.
+type KubernetesServiceEndpoint struct {
+	Address     string `json:"address"`
+	NodeName    string `json:"nodeName,omitempty"`
+	Ready       bool   `json:"ready,omitempty"`
+	Serving     bool   `json:"serving,omitempty"`
+	TargetRef   string `json:"targetRef,omitempty"`
+	Terminating bool   `json:"terminating,omitempty"`
+	Zone        string `json:"zone,omitempty"`
+}
+
 // KubernetesServiceImportRequest defines model for KubernetesServiceImportRequest.
 type KubernetesServiceImportRequest struct {
 	ApplicationKey  string                                      `json:"applicationKey"`
@@ -11174,6 +13407,128 @@ type KubernetesServiceImportResultEnvelope struct {
 	Data KubernetesServiceImportResult `json:"data"`
 }
 
+// KubernetesServiceListEnvelope defines model for KubernetesServiceListEnvelope.
+type KubernetesServiceListEnvelope struct {
+	Items []KubernetesService `json:"items"`
+}
+
+// KubernetesStatefulSet defines model for KubernetesStatefulSet.
+type KubernetesStatefulSet struct {
+	AgeSeconds      int64    `json:"ageSeconds"`
+	AllowedActions  []string `json:"allowedActions,omitempty"`
+	CurrentReplicas int32    `json:"currentReplicas"`
+	DesiredReplicas int32    `json:"desiredReplicas"`
+	Name            string   `json:"name"`
+	Namespace       string   `json:"namespace"`
+	ReadyReplicas   int32    `json:"readyReplicas"`
+	ServiceName     string   `json:"serviceName,omitempty"`
+}
+
+// KubernetesStatefulSetDetail defines model for KubernetesStatefulSetDetail.
+type KubernetesStatefulSetDetail struct {
+	AllowedActions   []string                     `json:"allowedActions,omitempty"`
+	Annotations      *KubernetesStringMap         `json:"annotations,omitempty"`
+	CreatedAt        string                       `json:"createdAt,omitempty"`
+	CurrentReplicas  int32                        `json:"currentReplicas"`
+	CurrentRevision  string                       `json:"currentRevision,omitempty"`
+	DesiredReplicas  int32                        `json:"desiredReplicas"`
+	Labels           *KubernetesStringMap         `json:"labels,omitempty"`
+	Name             string                       `json:"name"`
+	Namespace        string                       `json:"namespace"`
+	Pods             []KubernetesPod              `json:"pods,omitempty"`
+	ReadyReplicas    int32                        `json:"readyReplicas"`
+	RelatedResources []KubernetesWorkloadRelation `json:"relatedResources,omitempty"`
+	Selector         *KubernetesStringMap         `json:"selector,omitempty"`
+	ServiceName      string                       `json:"serviceName,omitempty"`
+	UpdateRevision   string                       `json:"updateRevision,omitempty"`
+	UpdateStrategy   string                       `json:"updateStrategy,omitempty"`
+}
+
+// KubernetesStatefulSetDetailEnvelope defines model for KubernetesStatefulSetDetailEnvelope.
+type KubernetesStatefulSetDetailEnvelope struct {
+	Data KubernetesStatefulSetDetail `json:"data"`
+}
+
+// KubernetesStatefulSetListEnvelope defines model for KubernetesStatefulSetListEnvelope.
+type KubernetesStatefulSetListEnvelope struct {
+	Items []KubernetesStatefulSet `json:"items"`
+}
+
+// KubernetesStorageClass defines model for KubernetesStorageClass.
+type KubernetesStorageClass struct {
+	AgeSeconds           int64    `json:"ageSeconds"`
+	AllowVolumeExpansion bool     `json:"allowVolumeExpansion"`
+	AllowedActions       []string `json:"allowedActions,omitempty"`
+	Name                 string   `json:"name"`
+	Provisioner          string   `json:"provisioner"`
+	ReclaimPolicy        string   `json:"reclaimPolicy,omitempty"`
+	VolumeBindingMode    string   `json:"volumeBindingMode,omitempty"`
+}
+
+// KubernetesStorageClassDetail defines model for KubernetesStorageClassDetail.
+type KubernetesStorageClassDetail struct {
+	AgeSeconds           int64                             `json:"ageSeconds"`
+	AllowVolumeExpansion bool                              `json:"allowVolumeExpansion"`
+	AllowedActions       []string                          `json:"allowedActions,omitempty"`
+	Annotations          *KubernetesStringMap              `json:"annotations,omitempty"`
+	Claims               []KubernetesPersistentVolumeClaim `json:"claims,omitempty"`
+	ClaimsTruncated      bool                              `json:"claimsTruncated,omitempty"`
+	CreatedAt            string                            `json:"createdAt,omitempty"`
+	Labels               *KubernetesStringMap              `json:"labels,omitempty"`
+	Name                 string                            `json:"name"`
+	Parameters           *KubernetesStringMap              `json:"parameters,omitempty"`
+	Provisioner          string                            `json:"provisioner"`
+	ReclaimPolicy        string                            `json:"reclaimPolicy,omitempty"`
+	VolumeBindingMode    string                            `json:"volumeBindingMode,omitempty"`
+	Volumes              []KubernetesPersistentVolume      `json:"volumes,omitempty"`
+	VolumesTruncated     bool                              `json:"volumesTruncated,omitempty"`
+}
+
+// KubernetesStorageClassDetailEnvelope defines model for KubernetesStorageClassDetailEnvelope.
+type KubernetesStorageClassDetailEnvelope struct {
+	Data KubernetesStorageClassDetail `json:"data"`
+}
+
+// KubernetesStorageClassListEnvelope defines model for KubernetesStorageClassListEnvelope.
+type KubernetesStorageClassListEnvelope struct {
+	Items []KubernetesStorageClass `json:"items"`
+}
+
+// KubernetesStoragePodReference defines model for KubernetesStoragePodReference.
+type KubernetesStoragePodReference struct {
+	Name      string `json:"name"`
+	Namespace string `json:"namespace"`
+	NodeName  string `json:"nodeName,omitempty"`
+	Phase     string `json:"phase,omitempty"`
+}
+
+// KubernetesStringMap defines model for KubernetesStringMap.
+type KubernetesStringMap map[string]string
+
+// KubernetesWorkloadCondition defines model for KubernetesWorkloadCondition.
+type KubernetesWorkloadCondition struct {
+	LastTransitionTime string `json:"lastTransitionTime,omitempty"`
+	Message            string `json:"message,omitempty"`
+	Reason             string `json:"reason,omitempty"`
+	Status             string `json:"status"`
+	Type               string `json:"type"`
+}
+
+// KubernetesWorkloadContainer defines model for KubernetesWorkloadContainer.
+type KubernetesWorkloadContainer struct {
+	ContainerID  string `json:"containerId,omitempty"`
+	Image        string `json:"image"`
+	LastState    string `json:"lastState,omitempty"`
+	Message      string `json:"message,omitempty"`
+	Name         string `json:"name"`
+	Ready        bool   `json:"ready"`
+	Reason       string `json:"reason,omitempty"`
+	RestartCount int32  `json:"restartCount"`
+	Role         string `json:"role,omitempty"`
+	StartedAt    string `json:"startedAt,omitempty"`
+	State        string `json:"state,omitempty"`
+}
+
 // KubernetesWorkloadImportInput defines model for KubernetesWorkloadImportInput.
 type KubernetesWorkloadImportInput struct {
 	WorkloadKind KubernetesWorkloadImportInputWorkloadKind `json:"workloadKind"`
@@ -11182,6 +13537,57 @@ type KubernetesWorkloadImportInput struct {
 
 // KubernetesWorkloadImportInputWorkloadKind defines model for KubernetesWorkloadImportInput.WorkloadKind.
 type KubernetesWorkloadImportInputWorkloadKind string
+
+// KubernetesWorkloadOverview defines model for KubernetesWorkloadOverview.
+type KubernetesWorkloadOverview struct {
+	AtRiskPods         int                                   `json:"atRiskPods"`
+	ClusterID          string                                `json:"clusterId"`
+	FailedPods         int                                   `json:"failedPods"`
+	GeneratedAt        string                                `json:"generatedAt"`
+	Namespace          string                                `json:"namespace,omitempty"`
+	NamespaceBreakdown []KubernetesWorkloadOverviewNamespace `json:"namespaceBreakdown,omitempty"`
+	PendingPods        int                                   `json:"pendingPods"`
+	ProblematicPods    []KubernetesWorkloadOverviewPod       `json:"problematicPods,omitempty"`
+	RestartingPods     int                                   `json:"restartingPods"`
+	RunningPods        int                                   `json:"runningPods"`
+	Source             string                                `json:"source"`
+	SucceededPods      int                                   `json:"succeededPods"`
+	TotalPods          int                                   `json:"totalPods"`
+	UnknownPods        int                                   `json:"unknownPods"`
+}
+
+// KubernetesWorkloadOverviewEnvelope defines model for KubernetesWorkloadOverviewEnvelope.
+type KubernetesWorkloadOverviewEnvelope struct {
+	Data KubernetesWorkloadOverview `json:"data"`
+}
+
+// KubernetesWorkloadOverviewNamespace defines model for KubernetesWorkloadOverviewNamespace.
+type KubernetesWorkloadOverviewNamespace struct {
+	AtRiskPods     int    `json:"atRiskPods"`
+	Namespace      string `json:"namespace"`
+	RestartingPods int    `json:"restartingPods"`
+	RunningPods    int    `json:"runningPods"`
+	TotalPods      int    `json:"totalPods"`
+}
+
+// KubernetesWorkloadOverviewPod defines model for KubernetesWorkloadOverviewPod.
+type KubernetesWorkloadOverviewPod struct {
+	AgeSeconds      int64  `json:"ageSeconds"`
+	Name            string `json:"name"`
+	Namespace       string `json:"namespace"`
+	NodeName        string `json:"nodeName,omitempty"`
+	Phase           string `json:"phase"`
+	ReadyContainers string `json:"readyContainers"`
+	Restarts        int32  `json:"restarts"`
+}
+
+// KubernetesWorkloadRelation defines model for KubernetesWorkloadRelation.
+type KubernetesWorkloadRelation struct {
+	Kind      string `json:"kind"`
+	Name      string `json:"name"`
+	Namespace string `json:"namespace,omitempty"`
+	Relation  string `json:"relation,omitempty"`
+}
 
 // LLMCallLog defines model for LLMCallLog.
 type LLMCallLog struct {
@@ -11772,6 +14178,76 @@ type LoginOptions struct {
 // LoginOptionsEnvelope defines model for LoginOptionsEnvelope.
 type LoginOptionsEnvelope struct {
 	Data LoginOptions `json:"data"`
+}
+
+// LoginProviderSettings defines model for LoginProviderSettings.
+type LoginProviderSettings struct {
+	AuthorizeURL        string   `json:"authorizeUrl,omitempty"`
+	AvatarField         string   `json:"avatarField,omitempty"`
+	ClientID            string   `json:"clientId,omitempty"`
+	DefaultRoles        []string `json:"defaultRoles,omitempty"`
+	EmailField          string   `json:"emailField,omitempty"`
+	Enabled             bool     `json:"enabled"`
+	EntityID            string   `json:"entityId,omitempty"`
+	FrontendRedirectURL string   `json:"frontendRedirectUrl,omitempty"`
+	IconURL             string   `json:"iconUrl,omitempty"`
+	ID                  string   `json:"id"`
+	Issuer              string   `json:"issuer,omitempty"`
+	MetadataURL         string   `json:"metadataUrl,omitempty"`
+	Name                string   `json:"name"`
+	OrgSyncMode         string   `json:"orgSyncMode,omitempty"`
+	OrganizationField   string   `json:"organizationField,omitempty"`
+	PhoneField          string   `json:"phoneField,omitempty"`
+	ProfileURL          string   `json:"profileUrl,omitempty"`
+	RedirectURL         string   `json:"redirectUrl,omitempty"`
+	RoleField           string   `json:"roleField,omitempty"`
+	RoleSyncMode        string   `json:"roleSyncMode,omitempty"`
+	Scopes              []string `json:"scopes,omitempty"`
+	SyncOrgsOnLogin     bool     `json:"syncOrgsOnLogin,omitempty"`
+	SyncRolesOnLogin    bool     `json:"syncRolesOnLogin,omitempty"`
+	TokenURL            string   `json:"tokenUrl,omitempty"`
+	Type                string   `json:"type"`
+	UserIDField         string   `json:"userIdField,omitempty"`
+	UserInfoURL         string   `json:"userInfoUrl,omitempty"`
+	UserNameField       string   `json:"userNameField,omitempty"`
+}
+
+// LoginProviderSettingsInput defines model for LoginProviderSettingsInput.
+type LoginProviderSettingsInput struct {
+	AuthorizeURL string `json:"authorizeUrl,omitempty"`
+	AvatarField  string `json:"avatarField,omitempty"`
+
+	// Certificate Omit or send an empty string to retain the stored certificate.
+	Certificate string `json:"certificate,omitempty"`
+	ClientID    string `json:"clientId,omitempty"`
+
+	// ClientSecret Omit or send an empty string to retain the stored secret.
+	ClientSecret        string   `json:"clientSecret,omitempty"`
+	DefaultRoles        []string `json:"defaultRoles,omitempty"`
+	EmailField          string   `json:"emailField,omitempty"`
+	Enabled             bool     `json:"enabled"`
+	EntityID            string   `json:"entityId,omitempty"`
+	FrontendRedirectURL string   `json:"frontendRedirectUrl,omitempty"`
+	IconURL             string   `json:"iconUrl,omitempty"`
+	ID                  string   `json:"id"`
+	Issuer              string   `json:"issuer,omitempty"`
+	MetadataURL         string   `json:"metadataUrl,omitempty"`
+	Name                string   `json:"name"`
+	OrgSyncMode         string   `json:"orgSyncMode,omitempty"`
+	OrganizationField   string   `json:"organizationField,omitempty"`
+	PhoneField          string   `json:"phoneField,omitempty"`
+	ProfileURL          string   `json:"profileUrl,omitempty"`
+	RedirectURL         string   `json:"redirectUrl,omitempty"`
+	RoleField           string   `json:"roleField,omitempty"`
+	RoleSyncMode        string   `json:"roleSyncMode,omitempty"`
+	Scopes              []string `json:"scopes,omitempty"`
+	SyncOrgsOnLogin     bool     `json:"syncOrgsOnLogin,omitempty"`
+	SyncRolesOnLogin    bool     `json:"syncRolesOnLogin,omitempty"`
+	TokenURL            string   `json:"tokenUrl,omitempty"`
+	Type                string   `json:"type"`
+	UserIDField         string   `json:"userIdField,omitempty"`
+	UserInfoURL         string   `json:"userInfoUrl,omitempty"`
+	UserNameField       string   `json:"userNameField,omitempty"`
 }
 
 // MCPCapability defines model for MCPCapability.
@@ -13296,6 +15772,96 @@ type PersonalAccessTokenListEnvelope struct {
 	Items []PersonalAccessToken `json:"items"`
 }
 
+// PlatformAuditLog defines model for PlatformAuditLog.
+type PlatformAuditLog struct {
+	Action        string                 `json:"action"`
+	ActorID       string                 `json:"actorId"`
+	ActorName     string                 `json:"actorName"`
+	ClusterID     string                 `json:"clusterId,omitempty"`
+	CreatedAt     time.Time              `json:"createdAt"`
+	ID            string                 `json:"id"`
+	Metadata      *GenericObject         `json:"metadata,omitempty"`
+	Namespace     string                 `json:"namespace,omitempty"`
+	RequestID     string                 `json:"requestId,omitempty"`
+	RequestMethod string                 `json:"requestMethod,omitempty"`
+	RequestPath   string                 `json:"requestPath,omitempty"`
+	ResourceKind  string                 `json:"resourceKind,omitempty"`
+	ResourceName  string                 `json:"resourceName,omitempty"`
+	Result        PlatformAuditLogResult `json:"result"`
+	Roles         []string               `json:"roles"`
+	SourceIP      string                 `json:"sourceIp,omitempty"`
+	Summary       string                 `json:"summary"`
+	Teams         []string               `json:"teams"`
+}
+
+// PlatformAuditLogResult defines model for PlatformAuditLog.Result.
+type PlatformAuditLogResult string
+
+// PlatformAuditLogListEnvelope defines model for PlatformAuditLogListEnvelope.
+type PlatformAuditLogListEnvelope struct {
+	Items []PlatformAuditLog `json:"items"`
+}
+
+// PlatformAuditSummary defines model for PlatformAuditSummary.
+type PlatformAuditSummary struct {
+	ExpiredEntryCount     int64      `json:"expiredEntryCount"`
+	ExportRecommended     bool       `json:"exportRecommended"`
+	NewestEntryAt         *time.Time `json:"newestEntryAt,omitempty"`
+	OldestEntryAt         *time.Time `json:"oldestEntryAt,omitempty"`
+	RecommendedNextAction string     `json:"recommendedNextAction,omitempty"`
+	RetentionCutoff       *time.Time `json:"retentionCutoff,omitempty"`
+	RetentionDays         int        `json:"retentionDays"`
+	Total                 int64      `json:"total"`
+}
+
+// PlatformAuditSummaryEnvelope defines model for PlatformAuditSummaryEnvelope.
+type PlatformAuditSummaryEnvelope struct {
+	Data PlatformAuditSummary `json:"data"`
+}
+
+// PlatformOperationLog defines model for PlatformOperationLog.
+type PlatformOperationLog struct {
+	ActorID       string                     `json:"actorId"`
+	ActorName     string                     `json:"actorName,omitempty"`
+	CreatedAt     time.Time                  `json:"createdAt"`
+	ID            string                     `json:"id"`
+	Metadata      GenericObject              `json:"metadata"`
+	OperationType string                     `json:"operationType"`
+	RequestID     string                     `json:"requestId,omitempty"`
+	RequestMethod string                     `json:"requestMethod,omitempty"`
+	RequestPath   string                     `json:"requestPath,omitempty"`
+	Result        PlatformOperationLogResult `json:"result"`
+	SourceIP      string                     `json:"sourceIp,omitempty"`
+	Summary       string                     `json:"summary"`
+	TargetScope   GenericObject              `json:"targetScope"`
+}
+
+// PlatformOperationLogResult defines model for PlatformOperationLog.Result.
+type PlatformOperationLogResult string
+
+// PlatformOperationLogListEnvelope defines model for PlatformOperationLogListEnvelope.
+type PlatformOperationLogListEnvelope struct {
+	Items []PlatformOperationLog `json:"items"`
+}
+
+// PlatformOperationSummary defines model for PlatformOperationSummary.
+type PlatformOperationSummary struct {
+	ExpiredEntryCount     int64      `json:"expiredEntryCount"`
+	ExportRecommended     bool       `json:"exportRecommended"`
+	FailureCount          int64      `json:"failureCount"`
+	NewestEntryAt         *time.Time `json:"newestEntryAt,omitempty"`
+	OldestEntryAt         *time.Time `json:"oldestEntryAt,omitempty"`
+	RecommendedNextAction string     `json:"recommendedNextAction,omitempty"`
+	RetentionCutoff       *time.Time `json:"retentionCutoff,omitempty"`
+	RetentionDays         int        `json:"retentionDays"`
+	Total                 int64      `json:"total"`
+}
+
+// PlatformOperationSummaryEnvelope defines model for PlatformOperationSummaryEnvelope.
+type PlatformOperationSummaryEnvelope struct {
+	Data PlatformOperationSummary `json:"data"`
+}
+
 // PluginAIExtensions defines model for PluginAIExtensions.
 type PluginAIExtensions struct {
 	AgentProviders    []PluginExtensionContribution `json:"agentProviders,omitempty"`
@@ -13623,6 +16189,25 @@ type PluginUIExtensions struct {
 	Menus         []PluginExtensionContribution `json:"menus,omitempty"`
 	SettingsForms []PluginExtensionContribution `json:"settingsForms,omitempty"`
 	StatusCards   []PluginExtensionContribution `json:"statusCards,omitempty"`
+}
+
+// PodMetrics defines model for PodMetrics.
+type PodMetrics struct {
+	Configured     bool                        `json:"configured"`
+	GeneratedAt    time.Time                   `json:"generatedAt"`
+	GrafanaBaseURL string                      `json:"grafanaBaseUrl,omitempty"`
+	Message        string                      `json:"message,omitempty"`
+	Namespace      string                      `json:"namespace"`
+	PodName        string                      `json:"podName"`
+	RangeMinutes   int                         `json:"rangeMinutes"`
+	Series         []ObservabilityMetricSeries `json:"series,omitempty"`
+	Source         string                      `json:"source"`
+	StepSeconds    int                         `json:"stepSeconds"`
+}
+
+// PodMetricsEnvelope defines model for PodMetricsEnvelope.
+type PodMetricsEnvelope struct {
+	Data PodMetrics `json:"data"`
 }
 
 // Principal defines model for Principal.
@@ -14822,6 +17407,28 @@ type UpdateAIWorkbenchModelRequest struct {
 	WorkbenchModel AIWorkbenchModelSettings `json:"workbenchModel"`
 }
 
+// UpdateBrandingSettingsRequest defines model for UpdateBrandingSettingsRequest.
+type UpdateBrandingSettingsRequest struct {
+	AppTitle         string `json:"appTitle"`
+	CollapsedLogoURL string `json:"collapsedLogoUrl"`
+	ExpandedLogoURL  string `json:"expandedLogoUrl"`
+	FaviconURL       string `json:"faviconUrl"`
+	LoginLogoURL     string `json:"loginLogoUrl"`
+	SidebarTitle     string `json:"sidebarTitle"`
+}
+
+// UpdateLoginProvidersSettingsRequest defines model for UpdateLoginProvidersSettingsRequest.
+type UpdateLoginProvidersSettingsRequest struct {
+	DefaultProviderID         string                       `json:"defaultProviderId,omitempty"`
+	LocalPasswordLoginEnabled bool                         `json:"localPasswordLoginEnabled,omitempty"`
+	Providers                 []LoginProviderSettingsInput `json:"providers"`
+}
+
+// UploadBrandingAssetRequest defines model for UploadBrandingAssetRequest.
+type UploadBrandingAssetRequest struct {
+	File openapi_types.File `json:"file"`
+}
+
 // UserProfile defines model for UserProfile.
 type UserProfile struct {
 	DisplayName          string           `json:"displayName"`
@@ -14843,6 +17450,75 @@ type UserProfile struct {
 // UserProfileEnvelope defines model for UserProfileEnvelope.
 type UserProfileEnvelope struct {
 	Data UserProfile `json:"data"`
+}
+
+// VirtualMachine defines model for VirtualMachine.
+type VirtualMachine struct {
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	BootImageID    string   `json:"bootImageId,omitempty"`
+	BootImageName  string   `json:"bootImageName,omitempty"`
+	Capabilities   []string `json:"capabilities,omitempty"`
+
+	// Config Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+	Config       *NativeProviderObject `json:"config,omitempty"`
+	ConnectionID string                `json:"connectionId"`
+	CPU          int                   `json:"cpu,omitempty"`
+	CreatedAt    *time.Time            `json:"createdAt,omitempty"`
+	DiskGiB      int                   `json:"diskGiB,omitempty"`
+	ExternalID   string                `json:"externalId,omitempty"`
+	FlavorID     string                `json:"flavorId,omitempty"`
+	FlavorName   string                `json:"flavorName,omitempty"`
+	ID           string                `json:"id"`
+	ImageID      string                `json:"imageId,omitempty"`
+	IPAddresses  []string              `json:"ipAddresses,omitempty"`
+
+	// Labels Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+	Labels     *NativeProviderObject `json:"labels,omitempty"`
+	MemoryMiB  int                   `json:"memoryMiB,omitempty"`
+	Name       string                `json:"name"`
+	Namespace  string                `json:"namespace,omitempty"`
+	Network    string                `json:"network,omitempty"`
+	Node       string                `json:"node,omitempty"`
+	OrphanHint string                `json:"orphanHint,omitempty"`
+	PowerState string                `json:"powerState,omitempty"`
+	Provider   string                `json:"provider"`
+	SourceMode string                `json:"sourceMode,omitempty"`
+	SourceRef  string                `json:"sourceRef,omitempty"`
+	Status     string                `json:"status"`
+	UpdatedAt  *time.Time            `json:"updatedAt,omitempty"`
+}
+
+// VirtualMachineActionInput defines model for VirtualMachineActionInput.
+type VirtualMachineActionInput struct {
+	Action VirtualMachineActionInputAction `json:"action"`
+
+	// Config Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+	Config    *NativeProviderObject         `json:"config,omitempty"`
+	CPU       int                           `json:"cpu,omitempty"`
+	DiskGiB   int                           `json:"diskGiB,omitempty"`
+	Disks     []VirtualMachineDiskChange    `json:"disks,omitempty"`
+	MemoryMiB int                           `json:"memoryMiB,omitempty"`
+	Networks  []VirtualMachineNetworkChange `json:"networks,omitempty"`
+}
+
+// VirtualMachineActionInputAction defines model for VirtualMachineActionInput.Action.
+type VirtualMachineActionInputAction string
+
+// VirtualMachineConsole defines model for VirtualMachineConsole.
+type VirtualMachineConsole struct {
+	BackendURL string `json:"backendUrl,omitempty"`
+	Message    string `json:"message,omitempty"`
+	Provider   string `json:"provider,omitempty"`
+	ProxyMode  string `json:"proxyMode,omitempty"`
+	Ready      bool   `json:"ready"`
+	Token      string `json:"token,omitempty"`
+	Type       string `json:"type"`
+	URL        string `json:"url"`
+}
+
+// VirtualMachineConsoleEnvelope defines model for VirtualMachineConsoleEnvelope.
+type VirtualMachineConsoleEnvelope struct {
+	Data VirtualMachineConsole `json:"data"`
 }
 
 // VirtualMachineCreateInput defines model for VirtualMachineCreateInput.
@@ -14873,6 +17549,42 @@ type VirtualMachineCreateInput struct {
 	TemplateID       string                `json:"templateId,omitempty"`
 }
 
+// VirtualMachineDetail defines model for VirtualMachineDetail.
+type VirtualMachineDetail struct {
+	Connection *VirtualizationConnection    `json:"connection,omitempty"`
+	Flavor     *VirtualizationFlavor        `json:"flavor,omitempty"`
+	Image      *VirtualizationImage         `json:"image,omitempty"`
+	Logs       []VirtualizationOperationLog `json:"logs"`
+	Operations []VirtualizationOperation    `json:"operations"`
+
+	// ProviderRaw Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+	ProviderRaw NativeProviderObject `json:"providerRaw"`
+	VM          VirtualMachine       `json:"vm"`
+}
+
+// VirtualMachineDetailEnvelope defines model for VirtualMachineDetailEnvelope.
+type VirtualMachineDetailEnvelope struct {
+	Data VirtualMachineDetail `json:"data"`
+}
+
+// VirtualMachineDevice defines model for VirtualMachineDevice.
+type VirtualMachineDevice struct {
+	// Details Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+	Details *NativeProviderObject `json:"details,omitempty"`
+	ID      string                `json:"id"`
+	Kind    string                `json:"kind"`
+	Model   string                `json:"model,omitempty"`
+	Name    string                `json:"name,omitempty"`
+	Network string                `json:"network,omitempty"`
+	SizeGiB int                   `json:"sizeGiB,omitempty"`
+	Storage string                `json:"storage,omitempty"`
+}
+
+// VirtualMachineDeviceListEnvelope defines model for VirtualMachineDeviceListEnvelope.
+type VirtualMachineDeviceListEnvelope struct {
+	Items []VirtualMachineDevice `json:"items"`
+}
+
 // VirtualMachineDiskChange defines model for VirtualMachineDiskChange.
 type VirtualMachineDiskChange struct {
 	Add     bool   `json:"add,omitempty"`
@@ -14881,6 +17593,43 @@ type VirtualMachineDiskChange struct {
 	Name    string `json:"name,omitempty"`
 	SizeGiB int    `json:"sizeGiB,omitempty"`
 	Storage string `json:"storage,omitempty"`
+}
+
+// VirtualMachineEnvelope defines model for VirtualMachineEnvelope.
+type VirtualMachineEnvelope struct {
+	Data VirtualMachine `json:"data"`
+}
+
+// VirtualMachineListEnvelope defines model for VirtualMachineListEnvelope.
+type VirtualMachineListEnvelope struct {
+	Items []VirtualMachine `json:"items"`
+}
+
+// VirtualMachineMetricPoint defines model for VirtualMachineMetricPoint.
+type VirtualMachineMetricPoint struct {
+	Timestamp int64   `json:"timestamp"`
+	Value     float64 `json:"value"`
+}
+
+// VirtualMachineMetricSeries defines model for VirtualMachineMetricSeries.
+type VirtualMachineMetricSeries struct {
+	Key    string                      `json:"key"`
+	Label  string                      `json:"label"`
+	Points []VirtualMachineMetricPoint `json:"points"`
+	Unit   string                      `json:"unit"`
+}
+
+// VirtualMachineMetrics defines model for VirtualMachineMetrics.
+type VirtualMachineMetrics struct {
+	Message string                       `json:"message,omitempty"`
+	Ready   bool                         `json:"ready"`
+	Series  []VirtualMachineMetricSeries `json:"series"`
+	Source  string                       `json:"source,omitempty"`
+}
+
+// VirtualMachineMetricsEnvelope defines model for VirtualMachineMetricsEnvelope.
+type VirtualMachineMetricsEnvelope struct {
+	Data VirtualMachineMetrics `json:"data"`
 }
 
 // VirtualMachineNetworkChange defines model for VirtualMachineNetworkChange.
@@ -14894,18 +17643,279 @@ type VirtualMachineNetworkChange struct {
 	Remove  bool   `json:"remove,omitempty"`
 }
 
+// VirtualMachinePage defines model for VirtualMachinePage.
+type VirtualMachinePage struct {
+	Items    []VirtualMachine `json:"items"`
+	Page     int              `json:"page"`
+	PageSize int              `json:"pageSize"`
+	Total    int              `json:"total"`
+}
+
+// VirtualMachinePageEnvelope defines model for VirtualMachinePageEnvelope.
+type VirtualMachinePageEnvelope struct {
+	Data VirtualMachinePage `json:"data"`
+}
+
+// VirtualMachinePowerInput defines model for VirtualMachinePowerInput.
+type VirtualMachinePowerInput struct {
+	Action VirtualMachinePowerInputAction `json:"action"`
+}
+
+// VirtualMachinePowerInputAction defines model for VirtualMachinePowerInput.Action.
+type VirtualMachinePowerInputAction string
+
+// VirtualizationConnection defines model for VirtualizationConnection.
+type VirtualizationConnection struct {
+	Capabilities []string `json:"capabilities,omitempty"`
+
+	// Config Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+	Config               *NativeProviderObject            `json:"config,omitempty"`
+	CreatedAt            *time.Time                       `json:"createdAt,omitempty"`
+	CredentialConfigured bool                             `json:"credentialConfigured"`
+	DefaultNamespace     string                           `json:"defaultNamespace,omitempty"`
+	Description          string                           `json:"description,omitempty"`
+	Enabled              bool                             `json:"enabled"`
+	Endpoint             string                           `json:"endpoint,omitempty"`
+	Health               string                           `json:"health,omitempty"`
+	ID                   string                           `json:"id"`
+	KubernetesClusterID  string                           `json:"kubernetesClusterId,omitempty"`
+	LastSyncedAt         *time.Time                       `json:"lastSyncedAt,omitempty"`
+	Name                 string                           `json:"name"`
+	Provider             VirtualizationConnectionProvider `json:"provider"`
+	Region               string                           `json:"region,omitempty"`
+	RiskLevel            string                           `json:"riskLevel,omitempty"`
+	RiskReasons          []string                         `json:"riskReasons,omitempty"`
+	Status               string                           `json:"status,omitempty"`
+	UpdatedAt            *time.Time                       `json:"updatedAt,omitempty"`
+	VerifyTLS            bool                             `json:"verifyTls"`
+}
+
+// VirtualizationConnectionProvider defines model for VirtualizationConnection.Provider.
+type VirtualizationConnectionProvider string
+
+// VirtualizationConnectionDeleteDependencies defines model for VirtualizationConnectionDeleteDependencies.
+type VirtualizationConnectionDeleteDependencies struct {
+	Blocking         bool                                             `json:"blocking"`
+	BlockingReasons  []string                                         `json:"blockingReasons,omitempty"`
+	Connection       VirtualizationConnection                         `json:"connection"`
+	DockerHostCount  int                                              `json:"dockerHostCount"`
+	FlavorCount      int                                              `json:"flavorCount"`
+	FlavorSamples    []VirtualizationConnectionDeleteDependencySample `json:"flavorSamples,omitempty"`
+	ForceRequired    bool                                             `json:"forceRequired"`
+	ImageCount       int                                              `json:"imageCount"`
+	ImageSamples     []VirtualizationConnectionDeleteDependencySample `json:"imageSamples,omitempty"`
+	PendingTaskCount int                                              `json:"pendingTaskCount"`
+	TaskCount        int                                              `json:"taskCount"`
+	TaskSamples      []VirtualizationConnectionDeleteDependencySample `json:"taskSamples,omitempty"`
+	VMCount          int                                              `json:"vmCount"`
+	VMSamples        []VirtualizationConnectionDeleteDependencySample `json:"vmSamples,omitempty"`
+}
+
+// VirtualizationConnectionDeleteDependenciesEnvelope defines model for VirtualizationConnectionDeleteDependenciesEnvelope.
+type VirtualizationConnectionDeleteDependenciesEnvelope struct {
+	Data VirtualizationConnectionDeleteDependencies `json:"data"`
+}
+
+// VirtualizationConnectionDeleteDependencySample defines model for VirtualizationConnectionDeleteDependencySample.
+type VirtualizationConnectionDeleteDependencySample struct {
+	ExternalID string `json:"externalId,omitempty"`
+	ID         string `json:"id"`
+	Kind       string `json:"kind,omitempty"`
+	Name       string `json:"name,omitempty"`
+	NodeName   string `json:"nodeName,omitempty"`
+	Status     string `json:"status,omitempty"`
+	TaskKind   string `json:"taskKind,omitempty"`
+	VMID       string `json:"vmId,omitempty"`
+}
+
+// VirtualizationConnectionEnvelope defines model for VirtualizationConnectionEnvelope.
+type VirtualizationConnectionEnvelope struct {
+	Data VirtualizationConnection `json:"data"`
+}
+
+// VirtualizationConnectionInput defines model for VirtualizationConnectionInput.
+type VirtualizationConnectionInput struct {
+	// Config Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+	Config *NativeProviderObject `json:"config,omitempty"`
+
+	// Credential Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+	Credential          *NativeProviderObject                 `json:"credential,omitempty"`
+	DefaultNamespace    string                                `json:"defaultNamespace,omitempty"`
+	Description         string                                `json:"description,omitempty"`
+	Enabled             bool                                  `json:"enabled,omitempty"`
+	Endpoint            string                                `json:"endpoint,omitempty"`
+	ID                  string                                `json:"id,omitempty"`
+	KubernetesClusterID string                                `json:"kubernetesClusterId,omitempty"`
+	Name                string                                `json:"name"`
+	Provider            VirtualizationConnectionInputProvider `json:"provider"`
+	Region              string                                `json:"region,omitempty"`
+	VerifyTLS           bool                                  `json:"verifyTls,omitempty"`
+}
+
+// VirtualizationConnectionInputProvider defines model for VirtualizationConnectionInput.Provider.
+type VirtualizationConnectionInputProvider string
+
+// VirtualizationConnectionListEnvelope defines model for VirtualizationConnectionListEnvelope.
+type VirtualizationConnectionListEnvelope struct {
+	Items []VirtualizationConnection `json:"items"`
+}
+
+// VirtualizationFlavor defines model for VirtualizationFlavor.
+type VirtualizationFlavor struct {
+	AllowedActions []string `json:"allowedActions,omitempty"`
+
+	// Config Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+	Config       *NativeProviderObject `json:"config,omitempty"`
+	ConnectionID string                `json:"connectionId,omitempty"`
+	CPU          int                   `json:"cpu,omitempty"`
+	CPUCores     int                   `json:"cpuCores,omitempty"`
+	CreatedAt    *time.Time            `json:"createdAt,omitempty"`
+	Description  string                `json:"description,omitempty"`
+	DiskGb       int                   `json:"diskGb,omitempty"`
+	DiskGiB      int                   `json:"diskGiB,omitempty"`
+	Enabled      bool                  `json:"enabled,omitempty"`
+	ExternalID   string                `json:"externalId,omitempty"`
+	ID           string                `json:"id"`
+	MemoryMb     int                   `json:"memoryMb,omitempty"`
+	MemoryMiB    int                   `json:"memoryMiB,omitempty"`
+	Name         string                `json:"name"`
+	Provider     string                `json:"provider"`
+	Status       string                `json:"status"`
+	UpdatedAt    *time.Time            `json:"updatedAt,omitempty"`
+}
+
+// VirtualizationFlavorEnvelope defines model for VirtualizationFlavorEnvelope.
+type VirtualizationFlavorEnvelope struct {
+	Data VirtualizationFlavor `json:"data"`
+}
+
+// VirtualizationFlavorInput defines model for VirtualizationFlavorInput.
+type VirtualizationFlavorInput struct {
+	// Config Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+	Config       *NativeProviderObject `json:"config,omitempty"`
+	ConnectionID string                `json:"connectionId,omitempty"`
+	CPU          int                   `json:"cpu,omitempty"`
+	CPUCores     int                   `json:"cpuCores,omitempty"`
+	Description  string                `json:"description,omitempty"`
+	DiskGb       int                   `json:"diskGb,omitempty"`
+	DiskGiB      int                   `json:"diskGiB,omitempty"`
+	Enabled      bool                  `json:"enabled,omitempty"`
+	ExternalID   string                `json:"externalId,omitempty"`
+	ID           string                `json:"id,omitempty"`
+	MemoryMb     int                   `json:"memoryMb,omitempty"`
+	MemoryMiB    int                   `json:"memoryMiB,omitempty"`
+	Name         string                `json:"name"`
+	Provider     string                `json:"provider,omitempty"`
+}
+
+// VirtualizationFlavorListEnvelope defines model for VirtualizationFlavorListEnvelope.
+type VirtualizationFlavorListEnvelope struct {
+	Items []VirtualizationFlavor `json:"items"`
+}
+
+// VirtualizationFlavorPage defines model for VirtualizationFlavorPage.
+type VirtualizationFlavorPage struct {
+	Items    []VirtualizationFlavor `json:"items"`
+	Page     int                    `json:"page"`
+	PageSize int                    `json:"pageSize"`
+	Total    int                    `json:"total"`
+}
+
+// VirtualizationFlavorPageEnvelope defines model for VirtualizationFlavorPageEnvelope.
+type VirtualizationFlavorPageEnvelope struct {
+	Data VirtualizationFlavorPage `json:"data"`
+}
+
+// VirtualizationImage defines model for VirtualizationImage.
+type VirtualizationImage struct {
+	AllowedActions []string `json:"allowedActions,omitempty"`
+	Architecture   string   `json:"architecture,omitempty"`
+	AssetKind      string   `json:"assetKind,omitempty"`
+
+	// Config Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+	Config       *NativeProviderObject `json:"config,omitempty"`
+	ConnectionID string                `json:"connectionId"`
+	CreatedAt    *time.Time            `json:"createdAt,omitempty"`
+	Description  string                `json:"description,omitempty"`
+	ExternalID   string                `json:"externalId,omitempty"`
+	ID           string                `json:"id"`
+	Name         string                `json:"name"`
+	Namespace    string                `json:"namespace,omitempty"`
+	Node         string                `json:"node,omitempty"`
+	OrphanHint   string                `json:"orphanHint,omitempty"`
+	OsType       string                `json:"osType,omitempty"`
+	Provider     string                `json:"provider"`
+	Ready        bool                  `json:"ready,omitempty"`
+	SizeBytes    int64                 `json:"sizeBytes,omitempty"`
+	SizeGiB      int64                 `json:"sizeGiB,omitempty"`
+	Source       string                `json:"source,omitempty"`
+	SourceKind   string                `json:"sourceKind,omitempty"`
+	SourceRef    string                `json:"sourceRef,omitempty"`
+	Status       string                `json:"status"`
+	Storage      string                `json:"storage,omitempty"`
+	StorageClass string                `json:"storageClass,omitempty"`
+	UpdatedAt    *time.Time            `json:"updatedAt,omitempty"`
+}
+
+// VirtualizationImageEnvelope defines model for VirtualizationImageEnvelope.
+type VirtualizationImageEnvelope struct {
+	Data VirtualizationImage `json:"data"`
+}
+
+// VirtualizationImageInput defines model for VirtualizationImageInput.
+type VirtualizationImageInput struct {
+	Architecture string `json:"architecture,omitempty"`
+
+	// Config Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+	Config       *NativeProviderObject `json:"config,omitempty"`
+	ConnectionID string                `json:"connectionId"`
+	Description  string                `json:"description,omitempty"`
+	ExternalID   string                `json:"externalId,omitempty"`
+	ID           string                `json:"id,omitempty"`
+	Name         string                `json:"name"`
+	Namespace    string                `json:"namespace,omitempty"`
+	OsType       string                `json:"osType,omitempty"`
+	Provider     string                `json:"provider,omitempty"`
+	SizeBytes    int64                 `json:"sizeBytes,omitempty"`
+	SizeGiB      int64                 `json:"sizeGiB,omitempty"`
+	SourceKind   string                `json:"sourceKind,omitempty"`
+	SourceRef    string                `json:"sourceRef,omitempty"`
+	Status       string                `json:"status,omitempty"`
+	StorageClass string                `json:"storageClass,omitempty"`
+	URL          string                `json:"url,omitempty"`
+}
+
+// VirtualizationImageListEnvelope defines model for VirtualizationImageListEnvelope.
+type VirtualizationImageListEnvelope struct {
+	Items []VirtualizationImage `json:"items"`
+}
+
+// VirtualizationImagePage defines model for VirtualizationImagePage.
+type VirtualizationImagePage struct {
+	Items    []VirtualizationImage `json:"items"`
+	Page     int                   `json:"page"`
+	PageSize int                   `json:"pageSize"`
+	Total    int                   `json:"total"`
+}
+
+// VirtualizationImagePageEnvelope defines model for VirtualizationImagePageEnvelope.
+type VirtualizationImagePageEnvelope struct {
+	Data VirtualizationImagePage `json:"data"`
+}
+
 // VirtualizationOperation defines model for VirtualizationOperation.
 type VirtualizationOperation struct {
-	Action          string     `json:"action,omitempty"`
-	Actor           string     `json:"actor,omitempty"`
-	AllowedActions  []string   `json:"allowedActions,omitempty"`
-	AssetType       string     `json:"assetType,omitempty"`
-	CompletedAt     *time.Time `json:"completedAt,omitempty"`
-	ConnectionID    string     `json:"connectionId,omitempty"`
-	CreatedAt       *time.Time `json:"createdAt,omitempty"`
-	ID              string     `json:"id"`
-	LastHeartbeatAt *time.Time `json:"lastHeartbeatAt,omitempty"`
-	Message         string     `json:"message,omitempty"`
+	Action          string                       `json:"action,omitempty"`
+	Actor           string                       `json:"actor,omitempty"`
+	AllowedActions  []string                     `json:"allowedActions,omitempty"`
+	AssetType       string                       `json:"assetType,omitempty"`
+	CompletedAt     *time.Time                   `json:"completedAt,omitempty"`
+	ConnectionID    string                       `json:"connectionId,omitempty"`
+	CreatedAt       *time.Time                   `json:"createdAt,omitempty"`
+	ID              string                       `json:"id"`
+	LastHeartbeatAt *time.Time                   `json:"lastHeartbeatAt,omitempty"`
+	Logs            []VirtualizationOperationLog `json:"logs,omitempty"`
+	Message         string                       `json:"message,omitempty"`
 
 	// OperationState Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
 	OperationState *NativeProviderObject `json:"operationState,omitempty"`
@@ -14929,6 +17939,41 @@ type VirtualizationOperation struct {
 // VirtualizationOperationEnvelope defines model for VirtualizationOperationEnvelope.
 type VirtualizationOperationEnvelope struct {
 	Data VirtualizationOperation `json:"data"`
+}
+
+// VirtualizationOperationListEnvelope defines model for VirtualizationOperationListEnvelope.
+type VirtualizationOperationListEnvelope struct {
+	Items []VirtualizationOperation `json:"items"`
+}
+
+// VirtualizationOperationLog defines model for VirtualizationOperationLog.
+type VirtualizationOperationLog struct {
+	CreatedAt time.Time `json:"createdAt"`
+	ID        string    `json:"id"`
+	LogLevel  string    `json:"logLevel"`
+	Message   string    `json:"message"`
+
+	// Payload Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
+	Payload *NativeProviderObject `json:"payload,omitempty"`
+	TaskID  string                `json:"taskId"`
+}
+
+// VirtualizationOperationLogListEnvelope defines model for VirtualizationOperationLogListEnvelope.
+type VirtualizationOperationLogListEnvelope struct {
+	Items []VirtualizationOperationLog `json:"items"`
+}
+
+// VirtualizationOperationPage defines model for VirtualizationOperationPage.
+type VirtualizationOperationPage struct {
+	Items    []VirtualizationOperation `json:"items"`
+	Page     int                       `json:"page"`
+	PageSize int                       `json:"pageSize"`
+	Total    int                       `json:"total"`
+}
+
+// VirtualizationOperationPageEnvelope defines model for VirtualizationOperationPageEnvelope.
+type VirtualizationOperationPageEnvelope struct {
+	Data VirtualizationOperationPage `json:"data"`
 }
 
 // WorkbenchAgentStatusEvent defines model for WorkbenchAgentStatusEvent.
@@ -15448,6 +18493,84 @@ type KnowledgeListLimit = int
 
 // KnowledgeSourceID defines model for KnowledgeSourceID.
 type KnowledgeSourceID = string
+
+// KubernetesCRDName defines model for KubernetesCRDName.
+type KubernetesCRDName = string
+
+// KubernetesChartName defines model for KubernetesChartName.
+type KubernetesChartName = string
+
+// KubernetesCronJobName defines model for KubernetesCronJobName.
+type KubernetesCronJobName = string
+
+// KubernetesDaemonSetName defines model for KubernetesDaemonSetName.
+type KubernetesDaemonSetName = string
+
+// KubernetesDeploymentName defines model for KubernetesDeploymentName.
+type KubernetesDeploymentName = string
+
+// KubernetesEventLimitQuery defines model for KubernetesEventLimitQuery.
+type KubernetesEventLimitQuery = int
+
+// KubernetesJobName defines model for KubernetesJobName.
+type KubernetesJobName = string
+
+// KubernetesKeywordQuery defines model for KubernetesKeywordQuery.
+type KubernetesKeywordQuery = string
+
+// KubernetesLimitQuery defines model for KubernetesLimitQuery.
+type KubernetesLimitQuery = int
+
+// KubernetesMetricsRangeMinutesQuery defines model for KubernetesMetricsRangeMinutesQuery.
+type KubernetesMetricsRangeMinutesQuery = int
+
+// KubernetesMetricsStepSecondsQuery defines model for KubernetesMetricsStepSecondsQuery.
+type KubernetesMetricsStepSecondsQuery = int
+
+// KubernetesNamespaceDefaultQuery defines model for KubernetesNamespaceDefaultQuery.
+type KubernetesNamespaceDefaultQuery = string
+
+// KubernetesNamespaceQuery defines model for KubernetesNamespaceQuery.
+type KubernetesNamespaceQuery = string
+
+// KubernetesNodeName defines model for KubernetesNodeName.
+type KubernetesNodeName = string
+
+// KubernetesOffsetQuery defines model for KubernetesOffsetQuery.
+type KubernetesOffsetQuery = int
+
+// KubernetesPodName defines model for KubernetesPodName.
+type KubernetesPodName = string
+
+// KubernetesReleaseName defines model for KubernetesReleaseName.
+type KubernetesReleaseName = string
+
+// KubernetesReplicaSetName defines model for KubernetesReplicaSetName.
+type KubernetesReplicaSetName = string
+
+// KubernetesRepositoryName defines model for KubernetesRepositoryName.
+type KubernetesRepositoryName = string
+
+// KubernetesResourceName defines model for KubernetesResourceName.
+type KubernetesResourceName = string
+
+// KubernetesServiceName defines model for KubernetesServiceName.
+type KubernetesServiceName = string
+
+// KubernetesStatefulSetName defines model for KubernetesStatefulSetName.
+type KubernetesStatefulSetName = string
+
+// KubernetesSubjectKindQuery defines model for KubernetesSubjectKindQuery.
+type KubernetesSubjectKindQuery = string
+
+// KubernetesSubjectNameQuery defines model for KubernetesSubjectNameQuery.
+type KubernetesSubjectNameQuery = string
+
+// KubernetesSubjectNamespaceQuery defines model for KubernetesSubjectNamespaceQuery.
+type KubernetesSubjectNamespaceQuery = string
+
+// KubernetesVersionQuery defines model for KubernetesVersionQuery.
+type KubernetesVersionQuery = string
 
 // MFAChallengeID defines model for MFAChallengeID.
 type MFAChallengeID = string
@@ -16179,6 +19302,47 @@ type ListApplicationsParams struct {
 	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
+// ListPlatformAuditLogsParams defines parameters for ListPlatformAuditLogs.
+type ListPlatformAuditLogsParams struct {
+	ActorID      string    `form:"actorId,omitempty" json:"actorId,omitempty"`
+	ActorName    string    `form:"actorName,omitempty" json:"actorName,omitempty"`
+	ClusterID    string    `form:"clusterId,omitempty" json:"clusterId,omitempty"`
+	Namespace    string    `form:"namespace,omitempty" json:"namespace,omitempty"`
+	ResourceKind string    `form:"resourceKind,omitempty" json:"resourceKind,omitempty"`
+	ResourceName string    `form:"resourceName,omitempty" json:"resourceName,omitempty"`
+	Action       string    `form:"action,omitempty" json:"action,omitempty"`
+	Result       string    `form:"result,omitempty" json:"result,omitempty"`
+	RequestID    string    `form:"requestId,omitempty" json:"requestId,omitempty"`
+	From         time.Time `form:"from,omitempty" json:"from,omitempty"`
+	To           time.Time `form:"to,omitempty" json:"to,omitempty"`
+	Limit        int       `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ExportPlatformAuditLogsParams defines parameters for ExportPlatformAuditLogs.
+type ExportPlatformAuditLogsParams struct {
+	ActorID      string    `form:"actorId,omitempty" json:"actorId,omitempty"`
+	ClusterID    string    `form:"clusterId,omitempty" json:"clusterId,omitempty"`
+	Namespace    string    `form:"namespace,omitempty" json:"namespace,omitempty"`
+	ResourceKind string    `form:"resourceKind,omitempty" json:"resourceKind,omitempty"`
+	Action       string    `form:"action,omitempty" json:"action,omitempty"`
+	Result       string    `form:"result,omitempty" json:"result,omitempty"`
+	From         time.Time `form:"from,omitempty" json:"from,omitempty"`
+	To           time.Time `form:"to,omitempty" json:"to,omitempty"`
+	Limit        int       `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// SummarizePlatformAuditLogsParams defines parameters for SummarizePlatformAuditLogs.
+type SummarizePlatformAuditLogsParams struct {
+	ActorID      string    `form:"actorId,omitempty" json:"actorId,omitempty"`
+	ClusterID    string    `form:"clusterId,omitempty" json:"clusterId,omitempty"`
+	Namespace    string    `form:"namespace,omitempty" json:"namespace,omitempty"`
+	ResourceKind string    `form:"resourceKind,omitempty" json:"resourceKind,omitempty"`
+	Action       string    `form:"action,omitempty" json:"action,omitempty"`
+	Result       string    `form:"result,omitempty" json:"result,omitempty"`
+	From         time.Time `form:"from,omitempty" json:"from,omitempty"`
+	To           time.Time `form:"to,omitempty" json:"to,omitempty"`
+}
+
 // HandleProviderCallbackParams defines parameters for HandleProviderCallback.
 type HandleProviderCallbackParams struct {
 	Code  OIDCCode  `form:"code,omitempty" json:"code,omitempty"`
@@ -16191,9 +19355,521 @@ type HandleOIDCCallbackParams struct {
 	State OIDCState `form:"state,omitempty" json:"state,omitempty"`
 }
 
+// ListKubernetesClusterRoleBindingsParams defines parameters for ListKubernetesClusterRoleBindings.
+type ListKubernetesClusterRoleBindingsParams struct {
+	// SubjectKind Optional RBAC subject filter. The current implementation accepts ServiceAccount.
+	SubjectKind      KubernetesSubjectKindQuery      `form:"subjectKind,omitempty" json:"subjectKind,omitempty"`
+	SubjectName      KubernetesSubjectNameQuery      `form:"subjectName,omitempty" json:"subjectName,omitempty"`
+	SubjectNamespace KubernetesSubjectNamespaceQuery `form:"subjectNamespace,omitempty" json:"subjectNamespace,omitempty"`
+}
+
+// ListKubernetesRoleBindingsParams defines parameters for ListKubernetesRoleBindings.
+type ListKubernetesRoleBindingsParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+
+	// SubjectKind Optional RBAC subject filter. The current implementation accepts ServiceAccount.
+	SubjectKind      KubernetesSubjectKindQuery      `form:"subjectKind,omitempty" json:"subjectKind,omitempty"`
+	SubjectName      KubernetesSubjectNameQuery      `form:"subjectName,omitempty" json:"subjectName,omitempty"`
+	SubjectNamespace KubernetesSubjectNamespaceQuery `form:"subjectNamespace,omitempty" json:"subjectNamespace,omitempty"`
+}
+
+// GetKubernetesRoleBindingDetailParams defines parameters for GetKubernetesRoleBindingDetail.
+type GetKubernetesRoleBindingDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesRolesParams defines parameters for ListKubernetesRoles.
+type ListKubernetesRolesParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesRoleDetailParams defines parameters for GetKubernetesRoleDetail.
+type GetKubernetesRoleDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesServiceAccountsParams defines parameters for ListKubernetesServiceAccounts.
+type ListKubernetesServiceAccountsParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesServiceAccountDetailParams defines parameters for GetKubernetesServiceAccountDetail.
+type GetKubernetesServiceAccountDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesConfigMapsParams defines parameters for ListKubernetesConfigMaps.
+type ListKubernetesConfigMapsParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesConfigMapDetailParams defines parameters for GetKubernetesConfigMapDetail.
+type GetKubernetesConfigMapDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesConfigMapReferencesParams defines parameters for ListKubernetesConfigMapReferences.
+type ListKubernetesConfigMapReferencesParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesHorizontalPodAutoscalersParams defines parameters for ListKubernetesHorizontalPodAutoscalers.
+type ListKubernetesHorizontalPodAutoscalersParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesHorizontalPodAutoscalerDetailParams defines parameters for GetKubernetesHorizontalPodAutoscalerDetail.
+type GetKubernetesHorizontalPodAutoscalerDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesLeasesParams defines parameters for ListKubernetesLeases.
+type ListKubernetesLeasesParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesLimitRangesParams defines parameters for ListKubernetesLimitRanges.
+type ListKubernetesLimitRangesParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesLimitRangeDetailParams defines parameters for GetKubernetesLimitRangeDetail.
+type GetKubernetesLimitRangeDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesPodDisruptionBudgetsParams defines parameters for ListKubernetesPodDisruptionBudgets.
+type ListKubernetesPodDisruptionBudgetsParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesPodDisruptionBudgetDetailParams defines parameters for GetKubernetesPodDisruptionBudgetDetail.
+type GetKubernetesPodDisruptionBudgetDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesResourceQuotasParams defines parameters for ListKubernetesResourceQuotas.
+type ListKubernetesResourceQuotasParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesResourceQuotaDetailParams defines parameters for GetKubernetesResourceQuotaDetail.
+type GetKubernetesResourceQuotaDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesSecretMetadataParams defines parameters for ListKubernetesSecretMetadata.
+type ListKubernetesSecretMetadataParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesSecretReferencesParams defines parameters for ListKubernetesSecretReferences.
+type ListKubernetesSecretReferencesParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesClusterEventsParams defines parameters for ListKubernetesClusterEvents.
+type ListKubernetesClusterEventsParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery  `form:"namespace,omitempty" json:"namespace,omitempty"`
+	Limit     KubernetesEventLimitQuery `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListKubernetesCustomResourcesParams defines parameters for ListKubernetesCustomResources.
+type ListKubernetesCustomResourcesParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesHelmChartsParams defines parameters for ListKubernetesHelmCharts.
+type ListKubernetesHelmChartsParams struct {
+	Keyword KubernetesKeywordQuery `form:"keyword,omitempty" json:"keyword,omitempty"`
+	Limit   KubernetesLimitQuery   `form:"limit,omitempty" json:"limit,omitempty"`
+	Offset  KubernetesOffsetQuery  `form:"offset,omitempty" json:"offset,omitempty"`
+}
+
+// GetKubernetesHelmChartDetailParams defines parameters for GetKubernetesHelmChartDetail.
+type GetKubernetesHelmChartDetailParams struct {
+	Version KubernetesVersionQuery `form:"version,omitempty" json:"version,omitempty"`
+}
+
+// ListKubernetesHelmReleasesParams defines parameters for ListKubernetesHelmReleases.
+type ListKubernetesHelmReleasesParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesHelmReleaseDetailParams defines parameters for GetKubernetesHelmReleaseDetail.
+type GetKubernetesHelmReleaseDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesHelmReleaseHistoryParams defines parameters for ListKubernetesHelmReleaseHistory.
+type ListKubernetesHelmReleaseHistoryParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesBackendTLSPoliciesParams defines parameters for ListKubernetesBackendTLSPolicies.
+type ListKubernetesBackendTLSPoliciesParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesBackendTLSPolicyDetailParams defines parameters for GetKubernetesBackendTLSPolicyDetail.
+type GetKubernetesBackendTLSPolicyDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesEndpointSlicesParams defines parameters for ListKubernetesEndpointSlices.
+type ListKubernetesEndpointSlicesParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesEndpointSliceDetailParams defines parameters for GetKubernetesEndpointSliceDetail.
+type GetKubernetesEndpointSliceDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesGatewaysParams defines parameters for ListKubernetesGateways.
+type ListKubernetesGatewaysParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesGatewayDetailParams defines parameters for GetKubernetesGatewayDetail.
+type GetKubernetesGatewayDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesGRPCRoutesParams defines parameters for ListKubernetesGRPCRoutes.
+type ListKubernetesGRPCRoutesParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesGRPCRouteDetailParams defines parameters for GetKubernetesGRPCRouteDetail.
+type GetKubernetesGRPCRouteDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesHTTPRoutesParams defines parameters for ListKubernetesHTTPRoutes.
+type ListKubernetesHTTPRoutesParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesHTTPRouteDetailParams defines parameters for GetKubernetesHTTPRouteDetail.
+type GetKubernetesHTTPRouteDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesIngressesParams defines parameters for ListKubernetesIngresses.
+type ListKubernetesIngressesParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesIngressDetailParams defines parameters for GetKubernetesIngressDetail.
+type GetKubernetesIngressDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesNetworkPoliciesParams defines parameters for ListKubernetesNetworkPolicies.
+type ListKubernetesNetworkPoliciesParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesNetworkPolicyDetailParams defines parameters for GetKubernetesNetworkPolicyDetail.
+type GetKubernetesNetworkPolicyDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesReferenceGrantsParams defines parameters for ListKubernetesReferenceGrants.
+type ListKubernetesReferenceGrantsParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesReferenceGrantDetailParams defines parameters for GetKubernetesReferenceGrantDetail.
+type GetKubernetesReferenceGrantDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesServicesParams defines parameters for ListKubernetesServices.
+type ListKubernetesServicesParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesServiceDetailParams defines parameters for GetKubernetesServiceDetail.
+type GetKubernetesServiceDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesServiceMetricsParams defines parameters for GetKubernetesServiceMetrics.
+type GetKubernetesServiceMetricsParams struct {
+	Namespace    KubernetesNamespaceDefaultQuery    `form:"namespace,omitempty" json:"namespace,omitempty"`
+	RangeMinutes KubernetesMetricsRangeMinutesQuery `form:"rangeMinutes,omitempty" json:"rangeMinutes,omitempty"`
+
+	// StepSeconds Requested step. The server may increase it to keep the response below 1440 points per series.
+	StepSeconds KubernetesMetricsStepSecondsQuery `form:"stepSeconds,omitempty" json:"stepSeconds,omitempty"`
+}
+
+// GetKubernetesNetworkTopologyParams defines parameters for GetKubernetesNetworkTopology.
+type GetKubernetesNetworkTopologyParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
 // ExecuteKubernetesResourceCreateParams defines parameters for ExecuteKubernetesResourceCreate.
 type ExecuteKubernetesResourceCreateParams struct {
 	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
+// ListKubernetesPersistentVolumeClaimsParams defines parameters for ListKubernetesPersistentVolumeClaims.
+type ListKubernetesPersistentVolumeClaimsParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesPersistentVolumeClaimDetailParams defines parameters for GetKubernetesPersistentVolumeClaimDetail.
+type GetKubernetesPersistentVolumeClaimDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesCronJobsParams defines parameters for ListKubernetesCronJobs.
+type ListKubernetesCronJobsParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesCronJobDetailParams defines parameters for GetKubernetesCronJobDetail.
+type GetKubernetesCronJobDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesCronJobYamlParams defines parameters for GetKubernetesCronJobYaml.
+type GetKubernetesCronJobYamlParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesDaemonSetsParams defines parameters for ListKubernetesDaemonSets.
+type ListKubernetesDaemonSetsParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesDaemonSetDetailParams defines parameters for GetKubernetesDaemonSetDetail.
+type GetKubernetesDaemonSetDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesDaemonSetMetricsParams defines parameters for GetKubernetesDaemonSetMetrics.
+type GetKubernetesDaemonSetMetricsParams struct {
+	Namespace    KubernetesNamespaceDefaultQuery    `form:"namespace,omitempty" json:"namespace,omitempty"`
+	RangeMinutes KubernetesMetricsRangeMinutesQuery `form:"rangeMinutes,omitempty" json:"rangeMinutes,omitempty"`
+
+	// StepSeconds Requested step. The server may increase it to keep the response below 1440 points per series.
+	StepSeconds KubernetesMetricsStepSecondsQuery `form:"stepSeconds,omitempty" json:"stepSeconds,omitempty"`
+}
+
+// GetKubernetesDaemonSetYamlParams defines parameters for GetKubernetesDaemonSetYaml.
+type GetKubernetesDaemonSetYamlParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesDeploymentsParams defines parameters for ListKubernetesDeployments.
+type ListKubernetesDeploymentsParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesDeploymentDetailParams defines parameters for GetKubernetesDeploymentDetail.
+type GetKubernetesDeploymentDetailParams struct {
+	Namespace KubernetesNamespaceDefaultQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesDeploymentMetricsParams defines parameters for GetKubernetesDeploymentMetrics.
+type GetKubernetesDeploymentMetricsParams struct {
+	Namespace    KubernetesNamespaceDefaultQuery    `form:"namespace,omitempty" json:"namespace,omitempty"`
+	RangeMinutes KubernetesMetricsRangeMinutesQuery `form:"rangeMinutes,omitempty" json:"rangeMinutes,omitempty"`
+
+	// StepSeconds Requested step. The server may increase it to keep the response below 1440 points per series.
+	StepSeconds KubernetesMetricsStepSecondsQuery `form:"stepSeconds,omitempty" json:"stepSeconds,omitempty"`
+}
+
+// GetKubernetesDeploymentRolloutStatusParams defines parameters for GetKubernetesDeploymentRolloutStatus.
+type GetKubernetesDeploymentRolloutStatusParams struct {
+	Namespace KubernetesNamespaceDefaultQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesDeploymentRolloutsParams defines parameters for ListKubernetesDeploymentRollouts.
+type ListKubernetesDeploymentRolloutsParams struct {
+	Namespace KubernetesNamespaceDefaultQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesDeploymentYamlParams defines parameters for GetKubernetesDeploymentYaml.
+type GetKubernetesDeploymentYamlParams struct {
+	Namespace KubernetesNamespaceDefaultQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesJobsParams defines parameters for ListKubernetesJobs.
+type ListKubernetesJobsParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesJobDetailParams defines parameters for GetKubernetesJobDetail.
+type GetKubernetesJobDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesJobYamlParams defines parameters for GetKubernetesJobYaml.
+type GetKubernetesJobYamlParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesWorkloadOverviewParams defines parameters for GetKubernetesWorkloadOverview.
+type GetKubernetesWorkloadOverviewParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesPodsParams defines parameters for ListKubernetesPods.
+type ListKubernetesPodsParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesPodDetailParams defines parameters for GetKubernetesPodDetail.
+type GetKubernetesPodDetailParams struct {
+	Namespace KubernetesNamespaceDefaultQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesPodLogsParams defines parameters for GetKubernetesPodLogs.
+type GetKubernetesPodLogsParams struct {
+	Namespace    KubernetesNamespaceDefaultQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+	Container    string                          `form:"container,omitempty" json:"container,omitempty"`
+	TailLines    int                             `form:"tailLines,omitempty" json:"tailLines,omitempty"`
+	SinceSeconds int                             `form:"sinceSeconds,omitempty" json:"sinceSeconds,omitempty"`
+	Previous     bool                            `form:"previous,omitempty" json:"previous,omitempty"`
+}
+
+// GetClusterPodMetricsParams defines parameters for GetClusterPodMetrics.
+type GetClusterPodMetricsParams struct {
+	Namespace    string `form:"namespace,omitempty" json:"namespace,omitempty"`
+	RangeMinutes int    `form:"rangeMinutes,omitempty" json:"rangeMinutes,omitempty"`
+
+	// StepSeconds Requested step. The server may increase it to keep the response below 1440 points per series.
+	StepSeconds int `form:"stepSeconds,omitempty" json:"stepSeconds,omitempty"`
+}
+
+// GetKubernetesPodYamlParams defines parameters for GetKubernetesPodYaml.
+type GetKubernetesPodYamlParams struct {
+	Namespace KubernetesNamespaceDefaultQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesReplicaSetsParams defines parameters for ListKubernetesReplicaSets.
+type ListKubernetesReplicaSetsParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesReplicaSetDetailParams defines parameters for GetKubernetesReplicaSetDetail.
+type GetKubernetesReplicaSetDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesReplicaSetYamlParams defines parameters for GetKubernetesReplicaSetYaml.
+type GetKubernetesReplicaSetYamlParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesReplicationControllersParams defines parameters for ListKubernetesReplicationControllers.
+type ListKubernetesReplicationControllersParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesReplicationControllerDetailParams defines parameters for GetKubernetesReplicationControllerDetail.
+type GetKubernetesReplicationControllerDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesReplicationControllerYamlParams defines parameters for GetKubernetesReplicationControllerYaml.
+type GetKubernetesReplicationControllerYamlParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ListKubernetesStatefulSetsParams defines parameters for ListKubernetesStatefulSets.
+type ListKubernetesStatefulSetsParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesStatefulSetDetailParams defines parameters for GetKubernetesStatefulSetDetail.
+type GetKubernetesStatefulSetDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesStatefulSetMetricsParams defines parameters for GetKubernetesStatefulSetMetrics.
+type GetKubernetesStatefulSetMetricsParams struct {
+	Namespace    KubernetesNamespaceDefaultQuery    `form:"namespace,omitempty" json:"namespace,omitempty"`
+	RangeMinutes KubernetesMetricsRangeMinutesQuery `form:"rangeMinutes,omitempty" json:"rangeMinutes,omitempty"`
+
+	// StepSeconds Requested step. The server may increase it to keep the response below 1440 points per series.
+	StepSeconds KubernetesMetricsStepSecondsQuery `form:"stepSeconds,omitempty" json:"stepSeconds,omitempty"`
+}
+
+// GetKubernetesStatefulSetYamlParams defines parameters for GetKubernetesStatefulSetYaml.
+type GetKubernetesStatefulSetYamlParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
 
 // RecordCompanionInteractionParams defines parameters for RecordCompanionInteraction.
@@ -16373,6 +20049,46 @@ type ListGitLabTagsParams struct {
 	Limit     int                  `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
+// ListPlatformOperationLogsParams defines parameters for ListPlatformOperationLogs.
+type ListPlatformOperationLogsParams struct {
+	OperationType string    `form:"operationType,omitempty" json:"operationType,omitempty"`
+	ActorID       string    `form:"actorId,omitempty" json:"actorId,omitempty"`
+	ClusterID     string    `form:"clusterId,omitempty" json:"clusterId,omitempty"`
+	Namespace     string    `form:"namespace,omitempty" json:"namespace,omitempty"`
+	ResourceKind  string    `form:"resourceKind,omitempty" json:"resourceKind,omitempty"`
+	ResourceName  string    `form:"resourceName,omitempty" json:"resourceName,omitempty"`
+	Result        string    `form:"result,omitempty" json:"result,omitempty"`
+	RequestID     string    `form:"requestId,omitempty" json:"requestId,omitempty"`
+	From          time.Time `form:"from,omitempty" json:"from,omitempty"`
+	To            time.Time `form:"to,omitempty" json:"to,omitempty"`
+	Limit         int       `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ExportPlatformOperationLogsParams defines parameters for ExportPlatformOperationLogs.
+type ExportPlatformOperationLogsParams struct {
+	OperationType string    `form:"operationType,omitempty" json:"operationType,omitempty"`
+	ActorID       string    `form:"actorId,omitempty" json:"actorId,omitempty"`
+	ClusterID     string    `form:"clusterId,omitempty" json:"clusterId,omitempty"`
+	Namespace     string    `form:"namespace,omitempty" json:"namespace,omitempty"`
+	ResourceKind  string    `form:"resourceKind,omitempty" json:"resourceKind,omitempty"`
+	Result        string    `form:"result,omitempty" json:"result,omitempty"`
+	From          time.Time `form:"from,omitempty" json:"from,omitempty"`
+	To            time.Time `form:"to,omitempty" json:"to,omitempty"`
+	Limit         int       `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// SummarizePlatformOperationLogsParams defines parameters for SummarizePlatformOperationLogs.
+type SummarizePlatformOperationLogsParams struct {
+	OperationType string    `form:"operationType,omitempty" json:"operationType,omitempty"`
+	ActorID       string    `form:"actorId,omitempty" json:"actorId,omitempty"`
+	ClusterID     string    `form:"clusterId,omitempty" json:"clusterId,omitempty"`
+	Namespace     string    `form:"namespace,omitempty" json:"namespace,omitempty"`
+	ResourceKind  string    `form:"resourceKind,omitempty" json:"resourceKind,omitempty"`
+	Result        string    `form:"result,omitempty" json:"result,omitempty"`
+	From          time.Time `form:"from,omitempty" json:"from,omitempty"`
+	To            time.Time `form:"to,omitempty" json:"to,omitempty"`
+}
+
 // ListMarketplacePluginsParams defines parameters for ListMarketplacePlugins.
 type ListMarketplacePluginsParams struct {
 	Q              string `form:"q,omitempty" json:"q,omitempty"`
@@ -16475,8 +20191,122 @@ type CompleteGitLabSystemIntegrationOAuthParams struct {
 	ErrorDescription string `form:"error_description,omitempty" json:"error_description,omitempty"`
 }
 
+// ListVirtualizationClustersParams defines parameters for ListVirtualizationClusters.
+type ListVirtualizationClustersParams struct {
+	Provider            string `form:"provider,omitempty" json:"provider,omitempty"`
+	KubernetesClusterID string `form:"kubernetesClusterId,omitempty" json:"kubernetesClusterId,omitempty"`
+	Limit               int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// DeleteVirtualizationClusterParams defines parameters for DeleteVirtualizationCluster.
+type DeleteVirtualizationClusterParams struct {
+	Force bool `form:"force,omitempty" json:"force,omitempty"`
+}
+
+// ListVirtualizationFlavorsParams defines parameters for ListVirtualizationFlavors.
+type ListVirtualizationFlavorsParams struct {
+	Provider     string `form:"provider,omitempty" json:"provider,omitempty"`
+	ConnectionID string `form:"connectionId,omitempty" json:"connectionId,omitempty"`
+	Status       string `form:"status,omitempty" json:"status,omitempty"`
+	Search       string `form:"search,omitempty" json:"search,omitempty"`
+	Page         int    `form:"page,omitempty" json:"page,omitempty"`
+	PageSize     int    `form:"pageSize,omitempty" json:"pageSize,omitempty"`
+	Limit        int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListVirtualizationFlavors200JSONResponseBody defines parameters for ListVirtualizationFlavors.
+type ListVirtualizationFlavors200JSONResponseBody struct {
+	union json.RawMessage
+}
+
+// ListVirtualizationImagesParams defines parameters for ListVirtualizationImages.
+type ListVirtualizationImagesParams struct {
+	Provider     string `form:"provider,omitempty" json:"provider,omitempty"`
+	ConnectionID string `form:"connectionId,omitempty" json:"connectionId,omitempty"`
+	Category     string `form:"category,omitempty" json:"category,omitempty"`
+	Status       string `form:"status,omitempty" json:"status,omitempty"`
+	Search       string `form:"search,omitempty" json:"search,omitempty"`
+	Page         int    `form:"page,omitempty" json:"page,omitempty"`
+	PageSize     int    `form:"pageSize,omitempty" json:"pageSize,omitempty"`
+	Limit        int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListVirtualizationImages200JSONResponseBody defines parameters for ListVirtualizationImages.
+type ListVirtualizationImages200JSONResponseBody struct {
+	union json.RawMessage
+}
+
+// ListVirtualizationOperationsParams defines parameters for ListVirtualizationOperations.
+type ListVirtualizationOperationsParams struct {
+	TaskKind  string `form:"taskKind,omitempty" json:"taskKind,omitempty"`
+	AssetType string `form:"assetType,omitempty" json:"assetType,omitempty"`
+	Type      string `form:"type,omitempty" json:"type,omitempty"`
+
+	// Statuses Comma-separated statuses.
+	Statuses     string `form:"statuses,omitempty" json:"statuses,omitempty"`
+	Provider     string `form:"provider,omitempty" json:"provider,omitempty"`
+	ConnectionID string `form:"connectionId,omitempty" json:"connectionId,omitempty"`
+	VMID         string `form:"vmId,omitempty" json:"vmId,omitempty"`
+	Status       string `form:"status,omitempty" json:"status,omitempty"`
+	Abnormal     bool   `form:"abnormal,omitempty" json:"abnormal,omitempty"`
+	Pending      bool   `form:"pending,omitempty" json:"pending,omitempty"`
+	Search       string `form:"search,omitempty" json:"search,omitempty"`
+	Page         int    `form:"page,omitempty" json:"page,omitempty"`
+	PageSize     int    `form:"pageSize,omitempty" json:"pageSize,omitempty"`
+	Limit        int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListVirtualizationOperations200JSONResponseBody defines parameters for ListVirtualizationOperations.
+type ListVirtualizationOperations200JSONResponseBody struct {
+	union json.RawMessage
+}
+
+// ListVirtualizationOperationLogsParams defines parameters for ListVirtualizationOperationLogs.
+type ListVirtualizationOperationLogsParams struct {
+	Limit int `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListVirtualMachinesParams defines parameters for ListVirtualMachines.
+type ListVirtualMachinesParams struct {
+	Provider     string `form:"provider,omitempty" json:"provider,omitempty"`
+	ConnectionID string `form:"connectionId,omitempty" json:"connectionId,omitempty"`
+	Namespace    string `form:"namespace,omitempty" json:"namespace,omitempty"`
+	Status       string `form:"status,omitempty" json:"status,omitempty"`
+	Search       string `form:"search,omitempty" json:"search,omitempty"`
+	Page         int    `form:"page,omitempty" json:"page,omitempty"`
+	PageSize     int    `form:"pageSize,omitempty" json:"pageSize,omitempty"`
+	Limit        int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListVirtualMachines200JSONResponseBody defines parameters for ListVirtualMachines.
+type ListVirtualMachines200JSONResponseBody struct {
+	union json.RawMessage
+}
+
 // CreateVirtualMachineParams defines parameters for CreateVirtualMachine.
 type CreateVirtualMachineParams struct {
+	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
+// PerformVirtualMachineActionParams defines parameters for PerformVirtualMachineAction.
+type PerformVirtualMachineActionParams struct {
+	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
+// StreamVirtualMachineConsoleNoVNCParams defines parameters for StreamVirtualMachineConsoleNoVNC.
+type StreamVirtualMachineConsoleNoVNCParams struct {
+	// Token Short-lived console token.
+	Token string `form:"token,omitempty" json:"token,omitempty"`
+}
+
+// GetVirtualMachineMetricsParams defines parameters for GetVirtualMachineMetrics.
+type GetVirtualMachineMetricsParams struct {
+	RangeMinutes int `form:"rangeMinutes,omitempty" json:"rangeMinutes,omitempty"`
+	StepSeconds  int `form:"stepSeconds,omitempty" json:"stepSeconds,omitempty"`
+}
+
+// PowerVirtualMachineParams defines parameters for PowerVirtualMachine.
+type PowerVirtualMachineParams struct {
 	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
 }
 
@@ -17014,6 +20844,15 @@ type UpdateAISkillsRegistryJSONRequestBody = UpdateAISkillsRequest
 // UpdateAIWorkbenchModelSettingsJSONRequestBody defines body for UpdateAIWorkbenchModelSettings for application/json ContentType.
 type UpdateAIWorkbenchModelSettingsJSONRequestBody = UpdateAIWorkbenchModelRequest
 
+// UpdateBrandingSettingsJSONRequestBody defines body for UpdateBrandingSettings for application/json ContentType.
+type UpdateBrandingSettingsJSONRequestBody = UpdateBrandingSettingsRequest
+
+// UploadBrandingAssetMultipartRequestBody defines body for UploadBrandingAsset for multipart/form-data ContentType.
+type UploadBrandingAssetMultipartRequestBody = UploadBrandingAssetRequest
+
+// UpdateLoginProvidersSettingsJSONRequestBody defines body for UpdateLoginProvidersSettings for application/json ContentType.
+type UpdateLoginProvidersSettingsJSONRequestBody = UpdateLoginProvidersSettingsRequest
+
 // ApplyRuntimeConfigJSONRequestBody defines body for ApplyRuntimeConfig for application/json ContentType.
 type ApplyRuntimeConfigJSONRequestBody = RuntimeConfigChangeRequest
 
@@ -17035,11 +20874,35 @@ type CreateSystemIntegrationJSONRequestBody = SystemIntegrationCreateRequest
 // UpdateSystemIntegrationJSONRequestBody defines body for UpdateSystemIntegration for application/json ContentType.
 type UpdateSystemIntegrationJSONRequestBody = SystemIntegrationUpdateRequest
 
+// CreateVirtualizationClusterJSONRequestBody defines body for CreateVirtualizationCluster for application/json ContentType.
+type CreateVirtualizationClusterJSONRequestBody = VirtualizationConnectionInput
+
+// UpdateVirtualizationClusterJSONRequestBody defines body for UpdateVirtualizationCluster for application/json ContentType.
+type UpdateVirtualizationClusterJSONRequestBody = VirtualizationConnectionInput
+
+// CreateVirtualizationFlavorJSONRequestBody defines body for CreateVirtualizationFlavor for application/json ContentType.
+type CreateVirtualizationFlavorJSONRequestBody = VirtualizationFlavorInput
+
+// UpdateVirtualizationFlavorJSONRequestBody defines body for UpdateVirtualizationFlavor for application/json ContentType.
+type UpdateVirtualizationFlavorJSONRequestBody = VirtualizationFlavorInput
+
+// CreateVirtualizationImageJSONRequestBody defines body for CreateVirtualizationImage for application/json ContentType.
+type CreateVirtualizationImageJSONRequestBody = VirtualizationImageInput
+
+// UpdateVirtualizationImageJSONRequestBody defines body for UpdateVirtualizationImage for application/json ContentType.
+type UpdateVirtualizationImageJSONRequestBody = VirtualizationImageInput
+
 // CreateVirtualMachineJSONRequestBody defines body for CreateVirtualMachine for application/json ContentType.
 type CreateVirtualMachineJSONRequestBody = VirtualMachineCreateInput
 
 // PlanVirtualMachineCreateJSONRequestBody defines body for PlanVirtualMachineCreate for application/json ContentType.
 type PlanVirtualMachineCreateJSONRequestBody = VirtualMachineCreateInput
+
+// PerformVirtualMachineActionJSONRequestBody defines body for PerformVirtualMachineAction for application/json ContentType.
+type PerformVirtualMachineActionJSONRequestBody = VirtualMachineActionInput
+
+// PowerVirtualMachineJSONRequestBody defines body for PowerVirtualMachine for application/json ContentType.
+type PowerVirtualMachineJSONRequestBody = VirtualMachinePowerInput
 
 // CreateWorkflowTemplateJSONRequestBody defines body for CreateWorkflowTemplate for application/json ContentType.
 type CreateWorkflowTemplateJSONRequestBody = WorkflowTemplateInput
@@ -18036,6 +21899,14 @@ func (a *DockerOperation) UnmarshalJSON(b []byte) error {
 		return err
 	}
 
+	if raw, found := object["callbackToken"]; found {
+		err = json.Unmarshal(raw, &a.CallbackToken)
+		if err != nil {
+			return fmt.Errorf("error reading 'callbackToken': %w", err)
+		}
+		delete(object, "callbackToken")
+	}
+
 	if raw, found := object["claimedByWorkerId"]; found {
 		err = json.Unmarshal(raw, &a.ClaimedByWorkerID)
 		if err != nil {
@@ -18126,6 +21997,11 @@ func (a *DockerOperation) UnmarshalJSON(b []byte) error {
 func (a DockerOperation) MarshalJSON() ([]byte, error) {
 	var err error
 	object := make(map[string]json.RawMessage)
+
+	object["callbackToken"], err = json.Marshal(a.CallbackToken)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'callbackToken': %w", err)
+	}
 
 	object["claimedByWorkerId"], err = json.Marshal(a.ClaimedByWorkerID)
 	if err != nil {
@@ -22872,6 +26748,254 @@ func (t WorkbenchStreamEvent) MarshalJSON() ([]byte, error) {
 }
 
 func (t *WorkbenchStreamEvent) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsVirtualizationFlavorListEnvelope returns the union data inside the ListVirtualizationFlavors200JSONResponseBody as a VirtualizationFlavorListEnvelope
+func (t ListVirtualizationFlavors200JSONResponseBody) AsVirtualizationFlavorListEnvelope() (VirtualizationFlavorListEnvelope, error) {
+	var body VirtualizationFlavorListEnvelope
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualizationFlavorListEnvelope overwrites any union data inside the ListVirtualizationFlavors200JSONResponseBody as the provided VirtualizationFlavorListEnvelope
+func (t *ListVirtualizationFlavors200JSONResponseBody) FromVirtualizationFlavorListEnvelope(v VirtualizationFlavorListEnvelope) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualizationFlavorListEnvelope performs a merge with any union data inside the ListVirtualizationFlavors200JSONResponseBody, using the provided VirtualizationFlavorListEnvelope
+func (t *ListVirtualizationFlavors200JSONResponseBody) MergeVirtualizationFlavorListEnvelope(v VirtualizationFlavorListEnvelope) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVirtualizationFlavorPageEnvelope returns the union data inside the ListVirtualizationFlavors200JSONResponseBody as a VirtualizationFlavorPageEnvelope
+func (t ListVirtualizationFlavors200JSONResponseBody) AsVirtualizationFlavorPageEnvelope() (VirtualizationFlavorPageEnvelope, error) {
+	var body VirtualizationFlavorPageEnvelope
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualizationFlavorPageEnvelope overwrites any union data inside the ListVirtualizationFlavors200JSONResponseBody as the provided VirtualizationFlavorPageEnvelope
+func (t *ListVirtualizationFlavors200JSONResponseBody) FromVirtualizationFlavorPageEnvelope(v VirtualizationFlavorPageEnvelope) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualizationFlavorPageEnvelope performs a merge with any union data inside the ListVirtualizationFlavors200JSONResponseBody, using the provided VirtualizationFlavorPageEnvelope
+func (t *ListVirtualizationFlavors200JSONResponseBody) MergeVirtualizationFlavorPageEnvelope(v VirtualizationFlavorPageEnvelope) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t ListVirtualizationFlavors200JSONResponseBody) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *ListVirtualizationFlavors200JSONResponseBody) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsVirtualizationImageListEnvelope returns the union data inside the ListVirtualizationImages200JSONResponseBody as a VirtualizationImageListEnvelope
+func (t ListVirtualizationImages200JSONResponseBody) AsVirtualizationImageListEnvelope() (VirtualizationImageListEnvelope, error) {
+	var body VirtualizationImageListEnvelope
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualizationImageListEnvelope overwrites any union data inside the ListVirtualizationImages200JSONResponseBody as the provided VirtualizationImageListEnvelope
+func (t *ListVirtualizationImages200JSONResponseBody) FromVirtualizationImageListEnvelope(v VirtualizationImageListEnvelope) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualizationImageListEnvelope performs a merge with any union data inside the ListVirtualizationImages200JSONResponseBody, using the provided VirtualizationImageListEnvelope
+func (t *ListVirtualizationImages200JSONResponseBody) MergeVirtualizationImageListEnvelope(v VirtualizationImageListEnvelope) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVirtualizationImagePageEnvelope returns the union data inside the ListVirtualizationImages200JSONResponseBody as a VirtualizationImagePageEnvelope
+func (t ListVirtualizationImages200JSONResponseBody) AsVirtualizationImagePageEnvelope() (VirtualizationImagePageEnvelope, error) {
+	var body VirtualizationImagePageEnvelope
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualizationImagePageEnvelope overwrites any union data inside the ListVirtualizationImages200JSONResponseBody as the provided VirtualizationImagePageEnvelope
+func (t *ListVirtualizationImages200JSONResponseBody) FromVirtualizationImagePageEnvelope(v VirtualizationImagePageEnvelope) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualizationImagePageEnvelope performs a merge with any union data inside the ListVirtualizationImages200JSONResponseBody, using the provided VirtualizationImagePageEnvelope
+func (t *ListVirtualizationImages200JSONResponseBody) MergeVirtualizationImagePageEnvelope(v VirtualizationImagePageEnvelope) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t ListVirtualizationImages200JSONResponseBody) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *ListVirtualizationImages200JSONResponseBody) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsVirtualizationOperationListEnvelope returns the union data inside the ListVirtualizationOperations200JSONResponseBody as a VirtualizationOperationListEnvelope
+func (t ListVirtualizationOperations200JSONResponseBody) AsVirtualizationOperationListEnvelope() (VirtualizationOperationListEnvelope, error) {
+	var body VirtualizationOperationListEnvelope
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualizationOperationListEnvelope overwrites any union data inside the ListVirtualizationOperations200JSONResponseBody as the provided VirtualizationOperationListEnvelope
+func (t *ListVirtualizationOperations200JSONResponseBody) FromVirtualizationOperationListEnvelope(v VirtualizationOperationListEnvelope) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualizationOperationListEnvelope performs a merge with any union data inside the ListVirtualizationOperations200JSONResponseBody, using the provided VirtualizationOperationListEnvelope
+func (t *ListVirtualizationOperations200JSONResponseBody) MergeVirtualizationOperationListEnvelope(v VirtualizationOperationListEnvelope) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVirtualizationOperationPageEnvelope returns the union data inside the ListVirtualizationOperations200JSONResponseBody as a VirtualizationOperationPageEnvelope
+func (t ListVirtualizationOperations200JSONResponseBody) AsVirtualizationOperationPageEnvelope() (VirtualizationOperationPageEnvelope, error) {
+	var body VirtualizationOperationPageEnvelope
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualizationOperationPageEnvelope overwrites any union data inside the ListVirtualizationOperations200JSONResponseBody as the provided VirtualizationOperationPageEnvelope
+func (t *ListVirtualizationOperations200JSONResponseBody) FromVirtualizationOperationPageEnvelope(v VirtualizationOperationPageEnvelope) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualizationOperationPageEnvelope performs a merge with any union data inside the ListVirtualizationOperations200JSONResponseBody, using the provided VirtualizationOperationPageEnvelope
+func (t *ListVirtualizationOperations200JSONResponseBody) MergeVirtualizationOperationPageEnvelope(v VirtualizationOperationPageEnvelope) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t ListVirtualizationOperations200JSONResponseBody) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *ListVirtualizationOperations200JSONResponseBody) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsVirtualMachineListEnvelope returns the union data inside the ListVirtualMachines200JSONResponseBody as a VirtualMachineListEnvelope
+func (t ListVirtualMachines200JSONResponseBody) AsVirtualMachineListEnvelope() (VirtualMachineListEnvelope, error) {
+	var body VirtualMachineListEnvelope
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualMachineListEnvelope overwrites any union data inside the ListVirtualMachines200JSONResponseBody as the provided VirtualMachineListEnvelope
+func (t *ListVirtualMachines200JSONResponseBody) FromVirtualMachineListEnvelope(v VirtualMachineListEnvelope) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualMachineListEnvelope performs a merge with any union data inside the ListVirtualMachines200JSONResponseBody, using the provided VirtualMachineListEnvelope
+func (t *ListVirtualMachines200JSONResponseBody) MergeVirtualMachineListEnvelope(v VirtualMachineListEnvelope) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVirtualMachinePageEnvelope returns the union data inside the ListVirtualMachines200JSONResponseBody as a VirtualMachinePageEnvelope
+func (t ListVirtualMachines200JSONResponseBody) AsVirtualMachinePageEnvelope() (VirtualMachinePageEnvelope, error) {
+	var body VirtualMachinePageEnvelope
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualMachinePageEnvelope overwrites any union data inside the ListVirtualMachines200JSONResponseBody as the provided VirtualMachinePageEnvelope
+func (t *ListVirtualMachines200JSONResponseBody) FromVirtualMachinePageEnvelope(v VirtualMachinePageEnvelope) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualMachinePageEnvelope performs a merge with any union data inside the ListVirtualMachines200JSONResponseBody, using the provided VirtualMachinePageEnvelope
+func (t *ListVirtualMachines200JSONResponseBody) MergeVirtualMachinePageEnvelope(v VirtualMachinePageEnvelope) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t ListVirtualMachines200JSONResponseBody) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *ListVirtualMachines200JSONResponseBody) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
