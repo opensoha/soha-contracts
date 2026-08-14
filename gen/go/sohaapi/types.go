@@ -3913,6 +3913,42 @@ func (e MarketplacePublisherVerificationLevel) Valid() bool {
 	}
 }
 
+// Defines values for OIDCClientAllowedGrantTypes.
+const (
+	OIDCClientAllowedGrantTypesAuthorizationCode OIDCClientAllowedGrantTypes = "authorization_code"
+	OIDCClientAllowedGrantTypesRefreshToken      OIDCClientAllowedGrantTypes = "refresh_token"
+)
+
+// Valid indicates whether the value is a known member of the OIDCClientAllowedGrantTypes enum.
+func (e OIDCClientAllowedGrantTypes) Valid() bool {
+	switch e {
+	case OIDCClientAllowedGrantTypesAuthorizationCode:
+		return true
+	case OIDCClientAllowedGrantTypesRefreshToken:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for OIDCClientClientType.
+const (
+	OIDCClientClientTypeConfidential OIDCClientClientType = "confidential"
+	OIDCClientClientTypePublic       OIDCClientClientType = "public"
+)
+
+// Valid indicates whether the value is a known member of the OIDCClientClientType enum.
+func (e OIDCClientClientType) Valid() bool {
+	switch e {
+	case OIDCClientClientTypeConfidential:
+		return true
+	case OIDCClientClientTypePublic:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for OIDCClientGrantTypes.
 const (
 	OIDCClientGrantTypesAuthorizationCode OIDCClientGrantTypes = "authorization_code"
@@ -3931,6 +3967,42 @@ func (e OIDCClientGrantTypes) Valid() bool {
 	}
 }
 
+// Defines values for OIDCClientInputAllowedGrantTypes.
+const (
+	OIDCClientInputAllowedGrantTypesAuthorizationCode OIDCClientInputAllowedGrantTypes = "authorization_code"
+	OIDCClientInputAllowedGrantTypesRefreshToken      OIDCClientInputAllowedGrantTypes = "refresh_token"
+)
+
+// Valid indicates whether the value is a known member of the OIDCClientInputAllowedGrantTypes enum.
+func (e OIDCClientInputAllowedGrantTypes) Valid() bool {
+	switch e {
+	case OIDCClientInputAllowedGrantTypesAuthorizationCode:
+		return true
+	case OIDCClientInputAllowedGrantTypesRefreshToken:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for OIDCClientInputClientType.
+const (
+	OIDCClientInputClientTypeConfidential OIDCClientInputClientType = "confidential"
+	OIDCClientInputClientTypePublic       OIDCClientInputClientType = "public"
+)
+
+// Valid indicates whether the value is a known member of the OIDCClientInputClientType enum.
+func (e OIDCClientInputClientType) Valid() bool {
+	switch e {
+	case OIDCClientInputClientTypeConfidential:
+		return true
+	case OIDCClientInputClientTypePublic:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for OIDCClientInputGrantTypes.
 const (
 	OIDCClientInputGrantTypesAuthorizationCode OIDCClientInputGrantTypes = "authorization_code"
@@ -3943,6 +4015,21 @@ func (e OIDCClientInputGrantTypes) Valid() bool {
 	case OIDCClientInputGrantTypesAuthorizationCode:
 		return true
 	case OIDCClientInputGrantTypesRefreshToken:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityContextVersion.
+const (
+	ObservabilityContextVersionV1 ObservabilityContextVersion = "v1"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityContextVersion enum.
+func (e ObservabilityContextVersion) Valid() bool {
+	switch e {
+	case ObservabilityContextVersionV1:
 		return true
 	default:
 		return false
@@ -3978,22 +4065,31 @@ func (e ObservabilityDashboardImportWarningCode) Valid() bool {
 
 // Defines values for ObservabilityDashboardPanelType.
 const (
-	ObservabilityDashboardPanelTypeRow        ObservabilityDashboardPanelType = "row"
-	ObservabilityDashboardPanelTypeStat       ObservabilityDashboardPanelType = "stat"
-	ObservabilityDashboardPanelTypeText       ObservabilityDashboardPanelType = "text"
-	ObservabilityDashboardPanelTypeTimeseries ObservabilityDashboardPanelType = "timeseries"
+	ObservabilityDashboardPanelTypeGauge       ObservabilityDashboardPanelType = "gauge"
+	ObservabilityDashboardPanelTypeRow         ObservabilityDashboardPanelType = "row"
+	ObservabilityDashboardPanelTypeStat        ObservabilityDashboardPanelType = "stat"
+	ObservabilityDashboardPanelTypeTable       ObservabilityDashboardPanelType = "table"
+	ObservabilityDashboardPanelTypeText        ObservabilityDashboardPanelType = "text"
+	ObservabilityDashboardPanelTypeTimeseries  ObservabilityDashboardPanelType = "timeseries"
+	ObservabilityDashboardPanelTypeUnsupported ObservabilityDashboardPanelType = "unsupported"
 )
 
 // Valid indicates whether the value is a known member of the ObservabilityDashboardPanelType enum.
 func (e ObservabilityDashboardPanelType) Valid() bool {
 	switch e {
+	case ObservabilityDashboardPanelTypeGauge:
+		return true
 	case ObservabilityDashboardPanelTypeRow:
 		return true
 	case ObservabilityDashboardPanelTypeStat:
 		return true
+	case ObservabilityDashboardPanelTypeTable:
+		return true
 	case ObservabilityDashboardPanelTypeText:
 		return true
 	case ObservabilityDashboardPanelTypeTimeseries:
+		return true
+	case ObservabilityDashboardPanelTypeUnsupported:
 		return true
 	default:
 		return false
@@ -4009,6 +4105,42 @@ const (
 func (e ObservabilityDashboardSource) Valid() bool {
 	switch e {
 	case ObservabilityDashboardSourceGrafana:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityDashboardSourceFormat.
+const (
+	ObservabilityDashboardSourceFormatClassic ObservabilityDashboardSourceFormat = "classic"
+	ObservabilityDashboardSourceFormatV1      ObservabilityDashboardSourceFormat = "v1"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityDashboardSourceFormat enum.
+func (e ObservabilityDashboardSourceFormat) Valid() bool {
+	switch e {
+	case ObservabilityDashboardSourceFormatClassic:
+		return true
+	case ObservabilityDashboardSourceFormatV1:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityDashboardVariableType.
+const (
+	ObservabilityDashboardVariableTypeConstant ObservabilityDashboardVariableType = "constant"
+	ObservabilityDashboardVariableTypeCustom   ObservabilityDashboardVariableType = "custom"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityDashboardVariableType enum.
+func (e ObservabilityDashboardVariableType) Valid() bool {
+	switch e {
+	case ObservabilityDashboardVariableTypeConstant:
+		return true
+	case ObservabilityDashboardVariableTypeCustom:
 		return true
 	default:
 		return false
@@ -4165,6 +4297,36 @@ func (e ObservabilityProviderRuntimeMode) Valid() bool {
 	}
 }
 
+// Defines values for ObservabilityProviderRuntimeStatus.
+const (
+	ObservabilityProviderRuntimeStatusDegraded     ObservabilityProviderRuntimeStatus = "degraded"
+	ObservabilityProviderRuntimeStatusFailed       ObservabilityProviderRuntimeStatus = "failed"
+	ObservabilityProviderRuntimeStatusHealthy      ObservabilityProviderRuntimeStatus = "healthy"
+	ObservabilityProviderRuntimeStatusUnconfigured ObservabilityProviderRuntimeStatus = "unconfigured"
+	ObservabilityProviderRuntimeStatusUnknown      ObservabilityProviderRuntimeStatus = "unknown"
+	ObservabilityProviderRuntimeStatusUnsupported  ObservabilityProviderRuntimeStatus = "unsupported"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityProviderRuntimeStatus enum.
+func (e ObservabilityProviderRuntimeStatus) Valid() bool {
+	switch e {
+	case ObservabilityProviderRuntimeStatusDegraded:
+		return true
+	case ObservabilityProviderRuntimeStatusFailed:
+		return true
+	case ObservabilityProviderRuntimeStatusHealthy:
+		return true
+	case ObservabilityProviderRuntimeStatusUnconfigured:
+		return true
+	case ObservabilityProviderRuntimeStatusUnknown:
+		return true
+	case ObservabilityProviderRuntimeStatusUnsupported:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ObservabilityProviderSignal.
 const (
 	ObservabilityProviderSignalLogs     ObservabilityProviderSignal = "logs"
@@ -4204,6 +4366,132 @@ func (e ObservabilityProviderStatus) Valid() bool {
 	case ObservabilityProviderStatusSupported:
 		return true
 	case ObservabilityProviderStatusUnsupported:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityQueryLanguage.
+const (
+	ObservabilityQueryLanguageClickHouseSQL ObservabilityQueryLanguage = "clickhouse_sql"
+	ObservabilityQueryLanguageElasticsearch ObservabilityQueryLanguage = "elasticsearch"
+	ObservabilityQueryLanguageEventFilter   ObservabilityQueryLanguage = "event_filter"
+	ObservabilityQueryLanguageLogQL         ObservabilityQueryLanguage = "logql"
+	ObservabilityQueryLanguageMetricKey     ObservabilityQueryLanguage = "metric_key"
+	ObservabilityQueryLanguagePromQL        ObservabilityQueryLanguage = "promql"
+	ObservabilityQueryLanguageTraceFilter   ObservabilityQueryLanguage = "trace_filter"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityQueryLanguage enum.
+func (e ObservabilityQueryLanguage) Valid() bool {
+	switch e {
+	case ObservabilityQueryLanguageClickHouseSQL:
+		return true
+	case ObservabilityQueryLanguageElasticsearch:
+		return true
+	case ObservabilityQueryLanguageEventFilter:
+		return true
+	case ObservabilityQueryLanguageLogQL:
+		return true
+	case ObservabilityQueryLanguageMetricKey:
+		return true
+	case ObservabilityQueryLanguagePromQL:
+		return true
+	case ObservabilityQueryLanguageTraceFilter:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityQuerySnapshotVersion.
+const (
+	ObservabilityQuerySnapshotVersionV1 ObservabilityQuerySnapshotVersion = "v1"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityQuerySnapshotVersion enum.
+func (e ObservabilityQuerySnapshotVersion) Valid() bool {
+	switch e {
+	case ObservabilityQuerySnapshotVersionV1:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityQueryState.
+const (
+	ObservabilityQueryStateEmpty       ObservabilityQueryState = "empty"
+	ObservabilityQueryStateError       ObservabilityQueryState = "error"
+	ObservabilityQueryStateNoData      ObservabilityQueryState = "no_data"
+	ObservabilityQueryStatePartial     ObservabilityQueryState = "partial"
+	ObservabilityQueryStateSuccess     ObservabilityQueryState = "success"
+	ObservabilityQueryStateUnsupported ObservabilityQueryState = "unsupported"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityQueryState enum.
+func (e ObservabilityQueryState) Valid() bool {
+	switch e {
+	case ObservabilityQueryStateEmpty:
+		return true
+	case ObservabilityQueryStateError:
+		return true
+	case ObservabilityQueryStateNoData:
+		return true
+	case ObservabilityQueryStatePartial:
+		return true
+	case ObservabilityQueryStateSuccess:
+		return true
+	case ObservabilityQueryStateUnsupported:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityServiceStatus.
+const (
+	ObservabilityServiceStatusDegraded    ObservabilityServiceStatus = "degraded"
+	ObservabilityServiceStatusHealthy     ObservabilityServiceStatus = "healthy"
+	ObservabilityServiceStatusUnknown     ObservabilityServiceStatus = "unknown"
+	ObservabilityServiceStatusUnsupported ObservabilityServiceStatus = "unsupported"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityServiceStatus enum.
+func (e ObservabilityServiceStatus) Valid() bool {
+	switch e {
+	case ObservabilityServiceStatusDegraded:
+		return true
+	case ObservabilityServiceStatusHealthy:
+		return true
+	case ObservabilityServiceStatusUnknown:
+		return true
+	case ObservabilityServiceStatusUnsupported:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilitySignal.
+const (
+	ObservabilitySignalEvents  ObservabilitySignal = "events"
+	ObservabilitySignalLogs    ObservabilitySignal = "logs"
+	ObservabilitySignalMetrics ObservabilitySignal = "metrics"
+	ObservabilitySignalTraces  ObservabilitySignal = "traces"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilitySignal enum.
+func (e ObservabilitySignal) Valid() bool {
+	switch e {
+	case ObservabilitySignalEvents:
+		return true
+	case ObservabilitySignalLogs:
+		return true
+	case ObservabilitySignalMetrics:
+		return true
+	case ObservabilitySignalTraces:
 		return true
 	default:
 		return false
@@ -4806,34 +5094,34 @@ func (e RuntimeNetworkUsageScope) Valid() bool {
 
 // Defines values for SAMLAttributeMappingTarget.
 const (
-	DisplayName  SAMLAttributeMappingTarget = "displayName"
-	Email        SAMLAttributeMappingTarget = "email"
-	Organization SAMLAttributeMappingTarget = "organization"
-	Project      SAMLAttributeMappingTarget = "project"
-	Role         SAMLAttributeMappingTarget = "role"
-	Subject      SAMLAttributeMappingTarget = "subject"
-	Team         SAMLAttributeMappingTarget = "team"
-	Username     SAMLAttributeMappingTarget = "username"
+	SAMLAttributeMappingTargetDisplayName  SAMLAttributeMappingTarget = "displayName"
+	SAMLAttributeMappingTargetEmail        SAMLAttributeMappingTarget = "email"
+	SAMLAttributeMappingTargetOrganization SAMLAttributeMappingTarget = "organization"
+	SAMLAttributeMappingTargetProject      SAMLAttributeMappingTarget = "project"
+	SAMLAttributeMappingTargetRole         SAMLAttributeMappingTarget = "role"
+	SAMLAttributeMappingTargetSubject      SAMLAttributeMappingTarget = "subject"
+	SAMLAttributeMappingTargetTeam         SAMLAttributeMappingTarget = "team"
+	SAMLAttributeMappingTargetUsername     SAMLAttributeMappingTarget = "username"
 )
 
 // Valid indicates whether the value is a known member of the SAMLAttributeMappingTarget enum.
 func (e SAMLAttributeMappingTarget) Valid() bool {
 	switch e {
-	case DisplayName:
+	case SAMLAttributeMappingTargetDisplayName:
 		return true
-	case Email:
+	case SAMLAttributeMappingTargetEmail:
 		return true
-	case Organization:
+	case SAMLAttributeMappingTargetOrganization:
 		return true
-	case Project:
+	case SAMLAttributeMappingTargetProject:
 		return true
-	case Role:
+	case SAMLAttributeMappingTargetRole:
 		return true
-	case Subject:
+	case SAMLAttributeMappingTargetSubject:
 		return true
-	case Team:
+	case SAMLAttributeMappingTargetTeam:
 		return true
-	case Username:
+	case SAMLAttributeMappingTargetUsername:
 		return true
 	default:
 		return false
@@ -4876,6 +5164,63 @@ func (e SAMLNameIDFormat) Valid() bool {
 	case Transient:
 		return true
 	case Unspecified:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ScopeGrantEffect.
+const (
+	Allow ScopeGrantEffect = "allow"
+	Deny  ScopeGrantEffect = "deny"
+)
+
+// Valid indicates whether the value is a known member of the ScopeGrantEffect enum.
+func (e ScopeGrantEffect) Valid() bool {
+	switch e {
+	case Allow:
+		return true
+	case Deny:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ScopeGrantSubjectType.
+const (
+	ScopeGrantSubjectTypeTeam ScopeGrantSubjectType = "team"
+	ScopeGrantSubjectTypeUser ScopeGrantSubjectType = "user"
+)
+
+// Valid indicates whether the value is a known member of the ScopeGrantSubjectType enum.
+func (e ScopeGrantSubjectType) Valid() bool {
+	switch e {
+	case ScopeGrantSubjectTypeTeam:
+		return true
+	case ScopeGrantSubjectTypeUser:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ScopeGrantType.
+const (
+	ScopeGrantTypeDelivery ScopeGrantType = "delivery"
+	ScopeGrantTypeLegacy   ScopeGrantType = "legacy"
+	ScopeGrantTypePlatform ScopeGrantType = "platform"
+)
+
+// Valid indicates whether the value is a known member of the ScopeGrantType enum.
+func (e ScopeGrantType) Valid() bool {
+	switch e {
+	case ScopeGrantTypeDelivery:
+		return true
+	case ScopeGrantTypeLegacy:
+		return true
+	case ScopeGrantTypePlatform:
 		return true
 	default:
 		return false
@@ -8193,6 +8538,7 @@ type BrandingSettings struct {
 	FaviconURL       string `json:"faviconUrl"`
 	LoginLogoURL     string `json:"loginLogoUrl"`
 	SidebarTitle     string `json:"sidebarTitle"`
+	Slogan           string `json:"slogan,omitempty"`
 }
 
 // BrandingSettingsEnvelope defines model for BrandingSettingsEnvelope.
@@ -9412,6 +9758,20 @@ type DockerGitBuildInput struct {
 	RepositoryURL  string `json:"repositoryUrl"`
 }
 
+// DockerHostAgentInstallation defines model for DockerHostAgentInstallation.
+type DockerHostAgentInstallation struct {
+	Command     string    `json:"command"`
+	ExpiresAt   time.Time `json:"expiresAt"`
+	HostID      string    `json:"hostId"`
+	OperationID string    `json:"operationId"`
+	ScriptURL   string    `json:"scriptUrl"`
+}
+
+// DockerHostAgentInstallationEnvelope defines model for DockerHostAgentInstallationEnvelope.
+type DockerHostAgentInstallationEnvelope struct {
+	Data DockerHostAgentInstallation `json:"data"`
+}
+
 // DockerOperation defines model for DockerOperation.
 type DockerOperation struct {
 	// CallbackToken Opaque per-claim credential returned only by the authenticated runner claim endpoint when callback-token fencing is negotiated.
@@ -10473,18 +10833,24 @@ type IdentityProtocolErrorCode string
 
 // IdentityProvider defines model for IdentityProvider.
 type IdentityProvider struct {
-	ApplicationID string                 `json:"applicationId"`
-	Config        map[string]any         `json:"config,omitempty"`
-	CreatedAt     time.Time              `json:"createdAt"`
-	CreatedBy     string                 `json:"createdBy,omitempty"`
-	Enabled       bool                   `json:"enabled"`
-	ID            string                 `json:"id"`
-	Name          string                 `json:"name"`
-	SecretRefs    map[string]any         `json:"secretRefs,omitempty"`
-	Status        IdentityResourceStatus `json:"status"`
-	Type          IdentityProviderType   `json:"type"`
-	UpdatedAt     time.Time              `json:"updatedAt"`
-	UpdatedBy     string                 `json:"updatedBy,omitempty"`
+	ApplicationID string `json:"applicationId"`
+
+	// Config Non-secret provider configuration.
+	Config                  map[string]any `json:"config,omitempty"`
+	ConfiguredSecretAliases []string       `json:"configuredSecretAliases,omitempty"`
+	CreatedAt               time.Time      `json:"createdAt"`
+	CreatedBy               string         `json:"createdBy,omitempty"`
+	Enabled                 bool           `json:"enabled"`
+	ID                      string         `json:"id"`
+	Name                    string         `json:"name"`
+
+	// SecretRefs Deprecated response field retained for 0.1.x SDK compatibility; current servers omit it.
+	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
+	SecretRefs map[string]any         `json:"secretRefs,omitempty"`
+	Status     IdentityResourceStatus `json:"status"`
+	Type       IdentityProviderType   `json:"type"`
+	UpdatedAt  time.Time              `json:"updatedAt"`
+	UpdatedBy  string                 `json:"updatedBy,omitempty"`
 }
 
 // IdentityProviderEnvelope defines model for IdentityProviderEnvelope.
@@ -10494,13 +10860,15 @@ type IdentityProviderEnvelope struct {
 
 // IdentityProviderInput defines model for IdentityProviderInput.
 type IdentityProviderInput struct {
-	ApplicationID string                 `json:"applicationId"`
-	Config        map[string]any         `json:"config"`
-	Enabled       bool                   `json:"enabled"`
-	Name          string                 `json:"name"`
-	SecretRefs    map[string]any         `json:"secretRefs"`
-	Status        IdentityResourceStatus `json:"status"`
-	Type          IdentityProviderType   `json:"type"`
+	ApplicationID string         `json:"applicationId"`
+	Config        map[string]any `json:"config"`
+	Enabled       bool           `json:"enabled"`
+	Name          string         `json:"name"`
+
+	// SecretRefs Omit on update to preserve existing references; send an empty object to clear them.
+	SecretRefs SecretReferenceMap     `json:"secretRefs,omitempty"`
+	Status     IdentityResourceStatus `json:"status"`
+	Type       IdentityProviderType   `json:"type"`
 }
 
 // IdentityProviderListEnvelope defines model for IdentityProviderListEnvelope.
@@ -14087,14 +14455,15 @@ type LogEntryStream string
 
 // LogPage defines model for LogPage.
 type LogPage struct {
-	Coverage        *LogCoverage `json:"coverage,omitempty"`
-	Entries         []LogEntry   `json:"entries"`
-	NextCursor      string       `json:"nextCursor,omitempty"`
-	Partial         bool         `json:"partial"`
-	RetentionHint   string       `json:"retentionHint,omitempty"`
-	ScopeRestricted bool         `json:"scopeRestricted"`
-	Truncated       bool         `json:"truncated"`
-	Warnings        []LogWarning `json:"warnings,omitempty"`
+	Coverage        *LogCoverage                  `json:"coverage,omitempty"`
+	Entries         []LogEntry                    `json:"entries"`
+	Meta            *ObservabilityQueryResultMeta `json:"meta,omitempty"`
+	NextCursor      string                        `json:"nextCursor,omitempty"`
+	Partial         bool                          `json:"partial"`
+	RetentionHint   string                        `json:"retentionHint,omitempty"`
+	ScopeRestricted bool                          `json:"scopeRestricted"`
+	Truncated       bool                          `json:"truncated"`
+	Warnings        []LogWarning                  `json:"warnings,omitempty"`
 }
 
 // LogPageEnvelope defines model for LogPageEnvelope.
@@ -14169,7 +14538,8 @@ type LogWarning struct {
 
 // LoginOptions defines model for LoginOptions.
 type LoginOptions struct {
-	LocalPasswordLoginEnabled bool `json:"localPasswordLoginEnabled,omitempty"`
+	Branding                  *BrandingSettings `json:"branding,omitempty"`
+	LocalPasswordLoginEnabled bool              `json:"localPasswordLoginEnabled,omitempty"`
 	Verification              struct {
 		SliderEnabled bool `json:"sliderEnabled"`
 	} `json:"verification"`
@@ -15074,6 +15444,50 @@ type MarketplacePublisher struct {
 // MarketplacePublisherVerificationLevel defines model for MarketplacePublisher.VerificationLevel.
 type MarketplacePublisherVerificationLevel string
 
+// Menu defines model for Menu.
+type Menu struct {
+	Children  []Menu   `json:"children,omitempty"`
+	Enabled   bool     `json:"enabled"`
+	IconKey   string   `json:"iconKey"`
+	ID        string   `json:"id"`
+	LabelEn   string   `json:"labelEn"`
+	LabelZh   string   `json:"labelZh"`
+	ParentID  string   `json:"parentId,omitempty"`
+	Path      string   `json:"path"`
+	RoleIDs   []string `json:"roleIds,omitempty"`
+	Section   string   `json:"section"`
+	SortOrder int      `json:"sortOrder"`
+}
+
+// MenuDeleteResult defines model for MenuDeleteResult.
+type MenuDeleteResult struct {
+	Status string `json:"status"`
+}
+
+// MenuEnvelope defines model for MenuEnvelope.
+type MenuEnvelope struct {
+	Data Menu `json:"data"`
+}
+
+// MenuInput defines model for MenuInput.
+type MenuInput struct {
+	Enabled   bool     `json:"enabled,omitempty"`
+	IconKey   string   `json:"iconKey"`
+	ID        string   `json:"id,omitempty"`
+	LabelEn   string   `json:"labelEn"`
+	LabelZh   string   `json:"labelZh"`
+	ParentID  string   `json:"parentId,omitempty"`
+	Path      string   `json:"path"`
+	RoleIDs   []string `json:"roleIds,omitempty"`
+	Section   string   `json:"section,omitempty"`
+	SortOrder int      `json:"sortOrder,omitempty"`
+}
+
+// MenuListEnvelope defines model for MenuListEnvelope.
+type MenuListEnvelope struct {
+	Items []Menu `json:"items"`
+}
+
 // MultiAgentBudget defines model for MultiAgentBudget.
 type MultiAgentBudget struct {
 	DeadlineSeconds int     `json:"deadlineSeconds"`
@@ -15128,18 +15542,53 @@ type NativeProviderObject map[string]any
 
 // OIDCClient defines model for OIDCClient.
 type OIDCClient struct {
-	ClientID     string                 `json:"clientId"`
-	CreatedAt    time.Time              `json:"createdAt"`
-	GrantTypes   []OIDCClientGrantTypes `json:"grantTypes"`
-	ID           string                 `json:"id"`
-	ProviderID   string                 `json:"providerId"`
-	RedirectUris []string               `json:"redirectUris"`
-	Status       IdentityResourceStatus `json:"status"`
-	UpdatedAt    time.Time              `json:"updatedAt"`
+	AccessTokenTTLSeconds int                           `json:"accessTokenTtlSeconds,omitempty"`
+	AllowedGrantTypes     []OIDCClientAllowedGrantTypes `json:"allowedGrantTypes,omitempty"`
+	AllowedScopes         []string                      `json:"allowedScopes,omitempty"`
+	ClientID              string                        `json:"clientId"`
+	ClientType            OIDCClientClientType          `json:"clientType,omitempty"`
+	CreatedAt             time.Time                     `json:"createdAt"`
+
+	// GrantTypes Deprecated response alias retained for 0.1.x compatibility; use allowedGrantTypes.
+	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
+	GrantTypes        []OIDCClientGrantTypes `json:"grantTypes"`
+	ID                string                 `json:"id"`
+	IDTokenTTLSeconds int                    `json:"idTokenTtlSeconds,omitempty"`
+
+	// PostLogoutRedirectUris Absolute HTTP or HTTPS post-logout redirect URIs. HTTPS is recommended for production deployments.
+	PostLogoutRedirectUris []string `json:"postLogoutRedirectUris,omitempty"`
+	ProviderID             string   `json:"providerId"`
+
+	// RedirectURIRegexes RE2 regular expressions matched against the complete absolute HTTP or HTTPS redirect URI. Evaluated in addition to redirectUris.
+	RedirectURIRegexes []string `json:"redirectUriRegexes,omitempty"`
+
+	// RedirectUris Strict-match absolute HTTP or HTTPS redirect URIs. HTTPS is recommended for production deployments.
+	RedirectUris           []string               `json:"redirectUris"`
+	RefreshTokenTTLSeconds int                    `json:"refreshTokenTtlSeconds,omitempty"`
+	RequirePkce            bool                   `json:"requirePkce,omitempty"`
+	Status                 IdentityResourceStatus `json:"status"`
+	UpdatedAt              time.Time              `json:"updatedAt"`
 }
+
+// OIDCClientAllowedGrantTypes defines model for OIDCClient.AllowedGrantTypes.
+type OIDCClientAllowedGrantTypes string
+
+// OIDCClientClientType defines model for OIDCClient.ClientType.
+type OIDCClientClientType string
 
 // OIDCClientGrantTypes defines model for OIDCClient.GrantTypes.
 type OIDCClientGrantTypes string
+
+// OIDCClientCreated defines model for OIDCClientCreated.
+type OIDCClientCreated struct {
+	Client       OIDCClient `json:"client"`
+	ClientSecret string     `json:"clientSecret,omitempty"`
+}
+
+// OIDCClientCreatedEnvelope defines model for OIDCClientCreatedEnvelope.
+type OIDCClientCreatedEnvelope struct {
+	Data OIDCClientCreated `json:"data"`
+}
 
 // OIDCClientEnvelope defines model for OIDCClientEnvelope.
 type OIDCClientEnvelope struct {
@@ -15148,13 +15597,37 @@ type OIDCClientEnvelope struct {
 
 // OIDCClientInput defines model for OIDCClientInput.
 type OIDCClientInput struct {
-	ClientID     string                      `json:"clientId"`
-	ClientSecret string                      `json:"clientSecret,omitempty"`
-	GrantTypes   []OIDCClientInputGrantTypes `json:"grantTypes"`
-	ProviderID   string                      `json:"providerId"`
-	RedirectUris []string                    `json:"redirectUris"`
-	Status       IdentityResourceStatus      `json:"status"`
+	AccessTokenTTLSeconds int                                `json:"accessTokenTtlSeconds,omitempty"`
+	AllowedGrantTypes     []OIDCClientInputAllowedGrantTypes `json:"allowedGrantTypes,omitempty"`
+	AllowedScopes         []string                           `json:"allowedScopes,omitempty"`
+	ClientID              string                             `json:"clientId"`
+	ClientSecret          string                             `json:"clientSecret,omitempty"`
+	ClientType            OIDCClientInputClientType          `json:"clientType,omitempty"`
+
+	// GrantTypes Deprecated request alias retained for 0.1.x compatibility; use allowedGrantTypes.
+	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
+	GrantTypes        []OIDCClientInputGrantTypes `json:"grantTypes,omitempty"`
+	IDTokenTTLSeconds int                         `json:"idTokenTtlSeconds,omitempty"`
+
+	// PostLogoutRedirectUris Absolute HTTP or HTTPS post-logout redirect URIs. HTTPS is recommended for production deployments.
+	PostLogoutRedirectUris []string `json:"postLogoutRedirectUris,omitempty"`
+	ProviderID             string   `json:"providerId,omitempty"`
+
+	// RedirectURIRegexes RE2 regular expressions matched against the complete absolute HTTP or HTTPS redirect URI. At least one redirectUris or redirectUriRegexes entry is required.
+	RedirectURIRegexes []string `json:"redirectUriRegexes,omitempty"`
+
+	// RedirectUris Strict-match absolute HTTP or HTTPS redirect URIs. At least one redirectUris or redirectUriRegexes entry is required. HTTPS is recommended for production deployments.
+	RedirectUris           []string               `json:"redirectUris,omitempty"`
+	RefreshTokenTTLSeconds int                    `json:"refreshTokenTtlSeconds,omitempty"`
+	RequirePkce            bool                   `json:"requirePkce,omitempty"`
+	Status                 IdentityResourceStatus `json:"status,omitempty"`
 }
+
+// OIDCClientInputAllowedGrantTypes defines model for OIDCClientInput.AllowedGrantTypes.
+type OIDCClientInputAllowedGrantTypes string
+
+// OIDCClientInputClientType defines model for OIDCClientInput.ClientType.
+type OIDCClientInputClientType string
 
 // OIDCClientInputGrantTypes defines model for OIDCClientInput.GrantTypes.
 type OIDCClientInputGrantTypes string
@@ -15169,17 +15642,46 @@ type OIDCExchangeRequest struct {
 	Code string `json:"code"`
 }
 
+// ObservabilityContext defines model for ObservabilityContext.
+type ObservabilityContext struct {
+	Filter   *ObservabilityFilter           `json:"filter,omitempty"`
+	Resource *ObservabilityResourceIdentity `json:"resource,omitempty"`
+	Scope    ObservabilityQueryScope        `json:"scope"`
+
+	// ScopeRestricted True when authorization narrowed the requested scope.
+	ScopeRestricted bool                        `json:"scopeRestricted,omitempty"`
+	TimeRange       ObservabilityTimeRange      `json:"timeRange"`
+	Version         ObservabilityContextVersion `json:"version"`
+}
+
+// ObservabilityContextVersion defines model for ObservabilityContext.Version.
+type ObservabilityContextVersion string
+
 // ObservabilityDashboard defines model for ObservabilityDashboard.
 type ObservabilityDashboard struct {
-	CreatedAt           time.Time                     `json:"createdAt"`
-	DataSourceID        string                        `json:"dataSourceId,omitempty"`
-	ID                  string                        `json:"id"`
-	Name                string                        `json:"name"`
-	Panels              []ObservabilityDashboardPanel `json:"panels"`
-	Source              ObservabilityDashboardSource  `json:"source"`
-	SourceSchemaVersion int                           `json:"sourceSchemaVersion,omitempty"`
-	Tags                []string                      `json:"tags"`
-	UpdatedAt           time.Time                     `json:"updatedAt"`
+	CreatedAt          time.Time                                 `json:"createdAt"`
+	DataSourceBindings []ObservabilityDashboardDataSourceBinding `json:"dataSourceBindings,omitempty"`
+	DataSourceID       string                                    `json:"dataSourceId,omitempty"`
+	ID                 string                                    `json:"id"`
+	ImportWarnings     []ObservabilityDashboardImportWarning     `json:"importWarnings,omitempty"`
+	Name               string                                    `json:"name"`
+	Panels             []ObservabilityDashboardPanel             `json:"panels"`
+
+	// RawJSON Original bounded Grafana import document. It is retained for fidelity and never executed directly.
+	RawJSON             string                             `json:"rawJson,omitempty"`
+	Source              ObservabilityDashboardSource       `json:"source"`
+	SourceFormat        ObservabilityDashboardSourceFormat `json:"sourceFormat,omitempty"`
+	SourceSchemaVersion int                                `json:"sourceSchemaVersion,omitempty"`
+	Tags                []string                           `json:"tags"`
+	UpdatedAt           time.Time                          `json:"updatedAt"`
+	Variables           []ObservabilityDashboardVariable   `json:"variables,omitempty"`
+}
+
+// ObservabilityDashboardDataSourceBinding defines model for ObservabilityDashboardDataSourceBinding.
+type ObservabilityDashboardDataSourceBinding struct {
+	DataSourceID string `json:"dataSourceId"`
+	Type         string `json:"type"`
+	UID          string `json:"uid,omitempty"`
 }
 
 // ObservabilityDashboardEnvelope defines model for ObservabilityDashboardEnvelope.
@@ -15221,9 +15723,14 @@ type ObservabilityDashboardPanel struct {
 	Layout    ObservabilityDashboardPanelLayout `json:"layout"`
 	Markdown  string                            `json:"markdown,omitempty"`
 	Queryable bool                              `json:"queryable"`
-	Targets   []ObservabilityDashboardTarget    `json:"targets"`
-	Title     string                            `json:"title"`
-	Type      ObservabilityDashboardPanelType   `json:"type"`
+
+	// RawJSON Original Grafana panel JSON retained for unsupported renderers and never executed directly.
+	RawJSON         string                          `json:"rawJson,omitempty"`
+	SourcePanelType string                          `json:"sourcePanelType,omitempty"`
+	Targets         []ObservabilityDashboardTarget  `json:"targets"`
+	Title           string                          `json:"title"`
+	Type            ObservabilityDashboardPanelType `json:"type"`
+	Unsupported     bool                            `json:"unsupported,omitempty"`
 }
 
 // ObservabilityDashboardPanelLayout defines model for ObservabilityDashboardPanelLayout.
@@ -15236,9 +15743,10 @@ type ObservabilityDashboardPanelLayout struct {
 
 // ObservabilityDashboardPanelQueryInput defines model for ObservabilityDashboardPanelQueryInput.
 type ObservabilityDashboardPanelQueryInput struct {
-	StepSeconds int       `json:"stepSeconds,omitempty"`
-	TimeFrom    time.Time `json:"timeFrom"`
-	TimeTo      time.Time `json:"timeTo"`
+	StepSeconds int               `json:"stepSeconds,omitempty"`
+	TimeFrom    time.Time         `json:"timeFrom"`
+	TimeTo      time.Time         `json:"timeTo"`
+	Variables   map[string]string `json:"variables,omitempty"`
 }
 
 // ObservabilityDashboardPanelType defines model for ObservabilityDashboardPanelType.
@@ -15247,12 +15755,30 @@ type ObservabilityDashboardPanelType string
 // ObservabilityDashboardSource defines model for ObservabilityDashboardSource.
 type ObservabilityDashboardSource string
 
+// ObservabilityDashboardSourceFormat defines model for ObservabilityDashboardSourceFormat.
+type ObservabilityDashboardSourceFormat string
+
 // ObservabilityDashboardTarget defines model for ObservabilityDashboardTarget.
 type ObservabilityDashboardTarget struct {
-	Expression string `json:"expression"`
-	Legend     string `json:"legend,omitempty"`
-	RefID      string `json:"refId"`
+	DataSourceID   string `json:"dataSourceId,omitempty"`
+	DataSourceType string `json:"dataSourceType,omitempty"`
+	DataSourceUID  string `json:"dataSourceUid,omitempty"`
+	Expression     string `json:"expression"`
+	Legend         string `json:"legend,omitempty"`
+	RefID          string `json:"refId"`
 }
+
+// ObservabilityDashboardVariable defines model for ObservabilityDashboardVariable.
+type ObservabilityDashboardVariable struct {
+	Current string                             `json:"current,omitempty"`
+	Label   string                             `json:"label,omitempty"`
+	Name    string                             `json:"name"`
+	Options []string                           `json:"options"`
+	Type    ObservabilityDashboardVariableType `json:"type"`
+}
+
+// ObservabilityDashboardVariableType defines model for ObservabilityDashboardVariableType.
+type ObservabilityDashboardVariableType string
 
 // ObservabilityDataSource defines model for ObservabilityDataSource.
 type ObservabilityDataSource struct {
@@ -15319,6 +15845,14 @@ type ObservabilityDataSourceScope struct {
 // ObservabilityDataSourceValidationStatus defines model for ObservabilityDataSourceValidationStatus.
 type ObservabilityDataSourceValidationStatus string
 
+// ObservabilityFilter defines model for ObservabilityFilter.
+type ObservabilityFilter struct {
+	Labels  map[string]string `json:"labels,omitempty"`
+	SpanID  string            `json:"spanId,omitempty"`
+	Text    string            `json:"text,omitempty"`
+	TraceID string            `json:"traceId,omitempty"`
+}
+
 // ObservabilityGrafanaDashboardImportInput defines model for ObservabilityGrafanaDashboardImportInput.
 type ObservabilityGrafanaDashboardImportInput struct {
 	// DataSourceID Enabled Soha Prometheus data source used by every imported queryable panel.
@@ -15370,6 +15904,11 @@ type ObservabilityLogRedactionPolicy struct {
 	DropAttributeKeys []string `json:"dropAttributeKeys,omitempty"`
 }
 
+// ObservabilityMetricCatalogEnvelope defines model for ObservabilityMetricCatalogEnvelope.
+type ObservabilityMetricCatalogEnvelope struct {
+	Items []ObservabilityMetricDefinition `json:"items"`
+}
+
 // ObservabilityMetricDataSource defines model for ObservabilityMetricDataSource.
 type ObservabilityMetricDataSource struct {
 	ID   string `json:"id"`
@@ -15379,6 +15918,17 @@ type ObservabilityMetricDataSource struct {
 // ObservabilityMetricDataSourceListEnvelope defines model for ObservabilityMetricDataSourceListEnvelope.
 type ObservabilityMetricDataSourceListEnvelope struct {
 	Items []ObservabilityMetricDataSource `json:"items"`
+}
+
+// ObservabilityMetricDefinition defines model for ObservabilityMetricDefinition.
+type ObservabilityMetricDefinition struct {
+	Available          bool                `json:"available"`
+	Description        string              `json:"description,omitempty"`
+	Key                string              `json:"key"`
+	Label              string              `json:"label"`
+	SemanticConvention string              `json:"semanticConvention,omitempty"`
+	Signal             ObservabilitySignal `json:"signal"`
+	Unit               string              `json:"unit"`
 }
 
 // ObservabilityMetricKey defines model for ObservabilityMetricKey.
@@ -15409,6 +15959,7 @@ type ObservabilityMetricQueryInput struct {
 type ObservabilityMetricQueryResult struct {
 	BackendType  ObservabilityMetricQueryResultBackendType `json:"backendType"`
 	DataSourceID string                                    `json:"dataSourceId"`
+	Meta         *ObservabilityQueryResultMeta             `json:"meta,omitempty"`
 	Series       []ObservabilityMetricSeries               `json:"series"`
 }
 
@@ -15429,17 +15980,23 @@ type ObservabilityProviderDefinition struct {
 	BuiltIn         bool     `json:"builtIn"`
 	Capabilities    []string `json:"capabilities"`
 	ConfigSchemaRef string   `json:"configSchemaRef,omitempty"`
-	Description     string   `json:"description,omitempty"`
-	DisplayName     string   `json:"displayName"`
-	PluginID        string   `json:"pluginId,omitempty"`
-	ProtocolVersion string   `json:"protocolVersion"`
+
+	// Configured True when at least one enabled data source is configured for this provider.
+	Configured      bool       `json:"configured,omitempty"`
+	Description     string     `json:"description,omitempty"`
+	DisplayName     string     `json:"displayName"`
+	LastValidatedAt *time.Time `json:"lastValidatedAt,omitempty"`
+	PluginID        string     `json:"pluginId,omitempty"`
+	ProtocolVersion string     `json:"protocolVersion"`
 
 	// ProviderKey Required when backendType is provider.
-	ProviderKey  string                           `json:"providerKey"`
-	RuntimeMode  ObservabilityProviderRuntimeMode `json:"runtimeMode"`
-	Signals      []ObservabilityProviderSignal    `json:"signals"`
-	Status       ObservabilityProviderStatus      `json:"status"`
-	StatusReason string                           `json:"statusReason,omitempty"`
+	ProviderKey         string                             `json:"providerKey"`
+	RuntimeMode         ObservabilityProviderRuntimeMode   `json:"runtimeMode"`
+	RuntimeStatus       ObservabilityProviderRuntimeStatus `json:"runtimeStatus,omitempty"`
+	RuntimeStatusReason string                             `json:"runtimeStatusReason,omitempty"`
+	Signals             []ObservabilityProviderSignal      `json:"signals"`
+	Status              ObservabilityProviderStatus        `json:"status"`
+	StatusReason        string                             `json:"statusReason,omitempty"`
 }
 
 // ObservabilityProviderListEnvelope defines model for ObservabilityProviderListEnvelope.
@@ -15450,18 +16007,166 @@ type ObservabilityProviderListEnvelope struct {
 // ObservabilityProviderRuntimeMode defines model for ObservabilityProviderRuntimeMode.
 type ObservabilityProviderRuntimeMode string
 
+// ObservabilityProviderRuntimeStatus defines model for ObservabilityProviderRuntimeStatus.
+type ObservabilityProviderRuntimeStatus string
+
 // ObservabilityProviderSignal defines model for ObservabilityProviderSignal.
 type ObservabilityProviderSignal string
 
 // ObservabilityProviderStatus defines model for ObservabilityProviderStatus.
 type ObservabilityProviderStatus string
 
+// ObservabilityQueryError defines model for ObservabilityQueryError.
+type ObservabilityQueryError struct {
+	Code      string `json:"code"`
+	Message   string `json:"message"`
+	Retryable bool   `json:"retryable,omitempty"`
+	SourceID  string `json:"sourceId,omitempty"`
+}
+
+// ObservabilityQueryLanguage defines model for ObservabilityQueryLanguage.
+type ObservabilityQueryLanguage string
+
+// ObservabilityQueryResultMeta defines model for ObservabilityQueryResultMeta.
+type ObservabilityQueryResultMeta struct {
+	DurationMs      int64                       `json:"durationMs,omitempty"`
+	Errors          []ObservabilityQueryError   `json:"errors,omitempty"`
+	ObservedAt      *time.Time                  `json:"observedAt,omitempty"`
+	ScopeRestricted bool                        `json:"scopeRestricted,omitempty"`
+	Snapshot        *ObservabilityQuerySnapshot `json:"snapshot,omitempty"`
+	State           ObservabilityQueryState     `json:"state"`
+	Warnings        []string                    `json:"warnings,omitempty"`
+}
+
 // ObservabilityQueryScope defines model for ObservabilityQueryScope.
 type ObservabilityQueryScope struct {
-	ClusterID string `json:"clusterId,omitempty"`
-	Namespace string `json:"namespace,omitempty"`
-	Service   string `json:"service,omitempty"`
-	Workload  string `json:"workload,omitempty"`
+	ClusterID   string `json:"clusterId,omitempty"`
+	Environment string `json:"environment,omitempty"`
+	Namespace   string `json:"namespace,omitempty"`
+	Service     string `json:"service,omitempty"`
+	Workload    string `json:"workload,omitempty"`
+	WorkspaceID string `json:"workspaceId,omitempty"`
+}
+
+// ObservabilityQuerySnapshot defines model for ObservabilityQuerySnapshot.
+type ObservabilityQuerySnapshot struct {
+	BackendType  string               `json:"backendType,omitempty"`
+	Context      ObservabilityContext `json:"context"`
+	CreatedAt    *time.Time           `json:"createdAt,omitempty"`
+	DataSourceID string               `json:"dataSourceId,omitempty"`
+	MetricKey    string               `json:"metricKey,omitempty"`
+
+	// Query Provider-native query text. Soha does not translate arbitrary query languages.
+	Query         string                            `json:"query,omitempty"`
+	QueryLanguage ObservabilityQueryLanguage        `json:"queryLanguage,omitempty"`
+	Signal        ObservabilitySignal               `json:"signal"`
+	SpanID        string                            `json:"spanId,omitempty"`
+	TraceID       string                            `json:"traceId,omitempty"`
+	Version       ObservabilityQuerySnapshotVersion `json:"version"`
+}
+
+// ObservabilityQuerySnapshotVersion defines model for ObservabilityQuerySnapshot.Version.
+type ObservabilityQuerySnapshotVersion string
+
+// ObservabilityQueryState defines model for ObservabilityQueryState.
+type ObservabilityQueryState string
+
+// ObservabilityResourceIdentity defines model for ObservabilityResourceIdentity.
+type ObservabilityResourceIdentity struct {
+	Kind string `json:"kind"`
+	Name string `json:"name"`
+	UID  string `json:"uid,omitempty"`
+}
+
+// ObservabilityService defines model for ObservabilityService.
+type ObservabilityService struct {
+	ClusterIDs   []string                       `json:"clusterIds"`
+	DisplayName  string                         `json:"displayName,omitempty"`
+	Endpoints    []ObservabilityServiceEndpoint `json:"endpoints"`
+	Environment  string                         `json:"environment,omitempty"`
+	ErrorRate    float64                        `json:"errorRate,omitempty"`
+	ID           string                         `json:"id"`
+	Instances    []ObservabilityServiceInstance `json:"instances"`
+	LastSeenAt   *time.Time                     `json:"lastSeenAt,omitempty"`
+	LatencyP95Ms float64                        `json:"latencyP95Ms,omitempty"`
+	Name         string                         `json:"name"`
+	Namespace    string                         `json:"namespace,omitempty"`
+	RequestRate  float64                        `json:"requestRate,omitempty"`
+	Status       ObservabilityServiceStatus     `json:"status"`
+}
+
+// ObservabilityServiceEndpoint defines model for ObservabilityServiceEndpoint.
+type ObservabilityServiceEndpoint struct {
+	ErrorRate    float64                    `json:"errorRate,omitempty"`
+	ID           string                     `json:"id"`
+	LatencyP95Ms float64                    `json:"latencyP95Ms,omitempty"`
+	Method       string                     `json:"method,omitempty"`
+	Name         string                     `json:"name"`
+	RequestRate  float64                    `json:"requestRate,omitempty"`
+	Status       ObservabilityServiceStatus `json:"status"`
+}
+
+// ObservabilityServiceEnvelope defines model for ObservabilityServiceEnvelope.
+type ObservabilityServiceEnvelope struct {
+	Data ObservabilityService         `json:"data"`
+	Meta ObservabilityQueryResultMeta `json:"meta"`
+}
+
+// ObservabilityServiceInstance defines model for ObservabilityServiceInstance.
+type ObservabilityServiceInstance struct {
+	ID         string                     `json:"id"`
+	LastSeenAt *time.Time                 `json:"lastSeenAt,omitempty"`
+	Name       string                     `json:"name"`
+	Status     ObservabilityServiceStatus `json:"status"`
+}
+
+// ObservabilityServiceListEnvelope defines model for ObservabilityServiceListEnvelope.
+type ObservabilityServiceListEnvelope struct {
+	Items []ObservabilityService       `json:"items"`
+	Meta  ObservabilityQueryResultMeta `json:"meta"`
+}
+
+// ObservabilityServiceStatus defines model for ObservabilityServiceStatus.
+type ObservabilityServiceStatus string
+
+// ObservabilitySignal defines model for ObservabilitySignal.
+type ObservabilitySignal string
+
+// ObservabilityTimeRange defines model for ObservabilityTimeRange.
+type ObservabilityTimeRange struct {
+	From     time.Time `json:"from"`
+	Timezone string    `json:"timezone,omitempty"`
+	To       time.Time `json:"to"`
+}
+
+// ObservabilityTopology defines model for ObservabilityTopology.
+type ObservabilityTopology struct {
+	Beta  bool                         `json:"beta"`
+	Edges []ObservabilityTopologyEdge  `json:"edges"`
+	Meta  ObservabilityQueryResultMeta `json:"meta"`
+	Nodes []ObservabilityTopologyNode  `json:"nodes"`
+}
+
+// ObservabilityTopologyEdge defines model for ObservabilityTopologyEdge.
+type ObservabilityTopologyEdge struct {
+	ErrorRate       float64                    `json:"errorRate,omitempty"`
+	LatencyP95Ms    float64                    `json:"latencyP95Ms,omitempty"`
+	RequestRate     float64                    `json:"requestRate,omitempty"`
+	SourceServiceID string                     `json:"sourceServiceId"`
+	Status          ObservabilityServiceStatus `json:"status"`
+	TargetServiceID string                     `json:"targetServiceId"`
+}
+
+// ObservabilityTopologyEnvelope defines model for ObservabilityTopologyEnvelope.
+type ObservabilityTopologyEnvelope struct {
+	Data ObservabilityTopology `json:"data"`
+}
+
+// ObservabilityTopologyNode defines model for ObservabilityTopologyNode.
+type ObservabilityTopologyNode struct {
+	Name      string                     `json:"name"`
+	ServiceID string                     `json:"serviceId"`
+	Status    ObservabilityServiceStatus `json:"status"`
 }
 
 // ObservabilityTraceQueryEnvelope defines model for ObservabilityTraceQueryEnvelope.
@@ -15484,6 +16189,7 @@ type ObservabilityTraceQueryInput struct {
 type ObservabilityTraceQueryResult struct {
 	BackendType  ObservabilityTraceQueryResultBackendType `json:"backendType"`
 	DataSourceID string                                   `json:"dataSourceId"`
+	Meta         *ObservabilityQueryResultMeta            `json:"meta,omitempty"`
 	Services     []string                                 `json:"services"`
 	Spans        []ObservabilityTraceSpan                 `json:"spans"`
 	Summary      string                                   `json:"summary"`
@@ -16859,6 +17565,71 @@ type SAMLResponseForm struct {
 	SAMLResponse string `json:"SAMLResponse,omitempty"`
 }
 
+// ScopeGrant defines model for ScopeGrant.
+type ScopeGrant struct {
+	ApplicationIDs []string `json:"applicationIds,omitempty"`
+
+	// BusinessLineID Required for legacy and delivery grants; empty for platform grants.
+	BusinessLineID    string                `json:"businessLineId"`
+	ClusterIDs        []string              `json:"clusterIds,omitempty"`
+	CreatedAt         time.Time             `json:"createdAt"`
+	Effect            ScopeGrantEffect      `json:"effect"`
+	Enabled           bool                  `json:"enabled"`
+	EnvironmentIDs    []string              `json:"environmentIds,omitempty"`
+	ID                string                `json:"id"`
+	NamespaceSelector string                `json:"namespaceSelector,omitempty"`
+	Namespaces        []string              `json:"namespaces,omitempty"`
+	ResourceGroups    []string              `json:"resourceGroups,omitempty"`
+	ResourceKinds     []string              `json:"resourceKinds,omitempty"`
+	Role              string                `json:"role"`
+	ScopeType         ScopeGrantType        `json:"scopeType"`
+	SubjectID         string                `json:"subjectId"`
+	SubjectType       ScopeGrantSubjectType `json:"subjectType"`
+	UpdatedAt         time.Time             `json:"updatedAt"`
+}
+
+// ScopeGrantEffect defines model for ScopeGrantEffect.
+type ScopeGrantEffect string
+
+// ScopeGrantEnvelope defines model for ScopeGrantEnvelope.
+type ScopeGrantEnvelope struct {
+	Data ScopeGrant `json:"data"`
+}
+
+// ScopeGrantInput defines model for ScopeGrantInput.
+type ScopeGrantInput struct {
+	ApplicationIDs []string `json:"applicationIds,omitempty"`
+
+	// BusinessLineID Required when scopeType is legacy or delivery.
+	BusinessLineID string `json:"businessLineId,omitempty"`
+
+	// ClusterIDs Required when scopeType is platform.
+	ClusterIDs        []string              `json:"clusterIds,omitempty"`
+	Effect            ScopeGrantEffect      `json:"effect,omitempty"`
+	Enabled           bool                  `json:"enabled"`
+	EnvironmentIDs    []string              `json:"environmentIds,omitempty"`
+	ID                string                `json:"id,omitempty"`
+	NamespaceSelector string                `json:"namespaceSelector,omitempty"`
+	Namespaces        []string              `json:"namespaces,omitempty"`
+	ResourceGroups    []string              `json:"resourceGroups,omitempty"`
+	ResourceKinds     []string              `json:"resourceKinds,omitempty"`
+	Role              string                `json:"role"`
+	ScopeType         ScopeGrantType        `json:"scopeType,omitempty"`
+	SubjectID         string                `json:"subjectId"`
+	SubjectType       ScopeGrantSubjectType `json:"subjectType"`
+}
+
+// ScopeGrantListEnvelope defines model for ScopeGrantListEnvelope.
+type ScopeGrantListEnvelope struct {
+	Items []ScopeGrant `json:"items"`
+}
+
+// ScopeGrantSubjectType defines model for ScopeGrantSubjectType.
+type ScopeGrantSubjectType string
+
+// ScopeGrantType defines model for ScopeGrantType.
+type ScopeGrantType string
+
 // SecretBinding defines model for SecretBinding.
 type SecretBinding struct {
 	TargetRef  string                  `json:"targetRef"`
@@ -17415,6 +18186,7 @@ type UpdateBrandingSettingsRequest struct {
 	FaviconURL       string `json:"faviconUrl"`
 	LoginLogoURL     string `json:"loginLogoUrl"`
 	SidebarTitle     string `json:"sidebarTitle"`
+	Slogan           string `json:"slogan,omitempty"`
 }
 
 // UpdateLoginProvidersSettingsRequest defines model for UpdateLoginProvidersSettingsRequest.
@@ -18593,6 +19365,9 @@ type ManifestPackageID = string
 // ManifestSourceID defines model for ManifestSourceID.
 type ManifestSourceID = string
 
+// MenuID defines model for MenuID.
+type MenuID = string
+
 // MultiAgentPlanID defines model for MultiAgentPlanID.
 type MultiAgentPlanID = string
 
@@ -18607,6 +19382,27 @@ type OIDCCode = string
 
 // OIDCState defines model for OIDCState.
 type OIDCState = string
+
+// ObservabilityClusterIDQuery defines model for ObservabilityClusterIDQuery.
+type ObservabilityClusterIDQuery = string
+
+// ObservabilityDataSourceIDQuery defines model for ObservabilityDataSourceIDQuery.
+type ObservabilityDataSourceIDQuery = string
+
+// ObservabilityEnvironmentQuery defines model for ObservabilityEnvironmentQuery.
+type ObservabilityEnvironmentQuery = string
+
+// ObservabilityNamespaceQuery defines model for ObservabilityNamespaceQuery.
+type ObservabilityNamespaceQuery = string
+
+// ObservabilityServiceQuery defines model for ObservabilityServiceQuery.
+type ObservabilityServiceQuery = string
+
+// ObservabilityTimeFromQuery defines model for ObservabilityTimeFromQuery.
+type ObservabilityTimeFromQuery = time.Time
+
+// ObservabilityTimeToQuery defines model for ObservabilityTimeToQuery.
+type ObservabilityTimeToQuery = time.Time
 
 // OpenAICompatibleProvider defines model for OpenAICompatibleProvider.
 type OpenAICompatibleProvider string
@@ -18646,6 +19442,9 @@ type SAMLLoginSourceID = string
 
 // SAMLRequest defines model for SAMLRequest.
 type SAMLRequest = string
+
+// ScopeGrantID defines model for ScopeGrantID.
+type ScopeGrantID = string
 
 // SecretID defines model for SecretID.
 type SecretID = string
@@ -20049,6 +20848,42 @@ type ListGitLabTagsParams struct {
 	Limit     int                  `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
+// ListObservabilityMetricCatalogParams defines parameters for ListObservabilityMetricCatalog.
+type ListObservabilityMetricCatalogParams struct {
+	DataSourceID ObservabilityDataSourceIDQuery `form:"dataSourceId,omitempty" json:"dataSourceId,omitempty"`
+}
+
+// ListObservabilityServicesParams defines parameters for ListObservabilityServices.
+type ListObservabilityServicesParams struct {
+	DataSourceID ObservabilityDataSourceIDQuery `form:"dataSourceId,omitempty" json:"dataSourceId,omitempty"`
+	ClusterID    ObservabilityClusterIDQuery    `form:"clusterId,omitempty" json:"clusterId,omitempty"`
+	Environment  ObservabilityEnvironmentQuery  `form:"environment,omitempty" json:"environment,omitempty"`
+	Namespace    ObservabilityNamespaceQuery    `form:"namespace,omitempty" json:"namespace,omitempty"`
+	Service      ObservabilityServiceQuery      `form:"service,omitempty" json:"service,omitempty"`
+	TimeFrom     ObservabilityTimeFromQuery     `form:"timeFrom" json:"timeFrom"`
+	TimeTo       ObservabilityTimeToQuery       `form:"timeTo" json:"timeTo"`
+}
+
+// GetObservabilityServiceParams defines parameters for GetObservabilityService.
+type GetObservabilityServiceParams struct {
+	DataSourceID ObservabilityDataSourceIDQuery `form:"dataSourceId,omitempty" json:"dataSourceId,omitempty"`
+	ClusterID    ObservabilityClusterIDQuery    `form:"clusterId,omitempty" json:"clusterId,omitempty"`
+	Environment  ObservabilityEnvironmentQuery  `form:"environment,omitempty" json:"environment,omitempty"`
+	Namespace    ObservabilityNamespaceQuery    `form:"namespace,omitempty" json:"namespace,omitempty"`
+	TimeFrom     ObservabilityTimeFromQuery     `form:"timeFrom" json:"timeFrom"`
+	TimeTo       ObservabilityTimeToQuery       `form:"timeTo" json:"timeTo"`
+}
+
+// GetObservabilityServiceTopologyParams defines parameters for GetObservabilityServiceTopology.
+type GetObservabilityServiceTopologyParams struct {
+	DataSourceID ObservabilityDataSourceIDQuery `form:"dataSourceId,omitempty" json:"dataSourceId,omitempty"`
+	ClusterID    ObservabilityClusterIDQuery    `form:"clusterId,omitempty" json:"clusterId,omitempty"`
+	Environment  ObservabilityEnvironmentQuery  `form:"environment,omitempty" json:"environment,omitempty"`
+	Namespace    ObservabilityNamespaceQuery    `form:"namespace,omitempty" json:"namespace,omitempty"`
+	TimeFrom     ObservabilityTimeFromQuery     `form:"timeFrom" json:"timeFrom"`
+	TimeTo       ObservabilityTimeToQuery       `form:"timeTo" json:"timeTo"`
+}
+
 // ListPlatformOperationLogsParams defines parameters for ListPlatformOperationLogs.
 type ListPlatformOperationLogsParams struct {
 	OperationType string    `form:"operationType,omitempty" json:"operationType,omitempty"`
@@ -20315,6 +21150,12 @@ type CreateAccessRoleJSONRequestBody = AccessRoleInput
 
 // UpdateAccessRoleJSONRequestBody defines body for UpdateAccessRole for application/json ContentType.
 type UpdateAccessRoleJSONRequestBody = AccessRoleInput
+
+// CreateScopeGrantJSONRequestBody defines body for CreateScopeGrant for application/json ContentType.
+type CreateScopeGrantJSONRequestBody = ScopeGrantInput
+
+// UpdateScopeGrantJSONRequestBody defines body for UpdateScopeGrant for application/json ContentType.
+type UpdateScopeGrantJSONRequestBody = ScopeGrantInput
 
 // DecideAIGatewayApprovalRequestJSONRequestBody defines body for DecideAIGatewayApprovalRequest for application/json ContentType.
 type DecideAIGatewayApprovalRequestJSONRequestBody = ApprovalDecisionInput
@@ -20763,6 +21604,12 @@ type CreateIdentityProviderJSONRequestBody = IdentityProviderInput
 // UpdateIdentityProviderJSONRequestBody defines body for UpdateIdentityProvider for application/json ContentType.
 type UpdateIdentityProviderJSONRequestBody = IdentityProviderInput
 
+// CreateIdentityProviderOIDCClientJSONRequestBody defines body for CreateIdentityProviderOIDCClient for application/json ContentType.
+type CreateIdentityProviderOIDCClientJSONRequestBody = OIDCClientInput
+
+// RotateIdentityProviderSAMLCertificateJSONRequestBody defines body for RotateIdentityProviderSAMLCertificate for application/json ContentType.
+type RotateIdentityProviderSAMLCertificateJSONRequestBody = SAMLCertificateRotateRequest
+
 // RotateSAMLCertificateJSONRequestBody defines body for RotateSAMLCertificate for application/json ContentType.
 type RotateSAMLCertificateJSONRequestBody = SAMLCertificateRotateRequest
 
@@ -20780,6 +21627,12 @@ type ValidateSAMLMetadataJSONRequestBody = SAMLMetadataInput
 
 // AdminResetUserMFAJSONRequestBody defines body for AdminResetUserMFA for application/json ContentType.
 type AdminResetUserMFAJSONRequestBody = MFAAdminResetRequest
+
+// CreateMenuJSONRequestBody defines body for CreateMenu for application/json ContentType.
+type CreateMenuJSONRequestBody = MenuInput
+
+// UpdateMenuJSONRequestBody defines body for UpdateMenu for application/json ContentType.
+type UpdateMenuJSONRequestBody = MenuInput
 
 // ImportGrafanaDashboardJSONRequestBody defines body for ImportGrafanaDashboard for application/json ContentType.
 type ImportGrafanaDashboardJSONRequestBody = ObservabilityGrafanaDashboardImportInput

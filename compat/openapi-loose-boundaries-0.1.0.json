@@ -1,5 +1,5 @@
 {
-  "version": "0.1.9",
+  "version": "0.1.10",
   "generatedFrom": "openapi/soha-api.yaml",
   "entries": [
     {
@@ -353,10 +353,6 @@
     {
       "kind": "additionalPropertiesTrue",
       "path": "components/schemas/IdentityProviderInput/properties/config/additionalProperties"
-    },
-    {
-      "kind": "additionalPropertiesTrue",
-      "path": "components/schemas/IdentityProviderInput/properties/secretRefs/additionalProperties"
     },
     {
       "kind": "additionalPropertiesTrue",

@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Soha API
-  version: 0.1.9
+  version: 0.1.10
   description: >
     Public OpenSoha core API contract. This first contract focuses on stable
     cross-repository boundaries: auth, health, runner-facing control-plane
@@ -3249,6 +3249,52 @@ paths:
               schema: { $ref: "#/components/schemas/VirtualizationOperationEnvelope" }
         "400": { $ref: "#/components/responses/Error" }
         "403": { $ref: "#/components/responses/Error" }
+  /docker/hosts/{dockerHostID}/agent-installation:
+    post:
+      tags: [Docker]
+      operationId: createDockerHostAgentInstallation
+      x-soha-implementation-status: implemented
+      parameters:
+        - name: dockerHostID
+          in: path
+          required: true
+          schema: { type: string, minLength: 1 }
+      responses:
+        "200":
+          description: Short-lived shell installer URL and command for connecting an existing Linux Docker host.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerHostAgentInstallationEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /docker/agent-installations/{installTicket}/install.sh:
+    get:
+      tags: [Docker]
+      operationId: downloadDockerHostAgentInstaller
+      x-soha-implementation-status: implemented
+      security: []
+      parameters:
+        - name: installTicket
+          in: path
+          required: true
+          schema: { type: string, minLength: 1 }
+      responses:
+        "200":
+          description: Short-lived Linux shell installer for the selected Docker host Agent.
+          content:
+            text/x-shellscript:
+              schema: { type: string }
+        "404":
+          $ref: "#/components/responses/Error"
+        "410":
+          $ref: "#/components/responses/Error"
   /docker/hosts/quick-create/plan:
     post:
       tags: [Docker]
@@ -5891,6 +5937,104 @@ paths:
               schema:
                 $ref: "#/components/schemas/ObservabilityMetricDataSourceListEnvelope"
         "403":
+          $ref: "#/components/responses/Error"
+  /observability/metrics/catalog:
+    get:
+      tags: [Observability]
+      operationId: listObservabilityMetricCatalog
+      parameters:
+        - $ref: "#/components/parameters/ObservabilityDataSourceIDQuery"
+      responses:
+        "200":
+          description: Semantic metric definitions supported by the configured metrics provider.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObservabilityMetricCatalogEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /observability/services:
+    get:
+      tags: [Observability]
+      operationId: listObservabilityServices
+      parameters:
+        - $ref: "#/components/parameters/ObservabilityDataSourceIDQuery"
+        - $ref: "#/components/parameters/ObservabilityClusterIDQuery"
+        - $ref: "#/components/parameters/ObservabilityEnvironmentQuery"
+        - $ref: "#/components/parameters/ObservabilityNamespaceQuery"
+        - $ref: "#/components/parameters/ObservabilityServiceQuery"
+        - $ref: "#/components/parameters/ObservabilityTimeFromQuery"
+        - $ref: "#/components/parameters/ObservabilityTimeToQuery"
+      responses:
+        "200":
+          description: OTel-identified services from the configured SkyWalking OAP provider.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObservabilityServiceListEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "502":
+          $ref: "#/components/responses/Error"
+  /observability/services/{serviceID}:
+    get:
+      tags: [Observability]
+      operationId: getObservabilityService
+      parameters:
+        - $ref: "#/components/parameters/ServiceID"
+        - $ref: "#/components/parameters/ObservabilityDataSourceIDQuery"
+        - $ref: "#/components/parameters/ObservabilityClusterIDQuery"
+        - $ref: "#/components/parameters/ObservabilityEnvironmentQuery"
+        - $ref: "#/components/parameters/ObservabilityNamespaceQuery"
+        - $ref: "#/components/parameters/ObservabilityTimeFromQuery"
+        - $ref: "#/components/parameters/ObservabilityTimeToQuery"
+      responses:
+        "200":
+          description: Service identity, instances and endpoints from the configured SkyWalking OAP provider.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObservabilityServiceEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "502":
+          $ref: "#/components/responses/Error"
+  /observability/services/{serviceID}/topology:
+    get:
+      tags: [Observability]
+      operationId: getObservabilityServiceTopology
+      parameters:
+        - $ref: "#/components/parameters/ServiceID"
+        - $ref: "#/components/parameters/ObservabilityDataSourceIDQuery"
+        - $ref: "#/components/parameters/ObservabilityClusterIDQuery"
+        - $ref: "#/components/parameters/ObservabilityEnvironmentQuery"
+        - $ref: "#/components/parameters/ObservabilityNamespaceQuery"
+        - $ref: "#/components/parameters/ObservabilityTimeFromQuery"
+        - $ref: "#/components/parameters/ObservabilityTimeToQuery"
+      responses:
+        "200":
+          description: Beta dependency graph for one service from the configured SkyWalking OAP provider.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObservabilityTopologyEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "502":
           $ref: "#/components/responses/Error"
   /observability/dashboards/imports:
     post:
@@ -10719,6 +10863,97 @@ paths:
         "400": { $ref: "#/components/responses/Error" }
         "401": { $ref: "#/components/responses/Error" }
         "403": { $ref: "#/components/responses/Error" }
+  /menus:
+    get:
+      tags: [System]
+      operationId: listMenus
+      x-soha-implementation-status: implemented
+      responses:
+        "200":
+          description: Complete menu tree for administration.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MenuListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [System]
+      operationId: createMenu
+      x-soha-implementation-status: implemented
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MenuInput" }
+      responses:
+        "201":
+          description: Created menu.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MenuEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /menus/visible:
+    get:
+      tags: [System]
+      operationId: listVisibleMenus
+      x-soha-implementation-status: implemented
+      responses:
+        "200":
+          description: Menu tree visible to the authenticated principal.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MenuListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+  /menus/{menuID}:
+    parameters:
+      - $ref: "#/components/parameters/MenuID"
+    get:
+      tags: [System]
+      operationId: getMenu
+      x-soha-implementation-status: implemented
+      responses:
+        "200":
+          description: Menu detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MenuEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [System]
+      operationId: updateMenu
+      x-soha-implementation-status: implemented
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MenuInput" }
+      responses:
+        "200":
+          description: Updated menu.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MenuEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [System]
+      operationId: deleteMenu
+      x-soha-implementation-status: implemented
+      responses:
+        "200":
+          description: Menu deleted.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MenuDeleteResult" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
   /access/permissions:
     get:
       tags: [Access]
@@ -10802,6 +11037,69 @@ paths:
           content:
             application/json:
               schema: { $ref: "#/components/schemas/AccessRoleDeleteResult" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /access/scope-grants:
+    get:
+      tags: [Access]
+      operationId: listScopeGrants
+      x-soha-implementation-status: implemented
+      responses:
+        "200":
+          description: Resource scope grants.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ScopeGrantListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Access]
+      operationId: createScopeGrant
+      x-soha-implementation-status: implemented
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ScopeGrantInput" }
+      responses:
+        "201":
+          description: Created resource scope grant.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ScopeGrantEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /access/scope-grants/{scopeGrantID}:
+    parameters:
+      - $ref: "#/components/parameters/ScopeGrantID"
+    put:
+      tags: [Access]
+      operationId: updateScopeGrant
+      x-soha-implementation-status: implemented
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ScopeGrantInput" }
+      responses:
+        "200":
+          description: Updated resource scope grant.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ScopeGrantEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [Access]
+      operationId: deleteScopeGrant
+      x-soha-implementation-status: implemented
+      responses:
+        "204":
+          description: Resource scope grant deleted.
         "401": { $ref: "#/components/responses/Error" }
         "403": { $ref: "#/components/responses/Error" }
         "404": { $ref: "#/components/responses/Error" }
@@ -10938,6 +11236,25 @@ paths:
       responses:
         "204": { description: Identity provider deleted. }
         "404": { $ref: "#/components/responses/IdentityError" }
+  /identity/providers/{identityProviderID}/saml/certificate/rotate:
+    parameters:
+      - $ref: "#/components/parameters/IdentityProviderID"
+    post:
+      tags: [Identity]
+      operationId: rotateIdentityProviderSAMLCertificate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SAMLCertificateRotateRequest" }
+      responses:
+        "200":
+          description: Active and retiring public certificate summaries.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SAMLCertificateRotationEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+        "404": { $ref: "#/components/responses/IdentityError" }
   /identity/policies:
     get:
       tags: [Identity]
@@ -11062,6 +11379,35 @@ paths:
     get:
       tags: [Identity]
       operationId: listIdentityOIDCClients
+      deprecated: true
+      responses:
+        "200":
+          description: Identity OIDC clients across providers.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OIDCClientListEnvelope" }
+    post:
+      tags: [Identity]
+      operationId: createIdentityOIDCClient
+      deprecated: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/OIDCClientInput" }
+      responses:
+        "201":
+          description: Created OIDC client without the one-time client secret.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OIDCClientEnvelope" }
+        "400": { $ref: "#/components/responses/IdentityError" }
+  /identity/providers/{identityProviderID}/oidc-clients:
+    parameters:
+      - $ref: "#/components/parameters/IdentityProviderID"
+    get:
+      tags: [Identity]
+      operationId: listIdentityProviderOIDCClients
       responses:
         "200":
           description: Identity OIDC clients.
@@ -11070,7 +11416,7 @@ paths:
               schema: { $ref: "#/components/schemas/OIDCClientListEnvelope" }
     post:
       tags: [Identity]
-      operationId: createIdentityOIDCClient
+      operationId: createIdentityProviderOIDCClient
       requestBody:
         required: true
         content:
@@ -11081,7 +11427,7 @@ paths:
           description: Created OIDC client.
           content:
             application/json:
-              schema: { $ref: "#/components/schemas/OIDCClientEnvelope" }
+              schema: { $ref: "#/components/schemas/OIDCClientCreatedEnvelope" }
         "400": { $ref: "#/components/responses/IdentityError" }
   /identity/oidc-clients/{oidcClientID}:
     parameters:
@@ -11609,8 +11955,18 @@ components:
       name: x-api-key
       description: Anthropic-style Soha PAT/SAT credential header for native relay endpoints.
   parameters:
+    MenuID:
+      name: menuID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
     AccessRoleID:
       name: accessRoleID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    ScopeGrantID:
+      name: scopeGrantID
       in: path
       required: true
       schema: { type: string, minLength: 1, maxLength: 128 }
@@ -11918,6 +12274,60 @@ components:
         type: string
         minLength: 1
         maxLength: 128
+    ObservabilityDataSourceIDQuery:
+      name: dataSourceId
+      in: query
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 200
+    ObservabilityClusterIDQuery:
+      name: clusterId
+      in: query
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+    ObservabilityEnvironmentQuery:
+      name: environment
+      in: query
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+    ObservabilityNamespaceQuery:
+      name: namespace
+      in: query
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 253
+    ObservabilityServiceQuery:
+      name: service
+      in: query
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 253
+    ObservabilityTimeFromQuery:
+      name: timeFrom
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date-time
+    ObservabilityTimeToQuery:
+      name: timeTo
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date-time
     DashboardID:
       name: dashboardID
       in: path
@@ -12584,22 +12994,92 @@ components:
         id: { type: string }
         providerId: { type: string }
         clientId: { type: string }
-        redirectUris: { type: array, items: { type: string, format: uri } }
-        grantTypes: { type: array, items: { type: string, enum: [authorization_code, refresh_token] } }
+        clientType: { type: string, enum: [public, confidential] }
+        redirectUris:
+          type: array
+          description: Strict-match absolute HTTP or HTTPS redirect URIs. HTTPS is recommended for production deployments.
+          items: { type: string, format: uri }
+        grantTypes:
+          type: array
+          deprecated: true
+          description: Deprecated response alias retained for 0.1.x compatibility; use allowedGrantTypes.
+          items: { type: string, enum: [authorization_code, refresh_token] }
+        redirectUriRegexes:
+          type: array
+          maxItems: 100
+          description: RE2 regular expressions matched against the complete absolute HTTP or HTTPS redirect URI. Evaluated in addition to redirectUris.
+          items: { type: string, minLength: 1, maxLength: 2048 }
+        postLogoutRedirectUris:
+          type: array
+          description: Absolute HTTP or HTTPS post-logout redirect URIs. HTTPS is recommended for production deployments.
+          items: { type: string, format: uri }
+        allowedScopes: { type: array, items: { type: string } }
+        allowedGrantTypes: { type: array, items: { type: string, enum: [authorization_code, refresh_token] } }
+        requirePkce: { type: boolean }
+        accessTokenTtlSeconds: { type: integer, minimum: 60 }
+        idTokenTtlSeconds: { type: integer, minimum: 60 }
+        refreshTokenTtlSeconds: { type: integer, minimum: 0 }
         status: { $ref: "#/components/schemas/IdentityResourceStatus" }
         createdAt: { type: string, format: date-time }
         updatedAt: { type: string, format: date-time }
       additionalProperties: false
     OIDCClientInput:
+      allOf:
+        - type: object
+          required: [clientId]
+          properties:
+            providerId: { type: string }
+            clientId: { type: string }
+            clientType: { type: string, enum: [public, confidential] }
+            clientSecret: { type: string, minLength: 16, writeOnly: true }
+            redirectUris:
+              type: array
+              description: Strict-match absolute HTTP or HTTPS redirect URIs. At least one redirectUris or redirectUriRegexes entry is required. HTTPS is recommended for production deployments.
+              items: { type: string, format: uri }
+            redirectUriRegexes:
+              type: array
+              maxItems: 100
+              description: RE2 regular expressions matched against the complete absolute HTTP or HTTPS redirect URI. At least one redirectUris or redirectUriRegexes entry is required.
+              items: { type: string, minLength: 1, maxLength: 2048 }
+            postLogoutRedirectUris:
+              type: array
+              description: Absolute HTTP or HTTPS post-logout redirect URIs. HTTPS is recommended for production deployments.
+              items: { type: string, format: uri }
+            allowedScopes: { type: array, minItems: 1, items: { type: string } }
+            grantTypes:
+              type: array
+              minItems: 1
+              deprecated: true
+              description: Deprecated request alias retained for 0.1.x compatibility; use allowedGrantTypes.
+              items: { type: string, enum: [authorization_code, refresh_token] }
+            allowedGrantTypes: { type: array, minItems: 1, items: { type: string, enum: [authorization_code, refresh_token] } }
+            requirePkce: { type: boolean }
+            accessTokenTtlSeconds: { type: integer, minimum: 0 }
+            idTokenTtlSeconds: { type: integer, minimum: 0 }
+            refreshTokenTtlSeconds: { type: integer, minimum: 0 }
+            status: { $ref: "#/components/schemas/IdentityResourceStatus" }
+          additionalProperties: false
+        - anyOf:
+            - type: object
+              required: [redirectUris]
+              properties:
+                redirectUris: { type: array, minItems: 1, items: { type: string, format: uri } }
+            - type: object
+              required: [redirectUriRegexes]
+              properties:
+                redirectUriRegexes: { type: array, minItems: 1, items: { type: string, minLength: 1, maxLength: 2048 } }
+    OIDCClientCreated:
       type: object
-      required: [providerId, clientId, redirectUris, grantTypes, status]
+      required: [client]
       properties:
-        providerId: { type: string }
-        clientId: { type: string }
-        clientSecret: { type: string, minLength: 16, writeOnly: true }
-        redirectUris: { type: array, minItems: 1, items: { type: string, format: uri } }
-        grantTypes: { type: array, minItems: 1, items: { type: string, enum: [authorization_code, refresh_token] } }
-        status: { $ref: "#/components/schemas/IdentityResourceStatus" }
+        client: { $ref: "#/components/schemas/OIDCClient" }
+        clientSecret: { type: string, writeOnly: true }
+      additionalProperties: false
+    OIDCClientCreatedEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/OIDCClientCreated" }
       additionalProperties: false
     OIDCClientEnvelope:
       type: object
@@ -12618,7 +13098,11 @@ components:
       required: [entityId, acsUrls, nameIdFormat, wantAuthnRequestsSigned, wantAssertionsSigned, attributeMappings]
       properties:
         entityId: { type: string, minLength: 1 }
-        acsUrls: { type: array, minItems: 1, items: { type: string, format: uri } }
+        acsUrls:
+          type: array
+          minItems: 1
+          description: Absolute HTTP or HTTPS assertion consumer service URLs. HTTPS is recommended for production deployments.
+          items: { type: string, format: uri }
         nameIdFormat: { $ref: "#/components/schemas/SAMLNameIDFormat" }
         spCertificates: { type: array, items: { $ref: "#/components/schemas/CertificateSummary" } }
         signingCertificates: { type: array, items: { $ref: "#/components/schemas/CertificateSummary" } }
@@ -12631,7 +13115,11 @@ components:
       required: [entityId, acsUrls, nameIdFormat, wantAuthnRequestsSigned, attributeMappings]
       properties:
         entityId: { type: string, minLength: 1 }
-        acsUrls: { type: array, minItems: 1, items: { type: string, format: uri } }
+        acsUrls:
+          type: array
+          minItems: 1
+          description: Absolute HTTP or HTTPS assertion consumer service URLs. HTTPS is recommended for production deployments.
+          items: { type: string, format: uri }
         nameIdFormat: { $ref: "#/components/schemas/SAMLNameIDFormat" }
         spCertificatePem: { type: string, writeOnly: true }
         wantAuthnRequestsSigned: { type: boolean }
@@ -12646,8 +13134,20 @@ components:
         name: { type: string }
         type: { $ref: "#/components/schemas/IdentityProviderType" }
         enabled: { type: boolean }
-        config: { type: object, additionalProperties: true }
-        secretRefs: { type: object, additionalProperties: true }
+        config:
+          type: object
+          description: Non-secret provider configuration.
+          additionalProperties: true
+        secretRefs:
+          type: object
+          readOnly: true
+          deprecated: true
+          description: Deprecated response field retained for 0.1.x SDK compatibility; current servers omit it.
+          additionalProperties: true
+        configuredSecretAliases:
+          type: array
+          readOnly: true
+          items: { type: string }
         status: { $ref: "#/components/schemas/IdentityResourceStatus" }
         createdBy: { type: string }
         updatedBy: { type: string }
@@ -12656,14 +13156,18 @@ components:
       additionalProperties: false
     IdentityProviderInput:
       type: object
-      required: [applicationId, name, type, enabled, config, secretRefs, status]
+      required: [applicationId, name, type, enabled, config, status]
       properties:
         applicationId: { type: string }
         name: { type: string, minLength: 1, maxLength: 200 }
         type: { $ref: "#/components/schemas/IdentityProviderType" }
         enabled: { type: boolean }
         config: { type: object, additionalProperties: true }
-        secretRefs: { type: object, additionalProperties: true }
+        secretRefs:
+          allOf:
+            - $ref: "#/components/schemas/SecretReferenceMap"
+          writeOnly: true
+          description: Omit on update to preserve existing references; send an empty object to clear them.
         status: { $ref: "#/components/schemas/IdentityResourceStatus" }
       additionalProperties: false
     IdentityProviderEnvelope:
@@ -14047,6 +14551,65 @@ components:
           items:
             $ref: "#/components/schemas/AnyValue"
       additionalProperties: false
+    Menu:
+      type: object
+      required: [id, path, labelZh, labelEn, iconKey, section, sortOrder, enabled]
+      properties:
+        id: { type: string, minLength: 1 }
+        parentId: { type: string, minLength: 1 }
+        path: { type: string, minLength: 1 }
+        labelZh: { type: string, minLength: 1 }
+        labelEn: { type: string, minLength: 1 }
+        iconKey: { type: string, minLength: 1 }
+        section: { type: string }
+        sortOrder: { type: integer }
+        enabled: { type: boolean }
+        roleIds:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+        children:
+          type: array
+          items: { $ref: "#/components/schemas/Menu" }
+      additionalProperties: false
+    MenuInput:
+      type: object
+      required: [path, labelZh, labelEn, iconKey]
+      properties:
+        id: { type: string, minLength: 1 }
+        parentId: { type: string, minLength: 1, nullable: true }
+        path: { type: string, minLength: 1 }
+        labelZh: { type: string, minLength: 1 }
+        labelEn: { type: string, minLength: 1 }
+        iconKey: { type: string, minLength: 1 }
+        section: { type: string }
+        sortOrder: { type: integer }
+        enabled: { type: boolean }
+        roleIds:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+      additionalProperties: false
+    MenuEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/Menu" }
+      additionalProperties: false
+    MenuListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/Menu" }
+      additionalProperties: false
+    MenuDeleteResult:
+      type: object
+      required: [status]
+      properties:
+        status: { type: string, const: ok }
+      additionalProperties: false
     PermissionRiskLevel:
       type: string
       enum: [read, mutate, execute, high]
@@ -14161,6 +14724,117 @@ components:
       required: [status]
       properties:
         status: { type: string, const: ok }
+      additionalProperties: false
+    ScopeGrantSubjectType:
+      type: string
+      enum: [user, team]
+    ScopeGrantType:
+      type: string
+      enum: [legacy, delivery, platform]
+    ScopeGrantEffect:
+      type: string
+      enum: [allow, deny]
+    ScopeGrant:
+      type: object
+      required: [id, subjectType, subjectId, businessLineId, scopeType, role, effect, enabled, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        subjectType: { $ref: "#/components/schemas/ScopeGrantSubjectType" }
+        subjectId: { type: string, minLength: 1 }
+        businessLineId:
+          type: string
+          description: Required for legacy and delivery grants; empty for platform grants.
+        environmentIds:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+        applicationIds:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+        scopeType: { $ref: "#/components/schemas/ScopeGrantType" }
+        clusterIds:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+        namespaces:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+        namespaceSelector: { type: string }
+        resourceGroups:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+        resourceKinds:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+        role: { type: string, minLength: 1 }
+        effect: { $ref: "#/components/schemas/ScopeGrantEffect" }
+        enabled: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    ScopeGrantInput:
+      type: object
+      required: [subjectType, subjectId, role, enabled]
+      properties:
+        id: { type: string, minLength: 1 }
+        subjectType: { $ref: "#/components/schemas/ScopeGrantSubjectType" }
+        subjectId: { type: string, minLength: 1 }
+        businessLineId:
+          type: string
+          description: Required when scopeType is legacy or delivery.
+        environmentIds:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+        applicationIds:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+        scopeType:
+          allOf:
+            - $ref: "#/components/schemas/ScopeGrantType"
+          default: legacy
+        clusterIds:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          description: Required when scopeType is platform.
+          items: { type: string, minLength: 1 }
+        namespaces:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+        namespaceSelector: { type: string }
+        resourceGroups:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+        resourceKinds:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+        role: { type: string, minLength: 1 }
+        effect:
+          allOf:
+            - $ref: "#/components/schemas/ScopeGrantEffect"
+          default: allow
+        enabled: { type: boolean }
+      additionalProperties: false
+    ScopeGrantEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ScopeGrant" }
+      additionalProperties: false
+    ScopeGrantListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/ScopeGrant" } }
       additionalProperties: false
     AuthorizationDecisionStatus:
       type: string
@@ -16578,6 +17252,7 @@ components:
       properties:
         appTitle: { type: string }
         sidebarTitle: { type: string }
+        slogan: { type: string }
         loginLogoUrl: { type: string }
         expandedLogoUrl: { type: string }
         collapsedLogoUrl: { type: string }
@@ -16596,6 +17271,7 @@ components:
       properties:
         appTitle: { type: string }
         sidebarTitle: { type: string }
+        slogan: { type: string }
         loginLogoUrl: { type: string }
         expandedLogoUrl: { type: string }
         collapsedLogoUrl: { type: string }
@@ -17338,6 +18014,8 @@ components:
       type: object
       required: [verification]
       properties:
+        branding:
+          $ref: "#/components/schemas/BrandingSettings"
         localPasswordLoginEnabled:
           type: boolean
         verification:
@@ -25210,6 +25888,33 @@ components:
         data:
           $ref: "#/components/schemas/AgentInstallation"
       additionalProperties: false
+    DockerHostAgentInstallation:
+      type: object
+      required: [hostId, operationId, scriptUrl, command, expiresAt]
+      properties:
+        hostId:
+          type: string
+          minLength: 1
+        operationId:
+          type: string
+          minLength: 1
+        scriptUrl:
+          type: string
+          format: uri
+        command:
+          type: string
+          minLength: 1
+        expiresAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    DockerHostAgentInstallationEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/DockerHostAgentInstallation"
+      additionalProperties: false
     ObservabilityProviderSignal:
       type: string
       enum: [logs, metrics, traces, profiles]
@@ -25232,6 +25937,16 @@ components:
         - ObservabilityProviderStatusSupported
         - ObservabilityProviderStatusDegraded
         - ObservabilityProviderStatusUnsupported
+    ObservabilityProviderRuntimeStatus:
+      type: string
+      enum: [unconfigured, unknown, healthy, degraded, failed, unsupported]
+      x-enum-varnames:
+        - ObservabilityProviderRuntimeStatusUnconfigured
+        - ObservabilityProviderRuntimeStatusUnknown
+        - ObservabilityProviderRuntimeStatusHealthy
+        - ObservabilityProviderRuntimeStatusDegraded
+        - ObservabilityProviderRuntimeStatusFailed
+        - ObservabilityProviderRuntimeStatusUnsupported
     ObservabilityProviderDefinition:
       type: object
       required: [providerKey, displayName, protocolVersion, signals, capabilities, runtimeMode, builtIn, status]
@@ -25273,6 +25988,17 @@ components:
         statusReason:
           type: string
           maxLength: 500
+        configured:
+          type: boolean
+          description: True when at least one enabled data source is configured for this provider.
+        runtimeStatus:
+          $ref: "#/components/schemas/ObservabilityProviderRuntimeStatus"
+        runtimeStatusReason:
+          type: string
+          maxLength: 500
+        lastValidatedAt:
+          type: string
+          format: date-time
         pluginId:
           type: string
           maxLength: 200
@@ -25294,14 +26020,23 @@ components:
       enum: [grafana]
       x-enum-varnames:
         - ObservabilityDashboardSourceGrafana
+    ObservabilityDashboardSourceFormat:
+      type: string
+      enum: [classic, v1]
+      x-enum-varnames:
+        - ObservabilityDashboardSourceFormatClassic
+        - ObservabilityDashboardSourceFormatV1
     ObservabilityDashboardPanelType:
       type: string
-      enum: [timeseries, stat, text, row]
+      enum: [timeseries, table, stat, gauge, text, row, unsupported]
       x-enum-varnames:
         - ObservabilityDashboardPanelTypeTimeseries
+        - ObservabilityDashboardPanelTypeTable
         - ObservabilityDashboardPanelTypeStat
+        - ObservabilityDashboardPanelTypeGauge
         - ObservabilityDashboardPanelTypeText
         - ObservabilityDashboardPanelTypeRow
+        - ObservabilityDashboardPanelTypeUnsupported
     ObservabilityDashboardPanelLayout:
       type: object
       required: [x, y, w, h]
@@ -25337,6 +26072,15 @@ components:
         legend:
           type: string
           maxLength: 256
+        dataSourceType:
+          type: string
+          maxLength: 128
+        dataSourceUid:
+          type: string
+          maxLength: 200
+        dataSourceId:
+          type: string
+          maxLength: 200
       additionalProperties: false
     ObservabilityDashboardPanel:
       type: object
@@ -25364,6 +26108,61 @@ components:
         markdown:
           type: string
           maxLength: 32768
+        sourcePanelType:
+          type: string
+          maxLength: 128
+        unsupported:
+          type: boolean
+        rawJson:
+          type: string
+          maxLength: 2097152
+          description: Original Grafana panel JSON retained for unsupported renderers and never executed directly.
+      additionalProperties: false
+    ObservabilityDashboardVariableType:
+      type: string
+      enum: [custom, constant]
+      x-enum-varnames:
+        - ObservabilityDashboardVariableTypeCustom
+        - ObservabilityDashboardVariableTypeConstant
+    ObservabilityDashboardVariable:
+      type: object
+      required: [name, type, options]
+      properties:
+        name:
+          type: string
+          pattern: "^[A-Za-z_][A-Za-z0-9_]*$"
+          maxLength: 64
+        label:
+          type: string
+          maxLength: 200
+        type:
+          $ref: "#/components/schemas/ObservabilityDashboardVariableType"
+        current:
+          type: string
+          maxLength: 512
+        options:
+          type: array
+          maxItems: 100
+          uniqueItems: true
+          items:
+            type: string
+            maxLength: 512
+      additionalProperties: false
+    ObservabilityDashboardDataSourceBinding:
+      type: object
+      required: [type, dataSourceId]
+      properties:
+        type:
+          type: string
+          minLength: 1
+          maxLength: 128
+        uid:
+          type: string
+          maxLength: 200
+        dataSourceId:
+          type: string
+          minLength: 1
+          maxLength: 200
       additionalProperties: false
     ObservabilityDashboard:
       type: object
@@ -25379,6 +26178,8 @@ components:
           maxLength: 200
         source:
           $ref: "#/components/schemas/ObservabilityDashboardSource"
+        sourceFormat:
+          $ref: "#/components/schemas/ObservabilityDashboardSourceFormat"
         sourceSchemaVersion:
           type: integer
           minimum: 0
@@ -25398,6 +26199,25 @@ components:
           maxItems: 200
           items:
             $ref: "#/components/schemas/ObservabilityDashboardPanel"
+        variables:
+          type: array
+          maxItems: 50
+          items:
+            $ref: "#/components/schemas/ObservabilityDashboardVariable"
+        dataSourceBindings:
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/ObservabilityDashboardDataSourceBinding"
+        importWarnings:
+          type: array
+          maxItems: 500
+          items:
+            $ref: "#/components/schemas/ObservabilityDashboardImportWarning"
+        rawJson:
+          type: string
+          maxLength: 2097152
+          description: Original bounded Grafana import document. It is retained for fidelity and never executed directly.
         createdAt:
           type: string
           format: date-time
@@ -25486,7 +26306,7 @@ components:
             $ref: "#/components/schemas/ObservabilityDashboardImportWarning"
         importedPanelCount:
           type: integer
-          minimum: 1
+          minimum: 0
         skippedPanelCount:
           type: integer
           minimum: 0
@@ -25513,11 +26333,23 @@ components:
           minimum: 1
           maximum: 3600
           default: 60
+        variables:
+          type: object
+          maxProperties: 50
+          additionalProperties:
+            type: string
+            maxLength: 512
       additionalProperties: false
     ObservabilityQueryScope:
       type: object
       properties:
+        workspaceId:
+          type: string
+          maxLength: 128
         clusterId:
+          type: string
+          maxLength: 128
+        environment:
           type: string
           maxLength: 128
         namespace:
@@ -25529,6 +26361,187 @@ components:
         service:
           type: string
           maxLength: 253
+      additionalProperties: false
+    ObservabilitySignal:
+      type: string
+      enum: [metrics, traces, logs, events]
+      x-enum-varnames:
+        - ObservabilitySignalMetrics
+        - ObservabilitySignalTraces
+        - ObservabilitySignalLogs
+        - ObservabilitySignalEvents
+    ObservabilityTimeRange:
+      type: object
+      required: [from, to]
+      properties:
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+        timezone:
+          type: string
+          maxLength: 64
+      additionalProperties: false
+    ObservabilityResourceIdentity:
+      type: object
+      required: [kind, name]
+      properties:
+        kind:
+          type: string
+          minLength: 1
+          maxLength: 128
+        name:
+          type: string
+          minLength: 1
+          maxLength: 253
+        uid:
+          type: string
+          maxLength: 253
+      additionalProperties: false
+    ObservabilityFilter:
+      type: object
+      properties:
+        text:
+          type: string
+          maxLength: 2048
+        labels:
+          type: object
+          maxProperties: 100
+          additionalProperties:
+            type: string
+            maxLength: 1024
+        traceId:
+          type: string
+          maxLength: 128
+        spanId:
+          type: string
+          maxLength: 128
+      additionalProperties: false
+    ObservabilityContext:
+      type: object
+      required: [version, scope, timeRange]
+      properties:
+        version:
+          type: string
+          enum: [v1]
+        scope:
+          $ref: "#/components/schemas/ObservabilityQueryScope"
+        resource:
+          $ref: "#/components/schemas/ObservabilityResourceIdentity"
+        timeRange:
+          $ref: "#/components/schemas/ObservabilityTimeRange"
+        filter:
+          $ref: "#/components/schemas/ObservabilityFilter"
+        scopeRestricted:
+          type: boolean
+          readOnly: true
+          description: True when authorization narrowed the requested scope.
+      additionalProperties: false
+    ObservabilityQueryLanguage:
+      type: string
+      enum: [metric_key, promql, logql, elasticsearch, clickhouse_sql, trace_filter, event_filter]
+      x-enum-varnames:
+        - ObservabilityQueryLanguageMetricKey
+        - ObservabilityQueryLanguagePromQL
+        - ObservabilityQueryLanguageLogQL
+        - ObservabilityQueryLanguageElasticsearch
+        - ObservabilityQueryLanguageClickHouseSQL
+        - ObservabilityQueryLanguageTraceFilter
+        - ObservabilityQueryLanguageEventFilter
+    ObservabilityQuerySnapshot:
+      type: object
+      required: [version, signal, context]
+      properties:
+        version:
+          type: string
+          enum: [v1]
+        signal:
+          $ref: "#/components/schemas/ObservabilitySignal"
+        dataSourceId:
+          type: string
+          maxLength: 200
+        backendType:
+          type: string
+          maxLength: 128
+        context:
+          $ref: "#/components/schemas/ObservabilityContext"
+        queryLanguage:
+          $ref: "#/components/schemas/ObservabilityQueryLanguage"
+        query:
+          type: string
+          maxLength: 8192
+          description: Provider-native query text. Soha does not translate arbitrary query languages.
+        metricKey:
+          type: string
+          maxLength: 128
+        traceId:
+          type: string
+          maxLength: 128
+        spanId:
+          type: string
+          maxLength: 128
+        createdAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ObservabilityQueryState:
+      type: string
+      enum: [success, empty, partial, error, no_data, unsupported]
+      x-enum-varnames:
+        - ObservabilityQueryStateSuccess
+        - ObservabilityQueryStateEmpty
+        - ObservabilityQueryStatePartial
+        - ObservabilityQueryStateError
+        - ObservabilityQueryStateNoData
+        - ObservabilityQueryStateUnsupported
+    ObservabilityQueryError:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          pattern: "^[a-z][a-z0-9._-]*$"
+          maxLength: 128
+        message:
+          type: string
+          minLength: 1
+          maxLength: 1000
+        retryable:
+          type: boolean
+        sourceId:
+          type: string
+          maxLength: 200
+      additionalProperties: false
+    ObservabilityQueryResultMeta:
+      type: object
+      required: [state]
+      properties:
+        state:
+          $ref: "#/components/schemas/ObservabilityQueryState"
+        snapshot:
+          $ref: "#/components/schemas/ObservabilityQuerySnapshot"
+        observedAt:
+          type: string
+          format: date-time
+        durationMs:
+          type: integer
+          format: int64
+          minimum: 0
+        scopeRestricted:
+          type: boolean
+        warnings:
+          type: array
+          maxItems: 100
+          items:
+            type: string
+            maxLength: 1000
+        errors:
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/ObservabilityQueryError"
       additionalProperties: false
     ObservabilityMetricKey:
       type: string
@@ -25604,6 +26617,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ObservabilityMetricSeries"
+        meta:
+          $ref: "#/components/schemas/ObservabilityQueryResultMeta"
       additionalProperties: false
     ObservabilityMetricQueryEnvelope:
       type: object
@@ -25689,6 +26704,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ObservabilityTraceSpan"
+        meta:
+          $ref: "#/components/schemas/ObservabilityQueryResultMeta"
       additionalProperties: false
     ObservabilityTraceQueryEnvelope:
       type: object
@@ -25696,6 +26713,244 @@ components:
       properties:
         data:
           $ref: "#/components/schemas/ObservabilityTraceQueryResult"
+      additionalProperties: false
+    ObservabilityServiceStatus:
+      type: string
+      enum: [healthy, degraded, unknown, unsupported]
+      x-enum-varnames:
+        - ObservabilityServiceStatusHealthy
+        - ObservabilityServiceStatusDegraded
+        - ObservabilityServiceStatusUnknown
+        - ObservabilityServiceStatusUnsupported
+    ObservabilityServiceInstance:
+      type: object
+      required: [id, name, status]
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 253
+        name:
+          type: string
+          minLength: 1
+          maxLength: 253
+        status:
+          $ref: "#/components/schemas/ObservabilityServiceStatus"
+        lastSeenAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    ObservabilityServiceEndpoint:
+      type: object
+      required: [id, name, status]
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 512
+        name:
+          type: string
+          minLength: 1
+          maxLength: 512
+        method:
+          type: string
+          maxLength: 32
+        status:
+          $ref: "#/components/schemas/ObservabilityServiceStatus"
+        requestRate:
+          type: number
+          format: double
+          minimum: 0
+        errorRate:
+          type: number
+          format: double
+          minimum: 0
+        latencyP95Ms:
+          type: number
+          format: double
+          minimum: 0
+      additionalProperties: false
+    ObservabilityService:
+      type: object
+      required: [id, name, status, clusterIds, instances, endpoints]
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 253
+        name:
+          type: string
+          minLength: 1
+          maxLength: 253
+        displayName:
+          type: string
+          maxLength: 253
+        environment:
+          type: string
+          maxLength: 128
+        namespace:
+          type: string
+          maxLength: 253
+        clusterIds:
+          type: array
+          maxItems: 100
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+        status:
+          $ref: "#/components/schemas/ObservabilityServiceStatus"
+        requestRate:
+          type: number
+          format: double
+          minimum: 0
+        errorRate:
+          type: number
+          format: double
+          minimum: 0
+        latencyP95Ms:
+          type: number
+          format: double
+          minimum: 0
+        lastSeenAt:
+          type: string
+          format: date-time
+        instances:
+          type: array
+          maxItems: 1000
+          items:
+            $ref: "#/components/schemas/ObservabilityServiceInstance"
+        endpoints:
+          type: array
+          maxItems: 1000
+          items:
+            $ref: "#/components/schemas/ObservabilityServiceEndpoint"
+      additionalProperties: false
+    ObservabilityServiceListEnvelope:
+      type: object
+      required: [items, meta]
+      properties:
+        items:
+          type: array
+          maxItems: 1000
+          items:
+            $ref: "#/components/schemas/ObservabilityService"
+        meta:
+          $ref: "#/components/schemas/ObservabilityQueryResultMeta"
+      additionalProperties: false
+    ObservabilityServiceEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          $ref: "#/components/schemas/ObservabilityService"
+        meta:
+          $ref: "#/components/schemas/ObservabilityQueryResultMeta"
+      additionalProperties: false
+    ObservabilityTopologyNode:
+      type: object
+      required: [serviceId, name, status]
+      properties:
+        serviceId:
+          type: string
+          minLength: 1
+          maxLength: 253
+        name:
+          type: string
+          minLength: 1
+          maxLength: 253
+        status:
+          $ref: "#/components/schemas/ObservabilityServiceStatus"
+      additionalProperties: false
+    ObservabilityTopologyEdge:
+      type: object
+      required: [sourceServiceId, targetServiceId, status]
+      properties:
+        sourceServiceId:
+          type: string
+          minLength: 1
+          maxLength: 253
+        targetServiceId:
+          type: string
+          minLength: 1
+          maxLength: 253
+        status:
+          $ref: "#/components/schemas/ObservabilityServiceStatus"
+        requestRate:
+          type: number
+          format: double
+          minimum: 0
+        errorRate:
+          type: number
+          format: double
+          minimum: 0
+        latencyP95Ms:
+          type: number
+          format: double
+          minimum: 0
+      additionalProperties: false
+    ObservabilityTopology:
+      type: object
+      required: [nodes, edges, beta, meta]
+      properties:
+        nodes:
+          type: array
+          maxItems: 1000
+          items:
+            $ref: "#/components/schemas/ObservabilityTopologyNode"
+        edges:
+          type: array
+          maxItems: 5000
+          items:
+            $ref: "#/components/schemas/ObservabilityTopologyEdge"
+        beta:
+          type: boolean
+        meta:
+          $ref: "#/components/schemas/ObservabilityQueryResultMeta"
+      additionalProperties: false
+    ObservabilityTopologyEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ObservabilityTopology"
+      additionalProperties: false
+    ObservabilityMetricDefinition:
+      type: object
+      required: [key, label, unit, signal, available]
+      properties:
+        key:
+          type: string
+          minLength: 1
+          maxLength: 128
+        label:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 1000
+        unit:
+          type: string
+          maxLength: 64
+        semanticConvention:
+          type: string
+          maxLength: 256
+        signal:
+          $ref: "#/components/schemas/ObservabilitySignal"
+        available:
+          type: boolean
+      additionalProperties: false
+    ObservabilityMetricCatalogEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          maxItems: 500
+          items:
+            $ref: "#/components/schemas/ObservabilityMetricDefinition"
       additionalProperties: false
     ObservabilityDataSourceBackendType:
       type: string
@@ -26341,6 +27596,8 @@ components:
             $ref: "#/components/schemas/LogWarning"
         retentionHint:
           type: string
+        meta:
+          $ref: "#/components/schemas/ObservabilityQueryResultMeta"
       additionalProperties: false
     LogPageEnvelope:
       type: object

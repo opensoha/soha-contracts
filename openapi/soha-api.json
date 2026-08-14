@@ -786,6 +786,16 @@
           "type": "string"
         }
       },
+      "MenuID": {
+        "in": "path",
+        "name": "menuID",
+        "required": true,
+        "schema": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
       "MFAChallengeID": {
         "in": "path",
         "name": "mfaChallengeID",
@@ -823,6 +833,74 @@
         "schema": {
           "maxLength": 128,
           "minLength": 1,
+          "type": "string"
+        }
+      },
+      "ObservabilityClusterIDQuery": {
+        "in": "query",
+        "name": "clusterId",
+        "required": false,
+        "schema": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "ObservabilityDataSourceIDQuery": {
+        "in": "query",
+        "name": "dataSourceId",
+        "required": false,
+        "schema": {
+          "maxLength": 200,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "ObservabilityEnvironmentQuery": {
+        "in": "query",
+        "name": "environment",
+        "required": false,
+        "schema": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "ObservabilityNamespaceQuery": {
+        "in": "query",
+        "name": "namespace",
+        "required": false,
+        "schema": {
+          "maxLength": 253,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "ObservabilityServiceQuery": {
+        "in": "query",
+        "name": "service",
+        "required": false,
+        "schema": {
+          "maxLength": 253,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "ObservabilityTimeFromQuery": {
+        "in": "query",
+        "name": "timeFrom",
+        "required": true,
+        "schema": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "ObservabilityTimeToQuery": {
+        "in": "query",
+        "name": "timeTo",
+        "required": true,
+        "schema": {
+          "format": "date-time",
           "type": "string"
         }
       },
@@ -971,6 +1049,16 @@
         "required": true,
         "schema": {
           "maxLength": 1048576,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "ScopeGrantID": {
+        "in": "path",
+        "name": "scopeGrantID",
+        "required": true,
+        "schema": {
+          "maxLength": 128,
           "minLength": 1,
           "type": "string"
         }
@@ -5945,6 +6033,9 @@
           },
           "sidebarTitle": {
             "type": "string"
+          },
+          "slogan": {
+            "type": "string"
           }
         },
         "required": [
@@ -9972,6 +10063,51 @@
         ],
         "type": "object"
       },
+      "DockerHostAgentInstallation": {
+        "additionalProperties": false,
+        "properties": {
+          "command": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "hostId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "operationId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "scriptUrl": {
+            "format": "uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "hostId",
+          "operationId",
+          "scriptUrl",
+          "command",
+          "expiresAt"
+        ],
+        "type": "object"
+      },
+      "DockerHostAgentInstallationEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/DockerHostAgentInstallation"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
       "DockerOperation": {
         "additionalProperties": true,
         "properties": {
@@ -13440,7 +13576,15 @@
           },
           "config": {
             "additionalProperties": true,
+            "description": "Non-secret provider configuration.",
             "type": "object"
+          },
+          "configuredSecretAliases": {
+            "items": {
+              "type": "string"
+            },
+            "readOnly": true,
+            "type": "array"
           },
           "createdAt": {
             "format": "date-time",
@@ -13460,6 +13604,9 @@
           },
           "secretRefs": {
             "additionalProperties": true,
+            "deprecated": true,
+            "description": "Deprecated response field retained for 0.1.x SDK compatibility; current servers omit it.",
+            "readOnly": true,
             "type": "object"
           },
           "status": {
@@ -13519,8 +13666,13 @@
             "type": "string"
           },
           "secretRefs": {
-            "additionalProperties": true,
-            "type": "object"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SecretReferenceMap"
+              }
+            ],
+            "description": "Omit on update to preserve existing references; send an empty object to clear them.",
+            "writeOnly": true
           },
           "status": {
             "$ref": "#/components/schemas/IdentityResourceStatus"
@@ -13535,7 +13687,6 @@
           "type",
           "enabled",
           "config",
-          "secretRefs",
           "status"
         ],
         "type": "object"
@@ -25471,6 +25622,9 @@
       "LoginOptions": {
         "additionalProperties": false,
         "properties": {
+          "branding": {
+            "$ref": "#/components/schemas/BrandingSettings"
+          },
           "localPasswordLoginEnabled": {
             "type": "boolean"
           },
@@ -25735,6 +25889,9 @@
               "$ref": "#/components/schemas/LogEntry"
             },
             "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ObservabilityQueryResultMeta"
           },
           "nextCursor": {
             "type": "string"
@@ -28357,6 +28514,163 @@
         ],
         "type": "object"
       },
+      "Menu": {
+        "additionalProperties": false,
+        "properties": {
+          "children": {
+            "items": {
+              "$ref": "#/components/schemas/Menu"
+            },
+            "type": "array"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "iconKey": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "labelEn": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "labelZh": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "path": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "roleIds": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "section": {
+            "type": "string"
+          },
+          "sortOrder": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "path",
+          "labelZh",
+          "labelEn",
+          "iconKey",
+          "section",
+          "sortOrder",
+          "enabled"
+        ],
+        "type": "object"
+      },
+      "MenuDeleteResult": {
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "const": "ok",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "type": "object"
+      },
+      "MenuEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Menu"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "MenuInput": {
+        "additionalProperties": false,
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "iconKey": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "labelEn": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "labelZh": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentId": {
+            "minLength": 1,
+            "nullable": true,
+            "type": "string"
+          },
+          "path": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "roleIds": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "section": {
+            "type": "string"
+          },
+          "sortOrder": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "path",
+          "labelZh",
+          "labelEn",
+          "iconKey"
+        ],
+        "type": "object"
+      },
+      "MenuListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Menu"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
       "MFAAdminResetRequest": {
         "additionalProperties": false,
         "properties": {
@@ -29009,12 +29323,53 @@
         "description": "Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.",
         "type": "object"
       },
+      "ObservabilityContext": {
+        "additionalProperties": false,
+        "properties": {
+          "filter": {
+            "$ref": "#/components/schemas/ObservabilityFilter"
+          },
+          "resource": {
+            "$ref": "#/components/schemas/ObservabilityResourceIdentity"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/ObservabilityQueryScope"
+          },
+          "scopeRestricted": {
+            "description": "True when authorization narrowed the requested scope.",
+            "readOnly": true,
+            "type": "boolean"
+          },
+          "timeRange": {
+            "$ref": "#/components/schemas/ObservabilityTimeRange"
+          },
+          "version": {
+            "enum": [
+              "v1"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "version",
+          "scope",
+          "timeRange"
+        ],
+        "type": "object"
+      },
       "ObservabilityDashboard": {
         "additionalProperties": false,
         "properties": {
           "createdAt": {
             "format": "date-time",
             "type": "string"
+          },
+          "dataSourceBindings": {
+            "items": {
+              "$ref": "#/components/schemas/ObservabilityDashboardDataSourceBinding"
+            },
+            "maxItems": 100,
+            "type": "array"
           },
           "dataSourceId": {
             "maxLength": 200,
@@ -29024,6 +29379,13 @@
             "maxLength": 128,
             "minLength": 1,
             "type": "string"
+          },
+          "importWarnings": {
+            "items": {
+              "$ref": "#/components/schemas/ObservabilityDashboardImportWarning"
+            },
+            "maxItems": 500,
+            "type": "array"
           },
           "name": {
             "maxLength": 200,
@@ -29037,8 +29399,16 @@
             "maxItems": 200,
             "type": "array"
           },
+          "rawJson": {
+            "description": "Original bounded Grafana import document. It is retained for fidelity and never executed directly.",
+            "maxLength": 2097152,
+            "type": "string"
+          },
           "source": {
             "$ref": "#/components/schemas/ObservabilityDashboardSource"
+          },
+          "sourceFormat": {
+            "$ref": "#/components/schemas/ObservabilityDashboardSourceFormat"
           },
           "sourceSchemaVersion": {
             "minimum": 0,
@@ -29057,6 +29427,13 @@
           "updatedAt": {
             "format": "date-time",
             "type": "string"
+          },
+          "variables": {
+            "items": {
+              "$ref": "#/components/schemas/ObservabilityDashboardVariable"
+            },
+            "maxItems": 50,
+            "type": "array"
           }
         },
         "required": [
@@ -29067,6 +29444,30 @@
           "panels",
           "createdAt",
           "updatedAt"
+        ],
+        "type": "object"
+      },
+      "ObservabilityDashboardDataSourceBinding": {
+        "additionalProperties": false,
+        "properties": {
+          "dataSourceId": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "uid": {
+            "maxLength": 200,
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "dataSourceId"
         ],
         "type": "object"
       },
@@ -29089,7 +29490,7 @@
             "$ref": "#/components/schemas/ObservabilityDashboard"
           },
           "importedPanelCount": {
-            "minimum": 1,
+            "minimum": 0,
             "type": "integer"
           },
           "skippedPanelCount": {
@@ -29186,6 +29587,15 @@
           "queryable": {
             "type": "boolean"
           },
+          "rawJson": {
+            "description": "Original Grafana panel JSON retained for unsupported renderers and never executed directly.",
+            "maxLength": 2097152,
+            "type": "string"
+          },
+          "sourcePanelType": {
+            "maxLength": 128,
+            "type": "string"
+          },
           "targets": {
             "items": {
               "$ref": "#/components/schemas/ObservabilityDashboardTarget"
@@ -29200,6 +29610,9 @@
           },
           "type": {
             "$ref": "#/components/schemas/ObservabilityDashboardPanelType"
+          },
+          "unsupported": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -29259,6 +29672,14 @@
           "timeTo": {
             "format": "date-time",
             "type": "string"
+          },
+          "variables": {
+            "additionalProperties": {
+              "maxLength": 512,
+              "type": "string"
+            },
+            "maxProperties": 50,
+            "type": "object"
           }
         },
         "required": [
@@ -29270,16 +29691,22 @@
       "ObservabilityDashboardPanelType": {
         "enum": [
           "timeseries",
+          "table",
           "stat",
+          "gauge",
           "text",
-          "row"
+          "row",
+          "unsupported"
         ],
         "type": "string",
         "x-enum-varnames": [
           "ObservabilityDashboardPanelTypeTimeseries",
+          "ObservabilityDashboardPanelTypeTable",
           "ObservabilityDashboardPanelTypeStat",
+          "ObservabilityDashboardPanelTypeGauge",
           "ObservabilityDashboardPanelTypeText",
-          "ObservabilityDashboardPanelTypeRow"
+          "ObservabilityDashboardPanelTypeRow",
+          "ObservabilityDashboardPanelTypeUnsupported"
         ]
       },
       "ObservabilityDashboardSource": {
@@ -29291,9 +29718,32 @@
           "ObservabilityDashboardSourceGrafana"
         ]
       },
+      "ObservabilityDashboardSourceFormat": {
+        "enum": [
+          "classic",
+          "v1"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "ObservabilityDashboardSourceFormatClassic",
+          "ObservabilityDashboardSourceFormatV1"
+        ]
+      },
       "ObservabilityDashboardTarget": {
         "additionalProperties": false,
         "properties": {
+          "dataSourceId": {
+            "maxLength": 200,
+            "type": "string"
+          },
+          "dataSourceType": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "dataSourceUid": {
+            "maxLength": 200,
+            "type": "string"
+          },
           "expression": {
             "maxLength": 8192,
             "minLength": 1,
@@ -29314,6 +29764,53 @@
           "expression"
         ],
         "type": "object"
+      },
+      "ObservabilityDashboardVariable": {
+        "additionalProperties": false,
+        "properties": {
+          "current": {
+            "maxLength": 512,
+            "type": "string"
+          },
+          "label": {
+            "maxLength": 200,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 64,
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
+            "type": "string"
+          },
+          "options": {
+            "items": {
+              "maxLength": 512,
+              "type": "string"
+            },
+            "maxItems": 100,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/ObservabilityDashboardVariableType"
+          }
+        },
+        "required": [
+          "name",
+          "type",
+          "options"
+        ],
+        "type": "object"
+      },
+      "ObservabilityDashboardVariableType": {
+        "enum": [
+          "custom",
+          "constant"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "ObservabilityDashboardVariableTypeCustom",
+          "ObservabilityDashboardVariableTypeConstant"
+        ]
       },
       "ObservabilityDataSource": {
         "additionalProperties": false,
@@ -29532,6 +30029,32 @@
           "ObservabilityDataSourceValidationStatusFailed"
         ]
       },
+      "ObservabilityFilter": {
+        "additionalProperties": false,
+        "properties": {
+          "labels": {
+            "additionalProperties": {
+              "maxLength": 1024,
+              "type": "string"
+            },
+            "maxProperties": 100,
+            "type": "object"
+          },
+          "spanId": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "text": {
+            "maxLength": 2048,
+            "type": "string"
+          },
+          "traceId": {
+            "maxLength": 128,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "ObservabilityGrafanaDashboardImportInput": {
         "additionalProperties": false,
         "properties": {
@@ -29707,6 +30230,22 @@
         },
         "type": "object"
       },
+      "ObservabilityMetricCatalogEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ObservabilityMetricDefinition"
+            },
+            "maxItems": 500,
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
       "ObservabilityMetricDataSource": {
         "additionalProperties": false,
         "properties": {
@@ -29739,6 +30278,47 @@
         },
         "required": [
           "items"
+        ],
+        "type": "object"
+      },
+      "ObservabilityMetricDefinition": {
+        "additionalProperties": false,
+        "properties": {
+          "available": {
+            "type": "boolean"
+          },
+          "description": {
+            "maxLength": 1000,
+            "type": "string"
+          },
+          "key": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "label": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "semanticConvention": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "signal": {
+            "$ref": "#/components/schemas/ObservabilitySignal"
+          },
+          "unit": {
+            "maxLength": 64,
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "label",
+          "unit",
+          "signal",
+          "available"
         ],
         "type": "object"
       },
@@ -29836,6 +30416,9 @@
           "dataSourceId": {
             "type": "string"
           },
+          "meta": {
+            "$ref": "#/components/schemas/ObservabilityQueryResultMeta"
+          },
           "series": {
             "items": {
               "$ref": "#/components/schemas/ObservabilityMetricSeries"
@@ -29900,6 +30483,10 @@
             "maxLength": 512,
             "type": "string"
           },
+          "configured": {
+            "description": "True when at least one enabled data source is configured for this provider.",
+            "type": "boolean"
+          },
           "description": {
             "maxLength": 1000,
             "type": "string"
@@ -29907,6 +30494,10 @@
           "displayName": {
             "maxLength": 200,
             "minLength": 1,
+            "type": "string"
+          },
+          "lastValidatedAt": {
+            "format": "date-time",
             "type": "string"
           },
           "pluginId": {
@@ -29925,6 +30516,13 @@
           },
           "runtimeMode": {
             "$ref": "#/components/schemas/ObservabilityProviderRuntimeMode"
+          },
+          "runtimeStatus": {
+            "$ref": "#/components/schemas/ObservabilityProviderRuntimeStatus"
+          },
+          "runtimeStatusReason": {
+            "maxLength": 500,
+            "type": "string"
           },
           "signals": {
             "items": {
@@ -29982,6 +30580,25 @@
           "ObservabilityProviderRuntimeModeManagedContainer"
         ]
       },
+      "ObservabilityProviderRuntimeStatus": {
+        "enum": [
+          "unconfigured",
+          "unknown",
+          "healthy",
+          "degraded",
+          "failed",
+          "unsupported"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "ObservabilityProviderRuntimeStatusUnconfigured",
+          "ObservabilityProviderRuntimeStatusUnknown",
+          "ObservabilityProviderRuntimeStatusHealthy",
+          "ObservabilityProviderRuntimeStatusDegraded",
+          "ObservabilityProviderRuntimeStatusFailed",
+          "ObservabilityProviderRuntimeStatusUnsupported"
+        ]
+      },
       "ObservabilityProviderSignal": {
         "enum": [
           "logs",
@@ -30010,10 +30627,104 @@
           "ObservabilityProviderStatusUnsupported"
         ]
       },
+      "ObservabilityQueryError": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "maxLength": 128,
+            "pattern": "^[a-z][a-z0-9._-]*$",
+            "type": "string"
+          },
+          "message": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "retryable": {
+            "type": "boolean"
+          },
+          "sourceId": {
+            "maxLength": 200,
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object"
+      },
+      "ObservabilityQueryLanguage": {
+        "enum": [
+          "metric_key",
+          "promql",
+          "logql",
+          "elasticsearch",
+          "clickhouse_sql",
+          "trace_filter",
+          "event_filter"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "ObservabilityQueryLanguageMetricKey",
+          "ObservabilityQueryLanguagePromQL",
+          "ObservabilityQueryLanguageLogQL",
+          "ObservabilityQueryLanguageElasticsearch",
+          "ObservabilityQueryLanguageClickHouseSQL",
+          "ObservabilityQueryLanguageTraceFilter",
+          "ObservabilityQueryLanguageEventFilter"
+        ]
+      },
+      "ObservabilityQueryResultMeta": {
+        "additionalProperties": false,
+        "properties": {
+          "durationMs": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "errors": {
+            "items": {
+              "$ref": "#/components/schemas/ObservabilityQueryError"
+            },
+            "maxItems": 100,
+            "type": "array"
+          },
+          "observedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "scopeRestricted": {
+            "type": "boolean"
+          },
+          "snapshot": {
+            "$ref": "#/components/schemas/ObservabilityQuerySnapshot"
+          },
+          "state": {
+            "$ref": "#/components/schemas/ObservabilityQueryState"
+          },
+          "warnings": {
+            "items": {
+              "maxLength": 1000,
+              "type": "string"
+            },
+            "maxItems": 100,
+            "type": "array"
+          }
+        },
+        "required": [
+          "state"
+        ],
+        "type": "object"
+      },
       "ObservabilityQueryScope": {
         "additionalProperties": false,
         "properties": {
           "clusterId": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "environment": {
             "maxLength": 128,
             "type": "string"
           },
@@ -30028,8 +30739,458 @@
           "workload": {
             "maxLength": 253,
             "type": "string"
+          },
+          "workspaceId": {
+            "maxLength": 128,
+            "type": "string"
           }
         },
+        "type": "object"
+      },
+      "ObservabilityQuerySnapshot": {
+        "additionalProperties": false,
+        "properties": {
+          "backendType": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "context": {
+            "$ref": "#/components/schemas/ObservabilityContext"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "dataSourceId": {
+            "maxLength": 200,
+            "type": "string"
+          },
+          "metricKey": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "query": {
+            "description": "Provider-native query text. Soha does not translate arbitrary query languages.",
+            "maxLength": 8192,
+            "type": "string"
+          },
+          "queryLanguage": {
+            "$ref": "#/components/schemas/ObservabilityQueryLanguage"
+          },
+          "signal": {
+            "$ref": "#/components/schemas/ObservabilitySignal"
+          },
+          "spanId": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "traceId": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "version": {
+            "enum": [
+              "v1"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "version",
+          "signal",
+          "context"
+        ],
+        "type": "object"
+      },
+      "ObservabilityQueryState": {
+        "enum": [
+          "success",
+          "empty",
+          "partial",
+          "error",
+          "no_data",
+          "unsupported"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "ObservabilityQueryStateSuccess",
+          "ObservabilityQueryStateEmpty",
+          "ObservabilityQueryStatePartial",
+          "ObservabilityQueryStateError",
+          "ObservabilityQueryStateNoData",
+          "ObservabilityQueryStateUnsupported"
+        ]
+      },
+      "ObservabilityResourceIdentity": {
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 253,
+            "minLength": 1,
+            "type": "string"
+          },
+          "uid": {
+            "maxLength": 253,
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "name"
+        ],
+        "type": "object"
+      },
+      "ObservabilityService": {
+        "additionalProperties": false,
+        "properties": {
+          "clusterIds": {
+            "items": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 100,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "displayName": {
+            "maxLength": 253,
+            "type": "string"
+          },
+          "endpoints": {
+            "items": {
+              "$ref": "#/components/schemas/ObservabilityServiceEndpoint"
+            },
+            "maxItems": 1000,
+            "type": "array"
+          },
+          "environment": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "errorRate": {
+            "format": "double",
+            "minimum": 0,
+            "type": "number"
+          },
+          "id": {
+            "maxLength": 253,
+            "minLength": 1,
+            "type": "string"
+          },
+          "instances": {
+            "items": {
+              "$ref": "#/components/schemas/ObservabilityServiceInstance"
+            },
+            "maxItems": 1000,
+            "type": "array"
+          },
+          "lastSeenAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "latencyP95Ms": {
+            "format": "double",
+            "minimum": 0,
+            "type": "number"
+          },
+          "name": {
+            "maxLength": 253,
+            "minLength": 1,
+            "type": "string"
+          },
+          "namespace": {
+            "maxLength": 253,
+            "type": "string"
+          },
+          "requestRate": {
+            "format": "double",
+            "minimum": 0,
+            "type": "number"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ObservabilityServiceStatus"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "status",
+          "clusterIds",
+          "instances",
+          "endpoints"
+        ],
+        "type": "object"
+      },
+      "ObservabilityServiceEndpoint": {
+        "additionalProperties": false,
+        "properties": {
+          "errorRate": {
+            "format": "double",
+            "minimum": 0,
+            "type": "number"
+          },
+          "id": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "latencyP95Ms": {
+            "format": "double",
+            "minimum": 0,
+            "type": "number"
+          },
+          "method": {
+            "maxLength": 32,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "requestRate": {
+            "format": "double",
+            "minimum": 0,
+            "type": "number"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ObservabilityServiceStatus"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "status"
+        ],
+        "type": "object"
+      },
+      "ObservabilityServiceEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ObservabilityService"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ObservabilityQueryResultMeta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "type": "object"
+      },
+      "ObservabilityServiceInstance": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "maxLength": 253,
+            "minLength": 1,
+            "type": "string"
+          },
+          "lastSeenAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 253,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ObservabilityServiceStatus"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "status"
+        ],
+        "type": "object"
+      },
+      "ObservabilityServiceListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ObservabilityService"
+            },
+            "maxItems": 1000,
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ObservabilityQueryResultMeta"
+          }
+        },
+        "required": [
+          "items",
+          "meta"
+        ],
+        "type": "object"
+      },
+      "ObservabilityServiceStatus": {
+        "enum": [
+          "healthy",
+          "degraded",
+          "unknown",
+          "unsupported"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "ObservabilityServiceStatusHealthy",
+          "ObservabilityServiceStatusDegraded",
+          "ObservabilityServiceStatusUnknown",
+          "ObservabilityServiceStatusUnsupported"
+        ]
+      },
+      "ObservabilitySignal": {
+        "enum": [
+          "metrics",
+          "traces",
+          "logs",
+          "events"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "ObservabilitySignalMetrics",
+          "ObservabilitySignalTraces",
+          "ObservabilitySignalLogs",
+          "ObservabilitySignalEvents"
+        ]
+      },
+      "ObservabilityTimeRange": {
+        "additionalProperties": false,
+        "properties": {
+          "from": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "timezone": {
+            "maxLength": 64,
+            "type": "string"
+          },
+          "to": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "from",
+          "to"
+        ],
+        "type": "object"
+      },
+      "ObservabilityTopology": {
+        "additionalProperties": false,
+        "properties": {
+          "beta": {
+            "type": "boolean"
+          },
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/ObservabilityTopologyEdge"
+            },
+            "maxItems": 5000,
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ObservabilityQueryResultMeta"
+          },
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/ObservabilityTopologyNode"
+            },
+            "maxItems": 1000,
+            "type": "array"
+          }
+        },
+        "required": [
+          "nodes",
+          "edges",
+          "beta",
+          "meta"
+        ],
+        "type": "object"
+      },
+      "ObservabilityTopologyEdge": {
+        "additionalProperties": false,
+        "properties": {
+          "errorRate": {
+            "format": "double",
+            "minimum": 0,
+            "type": "number"
+          },
+          "latencyP95Ms": {
+            "format": "double",
+            "minimum": 0,
+            "type": "number"
+          },
+          "requestRate": {
+            "format": "double",
+            "minimum": 0,
+            "type": "number"
+          },
+          "sourceServiceId": {
+            "maxLength": 253,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ObservabilityServiceStatus"
+          },
+          "targetServiceId": {
+            "maxLength": 253,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "sourceServiceId",
+          "targetServiceId",
+          "status"
+        ],
+        "type": "object"
+      },
+      "ObservabilityTopologyEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ObservabilityTopology"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "ObservabilityTopologyNode": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "maxLength": 253,
+            "minLength": 1,
+            "type": "string"
+          },
+          "serviceId": {
+            "maxLength": 253,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ObservabilityServiceStatus"
+          }
+        },
+        "required": [
+          "serviceId",
+          "name",
+          "status"
+        ],
         "type": "object"
       },
       "ObservabilityTraceQueryEnvelope": {
@@ -30097,6 +31258,9 @@
           },
           "dataSourceId": {
             "type": "string"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ObservabilityQueryResultMeta"
           },
           "services": {
             "items": {
@@ -30176,7 +31340,34 @@
       "OIDCClient": {
         "additionalProperties": false,
         "properties": {
+          "accessTokenTtlSeconds": {
+            "minimum": 60,
+            "type": "integer"
+          },
+          "allowedGrantTypes": {
+            "items": {
+              "enum": [
+                "authorization_code",
+                "refresh_token"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "allowedScopes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
           "clientId": {
+            "type": "string"
+          },
+          "clientType": {
+            "enum": [
+              "public",
+              "confidential"
+            ],
             "type": "string"
           },
           "createdAt": {
@@ -30184,6 +31375,8 @@
             "type": "string"
           },
           "grantTypes": {
+            "deprecated": true,
+            "description": "Deprecated response alias retained for 0.1.x compatibility; use allowedGrantTypes.",
             "items": {
               "enum": [
                 "authorization_code",
@@ -30196,15 +31389,45 @@
           "id": {
             "type": "string"
           },
-          "providerId": {
-            "type": "string"
+          "idTokenTtlSeconds": {
+            "minimum": 60,
+            "type": "integer"
           },
-          "redirectUris": {
+          "postLogoutRedirectUris": {
+            "description": "Absolute HTTP or HTTPS post-logout redirect URIs. HTTPS is recommended for production deployments.",
             "items": {
               "format": "uri",
               "type": "string"
             },
             "type": "array"
+          },
+          "providerId": {
+            "type": "string"
+          },
+          "redirectUriRegexes": {
+            "description": "RE2 regular expressions matched against the complete absolute HTTP or HTTPS redirect URI. Evaluated in addition to redirectUris.",
+            "items": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 100,
+            "type": "array"
+          },
+          "redirectUris": {
+            "description": "Strict-match absolute HTTP or HTTPS redirect URIs. HTTPS is recommended for production deployments.",
+            "items": {
+              "format": "uri",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "refreshTokenTtlSeconds": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "requirePkce": {
+            "type": "boolean"
           },
           "status": {
             "$ref": "#/components/schemas/IdentityResourceStatus"
@@ -30226,6 +31449,34 @@
         ],
         "type": "object"
       },
+      "OIDCClientCreated": {
+        "additionalProperties": false,
+        "properties": {
+          "client": {
+            "$ref": "#/components/schemas/OIDCClient"
+          },
+          "clientSecret": {
+            "type": "string",
+            "writeOnly": true
+          }
+        },
+        "required": [
+          "client"
+        ],
+        "type": "object"
+      },
+      "OIDCClientCreatedEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/OIDCClientCreated"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
       "OIDCClientEnvelope": {
         "additionalProperties": false,
         "properties": {
@@ -30239,50 +31490,147 @@
         "type": "object"
       },
       "OIDCClientInput": {
-        "additionalProperties": false,
-        "properties": {
-          "clientId": {
-            "type": "string"
-          },
-          "clientSecret": {
-            "minLength": 16,
-            "type": "string",
-            "writeOnly": true
-          },
-          "grantTypes": {
-            "items": {
-              "enum": [
-                "authorization_code",
-                "refresh_token"
-              ],
-              "type": "string"
+        "allOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "accessTokenTtlSeconds": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "allowedGrantTypes": {
+                "items": {
+                  "enum": [
+                    "authorization_code",
+                    "refresh_token"
+                  ],
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              "allowedScopes": {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              "clientId": {
+                "type": "string"
+              },
+              "clientSecret": {
+                "minLength": 16,
+                "type": "string",
+                "writeOnly": true
+              },
+              "clientType": {
+                "enum": [
+                  "public",
+                  "confidential"
+                ],
+                "type": "string"
+              },
+              "grantTypes": {
+                "deprecated": true,
+                "description": "Deprecated request alias retained for 0.1.x compatibility; use allowedGrantTypes.",
+                "items": {
+                  "enum": [
+                    "authorization_code",
+                    "refresh_token"
+                  ],
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              "idTokenTtlSeconds": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "postLogoutRedirectUris": {
+                "description": "Absolute HTTP or HTTPS post-logout redirect URIs. HTTPS is recommended for production deployments.",
+                "items": {
+                  "format": "uri",
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "providerId": {
+                "type": "string"
+              },
+              "redirectUriRegexes": {
+                "description": "RE2 regular expressions matched against the complete absolute HTTP or HTTPS redirect URI. At least one redirectUris or redirectUriRegexes entry is required.",
+                "items": {
+                  "maxLength": 2048,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "maxItems": 100,
+                "type": "array"
+              },
+              "redirectUris": {
+                "description": "Strict-match absolute HTTP or HTTPS redirect URIs. At least one redirectUris or redirectUriRegexes entry is required. HTTPS is recommended for production deployments.",
+                "items": {
+                  "format": "uri",
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "refreshTokenTtlSeconds": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "requirePkce": {
+                "type": "boolean"
+              },
+              "status": {
+                "$ref": "#/components/schemas/IdentityResourceStatus"
+              }
             },
-            "minItems": 1,
-            "type": "array"
+            "required": [
+              "clientId"
+            ],
+            "type": "object"
           },
-          "providerId": {
-            "type": "string"
-          },
-          "redirectUris": {
-            "items": {
-              "format": "uri",
-              "type": "string"
-            },
-            "minItems": 1,
-            "type": "array"
-          },
-          "status": {
-            "$ref": "#/components/schemas/IdentityResourceStatus"
+          {
+            "anyOf": [
+              {
+                "properties": {
+                  "redirectUris": {
+                    "items": {
+                      "format": "uri",
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "redirectUris"
+                ],
+                "type": "object"
+              },
+              {
+                "properties": {
+                  "redirectUriRegexes": {
+                    "items": {
+                      "maxLength": 2048,
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "redirectUriRegexes"
+                ],
+                "type": "object"
+              }
+            ]
           }
-        },
-        "required": [
-          "providerId",
-          "clientId",
-          "redirectUris",
-          "grantTypes",
-          "status"
-        ],
-        "type": "object"
+        ]
       },
       "OIDCClientListEnvelope": {
         "additionalProperties": false,
@@ -34794,6 +36142,7 @@
         "additionalProperties": false,
         "properties": {
           "acsUrls": {
+            "description": "Absolute HTTP or HTTPS assertion consumer service URLs. HTTPS is recommended for production deployments.",
             "items": {
               "format": "uri",
               "type": "string"
@@ -34847,6 +36196,7 @@
         "additionalProperties": false,
         "properties": {
           "acsUrls": {
+            "description": "Absolute HTTP or HTTPS assertion consumer service URLs. HTTPS is recommended for production deployments.",
             "items": {
               "format": "uri",
               "type": "string"
@@ -34883,6 +36233,263 @@
           "attributeMappings"
         ],
         "type": "object"
+      },
+      "ScopeGrant": {
+        "additionalProperties": false,
+        "properties": {
+          "applicationIds": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "businessLineId": {
+            "description": "Required for legacy and delivery grants; empty for platform grants.",
+            "type": "string"
+          },
+          "clusterIds": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "effect": {
+            "$ref": "#/components/schemas/ScopeGrantEffect"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "environmentIds": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "namespaces": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "namespaceSelector": {
+            "type": "string"
+          },
+          "resourceGroups": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "resourceKinds": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "role": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "scopeType": {
+            "$ref": "#/components/schemas/ScopeGrantType"
+          },
+          "subjectId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectType": {
+            "$ref": "#/components/schemas/ScopeGrantSubjectType"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "subjectType",
+          "subjectId",
+          "businessLineId",
+          "scopeType",
+          "role",
+          "effect",
+          "enabled",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "ScopeGrantEffect": {
+        "enum": [
+          "allow",
+          "deny"
+        ],
+        "type": "string"
+      },
+      "ScopeGrantEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ScopeGrant"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "ScopeGrantInput": {
+        "additionalProperties": false,
+        "properties": {
+          "applicationIds": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "businessLineId": {
+            "description": "Required when scopeType is legacy or delivery.",
+            "type": "string"
+          },
+          "clusterIds": {
+            "description": "Required when scopeType is platform.",
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "effect": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ScopeGrantEffect"
+              }
+            ],
+            "default": "allow"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "environmentIds": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "namespaces": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "namespaceSelector": {
+            "type": "string"
+          },
+          "resourceGroups": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "resourceKinds": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "role": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "scopeType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ScopeGrantType"
+              }
+            ],
+            "default": "legacy"
+          },
+          "subjectId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectType": {
+            "$ref": "#/components/schemas/ScopeGrantSubjectType"
+          }
+        },
+        "required": [
+          "subjectType",
+          "subjectId",
+          "role",
+          "enabled"
+        ],
+        "type": "object"
+      },
+      "ScopeGrantListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ScopeGrant"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "ScopeGrantSubjectType": {
+        "enum": [
+          "user",
+          "team"
+        ],
+        "type": "string"
+      },
+      "ScopeGrantType": {
+        "enum": [
+          "legacy",
+          "delivery",
+          "platform"
+        ],
+        "type": "string"
       },
       "SecretBinding": {
         "additionalProperties": false,
@@ -36791,6 +38398,9 @@
             "type": "string"
           },
           "sidebarTitle": {
+            "type": "string"
+          },
+          "slogan": {
             "type": "string"
           }
         },
@@ -39478,7 +41088,7 @@
   "info": {
     "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery.\n",
     "title": "Soha API",
-    "version": "0.1.9"
+    "version": "0.1.10"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -39800,6 +41410,140 @@
         "tags": [
           "Access"
         ]
+      }
+    },
+    "/access/scope-grants": {
+      "get": {
+        "operationId": "listScopeGrants",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScopeGrantListEnvelope"
+                }
+              }
+            },
+            "description": "Resource scope grants."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
+        ],
+        "x-soha-implementation-status": "implemented"
+      },
+      "post": {
+        "operationId": "createScopeGrant",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScopeGrantInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScopeGrantEnvelope"
+                }
+              }
+            },
+            "description": "Created resource scope grant."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/access/scope-grants/{scopeGrantID}": {
+      "delete": {
+        "operationId": "deleteScopeGrant",
+        "responses": {
+          "204": {
+            "description": "Resource scope grant deleted."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
+        ],
+        "x-soha-implementation-status": "implemented"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/ScopeGrantID"
+        }
+      ],
+      "put": {
+        "operationId": "updateScopeGrant",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScopeGrantInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScopeGrantEnvelope"
+                }
+              }
+            },
+            "description": "Updated resource scope grant."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
+        ],
+        "x-soha-implementation-status": "implemented"
       }
     },
     "/agent-sessions/connect": {
@@ -55289,6 +57033,45 @@
         ]
       }
     },
+    "/docker/agent-installations/{installTicket}/install.sh": {
+      "get": {
+        "operationId": "downloadDockerHostAgentInstaller",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "installTicket",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "text/x-shellscript": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Short-lived Linux shell installer for the selected Docker host Agent."
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "security": [],
+        "tags": [
+          "Docker"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
     "/docker/containers/start": {
       "post": {
         "operationId": "startDockerContainer",
@@ -55322,6 +57105,50 @@
         "tags": [
           "Docker"
         ]
+      }
+    },
+    "/docker/hosts/{dockerHostID}/agent-installation": {
+      "post": {
+        "operationId": "createDockerHostAgentInstallation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dockerHostID",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DockerHostAgentInstallationEnvelope"
+                }
+              }
+            },
+            "description": "Short-lived shell installer URL and command for connecting an existing Linux Docker host."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Docker"
+        ],
+        "x-soha-implementation-status": "implemented"
       }
     },
     "/docker/hosts/quick-create": {
@@ -56156,6 +57983,7 @@
     },
     "/identity/oidc-clients": {
       "get": {
+        "deprecated": true,
         "operationId": "listIdentityOIDCClients",
         "responses": {
           "200": {
@@ -56166,7 +57994,7 @@
                 }
               }
             },
-            "description": "Identity OIDC clients."
+            "description": "Identity OIDC clients across providers."
           }
         },
         "tags": [
@@ -56174,6 +58002,7 @@
         ]
       },
       "post": {
+        "deprecated": true,
         "operationId": "createIdentityOIDCClient",
         "requestBody": {
           "content": {
@@ -56194,7 +58023,7 @@
                 }
               }
             },
-            "description": "Created OIDC client."
+            "description": "Created OIDC client without the one-time client secret."
           },
           "400": {
             "$ref": "#/components/responses/IdentityError"
@@ -56822,6 +58651,103 @@
               }
             },
             "description": "Updated identity provider."
+          },
+          "400": {
+            "$ref": "#/components/responses/IdentityError"
+          },
+          "404": {
+            "$ref": "#/components/responses/IdentityError"
+          }
+        },
+        "tags": [
+          "Identity"
+        ]
+      }
+    },
+    "/identity/providers/{identityProviderID}/oidc-clients": {
+      "get": {
+        "operationId": "listIdentityProviderOIDCClients",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OIDCClientListEnvelope"
+                }
+              }
+            },
+            "description": "Identity OIDC clients."
+          }
+        },
+        "tags": [
+          "Identity"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/IdentityProviderID"
+        }
+      ],
+      "post": {
+        "operationId": "createIdentityProviderOIDCClient",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OIDCClientInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OIDCClientCreatedEnvelope"
+                }
+              }
+            },
+            "description": "Created OIDC client."
+          },
+          "400": {
+            "$ref": "#/components/responses/IdentityError"
+          }
+        },
+        "tags": [
+          "Identity"
+        ]
+      }
+    },
+    "/identity/providers/{identityProviderID}/saml/certificate/rotate": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/IdentityProviderID"
+        }
+      ],
+      "post": {
+        "operationId": "rotateIdentityProviderSAMLCertificate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SAMLCertificateRotateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SAMLCertificateRotationEnvelope"
+                }
+              }
+            },
+            "description": "Active and retiring public certificate summaries."
           },
           "400": {
             "$ref": "#/components/responses/IdentityError"
@@ -57492,6 +59418,199 @@
         ]
       }
     },
+    "/menus": {
+      "get": {
+        "operationId": "listMenus",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MenuListEnvelope"
+                }
+              }
+            },
+            "description": "Complete menu tree for administration."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "System"
+        ],
+        "x-soha-implementation-status": "implemented"
+      },
+      "post": {
+        "operationId": "createMenu",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MenuInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MenuEnvelope"
+                }
+              }
+            },
+            "description": "Created menu."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "System"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/menus/{menuID}": {
+      "delete": {
+        "operationId": "deleteMenu",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MenuDeleteResult"
+                }
+              }
+            },
+            "description": "Menu deleted."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "System"
+        ],
+        "x-soha-implementation-status": "implemented"
+      },
+      "get": {
+        "operationId": "getMenu",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MenuEnvelope"
+                }
+              }
+            },
+            "description": "Menu detail."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "System"
+        ],
+        "x-soha-implementation-status": "implemented"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/MenuID"
+        }
+      ],
+      "put": {
+        "operationId": "updateMenu",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MenuInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MenuEnvelope"
+                }
+              }
+            },
+            "description": "Updated menu."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "System"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/menus/visible": {
+      "get": {
+        "operationId": "listVisibleMenus",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MenuListEnvelope"
+                }
+              }
+            },
+            "description": "Menu tree visible to the authenticated principal."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "System"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
     "/observability/dashboards": {
       "get": {
         "operationId": "listObservabilityDashboards",
@@ -57799,6 +59918,37 @@
         ]
       }
     },
+    "/observability/metrics/catalog": {
+      "get": {
+        "operationId": "listObservabilityMetricCatalog",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ObservabilityDataSourceIDQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObservabilityMetricCatalogEnvelope"
+                }
+              }
+            },
+            "description": "Semantic metric definitions supported by the configured metrics provider."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Observability"
+        ]
+      }
+    },
     "/observability/metrics/data-sources": {
       "get": {
         "operationId": "listObservabilityMetricDataSources",
@@ -57879,6 +60029,171 @@
             "description": "Enabled built-in and plugin observability providers with signal capabilities."
           },
           "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Observability"
+        ]
+      }
+    },
+    "/observability/services": {
+      "get": {
+        "operationId": "listObservabilityServices",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ObservabilityDataSourceIDQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityClusterIDQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityEnvironmentQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityNamespaceQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityServiceQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityTimeFromQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityTimeToQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObservabilityServiceListEnvelope"
+                }
+              }
+            },
+            "description": "OTel-identified services from the configured SkyWalking OAP provider."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "502": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Observability"
+        ]
+      }
+    },
+    "/observability/services/{serviceID}": {
+      "get": {
+        "operationId": "getObservabilityService",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ServiceID"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityDataSourceIDQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityClusterIDQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityEnvironmentQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityNamespaceQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityTimeFromQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityTimeToQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObservabilityServiceEnvelope"
+                }
+              }
+            },
+            "description": "Service identity, instances and endpoints from the configured SkyWalking OAP provider."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "502": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Observability"
+        ]
+      }
+    },
+    "/observability/services/{serviceID}/topology": {
+      "get": {
+        "operationId": "getObservabilityServiceTopology",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ServiceID"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityDataSourceIDQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityClusterIDQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityEnvironmentQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityNamespaceQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityTimeFromQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ObservabilityTimeToQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObservabilityTopologyEnvelope"
+                }
+              }
+            },
+            "description": "Beta dependency graph for one service from the configured SkyWalking OAP provider."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "502": {
             "$ref": "#/components/responses/Error"
           }
         },

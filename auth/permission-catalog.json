@@ -1,7 +1,7 @@
 {
   "schemaVersion": "authorization.opensoha.io/v1",
-  "catalogVersion": "1.3.0",
-  "contentHash": "sha256:fe738c69a160e58cf919ce6de8380d6427be6f8848cabad7d807ec82fdea8a3b",
+  "catalogVersion": "2.0.0",
+  "contentHash": "sha256:82626eb53d9cd6b53ee502ae32285392c672f7f186a7dbefb42bf1f700d67e98",
   "permissions": [
     {
       "key": "access.directory.create",
@@ -5472,8 +5472,7 @@
       "status": "active",
       "assignable": true,
       "legacyAliases": [
-        "platform.rbac.manage",
-        "platform.resource.create"
+        "platform.rbac.manage"
       ],
       "legacyCapabilities": [
         "create"
@@ -5558,8 +5557,7 @@
       "status": "active",
       "assignable": true,
       "legacyAliases": [
-        "platform.rbac.manage",
-        "platform.resource.create"
+        "platform.rbac.manage"
       ],
       "legacyCapabilities": [
         "create"
@@ -5644,8 +5642,7 @@
       "status": "active",
       "assignable": true,
       "legacyAliases": [
-        "platform.rbac.manage",
-        "platform.resource.create"
+        "platform.rbac.manage"
       ],
       "legacyCapabilities": [
         "create"
@@ -5730,8 +5727,7 @@
       "status": "active",
       "assignable": true,
       "legacyAliases": [
-        "platform.rbac.manage",
-        "platform.resource.create"
+        "platform.rbac.manage"
       ],
       "legacyCapabilities": [
         "create"
@@ -5816,8 +5812,7 @@
       "status": "active",
       "assignable": true,
       "legacyAliases": [
-        "platform.rbac.manage",
-        "platform.resource.create"
+        "platform.rbac.manage"
       ],
       "legacyCapabilities": [
         "create"
@@ -5974,9 +5969,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -6051,9 +6043,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -6131,9 +6120,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -6211,9 +6197,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -6291,9 +6274,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -6372,8 +6352,7 @@
       "status": "active",
       "assignable": true,
       "legacyAliases": [
-        "platform.admission.manage",
-        "platform.resource.create"
+        "platform.admission.manage"
       ],
       "legacyCapabilities": [
         "create"
@@ -6458,9 +6437,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -6539,8 +6515,7 @@
       "status": "active",
       "assignable": true,
       "legacyAliases": [
-        "platform.cluster-resources.manage",
-        "platform.resource.create"
+        "platform.cluster-resources.manage"
       ],
       "legacyCapabilities": [
         "create"
@@ -6625,9 +6600,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -6705,9 +6677,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -6802,9 +6771,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -6883,8 +6849,7 @@
       "status": "active",
       "assignable": true,
       "legacyAliases": [
-        "platform.admission.manage",
-        "platform.resource.create"
+        "platform.admission.manage"
       ],
       "legacyCapabilities": [
         "create"
@@ -7139,8 +7104,7 @@
       "status": "active",
       "assignable": true,
       "legacyAliases": [
-        "platform.crds.manage",
-        "platform.resource.create"
+        "platform.crds.manage"
       ],
       "legacyCapabilities": [
         "create"
@@ -7205,9 +7169,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -7282,9 +7243,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -7377,8 +7335,7 @@
       "status": "active",
       "assignable": true,
       "legacyAliases": [
-        "platform.namespaces.manage",
-        "platform.resource.create"
+        "platform.namespaces.manage"
       ],
       "legacyCapabilities": [
         "create"
@@ -7502,9 +7459,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -7582,9 +7536,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -7662,9 +7613,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -7782,9 +7730,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -7862,9 +7807,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -7942,9 +7884,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -8022,9 +7961,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -8103,9 +8039,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -8494,11 +8427,11 @@
       ]
     },
     {
-      "key": "platform.resource.create",
+      "key": "platform.resource-creation.use",
       "domain": "platform",
-      "resource": "resource",
-      "action": "create",
-      "displayName": "创建 Kubernetes 资源",
+      "resource": "resource-creation",
+      "action": "use",
+      "displayName": "使用 Kubernetes YAML 创建器",
       "riskLevel": "mutate",
       "scopeKinds": [
         "workspace",
@@ -8507,48 +8440,8 @@
         "resource"
       ],
       "approvalPolicy": "never",
-      "status": "legacy",
-      "assignable": false,
-      "replacedBy": [
-        "platform.access-control.cluster-role-bindings.create",
-        "platform.access-control.cluster-roles.create",
-        "platform.access-control.role-bindings.create",
-        "platform.access-control.roles.create",
-        "platform.access-control.service-accounts.create",
-        "platform.clusters.create",
-        "platform.configuration.config-maps.create",
-        "platform.configuration.horizontal-pod-autoscalers.create",
-        "platform.configuration.leases.create",
-        "platform.configuration.limit-ranges.create",
-        "platform.configuration.mutating-webhook-configurations.create",
-        "platform.configuration.pod-disruption-budgets.create",
-        "platform.configuration.priority-classes.create",
-        "platform.configuration.resource-quotas.create",
-        "platform.configuration.runtime-classes.create",
-        "platform.configuration.secrets.create",
-        "platform.configuration.validating-webhook-configurations.create",
-        "platform.extensions.crds.create",
-        "platform.extensions.custom-resources.create",
-        "platform.helm.releases.create",
-        "platform.namespaces.create",
-        "platform.network.endpoint-slices.create",
-        "platform.network.gateway-classes.create",
-        "platform.network.gateways.create",
-        "platform.network.ingress-classes.create",
-        "platform.network.ingresses.create",
-        "platform.network.network-policies.create",
-        "platform.network.port-forwards.create",
-        "platform.network.services.create",
-        "platform.storage.persistent-volume-claims.create",
-        "platform.storage.persistent-volumes.create",
-        "platform.storage.storage-classes.create",
-        "platform.workloads.cron-jobs.create",
-        "platform.workloads.daemon-sets.create",
-        "platform.workloads.jobs.create",
-        "platform.workloads.replica-sets.create",
-        "platform.workloads.replication-controllers.create",
-        "platform.workloads.stateful-sets.create"
-      ]
+      "status": "active",
+      "assignable": true
     },
     {
       "key": "platform.storage.persistent-volume-claims.create",
@@ -8565,9 +8458,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -8645,9 +8535,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -8726,8 +8613,7 @@
       "status": "active",
       "assignable": true,
       "legacyAliases": [
-        "platform.cluster-resources.manage",
-        "platform.resource.create"
+        "platform.cluster-resources.manage"
       ],
       "legacyCapabilities": [
         "create"
@@ -8834,9 +8720,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -8933,9 +8816,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -9032,9 +8912,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -9131,9 +9008,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -9211,9 +9085,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]
@@ -9272,9 +9143,6 @@
       "approvalPolicy": "never",
       "status": "active",
       "assignable": true,
-      "legacyAliases": [
-        "platform.resource.create"
-      ],
       "legacyCapabilities": [
         "create"
       ]

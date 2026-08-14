@@ -4,8 +4,32 @@
       "id": "dashboard:8b9f35ba-6870-4f34-b45f-6f601d8b8c35",
       "name": "Kubernetes Overview",
       "source": "grafana",
+      "sourceFormat": "classic",
       "sourceSchemaVersion": 39,
+      "rawJson": "{\"title\":\"Kubernetes Overview\"}",
       "tags": ["kubernetes"],
+      "variables": [
+        {
+          "name": "namespace",
+          "label": "Namespace",
+          "type": "custom",
+          "current": "default",
+          "options": ["default", "production"]
+        }
+      ],
+      "dataSourceBindings": [
+        {
+          "type": "prometheus",
+          "uid": "prom",
+          "dataSourceId": "prometheus-main"
+        }
+      ],
+      "importWarnings": [
+        {
+          "code": "datasource_rebound",
+          "message": "Grafana data-source prom is mapped to prometheus-main."
+        }
+      ],
       "panels": [
         {
           "id": "1",
@@ -15,7 +39,10 @@
           "targets": [
             {
               "refId": "A",
-              "expression": "sum(rate(container_cpu_usage_seconds_total[5m]))"
+              "expression": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$namespace\"}[5m]))",
+              "dataSourceType": "prometheus",
+              "dataSourceUid": "prom",
+              "dataSourceId": "prometheus-main"
             }
           ],
           "queryable": true

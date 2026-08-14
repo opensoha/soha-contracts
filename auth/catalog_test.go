@@ -51,3 +51,38 @@ func TestPermissionCatalogIncludesVirtualizationStorageView(t *testing.T) {
 	}
 	t.Fatal("virtualization.storage.view is missing")
 }
+
+func TestPermissionCatalogIncludesIndependentResourceCreationEntry(t *testing.T) {
+	var catalog struct {
+		Permissions []struct {
+			Key           string   `json:"key"`
+			Status        string   `json:"status"`
+			Assignable    bool     `json:"assignable"`
+			LegacyAliases []string `json:"legacyAliases"`
+		} `json:"permissions"`
+	}
+	if err := json.Unmarshal(PermissionCatalogJSON(), &catalog); err != nil {
+		t.Fatalf("decode permission catalog: %v", err)
+	}
+
+	found := false
+	for _, permission := range catalog.Permissions {
+		if permission.Key == "platform.resource.create" {
+			t.Fatal("retired platform.resource.create definition is still present")
+		}
+		for _, alias := range permission.LegacyAliases {
+			if alias == "platform.resource.create" {
+				t.Fatalf("retired platform.resource.create alias remains on %s", permission.Key)
+			}
+		}
+		if permission.Key == "platform.resource-creation.use" {
+			found = true
+			if permission.Status != "active" || !permission.Assignable {
+				t.Fatalf("resource creation entry must be independently assignable: %#v", permission)
+			}
+		}
+	}
+	if !found {
+		t.Fatal("platform.resource-creation.use is missing")
+	}
+}

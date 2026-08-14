@@ -1,6 +1,6 @@
 module github.com/opensoha/soha-contracts
 
-go 1.26.5
+go 1.26.6
 
 require (
 	github.com/oapi-codegen/runtime v1.4.2

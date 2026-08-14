@@ -2033,6 +2033,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/docker/hosts/{dockerHostID}/agent-installation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createDockerHostAgentInstallation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/agent-installations/{installTicket}/install.sh": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["downloadDockerHostAgentInstaller"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/docker/hosts/quick-create/plan": {
         parameters: {
             query?: never;
@@ -4298,6 +4330,70 @@ export interface paths {
             cookie?: never;
         };
         get: operations["listObservabilityMetricDataSources"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/observability/metrics/catalog": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listObservabilityMetricCatalog"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/observability/services": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listObservabilityServices"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/observability/services/{serviceID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getObservabilityService"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/observability/services/{serviceID}/topology": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getObservabilityServiceTopology"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6914,6 +7010,56 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/menus": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listMenus"];
+        put?: never;
+        post: operations["createMenu"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/menus/visible": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listVisibleMenus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/menus/{menuID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                menuID: components["parameters"]["MenuID"];
+            };
+            cookie?: never;
+        };
+        get: operations["getMenu"];
+        put: operations["updateMenu"];
+        post?: never;
+        delete: operations["deleteMenu"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/access/permissions": {
         parameters: {
             query?: never;
@@ -6959,6 +7105,40 @@ export interface paths {
         put: operations["updateAccessRole"];
         post?: never;
         delete: operations["deleteAccessRole"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/access/scope-grants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listScopeGrants"];
+        put?: never;
+        post: operations["createScopeGrant"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/access/scope-grants/{scopeGrantID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                scopeGrantID: components["parameters"]["ScopeGrantID"];
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateScopeGrant"];
+        post?: never;
+        delete: operations["deleteScopeGrant"];
         options?: never;
         head?: never;
         patch?: never;
@@ -7048,6 +7228,24 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/identity/providers/{identityProviderID}/saml/certificate/rotate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityProviderID: components["parameters"]["IdentityProviderID"];
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["rotateIdentityProviderSAMLCertificate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/identity/policies": {
         parameters: {
             query?: never;
@@ -7123,9 +7321,29 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** @deprecated */
         get: operations["listIdentityOIDCClients"];
         put?: never;
+        /** @deprecated */
         post: operations["createIdentityOIDCClient"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/providers/{identityProviderID}/oidc-clients": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityProviderID: components["parameters"]["IdentityProviderID"];
+            };
+            cookie?: never;
+        };
+        get: operations["listIdentityProviderOIDCClients"];
+        put?: never;
+        post: operations["createIdentityProviderOIDCClient"];
         delete?: never;
         options?: never;
         head?: never;
@@ -7682,8 +7900,25 @@ export interface components {
             id: string;
             providerId: string;
             clientId: string;
+            /** @enum {string} */
+            clientType?: "public" | "confidential";
+            /** @description Strict-match absolute HTTP or HTTPS redirect URIs. HTTPS is recommended for production deployments. */
             redirectUris: string[];
+            /**
+             * @deprecated
+             * @description Deprecated response alias retained for 0.1.x compatibility; use allowedGrantTypes.
+             */
             grantTypes: ("authorization_code" | "refresh_token")[];
+            /** @description RE2 regular expressions matched against the complete absolute HTTP or HTTPS redirect URI. Evaluated in addition to redirectUris. */
+            redirectUriRegexes?: string[];
+            /** @description Absolute HTTP or HTTPS post-logout redirect URIs. HTTPS is recommended for production deployments. */
+            postLogoutRedirectUris?: string[];
+            allowedScopes?: string[];
+            allowedGrantTypes?: ("authorization_code" | "refresh_token")[];
+            requirePkce?: boolean;
+            accessTokenTtlSeconds?: number;
+            idTokenTtlSeconds?: number;
+            refreshTokenTtlSeconds?: number;
             status: components["schemas"]["IdentityResourceStatus"];
             /** Format: date-time */
             createdAt: string;
@@ -7691,12 +7926,40 @@ export interface components {
             updatedAt: string;
         };
         OIDCClientInput: {
-            providerId: string;
+            providerId?: string;
             clientId: string;
+            /** @enum {string} */
+            clientType?: "public" | "confidential";
             clientSecret?: string;
+            /** @description Strict-match absolute HTTP or HTTPS redirect URIs. At least one redirectUris or redirectUriRegexes entry is required. HTTPS is recommended for production deployments. */
+            redirectUris?: string[];
+            /** @description RE2 regular expressions matched against the complete absolute HTTP or HTTPS redirect URI. At least one redirectUris or redirectUriRegexes entry is required. */
+            redirectUriRegexes?: string[];
+            /** @description Absolute HTTP or HTTPS post-logout redirect URIs. HTTPS is recommended for production deployments. */
+            postLogoutRedirectUris?: string[];
+            allowedScopes?: string[];
+            /**
+             * @deprecated
+             * @description Deprecated request alias retained for 0.1.x compatibility; use allowedGrantTypes.
+             */
+            grantTypes?: ("authorization_code" | "refresh_token")[];
+            allowedGrantTypes?: ("authorization_code" | "refresh_token")[];
+            requirePkce?: boolean;
+            accessTokenTtlSeconds?: number;
+            idTokenTtlSeconds?: number;
+            refreshTokenTtlSeconds?: number;
+            status?: components["schemas"]["IdentityResourceStatus"];
+        } & ({
             redirectUris: string[];
-            grantTypes: ("authorization_code" | "refresh_token")[];
-            status: components["schemas"]["IdentityResourceStatus"];
+        } | {
+            redirectUriRegexes: string[];
+        });
+        OIDCClientCreated: {
+            client: components["schemas"]["OIDCClient"];
+            clientSecret?: string;
+        };
+        OIDCClientCreatedEnvelope: {
+            data: components["schemas"]["OIDCClientCreated"];
         };
         OIDCClientEnvelope: {
             data: components["schemas"]["OIDCClient"];
@@ -7706,6 +7969,7 @@ export interface components {
         };
         SAMLServiceProvider: {
             entityId: string;
+            /** @description Absolute HTTP or HTTPS assertion consumer service URLs. HTTPS is recommended for production deployments. */
             acsUrls: string[];
             nameIdFormat: components["schemas"]["SAMLNameIDFormat"];
             spCertificates?: components["schemas"]["CertificateSummary"][];
@@ -7716,6 +7980,7 @@ export interface components {
         };
         SAMLServiceProviderInput: {
             entityId: string;
+            /** @description Absolute HTTP or HTTPS assertion consumer service URLs. HTTPS is recommended for production deployments. */
             acsUrls: string[];
             nameIdFormat: components["schemas"]["SAMLNameIDFormat"];
             spCertificatePem?: string;
@@ -7728,12 +7993,18 @@ export interface components {
             name: string;
             type: components["schemas"]["IdentityProviderType"];
             enabled: boolean;
+            /** @description Non-secret provider configuration. */
             config?: {
                 [key: string]: unknown;
             };
-            secretRefs?: {
+            /**
+             * @deprecated
+             * @description Deprecated response field retained for 0.1.x SDK compatibility; current servers omit it.
+             */
+            readonly secretRefs?: {
                 [key: string]: unknown;
             };
+            readonly configuredSecretAliases?: string[];
             status: components["schemas"]["IdentityResourceStatus"];
             createdBy?: string;
             updatedBy?: string;
@@ -7750,9 +8021,8 @@ export interface components {
             config: {
                 [key: string]: unknown;
             };
-            secretRefs: {
-                [key: string]: unknown;
-            };
+            /** @description Omit on update to preserve existing references; send an empty object to clear them. */
+            secretRefs?: components["schemas"]["SecretReferenceMap"];
             status: components["schemas"]["IdentityResourceStatus"];
         };
         IdentityProviderEnvelope: {
@@ -8476,6 +8746,41 @@ export interface components {
         GenericItemsEnvelope: {
             items: components["schemas"]["AnyValue"][];
         };
+        Menu: {
+            id: string;
+            parentId?: string;
+            path: string;
+            labelZh: string;
+            labelEn: string;
+            iconKey: string;
+            section: string;
+            sortOrder: number;
+            enabled: boolean;
+            roleIds?: string[];
+            children?: components["schemas"]["Menu"][];
+        };
+        MenuInput: {
+            id?: string;
+            parentId?: string | null;
+            path: string;
+            labelZh: string;
+            labelEn: string;
+            iconKey: string;
+            section?: string;
+            sortOrder?: number;
+            enabled?: boolean;
+            roleIds?: string[];
+        };
+        MenuEnvelope: {
+            data: components["schemas"]["Menu"];
+        };
+        MenuListEnvelope: {
+            items: components["schemas"]["Menu"][];
+        };
+        MenuDeleteResult: {
+            /** @constant */
+            status: "ok";
+        };
         /** @enum {string} */
         PermissionRiskLevel: "read" | "mutate" | "execute" | "high";
         /** @enum {string} */
@@ -8542,6 +8847,61 @@ export interface components {
         AccessRoleDeleteResult: {
             /** @constant */
             status: "ok";
+        };
+        /** @enum {string} */
+        ScopeGrantSubjectType: "user" | "team";
+        /** @enum {string} */
+        ScopeGrantType: "legacy" | "delivery" | "platform";
+        /** @enum {string} */
+        ScopeGrantEffect: "allow" | "deny";
+        ScopeGrant: {
+            id: string;
+            subjectType: components["schemas"]["ScopeGrantSubjectType"];
+            subjectId: string;
+            /** @description Required for legacy and delivery grants; empty for platform grants. */
+            businessLineId: string;
+            environmentIds?: string[];
+            applicationIds?: string[];
+            scopeType: components["schemas"]["ScopeGrantType"];
+            clusterIds?: string[];
+            namespaces?: string[];
+            namespaceSelector?: string;
+            resourceGroups?: string[];
+            resourceKinds?: string[];
+            role: string;
+            effect: components["schemas"]["ScopeGrantEffect"];
+            enabled: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ScopeGrantInput: {
+            id?: string;
+            subjectType: components["schemas"]["ScopeGrantSubjectType"];
+            subjectId: string;
+            /** @description Required when scopeType is legacy or delivery. */
+            businessLineId?: string;
+            environmentIds?: string[];
+            applicationIds?: string[];
+            /** @default legacy */
+            scopeType: components["schemas"]["ScopeGrantType"];
+            /** @description Required when scopeType is platform. */
+            clusterIds?: string[];
+            namespaces?: string[];
+            namespaceSelector?: string;
+            resourceGroups?: string[];
+            resourceKinds?: string[];
+            role: string;
+            /** @default allow */
+            effect: components["schemas"]["ScopeGrantEffect"];
+            enabled: boolean;
+        };
+        ScopeGrantEnvelope: {
+            data: components["schemas"]["ScopeGrant"];
+        };
+        ScopeGrantListEnvelope: {
+            items: components["schemas"]["ScopeGrant"][];
         };
         /** @enum {string} */
         AuthorizationDecisionStatus: "allow" | "deny" | "approval_required";
@@ -10088,6 +10448,7 @@ export interface components {
         BrandingSettings: {
             appTitle: string;
             sidebarTitle: string;
+            slogan?: string;
             loginLogoUrl: string;
             expandedLogoUrl: string;
             collapsedLogoUrl: string;
@@ -10099,6 +10460,7 @@ export interface components {
         UpdateBrandingSettingsRequest: {
             appTitle: string;
             sidebarTitle: string;
+            slogan?: string;
             loginLogoUrl: string;
             expandedLogoUrl: string;
             collapsedLogoUrl: string;
@@ -10439,6 +10801,7 @@ export interface components {
             iconUrl?: string;
         };
         LoginOptions: {
+            branding?: components["schemas"]["BrandingSettings"];
             localPasswordLoginEnabled?: boolean;
             verification: {
                 sliderEnabled: boolean;
@@ -14865,12 +15228,26 @@ export interface components {
         AgentInstallationEnvelope: {
             data: components["schemas"]["AgentInstallation"];
         };
+        DockerHostAgentInstallation: {
+            hostId: string;
+            operationId: string;
+            /** Format: uri */
+            scriptUrl: string;
+            command: string;
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        DockerHostAgentInstallationEnvelope: {
+            data: components["schemas"]["DockerHostAgentInstallation"];
+        };
         /** @enum {string} */
         ObservabilityProviderSignal: "logs" | "metrics" | "traces" | "profiles";
         /** @enum {string} */
         ObservabilityProviderRuntimeMode: "builtin" | "external-http" | "managed-container";
         /** @enum {string} */
         ObservabilityProviderStatus: "supported" | "degraded" | "unsupported";
+        /** @enum {string} */
+        ObservabilityProviderRuntimeStatus: "unconfigured" | "unknown" | "healthy" | "degraded" | "failed" | "unsupported";
         ObservabilityProviderDefinition: {
             /** @description Required when backendType is provider. */
             providerKey: string;
@@ -14883,6 +15260,12 @@ export interface components {
             builtIn: boolean;
             status: components["schemas"]["ObservabilityProviderStatus"];
             statusReason?: string;
+            /** @description True when at least one enabled data source is configured for this provider. */
+            configured?: boolean;
+            runtimeStatus?: components["schemas"]["ObservabilityProviderRuntimeStatus"];
+            runtimeStatusReason?: string;
+            /** Format: date-time */
+            lastValidatedAt?: string;
             pluginId?: string;
             configSchemaRef?: string;
         };
@@ -14892,7 +15275,9 @@ export interface components {
         /** @enum {string} */
         ObservabilityDashboardSource: "grafana";
         /** @enum {string} */
-        ObservabilityDashboardPanelType: "timeseries" | "stat" | "text" | "row";
+        ObservabilityDashboardSourceFormat: "classic" | "v1";
+        /** @enum {string} */
+        ObservabilityDashboardPanelType: "timeseries" | "table" | "stat" | "gauge" | "text" | "row" | "unsupported";
         ObservabilityDashboardPanelLayout: {
             x: number;
             y: number;
@@ -14903,6 +15288,9 @@ export interface components {
             refId: string;
             expression: string;
             legend?: string;
+            dataSourceType?: string;
+            dataSourceUid?: string;
+            dataSourceId?: string;
         };
         ObservabilityDashboardPanel: {
             id: string;
@@ -14912,15 +15300,39 @@ export interface components {
             targets: components["schemas"]["ObservabilityDashboardTarget"][];
             queryable: boolean;
             markdown?: string;
+            sourcePanelType?: string;
+            unsupported?: boolean;
+            /** @description Original Grafana panel JSON retained for unsupported renderers and never executed directly. */
+            rawJson?: string;
+        };
+        /** @enum {string} */
+        ObservabilityDashboardVariableType: "custom" | "constant";
+        ObservabilityDashboardVariable: {
+            name: string;
+            label?: string;
+            type: components["schemas"]["ObservabilityDashboardVariableType"];
+            current?: string;
+            options: string[];
+        };
+        ObservabilityDashboardDataSourceBinding: {
+            type: string;
+            uid?: string;
+            dataSourceId: string;
         };
         ObservabilityDashboard: {
             id: string;
             name: string;
             source: components["schemas"]["ObservabilityDashboardSource"];
+            sourceFormat?: components["schemas"]["ObservabilityDashboardSourceFormat"];
             sourceSchemaVersion?: number;
             dataSourceId?: string;
             tags: string[];
             panels: components["schemas"]["ObservabilityDashboardPanel"][];
+            variables?: components["schemas"]["ObservabilityDashboardVariable"][];
+            dataSourceBindings?: components["schemas"]["ObservabilityDashboardDataSourceBinding"][];
+            importWarnings?: components["schemas"]["ObservabilityDashboardImportWarning"][];
+            /** @description Original bounded Grafana import document. It is retained for fidelity and never executed directly. */
+            rawJson?: string;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -14967,12 +15379,86 @@ export interface components {
             timeTo: string;
             /** @default 60 */
             stepSeconds: number;
+            variables?: {
+                [key: string]: string;
+            };
         };
         ObservabilityQueryScope: {
+            workspaceId?: string;
             clusterId?: string;
+            environment?: string;
             namespace?: string;
             workload?: string;
             service?: string;
+        };
+        /** @enum {string} */
+        ObservabilitySignal: "metrics" | "traces" | "logs" | "events";
+        ObservabilityTimeRange: {
+            /** Format: date-time */
+            from: string;
+            /** Format: date-time */
+            to: string;
+            timezone?: string;
+        };
+        ObservabilityResourceIdentity: {
+            kind: string;
+            name: string;
+            uid?: string;
+        };
+        ObservabilityFilter: {
+            text?: string;
+            labels?: {
+                [key: string]: string;
+            };
+            traceId?: string;
+            spanId?: string;
+        };
+        ObservabilityContext: {
+            /** @enum {string} */
+            version: "v1";
+            scope: components["schemas"]["ObservabilityQueryScope"];
+            resource?: components["schemas"]["ObservabilityResourceIdentity"];
+            timeRange: components["schemas"]["ObservabilityTimeRange"];
+            filter?: components["schemas"]["ObservabilityFilter"];
+            /** @description True when authorization narrowed the requested scope. */
+            readonly scopeRestricted?: boolean;
+        };
+        /** @enum {string} */
+        ObservabilityQueryLanguage: "metric_key" | "promql" | "logql" | "elasticsearch" | "clickhouse_sql" | "trace_filter" | "event_filter";
+        ObservabilityQuerySnapshot: {
+            /** @enum {string} */
+            version: "v1";
+            signal: components["schemas"]["ObservabilitySignal"];
+            dataSourceId?: string;
+            backendType?: string;
+            context: components["schemas"]["ObservabilityContext"];
+            queryLanguage?: components["schemas"]["ObservabilityQueryLanguage"];
+            /** @description Provider-native query text. Soha does not translate arbitrary query languages. */
+            query?: string;
+            metricKey?: string;
+            traceId?: string;
+            spanId?: string;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        /** @enum {string} */
+        ObservabilityQueryState: "success" | "empty" | "partial" | "error" | "no_data" | "unsupported";
+        ObservabilityQueryError: {
+            code: string;
+            message: string;
+            retryable?: boolean;
+            sourceId?: string;
+        };
+        ObservabilityQueryResultMeta: {
+            state: components["schemas"]["ObservabilityQueryState"];
+            snapshot?: components["schemas"]["ObservabilityQuerySnapshot"];
+            /** Format: date-time */
+            observedAt?: string;
+            /** Format: int64 */
+            durationMs?: number;
+            scopeRestricted?: boolean;
+            warnings?: string[];
+            errors?: components["schemas"]["ObservabilityQueryError"][];
         };
         /** @enum {string} */
         ObservabilityMetricKey: "cpu_usage" | "memory_usage" | "restart_rate" | "error_rate" | "latency_p95";
@@ -15006,6 +15492,7 @@ export interface components {
             /** @enum {string} */
             backendType: "prometheus";
             series: components["schemas"]["ObservabilityMetricSeries"][];
+            meta?: components["schemas"]["ObservabilityQueryResultMeta"];
         };
         ObservabilityMetricQueryEnvelope: {
             data: components["schemas"]["ObservabilityMetricQueryResult"];
@@ -15045,9 +15532,95 @@ export interface components {
             summary: string;
             services: string[];
             spans: components["schemas"]["ObservabilityTraceSpan"][];
+            meta?: components["schemas"]["ObservabilityQueryResultMeta"];
         };
         ObservabilityTraceQueryEnvelope: {
             data: components["schemas"]["ObservabilityTraceQueryResult"];
+        };
+        /** @enum {string} */
+        ObservabilityServiceStatus: "healthy" | "degraded" | "unknown" | "unsupported";
+        ObservabilityServiceInstance: {
+            id: string;
+            name: string;
+            status: components["schemas"]["ObservabilityServiceStatus"];
+            /** Format: date-time */
+            lastSeenAt?: string;
+        };
+        ObservabilityServiceEndpoint: {
+            id: string;
+            name: string;
+            method?: string;
+            status: components["schemas"]["ObservabilityServiceStatus"];
+            /** Format: double */
+            requestRate?: number;
+            /** Format: double */
+            errorRate?: number;
+            /** Format: double */
+            latencyP95Ms?: number;
+        };
+        ObservabilityService: {
+            id: string;
+            name: string;
+            displayName?: string;
+            environment?: string;
+            namespace?: string;
+            clusterIds: string[];
+            status: components["schemas"]["ObservabilityServiceStatus"];
+            /** Format: double */
+            requestRate?: number;
+            /** Format: double */
+            errorRate?: number;
+            /** Format: double */
+            latencyP95Ms?: number;
+            /** Format: date-time */
+            lastSeenAt?: string;
+            instances: components["schemas"]["ObservabilityServiceInstance"][];
+            endpoints: components["schemas"]["ObservabilityServiceEndpoint"][];
+        };
+        ObservabilityServiceListEnvelope: {
+            items: components["schemas"]["ObservabilityService"][];
+            meta: components["schemas"]["ObservabilityQueryResultMeta"];
+        };
+        ObservabilityServiceEnvelope: {
+            data: components["schemas"]["ObservabilityService"];
+            meta: components["schemas"]["ObservabilityQueryResultMeta"];
+        };
+        ObservabilityTopologyNode: {
+            serviceId: string;
+            name: string;
+            status: components["schemas"]["ObservabilityServiceStatus"];
+        };
+        ObservabilityTopologyEdge: {
+            sourceServiceId: string;
+            targetServiceId: string;
+            status: components["schemas"]["ObservabilityServiceStatus"];
+            /** Format: double */
+            requestRate?: number;
+            /** Format: double */
+            errorRate?: number;
+            /** Format: double */
+            latencyP95Ms?: number;
+        };
+        ObservabilityTopology: {
+            nodes: components["schemas"]["ObservabilityTopologyNode"][];
+            edges: components["schemas"]["ObservabilityTopologyEdge"][];
+            beta: boolean;
+            meta: components["schemas"]["ObservabilityQueryResultMeta"];
+        };
+        ObservabilityTopologyEnvelope: {
+            data: components["schemas"]["ObservabilityTopology"];
+        };
+        ObservabilityMetricDefinition: {
+            key: string;
+            label: string;
+            description?: string;
+            unit: string;
+            semanticConvention?: string;
+            signal: components["schemas"]["ObservabilitySignal"];
+            available: boolean;
+        };
+        ObservabilityMetricCatalogEnvelope: {
+            items: components["schemas"]["ObservabilityMetricDefinition"][];
         };
         /** @enum {string} */
         ObservabilityDataSourceBackendType: "loki" | "elasticsearch" | "clickhouse" | "provider";
@@ -15321,6 +15894,7 @@ export interface components {
             coverage?: components["schemas"]["LogCoverage"];
             warnings?: components["schemas"]["LogWarning"][];
             retentionHint?: string;
+            meta?: components["schemas"]["ObservabilityQueryResultMeta"];
         };
         LogPageEnvelope: {
             data: components["schemas"]["LogPage"];
@@ -17484,7 +18058,9 @@ export interface components {
         };
     };
     parameters: {
+        MenuID: string;
         AccessRoleID: string;
+        ScopeGrantID: string;
         IdentityApplicationID: string;
         IdentityProviderID: string;
         IdentityPolicyID: string;
@@ -17537,6 +18113,13 @@ export interface components {
         KubernetesResourceName: string;
         AgentInstallTicket: string;
         DataSourceID: string;
+        ObservabilityDataSourceIDQuery: string;
+        ObservabilityClusterIDQuery: string;
+        ObservabilityEnvironmentQuery: string;
+        ObservabilityNamespaceQuery: string;
+        ObservabilityServiceQuery: string;
+        ObservabilityTimeFromQuery: string;
+        ObservabilityTimeToQuery: string;
         DashboardID: string;
         DashboardPanelID: string;
         ComputeCursor: string;
@@ -17661,6 +18244,8 @@ export type SAMLAttributeMapping = components['schemas']['SAMLAttributeMapping']
 export type CertificateSummary = components['schemas']['CertificateSummary'];
 export type OIDCClient = components['schemas']['OIDCClient'];
 export type OIDCClientInput = components['schemas']['OIDCClientInput'];
+export type OIDCClientCreated = components['schemas']['OIDCClientCreated'];
+export type OIDCClientCreatedEnvelope = components['schemas']['OIDCClientCreatedEnvelope'];
 export type OIDCClientEnvelope = components['schemas']['OIDCClientEnvelope'];
 export type OIDCClientListEnvelope = components['schemas']['OIDCClientListEnvelope'];
 export type SAMLServiceProvider = components['schemas']['SAMLServiceProvider'];
@@ -17785,6 +18370,11 @@ export type RuntimeConfigRollbackRequest = components['schemas']['RuntimeConfigR
 export type GenericObject = components['schemas']['GenericObject'];
 export type GenericDataEnvelope = components['schemas']['GenericDataEnvelope'];
 export type GenericItemsEnvelope = components['schemas']['GenericItemsEnvelope'];
+export type Menu = components['schemas']['Menu'];
+export type MenuInput = components['schemas']['MenuInput'];
+export type MenuEnvelope = components['schemas']['MenuEnvelope'];
+export type MenuListEnvelope = components['schemas']['MenuListEnvelope'];
+export type MenuDeleteResult = components['schemas']['MenuDeleteResult'];
 export type PermissionRiskLevel = components['schemas']['PermissionRiskLevel'];
 export type PermissionApprovalPolicy = components['schemas']['PermissionApprovalPolicy'];
 export type PermissionStatus = components['schemas']['PermissionStatus'];
@@ -17797,6 +18387,13 @@ export type AccessRoleInput = components['schemas']['AccessRoleInput'];
 export type AccessRoleEnvelope = components['schemas']['AccessRoleEnvelope'];
 export type AccessRoleListEnvelope = components['schemas']['AccessRoleListEnvelope'];
 export type AccessRoleDeleteResult = components['schemas']['AccessRoleDeleteResult'];
+export type ScopeGrantSubjectType = components['schemas']['ScopeGrantSubjectType'];
+export type ScopeGrantType = components['schemas']['ScopeGrantType'];
+export type ScopeGrantEffect = components['schemas']['ScopeGrantEffect'];
+export type ScopeGrant = components['schemas']['ScopeGrant'];
+export type ScopeGrantInput = components['schemas']['ScopeGrantInput'];
+export type ScopeGrantEnvelope = components['schemas']['ScopeGrantEnvelope'];
+export type ScopeGrantListEnvelope = components['schemas']['ScopeGrantListEnvelope'];
 export type AuthorizationDecisionStatus = components['schemas']['AuthorizationDecisionStatus'];
 export type AuthorizationResource = components['schemas']['AuthorizationResource'];
 export type AuthorizationEffectiveScope = components['schemas']['AuthorizationEffectiveScope'];
@@ -18563,16 +19160,23 @@ export type PlatformOperationSummary = components['schemas']['PlatformOperationS
 export type PlatformOperationSummaryEnvelope = components['schemas']['PlatformOperationSummaryEnvelope'];
 export type AgentInstallation = components['schemas']['AgentInstallation'];
 export type AgentInstallationEnvelope = components['schemas']['AgentInstallationEnvelope'];
+export type DockerHostAgentInstallation = components['schemas']['DockerHostAgentInstallation'];
+export type DockerHostAgentInstallationEnvelope = components['schemas']['DockerHostAgentInstallationEnvelope'];
 export type ObservabilityProviderSignal = components['schemas']['ObservabilityProviderSignal'];
 export type ObservabilityProviderRuntimeMode = components['schemas']['ObservabilityProviderRuntimeMode'];
 export type ObservabilityProviderStatus = components['schemas']['ObservabilityProviderStatus'];
+export type ObservabilityProviderRuntimeStatus = components['schemas']['ObservabilityProviderRuntimeStatus'];
 export type ObservabilityProviderDefinition = components['schemas']['ObservabilityProviderDefinition'];
 export type ObservabilityProviderListEnvelope = components['schemas']['ObservabilityProviderListEnvelope'];
 export type ObservabilityDashboardSource = components['schemas']['ObservabilityDashboardSource'];
+export type ObservabilityDashboardSourceFormat = components['schemas']['ObservabilityDashboardSourceFormat'];
 export type ObservabilityDashboardPanelType = components['schemas']['ObservabilityDashboardPanelType'];
 export type ObservabilityDashboardPanelLayout = components['schemas']['ObservabilityDashboardPanelLayout'];
 export type ObservabilityDashboardTarget = components['schemas']['ObservabilityDashboardTarget'];
 export type ObservabilityDashboardPanel = components['schemas']['ObservabilityDashboardPanel'];
+export type ObservabilityDashboardVariableType = components['schemas']['ObservabilityDashboardVariableType'];
+export type ObservabilityDashboardVariable = components['schemas']['ObservabilityDashboardVariable'];
+export type ObservabilityDashboardDataSourceBinding = components['schemas']['ObservabilityDashboardDataSourceBinding'];
 export type ObservabilityDashboard = components['schemas']['ObservabilityDashboard'];
 export type ObservabilityDashboardEnvelope = components['schemas']['ObservabilityDashboardEnvelope'];
 export type ObservabilityDashboardListEnvelope = components['schemas']['ObservabilityDashboardListEnvelope'];
@@ -18584,6 +19188,16 @@ export type ObservabilityDashboardImportResult = components['schemas']['Observab
 export type ObservabilityDashboardImportResultEnvelope = components['schemas']['ObservabilityDashboardImportResultEnvelope'];
 export type ObservabilityDashboardPanelQueryInput = components['schemas']['ObservabilityDashboardPanelQueryInput'];
 export type ObservabilityQueryScope = components['schemas']['ObservabilityQueryScope'];
+export type ObservabilitySignal = components['schemas']['ObservabilitySignal'];
+export type ObservabilityTimeRange = components['schemas']['ObservabilityTimeRange'];
+export type ObservabilityResourceIdentity = components['schemas']['ObservabilityResourceIdentity'];
+export type ObservabilityFilter = components['schemas']['ObservabilityFilter'];
+export type ObservabilityContext = components['schemas']['ObservabilityContext'];
+export type ObservabilityQueryLanguage = components['schemas']['ObservabilityQueryLanguage'];
+export type ObservabilityQuerySnapshot = components['schemas']['ObservabilityQuerySnapshot'];
+export type ObservabilityQueryState = components['schemas']['ObservabilityQueryState'];
+export type ObservabilityQueryError = components['schemas']['ObservabilityQueryError'];
+export type ObservabilityQueryResultMeta = components['schemas']['ObservabilityQueryResultMeta'];
 export type ObservabilityMetricKey = components['schemas']['ObservabilityMetricKey'];
 export type ObservabilityMetricQueryInput = components['schemas']['ObservabilityMetricQueryInput'];
 export type ObservabilityMetricPoint = components['schemas']['ObservabilityMetricPoint'];
@@ -18594,6 +19208,18 @@ export type ObservabilityTraceQueryInput = components['schemas']['ObservabilityT
 export type ObservabilityTraceSpan = components['schemas']['ObservabilityTraceSpan'];
 export type ObservabilityTraceQueryResult = components['schemas']['ObservabilityTraceQueryResult'];
 export type ObservabilityTraceQueryEnvelope = components['schemas']['ObservabilityTraceQueryEnvelope'];
+export type ObservabilityServiceStatus = components['schemas']['ObservabilityServiceStatus'];
+export type ObservabilityServiceInstance = components['schemas']['ObservabilityServiceInstance'];
+export type ObservabilityServiceEndpoint = components['schemas']['ObservabilityServiceEndpoint'];
+export type ObservabilityService = components['schemas']['ObservabilityService'];
+export type ObservabilityServiceListEnvelope = components['schemas']['ObservabilityServiceListEnvelope'];
+export type ObservabilityServiceEnvelope = components['schemas']['ObservabilityServiceEnvelope'];
+export type ObservabilityTopologyNode = components['schemas']['ObservabilityTopologyNode'];
+export type ObservabilityTopologyEdge = components['schemas']['ObservabilityTopologyEdge'];
+export type ObservabilityTopology = components['schemas']['ObservabilityTopology'];
+export type ObservabilityTopologyEnvelope = components['schemas']['ObservabilityTopologyEnvelope'];
+export type ObservabilityMetricDefinition = components['schemas']['ObservabilityMetricDefinition'];
+export type ObservabilityMetricCatalogEnvelope = components['schemas']['ObservabilityMetricCatalogEnvelope'];
 export type ObservabilityDataSourceBackendType = components['schemas']['ObservabilityDataSourceBackendType'];
 export type ObservabilityDataSourceValidationStatus = components['schemas']['ObservabilityDataSourceValidationStatus'];
 export type ObservabilityDataSourceScope = components['schemas']['ObservabilityDataSourceScope'];
@@ -18875,7 +19501,9 @@ export type DirectoryEmploymentStatus = components['schemas']['DirectoryEmployme
 export type ResponseIdentityError = components['responses']['IdentityError'];
 export type ResponseError = components['responses']['Error'];
 export type ResponseComputeError = components['responses']['ComputeError'];
+export type ParameterMenuId = components['parameters']['MenuID'];
 export type ParameterAccessRoleId = components['parameters']['AccessRoleID'];
+export type ParameterScopeGrantId = components['parameters']['ScopeGrantID'];
 export type ParameterIdentityApplicationId = components['parameters']['IdentityApplicationID'];
 export type ParameterIdentityProviderId = components['parameters']['IdentityProviderID'];
 export type ParameterIdentityPolicyId = components['parameters']['IdentityPolicyID'];
@@ -18924,6 +19552,13 @@ export type ParameterKubernetesMetricsStepSecondsQuery = components['parameters'
 export type ParameterKubernetesResourceName = components['parameters']['KubernetesResourceName'];
 export type ParameterAgentInstallTicket = components['parameters']['AgentInstallTicket'];
 export type ParameterDataSourceId = components['parameters']['DataSourceID'];
+export type ParameterObservabilityDataSourceIdQuery = components['parameters']['ObservabilityDataSourceIDQuery'];
+export type ParameterObservabilityClusterIdQuery = components['parameters']['ObservabilityClusterIDQuery'];
+export type ParameterObservabilityEnvironmentQuery = components['parameters']['ObservabilityEnvironmentQuery'];
+export type ParameterObservabilityNamespaceQuery = components['parameters']['ObservabilityNamespaceQuery'];
+export type ParameterObservabilityServiceQuery = components['parameters']['ObservabilityServiceQuery'];
+export type ParameterObservabilityTimeFromQuery = components['parameters']['ObservabilityTimeFromQuery'];
+export type ParameterObservabilityTimeToQuery = components['parameters']['ObservabilityTimeToQuery'];
 export type ParameterDashboardId = components['parameters']['DashboardID'];
 export type ParameterDashboardPanelId = components['parameters']['DashboardPanelID'];
 export type ParameterComputeCursor = components['parameters']['ComputeCursor'];
@@ -23091,6 +23726,56 @@ export interface operations {
             403: components["responses"]["Error"];
         };
     };
+    createDockerHostAgentInstallation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dockerHostID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Short-lived shell installer URL and command for connecting an existing Linux Docker host. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerHostAgentInstallationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    downloadDockerHostAgentInstaller: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                installTicket: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Short-lived Linux shell installer for the selected Docker host Agent. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/x-shellscript": string;
+                };
+            };
+            404: components["responses"]["Error"];
+            410: components["responses"]["Error"];
+        };
+    };
     planDockerHostQuickCreate: {
         parameters: {
             query?: never;
@@ -27059,6 +27744,128 @@ export interface operations {
                 };
             };
             403: components["responses"]["Error"];
+        };
+    };
+    listObservabilityMetricCatalog: {
+        parameters: {
+            query?: {
+                dataSourceId?: components["parameters"]["ObservabilityDataSourceIDQuery"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Semantic metric definitions supported by the configured metrics provider. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservabilityMetricCatalogEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listObservabilityServices: {
+        parameters: {
+            query: {
+                dataSourceId?: components["parameters"]["ObservabilityDataSourceIDQuery"];
+                clusterId?: components["parameters"]["ObservabilityClusterIDQuery"];
+                environment?: components["parameters"]["ObservabilityEnvironmentQuery"];
+                namespace?: components["parameters"]["ObservabilityNamespaceQuery"];
+                service?: components["parameters"]["ObservabilityServiceQuery"];
+                timeFrom: components["parameters"]["ObservabilityTimeFromQuery"];
+                timeTo: components["parameters"]["ObservabilityTimeToQuery"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OTel-identified services from the configured SkyWalking OAP provider. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservabilityServiceListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            502: components["responses"]["Error"];
+        };
+    };
+    getObservabilityService: {
+        parameters: {
+            query: {
+                dataSourceId?: components["parameters"]["ObservabilityDataSourceIDQuery"];
+                clusterId?: components["parameters"]["ObservabilityClusterIDQuery"];
+                environment?: components["parameters"]["ObservabilityEnvironmentQuery"];
+                namespace?: components["parameters"]["ObservabilityNamespaceQuery"];
+                timeFrom: components["parameters"]["ObservabilityTimeFromQuery"];
+                timeTo: components["parameters"]["ObservabilityTimeToQuery"];
+            };
+            header?: never;
+            path: {
+                serviceID: components["parameters"]["ServiceID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Service identity, instances and endpoints from the configured SkyWalking OAP provider. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservabilityServiceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            502: components["responses"]["Error"];
+        };
+    };
+    getObservabilityServiceTopology: {
+        parameters: {
+            query: {
+                dataSourceId?: components["parameters"]["ObservabilityDataSourceIDQuery"];
+                clusterId?: components["parameters"]["ObservabilityClusterIDQuery"];
+                environment?: components["parameters"]["ObservabilityEnvironmentQuery"];
+                namespace?: components["parameters"]["ObservabilityNamespaceQuery"];
+                timeFrom: components["parameters"]["ObservabilityTimeFromQuery"];
+                timeTo: components["parameters"]["ObservabilityTimeToQuery"];
+            };
+            header?: never;
+            path: {
+                serviceID: components["parameters"]["ServiceID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Beta dependency graph for one service from the configured SkyWalking OAP provider. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservabilityTopologyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            502: components["responses"]["Error"];
         };
     };
     importGrafanaDashboard: {
@@ -32588,6 +33395,156 @@ export interface operations {
             403: components["responses"]["Error"];
         };
     };
+    listMenus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Complete menu tree for administration. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MenuListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createMenu: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MenuInput"];
+            };
+        };
+        responses: {
+            /** @description Created menu. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MenuEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listVisibleMenus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Menu tree visible to the authenticated principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MenuListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+        };
+    };
+    getMenu: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                menuID: components["parameters"]["MenuID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Menu detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MenuEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateMenu: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                menuID: components["parameters"]["MenuID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MenuInput"];
+            };
+        };
+        responses: {
+            /** @description Updated menu. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MenuEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteMenu: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                menuID: components["parameters"]["MenuID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Menu deleted. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MenuDeleteResult"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
     getPermissionCatalog: {
         parameters: {
             query?: never;
@@ -32733,6 +33690,108 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["AccessRoleDeleteResult"];
                 };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listScopeGrants: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Resource scope grants. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScopeGrantListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createScopeGrant: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ScopeGrantInput"];
+            };
+        };
+        responses: {
+            /** @description Created resource scope grant. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScopeGrantEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    updateScopeGrant: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                scopeGrantID: components["parameters"]["ScopeGrantID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ScopeGrantInput"];
+            };
+        };
+        responses: {
+            /** @description Updated resource scope grant. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScopeGrantEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteScopeGrant: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                scopeGrantID: components["parameters"]["ScopeGrantID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Resource scope grant deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             401: components["responses"]["Error"];
             403: components["responses"]["Error"];
@@ -32996,6 +34055,34 @@ export interface operations {
             404: components["responses"]["IdentityError"];
         };
     };
+    rotateIdentityProviderSAMLCertificate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityProviderID: components["parameters"]["IdentityProviderID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SAMLCertificateRotateRequest"];
+            };
+        };
+        responses: {
+            /** @description Active and retiring public certificate summaries. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SAMLCertificateRotationEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+            404: components["responses"]["IdentityError"];
+        };
+    };
     listIdentityPolicies: {
         parameters: {
             query?: never;
@@ -33239,7 +34326,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Identity OIDC clients. */
+            /** @description Identity OIDC clients across providers. */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -33263,13 +34350,62 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Created OIDC client. */
+            /** @description Created OIDC client without the one-time client secret. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": components["schemas"]["OIDCClientEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+        };
+    };
+    listIdentityProviderOIDCClients: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityProviderID: components["parameters"]["IdentityProviderID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Identity OIDC clients. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OIDCClientListEnvelope"];
+                };
+            };
+        };
+    };
+    createIdentityProviderOIDCClient: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityProviderID: components["parameters"]["IdentityProviderID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OIDCClientInput"];
+            };
+        };
+        responses: {
+            /** @description Created OIDC client. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OIDCClientCreatedEnvelope"];
                 };
             };
             400: components["responses"]["IdentityError"];
