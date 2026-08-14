@@ -158,6 +158,20 @@ async function patchGoEntrypoint(url) {
     )
     .replace("type AnyValue = interface{}", "type AnyValue = any")
     .replaceAll("map[string]interface{}", "map[string]any");
+  generated += `
+
+// Deprecated: use the SAMLAttributeMappingTarget-prefixed constants in new code.
+const (
+	Subject      SAMLAttributeMappingTarget = SAMLAttributeMappingTargetSubject
+	Username     SAMLAttributeMappingTarget = SAMLAttributeMappingTargetUsername
+	Email        SAMLAttributeMappingTarget = SAMLAttributeMappingTargetEmail
+	DisplayName  SAMLAttributeMappingTarget = SAMLAttributeMappingTargetDisplayName
+	Role         SAMLAttributeMappingTarget = SAMLAttributeMappingTargetRole
+	Organization SAMLAttributeMappingTarget = SAMLAttributeMappingTargetOrganization
+	Team         SAMLAttributeMappingTarget = SAMLAttributeMappingTargetTeam
+	Project      SAMLAttributeMappingTarget = SAMLAttributeMappingTargetProject
+)
+`;
   await writeFile(url, generated);
 }
 

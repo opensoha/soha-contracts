@@ -40,6 +40,24 @@ func TestObservabilityCredentialKeyLegacyTypes(t *testing.T) {
 	}
 }
 
+func TestSAMLAttributeMappingLegacyConstants(t *testing.T) {
+	targets := map[SAMLAttributeMappingTarget]string{
+		Subject:      "subject",
+		Username:     "username",
+		Email:        "email",
+		DisplayName:  "displayName",
+		Role:         "role",
+		Organization: "organization",
+		Team:         "team",
+		Project:      "project",
+	}
+	for target, want := range targets {
+		if string(target) != want || !target.Valid() {
+			t.Fatalf("SAMLAttributeMappingTarget %q is not the compatible value %q", target, want)
+		}
+	}
+}
+
 func TestSystemHealthAndReadinessUsePublicRequests(t *testing.T) {
 	cases := []struct {
 		name string

@@ -1,6 +1,6 @@
 {
   "name": "@opensoha/contracts",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "private": false,
   "description": "Shared OpenSoha API, agent, MCP, skill, event, and auth contracts.",
   "license": "Apache-2.0",

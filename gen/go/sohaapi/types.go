@@ -27852,3 +27852,15 @@ func (t *ListVirtualMachines200JSONResponseBody) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
+
+// Deprecated: use the SAMLAttributeMappingTarget-prefixed constants in new code.
+const (
+	Subject      SAMLAttributeMappingTarget = SAMLAttributeMappingTargetSubject
+	Username     SAMLAttributeMappingTarget = SAMLAttributeMappingTargetUsername
+	Email        SAMLAttributeMappingTarget = SAMLAttributeMappingTargetEmail
+	DisplayName  SAMLAttributeMappingTarget = SAMLAttributeMappingTargetDisplayName
+	Role         SAMLAttributeMappingTarget = SAMLAttributeMappingTargetRole
+	Organization SAMLAttributeMappingTarget = SAMLAttributeMappingTargetOrganization
+	Team         SAMLAttributeMappingTarget = SAMLAttributeMappingTargetTeam
+	Project      SAMLAttributeMappingTarget = SAMLAttributeMappingTargetProject
+)
