@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-const defaultUserAgent = "opensoha-contracts/0.1.11"
+const defaultUserAgent = "opensoha-contracts/0.1.12"
 
 type Client struct {
 	BaseURL    string
@@ -400,6 +400,15 @@ func (c *Client) ClaimDockerOperation(ctx context.Context, req DockerOperationCl
 	var out DockerOperationEnvelope
 	if err := c.doJSON(ctx, http.MethodPost, "/docker/operations/claim", true, req, &out); err != nil {
 		return DockerOperation{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) ExchangeDockerHostAgentEnrollment(ctx context.Context, operationID string, req DockerHostAgentEnrollmentRequest) (DockerHostAgentCredentials, error) {
+	var out DockerHostAgentCredentialsEnvelope
+	path := "/docker/agent-installations/" + url.PathEscape(strings.TrimSpace(operationID)) + "/enroll"
+	if err := c.doJSON(ctx, http.MethodPost, path, false, req, &out); err != nil {
+		return DockerHostAgentCredentials{}, err
 	}
 	return out.Data, nil
 }

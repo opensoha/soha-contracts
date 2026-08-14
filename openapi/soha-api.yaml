@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Soha API
-  version: 0.1.11
+  version: 0.1.12
   description: >
     Public OpenSoha core API contract. This first contract focuses on stable
     cross-repository boundaries: auth, health, runner-facing control-plane
@@ -3292,6 +3292,38 @@ paths:
             text/x-shellscript:
               schema: { type: string }
         "404":
+          $ref: "#/components/responses/Error"
+        "410":
+          $ref: "#/components/responses/Error"
+  /docker/agent-installations/{operationID}/enroll:
+    post:
+      tags: [Runner]
+      operationId: exchangeDockerHostAgentEnrollment
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/OperationID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DockerHostAgentEnrollmentRequest"
+      responses:
+        "201":
+          description: One-time host-bound Agent and control-plane credentials. The enrollment token is atomically consumed by a successful response.
+          headers:
+            Cache-Control:
+              description: Prevents credential responses from being cached.
+              schema: { type: string, const: no-store }
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerHostAgentCredentialsEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
           $ref: "#/components/responses/Error"
         "410":
           $ref: "#/components/responses/Error"
@@ -11944,7 +11976,7 @@ components:
     runtimeBearerAuth:
       type: http
       scheme: bearer
-      description: Runtime execution runner token.
+      description: Runtime execution runner token, including host-bound Docker Agent credentials.
     agentBearerAuth:
       type: http
       scheme: bearer
@@ -25914,6 +25946,58 @@ components:
       properties:
         data:
           $ref: "#/components/schemas/DockerHostAgentInstallation"
+      additionalProperties: false
+    DockerHostAgentEnrollmentRequest:
+      type: object
+      required: [agentId, enrollmentToken]
+      properties:
+        agentId:
+          type: string
+          minLength: 1
+          maxLength: 200
+        enrollmentToken:
+          type: string
+          minLength: 32
+          maxLength: 512
+          format: password
+          description: Short-lived one-time secret delivered only inside the installer.
+      additionalProperties: false
+    DockerHostAgentCredentials:
+      type: object
+      required: [hostId, operationId, agentId, agentBearerToken, runtimeBearerToken, issuedAt]
+      properties:
+        hostId:
+          type: string
+          minLength: 1
+        operationId:
+          type: string
+          minLength: 1
+        agentId:
+          type: string
+          minLength: 1
+          maxLength: 200
+        agentBearerToken:
+          type: string
+          minLength: 32
+          maxLength: 512
+          format: password
+          description: Credential for the Agent's local HTTP API, returned only by the successful enrollment response.
+        runtimeBearerToken:
+          type: string
+          minLength: 32
+          maxLength: 512
+          format: password
+          description: Revocable credential restricted to Docker operations for this host.
+        issuedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    DockerHostAgentCredentialsEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/DockerHostAgentCredentials"
       additionalProperties: false
     ObservabilityProviderSignal:
       type: string

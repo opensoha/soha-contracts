@@ -2065,6 +2065,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/docker/agent-installations/{operationID}/enroll": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["exchangeDockerHostAgentEnrollment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/docker/hosts/quick-create/plan": {
         parameters: {
             query?: never;
@@ -15240,6 +15256,34 @@ export interface components {
         DockerHostAgentInstallationEnvelope: {
             data: components["schemas"]["DockerHostAgentInstallation"];
         };
+        DockerHostAgentEnrollmentRequest: {
+            agentId: string;
+            /**
+             * Format: password
+             * @description Short-lived one-time secret delivered only inside the installer.
+             */
+            enrollmentToken: string;
+        };
+        DockerHostAgentCredentials: {
+            hostId: string;
+            operationId: string;
+            agentId: string;
+            /**
+             * Format: password
+             * @description Credential for the Agent's local HTTP API, returned only by the successful enrollment response.
+             */
+            agentBearerToken: string;
+            /**
+             * Format: password
+             * @description Revocable credential restricted to Docker operations for this host.
+             */
+            runtimeBearerToken: string;
+            /** Format: date-time */
+            issuedAt: string;
+        };
+        DockerHostAgentCredentialsEnvelope: {
+            data: components["schemas"]["DockerHostAgentCredentials"];
+        };
         /** @enum {string} */
         ObservabilityProviderSignal: "logs" | "metrics" | "traces" | "profiles";
         /** @enum {string} */
@@ -19162,6 +19206,9 @@ export type AgentInstallation = components['schemas']['AgentInstallation'];
 export type AgentInstallationEnvelope = components['schemas']['AgentInstallationEnvelope'];
 export type DockerHostAgentInstallation = components['schemas']['DockerHostAgentInstallation'];
 export type DockerHostAgentInstallationEnvelope = components['schemas']['DockerHostAgentInstallationEnvelope'];
+export type DockerHostAgentEnrollmentRequest = components['schemas']['DockerHostAgentEnrollmentRequest'];
+export type DockerHostAgentCredentials = components['schemas']['DockerHostAgentCredentials'];
+export type DockerHostAgentCredentialsEnvelope = components['schemas']['DockerHostAgentCredentialsEnvelope'];
 export type ObservabilityProviderSignal = components['schemas']['ObservabilityProviderSignal'];
 export type ObservabilityProviderRuntimeMode = components['schemas']['ObservabilityProviderRuntimeMode'];
 export type ObservabilityProviderStatus = components['schemas']['ObservabilityProviderStatus'];
@@ -23773,6 +23820,38 @@ export interface operations {
                 };
             };
             404: components["responses"]["Error"];
+            410: components["responses"]["Error"];
+        };
+    };
+    exchangeDockerHostAgentEnrollment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                operationID: components["parameters"]["OperationID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DockerHostAgentEnrollmentRequest"];
+            };
+        };
+        responses: {
+            /** @description One-time host-bound Agent and control-plane credentials. The enrollment token is atomically consumed by a successful response. */
+            201: {
+                headers: {
+                    /** @description Prevents credential responses from being cached. */
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerHostAgentCredentialsEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
             410: components["responses"]["Error"];
         };
     };

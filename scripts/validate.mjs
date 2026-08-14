@@ -100,6 +100,8 @@ const requiredOpenapiFixtureSchemas = [
   "ManifestDeploymentEnvelope",
   "DockerContainerStartInput",
   "DockerOperationCallbackRequest",
+  "DockerHostAgentEnrollmentRequest",
+  "DockerHostAgentCredentialsEnvelope",
   "AgentRunCallbackRequest",
   "AIGatewayManifestEnvelope",
   "PluginManifest",

@@ -9758,6 +9758,32 @@ type DockerGitBuildInput struct {
 	RepositoryURL  string `json:"repositoryUrl"`
 }
 
+// DockerHostAgentCredentials defines model for DockerHostAgentCredentials.
+type DockerHostAgentCredentials struct {
+	// AgentBearerToken Credential for the Agent's local HTTP API, returned only by the successful enrollment response.
+	AgentBearerToken string    `json:"agentBearerToken"`
+	AgentID          string    `json:"agentId"`
+	HostID           string    `json:"hostId"`
+	IssuedAt         time.Time `json:"issuedAt"`
+	OperationID      string    `json:"operationId"`
+
+	// RuntimeBearerToken Revocable credential restricted to Docker operations for this host.
+	RuntimeBearerToken string `json:"runtimeBearerToken"`
+}
+
+// DockerHostAgentCredentialsEnvelope defines model for DockerHostAgentCredentialsEnvelope.
+type DockerHostAgentCredentialsEnvelope struct {
+	Data DockerHostAgentCredentials `json:"data"`
+}
+
+// DockerHostAgentEnrollmentRequest defines model for DockerHostAgentEnrollmentRequest.
+type DockerHostAgentEnrollmentRequest struct {
+	AgentID string `json:"agentId"`
+
+	// EnrollmentToken Short-lived one-time secret delivered only inside the installer.
+	EnrollmentToken string `json:"enrollmentToken"`
+}
+
 // DockerHostAgentInstallation defines model for DockerHostAgentInstallation.
 type DockerHostAgentInstallation struct {
 	Command     string    `json:"command"`
@@ -21525,6 +21551,9 @@ type TriggerManifestSourceWebhookJSONRequestBody = ManifestSyncWebhookInput
 
 // CreateDeliveryPlanJSONRequestBody defines body for CreateDeliveryPlan for application/json ContentType.
 type CreateDeliveryPlanJSONRequestBody = DeliveryPlanInput
+
+// ExchangeDockerHostAgentEnrollmentJSONRequestBody defines body for ExchangeDockerHostAgentEnrollment for application/json ContentType.
+type ExchangeDockerHostAgentEnrollmentJSONRequestBody = DockerHostAgentEnrollmentRequest
 
 // StartDockerContainerJSONRequestBody defines body for StartDockerContainer for application/json ContentType.
 type StartDockerContainerJSONRequestBody = DockerContainerStartInput

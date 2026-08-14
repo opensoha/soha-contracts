@@ -143,6 +143,35 @@ func TestRunnerClaimClientsAcceptNoContent(t *testing.T) {
 	}
 }
 
+func TestExchangeDockerHostAgentEnrollmentIsPublicAndReturnsCredentials(t *testing.T) {
+	issuedAt := time.Now().UTC().Truncate(time.Second)
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		assertPublicRequest(t, r, http.MethodPost, "/api/v1/docker/agent-installations/operation-1/enroll")
+		request := decodeJSONRequestBody[DockerHostAgentEnrollmentRequest](t, r)
+		if request.AgentID != "host-1" || request.EnrollmentToken != "enrollment-secret-0123456789012345" {
+			t.Fatalf("enrollment request = %#v", request)
+		}
+		w.Header().Set("Cache-Control", "no-store")
+		w.WriteHeader(http.StatusCreated)
+		writeJSON(t, w, map[string]any{"data": map[string]any{
+			"hostId": "host-1", "operationId": "operation-1", "agentId": "host-1",
+			"agentBearerToken": "agent-secret-012345678901234567890",
+			"runtimeBearerToken": "runtime-secret-012345678901234567",
+			"issuedAt": issuedAt,
+		}})
+	})
+
+	credentials, err := client.ExchangeDockerHostAgentEnrollment(context.Background(), "operation-1", DockerHostAgentEnrollmentRequest{
+		AgentID: "host-1", EnrollmentToken: "enrollment-secret-0123456789012345",
+	})
+	if err != nil {
+		t.Fatalf("exchange enrollment: %v", err)
+	}
+	if credentials.HostID != "host-1" || credentials.OperationID != "operation-1" || credentials.RuntimeBearerToken == "" || credentials.AgentBearerToken == "" {
+		t.Fatalf("credentials = %#v", credentials)
+	}
+}
+
 func TestRedeemSecretLeaseSendsRunnerBindingHeaders(t *testing.T) {
 	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
 		assertCommonRequest(t, r, http.MethodPost, "/api/v1/runner/secret-leases/lease%2Fone/redeem")

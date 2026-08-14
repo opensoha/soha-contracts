@@ -10063,6 +10063,85 @@
         ],
         "type": "object"
       },
+      "DockerHostAgentCredentials": {
+        "additionalProperties": false,
+        "properties": {
+          "agentBearerToken": {
+            "description": "Credential for the Agent's local HTTP API, returned only by the successful enrollment response.",
+            "format": "password",
+            "maxLength": 512,
+            "minLength": 32,
+            "type": "string"
+          },
+          "agentId": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "hostId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "issuedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "operationId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "runtimeBearerToken": {
+            "description": "Revocable credential restricted to Docker operations for this host.",
+            "format": "password",
+            "maxLength": 512,
+            "minLength": 32,
+            "type": "string"
+          }
+        },
+        "required": [
+          "hostId",
+          "operationId",
+          "agentId",
+          "agentBearerToken",
+          "runtimeBearerToken",
+          "issuedAt"
+        ],
+        "type": "object"
+      },
+      "DockerHostAgentCredentialsEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/DockerHostAgentCredentials"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "DockerHostAgentEnrollmentRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "agentId": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "enrollmentToken": {
+            "description": "Short-lived one-time secret delivered only inside the installer.",
+            "format": "password",
+            "maxLength": 512,
+            "minLength": 32,
+            "type": "string"
+          }
+        },
+        "required": [
+          "agentId",
+          "enrollmentToken"
+        ],
+        "type": "object"
+      },
       "DockerHostAgentInstallation": {
         "additionalProperties": false,
         "properties": {
@@ -41073,7 +41152,7 @@
         "type": "http"
       },
       "runtimeBearerAuth": {
-        "description": "Runtime execution runner token.",
+        "description": "Runtime execution runner token, including host-bound Docker Agent credentials.",
         "scheme": "bearer",
         "type": "http"
       },
@@ -41088,7 +41167,7 @@
   "info": {
     "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery.\n",
     "title": "Soha API",
-    "version": "0.1.11"
+    "version": "0.1.12"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -57070,6 +57149,63 @@
           "Docker"
         ],
         "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/docker/agent-installations/{operationID}/enroll": {
+      "post": {
+        "operationId": "exchangeDockerHostAgentEnrollment",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OperationID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DockerHostAgentEnrollmentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DockerHostAgentCredentialsEnvelope"
+                }
+              }
+            },
+            "description": "One-time host-bound Agent and control-plane credentials. The enrollment token is atomically consumed by a successful response.",
+            "headers": {
+              "Cache-Control": {
+                "description": "Prevents credential responses from being cached.",
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "security": [],
+        "tags": [
+          "Runner"
+        ]
       }
     },
     "/docker/containers/start": {
