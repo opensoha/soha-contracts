@@ -24057,6 +24057,232 @@
         ],
         "type": "object"
       },
+      "KubernetesWorkloadSnapshot": {
+        "additionalProperties": false,
+        "properties": {
+          "containers": {
+            "items": {
+              "$ref": "#/components/schemas/KubernetesWorkloadSnapshotContainer"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "content": {
+            "description": "Generated native batch/v1 Job or CronJob YAML, or workloads.soha.io/v1alpha1 WorkloadCronJob YAML whose selected container image follows the source workload, ready for the existing resource-creation preflight.",
+            "maxLength": 1048576,
+            "minLength": 1,
+            "type": "string"
+          },
+          "selectedContainer": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "sourceUid": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "content",
+          "sourceUid",
+          "selectedContainer",
+          "containers",
+          "warnings"
+        ],
+        "type": "object"
+      },
+      "KubernetesWorkloadSnapshotContainer": {
+        "additionalProperties": false,
+        "properties": {
+          "image": {
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "image"
+        ],
+        "type": "object"
+      },
+      "KubernetesWorkloadSnapshotEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/KubernetesWorkloadSnapshot"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "KubernetesWorkloadSnapshotRequest": {
+        "additionalProperties": false,
+        "if": {
+          "properties": {
+            "targetKind": {
+              "enum": [
+                "CronJob",
+                "WorkloadCronJob"
+              ]
+            }
+          },
+          "required": [
+            "targetKind"
+          ]
+        },
+        "properties": {
+          "activeDeadlineSeconds": {
+            "description": "Zero leaves the Kubernetes default unchanged.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "annotations": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "maxProperties": 64,
+            "type": "object"
+          },
+          "args": {
+            "items": {
+              "maxLength": 4096,
+              "type": "string"
+            },
+            "maxItems": 128,
+            "type": "array"
+          },
+          "backoffLimit": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "command": {
+            "items": {
+              "maxLength": 4096,
+              "type": "string"
+            },
+            "maxItems": 128,
+            "type": "array"
+          },
+          "completions": {
+            "description": "Zero leaves the Kubernetes default unchanged.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "description": {
+            "maxLength": 512,
+            "type": "string"
+          },
+          "labels": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "maxProperties": 64,
+            "type": "object"
+          },
+          "namespace": {
+            "description": "Namespace shared by the source workload and generated target because referenced Secrets, ConfigMaps, ServiceAccounts, and PVCs are namespace-scoped.",
+            "minLength": 1,
+            "type": "string"
+          },
+          "parallelism": {
+            "description": "Zero leaves the Kubernetes default unchanged.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "restartPolicy": {
+            "$ref": "#/components/schemas/KubernetesWorkloadSnapshotRestartPolicy"
+          },
+          "schedule": {
+            "description": "Required when targetKind is CronJob or WorkloadCronJob.",
+            "minLength": 1,
+            "type": "string"
+          },
+          "sourceContainer": {
+            "description": "Regular container to retain. When omitted, the first regular container is selected.",
+            "minLength": 1,
+            "type": "string"
+          },
+          "sourceKind": {
+            "$ref": "#/components/schemas/KubernetesWorkloadSnapshotSourceKind"
+          },
+          "sourceName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "suspend": {
+            "type": "boolean"
+          },
+          "targetKind": {
+            "$ref": "#/components/schemas/KubernetesWorkloadSnapshotTargetKind"
+          },
+          "targetName": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "namespace",
+          "sourceKind",
+          "sourceName",
+          "targetKind",
+          "targetName",
+          "restartPolicy"
+        ],
+        "then": {
+          "required": [
+            "schedule"
+          ]
+        },
+        "type": "object"
+      },
+      "KubernetesWorkloadSnapshotRestartPolicy": {
+        "enum": [
+          "Never",
+          "OnFailure"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "KubernetesWorkloadSnapshotRestartPolicyNever",
+          "KubernetesWorkloadSnapshotRestartPolicyOnFailure"
+        ]
+      },
+      "KubernetesWorkloadSnapshotSourceKind": {
+        "enum": [
+          "Deployment",
+          "StatefulSet",
+          "DaemonSet"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "KubernetesWorkloadSnapshotSourceKindDeployment",
+          "KubernetesWorkloadSnapshotSourceKindStatefulSet",
+          "KubernetesWorkloadSnapshotSourceKindDaemonSet"
+        ]
+      },
+      "KubernetesWorkloadSnapshotTargetKind": {
+        "enum": [
+          "Job",
+          "CronJob",
+          "WorkloadCronJob"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "KubernetesWorkloadSnapshotTargetKindJob",
+          "KubernetesWorkloadSnapshotTargetKindCronJob",
+          "KubernetesWorkloadSnapshotTargetKindWorkloadCronJob"
+        ]
+      },
       "LLMCallLog": {
         "additionalProperties": false,
         "properties": {
@@ -41167,7 +41393,7 @@
   "info": {
     "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery.\n",
     "title": "Soha API",
-    "version": "0.1.12"
+    "version": "0.1.13"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -52713,6 +52939,55 @@
         "tags": [
           "Platform"
         ]
+      }
+    },
+    "/clusters/{clusterID}/resource-creation/workload-snapshot": {
+      "post": {
+        "operationId": "generateKubernetesWorkloadSnapshot",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KubernetesWorkloadSnapshotRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesWorkloadSnapshotEnvelope"
+                }
+              }
+            },
+            "description": "A native Job or CronJob manifest, or a workloads.soha.io/v1alpha1 WorkloadCronJob manifest, generated from a same-namespace workload Pod template. This operation does not create resources."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-capability": {
+          "name": "k8s.workloads.snapshot.generate",
+          "requiresApproval": false,
+          "riskLevel": "analyze"
+        }
       }
     },
     "/clusters/{clusterID}/storage/persistentvolumeclaims": {

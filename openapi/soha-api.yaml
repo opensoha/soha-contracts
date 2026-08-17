@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Soha API
-  version: 0.1.12
+  version: 0.1.13
   description: >
     Public OpenSoha core API contract. This first contract focuses on stable
     cross-repository boundaries: auth, health, runner-facing control-plane
@@ -6298,6 +6298,35 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/KubernetesResourceCreateScopeDecisionEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/resource-creation/workload-snapshot:
+    post:
+      tags: [Platform]
+      operationId: generateKubernetesWorkloadSnapshot
+      x-soha-capability:
+        name: k8s.workloads.snapshot.generate
+        riskLevel: analyze
+        requiresApproval: false
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesWorkloadSnapshotRequest"
+      responses:
+        "200":
+          description: A native Job or CronJob manifest, or a workloads.soha.io/v1alpha1 WorkloadCronJob manifest, generated from a same-namespace workload Pod template. This operation does not create resources.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesWorkloadSnapshotEnvelope"
         "400":
           $ref: "#/components/responses/Error"
         "403":
@@ -27727,6 +27756,136 @@ components:
             required: [type]
           then:
             required: [status]
+    KubernetesWorkloadSnapshotSourceKind:
+      type: string
+      enum: [Deployment, StatefulSet, DaemonSet]
+      x-enum-varnames:
+        - KubernetesWorkloadSnapshotSourceKindDeployment
+        - KubernetesWorkloadSnapshotSourceKindStatefulSet
+        - KubernetesWorkloadSnapshotSourceKindDaemonSet
+    KubernetesWorkloadSnapshotTargetKind:
+      type: string
+      enum: [Job, CronJob, WorkloadCronJob]
+      x-enum-varnames:
+        - KubernetesWorkloadSnapshotTargetKindJob
+        - KubernetesWorkloadSnapshotTargetKindCronJob
+        - KubernetesWorkloadSnapshotTargetKindWorkloadCronJob
+    KubernetesWorkloadSnapshotRestartPolicy:
+      type: string
+      enum: [Never, OnFailure]
+      x-enum-varnames:
+        - KubernetesWorkloadSnapshotRestartPolicyNever
+        - KubernetesWorkloadSnapshotRestartPolicyOnFailure
+    KubernetesWorkloadSnapshotRequest:
+      type: object
+      required: [namespace, sourceKind, sourceName, targetKind, targetName, restartPolicy]
+      properties:
+        namespace:
+          type: string
+          minLength: 1
+          description: Namespace shared by the source workload and generated target because referenced Secrets, ConfigMaps, ServiceAccounts, and PVCs are namespace-scoped.
+        sourceKind:
+          $ref: "#/components/schemas/KubernetesWorkloadSnapshotSourceKind"
+        sourceName:
+          type: string
+          minLength: 1
+        sourceContainer:
+          type: string
+          minLength: 1
+          description: Regular container to retain. When omitted, the first regular container is selected.
+        targetKind:
+          $ref: "#/components/schemas/KubernetesWorkloadSnapshotTargetKind"
+        targetName:
+          type: string
+          minLength: 1
+        description:
+          type: string
+          maxLength: 512
+        labels:
+          type: object
+          maxProperties: 64
+          additionalProperties: { type: string }
+        annotations:
+          type: object
+          maxProperties: 64
+          additionalProperties: { type: string }
+        command:
+          type: array
+          maxItems: 128
+          items: { type: string, maxLength: 4096 }
+        args:
+          type: array
+          maxItems: 128
+          items: { type: string, maxLength: 4096 }
+        restartPolicy:
+          $ref: "#/components/schemas/KubernetesWorkloadSnapshotRestartPolicy"
+        parallelism:
+          type: integer
+          minimum: 0
+          description: Zero leaves the Kubernetes default unchanged.
+        completions:
+          type: integer
+          minimum: 0
+          description: Zero leaves the Kubernetes default unchanged.
+        backoffLimit:
+          type: integer
+          minimum: 0
+        activeDeadlineSeconds:
+          type: integer
+          minimum: 0
+          description: Zero leaves the Kubernetes default unchanged.
+        schedule:
+          type: string
+          minLength: 1
+          description: Required when targetKind is CronJob or WorkloadCronJob.
+        suspend:
+          type: boolean
+      additionalProperties: false
+      if:
+        properties:
+          targetKind:
+            enum: [CronJob, WorkloadCronJob]
+        required: [targetKind]
+      then:
+        required: [schedule]
+    KubernetesWorkloadSnapshotContainer:
+      type: object
+      required: [name, image]
+      properties:
+        name: { type: string, minLength: 1 }
+        image: { type: string }
+      additionalProperties: false
+    KubernetesWorkloadSnapshot:
+      type: object
+      required: [content, sourceUid, selectedContainer, containers, warnings]
+      properties:
+        content:
+          type: string
+          minLength: 1
+          maxLength: 1048576
+          description: Generated native batch/v1 Job or CronJob YAML, or workloads.soha.io/v1alpha1 WorkloadCronJob YAML whose selected container image follows the source workload, ready for the existing resource-creation preflight.
+        sourceUid:
+          type: string
+          minLength: 1
+        selectedContainer:
+          type: string
+          minLength: 1
+        containers:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/KubernetesWorkloadSnapshotContainer"
+        warnings:
+          type: array
+          items: { type: string }
+      additionalProperties: false
+    KubernetesWorkloadSnapshotEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/KubernetesWorkloadSnapshot"
+      additionalProperties: false
     KubernetesResourceCreateSource:
       type: string
       enum: [list, global_yaml, form]

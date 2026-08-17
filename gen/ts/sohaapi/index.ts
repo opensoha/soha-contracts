@@ -4562,6 +4562,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/clusters/{clusterID}/resource-creation/workload-snapshot": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["generateKubernetesWorkloadSnapshot"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/clusters/{clusterID}/resource-creation/preflight": {
         parameters: {
             query?: never;
@@ -15954,6 +15970,57 @@ export interface components {
             status?: components["schemas"]["LogStreamStatus"];
         } & (unknown & unknown);
         /** @enum {string} */
+        KubernetesWorkloadSnapshotSourceKind: "Deployment" | "StatefulSet" | "DaemonSet";
+        /** @enum {string} */
+        KubernetesWorkloadSnapshotTargetKind: "Job" | "CronJob" | "WorkloadCronJob";
+        /** @enum {string} */
+        KubernetesWorkloadSnapshotRestartPolicy: "Never" | "OnFailure";
+        KubernetesWorkloadSnapshotRequest: {
+            /** @description Namespace shared by the source workload and generated target because referenced Secrets, ConfigMaps, ServiceAccounts, and PVCs are namespace-scoped. */
+            namespace: string;
+            sourceKind: components["schemas"]["KubernetesWorkloadSnapshotSourceKind"];
+            sourceName: string;
+            /** @description Regular container to retain. When omitted, the first regular container is selected. */
+            sourceContainer?: string;
+            targetKind: components["schemas"]["KubernetesWorkloadSnapshotTargetKind"];
+            targetName: string;
+            description?: string;
+            labels?: {
+                [key: string]: string;
+            };
+            annotations?: {
+                [key: string]: string;
+            };
+            command?: string[];
+            args?: string[];
+            restartPolicy: components["schemas"]["KubernetesWorkloadSnapshotRestartPolicy"];
+            /** @description Zero leaves the Kubernetes default unchanged. */
+            parallelism?: number;
+            /** @description Zero leaves the Kubernetes default unchanged. */
+            completions?: number;
+            backoffLimit?: number;
+            /** @description Zero leaves the Kubernetes default unchanged. */
+            activeDeadlineSeconds?: number;
+            /** @description Required when targetKind is CronJob or WorkloadCronJob. */
+            schedule?: string;
+            suspend?: boolean;
+        };
+        KubernetesWorkloadSnapshotContainer: {
+            name: string;
+            image: string;
+        };
+        KubernetesWorkloadSnapshot: {
+            /** @description Generated native batch/v1 Job or CronJob YAML, or workloads.soha.io/v1alpha1 WorkloadCronJob YAML whose selected container image follows the source workload, ready for the existing resource-creation preflight. */
+            content: string;
+            sourceUid: string;
+            selectedContainer: string;
+            containers: components["schemas"]["KubernetesWorkloadSnapshotContainer"][];
+            warnings: string[];
+        };
+        KubernetesWorkloadSnapshotEnvelope: {
+            data: components["schemas"]["KubernetesWorkloadSnapshot"];
+        };
+        /** @enum {string} */
         KubernetesResourceCreateSource: "list" | "global_yaml" | "form";
         /** @enum {string} */
         KubernetesResourceScopeMode: "namespace" | "cluster";
@@ -19309,6 +19376,13 @@ export type LogPage = components['schemas']['LogPage'];
 export type LogPageEnvelope = components['schemas']['LogPageEnvelope'];
 export type LogStreamStatus = components['schemas']['LogStreamStatus'];
 export type LogStreamEvent = components['schemas']['LogStreamEvent'];
+export type KubernetesWorkloadSnapshotSourceKind = components['schemas']['KubernetesWorkloadSnapshotSourceKind'];
+export type KubernetesWorkloadSnapshotTargetKind = components['schemas']['KubernetesWorkloadSnapshotTargetKind'];
+export type KubernetesWorkloadSnapshotRestartPolicy = components['schemas']['KubernetesWorkloadSnapshotRestartPolicy'];
+export type KubernetesWorkloadSnapshotRequest = components['schemas']['KubernetesWorkloadSnapshotRequest'];
+export type KubernetesWorkloadSnapshotContainer = components['schemas']['KubernetesWorkloadSnapshotContainer'];
+export type KubernetesWorkloadSnapshot = components['schemas']['KubernetesWorkloadSnapshot'];
+export type KubernetesWorkloadSnapshotEnvelope = components['schemas']['KubernetesWorkloadSnapshotEnvelope'];
 export type KubernetesResourceCreateSource = components['schemas']['KubernetesResourceCreateSource'];
 export type KubernetesResourceScopeMode = components['schemas']['KubernetesResourceScopeMode'];
 export type KubernetesResourceAction = components['schemas']['KubernetesResourceAction'];
@@ -28232,6 +28306,35 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["KubernetesResourceCreateScopeDecisionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    generateKubernetesWorkloadSnapshot: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesWorkloadSnapshotRequest"];
+            };
+        };
+        responses: {
+            /** @description A native Job or CronJob manifest, or a workloads.soha.io/v1alpha1 WorkloadCronJob manifest, generated from a same-namespace workload Pod template. This operation does not create resources. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesWorkloadSnapshotEnvelope"];
                 };
             };
             400: components["responses"]["Error"];

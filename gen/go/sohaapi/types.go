@@ -2713,6 +2713,66 @@ func (e KubernetesWorkloadImportInputWorkloadKind) Valid() bool {
 	}
 }
 
+// Defines values for KubernetesWorkloadSnapshotRestartPolicy.
+const (
+	KubernetesWorkloadSnapshotRestartPolicyNever     KubernetesWorkloadSnapshotRestartPolicy = "Never"
+	KubernetesWorkloadSnapshotRestartPolicyOnFailure KubernetesWorkloadSnapshotRestartPolicy = "OnFailure"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesWorkloadSnapshotRestartPolicy enum.
+func (e KubernetesWorkloadSnapshotRestartPolicy) Valid() bool {
+	switch e {
+	case KubernetesWorkloadSnapshotRestartPolicyNever:
+		return true
+	case KubernetesWorkloadSnapshotRestartPolicyOnFailure:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesWorkloadSnapshotSourceKind.
+const (
+	KubernetesWorkloadSnapshotSourceKindDaemonSet   KubernetesWorkloadSnapshotSourceKind = "DaemonSet"
+	KubernetesWorkloadSnapshotSourceKindDeployment  KubernetesWorkloadSnapshotSourceKind = "Deployment"
+	KubernetesWorkloadSnapshotSourceKindStatefulSet KubernetesWorkloadSnapshotSourceKind = "StatefulSet"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesWorkloadSnapshotSourceKind enum.
+func (e KubernetesWorkloadSnapshotSourceKind) Valid() bool {
+	switch e {
+	case KubernetesWorkloadSnapshotSourceKindDaemonSet:
+		return true
+	case KubernetesWorkloadSnapshotSourceKindDeployment:
+		return true
+	case KubernetesWorkloadSnapshotSourceKindStatefulSet:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesWorkloadSnapshotTargetKind.
+const (
+	KubernetesWorkloadSnapshotTargetKindCronJob         KubernetesWorkloadSnapshotTargetKind = "CronJob"
+	KubernetesWorkloadSnapshotTargetKindJob             KubernetesWorkloadSnapshotTargetKind = "Job"
+	KubernetesWorkloadSnapshotTargetKindWorkloadCronJob KubernetesWorkloadSnapshotTargetKind = "WorkloadCronJob"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesWorkloadSnapshotTargetKind enum.
+func (e KubernetesWorkloadSnapshotTargetKind) Valid() bool {
+	switch e {
+	case KubernetesWorkloadSnapshotTargetKindCronJob:
+		return true
+	case KubernetesWorkloadSnapshotTargetKindJob:
+		return true
+	case KubernetesWorkloadSnapshotTargetKindWorkloadCronJob:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for LLMCallLogCacheStatus.
 const (
 	LLMCallLogCacheStatusBypass       LLMCallLogCacheStatus = "bypass"
@@ -13983,6 +14043,70 @@ type KubernetesWorkloadRelation struct {
 	Relation  string `json:"relation,omitempty"`
 }
 
+// KubernetesWorkloadSnapshot defines model for KubernetesWorkloadSnapshot.
+type KubernetesWorkloadSnapshot struct {
+	Containers []KubernetesWorkloadSnapshotContainer `json:"containers"`
+
+	// Content Generated native batch/v1 Job or CronJob YAML, or workloads.soha.io/v1alpha1 WorkloadCronJob YAML whose selected container image follows the source workload, ready for the existing resource-creation preflight.
+	Content           string   `json:"content"`
+	SelectedContainer string   `json:"selectedContainer"`
+	SourceUID         string   `json:"sourceUid"`
+	Warnings          []string `json:"warnings"`
+}
+
+// KubernetesWorkloadSnapshotContainer defines model for KubernetesWorkloadSnapshotContainer.
+type KubernetesWorkloadSnapshotContainer struct {
+	Image string `json:"image"`
+	Name  string `json:"name"`
+}
+
+// KubernetesWorkloadSnapshotEnvelope defines model for KubernetesWorkloadSnapshotEnvelope.
+type KubernetesWorkloadSnapshotEnvelope struct {
+	Data KubernetesWorkloadSnapshot `json:"data"`
+}
+
+// KubernetesWorkloadSnapshotRequest defines model for KubernetesWorkloadSnapshotRequest.
+type KubernetesWorkloadSnapshotRequest struct {
+	// ActiveDeadlineSeconds Zero leaves the Kubernetes default unchanged.
+	ActiveDeadlineSeconds int               `json:"activeDeadlineSeconds,omitempty"`
+	Annotations           map[string]string `json:"annotations,omitempty"`
+	Args                  []string          `json:"args,omitempty"`
+	BackoffLimit          int               `json:"backoffLimit,omitempty"`
+	Command               []string          `json:"command,omitempty"`
+
+	// Completions Zero leaves the Kubernetes default unchanged.
+	Completions int               `json:"completions,omitempty"`
+	Description string            `json:"description,omitempty"`
+	Labels      map[string]string `json:"labels,omitempty"`
+
+	// Namespace Namespace shared by the source workload and generated target because referenced Secrets, ConfigMaps, ServiceAccounts, and PVCs are namespace-scoped.
+	Namespace string `json:"namespace"`
+
+	// Parallelism Zero leaves the Kubernetes default unchanged.
+	Parallelism   int                                     `json:"parallelism,omitempty"`
+	RestartPolicy KubernetesWorkloadSnapshotRestartPolicy `json:"restartPolicy"`
+
+	// Schedule Required when targetKind is CronJob or WorkloadCronJob.
+	Schedule string `json:"schedule,omitempty"`
+
+	// SourceContainer Regular container to retain. When omitted, the first regular container is selected.
+	SourceContainer string                               `json:"sourceContainer,omitempty"`
+	SourceKind      KubernetesWorkloadSnapshotSourceKind `json:"sourceKind"`
+	SourceName      string                               `json:"sourceName"`
+	Suspend         bool                                 `json:"suspend,omitempty"`
+	TargetKind      KubernetesWorkloadSnapshotTargetKind `json:"targetKind"`
+	TargetName      string                               `json:"targetName"`
+}
+
+// KubernetesWorkloadSnapshotRestartPolicy defines model for KubernetesWorkloadSnapshotRestartPolicy.
+type KubernetesWorkloadSnapshotRestartPolicy string
+
+// KubernetesWorkloadSnapshotSourceKind defines model for KubernetesWorkloadSnapshotSourceKind.
+type KubernetesWorkloadSnapshotSourceKind string
+
+// KubernetesWorkloadSnapshotTargetKind defines model for KubernetesWorkloadSnapshotTargetKind.
+type KubernetesWorkloadSnapshotTargetKind string
+
 // LLMCallLog defines model for LLMCallLog.
 type LLMCallLog struct {
 	ActorID           string                `json:"actorId,omitempty"`
@@ -21452,6 +21576,9 @@ type PreflightKubernetesResourceCreateJSONRequestBody = KubernetesResourceCreate
 
 // DecideKubernetesResourceCreateScopeJSONRequestBody defines body for DecideKubernetesResourceCreateScope for application/json ContentType.
 type DecideKubernetesResourceCreateScopeJSONRequestBody = KubernetesResourceCreateScopeDecisionRequest
+
+// GenerateKubernetesWorkloadSnapshotJSONRequestBody defines body for GenerateKubernetesWorkloadSnapshot for application/json ContentType.
+type GenerateKubernetesWorkloadSnapshotJSONRequestBody = KubernetesWorkloadSnapshotRequest
 
 // RecordCompanionInteractionJSONRequestBody defines body for RecordCompanionInteraction for application/json ContentType.
 type RecordCompanionInteractionJSONRequestBody = CompanionInteractionRequest

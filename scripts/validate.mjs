@@ -146,6 +146,8 @@ const requiredOpenapiFixtureSchemas = [
   "KubernetesResourceCreateScopeDecisionEnvelope",
   "KubernetesResourcePreflightEnvelope",
   "KubernetesResourceCreateResultEnvelope",
+  "KubernetesWorkloadSnapshotRequest",
+  "KubernetesWorkloadSnapshotEnvelope",
   "KubernetesResourceAgentCreateRequest",
   "KubernetesClusterListEnvelope",
   "KubernetesPodListEnvelope",
