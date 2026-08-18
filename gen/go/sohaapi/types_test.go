@@ -9,9 +9,10 @@ func TestKubernetesWorkloadSnapshotRequestGeneratedShape(t *testing.T) {
 		SourceName:    "reports",
 		TargetKind:    KubernetesWorkloadSnapshotTargetKindCronJob,
 		TargetName:    "reports-schedule",
+		Inherit:       []KubernetesWorkloadSnapshotInheritance{KubernetesWorkloadSnapshotInheritanceEnvironment},
 		RestartPolicy: KubernetesWorkloadSnapshotRestartPolicyNever,
 	}
-	if request.Namespace != "default" {
-		t.Fatalf("namespace = %q, want default", request.Namespace)
+	if request.Namespace != "default" || len(request.Inherit) != 1 {
+		t.Fatalf("request = %#v", request)
 	}
 }

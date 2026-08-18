@@ -1,7 +1,7 @@
 {
   "schemaVersion": "authorization.opensoha.io/v1",
   "catalogVersion": "2.0.0",
-  "contentHash": "sha256:82626eb53d9cd6b53ee502ae32285392c672f7f186a7dbefb42bf1f700d67e98",
+  "contentHash": "sha256:0efe8f496fa0fb29703584586f9306d04fdb5b9a38eaea78532107698230f609",
   "permissions": [
     {
       "key": "access.directory.create",
@@ -10930,11 +10930,131 @@
       "assignable": true
     },
     {
+      "key": "workbench.ai.view",
+      "domain": "workbench",
+      "resource": "ai",
+      "action": "view",
+      "displayName": "访问 AI 工作台",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "workbench.compute.view",
+      "domain": "workbench",
+      "resource": "compute",
+      "action": "view",
+      "displayName": "访问计算资源工作台",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "workbench.delivery.view",
+      "domain": "workbench",
+      "resource": "delivery",
+      "action": "view",
+      "displayName": "访问应用交付工作台",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "workbench.home.view",
+      "domain": "workbench",
+      "resource": "home",
+      "action": "view",
+      "displayName": "访问应用门户",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "workbench.monitoring.view",
+      "domain": "workbench",
+      "resource": "monitoring",
+      "action": "view",
+      "displayName": "访问可观测与值班工作台",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "workbench.platform.view",
+      "domain": "workbench",
+      "resource": "platform",
+      "action": "view",
+      "displayName": "访问 k8s工作台",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "workbench.security.view",
+      "domain": "workbench",
+      "resource": "security",
+      "action": "view",
+      "displayName": "访问身份与安全工作台",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "workbench.settings.view",
+      "domain": "workbench",
+      "resource": "settings",
+      "action": "view",
+      "displayName": "访问设置中心",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
       "key": "workspace.application.view",
       "domain": "workspace",
       "resource": "application",
       "action": "view",
-      "displayName": "查看应用工作台",
+      "displayName": "查看工作空间应用",
       "riskLevel": "read",
       "scopeKinds": [
         "tenant",
@@ -10950,7 +11070,7 @@
       "domain": "workspace",
       "resource": "resource",
       "action": "view",
-      "displayName": "查看 k8s工作台",
+      "displayName": "查看工作空间资源",
       "riskLevel": "read",
       "scopeKinds": [
         "tenant",

@@ -86,3 +86,43 @@ func TestPermissionCatalogIncludesIndependentResourceCreationEntry(t *testing.T)
 		t.Fatal("platform.resource-creation.use is missing")
 	}
 }
+
+func TestPermissionCatalogIncludesIndependentWorkbenchEntries(t *testing.T) {
+	var catalog struct {
+		Permissions []struct {
+			Key        string `json:"key"`
+			Domain     string `json:"domain"`
+			Action     string `json:"action"`
+			Status     string `json:"status"`
+			Assignable bool   `json:"assignable"`
+		} `json:"permissions"`
+	}
+	if err := json.Unmarshal(PermissionCatalogJSON(), &catalog); err != nil {
+		t.Fatalf("decode permission catalog: %v", err)
+	}
+
+	want := map[string]bool{
+		"workbench.ai.view":         false,
+		"workbench.compute.view":    false,
+		"workbench.delivery.view":   false,
+		"workbench.home.view":       false,
+		"workbench.monitoring.view": false,
+		"workbench.platform.view":   false,
+		"workbench.security.view":   false,
+		"workbench.settings.view":   false,
+	}
+	for _, permission := range catalog.Permissions {
+		if _, ok := want[permission.Key]; !ok {
+			continue
+		}
+		if permission.Domain != "workbench" || permission.Action != "view" || permission.Status != "active" || !permission.Assignable {
+			t.Fatalf("workbench entry must be independently assignable: %#v", permission)
+		}
+		want[permission.Key] = true
+	}
+	for key, found := range want {
+		if !found {
+			t.Fatalf("%s is missing", key)
+		}
+	}
+}

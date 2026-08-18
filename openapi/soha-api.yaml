@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Soha API
-  version: 0.1.13
+  version: 0.1.14
   description: >
     Public OpenSoha core API contract. This first contract focuses on stable
     cross-repository boundaries: auth, health, runner-facing control-plane
@@ -27776,6 +27776,18 @@ components:
       x-enum-varnames:
         - KubernetesWorkloadSnapshotRestartPolicyNever
         - KubernetesWorkloadSnapshotRestartPolicyOnFailure
+    KubernetesWorkloadSnapshotInheritance:
+      type: string
+      enum: [environment, storage, resources, securityContext, scheduling, initContainers, templateMetadata, serviceRuntime]
+      x-enum-varnames:
+        - KubernetesWorkloadSnapshotInheritanceEnvironment
+        - KubernetesWorkloadSnapshotInheritanceStorage
+        - KubernetesWorkloadSnapshotInheritanceResources
+        - KubernetesWorkloadSnapshotInheritanceSecurityContext
+        - KubernetesWorkloadSnapshotInheritanceScheduling
+        - KubernetesWorkloadSnapshotInheritanceInitContainers
+        - KubernetesWorkloadSnapshotInheritanceTemplateMetadata
+        - KubernetesWorkloadSnapshotInheritanceServiceRuntime
     KubernetesWorkloadSnapshotRequest:
       type: object
       required: [namespace, sourceKind, sourceName, targetKind, targetName, restartPolicy]
@@ -27817,6 +27829,13 @@ components:
           type: array
           maxItems: 128
           items: { type: string, maxLength: 4096 }
+        inherit:
+          type: array
+          maxItems: 8
+          uniqueItems: true
+          items:
+            $ref: "#/components/schemas/KubernetesWorkloadSnapshotInheritance"
+          description: Runtime modules copied from the source Pod template. Omitting this field preserves the legacy full-template snapshot; an explicit array copies only the selected modules while always retaining the selected container name, image, imagePullPolicy, command, args, and working directory.
         restartPolicy:
           $ref: "#/components/schemas/KubernetesWorkloadSnapshotRestartPolicy"
         parallelism:

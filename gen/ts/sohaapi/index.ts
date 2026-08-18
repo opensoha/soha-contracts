@@ -15975,6 +15975,8 @@ export interface components {
         KubernetesWorkloadSnapshotTargetKind: "Job" | "CronJob" | "WorkloadCronJob";
         /** @enum {string} */
         KubernetesWorkloadSnapshotRestartPolicy: "Never" | "OnFailure";
+        /** @enum {string} */
+        KubernetesWorkloadSnapshotInheritance: "environment" | "storage" | "resources" | "securityContext" | "scheduling" | "initContainers" | "templateMetadata" | "serviceRuntime";
         KubernetesWorkloadSnapshotRequest: {
             /** @description Namespace shared by the source workload and generated target because referenced Secrets, ConfigMaps, ServiceAccounts, and PVCs are namespace-scoped. */
             namespace: string;
@@ -15993,6 +15995,8 @@ export interface components {
             };
             command?: string[];
             args?: string[];
+            /** @description Runtime modules copied from the source Pod template. Omitting this field preserves the legacy full-template snapshot; an explicit array copies only the selected modules while always retaining the selected container name, image, imagePullPolicy, command, args, and working directory. */
+            inherit?: components["schemas"]["KubernetesWorkloadSnapshotInheritance"][];
             restartPolicy: components["schemas"]["KubernetesWorkloadSnapshotRestartPolicy"];
             /** @description Zero leaves the Kubernetes default unchanged. */
             parallelism?: number;
@@ -19379,6 +19383,7 @@ export type LogStreamEvent = components['schemas']['LogStreamEvent'];
 export type KubernetesWorkloadSnapshotSourceKind = components['schemas']['KubernetesWorkloadSnapshotSourceKind'];
 export type KubernetesWorkloadSnapshotTargetKind = components['schemas']['KubernetesWorkloadSnapshotTargetKind'];
 export type KubernetesWorkloadSnapshotRestartPolicy = components['schemas']['KubernetesWorkloadSnapshotRestartPolicy'];
+export type KubernetesWorkloadSnapshotInheritance = components['schemas']['KubernetesWorkloadSnapshotInheritance'];
 export type KubernetesWorkloadSnapshotRequest = components['schemas']['KubernetesWorkloadSnapshotRequest'];
 export type KubernetesWorkloadSnapshotContainer = components['schemas']['KubernetesWorkloadSnapshotContainer'];
 export type KubernetesWorkloadSnapshot = components['schemas']['KubernetesWorkloadSnapshot'];

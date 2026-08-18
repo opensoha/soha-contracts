@@ -24126,6 +24126,29 @@
         ],
         "type": "object"
       },
+      "KubernetesWorkloadSnapshotInheritance": {
+        "enum": [
+          "environment",
+          "storage",
+          "resources",
+          "securityContext",
+          "scheduling",
+          "initContainers",
+          "templateMetadata",
+          "serviceRuntime"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "KubernetesWorkloadSnapshotInheritanceEnvironment",
+          "KubernetesWorkloadSnapshotInheritanceStorage",
+          "KubernetesWorkloadSnapshotInheritanceResources",
+          "KubernetesWorkloadSnapshotInheritanceSecurityContext",
+          "KubernetesWorkloadSnapshotInheritanceScheduling",
+          "KubernetesWorkloadSnapshotInheritanceInitContainers",
+          "KubernetesWorkloadSnapshotInheritanceTemplateMetadata",
+          "KubernetesWorkloadSnapshotInheritanceServiceRuntime"
+        ]
+      },
       "KubernetesWorkloadSnapshotRequest": {
         "additionalProperties": false,
         "if": {
@@ -24182,6 +24205,15 @@
           "description": {
             "maxLength": 512,
             "type": "string"
+          },
+          "inherit": {
+            "description": "Runtime modules copied from the source Pod template. Omitting this field preserves the legacy full-template snapshot; an explicit array copies only the selected modules while always retaining the selected container name, image, imagePullPolicy, command, args, and working directory.",
+            "items": {
+              "$ref": "#/components/schemas/KubernetesWorkloadSnapshotInheritance"
+            },
+            "maxItems": 8,
+            "type": "array",
+            "uniqueItems": true
           },
           "labels": {
             "additionalProperties": {
@@ -41393,7 +41425,7 @@
   "info": {
     "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery.\n",
     "title": "Soha API",
-    "version": "0.1.13"
+    "version": "0.1.14"
   },
   "openapi": "3.1.0",
   "paths": {

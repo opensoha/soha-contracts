@@ -2713,6 +2713,42 @@ func (e KubernetesWorkloadImportInputWorkloadKind) Valid() bool {
 	}
 }
 
+// Defines values for KubernetesWorkloadSnapshotInheritance.
+const (
+	KubernetesWorkloadSnapshotInheritanceEnvironment      KubernetesWorkloadSnapshotInheritance = "environment"
+	KubernetesWorkloadSnapshotInheritanceInitContainers   KubernetesWorkloadSnapshotInheritance = "initContainers"
+	KubernetesWorkloadSnapshotInheritanceResources        KubernetesWorkloadSnapshotInheritance = "resources"
+	KubernetesWorkloadSnapshotInheritanceScheduling       KubernetesWorkloadSnapshotInheritance = "scheduling"
+	KubernetesWorkloadSnapshotInheritanceSecurityContext  KubernetesWorkloadSnapshotInheritance = "securityContext"
+	KubernetesWorkloadSnapshotInheritanceServiceRuntime   KubernetesWorkloadSnapshotInheritance = "serviceRuntime"
+	KubernetesWorkloadSnapshotInheritanceStorage          KubernetesWorkloadSnapshotInheritance = "storage"
+	KubernetesWorkloadSnapshotInheritanceTemplateMetadata KubernetesWorkloadSnapshotInheritance = "templateMetadata"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesWorkloadSnapshotInheritance enum.
+func (e KubernetesWorkloadSnapshotInheritance) Valid() bool {
+	switch e {
+	case KubernetesWorkloadSnapshotInheritanceEnvironment:
+		return true
+	case KubernetesWorkloadSnapshotInheritanceInitContainers:
+		return true
+	case KubernetesWorkloadSnapshotInheritanceResources:
+		return true
+	case KubernetesWorkloadSnapshotInheritanceScheduling:
+		return true
+	case KubernetesWorkloadSnapshotInheritanceSecurityContext:
+		return true
+	case KubernetesWorkloadSnapshotInheritanceServiceRuntime:
+		return true
+	case KubernetesWorkloadSnapshotInheritanceStorage:
+		return true
+	case KubernetesWorkloadSnapshotInheritanceTemplateMetadata:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for KubernetesWorkloadSnapshotRestartPolicy.
 const (
 	KubernetesWorkloadSnapshotRestartPolicyNever     KubernetesWorkloadSnapshotRestartPolicy = "Never"
@@ -14065,6 +14101,9 @@ type KubernetesWorkloadSnapshotEnvelope struct {
 	Data KubernetesWorkloadSnapshot `json:"data"`
 }
 
+// KubernetesWorkloadSnapshotInheritance defines model for KubernetesWorkloadSnapshotInheritance.
+type KubernetesWorkloadSnapshotInheritance string
+
 // KubernetesWorkloadSnapshotRequest defines model for KubernetesWorkloadSnapshotRequest.
 type KubernetesWorkloadSnapshotRequest struct {
 	// ActiveDeadlineSeconds Zero leaves the Kubernetes default unchanged.
@@ -14075,9 +14114,12 @@ type KubernetesWorkloadSnapshotRequest struct {
 	Command               []string          `json:"command,omitempty"`
 
 	// Completions Zero leaves the Kubernetes default unchanged.
-	Completions int               `json:"completions,omitempty"`
-	Description string            `json:"description,omitempty"`
-	Labels      map[string]string `json:"labels,omitempty"`
+	Completions int    `json:"completions,omitempty"`
+	Description string `json:"description,omitempty"`
+
+	// Inherit Runtime modules copied from the source Pod template. Omitting this field preserves the legacy full-template snapshot; an explicit array copies only the selected modules while always retaining the selected container name, image, imagePullPolicy, command, args, and working directory.
+	Inherit []KubernetesWorkloadSnapshotInheritance `json:"inherit,omitempty"`
+	Labels  map[string]string                       `json:"labels,omitempty"`
 
 	// Namespace Namespace shared by the source workload and generated target because referenced Secrets, ConfigMaps, ServiceAccounts, and PVCs are namespace-scoped.
 	Namespace string `json:"namespace"`
