@@ -3540,6 +3540,12 @@ paths:
               $ref: "#/components/schemas/AgentRunClaimRequest"
       responses:
         "200":
+          description: Legacy claimed agent run response retained for client compatibility.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentRunEnvelope"
+        "202":
           description: Claimed agent run, or empty data when none is available.
           content:
             application/json:
@@ -3559,6 +3565,12 @@ paths:
               $ref: "#/components/schemas/AgentRunCallbackRequest"
       responses:
         "200":
+          description: Legacy updated agent run response retained for client compatibility.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentRunEnvelope"
+        "202":
           description: Updated agent run.
           content:
             application/json:
@@ -3578,6 +3590,12 @@ paths:
               $ref: "#/components/schemas/AgentRunToolCallRequest"
       responses:
         "200":
+          description: Legacy tool call result response retained for client compatibility.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentToolCallResultEnvelope"
+        "202":
           description: Tool call result recorded by the control plane.
           content:
             application/json:
@@ -3585,8 +3603,16 @@ paths:
                 $ref: "#/components/schemas/AgentToolCallResultEnvelope"
   /copilot/agent-runs:
     get:
-      tags: [Runner]
+      tags: [AI Workbench]
       operationId: listAgentRuns
+      parameters:
+        - name: sessionId
+          in: query
+          required: false
+          description: Restricts results to a session owned by the current user.
+          schema:
+            type: string
+            minLength: 1
       responses:
         "200":
           description: Agent run list visible to the current user.
@@ -3594,6 +3620,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GenericItemsEnvelope"
+                allOf:
+                  - type: object
+                    required: [items]
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/WorkbenchAgentRun"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
   /copilot/global-assistant/events:
     post:
       tags: [AI Workbench]
@@ -3614,6 +3652,8 @@ paths:
         "400":
           $ref: "#/components/responses/Error"
         "403":
+          $ref: "#/components/responses/Error"
+        "404":
           $ref: "#/components/responses/Error"
   /copilot/sessions/{sessionID}/messages/stream:
     post:
@@ -3637,6 +3677,649 @@ paths:
         "400":
           $ref: "#/components/responses/Error"
         "403":
+          $ref: "#/components/responses/Error"
+  /copilot/insights:
+    get:
+      tags: [AI Workbench]
+      operationId: listWorkbenchInsights
+      responses:
+        "200":
+          description: Operational insights visible to the current user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchInsightListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /copilot/workbench/catalog:
+    get:
+      tags: [AI Workbench]
+      operationId: getWorkbenchCatalog
+      responses:
+        "200":
+          description: Catalog of governed Workbench adapters, sources, profiles, skills, and agent capabilities.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchCatalogEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /copilot/agent-providers:
+    get:
+      tags: [AI Workbench]
+      operationId: listWorkbenchAgentProviders
+      responses:
+        "200":
+          description: Agent providers available to the current user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchAgentProviderListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /copilot/agent-runs/{runID}/cancel:
+    post:
+      tags: [AI Workbench]
+      operationId: cancelWorkbenchAgentRun
+      parameters:
+        - $ref: "#/components/parameters/CopilotRunID"
+      responses:
+        "202":
+          description: Agent run cancellation accepted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchAgentRunEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /copilot/data-source-capabilities:
+    get:
+      tags: [AI Workbench]
+      operationId: listWorkbenchDataSourceCapabilities
+      responses:
+        "200":
+          description: Data source adapters available to the Workbench.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchAdapterListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /copilot/data-sources:
+    get:
+      tags: [AI Workbench]
+      operationId: listWorkbenchDataSources
+      responses:
+        "200":
+          description: Configured Workbench data sources.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchDataSourceListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [AI Workbench]
+      operationId: createWorkbenchDataSource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkbenchDataSourceInput"
+      responses:
+        "201":
+          description: Workbench data source created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchDataSourceEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /copilot/data-sources/{dataSourceID}:
+    put:
+      tags: [AI Workbench]
+      operationId: updateWorkbenchDataSource
+      parameters:
+        - $ref: "#/components/parameters/DataSourceID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkbenchDataSourceInput"
+      responses:
+        "200":
+          description: Workbench data source updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchDataSourceEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /copilot/data-sources/{dataSourceID}/validate:
+    post:
+      tags: [AI Workbench]
+      operationId: validateWorkbenchDataSource
+      parameters:
+        - $ref: "#/components/parameters/DataSourceID"
+      responses:
+        "200":
+          description: Workbench data source validation result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchDataSourceEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /copilot/analysis-profiles:
+    get:
+      tags: [AI Workbench]
+      operationId: listWorkbenchAnalysisProfiles
+      responses:
+        "200":
+          description: Workbench analysis profiles.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchAnalysisProfileListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [AI Workbench]
+      operationId: createWorkbenchAnalysisProfile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkbenchAnalysisProfileInput"
+      responses:
+        "201":
+          description: Workbench analysis profile created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchAnalysisProfileEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /copilot/analysis-profiles/{profileID}:
+    put:
+      tags: [AI Workbench]
+      operationId: updateWorkbenchAnalysisProfile
+      parameters:
+        - $ref: "#/components/parameters/AnalysisProfileID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkbenchAnalysisProfileInput"
+      responses:
+        "200":
+          description: Workbench analysis profile updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchAnalysisProfileEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /copilot/automation-policies:
+    get:
+      tags: [AI Workbench]
+      operationId: listWorkbenchAutomationPolicies
+      responses:
+        "200":
+          description: Workbench automation policies.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchAutomationPolicyListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [AI Workbench]
+      operationId: createWorkbenchAutomationPolicy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkbenchAutomationPolicyInput"
+      responses:
+        "201":
+          description: Workbench automation policy created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchAutomationPolicyEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /copilot/automation-policies/{policyID}:
+    put:
+      tags: [AI Workbench]
+      operationId: updateWorkbenchAutomationPolicy
+      parameters:
+        - $ref: "#/components/parameters/AutomationPolicyID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkbenchAutomationPolicyInput"
+      responses:
+        "200":
+          description: Workbench automation policy updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchAutomationPolicyEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags: [AI Workbench]
+      operationId: deleteWorkbenchAutomationPolicy
+      parameters:
+        - $ref: "#/components/parameters/AutomationPolicyID"
+      responses:
+        "204":
+          description: Workbench automation policy deleted.
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /copilot/root-cause/runs:
+    get:
+      tags: [AI Workbench]
+      operationId: listWorkbenchRootCauseRuns
+      parameters:
+        - { name: clusterId, in: query, schema: { type: string } }
+        - { name: alertId, in: query, schema: { type: string } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 200, default: 20 } }
+      responses:
+        "200":
+          description: Root-cause analysis runs visible to the current user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchRootCauseRunListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [AI Workbench]
+      operationId: createWorkbenchRootCauseRun
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkbenchRootCauseRunInput"
+      responses:
+        "201":
+          description: Root-cause analysis run created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchRootCauseRunEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /copilot/analysis/runs:
+    get:
+      tags: [AI Workbench]
+      operationId: listWorkbenchAnalysisRuns
+      parameters:
+        - { name: clusterId, in: query, schema: { type: string } }
+        - { name: alertId, in: query, schema: { type: string } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 200, default: 20 } }
+      responses:
+        "200":
+          description: Analysis runs visible to the current user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchRootCauseRunListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /copilot/root-cause/runs/{runID}:
+    get:
+      tags: [AI Workbench]
+      operationId: getWorkbenchRootCauseRun
+      parameters:
+        - $ref: "#/components/parameters/CopilotRunID"
+      responses:
+        "200":
+          description: Root-cause analysis run.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchRootCauseRunEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /copilot/sessions:
+    get:
+      tags: [AI Workbench]
+      operationId: listWorkbenchSessions
+      responses:
+        "200":
+          description: Workbench sessions owned by the current user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchSessionListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [AI Workbench]
+      operationId: createWorkbenchSession
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkbenchCreateSessionRequest"
+      responses:
+        "201":
+          description: Workbench session created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchSessionEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /copilot/sessions/{sessionID}:
+    get:
+      tags: [AI Workbench]
+      operationId: getWorkbenchSession
+      parameters:
+        - $ref: "#/components/parameters/SessionID"
+      responses:
+        "200":
+          description: Workbench session owned by the current user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchSessionEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    patch:
+      tags: [AI Workbench]
+      operationId: updateWorkbenchSession
+      parameters:
+        - $ref: "#/components/parameters/SessionID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkbenchUpdateSessionRequest"
+      responses:
+        "200":
+          description: Workbench session updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchSessionEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags: [AI Workbench]
+      operationId: deleteWorkbenchSession
+      parameters:
+        - $ref: "#/components/parameters/SessionID"
+      responses:
+        "204":
+          description: Workbench session deleted.
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /copilot/sessions/{sessionID}/messages:
+    get:
+      tags: [AI Workbench]
+      operationId: listWorkbenchSessionMessages
+      parameters:
+        - $ref: "#/components/parameters/SessionID"
+      responses:
+        "200":
+          description: Messages in a Workbench session.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchMessageListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [AI Workbench]
+      operationId: sendWorkbenchSessionMessage
+      parameters:
+        - $ref: "#/components/parameters/SessionID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkbenchSendMessageRequest"
+      responses:
+        "202":
+          description: Workbench message accepted and processed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchSessionMessageResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /copilot/sessions/{sessionID}/analyze:
+    post:
+      tags: [AI Workbench]
+      operationId: analyzeWorkbenchSession
+      parameters:
+        - $ref: "#/components/parameters/SessionID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkbenchAnalyzeSessionRequest"
+      responses:
+        "202":
+          description: Session analysis accepted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchSessionMessageResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /copilot/inspection-tasks:
+    get:
+      tags: [AI Workbench]
+      operationId: listWorkbenchInspectionTasks
+      responses:
+        "200":
+          description: Inspection tasks visible to the current user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchInspectionTaskListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [AI Workbench]
+      operationId: createWorkbenchInspectionTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkbenchInspectionTaskInput"
+      responses:
+        "201":
+          description: Inspection task created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchInspectionTaskEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /copilot/inspection-tasks/{taskID}:
+    put:
+      tags: [AI Workbench]
+      operationId: updateWorkbenchInspectionTask
+      parameters:
+        - $ref: "#/components/parameters/TaskID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkbenchInspectionTaskInput"
+      responses:
+        "200":
+          description: Inspection task updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchInspectionTaskEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags: [AI Workbench]
+      operationId: deleteWorkbenchInspectionTask
+      parameters:
+        - $ref: "#/components/parameters/TaskID"
+      responses:
+        "204":
+          description: Inspection task deleted.
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /copilot/inspection-runs:
+    get:
+      tags: [AI Workbench]
+      operationId: listWorkbenchInspectionRuns
+      parameters:
+        - { name: taskId, in: query, schema: { type: string } }
+        - { name: clusterId, in: query, schema: { type: string } }
+        - { name: namespace, in: query, schema: { type: string } }
+        - { name: check, in: query, schema: { type: string } }
+        - { name: latest, in: query, schema: { type: boolean, default: false } }
+      responses:
+        "200":
+          description: Inspection runs visible to the current user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchInspectionRunListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /copilot/inspection-tasks/{taskID}/execute:
+    post:
+      tags: [AI Workbench]
+      operationId: executeWorkbenchInspectionTask
+      parameters:
+        - $ref: "#/components/parameters/TaskID"
+      responses:
+        "202":
+          description: Inspection task execution accepted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchInspectionRunEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /copilot/inspection-runs/{runID}/session:
+    post:
+      tags: [AI Workbench]
+      operationId: createWorkbenchSessionFromInspectionRun
+      parameters:
+        - $ref: "#/components/parameters/CopilotRunID"
+      responses:
+        "201":
+          description: Workbench session created from an inspection run.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchSessionEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /copilot/sessions/{sessionID}/inspection-task:
+    post:
+      tags: [AI Workbench]
+      operationId: createWorkbenchInspectionTaskFromSession
+      parameters:
+        - $ref: "#/components/parameters/SessionID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkbenchInspectionTaskInput"
+      responses:
+        "201":
+          description: Inspection task created from a Workbench session.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkbenchInspectionTaskEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
           $ref: "#/components/responses/Error"
   /audit/logs:
     get:
@@ -12774,6 +13457,31 @@ components:
       required: true
       schema:
         type: string
+        minLength: 1
+    CopilotRunID:
+      name: runID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+    AnalysisProfileID:
+      name: profileID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+    AutomationPolicyID:
+      name: policyID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
     SkillID:
       name: skillId
       in: query
@@ -17377,6 +18085,1061 @@ components:
           items:
             $ref: "#/components/schemas/AISkillSettings"
       additionalProperties: false
+    WorkbenchSessionScope:
+      type: object
+      properties:
+        clusterId: { type: string }
+        namespace: { type: string }
+        workload: { type: string }
+        service: { type: string }
+        pod: { type: string }
+        node: { type: string }
+        alertId: { type: string }
+        timeRangeMinutes: { type: integer, minimum: 0 }
+      additionalProperties: false
+    WorkbenchSessionToolset:
+      type: object
+      properties:
+        enabledAdapterIds:
+          type: array
+          items: { type: string }
+        enabledSkillIds:
+          type: array
+          items: { type: string }
+        disabledToolNames:
+          type: array
+          items: { type: string }
+        budgetOverrides:
+          type: object
+          additionalProperties: {}
+        scopeOverrides:
+          type: object
+          additionalProperties: {}
+      additionalProperties: false
+    WorkbenchRunRef:
+      type: object
+      required: [id, kind]
+      properties:
+        id: { type: string }
+        kind: { type: string }
+        status: { type: string }
+        createdAt: { type: string, format: date-time }
+      additionalProperties: false
+    WorkbenchSessionMetadata:
+      type: object
+      properties:
+        mode:
+          type: string
+          enum: [general, root_cause, performance, trace, inspection_review]
+        status: { type: string }
+        agentProviderId: { type: string }
+        scope:
+          $ref: "#/components/schemas/WorkbenchSessionScope"
+        pinnedContext:
+          type: object
+          additionalProperties: {}
+        toolset:
+          $ref: "#/components/schemas/WorkbenchSessionToolset"
+        analysisRunRefs:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchRunRef"
+        summary: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+        archivedAt: { type: string, format: date-time }
+        source: { type: string }
+        knowledgeContext:
+          type: object
+          additionalProperties: {}
+      additionalProperties: false
+    WorkbenchSession:
+      type: object
+      required: [id, title, createdBy, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        createdBy: { type: string }
+        metadata:
+          $ref: "#/components/schemas/WorkbenchSessionMetadata"
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    WorkbenchCreateSessionRequest:
+      type: object
+      properties:
+        title: { type: string }
+        mode:
+          type: string
+          enum: [general, root_cause, performance, trace, inspection_review]
+        agentProviderId: { type: string }
+        scope:
+          $ref: "#/components/schemas/WorkbenchSessionScope"
+        pinnedContext:
+          type: object
+          additionalProperties: {}
+        source: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+        alertId: { type: string }
+        workload: { type: string }
+      additionalProperties: false
+    WorkbenchUpdateSessionRequest:
+      type: object
+      properties:
+        title: { type: string }
+        mode:
+          type: string
+          enum: [general, root_cause, performance, trace, inspection_review]
+        agentProviderId: { type: string }
+        status: { type: string }
+        scope:
+          $ref: "#/components/schemas/WorkbenchSessionScope"
+        pinnedContext:
+          type: object
+          additionalProperties: {}
+        source: { type: string }
+        toolset:
+          $ref: "#/components/schemas/WorkbenchSessionToolset"
+        tags:
+          type: array
+          items: { type: string }
+        summary: { type: string }
+        archived: { type: boolean }
+      additionalProperties: false
+    WorkbenchMessage:
+      type: object
+      required: [id, sessionId, role, content, createdAt]
+      properties:
+        id: { type: string }
+        sessionId: { type: string }
+        role:
+          type: string
+          enum: [user, assistant, system]
+        content: { type: string }
+        metadata:
+          type: object
+          additionalProperties: {}
+        createdAt: { type: string, format: date-time }
+      additionalProperties: false
+    WorkbenchSendMessageRequest:
+      type: object
+      required: [content]
+      properties:
+        content: { type: string, minLength: 1 }
+      additionalProperties: false
+    WorkbenchToolExecution:
+      type: object
+      required: [id, adapterId, toolName, status, startedAt]
+      properties:
+        id: { type: string }
+        adapterId: { type: string }
+        toolName: { type: string }
+        status: { type: string }
+        summary: { type: string }
+        input:
+          type: object
+          additionalProperties: {}
+        output:
+          type: object
+          additionalProperties: {}
+        startedAt: { type: string, format: date-time }
+        completedAt: { type: string, format: date-time }
+      additionalProperties: false
+    WorkbenchEvidence:
+      type: object
+      required: [id, kind, title, summary]
+      properties:
+        id: { type: string }
+        kind: { type: string }
+        title: { type: string }
+        summary: { type: string }
+        severity: { type: string }
+        clusterId: { type: string }
+        namespace: { type: string }
+        timestamp: { type: string, format: date-time }
+        attributes:
+          type: object
+          additionalProperties: {}
+      additionalProperties: false
+    WorkbenchHypothesis:
+      type: object
+      required: [id, title, summary, confidence]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        summary: { type: string }
+        confidence: { type: integer, minimum: 0, maximum: 100 }
+        evidenceIds:
+          type: array
+          items: { type: string }
+        recommendations:
+          type: array
+          items: { type: string }
+      additionalProperties: false
+    WorkbenchGraphNode:
+      type: object
+      required: [id, kind, title]
+      properties:
+        id: { type: string }
+        kind: { type: string }
+        title: { type: string }
+        subtitle: { type: string }
+        severity: { type: string }
+        evidenceIds:
+          type: array
+          items: { type: string }
+        sourceRefs:
+          type: array
+          items: { type: string }
+        attributes:
+          type: object
+          additionalProperties: {}
+      additionalProperties: false
+    WorkbenchGraphEdge:
+      type: object
+      required: [id, source, target, relation]
+      properties:
+        id: { type: string }
+        source: { type: string }
+        target: { type: string }
+        relation: { type: string }
+        severity: { type: string }
+        evidenceIds:
+          type: array
+          items: { type: string }
+        attributes:
+          type: object
+          additionalProperties: {}
+      additionalProperties: false
+    WorkbenchGraph:
+      type: object
+      properties:
+        layout: { type: string }
+        focusNodeId: { type: string }
+        nodes:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchGraphNode"
+        edges:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchGraphEdge"
+      additionalProperties: false
+    WorkbenchAnalysisArtifact:
+      type: object
+      required: [kind, runId, summary]
+      properties:
+        kind: { type: string }
+        runId: { type: string }
+        title: { type: string }
+        summary: { type: string }
+        scope:
+          $ref: "#/components/schemas/WorkbenchSessionScope"
+        evidence:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchEvidence"
+        hypotheses:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchHypothesis"
+        recommendations:
+          type: array
+          items: { type: string }
+        toolExecutions:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchToolExecution"
+        graph:
+          $ref: "#/components/schemas/WorkbenchGraph"
+        dataSourceSnapshot:
+          type: object
+          additionalProperties: {}
+      additionalProperties: false
+    WorkbenchSessionMessageResult:
+      type: object
+      required: [messages]
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchMessage"
+        toolCalls:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchToolExecution"
+        analysisArtifacts:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchAnalysisArtifact"
+        sessionPatch:
+          type: object
+          additionalProperties: {}
+      additionalProperties: false
+    WorkbenchAnalyzeSessionRequest:
+      type: object
+      properties:
+        mode: { type: string }
+        analysisProfileId: { type: string }
+        agentProviderId: { type: string }
+        triggerType: { type: string }
+        question: { type: string }
+        scope:
+          $ref: "#/components/schemas/WorkbenchSessionScope"
+      additionalProperties: false
+    WorkbenchRootCauseRunInput:
+      type: object
+      properties:
+        title: { type: string }
+        kind: { type: string }
+        sessionId: { type: string }
+        analysisProfileId: { type: string }
+        agentProviderId: { type: string }
+        triggerType: { type: string }
+        clusterId: { type: string }
+        namespace: { type: string }
+        workloadKind: { type: string }
+        workloadName: { type: string }
+        alertId: { type: string }
+        timeRangeMinutes: { type: integer, minimum: 0 }
+        question: { type: string }
+      additionalProperties: false
+    WorkbenchRootCauseRun:
+      type: object
+      required: [id, title, createdBy, status, severity, summary, timeRangeMinutes, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        kind: { type: string }
+        sessionId: { type: string }
+        title: { type: string }
+        createdBy: { type: string }
+        analysisProfileId: { type: string }
+        triggerType: { type: string }
+        status: { type: string }
+        severity: { type: string }
+        summary: { type: string }
+        clusterId: { type: string }
+        namespace: { type: string }
+        workloadKind: { type: string }
+        workloadName: { type: string }
+        alertId: { type: string }
+        timeRangeMinutes: { type: integer }
+        question: { type: string }
+        evidence:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchEvidence"
+        hypotheses:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchHypothesis"
+        recommendations:
+          type: array
+          items: { type: string }
+        toolExecutions:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchToolExecution"
+        dataSourceSnapshot:
+          type: object
+          additionalProperties: {}
+        playbookResults:
+          type: object
+          additionalProperties: {}
+        remediationPlan:
+          type: object
+          additionalProperties: {}
+        dedupKey: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    WorkbenchInsight:
+      type: object
+      required: [title, description, severity]
+      properties:
+        title: { type: string }
+        description: { type: string }
+        severity: { type: string }
+        actions:
+          type: array
+          items: { type: string }
+      additionalProperties: false
+    WorkbenchInsightListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchInsight"
+      additionalProperties: false
+    WorkbenchSessionEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/WorkbenchSession"
+      additionalProperties: false
+    WorkbenchSessionListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchSession"
+      additionalProperties: false
+    WorkbenchMessageListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchMessage"
+      additionalProperties: false
+    WorkbenchSessionMessageResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/WorkbenchSessionMessageResult"
+      additionalProperties: false
+    WorkbenchRootCauseRunEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/WorkbenchRootCauseRun"
+      additionalProperties: false
+    WorkbenchRootCauseRunListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchRootCauseRun"
+      additionalProperties: false
+    WorkbenchAdapterTool:
+      type: object
+      required: [name, description]
+      properties:
+        name: { type: string }
+        description: { type: string }
+        schemaHint: { type: string }
+      additionalProperties: false
+    WorkbenchAdapter:
+      type: object
+      required: [id, sourceKind, name, description, requiresConfig, supportsSessionOverride, scopes]
+      properties:
+        id: { type: string }
+        sourceKind: { type: string }
+        supportedBackends:
+          type: array
+          items: { type: string }
+        name: { type: string }
+        description: { type: string }
+        category: { type: string }
+        requiresConfig: { type: boolean }
+        supportsSessionOverride: { type: boolean }
+        scopes:
+          type: array
+          items: { type: string }
+        tools:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchAdapterTool"
+        defaultBudget:
+          type: object
+          additionalProperties: {}
+        toolSchemaSummary:
+          type: object
+          additionalProperties: { type: string }
+      additionalProperties: false
+    WorkbenchDataSourceInput:
+      type: object
+      required: [id, name, sourceKind, backendType, enabled, mcpAdapter]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        sourceKind: { type: string }
+        backendType: { type: string }
+        enabled: { type: boolean }
+        credentialRef: { type: string }
+        scope:
+          type: object
+          additionalProperties: {}
+        queryBudget:
+          type: object
+          additionalProperties: {}
+        redactionPolicy:
+          type: object
+          additionalProperties: {}
+        mcpAdapter: { type: string }
+        config:
+          type: object
+          additionalProperties: {}
+      additionalProperties: false
+    WorkbenchDataSource:
+      type: object
+      required: [id, name, sourceKind, backendType, enabled, mcpAdapter, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        sourceKind: { type: string }
+        backendType: { type: string }
+        enabled: { type: boolean }
+        scope:
+          type: object
+          additionalProperties: {}
+        queryBudget:
+          type: object
+          additionalProperties: {}
+        redactionPolicy:
+          type: object
+          additionalProperties: {}
+        mcpAdapter: { type: string }
+        config:
+          type: object
+          additionalProperties: {}
+        validationStatus: { type: string }
+        validationMessage: { type: string }
+        lastValidatedAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    WorkbenchAnalysisProfileInput:
+      type: object
+      required: [id, name, mode, remediationPolicy, defaultTimeRangeMinutes, timeoutSeconds, enabled]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        mode: { type: string }
+        enabledSources:
+          type: array
+          items: { type: string }
+        enabledPlaybooks:
+          type: array
+          items: { type: string }
+        queryBudgets:
+          type: object
+          additionalProperties: {}
+        outputStyle:
+          type: object
+          additionalProperties: {}
+        remediationPolicy: { type: string }
+        defaultTimeRangeMinutes: { type: integer, minimum: 0 }
+        timeoutSeconds: { type: integer, minimum: 0 }
+        enabled: { type: boolean }
+      additionalProperties: false
+    WorkbenchAnalysisProfile:
+      allOf:
+        - $ref: "#/components/schemas/WorkbenchAnalysisProfileInput"
+        - type: object
+          required: [createdAt, updatedAt]
+          properties:
+            createdAt: { type: string, format: date-time }
+            updatedAt: { type: string, format: date-time }
+      unevaluatedProperties: false
+    WorkbenchAutomationPolicyInput:
+      type: object
+      required: [id, name, enabled, triggerType, dedupWindowSeconds, analysisProfileId, remediationPolicy, cooldownSeconds]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        enabled: { type: boolean }
+        triggerType: { type: string }
+        analysisKinds:
+          type: array
+          items: { type: string }
+        agentProviderId: { type: string }
+        triggerConditions:
+          type: object
+          additionalProperties: {}
+        dedupWindowSeconds: { type: integer, minimum: 0 }
+        analysisProfileId: { type: string }
+        remediationPolicy: { type: string }
+        approvalPolicy:
+          type: object
+          additionalProperties: {}
+        cooldownSeconds: { type: integer, minimum: 0 }
+      additionalProperties: false
+    WorkbenchAutomationPolicy:
+      allOf:
+        - $ref: "#/components/schemas/WorkbenchAutomationPolicyInput"
+        - type: object
+          required: [createdAt, updatedAt]
+          properties:
+            createdAt: { type: string, format: date-time }
+            updatedAt: { type: string, format: date-time }
+      unevaluatedProperties: false
+    WorkbenchAgentProviderRuntimeStatus:
+      type: object
+      required: [state, queuedRuns, runningRuns, recentFailures, observedAt]
+      properties:
+        state: { type: string }
+        reason: { type: string }
+        queuedRuns: { type: integer, minimum: 0 }
+        runningRuns: { type: integer, minimum: 0 }
+        recentFailures: { type: integer, minimum: 0 }
+        lastRunId: { type: string }
+        lastRunStatus: { type: string }
+        lastAgentId: { type: string }
+        lastHeartbeatAt: { type: string, format: date-time }
+        lastCompletedAt: { type: string, format: date-time }
+        observedAt: { type: string, format: date-time }
+      additionalProperties: false
+    WorkbenchAgentProvider:
+      type: object
+      required: [id, kind, name, enabled, supportsAsync, supportsSkills, supportsToolsets]
+      properties:
+        id: { type: string }
+        kind: { type: string }
+        name: { type: string }
+        description: { type: string }
+        enabled: { type: boolean }
+        default: { type: boolean }
+        capabilities:
+          type: array
+          items: { type: string }
+        supportedModes:
+          type: array
+          items: { type: string }
+        supportsAsync: { type: boolean }
+        supportsSkills: { type: boolean }
+        supportsToolsets: { type: boolean }
+        config:
+          type: object
+          additionalProperties: {}
+        runtimeStatus:
+          $ref: "#/components/schemas/WorkbenchAgentProviderRuntimeStatus"
+      additionalProperties: false
+    WorkbenchAgentToolBinding:
+      type: object
+      required: [id, capabilityId, toolKind]
+      properties:
+        id: { type: string }
+        capabilityId: { type: string }
+        providerId: { type: string }
+        providerKind: { type: string }
+        toolKind: { type: string }
+        adapterId: { type: string }
+        toolName: { type: string }
+        permissionKey: { type: string }
+        config:
+          type: object
+          additionalProperties: {}
+      additionalProperties: false
+    WorkbenchAgentSkillBinding:
+      type: object
+      required: [id, skillId]
+      properties:
+        id: { type: string }
+        skillId: { type: string }
+        providerId: { type: string }
+        providerKind: { type: string }
+        providerSkillRef: { type: string }
+        capabilityRefs:
+          type: array
+          items: { type: string }
+        promptTemplateId: { type: string }
+        config:
+          type: object
+          additionalProperties: {}
+      additionalProperties: false
+    WorkbenchAgentCapability:
+      type: object
+      required: [id, name]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        category: { type: string }
+        description: { type: string }
+        analysisKinds:
+          type: array
+          items: { type: string }
+        requiredScopes:
+          type: array
+          items: { type: string }
+        toolRefs:
+          type: array
+          items: { type: string }
+        toolBindings:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchAgentToolBinding"
+        skillBindings:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchAgentSkillBinding"
+      additionalProperties: false
+    WorkbenchOperationState:
+      type: object
+      required: [phase, status, terminal, cancelable, retryable, runnerClaimRequired, heartbeatRequired, timeoutSeconds, timeoutStale, heartbeatStale]
+      properties:
+        phase: { type: string }
+        status: { type: string }
+        terminal: { type: boolean }
+        cancelable: { type: boolean }
+        retryable: { type: boolean }
+        runnerClaimRequired: { type: boolean }
+        heartbeatRequired: { type: boolean }
+        timeoutSeconds: { type: integer }
+        timeoutStale: { type: boolean }
+        heartbeatStale: { type: boolean }
+        lastHeartbeatAt: { type: string, format: date-time }
+        nextHeartbeatDeadline: { type: string, format: date-time }
+        nextTimeoutDeadline: { type: string, format: date-time }
+        failureReason: { type: string }
+        failureMessage: { type: string }
+        failureEvidence:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+        finalStateRecordedAt: { type: string, format: date-time }
+        claimedByAgentId: { type: string }
+        externalRunId: { type: string }
+        artifactCount: { type: integer }
+        toolExecutionCount: { type: integer }
+        recommendedNextAction: { type: string }
+      additionalProperties: false
+    WorkbenchAgentRun:
+      type: object
+      required: [id, providerId, providerKind, capabilityId, createdBy, status, timeoutSeconds, queuedAt, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        providerId: { type: string }
+        providerKind: { type: string }
+        capabilityId: { type: string }
+        skillIds:
+          type: array
+          items: { type: string }
+        sessionId: { type: string }
+        rootCauseRunId: { type: string }
+        createdBy: { type: string }
+        status: { type: string }
+        scope:
+          $ref: "#/components/schemas/WorkbenchSessionScope"
+        toolset:
+          $ref: "#/components/schemas/WorkbenchSessionToolset"
+        toolBindings:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchAgentToolBinding"
+        skillBindings:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchAgentSkillBinding"
+        input:
+          type: object
+          additionalProperties: {}
+        output:
+          type: object
+          additionalProperties: {}
+        toolExecutions:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchToolExecution"
+        analysisArtifacts:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchAnalysisArtifact"
+        operationState:
+          $ref: "#/components/schemas/WorkbenchOperationState"
+        claimedByAgentId: { type: string }
+        externalRunId: { type: string }
+        errorMessage: { type: string }
+        timeoutSeconds: { type: integer }
+        queuedAt: { type: string, format: date-time }
+        startedAt: { type: string, format: date-time }
+        lastHeartbeatAt: { type: string, format: date-time }
+        completedAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    WorkbenchSkill:
+      type: object
+      required: [id, name, enabled]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        category: { type: string }
+        ownerModule: { type: string }
+        description: { type: string }
+        enabled: { type: boolean }
+        scopes:
+          type: array
+          items: { type: string }
+        capabilityRefs:
+          type: array
+          items: { type: string }
+        blueprintRefs:
+          type: array
+          items: { type: string }
+        scopeRules:
+          type: array
+          items: { type: string }
+      additionalProperties: false
+    WorkbenchCatalogDataSource:
+      type: object
+      required: [id, name, sourceKind, backendType, enabled, mcpAdapter]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        sourceKind: { type: string }
+        backendType: { type: string }
+        enabled: { type: boolean }
+        mcpAdapter: { type: string }
+        validationStatus: { type: string }
+        validationMessage: { type: string }
+      additionalProperties: false
+    WorkbenchCatalogAnalysisProfile:
+      type: object
+      required: [id, name, mode, enabled]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        mode: { type: string }
+        enabled: { type: boolean }
+      additionalProperties: false
+    WorkbenchCatalog:
+      type: object
+      required: [adapters, dataSources, analysisProfiles]
+      properties:
+        adapters:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchAdapter"
+        dataSources:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchCatalogDataSource"
+        analysisProfiles:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchCatalogAnalysisProfile"
+        skillsRegistry:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchSkill"
+        agentProviders:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchAgentProvider"
+        capabilities:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchAgentCapability"
+        toolBindings:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchAgentToolBinding"
+        skillBindings:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchAgentSkillBinding"
+      additionalProperties: false
+    WorkbenchCatalogEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/WorkbenchCatalog"
+      additionalProperties: false
+    WorkbenchAdapterListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchAdapter"
+      additionalProperties: false
+    WorkbenchDataSourceEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/WorkbenchDataSource"
+      additionalProperties: false
+    WorkbenchDataSourceListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchDataSource"
+      additionalProperties: false
+    WorkbenchAnalysisProfileEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/WorkbenchAnalysisProfile"
+      additionalProperties: false
+    WorkbenchAnalysisProfileListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchAnalysisProfile"
+      additionalProperties: false
+    WorkbenchAutomationPolicyEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/WorkbenchAutomationPolicy"
+      additionalProperties: false
+    WorkbenchAutomationPolicyListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchAutomationPolicy"
+      additionalProperties: false
+    WorkbenchAgentProviderListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchAgentProvider"
+      additionalProperties: false
+    WorkbenchAgentRunEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/WorkbenchAgentRun"
+      additionalProperties: false
+    WorkbenchAgentRunListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchAgentRun"
+      additionalProperties: false
+    WorkbenchInspectionTaskInput:
+      type: object
+      required: [id, title, scopeType, enabled, intervalMinutes]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        scopeType: { type: string }
+        clusterId: { type: string }
+        namespace: { type: string }
+        checks:
+          type: array
+          items: { type: string }
+        enabled: { type: boolean }
+        intervalMinutes: { type: integer, minimum: 0 }
+        metadata:
+          type: object
+          additionalProperties: {}
+      additionalProperties: false
+    WorkbenchInspectionTask:
+      type: object
+      required: [id, title, scopeType, enabled, intervalMinutes, createdBy, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        scopeType: { type: string }
+        clusterId: { type: string }
+        namespace: { type: string }
+        checks:
+          type: array
+          items: { type: string }
+        enabled: { type: boolean }
+        intervalMinutes: { type: integer }
+        metadata:
+          type: object
+          additionalProperties: {}
+        createdBy: { type: string }
+        lastRunAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    WorkbenchInspectionFinding:
+      type: object
+      required: [id, title, severity, summary, source]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        severity: { type: string }
+        summary: { type: string }
+        recommendation: { type: string }
+        source: { type: string }
+        data:
+          type: object
+          additionalProperties: {}
+      additionalProperties: false
+    WorkbenchInspectionRun:
+      type: object
+      required: [id, taskId, triggeredBy, status, severity, summary, startedAt, createdAt]
+      properties:
+        id: { type: string }
+        taskId: { type: string }
+        triggeredBy: { type: string }
+        status: { type: string }
+        severity: { type: string }
+        summary: { type: string }
+        findings:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchInspectionFinding"
+        report:
+          type: object
+          additionalProperties: {}
+        startedAt: { type: string, format: date-time }
+        completedAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+      additionalProperties: false
+    WorkbenchInspectionTaskEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/WorkbenchInspectionTask"
+      additionalProperties: false
+    WorkbenchInspectionTaskListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchInspectionTask"
+      additionalProperties: false
+    WorkbenchInspectionRunEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/WorkbenchInspectionRun"
+      additionalProperties: false
+    WorkbenchInspectionRunListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkbenchInspectionRun"
+      additionalProperties: false
     WorkbenchLaunchContext:
       type: object
       required: [sourceWorkbench, sourceRoute]
@@ -17590,6 +19353,7 @@ components:
             role:
               type: string
               enum: [assistant]
+              x-enum-varnames: [WorkbenchMessageDoneEventRoleAssistant]
             content:
               type: string
             metadata:

@@ -16,3 +16,9 @@ func TestKubernetesWorkloadSnapshotRequestGeneratedShape(t *testing.T) {
 		t.Fatalf("request = %#v", request)
 	}
 }
+
+func TestWorkbenchMessageDoneEventRoleGeneratedName(t *testing.T) {
+	if WorkbenchMessageDoneEventRoleAssistant != WorkbenchMessageDoneEventRole("assistant") {
+		t.Fatalf("role = %q", WorkbenchMessageDoneEventRoleAssistant)
+	}
+}

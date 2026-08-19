@@ -5740,6 +5740,33 @@ func (e WorkbenchCardCommandEventType) Valid() bool {
 	}
 }
 
+// Defines values for WorkbenchCreateSessionRequestMode.
+const (
+	WorkbenchCreateSessionRequestModeGeneral          WorkbenchCreateSessionRequestMode = "general"
+	WorkbenchCreateSessionRequestModeInspectionReview WorkbenchCreateSessionRequestMode = "inspection_review"
+	WorkbenchCreateSessionRequestModePerformance      WorkbenchCreateSessionRequestMode = "performance"
+	WorkbenchCreateSessionRequestModeRootCause        WorkbenchCreateSessionRequestMode = "root_cause"
+	WorkbenchCreateSessionRequestModeTrace            WorkbenchCreateSessionRequestMode = "trace"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchCreateSessionRequestMode enum.
+func (e WorkbenchCreateSessionRequestMode) Valid() bool {
+	switch e {
+	case WorkbenchCreateSessionRequestModeGeneral:
+		return true
+	case WorkbenchCreateSessionRequestModeInspectionReview:
+		return true
+	case WorkbenchCreateSessionRequestModePerformance:
+		return true
+	case WorkbenchCreateSessionRequestModeRootCause:
+		return true
+	case WorkbenchCreateSessionRequestModeTrace:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for WorkbenchErrorEventType.
 const (
 	WorkbenchErrorEventTypeError WorkbenchErrorEventType = "error"
@@ -5809,6 +5836,27 @@ func (e WorkbenchLaunchContextSourceWorkbench) Valid() bool {
 	case WorkbenchLaunchContextSourceWorkbenchPlatform:
 		return true
 	case WorkbenchLaunchContextSourceWorkbenchVirtualization:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchMessageRole.
+const (
+	WorkbenchMessageRoleAssistant WorkbenchMessageRole = "assistant"
+	WorkbenchMessageRoleSystem    WorkbenchMessageRole = "system"
+	WorkbenchMessageRoleUser      WorkbenchMessageRole = "user"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchMessageRole enum.
+func (e WorkbenchMessageRole) Valid() bool {
+	switch e {
+	case WorkbenchMessageRoleAssistant:
+		return true
+	case WorkbenchMessageRoleSystem:
+		return true
+	case WorkbenchMessageRoleUser:
 		return true
 	default:
 		return false
@@ -5899,6 +5947,33 @@ func (e WorkbenchSelectionContextKind) Valid() bool {
 	case WorkbenchSelectionContextKindPlain:
 		return true
 	case WorkbenchSelectionContextKindYaml:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchSessionMetadataMode.
+const (
+	WorkbenchSessionMetadataModeGeneral          WorkbenchSessionMetadataMode = "general"
+	WorkbenchSessionMetadataModeInspectionReview WorkbenchSessionMetadataMode = "inspection_review"
+	WorkbenchSessionMetadataModePerformance      WorkbenchSessionMetadataMode = "performance"
+	WorkbenchSessionMetadataModeRootCause        WorkbenchSessionMetadataMode = "root_cause"
+	WorkbenchSessionMetadataModeTrace            WorkbenchSessionMetadataMode = "trace"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchSessionMetadataMode enum.
+func (e WorkbenchSessionMetadataMode) Valid() bool {
+	switch e {
+	case WorkbenchSessionMetadataModeGeneral:
+		return true
+	case WorkbenchSessionMetadataModeInspectionReview:
+		return true
+	case WorkbenchSessionMetadataModePerformance:
+		return true
+	case WorkbenchSessionMetadataModeRootCause:
+		return true
+	case WorkbenchSessionMetadataModeTrace:
 		return true
 	default:
 		return false
@@ -6049,6 +6124,33 @@ const (
 func (e WorkbenchToolStartedEventType) Valid() bool {
 	switch e {
 	case WorkbenchToolStartedEventTypeToolStarted:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchUpdateSessionRequestMode.
+const (
+	General          WorkbenchUpdateSessionRequestMode = "general"
+	InspectionReview WorkbenchUpdateSessionRequestMode = "inspection_review"
+	Performance      WorkbenchUpdateSessionRequestMode = "performance"
+	RootCause        WorkbenchUpdateSessionRequestMode = "root_cause"
+	Trace            WorkbenchUpdateSessionRequestMode = "trace"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchUpdateSessionRequestMode enum.
+func (e WorkbenchUpdateSessionRequestMode) Valid() bool {
+	switch e {
+	case General:
+		return true
+	case InspectionReview:
+		return true
+	case Performance:
+		return true
+	case RootCause:
+		return true
+	case Trace:
 		return true
 	default:
 		return false
@@ -18940,6 +19042,133 @@ type VirtualizationOperationPageEnvelope struct {
 	Data VirtualizationOperationPage `json:"data"`
 }
 
+// WorkbenchAdapter defines model for WorkbenchAdapter.
+type WorkbenchAdapter struct {
+	Category                string                 `json:"category,omitempty"`
+	DefaultBudget           map[string]any         `json:"defaultBudget,omitempty"`
+	Description             string                 `json:"description"`
+	ID                      string                 `json:"id"`
+	Name                    string                 `json:"name"`
+	RequiresConfig          bool                   `json:"requiresConfig"`
+	Scopes                  []string               `json:"scopes"`
+	SourceKind              string                 `json:"sourceKind"`
+	SupportedBackends       []string               `json:"supportedBackends,omitempty"`
+	SupportsSessionOverride bool                   `json:"supportsSessionOverride"`
+	ToolSchemaSummary       map[string]string      `json:"toolSchemaSummary,omitempty"`
+	Tools                   []WorkbenchAdapterTool `json:"tools,omitempty"`
+}
+
+// WorkbenchAdapterListEnvelope defines model for WorkbenchAdapterListEnvelope.
+type WorkbenchAdapterListEnvelope struct {
+	Items []WorkbenchAdapter `json:"items"`
+}
+
+// WorkbenchAdapterTool defines model for WorkbenchAdapterTool.
+type WorkbenchAdapterTool struct {
+	Description string `json:"description"`
+	Name        string `json:"name"`
+	SchemaHint  string `json:"schemaHint,omitempty"`
+}
+
+// WorkbenchAgentCapability defines model for WorkbenchAgentCapability.
+type WorkbenchAgentCapability struct {
+	AnalysisKinds  []string                     `json:"analysisKinds,omitempty"`
+	Category       string                       `json:"category,omitempty"`
+	Description    string                       `json:"description,omitempty"`
+	ID             string                       `json:"id"`
+	Name           string                       `json:"name"`
+	RequiredScopes []string                     `json:"requiredScopes,omitempty"`
+	SkillBindings  []WorkbenchAgentSkillBinding `json:"skillBindings,omitempty"`
+	ToolBindings   []WorkbenchAgentToolBinding  `json:"toolBindings,omitempty"`
+	ToolRefs       []string                     `json:"toolRefs,omitempty"`
+}
+
+// WorkbenchAgentProvider defines model for WorkbenchAgentProvider.
+type WorkbenchAgentProvider struct {
+	Capabilities     []string                             `json:"capabilities,omitempty"`
+	Config           map[string]any                       `json:"config,omitempty"`
+	Default          bool                                 `json:"default,omitempty"`
+	Description      string                               `json:"description,omitempty"`
+	Enabled          bool                                 `json:"enabled"`
+	ID               string                               `json:"id"`
+	Kind             string                               `json:"kind"`
+	Name             string                               `json:"name"`
+	RuntimeStatus    *WorkbenchAgentProviderRuntimeStatus `json:"runtimeStatus,omitempty"`
+	SupportedModes   []string                             `json:"supportedModes,omitempty"`
+	SupportsAsync    bool                                 `json:"supportsAsync"`
+	SupportsSkills   bool                                 `json:"supportsSkills"`
+	SupportsToolsets bool                                 `json:"supportsToolsets"`
+}
+
+// WorkbenchAgentProviderListEnvelope defines model for WorkbenchAgentProviderListEnvelope.
+type WorkbenchAgentProviderListEnvelope struct {
+	Items []WorkbenchAgentProvider `json:"items"`
+}
+
+// WorkbenchAgentProviderRuntimeStatus defines model for WorkbenchAgentProviderRuntimeStatus.
+type WorkbenchAgentProviderRuntimeStatus struct {
+	LastAgentID     string     `json:"lastAgentId,omitempty"`
+	LastCompletedAt *time.Time `json:"lastCompletedAt,omitempty"`
+	LastHeartbeatAt *time.Time `json:"lastHeartbeatAt,omitempty"`
+	LastRunID       string     `json:"lastRunId,omitempty"`
+	LastRunStatus   string     `json:"lastRunStatus,omitempty"`
+	ObservedAt      time.Time  `json:"observedAt"`
+	QueuedRuns      int        `json:"queuedRuns"`
+	Reason          string     `json:"reason,omitempty"`
+	RecentFailures  int        `json:"recentFailures"`
+	RunningRuns     int        `json:"runningRuns"`
+	State           string     `json:"state"`
+}
+
+// WorkbenchAgentRun defines model for WorkbenchAgentRun.
+type WorkbenchAgentRun struct {
+	AnalysisArtifacts []WorkbenchAnalysisArtifact  `json:"analysisArtifacts,omitempty"`
+	CapabilityID      string                       `json:"capabilityId"`
+	ClaimedByAgentID  string                       `json:"claimedByAgentId,omitempty"`
+	CompletedAt       *time.Time                   `json:"completedAt,omitempty"`
+	CreatedAt         time.Time                    `json:"createdAt"`
+	CreatedBy         string                       `json:"createdBy"`
+	ErrorMessage      string                       `json:"errorMessage,omitempty"`
+	ExternalRunID     string                       `json:"externalRunId,omitempty"`
+	ID                string                       `json:"id"`
+	Input             map[string]any               `json:"input,omitempty"`
+	LastHeartbeatAt   *time.Time                   `json:"lastHeartbeatAt,omitempty"`
+	OperationState    *WorkbenchOperationState     `json:"operationState,omitempty"`
+	Output            map[string]any               `json:"output,omitempty"`
+	ProviderID        string                       `json:"providerId"`
+	ProviderKind      string                       `json:"providerKind"`
+	QueuedAt          time.Time                    `json:"queuedAt"`
+	RootCauseRunID    string                       `json:"rootCauseRunId,omitempty"`
+	Scope             *WorkbenchSessionScope       `json:"scope,omitempty"`
+	SessionID         string                       `json:"sessionId,omitempty"`
+	SkillBindings     []WorkbenchAgentSkillBinding `json:"skillBindings,omitempty"`
+	SkillIDs          []string                     `json:"skillIds,omitempty"`
+	StartedAt         *time.Time                   `json:"startedAt,omitempty"`
+	Status            string                       `json:"status"`
+	TimeoutSeconds    int                          `json:"timeoutSeconds"`
+	ToolBindings      []WorkbenchAgentToolBinding  `json:"toolBindings,omitempty"`
+	ToolExecutions    []WorkbenchToolExecution     `json:"toolExecutions,omitempty"`
+	Toolset           *WorkbenchSessionToolset     `json:"toolset,omitempty"`
+	UpdatedAt         time.Time                    `json:"updatedAt"`
+}
+
+// WorkbenchAgentRunEnvelope defines model for WorkbenchAgentRunEnvelope.
+type WorkbenchAgentRunEnvelope struct {
+	Data WorkbenchAgentRun `json:"data"`
+}
+
+// WorkbenchAgentSkillBinding defines model for WorkbenchAgentSkillBinding.
+type WorkbenchAgentSkillBinding struct {
+	CapabilityRefs   []string       `json:"capabilityRefs,omitempty"`
+	Config           map[string]any `json:"config,omitempty"`
+	ID               string         `json:"id"`
+	PromptTemplateID string         `json:"promptTemplateId,omitempty"`
+	ProviderID       string         `json:"providerId,omitempty"`
+	ProviderKind     string         `json:"providerKind,omitempty"`
+	ProviderSkillRef string         `json:"providerSkillRef,omitempty"`
+	SkillID          string         `json:"skillId"`
+}
+
 // WorkbenchAgentStatusEvent defines model for WorkbenchAgentStatusEvent.
 type WorkbenchAgentStatusEvent struct {
 	CreatedAt    time.Time                             `json:"createdAt"`
@@ -18963,6 +19192,86 @@ type WorkbenchAgentStatusEventStatus string
 // WorkbenchAgentStatusEventType defines model for WorkbenchAgentStatusEvent.Type.
 type WorkbenchAgentStatusEventType string
 
+// WorkbenchAgentToolBinding defines model for WorkbenchAgentToolBinding.
+type WorkbenchAgentToolBinding struct {
+	AdapterID     string         `json:"adapterId,omitempty"`
+	CapabilityID  string         `json:"capabilityId"`
+	Config        map[string]any `json:"config,omitempty"`
+	ID            string         `json:"id"`
+	PermissionKey string         `json:"permissionKey,omitempty"`
+	ProviderID    string         `json:"providerId,omitempty"`
+	ProviderKind  string         `json:"providerKind,omitempty"`
+	ToolKind      string         `json:"toolKind"`
+	ToolName      string         `json:"toolName,omitempty"`
+}
+
+// WorkbenchAnalysisArtifact defines model for WorkbenchAnalysisArtifact.
+type WorkbenchAnalysisArtifact struct {
+	DataSourceSnapshot map[string]any           `json:"dataSourceSnapshot,omitempty"`
+	Evidence           []WorkbenchEvidence      `json:"evidence,omitempty"`
+	Graph              *WorkbenchGraph          `json:"graph,omitempty"`
+	Hypotheses         []WorkbenchHypothesis    `json:"hypotheses,omitempty"`
+	Kind               string                   `json:"kind"`
+	Recommendations    []string                 `json:"recommendations,omitempty"`
+	RunID              string                   `json:"runId"`
+	Scope              *WorkbenchSessionScope   `json:"scope,omitempty"`
+	Summary            string                   `json:"summary"`
+	Title              string                   `json:"title,omitempty"`
+	ToolExecutions     []WorkbenchToolExecution `json:"toolExecutions,omitempty"`
+}
+
+// WorkbenchAnalysisProfile defines model for WorkbenchAnalysisProfile.
+type WorkbenchAnalysisProfile struct {
+	CreatedAt               time.Time      `json:"createdAt"`
+	DefaultTimeRangeMinutes int            `json:"defaultTimeRangeMinutes"`
+	Enabled                 bool           `json:"enabled"`
+	EnabledPlaybooks        []string       `json:"enabledPlaybooks,omitempty"`
+	EnabledSources          []string       `json:"enabledSources,omitempty"`
+	ID                      string         `json:"id"`
+	Mode                    string         `json:"mode"`
+	Name                    string         `json:"name"`
+	OutputStyle             map[string]any `json:"outputStyle,omitempty"`
+	QueryBudgets            map[string]any `json:"queryBudgets,omitempty"`
+	RemediationPolicy       string         `json:"remediationPolicy"`
+	TimeoutSeconds          int            `json:"timeoutSeconds"`
+	UpdatedAt               time.Time      `json:"updatedAt"`
+}
+
+// WorkbenchAnalysisProfileEnvelope defines model for WorkbenchAnalysisProfileEnvelope.
+type WorkbenchAnalysisProfileEnvelope struct {
+	Data WorkbenchAnalysisProfile `json:"data"`
+}
+
+// WorkbenchAnalysisProfileInput defines model for WorkbenchAnalysisProfileInput.
+type WorkbenchAnalysisProfileInput struct {
+	DefaultTimeRangeMinutes int            `json:"defaultTimeRangeMinutes"`
+	Enabled                 bool           `json:"enabled"`
+	EnabledPlaybooks        []string       `json:"enabledPlaybooks,omitempty"`
+	EnabledSources          []string       `json:"enabledSources,omitempty"`
+	ID                      string         `json:"id"`
+	Mode                    string         `json:"mode"`
+	Name                    string         `json:"name"`
+	OutputStyle             map[string]any `json:"outputStyle,omitempty"`
+	QueryBudgets            map[string]any `json:"queryBudgets,omitempty"`
+	RemediationPolicy       string         `json:"remediationPolicy"`
+	TimeoutSeconds          int            `json:"timeoutSeconds"`
+}
+
+// WorkbenchAnalysisProfileListEnvelope defines model for WorkbenchAnalysisProfileListEnvelope.
+type WorkbenchAnalysisProfileListEnvelope struct {
+	Items []WorkbenchAnalysisProfile `json:"items"`
+}
+
+// WorkbenchAnalyzeSessionRequest defines model for WorkbenchAnalyzeSessionRequest.
+type WorkbenchAnalyzeSessionRequest struct {
+	AgentProviderID   string                 `json:"agentProviderId,omitempty"`
+	AnalysisProfileID string                 `json:"analysisProfileId,omitempty"`
+	Mode              string                 `json:"mode,omitempty"`
+	Question          string                 `json:"question,omitempty"`
+	Scope             *WorkbenchSessionScope `json:"scope,omitempty"`
+	TriggerType       string                 `json:"triggerType,omitempty"`
+}
+
 // WorkbenchArtifactUpdatedEvent defines model for WorkbenchArtifactUpdatedEvent.
 type WorkbenchArtifactUpdatedEvent struct {
 	Artifact  AnyValue                          `json:"artifact"`
@@ -18977,6 +19286,50 @@ type WorkbenchArtifactUpdatedEvent struct {
 
 // WorkbenchArtifactUpdatedEventType defines model for WorkbenchArtifactUpdatedEvent.Type.
 type WorkbenchArtifactUpdatedEventType string
+
+// WorkbenchAutomationPolicy defines model for WorkbenchAutomationPolicy.
+type WorkbenchAutomationPolicy struct {
+	AgentProviderID    string         `json:"agentProviderId,omitempty"`
+	AnalysisKinds      []string       `json:"analysisKinds,omitempty"`
+	AnalysisProfileID  string         `json:"analysisProfileId"`
+	ApprovalPolicy     map[string]any `json:"approvalPolicy,omitempty"`
+	CooldownSeconds    int            `json:"cooldownSeconds"`
+	CreatedAt          time.Time      `json:"createdAt"`
+	DedupWindowSeconds int            `json:"dedupWindowSeconds"`
+	Enabled            bool           `json:"enabled"`
+	ID                 string         `json:"id"`
+	Name               string         `json:"name"`
+	RemediationPolicy  string         `json:"remediationPolicy"`
+	TriggerConditions  map[string]any `json:"triggerConditions,omitempty"`
+	TriggerType        string         `json:"triggerType"`
+	UpdatedAt          time.Time      `json:"updatedAt"`
+}
+
+// WorkbenchAutomationPolicyEnvelope defines model for WorkbenchAutomationPolicyEnvelope.
+type WorkbenchAutomationPolicyEnvelope struct {
+	Data WorkbenchAutomationPolicy `json:"data"`
+}
+
+// WorkbenchAutomationPolicyInput defines model for WorkbenchAutomationPolicyInput.
+type WorkbenchAutomationPolicyInput struct {
+	AgentProviderID    string         `json:"agentProviderId,omitempty"`
+	AnalysisKinds      []string       `json:"analysisKinds,omitempty"`
+	AnalysisProfileID  string         `json:"analysisProfileId"`
+	ApprovalPolicy     map[string]any `json:"approvalPolicy,omitempty"`
+	CooldownSeconds    int            `json:"cooldownSeconds"`
+	DedupWindowSeconds int            `json:"dedupWindowSeconds"`
+	Enabled            bool           `json:"enabled"`
+	ID                 string         `json:"id"`
+	Name               string         `json:"name"`
+	RemediationPolicy  string         `json:"remediationPolicy"`
+	TriggerConditions  map[string]any `json:"triggerConditions,omitempty"`
+	TriggerType        string         `json:"triggerType"`
+}
+
+// WorkbenchAutomationPolicyListEnvelope defines model for WorkbenchAutomationPolicyListEnvelope.
+type WorkbenchAutomationPolicyListEnvelope struct {
+	Items []WorkbenchAutomationPolicy `json:"items"`
+}
 
 // WorkbenchCardCommandEvent defines model for WorkbenchCardCommandEvent.
 type WorkbenchCardCommandEvent struct {
@@ -18993,6 +19346,103 @@ type WorkbenchCardCommandEvent struct {
 
 // WorkbenchCardCommandEventType defines model for WorkbenchCardCommandEvent.Type.
 type WorkbenchCardCommandEventType string
+
+// WorkbenchCatalog defines model for WorkbenchCatalog.
+type WorkbenchCatalog struct {
+	Adapters         []WorkbenchAdapter                `json:"adapters"`
+	AgentProviders   []WorkbenchAgentProvider          `json:"agentProviders,omitempty"`
+	AnalysisProfiles []WorkbenchCatalogAnalysisProfile `json:"analysisProfiles"`
+	Capabilities     []WorkbenchAgentCapability        `json:"capabilities,omitempty"`
+	DataSources      []WorkbenchCatalogDataSource      `json:"dataSources"`
+	SkillBindings    []WorkbenchAgentSkillBinding      `json:"skillBindings,omitempty"`
+	SkillsRegistry   []WorkbenchSkill                  `json:"skillsRegistry,omitempty"`
+	ToolBindings     []WorkbenchAgentToolBinding       `json:"toolBindings,omitempty"`
+}
+
+// WorkbenchCatalogAnalysisProfile defines model for WorkbenchCatalogAnalysisProfile.
+type WorkbenchCatalogAnalysisProfile struct {
+	Enabled bool   `json:"enabled"`
+	ID      string `json:"id"`
+	Mode    string `json:"mode"`
+	Name    string `json:"name"`
+}
+
+// WorkbenchCatalogDataSource defines model for WorkbenchCatalogDataSource.
+type WorkbenchCatalogDataSource struct {
+	BackendType       string `json:"backendType"`
+	Enabled           bool   `json:"enabled"`
+	ID                string `json:"id"`
+	MCPAdapter        string `json:"mcpAdapter"`
+	Name              string `json:"name"`
+	SourceKind        string `json:"sourceKind"`
+	ValidationMessage string `json:"validationMessage,omitempty"`
+	ValidationStatus  string `json:"validationStatus,omitempty"`
+}
+
+// WorkbenchCatalogEnvelope defines model for WorkbenchCatalogEnvelope.
+type WorkbenchCatalogEnvelope struct {
+	Data WorkbenchCatalog `json:"data"`
+}
+
+// WorkbenchCreateSessionRequest defines model for WorkbenchCreateSessionRequest.
+type WorkbenchCreateSessionRequest struct {
+	AgentProviderID string                            `json:"agentProviderId,omitempty"`
+	AlertID         string                            `json:"alertId,omitempty"`
+	Mode            WorkbenchCreateSessionRequestMode `json:"mode,omitempty"`
+	PinnedContext   map[string]any                    `json:"pinnedContext,omitempty"`
+	Scope           *WorkbenchSessionScope            `json:"scope,omitempty"`
+	Source          string                            `json:"source,omitempty"`
+	Tags            []string                          `json:"tags,omitempty"`
+	Title           string                            `json:"title,omitempty"`
+	Workload        string                            `json:"workload,omitempty"`
+}
+
+// WorkbenchCreateSessionRequestMode defines model for WorkbenchCreateSessionRequest.Mode.
+type WorkbenchCreateSessionRequestMode string
+
+// WorkbenchDataSource defines model for WorkbenchDataSource.
+type WorkbenchDataSource struct {
+	BackendType       string         `json:"backendType"`
+	Config            map[string]any `json:"config,omitempty"`
+	CreatedAt         time.Time      `json:"createdAt"`
+	Enabled           bool           `json:"enabled"`
+	ID                string         `json:"id"`
+	LastValidatedAt   *time.Time     `json:"lastValidatedAt,omitempty"`
+	MCPAdapter        string         `json:"mcpAdapter"`
+	Name              string         `json:"name"`
+	QueryBudget       map[string]any `json:"queryBudget,omitempty"`
+	RedactionPolicy   map[string]any `json:"redactionPolicy,omitempty"`
+	Scope             map[string]any `json:"scope,omitempty"`
+	SourceKind        string         `json:"sourceKind"`
+	UpdatedAt         time.Time      `json:"updatedAt"`
+	ValidationMessage string         `json:"validationMessage,omitempty"`
+	ValidationStatus  string         `json:"validationStatus,omitempty"`
+}
+
+// WorkbenchDataSourceEnvelope defines model for WorkbenchDataSourceEnvelope.
+type WorkbenchDataSourceEnvelope struct {
+	Data WorkbenchDataSource `json:"data"`
+}
+
+// WorkbenchDataSourceInput defines model for WorkbenchDataSourceInput.
+type WorkbenchDataSourceInput struct {
+	BackendType     string         `json:"backendType"`
+	Config          map[string]any `json:"config,omitempty"`
+	CredentialRef   string         `json:"credentialRef,omitempty"`
+	Enabled         bool           `json:"enabled"`
+	ID              string         `json:"id"`
+	MCPAdapter      string         `json:"mcpAdapter"`
+	Name            string         `json:"name"`
+	QueryBudget     map[string]any `json:"queryBudget,omitempty"`
+	RedactionPolicy map[string]any `json:"redactionPolicy,omitempty"`
+	Scope           map[string]any `json:"scope,omitempty"`
+	SourceKind      string         `json:"sourceKind"`
+}
+
+// WorkbenchDataSourceListEnvelope defines model for WorkbenchDataSourceListEnvelope.
+type WorkbenchDataSourceListEnvelope struct {
+	Items []WorkbenchDataSource `json:"items"`
+}
 
 // WorkbenchErrorEvent defines model for WorkbenchErrorEvent.
 type WorkbenchErrorEvent struct {
@@ -19011,6 +19461,19 @@ type WorkbenchErrorEvent struct {
 // WorkbenchErrorEventType defines model for WorkbenchErrorEvent.Type.
 type WorkbenchErrorEventType string
 
+// WorkbenchEvidence defines model for WorkbenchEvidence.
+type WorkbenchEvidence struct {
+	Attributes map[string]any `json:"attributes,omitempty"`
+	ClusterID  string         `json:"clusterId,omitempty"`
+	ID         string         `json:"id"`
+	Kind       string         `json:"kind"`
+	Namespace  string         `json:"namespace,omitempty"`
+	Severity   string         `json:"severity,omitempty"`
+	Summary    string         `json:"summary"`
+	Timestamp  *time.Time     `json:"timestamp,omitempty"`
+	Title      string         `json:"title"`
+}
+
 // WorkbenchGlobalAssistantEventEnvelope defines model for WorkbenchGlobalAssistantEventEnvelope.
 type WorkbenchGlobalAssistantEventEnvelope struct {
 	Ok bool `json:"ok"`
@@ -19028,6 +19491,136 @@ type WorkbenchGlobalAssistantOpenRequest struct {
 
 // WorkbenchGlobalAssistantOpenRequestAction defines model for WorkbenchGlobalAssistantOpenRequest.Action.
 type WorkbenchGlobalAssistantOpenRequestAction string
+
+// WorkbenchGraph defines model for WorkbenchGraph.
+type WorkbenchGraph struct {
+	Edges       []WorkbenchGraphEdge `json:"edges,omitempty"`
+	FocusNodeID string               `json:"focusNodeId,omitempty"`
+	Layout      string               `json:"layout,omitempty"`
+	Nodes       []WorkbenchGraphNode `json:"nodes,omitempty"`
+}
+
+// WorkbenchGraphEdge defines model for WorkbenchGraphEdge.
+type WorkbenchGraphEdge struct {
+	Attributes  map[string]any `json:"attributes,omitempty"`
+	EvidenceIDs []string       `json:"evidenceIds,omitempty"`
+	ID          string         `json:"id"`
+	Relation    string         `json:"relation"`
+	Severity    string         `json:"severity,omitempty"`
+	Source      string         `json:"source"`
+	Target      string         `json:"target"`
+}
+
+// WorkbenchGraphNode defines model for WorkbenchGraphNode.
+type WorkbenchGraphNode struct {
+	Attributes  map[string]any `json:"attributes,omitempty"`
+	EvidenceIDs []string       `json:"evidenceIds,omitempty"`
+	ID          string         `json:"id"`
+	Kind        string         `json:"kind"`
+	Severity    string         `json:"severity,omitempty"`
+	SourceRefs  []string       `json:"sourceRefs,omitempty"`
+	Subtitle    string         `json:"subtitle,omitempty"`
+	Title       string         `json:"title"`
+}
+
+// WorkbenchHypothesis defines model for WorkbenchHypothesis.
+type WorkbenchHypothesis struct {
+	Confidence      int      `json:"confidence"`
+	EvidenceIDs     []string `json:"evidenceIds,omitempty"`
+	ID              string   `json:"id"`
+	Recommendations []string `json:"recommendations,omitempty"`
+	Summary         string   `json:"summary"`
+	Title           string   `json:"title"`
+}
+
+// WorkbenchInsight defines model for WorkbenchInsight.
+type WorkbenchInsight struct {
+	Actions     []string `json:"actions,omitempty"`
+	Description string   `json:"description"`
+	Severity    string   `json:"severity"`
+	Title       string   `json:"title"`
+}
+
+// WorkbenchInsightListEnvelope defines model for WorkbenchInsightListEnvelope.
+type WorkbenchInsightListEnvelope struct {
+	Items []WorkbenchInsight `json:"items"`
+}
+
+// WorkbenchInspectionFinding defines model for WorkbenchInspectionFinding.
+type WorkbenchInspectionFinding struct {
+	Data           map[string]any `json:"data,omitempty"`
+	ID             string         `json:"id"`
+	Recommendation string         `json:"recommendation,omitempty"`
+	Severity       string         `json:"severity"`
+	Source         string         `json:"source"`
+	Summary        string         `json:"summary"`
+	Title          string         `json:"title"`
+}
+
+// WorkbenchInspectionRun defines model for WorkbenchInspectionRun.
+type WorkbenchInspectionRun struct {
+	CompletedAt *time.Time                   `json:"completedAt,omitempty"`
+	CreatedAt   time.Time                    `json:"createdAt"`
+	Findings    []WorkbenchInspectionFinding `json:"findings,omitempty"`
+	ID          string                       `json:"id"`
+	Report      map[string]any               `json:"report,omitempty"`
+	Severity    string                       `json:"severity"`
+	StartedAt   time.Time                    `json:"startedAt"`
+	Status      string                       `json:"status"`
+	Summary     string                       `json:"summary"`
+	TaskID      string                       `json:"taskId"`
+	TriggeredBy string                       `json:"triggeredBy"`
+}
+
+// WorkbenchInspectionRunEnvelope defines model for WorkbenchInspectionRunEnvelope.
+type WorkbenchInspectionRunEnvelope struct {
+	Data WorkbenchInspectionRun `json:"data"`
+}
+
+// WorkbenchInspectionRunListEnvelope defines model for WorkbenchInspectionRunListEnvelope.
+type WorkbenchInspectionRunListEnvelope struct {
+	Items []WorkbenchInspectionRun `json:"items"`
+}
+
+// WorkbenchInspectionTask defines model for WorkbenchInspectionTask.
+type WorkbenchInspectionTask struct {
+	Checks          []string       `json:"checks,omitempty"`
+	ClusterID       string         `json:"clusterId,omitempty"`
+	CreatedAt       time.Time      `json:"createdAt"`
+	CreatedBy       string         `json:"createdBy"`
+	Enabled         bool           `json:"enabled"`
+	ID              string         `json:"id"`
+	IntervalMinutes int            `json:"intervalMinutes"`
+	LastRunAt       *time.Time     `json:"lastRunAt,omitempty"`
+	Metadata        map[string]any `json:"metadata,omitempty"`
+	Namespace       string         `json:"namespace,omitempty"`
+	ScopeType       string         `json:"scopeType"`
+	Title           string         `json:"title"`
+	UpdatedAt       time.Time      `json:"updatedAt"`
+}
+
+// WorkbenchInspectionTaskEnvelope defines model for WorkbenchInspectionTaskEnvelope.
+type WorkbenchInspectionTaskEnvelope struct {
+	Data WorkbenchInspectionTask `json:"data"`
+}
+
+// WorkbenchInspectionTaskInput defines model for WorkbenchInspectionTaskInput.
+type WorkbenchInspectionTaskInput struct {
+	Checks          []string       `json:"checks,omitempty"`
+	ClusterID       string         `json:"clusterId,omitempty"`
+	Enabled         bool           `json:"enabled"`
+	ID              string         `json:"id"`
+	IntervalMinutes int            `json:"intervalMinutes"`
+	Metadata        map[string]any `json:"metadata,omitempty"`
+	Namespace       string         `json:"namespace,omitempty"`
+	ScopeType       string         `json:"scopeType"`
+	Title           string         `json:"title"`
+}
+
+// WorkbenchInspectionTaskListEnvelope defines model for WorkbenchInspectionTaskListEnvelope.
+type WorkbenchInspectionTaskListEnvelope struct {
+	Items []WorkbenchInspectionTask `json:"items"`
+}
 
 // WorkbenchLaunchContext defines model for WorkbenchLaunchContext.
 type WorkbenchLaunchContext struct {
@@ -19056,6 +19649,19 @@ type WorkbenchLaunchContext struct {
 
 // WorkbenchLaunchContextSourceWorkbench defines model for WorkbenchLaunchContext.SourceWorkbench.
 type WorkbenchLaunchContextSourceWorkbench string
+
+// WorkbenchMessage defines model for WorkbenchMessage.
+type WorkbenchMessage struct {
+	Content   string               `json:"content"`
+	CreatedAt time.Time            `json:"createdAt"`
+	ID        string               `json:"id"`
+	Metadata  map[string]any       `json:"metadata,omitempty"`
+	Role      WorkbenchMessageRole `json:"role"`
+	SessionID string               `json:"sessionId"`
+}
+
+// WorkbenchMessageRole defines model for WorkbenchMessage.Role.
+type WorkbenchMessageRole string
 
 // WorkbenchMessageDeltaEvent defines model for WorkbenchMessageDeltaEvent.
 type WorkbenchMessageDeltaEvent struct {
@@ -19096,6 +19702,103 @@ type WorkbenchMessageDoneEventRole string
 // WorkbenchMessageDoneEventType defines model for WorkbenchMessageDoneEvent.Type.
 type WorkbenchMessageDoneEventType string
 
+// WorkbenchMessageListEnvelope defines model for WorkbenchMessageListEnvelope.
+type WorkbenchMessageListEnvelope struct {
+	Items []WorkbenchMessage `json:"items"`
+}
+
+// WorkbenchOperationState defines model for WorkbenchOperationState.
+type WorkbenchOperationState struct {
+	ArtifactCount         int              `json:"artifactCount,omitempty"`
+	Cancelable            bool             `json:"cancelable"`
+	ClaimedByAgentID      string           `json:"claimedByAgentId,omitempty"`
+	ExternalRunID         string           `json:"externalRunId,omitempty"`
+	FailureEvidence       []map[string]any `json:"failureEvidence,omitempty"`
+	FailureMessage        string           `json:"failureMessage,omitempty"`
+	FailureReason         string           `json:"failureReason,omitempty"`
+	FinalStateRecordedAt  *time.Time       `json:"finalStateRecordedAt,omitempty"`
+	HeartbeatRequired     bool             `json:"heartbeatRequired"`
+	HeartbeatStale        bool             `json:"heartbeatStale"`
+	LastHeartbeatAt       *time.Time       `json:"lastHeartbeatAt,omitempty"`
+	NextHeartbeatDeadline *time.Time       `json:"nextHeartbeatDeadline,omitempty"`
+	NextTimeoutDeadline   *time.Time       `json:"nextTimeoutDeadline,omitempty"`
+	Phase                 string           `json:"phase"`
+	RecommendedNextAction string           `json:"recommendedNextAction,omitempty"`
+	Retryable             bool             `json:"retryable"`
+	RunnerClaimRequired   bool             `json:"runnerClaimRequired"`
+	Status                string           `json:"status"`
+	Terminal              bool             `json:"terminal"`
+	TimeoutSeconds        int              `json:"timeoutSeconds"`
+	TimeoutStale          bool             `json:"timeoutStale"`
+	ToolExecutionCount    int              `json:"toolExecutionCount,omitempty"`
+}
+
+// WorkbenchRootCauseRun defines model for WorkbenchRootCauseRun.
+type WorkbenchRootCauseRun struct {
+	AlertID            string                   `json:"alertId,omitempty"`
+	AnalysisProfileID  string                   `json:"analysisProfileId,omitempty"`
+	ClusterID          string                   `json:"clusterId,omitempty"`
+	CreatedAt          time.Time                `json:"createdAt"`
+	CreatedBy          string                   `json:"createdBy"`
+	DataSourceSnapshot map[string]any           `json:"dataSourceSnapshot,omitempty"`
+	DedupKey           string                   `json:"dedupKey,omitempty"`
+	Evidence           []WorkbenchEvidence      `json:"evidence,omitempty"`
+	Hypotheses         []WorkbenchHypothesis    `json:"hypotheses,omitempty"`
+	ID                 string                   `json:"id"`
+	Kind               string                   `json:"kind,omitempty"`
+	Namespace          string                   `json:"namespace,omitempty"`
+	PlaybookResults    map[string]any           `json:"playbookResults,omitempty"`
+	Question           string                   `json:"question,omitempty"`
+	Recommendations    []string                 `json:"recommendations,omitempty"`
+	RemediationPlan    map[string]any           `json:"remediationPlan,omitempty"`
+	SessionID          string                   `json:"sessionId,omitempty"`
+	Severity           string                   `json:"severity"`
+	Status             string                   `json:"status"`
+	Summary            string                   `json:"summary"`
+	TimeRangeMinutes   int                      `json:"timeRangeMinutes"`
+	Title              string                   `json:"title"`
+	ToolExecutions     []WorkbenchToolExecution `json:"toolExecutions,omitempty"`
+	TriggerType        string                   `json:"triggerType,omitempty"`
+	UpdatedAt          time.Time                `json:"updatedAt"`
+	WorkloadKind       string                   `json:"workloadKind,omitempty"`
+	WorkloadName       string                   `json:"workloadName,omitempty"`
+}
+
+// WorkbenchRootCauseRunEnvelope defines model for WorkbenchRootCauseRunEnvelope.
+type WorkbenchRootCauseRunEnvelope struct {
+	Data WorkbenchRootCauseRun `json:"data"`
+}
+
+// WorkbenchRootCauseRunInput defines model for WorkbenchRootCauseRunInput.
+type WorkbenchRootCauseRunInput struct {
+	AgentProviderID   string `json:"agentProviderId,omitempty"`
+	AlertID           string `json:"alertId,omitempty"`
+	AnalysisProfileID string `json:"analysisProfileId,omitempty"`
+	ClusterID         string `json:"clusterId,omitempty"`
+	Kind              string `json:"kind,omitempty"`
+	Namespace         string `json:"namespace,omitempty"`
+	Question          string `json:"question,omitempty"`
+	SessionID         string `json:"sessionId,omitempty"`
+	TimeRangeMinutes  int    `json:"timeRangeMinutes,omitempty"`
+	Title             string `json:"title,omitempty"`
+	TriggerType       string `json:"triggerType,omitempty"`
+	WorkloadKind      string `json:"workloadKind,omitempty"`
+	WorkloadName      string `json:"workloadName,omitempty"`
+}
+
+// WorkbenchRootCauseRunListEnvelope defines model for WorkbenchRootCauseRunListEnvelope.
+type WorkbenchRootCauseRunListEnvelope struct {
+	Items []WorkbenchRootCauseRun `json:"items"`
+}
+
+// WorkbenchRunRef defines model for WorkbenchRunRef.
+type WorkbenchRunRef struct {
+	CreatedAt *time.Time `json:"createdAt,omitempty"`
+	ID        string     `json:"id"`
+	Kind      string     `json:"kind"`
+	Status    string     `json:"status,omitempty"`
+}
+
 // WorkbenchSelectionContext defines model for WorkbenchSelectionContext.
 type WorkbenchSelectionContext struct {
 	Kind               WorkbenchSelectionContextKind `json:"kind"`
@@ -19105,6 +19808,11 @@ type WorkbenchSelectionContext struct {
 
 // WorkbenchSelectionContextKind defines model for WorkbenchSelectionContext.Kind.
 type WorkbenchSelectionContextKind string
+
+// WorkbenchSendMessageRequest defines model for WorkbenchSendMessageRequest.
+type WorkbenchSendMessageRequest struct {
+	Content string `json:"content"`
+}
 
 // WorkbenchSendMessageStreamRequest defines model for WorkbenchSendMessageStreamRequest.
 type WorkbenchSendMessageStreamRequest struct {
@@ -19117,6 +19825,93 @@ type WorkbenchSendMessageStreamRequest struct {
 	SelectionContext *WorkbenchSelectionContext `json:"selectionContext,omitempty"`
 	Source           string                     `json:"source,omitempty"`
 	Toolset          AnyValue                   `json:"toolset,omitempty"`
+}
+
+// WorkbenchSession defines model for WorkbenchSession.
+type WorkbenchSession struct {
+	CreatedAt time.Time                 `json:"createdAt"`
+	CreatedBy string                    `json:"createdBy"`
+	ID        string                    `json:"id"`
+	Metadata  *WorkbenchSessionMetadata `json:"metadata,omitempty"`
+	Title     string                    `json:"title"`
+	UpdatedAt time.Time                 `json:"updatedAt"`
+}
+
+// WorkbenchSessionEnvelope defines model for WorkbenchSessionEnvelope.
+type WorkbenchSessionEnvelope struct {
+	Data WorkbenchSession `json:"data"`
+}
+
+// WorkbenchSessionListEnvelope defines model for WorkbenchSessionListEnvelope.
+type WorkbenchSessionListEnvelope struct {
+	Items []WorkbenchSession `json:"items"`
+}
+
+// WorkbenchSessionMessageResult defines model for WorkbenchSessionMessageResult.
+type WorkbenchSessionMessageResult struct {
+	AnalysisArtifacts []WorkbenchAnalysisArtifact `json:"analysisArtifacts,omitempty"`
+	Messages          []WorkbenchMessage          `json:"messages"`
+	SessionPatch      map[string]any              `json:"sessionPatch,omitempty"`
+	ToolCalls         []WorkbenchToolExecution    `json:"toolCalls,omitempty"`
+}
+
+// WorkbenchSessionMessageResultEnvelope defines model for WorkbenchSessionMessageResultEnvelope.
+type WorkbenchSessionMessageResultEnvelope struct {
+	Data WorkbenchSessionMessageResult `json:"data"`
+}
+
+// WorkbenchSessionMetadata defines model for WorkbenchSessionMetadata.
+type WorkbenchSessionMetadata struct {
+	AgentProviderID  string                       `json:"agentProviderId,omitempty"`
+	AnalysisRunRefs  []WorkbenchRunRef            `json:"analysisRunRefs,omitempty"`
+	ArchivedAt       *time.Time                   `json:"archivedAt,omitempty"`
+	KnowledgeContext map[string]any               `json:"knowledgeContext,omitempty"`
+	Mode             WorkbenchSessionMetadataMode `json:"mode,omitempty"`
+	PinnedContext    map[string]any               `json:"pinnedContext,omitempty"`
+	Scope            *WorkbenchSessionScope       `json:"scope,omitempty"`
+	Source           string                       `json:"source,omitempty"`
+	Status           string                       `json:"status,omitempty"`
+	Summary          string                       `json:"summary,omitempty"`
+	Tags             []string                     `json:"tags,omitempty"`
+	Toolset          *WorkbenchSessionToolset     `json:"toolset,omitempty"`
+}
+
+// WorkbenchSessionMetadataMode defines model for WorkbenchSessionMetadata.Mode.
+type WorkbenchSessionMetadataMode string
+
+// WorkbenchSessionScope defines model for WorkbenchSessionScope.
+type WorkbenchSessionScope struct {
+	AlertID          string `json:"alertId,omitempty"`
+	ClusterID        string `json:"clusterId,omitempty"`
+	Namespace        string `json:"namespace,omitempty"`
+	Node             string `json:"node,omitempty"`
+	Pod              string `json:"pod,omitempty"`
+	Service          string `json:"service,omitempty"`
+	TimeRangeMinutes int    `json:"timeRangeMinutes,omitempty"`
+	Workload         string `json:"workload,omitempty"`
+}
+
+// WorkbenchSessionToolset defines model for WorkbenchSessionToolset.
+type WorkbenchSessionToolset struct {
+	BudgetOverrides   map[string]any `json:"budgetOverrides,omitempty"`
+	DisabledToolNames []string       `json:"disabledToolNames,omitempty"`
+	EnabledAdapterIDs []string       `json:"enabledAdapterIds,omitempty"`
+	EnabledSkillIDs   []string       `json:"enabledSkillIds,omitempty"`
+	ScopeOverrides    map[string]any `json:"scopeOverrides,omitempty"`
+}
+
+// WorkbenchSkill defines model for WorkbenchSkill.
+type WorkbenchSkill struct {
+	BlueprintRefs  []string `json:"blueprintRefs,omitempty"`
+	CapabilityRefs []string `json:"capabilityRefs,omitempty"`
+	Category       string   `json:"category,omitempty"`
+	Description    string   `json:"description,omitempty"`
+	Enabled        bool     `json:"enabled"`
+	ID             string   `json:"id"`
+	Name           string   `json:"name"`
+	OwnerModule    string   `json:"ownerModule,omitempty"`
+	ScopeRules     []string `json:"scopeRules,omitempty"`
+	Scopes         []string `json:"scopes,omitempty"`
 }
 
 // WorkbenchSource defines model for WorkbenchSource.
@@ -19246,6 +20041,19 @@ type WorkbenchToolDeltaEvent struct {
 // WorkbenchToolDeltaEventType defines model for WorkbenchToolDeltaEvent.Type.
 type WorkbenchToolDeltaEventType string
 
+// WorkbenchToolExecution defines model for WorkbenchToolExecution.
+type WorkbenchToolExecution struct {
+	AdapterID   string         `json:"adapterId"`
+	CompletedAt *time.Time     `json:"completedAt,omitempty"`
+	ID          string         `json:"id"`
+	Input       map[string]any `json:"input,omitempty"`
+	Output      map[string]any `json:"output,omitempty"`
+	StartedAt   time.Time      `json:"startedAt"`
+	Status      string         `json:"status"`
+	Summary     string         `json:"summary,omitempty"`
+	ToolName    string         `json:"toolName"`
+}
+
 // WorkbenchToolStartedEvent defines model for WorkbenchToolStartedEvent.
 type WorkbenchToolStartedEvent struct {
 	CreatedAt time.Time                     `json:"createdAt"`
@@ -19260,6 +20068,24 @@ type WorkbenchToolStartedEvent struct {
 
 // WorkbenchToolStartedEventType defines model for WorkbenchToolStartedEvent.Type.
 type WorkbenchToolStartedEventType string
+
+// WorkbenchUpdateSessionRequest defines model for WorkbenchUpdateSessionRequest.
+type WorkbenchUpdateSessionRequest struct {
+	AgentProviderID string                            `json:"agentProviderId,omitempty"`
+	Archived        bool                              `json:"archived,omitempty"`
+	Mode            WorkbenchUpdateSessionRequestMode `json:"mode,omitempty"`
+	PinnedContext   map[string]any                    `json:"pinnedContext,omitempty"`
+	Scope           *WorkbenchSessionScope            `json:"scope,omitempty"`
+	Source          string                            `json:"source,omitempty"`
+	Status          string                            `json:"status,omitempty"`
+	Summary         string                            `json:"summary,omitempty"`
+	Tags            []string                          `json:"tags,omitempty"`
+	Title           string                            `json:"title,omitempty"`
+	Toolset         *WorkbenchSessionToolset          `json:"toolset,omitempty"`
+}
+
+// WorkbenchUpdateSessionRequestMode defines model for WorkbenchUpdateSessionRequest.Mode.
+type WorkbenchUpdateSessionRequestMode string
 
 // WorkflowNodeRun defines model for WorkflowNodeRun.
 type WorkflowNodeRun struct {
@@ -19353,11 +20179,17 @@ type AgentProviderRolloutAction string
 // AgentProviderRolloutID defines model for AgentProviderRolloutID.
 type AgentProviderRolloutID = string
 
+// AnalysisProfileID defines model for AnalysisProfileID.
+type AnalysisProfileID = string
+
 // ApplicationEnvironmentID defines model for ApplicationEnvironmentID.
 type ApplicationEnvironmentID = string
 
 // ApplicationID defines model for ApplicationID.
 type ApplicationID = string
+
+// AutomationPolicyID defines model for AutomationPolicyID.
+type AutomationPolicyID = string
 
 // BuildTemplateID defines model for BuildTemplateID.
 type BuildTemplateID = string
@@ -19394,6 +20226,9 @@ type ComputeResourceID = string
 
 // ComputeTaskID defines model for ComputeTaskID.
 type ComputeTaskID = string
+
+// CopilotRunID defines model for CopilotRunID.
+type CopilotRunID = string
 
 // DashboardID defines model for DashboardID.
 type DashboardID = string
@@ -20944,6 +21779,35 @@ type RetryComputeTaskParams struct {
 	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
 }
 
+// ListAgentRunsParams defines parameters for ListAgentRuns.
+type ListAgentRunsParams struct {
+	// SessionID Restricts results to a session owned by the current user.
+	SessionID string `form:"sessionId,omitempty" json:"sessionId,omitempty"`
+}
+
+// ListWorkbenchAnalysisRunsParams defines parameters for ListWorkbenchAnalysisRuns.
+type ListWorkbenchAnalysisRunsParams struct {
+	ClusterID string `form:"clusterId,omitempty" json:"clusterId,omitempty"`
+	AlertID   string `form:"alertId,omitempty" json:"alertId,omitempty"`
+	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListWorkbenchInspectionRunsParams defines parameters for ListWorkbenchInspectionRuns.
+type ListWorkbenchInspectionRunsParams struct {
+	TaskID    string `form:"taskId,omitempty" json:"taskId,omitempty"`
+	ClusterID string `form:"clusterId,omitempty" json:"clusterId,omitempty"`
+	Namespace string `form:"namespace,omitempty" json:"namespace,omitempty"`
+	Check     string `form:"check,omitempty" json:"check,omitempty"`
+	Latest    bool   `form:"latest,omitempty" json:"latest,omitempty"`
+}
+
+// ListWorkbenchRootCauseRunsParams defines parameters for ListWorkbenchRootCauseRuns.
+type ListWorkbenchRootCauseRunsParams struct {
+	ClusterID string `form:"clusterId,omitempty" json:"clusterId,omitempty"`
+	AlertID   string `form:"alertId,omitempty" json:"alertId,omitempty"`
+	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
 // ListDeliveryArtifactsParams defines parameters for ListDeliveryArtifacts.
 type ListDeliveryArtifactsParams struct {
 	ApplicationID            string `form:"applicationId,omitempty" json:"applicationId,omitempty"`
@@ -21652,8 +22516,50 @@ type ClaimAgentRunJSONRequestBody = AgentRunClaimRequest
 // RecordAgentRunToolCallJSONRequestBody defines body for RecordAgentRunToolCall for application/json ContentType.
 type RecordAgentRunToolCallJSONRequestBody = AgentRunToolCallRequest
 
+// CreateWorkbenchAnalysisProfileJSONRequestBody defines body for CreateWorkbenchAnalysisProfile for application/json ContentType.
+type CreateWorkbenchAnalysisProfileJSONRequestBody = WorkbenchAnalysisProfileInput
+
+// UpdateWorkbenchAnalysisProfileJSONRequestBody defines body for UpdateWorkbenchAnalysisProfile for application/json ContentType.
+type UpdateWorkbenchAnalysisProfileJSONRequestBody = WorkbenchAnalysisProfileInput
+
+// CreateWorkbenchAutomationPolicyJSONRequestBody defines body for CreateWorkbenchAutomationPolicy for application/json ContentType.
+type CreateWorkbenchAutomationPolicyJSONRequestBody = WorkbenchAutomationPolicyInput
+
+// UpdateWorkbenchAutomationPolicyJSONRequestBody defines body for UpdateWorkbenchAutomationPolicy for application/json ContentType.
+type UpdateWorkbenchAutomationPolicyJSONRequestBody = WorkbenchAutomationPolicyInput
+
+// CreateWorkbenchDataSourceJSONRequestBody defines body for CreateWorkbenchDataSource for application/json ContentType.
+type CreateWorkbenchDataSourceJSONRequestBody = WorkbenchDataSourceInput
+
+// UpdateWorkbenchDataSourceJSONRequestBody defines body for UpdateWorkbenchDataSource for application/json ContentType.
+type UpdateWorkbenchDataSourceJSONRequestBody = WorkbenchDataSourceInput
+
 // RecordWorkbenchGlobalAssistantEventJSONRequestBody defines body for RecordWorkbenchGlobalAssistantEvent for application/json ContentType.
 type RecordWorkbenchGlobalAssistantEventJSONRequestBody = WorkbenchGlobalAssistantOpenRequest
+
+// CreateWorkbenchInspectionTaskJSONRequestBody defines body for CreateWorkbenchInspectionTask for application/json ContentType.
+type CreateWorkbenchInspectionTaskJSONRequestBody = WorkbenchInspectionTaskInput
+
+// UpdateWorkbenchInspectionTaskJSONRequestBody defines body for UpdateWorkbenchInspectionTask for application/json ContentType.
+type UpdateWorkbenchInspectionTaskJSONRequestBody = WorkbenchInspectionTaskInput
+
+// CreateWorkbenchRootCauseRunJSONRequestBody defines body for CreateWorkbenchRootCauseRun for application/json ContentType.
+type CreateWorkbenchRootCauseRunJSONRequestBody = WorkbenchRootCauseRunInput
+
+// CreateWorkbenchSessionJSONRequestBody defines body for CreateWorkbenchSession for application/json ContentType.
+type CreateWorkbenchSessionJSONRequestBody = WorkbenchCreateSessionRequest
+
+// UpdateWorkbenchSessionJSONRequestBody defines body for UpdateWorkbenchSession for application/json ContentType.
+type UpdateWorkbenchSessionJSONRequestBody = WorkbenchUpdateSessionRequest
+
+// AnalyzeWorkbenchSessionJSONRequestBody defines body for AnalyzeWorkbenchSession for application/json ContentType.
+type AnalyzeWorkbenchSessionJSONRequestBody = WorkbenchAnalyzeSessionRequest
+
+// CreateWorkbenchInspectionTaskFromSessionJSONRequestBody defines body for CreateWorkbenchInspectionTaskFromSession for application/json ContentType.
+type CreateWorkbenchInspectionTaskFromSessionJSONRequestBody = WorkbenchInspectionTaskInput
+
+// SendWorkbenchSessionMessageJSONRequestBody defines body for SendWorkbenchSessionMessage for application/json ContentType.
+type SendWorkbenchSessionMessageJSONRequestBody = WorkbenchSendMessageRequest
 
 // StreamWorkbenchSessionMessageJSONRequestBody defines body for StreamWorkbenchSessionMessage for application/json ContentType.
 type StreamWorkbenchSessionMessageJSONRequestBody = WorkbenchSendMessageStreamRequest

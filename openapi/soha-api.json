@@ -136,6 +136,16 @@
           "type": "string"
         }
       },
+      "AnalysisProfileID": {
+        "in": "path",
+        "name": "profileID",
+        "required": true,
+        "schema": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
       "ApplicationEnvironmentID": {
         "in": "path",
         "name": "applicationEnvironmentID",
@@ -149,6 +159,16 @@
         "name": "applicationID",
         "required": true,
         "schema": {
+          "type": "string"
+        }
+      },
+      "AutomationPolicyID": {
+        "in": "path",
+        "name": "policyID",
+        "required": true,
+        "schema": {
+          "maxLength": 128,
+          "minLength": 1,
           "type": "string"
         }
       },
@@ -288,6 +308,16 @@
         "name": "id",
         "required": true,
         "schema": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "CopilotRunID": {
+        "in": "path",
+        "name": "runID",
+        "required": true,
+        "schema": {
+          "maxLength": 128,
           "minLength": 1,
           "type": "string"
         }
@@ -1126,6 +1156,7 @@
         "name": "sessionID",
         "required": true,
         "schema": {
+          "minLength": 1,
           "type": "string"
         }
       },
@@ -40431,6 +40462,474 @@
         ],
         "type": "object"
       },
+      "WorkbenchAdapter": {
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "defaultBudget": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "requiresConfig": {
+            "type": "boolean"
+          },
+          "scopes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "sourceKind": {
+            "type": "string"
+          },
+          "supportedBackends": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "supportsSessionOverride": {
+            "type": "boolean"
+          },
+          "tools": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchAdapterTool"
+            },
+            "type": "array"
+          },
+          "toolSchemaSummary": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "sourceKind",
+          "name",
+          "description",
+          "requiresConfig",
+          "supportsSessionOverride",
+          "scopes"
+        ],
+        "type": "object"
+      },
+      "WorkbenchAdapterListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchAdapter"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "WorkbenchAdapterTool": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "schemaHint": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "description"
+        ],
+        "type": "object"
+      },
+      "WorkbenchAgentCapability": {
+        "additionalProperties": false,
+        "properties": {
+          "analysisKinds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "category": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "requiredScopes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "skillBindings": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchAgentSkillBinding"
+            },
+            "type": "array"
+          },
+          "toolBindings": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchAgentToolBinding"
+            },
+            "type": "array"
+          },
+          "toolRefs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object"
+      },
+      "WorkbenchAgentProvider": {
+        "additionalProperties": false,
+        "properties": {
+          "capabilities": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "config": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "default": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "runtimeStatus": {
+            "$ref": "#/components/schemas/WorkbenchAgentProviderRuntimeStatus"
+          },
+          "supportedModes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "supportsAsync": {
+            "type": "boolean"
+          },
+          "supportsSkills": {
+            "type": "boolean"
+          },
+          "supportsToolsets": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "name",
+          "enabled",
+          "supportsAsync",
+          "supportsSkills",
+          "supportsToolsets"
+        ],
+        "type": "object"
+      },
+      "WorkbenchAgentProviderListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchAgentProvider"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "WorkbenchAgentProviderRuntimeStatus": {
+        "additionalProperties": false,
+        "properties": {
+          "lastAgentId": {
+            "type": "string"
+          },
+          "lastCompletedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "lastHeartbeatAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "lastRunId": {
+            "type": "string"
+          },
+          "lastRunStatus": {
+            "type": "string"
+          },
+          "observedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "queuedRuns": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "recentFailures": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "runningRuns": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "state": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "state",
+          "queuedRuns",
+          "runningRuns",
+          "recentFailures",
+          "observedAt"
+        ],
+        "type": "object"
+      },
+      "WorkbenchAgentRun": {
+        "additionalProperties": false,
+        "properties": {
+          "analysisArtifacts": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchAnalysisArtifact"
+            },
+            "type": "array"
+          },
+          "capabilityId": {
+            "type": "string"
+          },
+          "claimedByAgentId": {
+            "type": "string"
+          },
+          "completedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "externalRunId": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "input": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "lastHeartbeatAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "operationState": {
+            "$ref": "#/components/schemas/WorkbenchOperationState"
+          },
+          "output": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "providerId": {
+            "type": "string"
+          },
+          "providerKind": {
+            "type": "string"
+          },
+          "queuedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "rootCauseRunId": {
+            "type": "string"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/WorkbenchSessionScope"
+          },
+          "sessionId": {
+            "type": "string"
+          },
+          "skillBindings": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchAgentSkillBinding"
+            },
+            "type": "array"
+          },
+          "skillIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "startedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "timeoutSeconds": {
+            "type": "integer"
+          },
+          "toolBindings": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchAgentToolBinding"
+            },
+            "type": "array"
+          },
+          "toolExecutions": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchToolExecution"
+            },
+            "type": "array"
+          },
+          "toolset": {
+            "$ref": "#/components/schemas/WorkbenchSessionToolset"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "providerId",
+          "providerKind",
+          "capabilityId",
+          "createdBy",
+          "status",
+          "timeoutSeconds",
+          "queuedAt",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "WorkbenchAgentRunEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/WorkbenchAgentRun"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "WorkbenchAgentRunListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchAgentRun"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "WorkbenchAgentSkillBinding": {
+        "additionalProperties": false,
+        "properties": {
+          "capabilityRefs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "config": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "id": {
+            "type": "string"
+          },
+          "promptTemplateId": {
+            "type": "string"
+          },
+          "providerId": {
+            "type": "string"
+          },
+          "providerKind": {
+            "type": "string"
+          },
+          "providerSkillRef": {
+            "type": "string"
+          },
+          "skillId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "skillId"
+        ],
+        "type": "object"
+      },
       "WorkbenchAgentStatusEvent": {
         "allOf": [
           {
@@ -40487,6 +40986,236 @@
         ],
         "unevaluatedProperties": false
       },
+      "WorkbenchAgentToolBinding": {
+        "additionalProperties": false,
+        "properties": {
+          "adapterId": {
+            "type": "string"
+          },
+          "capabilityId": {
+            "type": "string"
+          },
+          "config": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "id": {
+            "type": "string"
+          },
+          "permissionKey": {
+            "type": "string"
+          },
+          "providerId": {
+            "type": "string"
+          },
+          "providerKind": {
+            "type": "string"
+          },
+          "toolKind": {
+            "type": "string"
+          },
+          "toolName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "capabilityId",
+          "toolKind"
+        ],
+        "type": "object"
+      },
+      "WorkbenchAnalysisArtifact": {
+        "additionalProperties": false,
+        "properties": {
+          "dataSourceSnapshot": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchEvidence"
+            },
+            "type": "array"
+          },
+          "graph": {
+            "$ref": "#/components/schemas/WorkbenchGraph"
+          },
+          "hypotheses": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchHypothesis"
+            },
+            "type": "array"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "recommendations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "runId": {
+            "type": "string"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/WorkbenchSessionScope"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "toolExecutions": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchToolExecution"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "kind",
+          "runId",
+          "summary"
+        ],
+        "type": "object"
+      },
+      "WorkbenchAnalysisProfile": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WorkbenchAnalysisProfileInput"
+          },
+          {
+            "properties": {
+              "createdAt": {
+                "format": "date-time",
+                "type": "string"
+              },
+              "updatedAt": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "createdAt",
+              "updatedAt"
+            ],
+            "type": "object"
+          }
+        ],
+        "unevaluatedProperties": false
+      },
+      "WorkbenchAnalysisProfileEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/WorkbenchAnalysisProfile"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "WorkbenchAnalysisProfileInput": {
+        "additionalProperties": false,
+        "properties": {
+          "defaultTimeRangeMinutes": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "enabledPlaybooks": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "enabledSources": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "id": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "outputStyle": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "queryBudgets": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "remediationPolicy": {
+            "type": "string"
+          },
+          "timeoutSeconds": {
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "mode",
+          "remediationPolicy",
+          "defaultTimeRangeMinutes",
+          "timeoutSeconds",
+          "enabled"
+        ],
+        "type": "object"
+      },
+      "WorkbenchAnalysisProfileListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchAnalysisProfile"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "WorkbenchAnalyzeSessionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "agentProviderId": {
+            "type": "string"
+          },
+          "analysisProfileId": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "question": {
+            "type": "string"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/WorkbenchSessionScope"
+          },
+          "triggerType": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "WorkbenchArtifactUpdatedEvent": {
         "allOf": [
           {
@@ -40512,6 +41241,117 @@
           }
         ],
         "unevaluatedProperties": false
+      },
+      "WorkbenchAutomationPolicy": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WorkbenchAutomationPolicyInput"
+          },
+          {
+            "properties": {
+              "createdAt": {
+                "format": "date-time",
+                "type": "string"
+              },
+              "updatedAt": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "createdAt",
+              "updatedAt"
+            ],
+            "type": "object"
+          }
+        ],
+        "unevaluatedProperties": false
+      },
+      "WorkbenchAutomationPolicyEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/WorkbenchAutomationPolicy"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "WorkbenchAutomationPolicyInput": {
+        "additionalProperties": false,
+        "properties": {
+          "agentProviderId": {
+            "type": "string"
+          },
+          "analysisKinds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "analysisProfileId": {
+            "type": "string"
+          },
+          "approvalPolicy": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "cooldownSeconds": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "dedupWindowSeconds": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "remediationPolicy": {
+            "type": "string"
+          },
+          "triggerConditions": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "triggerType": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "enabled",
+          "triggerType",
+          "dedupWindowSeconds",
+          "analysisProfileId",
+          "remediationPolicy",
+          "cooldownSeconds"
+        ],
+        "type": "object"
+      },
+      "WorkbenchAutomationPolicyListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchAutomationPolicy"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
       },
       "WorkbenchCardCommandEvent": {
         "allOf": [
@@ -40542,6 +41382,329 @@
           }
         ],
         "unevaluatedProperties": false
+      },
+      "WorkbenchCatalog": {
+        "additionalProperties": false,
+        "properties": {
+          "adapters": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchAdapter"
+            },
+            "type": "array"
+          },
+          "agentProviders": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchAgentProvider"
+            },
+            "type": "array"
+          },
+          "analysisProfiles": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchCatalogAnalysisProfile"
+            },
+            "type": "array"
+          },
+          "capabilities": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchAgentCapability"
+            },
+            "type": "array"
+          },
+          "dataSources": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchCatalogDataSource"
+            },
+            "type": "array"
+          },
+          "skillBindings": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchAgentSkillBinding"
+            },
+            "type": "array"
+          },
+          "skillsRegistry": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchSkill"
+            },
+            "type": "array"
+          },
+          "toolBindings": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchAgentToolBinding"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "adapters",
+          "dataSources",
+          "analysisProfiles"
+        ],
+        "type": "object"
+      },
+      "WorkbenchCatalogAnalysisProfile": {
+        "additionalProperties": false,
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "mode",
+          "enabled"
+        ],
+        "type": "object"
+      },
+      "WorkbenchCatalogDataSource": {
+        "additionalProperties": false,
+        "properties": {
+          "backendType": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string"
+          },
+          "mcpAdapter": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "sourceKind": {
+            "type": "string"
+          },
+          "validationMessage": {
+            "type": "string"
+          },
+          "validationStatus": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "sourceKind",
+          "backendType",
+          "enabled",
+          "mcpAdapter"
+        ],
+        "type": "object"
+      },
+      "WorkbenchCatalogEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/WorkbenchCatalog"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "WorkbenchCreateSessionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "agentProviderId": {
+            "type": "string"
+          },
+          "alertId": {
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "general",
+              "root_cause",
+              "performance",
+              "trace",
+              "inspection_review"
+            ],
+            "type": "string"
+          },
+          "pinnedContext": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/WorkbenchSessionScope"
+          },
+          "source": {
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": {
+            "type": "string"
+          },
+          "workload": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "WorkbenchDataSource": {
+        "additionalProperties": false,
+        "properties": {
+          "backendType": {
+            "type": "string"
+          },
+          "config": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string"
+          },
+          "lastValidatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "mcpAdapter": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "queryBudget": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "redactionPolicy": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "scope": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "sourceKind": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "validationMessage": {
+            "type": "string"
+          },
+          "validationStatus": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "sourceKind",
+          "backendType",
+          "enabled",
+          "mcpAdapter",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "WorkbenchDataSourceEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/WorkbenchDataSource"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "WorkbenchDataSourceInput": {
+        "additionalProperties": false,
+        "properties": {
+          "backendType": {
+            "type": "string"
+          },
+          "config": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "credentialRef": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string"
+          },
+          "mcpAdapter": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "queryBudget": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "redactionPolicy": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "scope": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "sourceKind": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "sourceKind",
+          "backendType",
+          "enabled",
+          "mcpAdapter"
+        ],
+        "type": "object"
+      },
+      "WorkbenchDataSourceListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchDataSource"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
       },
       "WorkbenchErrorEvent": {
         "allOf": [
@@ -40574,6 +41737,47 @@
           }
         ],
         "unevaluatedProperties": false
+      },
+      "WorkbenchEvidence": {
+        "additionalProperties": false,
+        "properties": {
+          "attributes": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "clusterId": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "timestamp": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "title",
+          "summary"
+        ],
+        "type": "object"
       },
       "WorkbenchGlobalAssistantEventEnvelope": {
         "additionalProperties": false,
@@ -40619,6 +41823,440 @@
         "required": [
           "action",
           "launchContext"
+        ],
+        "type": "object"
+      },
+      "WorkbenchGraph": {
+        "additionalProperties": false,
+        "properties": {
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchGraphEdge"
+            },
+            "type": "array"
+          },
+          "focusNodeId": {
+            "type": "string"
+          },
+          "layout": {
+            "type": "string"
+          },
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchGraphNode"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "WorkbenchGraphEdge": {
+        "additionalProperties": false,
+        "properties": {
+          "attributes": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "evidenceIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "id": {
+            "type": "string"
+          },
+          "relation": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "source",
+          "target",
+          "relation"
+        ],
+        "type": "object"
+      },
+      "WorkbenchGraphNode": {
+        "additionalProperties": false,
+        "properties": {
+          "attributes": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "evidenceIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "sourceRefs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "title"
+        ],
+        "type": "object"
+      },
+      "WorkbenchHypothesis": {
+        "additionalProperties": false,
+        "properties": {
+          "confidence": {
+            "maximum": 100,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "evidenceIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "id": {
+            "type": "string"
+          },
+          "recommendations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "summary",
+          "confidence"
+        ],
+        "type": "object"
+      },
+      "WorkbenchInsight": {
+        "additionalProperties": false,
+        "properties": {
+          "actions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "description": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "description",
+          "severity"
+        ],
+        "type": "object"
+      },
+      "WorkbenchInsightListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchInsight"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "WorkbenchInspectionFinding": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "id": {
+            "type": "string"
+          },
+          "recommendation": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "severity",
+          "summary",
+          "source"
+        ],
+        "type": "object"
+      },
+      "WorkbenchInspectionRun": {
+        "additionalProperties": false,
+        "properties": {
+          "completedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "findings": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchInspectionFinding"
+            },
+            "type": "array"
+          },
+          "id": {
+            "type": "string"
+          },
+          "report": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "startedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "taskId": {
+            "type": "string"
+          },
+          "triggeredBy": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "taskId",
+          "triggeredBy",
+          "status",
+          "severity",
+          "summary",
+          "startedAt",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "WorkbenchInspectionRunEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/WorkbenchInspectionRun"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "WorkbenchInspectionRunListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchInspectionRun"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "WorkbenchInspectionTask": {
+        "additionalProperties": false,
+        "properties": {
+          "checks": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "clusterId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string"
+          },
+          "intervalMinutes": {
+            "type": "integer"
+          },
+          "lastRunAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "metadata": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "scopeType": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "scopeType",
+          "enabled",
+          "intervalMinutes",
+          "createdBy",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "WorkbenchInspectionTaskEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/WorkbenchInspectionTask"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "WorkbenchInspectionTaskInput": {
+        "additionalProperties": false,
+        "properties": {
+          "checks": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "clusterId": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string"
+          },
+          "intervalMinutes": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "metadata": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "scopeType": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "scopeType",
+          "enabled",
+          "intervalMinutes"
+        ],
+        "type": "object"
+      },
+      "WorkbenchInspectionTaskListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchInspectionTask"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
         ],
         "type": "object"
       },
@@ -40706,6 +42344,44 @@
         ],
         "type": "object"
       },
+      "WorkbenchMessage": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "metadata": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "role": {
+            "enum": [
+              "user",
+              "assistant",
+              "system"
+            ],
+            "type": "string"
+          },
+          "sessionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "sessionId",
+          "role",
+          "content",
+          "createdAt"
+        ],
+        "type": "object"
+      },
       "WorkbenchMessageDeltaEvent": {
         "allOf": [
           {
@@ -40757,7 +42433,10 @@
                 "enum": [
                   "assistant"
                 ],
-                "type": "string"
+                "type": "string",
+                "x-enum-varnames": [
+                  "WorkbenchMessageDoneEventRoleAssistant"
+                ]
               },
               "type": {
                 "enum": [
@@ -40775,6 +42454,324 @@
           }
         ],
         "unevaluatedProperties": false
+      },
+      "WorkbenchMessageListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchMessage"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "WorkbenchOperationState": {
+        "additionalProperties": false,
+        "properties": {
+          "artifactCount": {
+            "type": "integer"
+          },
+          "cancelable": {
+            "type": "boolean"
+          },
+          "claimedByAgentId": {
+            "type": "string"
+          },
+          "externalRunId": {
+            "type": "string"
+          },
+          "failureEvidence": {
+            "items": {
+              "additionalProperties": {},
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "failureMessage": {
+            "type": "string"
+          },
+          "failureReason": {
+            "type": "string"
+          },
+          "finalStateRecordedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "heartbeatRequired": {
+            "type": "boolean"
+          },
+          "heartbeatStale": {
+            "type": "boolean"
+          },
+          "lastHeartbeatAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "nextHeartbeatDeadline": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "nextTimeoutDeadline": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "phase": {
+            "type": "string"
+          },
+          "recommendedNextAction": {
+            "type": "string"
+          },
+          "retryable": {
+            "type": "boolean"
+          },
+          "runnerClaimRequired": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string"
+          },
+          "terminal": {
+            "type": "boolean"
+          },
+          "timeoutSeconds": {
+            "type": "integer"
+          },
+          "timeoutStale": {
+            "type": "boolean"
+          },
+          "toolExecutionCount": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "phase",
+          "status",
+          "terminal",
+          "cancelable",
+          "retryable",
+          "runnerClaimRequired",
+          "heartbeatRequired",
+          "timeoutSeconds",
+          "timeoutStale",
+          "heartbeatStale"
+        ],
+        "type": "object"
+      },
+      "WorkbenchRootCauseRun": {
+        "additionalProperties": false,
+        "properties": {
+          "alertId": {
+            "type": "string"
+          },
+          "analysisProfileId": {
+            "type": "string"
+          },
+          "clusterId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "dataSourceSnapshot": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "dedupKey": {
+            "type": "string"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchEvidence"
+            },
+            "type": "array"
+          },
+          "hypotheses": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchHypothesis"
+            },
+            "type": "array"
+          },
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "playbookResults": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "question": {
+            "type": "string"
+          },
+          "recommendations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "remediationPlan": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "sessionId": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "timeRangeMinutes": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "toolExecutions": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchToolExecution"
+            },
+            "type": "array"
+          },
+          "triggerType": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "workloadKind": {
+            "type": "string"
+          },
+          "workloadName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "createdBy",
+          "status",
+          "severity",
+          "summary",
+          "timeRangeMinutes",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "WorkbenchRootCauseRunEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/WorkbenchRootCauseRun"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "WorkbenchRootCauseRunInput": {
+        "additionalProperties": false,
+        "properties": {
+          "agentProviderId": {
+            "type": "string"
+          },
+          "alertId": {
+            "type": "string"
+          },
+          "analysisProfileId": {
+            "type": "string"
+          },
+          "clusterId": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "question": {
+            "type": "string"
+          },
+          "sessionId": {
+            "type": "string"
+          },
+          "timeRangeMinutes": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "triggerType": {
+            "type": "string"
+          },
+          "workloadKind": {
+            "type": "string"
+          },
+          "workloadName": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "WorkbenchRootCauseRunListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchRootCauseRun"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "WorkbenchRunRef": {
+        "additionalProperties": false,
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind"
+        ],
+        "type": "object"
       },
       "WorkbenchSelectionContext": {
         "additionalProperties": false,
@@ -40800,6 +42797,19 @@
         "required": [
           "text",
           "kind"
+        ],
+        "type": "object"
+      },
+      "WorkbenchSendMessageRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "content"
         ],
         "type": "object"
       },
@@ -40837,6 +42847,283 @@
         },
         "required": [
           "content"
+        ],
+        "type": "object"
+      },
+      "WorkbenchSession": {
+        "additionalProperties": false,
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/WorkbenchSessionMetadata"
+          },
+          "title": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "createdBy",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "WorkbenchSessionEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/WorkbenchSession"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "WorkbenchSessionListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchSession"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "WorkbenchSessionMessageResult": {
+        "additionalProperties": false,
+        "properties": {
+          "analysisArtifacts": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchAnalysisArtifact"
+            },
+            "type": "array"
+          },
+          "messages": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchMessage"
+            },
+            "type": "array"
+          },
+          "sessionPatch": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "toolCalls": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchToolExecution"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "messages"
+        ],
+        "type": "object"
+      },
+      "WorkbenchSessionMessageResultEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/WorkbenchSessionMessageResult"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "WorkbenchSessionMetadata": {
+        "additionalProperties": false,
+        "properties": {
+          "agentProviderId": {
+            "type": "string"
+          },
+          "analysisRunRefs": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchRunRef"
+            },
+            "type": "array"
+          },
+          "archivedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "knowledgeContext": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "mode": {
+            "enum": [
+              "general",
+              "root_cause",
+              "performance",
+              "trace",
+              "inspection_review"
+            ],
+            "type": "string"
+          },
+          "pinnedContext": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/WorkbenchSessionScope"
+          },
+          "source": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "toolset": {
+            "$ref": "#/components/schemas/WorkbenchSessionToolset"
+          }
+        },
+        "type": "object"
+      },
+      "WorkbenchSessionScope": {
+        "additionalProperties": false,
+        "properties": {
+          "alertId": {
+            "type": "string"
+          },
+          "clusterId": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "node": {
+            "type": "string"
+          },
+          "pod": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string"
+          },
+          "timeRangeMinutes": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "workload": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "WorkbenchSessionToolset": {
+        "additionalProperties": false,
+        "properties": {
+          "budgetOverrides": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "disabledToolNames": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "enabledAdapterIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "enabledSkillIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "scopeOverrides": {
+            "additionalProperties": {},
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "WorkbenchSkill": {
+        "additionalProperties": false,
+        "properties": {
+          "blueprintRefs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "capabilityRefs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "category": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "ownerModule": {
+            "type": "string"
+          },
+          "scopeRules": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "scopes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "enabled"
         ],
         "type": "object"
       },
@@ -41157,6 +43444,50 @@
         ],
         "unevaluatedProperties": false
       },
+      "WorkbenchToolExecution": {
+        "additionalProperties": false,
+        "properties": {
+          "adapterId": {
+            "type": "string"
+          },
+          "completedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "input": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "output": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "startedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "toolName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "adapterId",
+          "toolName",
+          "status",
+          "startedAt"
+        ],
+        "type": "object"
+      },
       "WorkbenchToolStartedEvent": {
         "allOf": [
           {
@@ -41182,6 +43513,56 @@
           }
         ],
         "unevaluatedProperties": false
+      },
+      "WorkbenchUpdateSessionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "agentProviderId": {
+            "type": "string"
+          },
+          "archived": {
+            "type": "boolean"
+          },
+          "mode": {
+            "enum": [
+              "general",
+              "root_cause",
+              "performance",
+              "trace",
+              "inspection_review"
+            ],
+            "type": "string"
+          },
+          "pinnedContext": {
+            "additionalProperties": {},
+            "type": "object"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/WorkbenchSessionScope"
+          },
+          "source": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": {
+            "type": "string"
+          },
+          "toolset": {
+            "$ref": "#/components/schemas/WorkbenchSessionToolset"
+          }
+        },
+        "type": "object"
       },
       "WorkflowNodeRun": {
         "additionalProperties": false,
@@ -55558,23 +57939,111 @@
         ]
       }
     },
-    "/copilot/agent-runs": {
+    "/copilot/agent-providers": {
       "get": {
-        "operationId": "listAgentRuns",
+        "operationId": "listWorkbenchAgentProviders",
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GenericItemsEnvelope"
+                  "$ref": "#/components/schemas/WorkbenchAgentProviderListEnvelope"
+                }
+              }
+            },
+            "description": "Agent providers available to the current user."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/agent-runs": {
+      "get": {
+        "operationId": "listAgentRuns",
+        "parameters": [
+          {
+            "description": "Restricts results to a session owned by the current user.",
+            "in": "query",
+            "name": "sessionId",
+            "required": false,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericItemsEnvelope",
+                  "allOf": [
+                    {
+                      "properties": {
+                        "items": {
+                          "items": {
+                            "$ref": "#/components/schemas/WorkbenchAgentRun"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "items"
+                      ],
+                      "type": "object"
+                    }
+                  ]
                 }
               }
             },
             "description": "Agent run list visible to the current user."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
           }
         },
         "tags": [
-          "Runner"
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/agent-runs/{runID}/cancel": {
+      "post": {
+        "operationId": "cancelWorkbenchAgentRun",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CopilotRunID"
+          }
+        ],
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchAgentRunEnvelope"
+                }
+              }
+            },
+            "description": "Agent run cancellation accepted."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
         ]
       }
     },
@@ -55593,6 +58062,16 @@
         },
         "responses": {
           "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentRunEnvelope"
+                }
+              }
+            },
+            "description": "Legacy updated agent run response retained for client compatibility."
+          },
+          "202": {
             "content": {
               "application/json": {
                 "schema": {
@@ -55635,6 +58114,16 @@
                 }
               }
             },
+            "description": "Legacy claimed agent run response retained for client compatibility."
+          },
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentRunEnvelope"
+                }
+              }
+            },
             "description": "Claimed agent run, or empty data when none is available."
           }
         },
@@ -55670,6 +58159,16 @@
                 }
               }
             },
+            "description": "Legacy tool call result response retained for client compatibility."
+          },
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentToolCallResultEnvelope"
+                }
+              }
+            },
             "description": "Tool call result recorded by the control plane."
           }
         },
@@ -55680,6 +58179,434 @@
         ],
         "tags": [
           "Runner"
+        ]
+      }
+    },
+    "/copilot/analysis-profiles": {
+      "get": {
+        "operationId": "listWorkbenchAnalysisProfiles",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchAnalysisProfileListEnvelope"
+                }
+              }
+            },
+            "description": "Workbench analysis profiles."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "post": {
+        "operationId": "createWorkbenchAnalysisProfile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbenchAnalysisProfileInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchAnalysisProfileEnvelope"
+                }
+              }
+            },
+            "description": "Workbench analysis profile created."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/analysis-profiles/{profileID}": {
+      "put": {
+        "operationId": "updateWorkbenchAnalysisProfile",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AnalysisProfileID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbenchAnalysisProfileInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchAnalysisProfileEnvelope"
+                }
+              }
+            },
+            "description": "Workbench analysis profile updated."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/analysis/runs": {
+      "get": {
+        "operationId": "listWorkbenchAnalysisRuns",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "clusterId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "alertId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 20,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchRootCauseRunListEnvelope"
+                }
+              }
+            },
+            "description": "Analysis runs visible to the current user."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/automation-policies": {
+      "get": {
+        "operationId": "listWorkbenchAutomationPolicies",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchAutomationPolicyListEnvelope"
+                }
+              }
+            },
+            "description": "Workbench automation policies."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "post": {
+        "operationId": "createWorkbenchAutomationPolicy",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbenchAutomationPolicyInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchAutomationPolicyEnvelope"
+                }
+              }
+            },
+            "description": "Workbench automation policy created."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/automation-policies/{policyID}": {
+      "delete": {
+        "operationId": "deleteWorkbenchAutomationPolicy",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AutomationPolicyID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Workbench automation policy deleted."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "put": {
+        "operationId": "updateWorkbenchAutomationPolicy",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AutomationPolicyID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbenchAutomationPolicyInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchAutomationPolicyEnvelope"
+                }
+              }
+            },
+            "description": "Workbench automation policy updated."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/data-source-capabilities": {
+      "get": {
+        "operationId": "listWorkbenchDataSourceCapabilities",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchAdapterListEnvelope"
+                }
+              }
+            },
+            "description": "Data source adapters available to the Workbench."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/data-sources": {
+      "get": {
+        "operationId": "listWorkbenchDataSources",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchDataSourceListEnvelope"
+                }
+              }
+            },
+            "description": "Configured Workbench data sources."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "post": {
+        "operationId": "createWorkbenchDataSource",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbenchDataSourceInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchDataSourceEnvelope"
+                }
+              }
+            },
+            "description": "Workbench data source created."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/data-sources/{dataSourceID}": {
+      "put": {
+        "operationId": "updateWorkbenchDataSource",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/DataSourceID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbenchDataSourceInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchDataSourceEnvelope"
+                }
+              }
+            },
+            "description": "Workbench data source updated."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/data-sources/{dataSourceID}/validate": {
+      "post": {
+        "operationId": "validateWorkbenchDataSource",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/DataSourceID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchDataSourceEnvelope"
+                }
+              }
+            },
+            "description": "Workbench data source validation result."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
         ]
       }
     },
@@ -55711,6 +58638,705 @@
             "$ref": "#/components/responses/Error"
           },
           "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/insights": {
+      "get": {
+        "operationId": "listWorkbenchInsights",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchInsightListEnvelope"
+                }
+              }
+            },
+            "description": "Operational insights visible to the current user."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/inspection-runs": {
+      "get": {
+        "operationId": "listWorkbenchInspectionRuns",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "taskId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "clusterId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "namespace",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "check",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "latest",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchInspectionRunListEnvelope"
+                }
+              }
+            },
+            "description": "Inspection runs visible to the current user."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/inspection-runs/{runID}/session": {
+      "post": {
+        "operationId": "createWorkbenchSessionFromInspectionRun",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CopilotRunID"
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchSessionEnvelope"
+                }
+              }
+            },
+            "description": "Workbench session created from an inspection run."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/inspection-tasks": {
+      "get": {
+        "operationId": "listWorkbenchInspectionTasks",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchInspectionTaskListEnvelope"
+                }
+              }
+            },
+            "description": "Inspection tasks visible to the current user."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "post": {
+        "operationId": "createWorkbenchInspectionTask",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbenchInspectionTaskInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchInspectionTaskEnvelope"
+                }
+              }
+            },
+            "description": "Inspection task created."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/inspection-tasks/{taskID}": {
+      "delete": {
+        "operationId": "deleteWorkbenchInspectionTask",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/TaskID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Inspection task deleted."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "put": {
+        "operationId": "updateWorkbenchInspectionTask",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/TaskID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbenchInspectionTaskInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchInspectionTaskEnvelope"
+                }
+              }
+            },
+            "description": "Inspection task updated."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/inspection-tasks/{taskID}/execute": {
+      "post": {
+        "operationId": "executeWorkbenchInspectionTask",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/TaskID"
+          }
+        ],
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchInspectionRunEnvelope"
+                }
+              }
+            },
+            "description": "Inspection task execution accepted."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/root-cause/runs": {
+      "get": {
+        "operationId": "listWorkbenchRootCauseRuns",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "clusterId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "alertId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 20,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchRootCauseRunListEnvelope"
+                }
+              }
+            },
+            "description": "Root-cause analysis runs visible to the current user."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "post": {
+        "operationId": "createWorkbenchRootCauseRun",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbenchRootCauseRunInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchRootCauseRunEnvelope"
+                }
+              }
+            },
+            "description": "Root-cause analysis run created."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/root-cause/runs/{runID}": {
+      "get": {
+        "operationId": "getWorkbenchRootCauseRun",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/CopilotRunID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchRootCauseRunEnvelope"
+                }
+              }
+            },
+            "description": "Root-cause analysis run."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/sessions": {
+      "get": {
+        "operationId": "listWorkbenchSessions",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchSessionListEnvelope"
+                }
+              }
+            },
+            "description": "Workbench sessions owned by the current user."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "post": {
+        "operationId": "createWorkbenchSession",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbenchCreateSessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchSessionEnvelope"
+                }
+              }
+            },
+            "description": "Workbench session created."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/sessions/{sessionID}": {
+      "delete": {
+        "operationId": "deleteWorkbenchSession",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SessionID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Workbench session deleted."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "get": {
+        "operationId": "getWorkbenchSession",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SessionID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchSessionEnvelope"
+                }
+              }
+            },
+            "description": "Workbench session owned by the current user."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "patch": {
+        "operationId": "updateWorkbenchSession",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SessionID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbenchUpdateSessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchSessionEnvelope"
+                }
+              }
+            },
+            "description": "Workbench session updated."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/sessions/{sessionID}/analyze": {
+      "post": {
+        "operationId": "analyzeWorkbenchSession",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SessionID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbenchAnalyzeSessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchSessionMessageResultEnvelope"
+                }
+              }
+            },
+            "description": "Session analysis accepted."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/sessions/{sessionID}/inspection-task": {
+      "post": {
+        "operationId": "createWorkbenchInspectionTaskFromSession",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SessionID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbenchInspectionTaskInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchInspectionTaskEnvelope"
+                }
+              }
+            },
+            "description": "Inspection task created from a Workbench session."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/sessions/{sessionID}/messages": {
+      "get": {
+        "operationId": "listWorkbenchSessionMessages",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SessionID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchMessageListEnvelope"
+                }
+              }
+            },
+            "description": "Messages in a Workbench session."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "post": {
+        "operationId": "sendWorkbenchSessionMessage",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SessionID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbenchSendMessageRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchSessionMessageResultEnvelope"
+                }
+              }
+            },
+            "description": "Workbench message accepted and processed."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
             "$ref": "#/components/responses/Error"
           }
         },
@@ -55750,6 +59376,29 @@
           },
           "400": {
             "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/workbench/catalog": {
+      "get": {
+        "operationId": "getWorkbenchCatalog",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchCatalogEnvelope"
+                }
+              }
+            },
+            "description": "Catalog of governed Workbench adapters, sources, profiles, skills, and agent capabilities."
           },
           "403": {
             "$ref": "#/components/responses/Error"

@@ -2305,6 +2305,406 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/copilot/insights": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listWorkbenchInsights"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/workbench/catalog": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getWorkbenchCatalog"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/agent-providers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listWorkbenchAgentProviders"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/agent-runs/{runID}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["cancelWorkbenchAgentRun"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/data-source-capabilities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listWorkbenchDataSourceCapabilities"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/data-sources": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listWorkbenchDataSources"];
+        put?: never;
+        post: operations["createWorkbenchDataSource"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/data-sources/{dataSourceID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateWorkbenchDataSource"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/data-sources/{dataSourceID}/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["validateWorkbenchDataSource"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/analysis-profiles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listWorkbenchAnalysisProfiles"];
+        put?: never;
+        post: operations["createWorkbenchAnalysisProfile"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/analysis-profiles/{profileID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateWorkbenchAnalysisProfile"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/automation-policies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listWorkbenchAutomationPolicies"];
+        put?: never;
+        post: operations["createWorkbenchAutomationPolicy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/automation-policies/{policyID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateWorkbenchAutomationPolicy"];
+        post?: never;
+        delete: operations["deleteWorkbenchAutomationPolicy"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/root-cause/runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listWorkbenchRootCauseRuns"];
+        put?: never;
+        post: operations["createWorkbenchRootCauseRun"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/analysis/runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listWorkbenchAnalysisRuns"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/root-cause/runs/{runID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getWorkbenchRootCauseRun"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/sessions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listWorkbenchSessions"];
+        put?: never;
+        post: operations["createWorkbenchSession"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/sessions/{sessionID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getWorkbenchSession"];
+        put?: never;
+        post?: never;
+        delete: operations["deleteWorkbenchSession"];
+        options?: never;
+        head?: never;
+        patch: operations["updateWorkbenchSession"];
+        trace?: never;
+    };
+    "/copilot/sessions/{sessionID}/messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listWorkbenchSessionMessages"];
+        put?: never;
+        post: operations["sendWorkbenchSessionMessage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/sessions/{sessionID}/analyze": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["analyzeWorkbenchSession"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/inspection-tasks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listWorkbenchInspectionTasks"];
+        put?: never;
+        post: operations["createWorkbenchInspectionTask"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/inspection-tasks/{taskID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateWorkbenchInspectionTask"];
+        post?: never;
+        delete: operations["deleteWorkbenchInspectionTask"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/inspection-runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listWorkbenchInspectionRuns"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/inspection-tasks/{taskID}/execute": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["executeWorkbenchInspectionTask"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/inspection-runs/{runID}/session": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createWorkbenchSessionFromInspectionRun"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/sessions/{sessionID}/inspection-task": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createWorkbenchInspectionTaskFromSession"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/audit/logs": {
         parameters: {
             query?: never;
@@ -10514,6 +10914,690 @@ export interface components {
         UpdateAISkillsRequest: {
             skillsRegistry: components["schemas"]["AISkillSettings"][];
         };
+        WorkbenchSessionScope: {
+            clusterId?: string;
+            namespace?: string;
+            workload?: string;
+            service?: string;
+            pod?: string;
+            node?: string;
+            alertId?: string;
+            timeRangeMinutes?: number;
+        };
+        WorkbenchSessionToolset: {
+            enabledAdapterIds?: string[];
+            enabledSkillIds?: string[];
+            disabledToolNames?: string[];
+            budgetOverrides?: {
+                [key: string]: unknown;
+            };
+            scopeOverrides?: {
+                [key: string]: unknown;
+            };
+        };
+        WorkbenchRunRef: {
+            id: string;
+            kind: string;
+            status?: string;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        WorkbenchSessionMetadata: {
+            /** @enum {string} */
+            mode?: "general" | "root_cause" | "performance" | "trace" | "inspection_review";
+            status?: string;
+            agentProviderId?: string;
+            scope?: components["schemas"]["WorkbenchSessionScope"];
+            pinnedContext?: {
+                [key: string]: unknown;
+            };
+            toolset?: components["schemas"]["WorkbenchSessionToolset"];
+            analysisRunRefs?: components["schemas"]["WorkbenchRunRef"][];
+            summary?: string;
+            tags?: string[];
+            /** Format: date-time */
+            archivedAt?: string;
+            source?: string;
+            knowledgeContext?: {
+                [key: string]: unknown;
+            };
+        };
+        WorkbenchSession: {
+            id: string;
+            title: string;
+            createdBy: string;
+            metadata?: components["schemas"]["WorkbenchSessionMetadata"];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        WorkbenchCreateSessionRequest: {
+            title?: string;
+            /** @enum {string} */
+            mode?: "general" | "root_cause" | "performance" | "trace" | "inspection_review";
+            agentProviderId?: string;
+            scope?: components["schemas"]["WorkbenchSessionScope"];
+            pinnedContext?: {
+                [key: string]: unknown;
+            };
+            source?: string;
+            tags?: string[];
+            alertId?: string;
+            workload?: string;
+        };
+        WorkbenchUpdateSessionRequest: {
+            title?: string;
+            /** @enum {string} */
+            mode?: "general" | "root_cause" | "performance" | "trace" | "inspection_review";
+            agentProviderId?: string;
+            status?: string;
+            scope?: components["schemas"]["WorkbenchSessionScope"];
+            pinnedContext?: {
+                [key: string]: unknown;
+            };
+            source?: string;
+            toolset?: components["schemas"]["WorkbenchSessionToolset"];
+            tags?: string[];
+            summary?: string;
+            archived?: boolean;
+        };
+        WorkbenchMessage: {
+            id: string;
+            sessionId: string;
+            /** @enum {string} */
+            role: "user" | "assistant" | "system";
+            content: string;
+            metadata?: {
+                [key: string]: unknown;
+            };
+            /** Format: date-time */
+            createdAt: string;
+        };
+        WorkbenchSendMessageRequest: {
+            content: string;
+        };
+        WorkbenchToolExecution: {
+            id: string;
+            adapterId: string;
+            toolName: string;
+            status: string;
+            summary?: string;
+            input?: {
+                [key: string]: unknown;
+            };
+            output?: {
+                [key: string]: unknown;
+            };
+            /** Format: date-time */
+            startedAt: string;
+            /** Format: date-time */
+            completedAt?: string;
+        };
+        WorkbenchEvidence: {
+            id: string;
+            kind: string;
+            title: string;
+            summary: string;
+            severity?: string;
+            clusterId?: string;
+            namespace?: string;
+            /** Format: date-time */
+            timestamp?: string;
+            attributes?: {
+                [key: string]: unknown;
+            };
+        };
+        WorkbenchHypothesis: {
+            id: string;
+            title: string;
+            summary: string;
+            confidence: number;
+            evidenceIds?: string[];
+            recommendations?: string[];
+        };
+        WorkbenchGraphNode: {
+            id: string;
+            kind: string;
+            title: string;
+            subtitle?: string;
+            severity?: string;
+            evidenceIds?: string[];
+            sourceRefs?: string[];
+            attributes?: {
+                [key: string]: unknown;
+            };
+        };
+        WorkbenchGraphEdge: {
+            id: string;
+            source: string;
+            target: string;
+            relation: string;
+            severity?: string;
+            evidenceIds?: string[];
+            attributes?: {
+                [key: string]: unknown;
+            };
+        };
+        WorkbenchGraph: {
+            layout?: string;
+            focusNodeId?: string;
+            nodes?: components["schemas"]["WorkbenchGraphNode"][];
+            edges?: components["schemas"]["WorkbenchGraphEdge"][];
+        };
+        WorkbenchAnalysisArtifact: {
+            kind: string;
+            runId: string;
+            title?: string;
+            summary: string;
+            scope?: components["schemas"]["WorkbenchSessionScope"];
+            evidence?: components["schemas"]["WorkbenchEvidence"][];
+            hypotheses?: components["schemas"]["WorkbenchHypothesis"][];
+            recommendations?: string[];
+            toolExecutions?: components["schemas"]["WorkbenchToolExecution"][];
+            graph?: components["schemas"]["WorkbenchGraph"];
+            dataSourceSnapshot?: {
+                [key: string]: unknown;
+            };
+        };
+        WorkbenchSessionMessageResult: {
+            messages: components["schemas"]["WorkbenchMessage"][];
+            toolCalls?: components["schemas"]["WorkbenchToolExecution"][];
+            analysisArtifacts?: components["schemas"]["WorkbenchAnalysisArtifact"][];
+            sessionPatch?: {
+                [key: string]: unknown;
+            };
+        };
+        WorkbenchAnalyzeSessionRequest: {
+            mode?: string;
+            analysisProfileId?: string;
+            agentProviderId?: string;
+            triggerType?: string;
+            question?: string;
+            scope?: components["schemas"]["WorkbenchSessionScope"];
+        };
+        WorkbenchRootCauseRunInput: {
+            title?: string;
+            kind?: string;
+            sessionId?: string;
+            analysisProfileId?: string;
+            agentProviderId?: string;
+            triggerType?: string;
+            clusterId?: string;
+            namespace?: string;
+            workloadKind?: string;
+            workloadName?: string;
+            alertId?: string;
+            timeRangeMinutes?: number;
+            question?: string;
+        };
+        WorkbenchRootCauseRun: {
+            id: string;
+            kind?: string;
+            sessionId?: string;
+            title: string;
+            createdBy: string;
+            analysisProfileId?: string;
+            triggerType?: string;
+            status: string;
+            severity: string;
+            summary: string;
+            clusterId?: string;
+            namespace?: string;
+            workloadKind?: string;
+            workloadName?: string;
+            alertId?: string;
+            timeRangeMinutes: number;
+            question?: string;
+            evidence?: components["schemas"]["WorkbenchEvidence"][];
+            hypotheses?: components["schemas"]["WorkbenchHypothesis"][];
+            recommendations?: string[];
+            toolExecutions?: components["schemas"]["WorkbenchToolExecution"][];
+            dataSourceSnapshot?: {
+                [key: string]: unknown;
+            };
+            playbookResults?: {
+                [key: string]: unknown;
+            };
+            remediationPlan?: {
+                [key: string]: unknown;
+            };
+            dedupKey?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        WorkbenchInsight: {
+            title: string;
+            description: string;
+            severity: string;
+            actions?: string[];
+        };
+        WorkbenchInsightListEnvelope: {
+            items: components["schemas"]["WorkbenchInsight"][];
+        };
+        WorkbenchSessionEnvelope: {
+            data: components["schemas"]["WorkbenchSession"];
+        };
+        WorkbenchSessionListEnvelope: {
+            items: components["schemas"]["WorkbenchSession"][];
+        };
+        WorkbenchMessageListEnvelope: {
+            items: components["schemas"]["WorkbenchMessage"][];
+        };
+        WorkbenchSessionMessageResultEnvelope: {
+            data: components["schemas"]["WorkbenchSessionMessageResult"];
+        };
+        WorkbenchRootCauseRunEnvelope: {
+            data: components["schemas"]["WorkbenchRootCauseRun"];
+        };
+        WorkbenchRootCauseRunListEnvelope: {
+            items: components["schemas"]["WorkbenchRootCauseRun"][];
+        };
+        WorkbenchAdapterTool: {
+            name: string;
+            description: string;
+            schemaHint?: string;
+        };
+        WorkbenchAdapter: {
+            id: string;
+            sourceKind: string;
+            supportedBackends?: string[];
+            name: string;
+            description: string;
+            category?: string;
+            requiresConfig: boolean;
+            supportsSessionOverride: boolean;
+            scopes: string[];
+            tools?: components["schemas"]["WorkbenchAdapterTool"][];
+            defaultBudget?: {
+                [key: string]: unknown;
+            };
+            toolSchemaSummary?: {
+                [key: string]: string;
+            };
+        };
+        WorkbenchDataSourceInput: {
+            id: string;
+            name: string;
+            sourceKind: string;
+            backendType: string;
+            enabled: boolean;
+            credentialRef?: string;
+            scope?: {
+                [key: string]: unknown;
+            };
+            queryBudget?: {
+                [key: string]: unknown;
+            };
+            redactionPolicy?: {
+                [key: string]: unknown;
+            };
+            mcpAdapter: string;
+            config?: {
+                [key: string]: unknown;
+            };
+        };
+        WorkbenchDataSource: {
+            id: string;
+            name: string;
+            sourceKind: string;
+            backendType: string;
+            enabled: boolean;
+            scope?: {
+                [key: string]: unknown;
+            };
+            queryBudget?: {
+                [key: string]: unknown;
+            };
+            redactionPolicy?: {
+                [key: string]: unknown;
+            };
+            mcpAdapter: string;
+            config?: {
+                [key: string]: unknown;
+            };
+            validationStatus?: string;
+            validationMessage?: string;
+            /** Format: date-time */
+            lastValidatedAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        WorkbenchAnalysisProfileInput: {
+            id: string;
+            name: string;
+            mode: string;
+            enabledSources?: string[];
+            enabledPlaybooks?: string[];
+            queryBudgets?: {
+                [key: string]: unknown;
+            };
+            outputStyle?: {
+                [key: string]: unknown;
+            };
+            remediationPolicy: string;
+            defaultTimeRangeMinutes: number;
+            timeoutSeconds: number;
+            enabled: boolean;
+        };
+        WorkbenchAnalysisProfile: components["schemas"]["WorkbenchAnalysisProfileInput"] & {
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        WorkbenchAutomationPolicyInput: {
+            id: string;
+            name: string;
+            enabled: boolean;
+            triggerType: string;
+            analysisKinds?: string[];
+            agentProviderId?: string;
+            triggerConditions?: {
+                [key: string]: unknown;
+            };
+            dedupWindowSeconds: number;
+            analysisProfileId: string;
+            remediationPolicy: string;
+            approvalPolicy?: {
+                [key: string]: unknown;
+            };
+            cooldownSeconds: number;
+        };
+        WorkbenchAutomationPolicy: components["schemas"]["WorkbenchAutomationPolicyInput"] & {
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        WorkbenchAgentProviderRuntimeStatus: {
+            state: string;
+            reason?: string;
+            queuedRuns: number;
+            runningRuns: number;
+            recentFailures: number;
+            lastRunId?: string;
+            lastRunStatus?: string;
+            lastAgentId?: string;
+            /** Format: date-time */
+            lastHeartbeatAt?: string;
+            /** Format: date-time */
+            lastCompletedAt?: string;
+            /** Format: date-time */
+            observedAt: string;
+        };
+        WorkbenchAgentProvider: {
+            id: string;
+            kind: string;
+            name: string;
+            description?: string;
+            enabled: boolean;
+            default?: boolean;
+            capabilities?: string[];
+            supportedModes?: string[];
+            supportsAsync: boolean;
+            supportsSkills: boolean;
+            supportsToolsets: boolean;
+            config?: {
+                [key: string]: unknown;
+            };
+            runtimeStatus?: components["schemas"]["WorkbenchAgentProviderRuntimeStatus"];
+        };
+        WorkbenchAgentToolBinding: {
+            id: string;
+            capabilityId: string;
+            providerId?: string;
+            providerKind?: string;
+            toolKind: string;
+            adapterId?: string;
+            toolName?: string;
+            permissionKey?: string;
+            config?: {
+                [key: string]: unknown;
+            };
+        };
+        WorkbenchAgentSkillBinding: {
+            id: string;
+            skillId: string;
+            providerId?: string;
+            providerKind?: string;
+            providerSkillRef?: string;
+            capabilityRefs?: string[];
+            promptTemplateId?: string;
+            config?: {
+                [key: string]: unknown;
+            };
+        };
+        WorkbenchAgentCapability: {
+            id: string;
+            name: string;
+            category?: string;
+            description?: string;
+            analysisKinds?: string[];
+            requiredScopes?: string[];
+            toolRefs?: string[];
+            toolBindings?: components["schemas"]["WorkbenchAgentToolBinding"][];
+            skillBindings?: components["schemas"]["WorkbenchAgentSkillBinding"][];
+        };
+        WorkbenchOperationState: {
+            phase: string;
+            status: string;
+            terminal: boolean;
+            cancelable: boolean;
+            retryable: boolean;
+            runnerClaimRequired: boolean;
+            heartbeatRequired: boolean;
+            timeoutSeconds: number;
+            timeoutStale: boolean;
+            heartbeatStale: boolean;
+            /** Format: date-time */
+            lastHeartbeatAt?: string;
+            /** Format: date-time */
+            nextHeartbeatDeadline?: string;
+            /** Format: date-time */
+            nextTimeoutDeadline?: string;
+            failureReason?: string;
+            failureMessage?: string;
+            failureEvidence?: {
+                [key: string]: unknown;
+            }[];
+            /** Format: date-time */
+            finalStateRecordedAt?: string;
+            claimedByAgentId?: string;
+            externalRunId?: string;
+            artifactCount?: number;
+            toolExecutionCount?: number;
+            recommendedNextAction?: string;
+        };
+        WorkbenchAgentRun: {
+            id: string;
+            providerId: string;
+            providerKind: string;
+            capabilityId: string;
+            skillIds?: string[];
+            sessionId?: string;
+            rootCauseRunId?: string;
+            createdBy: string;
+            status: string;
+            scope?: components["schemas"]["WorkbenchSessionScope"];
+            toolset?: components["schemas"]["WorkbenchSessionToolset"];
+            toolBindings?: components["schemas"]["WorkbenchAgentToolBinding"][];
+            skillBindings?: components["schemas"]["WorkbenchAgentSkillBinding"][];
+            input?: {
+                [key: string]: unknown;
+            };
+            output?: {
+                [key: string]: unknown;
+            };
+            toolExecutions?: components["schemas"]["WorkbenchToolExecution"][];
+            analysisArtifacts?: components["schemas"]["WorkbenchAnalysisArtifact"][];
+            operationState?: components["schemas"]["WorkbenchOperationState"];
+            claimedByAgentId?: string;
+            externalRunId?: string;
+            errorMessage?: string;
+            timeoutSeconds: number;
+            /** Format: date-time */
+            queuedAt: string;
+            /** Format: date-time */
+            startedAt?: string;
+            /** Format: date-time */
+            lastHeartbeatAt?: string;
+            /** Format: date-time */
+            completedAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        WorkbenchSkill: {
+            id: string;
+            name: string;
+            category?: string;
+            ownerModule?: string;
+            description?: string;
+            enabled: boolean;
+            scopes?: string[];
+            capabilityRefs?: string[];
+            blueprintRefs?: string[];
+            scopeRules?: string[];
+        };
+        WorkbenchCatalogDataSource: {
+            id: string;
+            name: string;
+            sourceKind: string;
+            backendType: string;
+            enabled: boolean;
+            mcpAdapter: string;
+            validationStatus?: string;
+            validationMessage?: string;
+        };
+        WorkbenchCatalogAnalysisProfile: {
+            id: string;
+            name: string;
+            mode: string;
+            enabled: boolean;
+        };
+        WorkbenchCatalog: {
+            adapters: components["schemas"]["WorkbenchAdapter"][];
+            dataSources: components["schemas"]["WorkbenchCatalogDataSource"][];
+            analysisProfiles: components["schemas"]["WorkbenchCatalogAnalysisProfile"][];
+            skillsRegistry?: components["schemas"]["WorkbenchSkill"][];
+            agentProviders?: components["schemas"]["WorkbenchAgentProvider"][];
+            capabilities?: components["schemas"]["WorkbenchAgentCapability"][];
+            toolBindings?: components["schemas"]["WorkbenchAgentToolBinding"][];
+            skillBindings?: components["schemas"]["WorkbenchAgentSkillBinding"][];
+        };
+        WorkbenchCatalogEnvelope: {
+            data: components["schemas"]["WorkbenchCatalog"];
+        };
+        WorkbenchAdapterListEnvelope: {
+            items: components["schemas"]["WorkbenchAdapter"][];
+        };
+        WorkbenchDataSourceEnvelope: {
+            data: components["schemas"]["WorkbenchDataSource"];
+        };
+        WorkbenchDataSourceListEnvelope: {
+            items: components["schemas"]["WorkbenchDataSource"][];
+        };
+        WorkbenchAnalysisProfileEnvelope: {
+            data: components["schemas"]["WorkbenchAnalysisProfile"];
+        };
+        WorkbenchAnalysisProfileListEnvelope: {
+            items: components["schemas"]["WorkbenchAnalysisProfile"][];
+        };
+        WorkbenchAutomationPolicyEnvelope: {
+            data: components["schemas"]["WorkbenchAutomationPolicy"];
+        };
+        WorkbenchAutomationPolicyListEnvelope: {
+            items: components["schemas"]["WorkbenchAutomationPolicy"][];
+        };
+        WorkbenchAgentProviderListEnvelope: {
+            items: components["schemas"]["WorkbenchAgentProvider"][];
+        };
+        WorkbenchAgentRunEnvelope: {
+            data: components["schemas"]["WorkbenchAgentRun"];
+        };
+        WorkbenchAgentRunListEnvelope: {
+            items: components["schemas"]["WorkbenchAgentRun"][];
+        };
+        WorkbenchInspectionTaskInput: {
+            id: string;
+            title: string;
+            scopeType: string;
+            clusterId?: string;
+            namespace?: string;
+            checks?: string[];
+            enabled: boolean;
+            intervalMinutes: number;
+            metadata?: {
+                [key: string]: unknown;
+            };
+        };
+        WorkbenchInspectionTask: {
+            id: string;
+            title: string;
+            scopeType: string;
+            clusterId?: string;
+            namespace?: string;
+            checks?: string[];
+            enabled: boolean;
+            intervalMinutes: number;
+            metadata?: {
+                [key: string]: unknown;
+            };
+            createdBy: string;
+            /** Format: date-time */
+            lastRunAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        WorkbenchInspectionFinding: {
+            id: string;
+            title: string;
+            severity: string;
+            summary: string;
+            recommendation?: string;
+            source: string;
+            data?: {
+                [key: string]: unknown;
+            };
+        };
+        WorkbenchInspectionRun: {
+            id: string;
+            taskId: string;
+            triggeredBy: string;
+            status: string;
+            severity: string;
+            summary: string;
+            findings?: components["schemas"]["WorkbenchInspectionFinding"][];
+            report?: {
+                [key: string]: unknown;
+            };
+            /** Format: date-time */
+            startedAt: string;
+            /** Format: date-time */
+            completedAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        WorkbenchInspectionTaskEnvelope: {
+            data: components["schemas"]["WorkbenchInspectionTask"];
+        };
+        WorkbenchInspectionTaskListEnvelope: {
+            items: components["schemas"]["WorkbenchInspectionTask"][];
+        };
+        WorkbenchInspectionRunEnvelope: {
+            data: components["schemas"]["WorkbenchInspectionRun"];
+        };
+        WorkbenchInspectionRunListEnvelope: {
+            items: components["schemas"]["WorkbenchInspectionRun"][];
+        };
         WorkbenchLaunchContext: {
             /** @enum {string} */
             sourceWorkbench: "platform" | "monitoring" | "delivery" | "docker" | "virtualization" | "compute" | "ai";
@@ -18296,6 +19380,9 @@ export interface components {
         DraftID: string;
         ServiceID: string;
         SessionID: string;
+        CopilotRunID: string;
+        AnalysisProfileID: string;
+        AutomationPolicyID: string;
         SkillID: string;
         Source: string;
         TaskID: string;
@@ -18736,6 +19823,72 @@ export type BrandingAssetUploadEnvelope = components['schemas']['BrandingAssetUp
 export type UploadBrandingAssetRequest = components['schemas']['UploadBrandingAssetRequest'];
 export type UpdateAIWorkbenchModelRequest = components['schemas']['UpdateAIWorkbenchModelRequest'];
 export type UpdateAISkillsRequest = components['schemas']['UpdateAISkillsRequest'];
+export type WorkbenchSessionScope = components['schemas']['WorkbenchSessionScope'];
+export type WorkbenchSessionToolset = components['schemas']['WorkbenchSessionToolset'];
+export type WorkbenchRunRef = components['schemas']['WorkbenchRunRef'];
+export type WorkbenchSessionMetadata = components['schemas']['WorkbenchSessionMetadata'];
+export type WorkbenchSession = components['schemas']['WorkbenchSession'];
+export type WorkbenchCreateSessionRequest = components['schemas']['WorkbenchCreateSessionRequest'];
+export type WorkbenchUpdateSessionRequest = components['schemas']['WorkbenchUpdateSessionRequest'];
+export type WorkbenchMessage = components['schemas']['WorkbenchMessage'];
+export type WorkbenchSendMessageRequest = components['schemas']['WorkbenchSendMessageRequest'];
+export type WorkbenchToolExecution = components['schemas']['WorkbenchToolExecution'];
+export type WorkbenchEvidence = components['schemas']['WorkbenchEvidence'];
+export type WorkbenchHypothesis = components['schemas']['WorkbenchHypothesis'];
+export type WorkbenchGraphNode = components['schemas']['WorkbenchGraphNode'];
+export type WorkbenchGraphEdge = components['schemas']['WorkbenchGraphEdge'];
+export type WorkbenchGraph = components['schemas']['WorkbenchGraph'];
+export type WorkbenchAnalysisArtifact = components['schemas']['WorkbenchAnalysisArtifact'];
+export type WorkbenchSessionMessageResult = components['schemas']['WorkbenchSessionMessageResult'];
+export type WorkbenchAnalyzeSessionRequest = components['schemas']['WorkbenchAnalyzeSessionRequest'];
+export type WorkbenchRootCauseRunInput = components['schemas']['WorkbenchRootCauseRunInput'];
+export type WorkbenchRootCauseRun = components['schemas']['WorkbenchRootCauseRun'];
+export type WorkbenchInsight = components['schemas']['WorkbenchInsight'];
+export type WorkbenchInsightListEnvelope = components['schemas']['WorkbenchInsightListEnvelope'];
+export type WorkbenchSessionEnvelope = components['schemas']['WorkbenchSessionEnvelope'];
+export type WorkbenchSessionListEnvelope = components['schemas']['WorkbenchSessionListEnvelope'];
+export type WorkbenchMessageListEnvelope = components['schemas']['WorkbenchMessageListEnvelope'];
+export type WorkbenchSessionMessageResultEnvelope = components['schemas']['WorkbenchSessionMessageResultEnvelope'];
+export type WorkbenchRootCauseRunEnvelope = components['schemas']['WorkbenchRootCauseRunEnvelope'];
+export type WorkbenchRootCauseRunListEnvelope = components['schemas']['WorkbenchRootCauseRunListEnvelope'];
+export type WorkbenchAdapterTool = components['schemas']['WorkbenchAdapterTool'];
+export type WorkbenchAdapter = components['schemas']['WorkbenchAdapter'];
+export type WorkbenchDataSourceInput = components['schemas']['WorkbenchDataSourceInput'];
+export type WorkbenchDataSource = components['schemas']['WorkbenchDataSource'];
+export type WorkbenchAnalysisProfileInput = components['schemas']['WorkbenchAnalysisProfileInput'];
+export type WorkbenchAnalysisProfile = components['schemas']['WorkbenchAnalysisProfile'];
+export type WorkbenchAutomationPolicyInput = components['schemas']['WorkbenchAutomationPolicyInput'];
+export type WorkbenchAutomationPolicy = components['schemas']['WorkbenchAutomationPolicy'];
+export type WorkbenchAgentProviderRuntimeStatus = components['schemas']['WorkbenchAgentProviderRuntimeStatus'];
+export type WorkbenchAgentProvider = components['schemas']['WorkbenchAgentProvider'];
+export type WorkbenchAgentToolBinding = components['schemas']['WorkbenchAgentToolBinding'];
+export type WorkbenchAgentSkillBinding = components['schemas']['WorkbenchAgentSkillBinding'];
+export type WorkbenchAgentCapability = components['schemas']['WorkbenchAgentCapability'];
+export type WorkbenchOperationState = components['schemas']['WorkbenchOperationState'];
+export type WorkbenchAgentRun = components['schemas']['WorkbenchAgentRun'];
+export type WorkbenchSkill = components['schemas']['WorkbenchSkill'];
+export type WorkbenchCatalogDataSource = components['schemas']['WorkbenchCatalogDataSource'];
+export type WorkbenchCatalogAnalysisProfile = components['schemas']['WorkbenchCatalogAnalysisProfile'];
+export type WorkbenchCatalog = components['schemas']['WorkbenchCatalog'];
+export type WorkbenchCatalogEnvelope = components['schemas']['WorkbenchCatalogEnvelope'];
+export type WorkbenchAdapterListEnvelope = components['schemas']['WorkbenchAdapterListEnvelope'];
+export type WorkbenchDataSourceEnvelope = components['schemas']['WorkbenchDataSourceEnvelope'];
+export type WorkbenchDataSourceListEnvelope = components['schemas']['WorkbenchDataSourceListEnvelope'];
+export type WorkbenchAnalysisProfileEnvelope = components['schemas']['WorkbenchAnalysisProfileEnvelope'];
+export type WorkbenchAnalysisProfileListEnvelope = components['schemas']['WorkbenchAnalysisProfileListEnvelope'];
+export type WorkbenchAutomationPolicyEnvelope = components['schemas']['WorkbenchAutomationPolicyEnvelope'];
+export type WorkbenchAutomationPolicyListEnvelope = components['schemas']['WorkbenchAutomationPolicyListEnvelope'];
+export type WorkbenchAgentProviderListEnvelope = components['schemas']['WorkbenchAgentProviderListEnvelope'];
+export type WorkbenchAgentRunEnvelope = components['schemas']['WorkbenchAgentRunEnvelope'];
+export type WorkbenchAgentRunListEnvelope = components['schemas']['WorkbenchAgentRunListEnvelope'];
+export type WorkbenchInspectionTaskInput = components['schemas']['WorkbenchInspectionTaskInput'];
+export type WorkbenchInspectionTask = components['schemas']['WorkbenchInspectionTask'];
+export type WorkbenchInspectionFinding = components['schemas']['WorkbenchInspectionFinding'];
+export type WorkbenchInspectionRun = components['schemas']['WorkbenchInspectionRun'];
+export type WorkbenchInspectionTaskEnvelope = components['schemas']['WorkbenchInspectionTaskEnvelope'];
+export type WorkbenchInspectionTaskListEnvelope = components['schemas']['WorkbenchInspectionTaskListEnvelope'];
+export type WorkbenchInspectionRunEnvelope = components['schemas']['WorkbenchInspectionRunEnvelope'];
+export type WorkbenchInspectionRunListEnvelope = components['schemas']['WorkbenchInspectionRunListEnvelope'];
 export type WorkbenchLaunchContext = components['schemas']['WorkbenchLaunchContext'];
 export type WorkbenchSelectionContext = components['schemas']['WorkbenchSelectionContext'];
 export type WorkbenchGlobalAssistantOpenRequest = components['schemas']['WorkbenchGlobalAssistantOpenRequest'];
@@ -19743,6 +20896,9 @@ export type ParameterPlanId = components['parameters']['PlanID'];
 export type ParameterDraftId = components['parameters']['DraftID'];
 export type ParameterServiceId = components['parameters']['ServiceID'];
 export type ParameterSessionId = components['parameters']['SessionID'];
+export type ParameterCopilotRunId = components['parameters']['CopilotRunID'];
+export type ParameterAnalysisProfileId = components['parameters']['AnalysisProfileID'];
+export type ParameterAutomationPolicyId = components['parameters']['AutomationPolicyID'];
 export type ParameterSkillId = components['parameters']['SkillID'];
 export type ParameterSource = components['parameters']['Source'];
 export type ParameterTaskId = components['parameters']['TaskID'];
@@ -24173,8 +25329,17 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Claimed agent run, or empty data when none is available. */
+            /** @description Legacy claimed agent run response retained for client compatibility. */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentRunEnvelope"];
+                };
+            };
+            /** @description Claimed agent run, or empty data when none is available. */
+            202: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -24197,8 +25362,17 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Updated agent run. */
+            /** @description Legacy updated agent run response retained for client compatibility. */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentRunEnvelope"];
+                };
+            };
+            /** @description Updated agent run. */
+            202: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -24221,8 +25395,17 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Tool call result recorded by the control plane. */
+            /** @description Legacy tool call result response retained for client compatibility. */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentToolCallResultEnvelope"];
+                };
+            };
+            /** @description Tool call result recorded by the control plane. */
+            202: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -24234,7 +25417,10 @@ export interface operations {
     };
     listAgentRuns: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Restricts results to a session owned by the current user. */
+                sessionId?: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -24250,6 +25436,8 @@ export interface operations {
                     "application/json": components["schemas"]["GenericItemsEnvelope"];
                 };
             };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
         };
     };
     recordWorkbenchGlobalAssistantEvent: {
@@ -24276,6 +25464,7 @@ export interface operations {
             };
             400: components["responses"]["Error"];
             403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
         };
     };
     streamWorkbenchSessionMessage: {
@@ -24304,6 +25493,894 @@ export interface operations {
             };
             400: components["responses"]["Error"];
             403: components["responses"]["Error"];
+        };
+    };
+    listWorkbenchInsights: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Operational insights visible to the current user. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchInsightListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    getWorkbenchCatalog: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Catalog of governed Workbench adapters, sources, profiles, skills, and agent capabilities. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchCatalogEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    listWorkbenchAgentProviders: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Agent providers available to the current user. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchAgentProviderListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    cancelWorkbenchAgentRun: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                runID: components["parameters"]["CopilotRunID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Agent run cancellation accepted. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchAgentRunEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listWorkbenchDataSourceCapabilities: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Data source adapters available to the Workbench. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchAdapterListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    listWorkbenchDataSources: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Configured Workbench data sources. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchDataSourceListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createWorkbenchDataSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchDataSourceInput"];
+            };
+        };
+        responses: {
+            /** @description Workbench data source created. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchDataSourceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    updateWorkbenchDataSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dataSourceID: components["parameters"]["DataSourceID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchDataSourceInput"];
+            };
+        };
+        responses: {
+            /** @description Workbench data source updated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchDataSourceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    validateWorkbenchDataSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dataSourceID: components["parameters"]["DataSourceID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Workbench data source validation result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchDataSourceEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listWorkbenchAnalysisProfiles: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Workbench analysis profiles. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchAnalysisProfileListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createWorkbenchAnalysisProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchAnalysisProfileInput"];
+            };
+        };
+        responses: {
+            /** @description Workbench analysis profile created. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchAnalysisProfileEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    updateWorkbenchAnalysisProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                profileID: components["parameters"]["AnalysisProfileID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchAnalysisProfileInput"];
+            };
+        };
+        responses: {
+            /** @description Workbench analysis profile updated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchAnalysisProfileEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listWorkbenchAutomationPolicies: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Workbench automation policies. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchAutomationPolicyListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createWorkbenchAutomationPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchAutomationPolicyInput"];
+            };
+        };
+        responses: {
+            /** @description Workbench automation policy created. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchAutomationPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    updateWorkbenchAutomationPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                policyID: components["parameters"]["AutomationPolicyID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchAutomationPolicyInput"];
+            };
+        };
+        responses: {
+            /** @description Workbench automation policy updated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchAutomationPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteWorkbenchAutomationPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                policyID: components["parameters"]["AutomationPolicyID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Workbench automation policy deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listWorkbenchRootCauseRuns: {
+        parameters: {
+            query?: {
+                clusterId?: string;
+                alertId?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Root-cause analysis runs visible to the current user. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchRootCauseRunListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createWorkbenchRootCauseRun: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchRootCauseRunInput"];
+            };
+        };
+        responses: {
+            /** @description Root-cause analysis run created. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchRootCauseRunEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listWorkbenchAnalysisRuns: {
+        parameters: {
+            query?: {
+                clusterId?: string;
+                alertId?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Analysis runs visible to the current user. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchRootCauseRunListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    getWorkbenchRootCauseRun: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                runID: components["parameters"]["CopilotRunID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Root-cause analysis run. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchRootCauseRunEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listWorkbenchSessions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Workbench sessions owned by the current user. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchSessionListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createWorkbenchSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchCreateSessionRequest"];
+            };
+        };
+        responses: {
+            /** @description Workbench session created. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchSessionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    getWorkbenchSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: components["parameters"]["SessionID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Workbench session owned by the current user. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchSessionEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteWorkbenchSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: components["parameters"]["SessionID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Workbench session deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateWorkbenchSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: components["parameters"]["SessionID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchUpdateSessionRequest"];
+            };
+        };
+        responses: {
+            /** @description Workbench session updated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchSessionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listWorkbenchSessionMessages: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: components["parameters"]["SessionID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Messages in a Workbench session. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchMessageListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    sendWorkbenchSessionMessage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: components["parameters"]["SessionID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchSendMessageRequest"];
+            };
+        };
+        responses: {
+            /** @description Workbench message accepted and processed. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchSessionMessageResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    analyzeWorkbenchSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: components["parameters"]["SessionID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchAnalyzeSessionRequest"];
+            };
+        };
+        responses: {
+            /** @description Session analysis accepted. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchSessionMessageResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listWorkbenchInspectionTasks: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Inspection tasks visible to the current user. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchInspectionTaskListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createWorkbenchInspectionTask: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchInspectionTaskInput"];
+            };
+        };
+        responses: {
+            /** @description Inspection task created. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchInspectionTaskEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    updateWorkbenchInspectionTask: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskID: components["parameters"]["TaskID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchInspectionTaskInput"];
+            };
+        };
+        responses: {
+            /** @description Inspection task updated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchInspectionTaskEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteWorkbenchInspectionTask: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskID: components["parameters"]["TaskID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Inspection task deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listWorkbenchInspectionRuns: {
+        parameters: {
+            query?: {
+                taskId?: string;
+                clusterId?: string;
+                namespace?: string;
+                check?: string;
+                latest?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Inspection runs visible to the current user. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchInspectionRunListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    executeWorkbenchInspectionTask: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskID: components["parameters"]["TaskID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Inspection task execution accepted. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchInspectionRunEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    createWorkbenchSessionFromInspectionRun: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                runID: components["parameters"]["CopilotRunID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Workbench session created from an inspection run. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchSessionEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    createWorkbenchInspectionTaskFromSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: components["parameters"]["SessionID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchInspectionTaskInput"];
+            };
+        };
+        responses: {
+            /** @description Inspection task created from a Workbench session. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchInspectionTaskEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
         };
     };
     listPlatformAuditLogs: {
