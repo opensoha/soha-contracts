@@ -6,6 +6,87 @@ const (
 	StorageRelationLimit   = 200
 )
 
+type ResourceScopeMode string
+
+const (
+	ResourceScopeModeCluster   ResourceScopeMode = "cluster"
+	ResourceScopeModeNamespace ResourceScopeMode = "namespace"
+)
+
+type ResourceRef struct {
+	ClusterID  string            `json:"clusterId"`
+	APIVersion string            `json:"apiVersion"`
+	Kind       string            `json:"kind"`
+	Name       string            `json:"name"`
+	Namespace  string            `json:"namespace,omitempty"`
+	ScopeMode  ResourceScopeMode `json:"scopeMode"`
+	UID        string            `json:"uid,omitempty"`
+}
+
+type ResourceSearchItem struct {
+	Resource ResourceRef `json:"resource"`
+	Status   string      `json:"status,omitempty"`
+}
+
+type ResourceSearchResult struct {
+	Items     []ResourceSearchItem `json:"items"`
+	Truncated bool                 `json:"truncated"`
+}
+
+type ResourceStreamEvent struct {
+	Type            string       `json:"type"`
+	ClusterID       string       `json:"clusterId"`
+	ObservedAt      string       `json:"observedAt"`
+	Source          string       `json:"source,omitempty"`
+	Resource        *ResourceRef `json:"resource,omitempty"`
+	ResourceVersion string       `json:"resourceVersion,omitempty"`
+	CacheStatus     string       `json:"cacheStatus,omitempty"`
+	Message         string       `json:"message,omitempty"`
+	ResyncRequired  bool         `json:"resyncRequired,omitempty"`
+}
+
+type ResourceGraphNode struct {
+	ID       string      `json:"id"`
+	Resource ResourceRef `json:"resource"`
+	Status   string      `json:"status,omitempty"`
+	Health   string      `json:"health,omitempty"`
+}
+
+type ResourceGraphEdge struct {
+	ID       string `json:"id"`
+	SourceID string `json:"sourceId"`
+	TargetID string `json:"targetId"`
+	Relation string `json:"relation"`
+}
+
+type ResourceEvidence struct {
+	ID         string `json:"id"`
+	Type       string `json:"type"`
+	Severity   string `json:"severity"`
+	Summary    string `json:"summary"`
+	ObservedAt string `json:"observedAt"`
+	ResourceID string `json:"resourceId,omitempty"`
+	SourceRef  string `json:"sourceRef,omitempty"`
+}
+
+type ResourceGraph struct {
+	ClusterID   string              `json:"clusterId"`
+	Namespace   string              `json:"namespace,omitempty"`
+	GeneratedAt string              `json:"generatedAt"`
+	RootID      string              `json:"rootId,omitempty"`
+	Nodes       []ResourceGraphNode `json:"nodes"`
+	Edges       []ResourceGraphEdge `json:"edges"`
+	Evidence    []ResourceEvidence  `json:"evidence"`
+	Warnings    []string            `json:"warnings"`
+}
+
+type ResourceSearchInput struct {
+	Query     string
+	Namespace string
+	Kinds     []string
+	Limit     int
+}
+
 type NamespaceView struct {
 	Name           string            `json:"name"`
 	Status         string            `json:"status"`
@@ -255,6 +336,98 @@ type ResourceYAMLView struct {
 	Content   string `json:"content"`
 }
 
+type ResourceUpdatePlanRequest struct {
+	Namespace string `json:"namespace,omitempty"`
+	Kind      string `json:"kind"`
+	Name      string `json:"name"`
+	Content   string `json:"content"`
+}
+
+type ManagedFieldOwner struct {
+	Manager    string   `json:"manager"`
+	Operation  string   `json:"operation"`
+	APIVersion string   `json:"apiVersion"`
+	Time       string   `json:"time,omitempty"`
+	Fields     []string `json:"fields"`
+}
+
+type FieldConflict struct {
+	Field   string `json:"field"`
+	Manager string `json:"manager,omitempty"`
+	Message string `json:"message"`
+}
+
+type ResourceUpdateAnalysis struct {
+	FieldManager  string              `json:"fieldManager"`
+	ChangedFields []string            `json:"changedFields"`
+	Owners        []ManagedFieldOwner `json:"owners"`
+	Conflicts     []FieldConflict     `json:"conflicts"`
+}
+
+type SecuritySeverityCounts struct {
+	Critical int64 `json:"critical"`
+	High     int64 `json:"high"`
+	Medium   int64 `json:"medium"`
+	Low      int64 `json:"low"`
+	Unknown  int64 `json:"unknown"`
+}
+
+type SecurityFinding struct {
+	ID          string       `json:"id"`
+	Category    string       `json:"category"`
+	Severity    string       `json:"severity"`
+	Title       string       `json:"title"`
+	Status      string       `json:"status"`
+	ControlID   string       `json:"controlId,omitempty"`
+	Message     string       `json:"message,omitempty"`
+	Remediation string       `json:"remediation,omitempty"`
+	ObservedAt  string       `json:"observedAt,omitempty"`
+	Resource    *ResourceRef `json:"resource,omitempty"`
+}
+
+type SecurityPosture struct {
+	ClusterID   string                 `json:"clusterId"`
+	Provider    string                 `json:"provider"`
+	Status      string                 `json:"status"`
+	GeneratedAt string                 `json:"generatedAt"`
+	Message     string                 `json:"message,omitempty"`
+	Counts      SecuritySeverityCounts `json:"counts"`
+	Findings    []SecurityFinding      `json:"findings"`
+	Warnings    []string               `json:"warnings"`
+}
+
+type AccessReviewSubject struct {
+	Kind      string `json:"kind"`
+	Name      string `json:"name"`
+	Namespace string `json:"namespace,omitempty"`
+}
+
+type AccessReviewCheck struct {
+	Verb      string `json:"verb"`
+	Group     string `json:"group,omitempty"`
+	Resource  string `json:"resource"`
+	Namespace string `json:"namespace,omitempty"`
+	Name      string `json:"name,omitempty"`
+}
+
+type SubjectAccessReviewInput struct {
+	Subject AccessReviewSubject `json:"subject"`
+	Checks  []AccessReviewCheck `json:"checks"`
+}
+
+type AccessReviewDecision struct {
+	Check           AccessReviewCheck `json:"check"`
+	Allowed         bool              `json:"allowed"`
+	Denied          bool              `json:"denied"`
+	Reason          string            `json:"reason,omitempty"`
+	EvaluationError string            `json:"evaluationError,omitempty"`
+}
+
+type SubjectAccessReviewResult struct {
+	Subject   AccessReviewSubject    `json:"subject"`
+	Decisions []AccessReviewDecision `json:"decisions"`
+}
+
 type DeploymentView struct {
 	Name            string            `json:"name"`
 	Namespace       string            `json:"namespace"`
@@ -438,12 +611,21 @@ type CronJobDetailView struct {
 	AllowedActions    []string               `json:"allowedActions,omitempty"`
 }
 
+type ServicePortView struct {
+	Name       string `json:"name,omitempty"`
+	Protocol   string `json:"protocol"`
+	TargetPort string `json:"targetPort"`
+	Port       int32  `json:"port"`
+	NodePort   int32  `json:"nodePort,omitempty"`
+}
+
 type ServiceView struct {
 	Name           string            `json:"name"`
 	Namespace      string            `json:"namespace"`
 	Type           string            `json:"type"`
 	ClusterIP      string            `json:"clusterIp,omitempty"`
 	Ports          []string          `json:"ports,omitempty"`
+	PortMappings   []ServicePortView `json:"portMappings,omitempty"`
 	Selector       map[string]string `json:"selector,omitempty"`
 	AgeSeconds     int64             `json:"ageSeconds"`
 	AllowedActions []string          `json:"allowedActions,omitempty"`
@@ -465,6 +647,7 @@ type ServiceDetailView struct {
 	Type           string                `json:"type"`
 	ClusterIP      string                `json:"clusterIp,omitempty"`
 	Ports          []string              `json:"ports,omitempty"`
+	PortMappings   []ServicePortView     `json:"portMappings,omitempty"`
 	Selector       map[string]string     `json:"selector,omitempty"`
 	Labels         map[string]string     `json:"labels,omitempty"`
 	Annotations    map[string]string     `json:"annotations,omitempty"`
@@ -974,6 +1157,20 @@ type HelmReleaseHistoryView struct {
 	ManifestDigest string   `json:"manifestDigest,omitempty"`
 	ValuesDigest   string   `json:"valuesDigest,omitempty"`
 	AllowedActions []string `json:"allowedActions,omitempty"`
+}
+
+type HelmReleaseManifestView struct {
+	Name      string `json:"name"`
+	Namespace string `json:"namespace"`
+	Revision  string `json:"revision"`
+	Content   string `json:"content"`
+	Digest    string `json:"digest"`
+}
+
+type HelmReleaseRollbackInput struct {
+	Revision       int  `json:"revision"`
+	Wait           bool `json:"wait"`
+	TimeoutSeconds int  `json:"timeoutSeconds"`
 }
 
 type HelmValuesView struct {

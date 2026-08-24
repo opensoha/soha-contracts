@@ -360,7 +360,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        get: operations["getAISkillsRegistry"];
         put: operations["updateAISkillsRegistry"];
         post?: never;
         delete?: never;
@@ -4449,6 +4449,71 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/clusters/{clusterID}/helm/releases/{releaseName}/manifest": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesHelmReleaseManifest"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/helm/releases/{releaseName}/rollback/plan": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["planKubernetesHelmReleaseRollback"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/helm/releases/{releaseName}/rollback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["rollbackKubernetesHelmRelease"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/alert-events/stream": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Upgrades to an authenticated WebSocket that publishes durable alert change signals. A reset signal requires clients to reload their HTTP alert snapshot. */
+        get: operations["streamAlertEvents"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/clusters/{clusterID}/events": {
         parameters: {
             query?: never;
@@ -4459,6 +4524,103 @@ export interface paths {
         get: operations["listKubernetesClusterEvents"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/resources/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["searchKubernetesResources"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/resources/stream": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Upgrades to an authenticated WebSocket that publishes metadata-only Kubernetes resource changes. Clients must reload their HTTP snapshot after reset events. */
+        get: operations["streamKubernetesResourceEvents"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/resources/graph": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesResourceGraph"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/security/posture": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesSecurityPosture"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/resources/update-plan": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["planKubernetesResourceUpdate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/access-control/access-reviews": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["reviewKubernetesSubjectAccess"];
         delete?: never;
         options?: never;
         head?: never;
@@ -6186,6 +6348,23 @@ export interface paths {
             cookie?: never;
         };
         get: operations["listComputeTaskLogs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/compute/tasks/{domain}/{id}/stream": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Server-sent events containing ComputeTaskStreamEvent JSON values. The stream emits an initial snapshot and closes after a terminal task state. */
+        get: operations["streamComputeTask"];
         put?: never;
         post?: never;
         delete?: never;
@@ -9492,6 +9671,15 @@ export interface components {
             /** Format: date-time */
             checkedAt?: string;
         };
+        /** @enum {string} */
+        ComputeFreshnessStatus: "fresh" | "stale" | "unknown";
+        ComputeFreshness: {
+            status: components["schemas"]["ComputeFreshnessStatus"];
+            /** Format: date-time */
+            observedAt?: string;
+            maxAgeSeconds?: number;
+            reason?: string;
+        };
         ComputeOverview: {
             virtualization?: components["schemas"]["ComputeVirtualizationOverviewSection"];
             agents?: components["schemas"]["ComputeAgentOverviewSection"];
@@ -9500,6 +9688,9 @@ export interface components {
             tasks?: components["schemas"]["ComputeTaskOverviewSection"];
             attention: components["schemas"]["ComputeAttention"][];
             providerHealth: components["schemas"]["ComputeProviderHealth"][];
+            /** Format: date-time */
+            generatedAt?: string;
+            freshness?: components["schemas"]["ComputeFreshness"];
             partial: boolean;
             warnings: components["schemas"]["ComputeWarning"][];
         };
@@ -9667,6 +9858,39 @@ export interface components {
         ComputeTaskStatus: "queued" | "running" | "succeeded" | "failed" | "canceled" | "timeout" | "unknown";
         /** @enum {string} */
         ComputeTaskAction: "logs" | "cancel" | "retry";
+        /** @enum {string} */
+        ComputeTaskHeartbeatStatus: "not_required" | "fresh" | "stale" | "unknown";
+        ComputeTaskHeartbeat: {
+            status: components["schemas"]["ComputeTaskHeartbeatStatus"];
+            /** Format: date-time */
+            observedAt?: string;
+            timeoutSeconds?: number;
+        };
+        ComputeTaskFailure: {
+            code: string;
+            message?: string;
+            retryable?: boolean;
+            /** Format: date-time */
+            observedAt?: string;
+        };
+        /** @enum {string} */
+        ComputeTaskResultStatus: "accepted" | "succeeded" | "failed" | "unknown";
+        ComputeTaskResult: {
+            status: components["schemas"]["ComputeTaskResultStatus"];
+            summary?: string;
+            resources?: components["schemas"]["ComputeResourceRef"][];
+            metadata?: components["schemas"]["ComputeMetadataEntry"][];
+        };
+        /** @enum {string} */
+        ComputeTaskVerificationStatus: "pending" | "verified" | "failed" | "unsupported" | "unknown";
+        ComputeTaskVerification: {
+            status: components["schemas"]["ComputeTaskVerificationStatus"];
+            /** Format: date-time */
+            checkedAt?: string;
+            verifier?: string;
+            summary?: string;
+            resources?: components["schemas"]["ComputeResourceRef"][];
+        };
         ComputeTaskView: {
             id: string;
             domain: components["schemas"]["ComputeTaskDomain"];
@@ -9690,6 +9914,13 @@ export interface components {
             retryable: boolean;
             availableActions: components["schemas"]["ComputeTaskAction"][];
             errorCode?: string;
+            progress?: number;
+            heartbeat?: components["schemas"]["ComputeTaskHeartbeat"];
+            failure?: components["schemas"]["ComputeTaskFailure"];
+            result?: components["schemas"]["ComputeTaskResult"];
+            verification?: components["schemas"]["ComputeTaskVerification"];
+            auditRef?: string;
+            approvalRef?: string;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -9704,6 +9935,17 @@ export interface components {
         };
         ComputeTaskEnvelope: {
             data: components["schemas"]["ComputeTaskView"];
+        };
+        /** @enum {string} */
+        ComputeTaskStreamEventType: "snapshot" | "updated" | "heartbeat" | "terminal" | "error";
+        ComputeTaskStreamEvent: {
+            type: components["schemas"]["ComputeTaskStreamEventType"];
+            /** Format: date-time */
+            observedAt: string;
+            /** Format: int64 */
+            sequence?: number;
+            task?: components["schemas"]["ComputeTaskView"];
+            message?: string;
         };
         ComputeTaskLog: {
             id: string;
@@ -10799,6 +11041,12 @@ export interface components {
         };
         AISettingsEnvelope: {
             data: components["schemas"]["AISettings"];
+        };
+        AISkillsSettings: {
+            skillsRegistry: components["schemas"]["AISkillSettings"][];
+        };
+        AISkillsSettingsEnvelope: {
+            data: components["schemas"]["AISkillsSettings"];
         };
         LoginProviderSettings: {
             id: string;
@@ -13601,10 +13849,13 @@ export interface components {
             target: string;
             ready: boolean;
             riskLevel: components["schemas"]["RiskLevel"];
+            /** @description Whether an interactive client must require explicit confirmation from the currently authorized actor before invoking the planned mutation. This field is not an asynchronous approval-request status; workflows that require a separate approver use the dedicated approval APIs. */
             requiresApproval: boolean;
+            /** @description Deterministic digest of the normalized plan input for change comparison and stale-plan detection. It is not an authorization or approval token. */
             inputHash?: string;
             changes: components["schemas"]["OperationalPlanChange"][];
             warnings: string[];
+            kubernetesResourceUpdate?: components["schemas"]["KubernetesResourceUpdateAnalysis"];
         };
         OperationalPlanEnvelope: {
             data: components["schemas"]["OperationalPlan"];
@@ -14656,6 +14907,63 @@ export interface components {
         KubernetesResourceYamlEnvelope: {
             data: components["schemas"]["KubernetesResourceYaml"];
         };
+        KubernetesResourceUpdatePlanRequest: {
+            namespace?: string;
+            kind: string;
+            name: string;
+            content: string;
+        };
+        KubernetesManagedFieldOwner: {
+            manager: string;
+            operation: string;
+            apiVersion: string;
+            /** Format: date-time */
+            time?: string;
+            fields: string[];
+        };
+        KubernetesFieldConflict: {
+            field: string;
+            manager?: string;
+            message: string;
+        };
+        KubernetesResourceUpdateAnalysis: {
+            fieldManager: string;
+            changedFields: string[];
+            owners: components["schemas"]["KubernetesManagedFieldOwner"][];
+            conflicts: components["schemas"]["KubernetesFieldConflict"][];
+        };
+        /** @enum {string} */
+        KubernetesAccessReviewSubjectKind: "User" | "Group" | "ServiceAccount";
+        KubernetesAccessReviewSubject: {
+            kind: components["schemas"]["KubernetesAccessReviewSubjectKind"];
+            name: string;
+            namespace?: string;
+        };
+        KubernetesAccessReviewCheck: {
+            verb: string;
+            group?: string;
+            resource: string;
+            namespace?: string;
+            name?: string;
+        };
+        KubernetesSubjectAccessReviewInput: {
+            subject: components["schemas"]["KubernetesAccessReviewSubject"];
+            checks: components["schemas"]["KubernetesAccessReviewCheck"][];
+        };
+        KubernetesAccessReviewDecision: {
+            check: components["schemas"]["KubernetesAccessReviewCheck"];
+            allowed: boolean;
+            denied: boolean;
+            reason?: string;
+            evaluationError?: string;
+        };
+        KubernetesSubjectAccessReviewResult: {
+            subject: components["schemas"]["KubernetesAccessReviewSubject"];
+            decisions: components["schemas"]["KubernetesAccessReviewDecision"][];
+        };
+        KubernetesSubjectAccessReviewResultEnvelope: {
+            data: components["schemas"]["KubernetesSubjectAccessReviewResult"];
+        };
         KubernetesResourceMetrics: {
             resourceKind: string;
             resourceName: string;
@@ -15485,12 +15793,23 @@ export interface components {
         KubernetesStorageClassDetailEnvelope: {
             data: components["schemas"]["KubernetesStorageClassDetail"];
         };
+        KubernetesServicePort: {
+            name?: string;
+            /** @enum {string} */
+            protocol: "TCP" | "UDP" | "SCTP";
+            targetPort: string;
+            /** Format: int32 */
+            port: number;
+            /** Format: int32 */
+            nodePort?: number;
+        };
         KubernetesService: {
             name: string;
             namespace: string;
             type: string;
             clusterIp?: string;
             ports?: string[];
+            portMappings?: components["schemas"]["KubernetesServicePort"][];
             selector?: components["schemas"]["KubernetesStringMap"];
             /** Format: int64 */
             ageSeconds: number;
@@ -15514,6 +15833,7 @@ export interface components {
             type: string;
             clusterIp?: string;
             ports?: string[];
+            portMappings?: components["schemas"]["KubernetesServicePort"][];
             selector?: components["schemas"]["KubernetesStringMap"];
             labels?: components["schemas"]["KubernetesStringMap"];
             annotations?: components["schemas"]["KubernetesStringMap"];
@@ -16057,6 +16377,23 @@ export interface components {
         };
         KubernetesHelmReleaseHistoryListEnvelope: {
             items: components["schemas"]["KubernetesHelmReleaseHistory"][];
+        };
+        KubernetesHelmReleaseManifest: {
+            name: string;
+            namespace: string;
+            revision: string;
+            content: string;
+            digest: string;
+        };
+        KubernetesHelmReleaseManifestEnvelope: {
+            data: components["schemas"]["KubernetesHelmReleaseManifest"];
+        };
+        KubernetesHelmReleaseRollbackInput: {
+            revision: number;
+            /** @default true */
+            wait: boolean;
+            /** @default 300 */
+            timeoutSeconds: number;
         };
         KubernetesClusterEvent: {
             name: string;
@@ -17162,6 +17499,131 @@ export interface components {
             namespace?: string;
             scopeMode: components["schemas"]["KubernetesResourceScopeMode"];
             uid?: string;
+        };
+        /** @enum {string} */
+        KubernetesResourceStreamEventType: "status" | "added" | "modified" | "deleted" | "reset" | "error";
+        /** @enum {string} */
+        KubernetesResourceCacheStatus: "warming" | "live" | "degraded" | "stale" | "unsupported";
+        KubernetesResourceStreamEvent: {
+            type: components["schemas"]["KubernetesResourceStreamEventType"];
+            clusterId: string;
+            /** Format: date-time */
+            observedAt: string;
+            source?: string;
+            resource?: components["schemas"]["KubernetesResourceRef"];
+            resourceVersion?: string;
+            cacheStatus?: components["schemas"]["KubernetesResourceCacheStatus"];
+            message?: string;
+            /** @default false */
+            resyncRequired: boolean;
+        };
+        /** @enum {string} */
+        AlertEventStreamSignalType: "status" | "changed" | "reset" | "error";
+        AlertEventStreamSignal: {
+            type: components["schemas"]["AlertEventStreamSignalType"];
+            /** Format: date-time */
+            observedAt: string;
+            clusterId?: string;
+            namespace?: string;
+            eventId?: string;
+            eventStatus?: string;
+            message?: string;
+            /** @default false */
+            resyncRequired: boolean;
+        };
+        KubernetesResourceGraphNode: {
+            id: string;
+            resource: components["schemas"]["KubernetesResourceRef"];
+            status?: string;
+            health?: string;
+        };
+        KubernetesResourceGraphEdge: {
+            id: string;
+            sourceId: string;
+            targetId: string;
+            relation: string;
+        };
+        KubernetesResourceEvidence: {
+            id: string;
+            type: string;
+            severity: string;
+            summary: string;
+            /** Format: date-time */
+            observedAt: string;
+            resourceId?: string;
+            sourceRef?: string;
+        };
+        KubernetesResourceGraph: {
+            clusterId: string;
+            namespace?: string;
+            /** Format: date-time */
+            generatedAt: string;
+            rootId?: string;
+            nodes: components["schemas"]["KubernetesResourceGraphNode"][];
+            edges: components["schemas"]["KubernetesResourceGraphEdge"][];
+            evidence: components["schemas"]["KubernetesResourceEvidence"][];
+            warnings: string[];
+        };
+        KubernetesResourceGraphEnvelope: {
+            data: components["schemas"]["KubernetesResourceGraph"];
+        };
+        /** @enum {string} */
+        KubernetesSecurityPostureStatus: "available" | "partial" | "degraded" | "unsupported";
+        /** @enum {string} */
+        KubernetesSecuritySeverity: "critical" | "high" | "medium" | "low" | "unknown";
+        KubernetesSecuritySeverityCounts: {
+            /** Format: int64 */
+            critical: number;
+            /** Format: int64 */
+            high: number;
+            /** Format: int64 */
+            medium: number;
+            /** Format: int64 */
+            low: number;
+            /** Format: int64 */
+            unknown: number;
+        };
+        KubernetesSecurityFinding: {
+            id: string;
+            /** @enum {string} */
+            category: "configuration" | "vulnerability";
+            severity: components["schemas"]["KubernetesSecuritySeverity"];
+            title: string;
+            status: string;
+            controlId?: string;
+            message?: string;
+            remediation?: string;
+            /** Format: date-time */
+            observedAt?: string;
+            resource?: components["schemas"]["KubernetesResourceRef"];
+        };
+        KubernetesSecurityPosture: {
+            clusterId: string;
+            /** @enum {string} */
+            provider: "kubescape";
+            status: components["schemas"]["KubernetesSecurityPostureStatus"];
+            /** Format: date-time */
+            generatedAt: string;
+            message?: string;
+            counts: components["schemas"]["KubernetesSecuritySeverityCounts"];
+            findings: components["schemas"]["KubernetesSecurityFinding"][];
+            warnings: string[];
+        };
+        KubernetesSecurityPostureEnvelope: {
+            data: components["schemas"]["KubernetesSecurityPosture"];
+        };
+        KubernetesResourceSearchItem: {
+            resource: components["schemas"]["KubernetesResourceRef"];
+            /** @description Optional normalized lifecycle or health status from the inventory view. */
+            status?: string;
+        };
+        KubernetesResourceSearchResult: {
+            items: components["schemas"]["KubernetesResourceSearchItem"][];
+            /** @description True when additional authorized matches exist beyond the requested limit. */
+            truncated: boolean;
+        };
+        KubernetesResourceSearchEnvelope: {
+            data: components["schemas"]["KubernetesResourceSearchResult"];
         };
         KubernetesResourceScope: {
             clusterIds: string[];
@@ -19628,6 +20090,8 @@ export type ComputeRuntimeWorkloadOverviewSection = components['schemas']['Compu
 export type ComputeTaskOverviewSection = components['schemas']['ComputeTaskOverviewSection'];
 export type ComputeAttention = components['schemas']['ComputeAttention'];
 export type ComputeProviderHealth = components['schemas']['ComputeProviderHealth'];
+export type ComputeFreshnessStatus = components['schemas']['ComputeFreshnessStatus'];
+export type ComputeFreshness = components['schemas']['ComputeFreshness'];
 export type ComputeOverview = components['schemas']['ComputeOverview'];
 export type ComputeOverviewEnvelope = components['schemas']['ComputeOverviewEnvelope'];
 export type ComputeResourceRef = components['schemas']['ComputeResourceRef'];
@@ -19656,9 +20120,18 @@ export type ComputeTaskMutationRequest = components['schemas']['ComputeTaskMutat
 export type ComputeTaskCategory = components['schemas']['ComputeTaskCategory'];
 export type ComputeTaskStatus = components['schemas']['ComputeTaskStatus'];
 export type ComputeTaskAction = components['schemas']['ComputeTaskAction'];
+export type ComputeTaskHeartbeatStatus = components['schemas']['ComputeTaskHeartbeatStatus'];
+export type ComputeTaskHeartbeat = components['schemas']['ComputeTaskHeartbeat'];
+export type ComputeTaskFailure = components['schemas']['ComputeTaskFailure'];
+export type ComputeTaskResultStatus = components['schemas']['ComputeTaskResultStatus'];
+export type ComputeTaskResult = components['schemas']['ComputeTaskResult'];
+export type ComputeTaskVerificationStatus = components['schemas']['ComputeTaskVerificationStatus'];
+export type ComputeTaskVerification = components['schemas']['ComputeTaskVerification'];
 export type ComputeTaskView = components['schemas']['ComputeTaskView'];
 export type ComputeTaskListEnvelope = components['schemas']['ComputeTaskListEnvelope'];
 export type ComputeTaskEnvelope = components['schemas']['ComputeTaskEnvelope'];
+export type ComputeTaskStreamEventType = components['schemas']['ComputeTaskStreamEventType'];
+export type ComputeTaskStreamEvent = components['schemas']['ComputeTaskStreamEvent'];
 export type ComputeTaskLog = components['schemas']['ComputeTaskLog'];
 export type ComputeTaskLogListEnvelope = components['schemas']['ComputeTaskLogListEnvelope'];
 export type ErrorEnvelope = components['schemas']['ErrorEnvelope'];
@@ -19810,6 +20283,8 @@ export type AIWorkbenchModelSettings = components['schemas']['AIWorkbenchModelSe
 export type AISkillSettings = components['schemas']['AISkillSettings'];
 export type AISettings = components['schemas']['AISettings'];
 export type AISettingsEnvelope = components['schemas']['AISettingsEnvelope'];
+export type AISkillsSettings = components['schemas']['AISkillsSettings'];
+export type AISkillsSettingsEnvelope = components['schemas']['AISkillsSettingsEnvelope'];
 export type LoginProviderSettings = components['schemas']['LoginProviderSettings'];
 export type LoginProviderSettingsInput = components['schemas']['LoginProviderSettingsInput'];
 export type IdentitySettings = components['schemas']['IdentitySettings'];
@@ -20226,6 +20701,17 @@ export type KubernetesPodLogs = components['schemas']['KubernetesPodLogs'];
 export type KubernetesPodLogsEnvelope = components['schemas']['KubernetesPodLogsEnvelope'];
 export type KubernetesResourceYaml = components['schemas']['KubernetesResourceYaml'];
 export type KubernetesResourceYamlEnvelope = components['schemas']['KubernetesResourceYamlEnvelope'];
+export type KubernetesResourceUpdatePlanRequest = components['schemas']['KubernetesResourceUpdatePlanRequest'];
+export type KubernetesManagedFieldOwner = components['schemas']['KubernetesManagedFieldOwner'];
+export type KubernetesFieldConflict = components['schemas']['KubernetesFieldConflict'];
+export type KubernetesResourceUpdateAnalysis = components['schemas']['KubernetesResourceUpdateAnalysis'];
+export type KubernetesAccessReviewSubjectKind = components['schemas']['KubernetesAccessReviewSubjectKind'];
+export type KubernetesAccessReviewSubject = components['schemas']['KubernetesAccessReviewSubject'];
+export type KubernetesAccessReviewCheck = components['schemas']['KubernetesAccessReviewCheck'];
+export type KubernetesSubjectAccessReviewInput = components['schemas']['KubernetesSubjectAccessReviewInput'];
+export type KubernetesAccessReviewDecision = components['schemas']['KubernetesAccessReviewDecision'];
+export type KubernetesSubjectAccessReviewResult = components['schemas']['KubernetesSubjectAccessReviewResult'];
+export type KubernetesSubjectAccessReviewResultEnvelope = components['schemas']['KubernetesSubjectAccessReviewResultEnvelope'];
 export type KubernetesResourceMetrics = components['schemas']['KubernetesResourceMetrics'];
 export type KubernetesResourceMetricsEnvelope = components['schemas']['KubernetesResourceMetricsEnvelope'];
 export type KubernetesDeploymentRolloutStatus = components['schemas']['KubernetesDeploymentRolloutStatus'];
@@ -20327,6 +20813,7 @@ export type KubernetesStorageClass = components['schemas']['KubernetesStorageCla
 export type KubernetesStorageClassListEnvelope = components['schemas']['KubernetesStorageClassListEnvelope'];
 export type KubernetesStorageClassDetail = components['schemas']['KubernetesStorageClassDetail'];
 export type KubernetesStorageClassDetailEnvelope = components['schemas']['KubernetesStorageClassDetailEnvelope'];
+export type KubernetesServicePort = components['schemas']['KubernetesServicePort'];
 export type KubernetesService = components['schemas']['KubernetesService'];
 export type KubernetesServiceListEnvelope = components['schemas']['KubernetesServiceListEnvelope'];
 export type KubernetesServiceEndpoint = components['schemas']['KubernetesServiceEndpoint'];
@@ -20400,6 +20887,9 @@ export type KubernetesHelmReleaseDetail = components['schemas']['KubernetesHelmR
 export type KubernetesHelmReleaseDetailEnvelope = components['schemas']['KubernetesHelmReleaseDetailEnvelope'];
 export type KubernetesHelmReleaseHistory = components['schemas']['KubernetesHelmReleaseHistory'];
 export type KubernetesHelmReleaseHistoryListEnvelope = components['schemas']['KubernetesHelmReleaseHistoryListEnvelope'];
+export type KubernetesHelmReleaseManifest = components['schemas']['KubernetesHelmReleaseManifest'];
+export type KubernetesHelmReleaseManifestEnvelope = components['schemas']['KubernetesHelmReleaseManifestEnvelope'];
+export type KubernetesHelmReleaseRollbackInput = components['schemas']['KubernetesHelmReleaseRollbackInput'];
 export type KubernetesClusterEvent = components['schemas']['KubernetesClusterEvent'];
 export type KubernetesClusterEventListEnvelope = components['schemas']['KubernetesClusterEventListEnvelope'];
 export type KubernetesHelmChartRepository = components['schemas']['KubernetesHelmChartRepository'];
@@ -20550,6 +21040,25 @@ export type KubernetesResourceWarning = components['schemas']['KubernetesResourc
 export type KubernetesResourceCreateRequest = components['schemas']['KubernetesResourceCreateRequest'];
 export type KubernetesResourceDocument = components['schemas']['KubernetesResourceDocument'];
 export type KubernetesResourceRef = components['schemas']['KubernetesResourceRef'];
+export type KubernetesResourceStreamEventType = components['schemas']['KubernetesResourceStreamEventType'];
+export type KubernetesResourceCacheStatus = components['schemas']['KubernetesResourceCacheStatus'];
+export type KubernetesResourceStreamEvent = components['schemas']['KubernetesResourceStreamEvent'];
+export type AlertEventStreamSignalType = components['schemas']['AlertEventStreamSignalType'];
+export type AlertEventStreamSignal = components['schemas']['AlertEventStreamSignal'];
+export type KubernetesResourceGraphNode = components['schemas']['KubernetesResourceGraphNode'];
+export type KubernetesResourceGraphEdge = components['schemas']['KubernetesResourceGraphEdge'];
+export type KubernetesResourceEvidence = components['schemas']['KubernetesResourceEvidence'];
+export type KubernetesResourceGraph = components['schemas']['KubernetesResourceGraph'];
+export type KubernetesResourceGraphEnvelope = components['schemas']['KubernetesResourceGraphEnvelope'];
+export type KubernetesSecurityPostureStatus = components['schemas']['KubernetesSecurityPostureStatus'];
+export type KubernetesSecuritySeverity = components['schemas']['KubernetesSecuritySeverity'];
+export type KubernetesSecuritySeverityCounts = components['schemas']['KubernetesSecuritySeverityCounts'];
+export type KubernetesSecurityFinding = components['schemas']['KubernetesSecurityFinding'];
+export type KubernetesSecurityPosture = components['schemas']['KubernetesSecurityPosture'];
+export type KubernetesSecurityPostureEnvelope = components['schemas']['KubernetesSecurityPostureEnvelope'];
+export type KubernetesResourceSearchItem = components['schemas']['KubernetesResourceSearchItem'];
+export type KubernetesResourceSearchResult = components['schemas']['KubernetesResourceSearchResult'];
+export type KubernetesResourceSearchEnvelope = components['schemas']['KubernetesResourceSearchEnvelope'];
 export type KubernetesResourceScope = components['schemas']['KubernetesResourceScope'];
 export type KubernetesResourceCapability = components['schemas']['KubernetesResourceCapability'];
 export type KubernetesResourceAuthorizationDecision = components['schemas']['KubernetesResourceAuthorizationDecision'];
@@ -21436,6 +21945,28 @@ export interface operations {
                 };
             };
             400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    getAISkillsRegistry: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description AI Workbench skills registry. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AISkillsSettingsEnvelope"];
+                };
+            };
             401: components["responses"]["Error"];
             403: components["responses"]["Error"];
         };
@@ -29463,6 +29994,127 @@ export interface operations {
             503: components["responses"]["Error"];
         };
     };
+    getKubernetesHelmReleaseManifest: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+                revision?: string;
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                releaseName: components["parameters"]["KubernetesReleaseName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Rendered Helm release manifest for the requested revision. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesHelmReleaseManifestEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    planKubernetesHelmReleaseRollback: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                releaseName: components["parameters"]["KubernetesReleaseName"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesHelmReleaseRollbackInput"];
+            };
+        };
+        responses: {
+            /** @description Server-side dry-run plan for the requested Helm rollback. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationalPlanEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    rollbackKubernetesHelmRelease: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                releaseName: components["parameters"]["KubernetesReleaseName"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesHelmReleaseRollbackInput"];
+            };
+        };
+        responses: {
+            /** @description Helm release detail after rollback. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesHelmReleaseDetailEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    streamAlertEvents: {
+        parameters: {
+            query?: {
+                clusterId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description WebSocket alert event signal stream established. */
+            101: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            403: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
     listKubernetesClusterEvents: {
         parameters: {
             query?: {
@@ -29487,6 +30139,188 @@ export interface operations {
                     "application/json": components["schemas"]["KubernetesClusterEventListEnvelope"];
                 };
             };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    searchKubernetesResources: {
+        parameters: {
+            query: {
+                q: string;
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+                /** @description Comma-separated canonical Kubernetes kinds. Omit to search the supported default inventory. */
+                kinds?: string[];
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded permission-filtered resource references matching the query. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceSearchEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    streamKubernetesResourceEvents: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+                kinds?: string[];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description WebSocket resource event stream established. */
+            101: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesResourceGraph: {
+        parameters: {
+            query: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+                kind: string;
+                name: string;
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Permission-filtered resource relationship graph and recent evidence. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceGraphEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesSecurityPosture: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Read-only Kubescape posture */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesSecurityPostureEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    planKubernetesResourceUpdate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesResourceUpdatePlanRequest"];
+            };
+        };
+        responses: {
+            /** @description Authorized, server-side dry-run plan for one Kubernetes resource update. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationalPlanEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    reviewKubernetesSubjectAccess: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesSubjectAccessReviewInput"];
+            };
+        };
+        responses: {
+            /** @description Effective Kubernetes API authorization decisions for the requested subject. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesSubjectAccessReviewResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
             503: components["responses"]["Error"];
@@ -33015,6 +33849,9 @@ export interface operations {
                 resourceKind?: string;
                 /** @description Exact normalized resource identifier referenced by the task. */
                 resourceId?: string;
+                /** @description Stable task field used for server-side ordering. Unsupported values are rejected. */
+                sortBy?: string;
+                sortOrder?: "asc" | "desc";
                 cursor?: components["parameters"]["ComputeCursor"];
                 limit?: components["parameters"]["ComputeLimit"];
             };
@@ -33080,6 +33917,31 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ComputeTaskLogListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    streamComputeTask: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                domain: components["parameters"]["ComputeTaskDomain"];
+                id: components["parameters"]["ComputeTaskID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authenticated task stream established. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": string;
                 };
             };
             403: components["responses"]["Error"];

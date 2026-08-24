@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Soha API
-  version: 0.1.14
+  version: 0.1.15
   description: >
     Public OpenSoha core API contract. This first contract focuses on stable
     cross-repository boundaries: auth, health, runner-facing control-plane
@@ -399,6 +399,21 @@ paths:
         "403":
           $ref: "#/components/responses/Error"
   /settings/ai/skills:
+    get:
+      tags: [Settings]
+      operationId: getAISkillsRegistry
+      x-soha-implementation-status: implemented
+      responses:
+        "200":
+          description: AI Workbench skills registry.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AISkillsSettingsEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
     put:
       tags: [Settings]
       operationId: updateAISkillsRegistry
@@ -6204,6 +6219,70 @@ paths:
         "403": { $ref: "#/components/responses/Error" }
         "404": { $ref: "#/components/responses/Error" }
         "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/helm/releases/{releaseName}/manifest:
+    get:
+      tags: [Platform]
+      operationId: getKubernetesHelmReleaseManifest
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesReleaseName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+        - name: revision
+          in: query
+          schema: { type: string, pattern: "^[1-9][0-9]*$" }
+      responses:
+        "200": { description: Rendered Helm release manifest for the requested revision., content: { application/json: { schema: { $ref: "#/components/schemas/KubernetesHelmReleaseManifestEnvelope" } } } }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/helm/releases/{releaseName}/rollback/plan:
+    post:
+      tags: [Platform]
+      operationId: planKubernetesHelmReleaseRollback
+      x-soha-implementation-status: implemented
+      parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesReleaseName" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: "#/components/schemas/KubernetesHelmReleaseRollbackInput" } } }
+      responses:
+        "200": { description: Server-side dry-run plan for the requested Helm rollback., content: { application/json: { schema: { $ref: "#/components/schemas/OperationalPlanEnvelope" } } } }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/helm/releases/{releaseName}/rollback:
+    post:
+      tags: [Platform]
+      operationId: rollbackKubernetesHelmRelease
+      x-soha-implementation-status: implemented
+      parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesReleaseName" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: "#/components/schemas/KubernetesHelmReleaseRollbackInput" } } }
+      responses:
+        "200": { description: Helm release detail after rollback., content: { application/json: { schema: { $ref: "#/components/schemas/KubernetesHelmReleaseDetailEnvelope" } } } }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /alert-events/stream:
+    get:
+      tags: [Observability]
+      operationId: streamAlertEvents
+      x-soha-implementation-status: implemented
+      description: >
+        Upgrades to an authenticated WebSocket that publishes durable alert change signals.
+        A reset signal requires clients to reload their HTTP alert snapshot.
+      parameters:
+        - name: clusterId
+          in: query
+          schema: { type: string, minLength: 1 }
+      responses:
+        "101": { description: WebSocket alert event signal stream established. }
+        "403": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
   /clusters/{clusterID}/events:
     get:
       tags: [Platform]
@@ -6219,6 +6298,151 @@ paths:
         - $ref: "#/components/parameters/KubernetesEventLimitQuery"
       responses:
         "200": { description: Bounded Kubernetes event history visible in the selected scope., content: { application/json: { schema: { $ref: "#/components/schemas/KubernetesClusterEventListEnvelope" } } } }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/resources/search:
+    get:
+      tags: [Platform]
+      operationId: searchKubernetesResources
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - name: q
+          in: query
+          required: true
+          schema: { type: string, minLength: 1, maxLength: 128 }
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+        - name: kinds
+          in: query
+          description: Comma-separated canonical Kubernetes kinds. Omit to search the supported default inventory.
+          style: form
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            maxItems: 16
+            items: { type: string, minLength: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+      responses:
+        "200":
+          description: Bounded permission-filtered resource references matching the query.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceSearchEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/resources/stream:
+    get:
+      tags: [Platform]
+      operationId: streamKubernetesResourceEvents
+      x-soha-implementation-status: implemented
+      description: >
+        Upgrades to an authenticated WebSocket that publishes metadata-only Kubernetes
+        resource changes. Clients must reload their HTTP snapshot after reset events.
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+        - name: kinds
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            minItems: 1
+            maxItems: 16
+            items: { type: string, minLength: 1 }
+      responses:
+        "101": { description: WebSocket resource event stream established. }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/resources/graph:
+    get:
+      tags: [Platform]
+      operationId: getKubernetesResourceGraph
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+        - name: kind
+          in: query
+          required: true
+          schema: { type: string, minLength: 1 }
+        - name: name
+          in: query
+          required: true
+          schema: { type: string, minLength: 1 }
+      responses:
+        "200": { description: Permission-filtered resource relationship graph and recent evidence., content: { application/json: { schema: { $ref: "#/components/schemas/KubernetesResourceGraphEnvelope" } } } }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/security/posture:
+    get:
+      tags: [Platform]
+      operationId: getKubernetesSecurityPosture
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 200, default: 100 }
+      responses:
+        "200": { description: Read-only Kubescape posture, including explicit unsupported and degraded states., content: { application/json: { schema: { $ref: "#/components/schemas/KubernetesSecurityPostureEnvelope" } } } }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/resources/update-plan:
+    post:
+      tags: [Platform]
+      operationId: planKubernetesResourceUpdate
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesResourceUpdatePlanRequest"
+      responses:
+        "200":
+          description: Authorized, server-side dry-run plan for one Kubernetes resource update.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationalPlanEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/access-control/access-reviews:
+    post:
+      tags: [Platform]
+      operationId: reviewKubernetesSubjectAccess
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesSubjectAccessReviewInput"
+      responses:
+        "200": { description: Effective Kubernetes API authorization decisions for the requested subject., content: { application/json: { schema: { $ref: "#/components/schemas/KubernetesSubjectAccessReviewResultEnvelope" } } } }
+        "400": { $ref: "#/components/responses/Error" }
         "403": { $ref: "#/components/responses/Error" }
         "404": { $ref: "#/components/responses/Error" }
         "503": { $ref: "#/components/responses/Error" }
@@ -9763,6 +9987,20 @@ paths:
           schema:
             type: string
           description: Exact normalized resource identifier referenced by the task.
+        - name: sortBy
+          in: query
+          required: false
+          schema:
+            type: string
+            default: createdAt
+          description: Stable task field used for server-side ordering. Unsupported values are rejected.
+        - name: sortOrder
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
         - $ref: "#/components/parameters/ComputeCursor"
         - $ref: "#/components/parameters/ComputeLimit"
       responses:
@@ -9806,6 +10044,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ComputeTaskLogListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /compute/tasks/{domain}/{id}/stream:
+    get:
+      tags: [Compute]
+      operationId: streamComputeTask
+      x-soha-implementation-status: implemented
+      description: Server-sent events containing ComputeTaskStreamEvent JSON values. The stream emits an initial snapshot and closes after a terminal task state.
+      parameters:
+        - $ref: "#/components/parameters/ComputeTaskDomain"
+        - $ref: "#/components/parameters/ComputeTaskID"
+      responses:
+        "200":
+          description: Authenticated task stream established.
+          content:
+            text/event-stream:
+              schema: { type: string }
         "403":
           $ref: "#/components/responses/Error"
         "404":
@@ -15862,6 +16119,19 @@ components:
           description: Redacted health summary.
         checkedAt: { type: string, format: date-time }
       additionalProperties: false
+    ComputeFreshnessStatus:
+      type: string
+      enum: [fresh, stale, unknown]
+      x-enum-varnames: [ComputeFreshnessStatusFresh, ComputeFreshnessStatusStale, ComputeFreshnessStatusUnknown]
+    ComputeFreshness:
+      type: object
+      required: [status]
+      properties:
+        status: { $ref: "#/components/schemas/ComputeFreshnessStatus" }
+        observedAt: { type: string, format: date-time }
+        maxAgeSeconds: { type: integer, minimum: 0 }
+        reason: { type: string }
+      additionalProperties: false
     ComputeOverview:
       type: object
       required: [partial, attention, providerHealth, warnings]
@@ -15877,6 +16147,8 @@ components:
         providerHealth:
           type: array
           items: { $ref: "#/components/schemas/ComputeProviderHealth" }
+        generatedAt: { type: string, format: date-time }
+        freshness: { $ref: "#/components/schemas/ComputeFreshness" }
         partial: { type: boolean }
         warnings:
           type: array
@@ -16139,6 +16411,60 @@ components:
       type: string
       enum: [logs, cancel, retry]
       x-enum-varnames: [ComputeTaskActionLogs, ComputeTaskActionCancel, ComputeTaskActionRetry]
+    ComputeTaskHeartbeatStatus:
+      type: string
+      enum: [not_required, fresh, stale, unknown]
+      x-enum-varnames: [ComputeTaskHeartbeatStatusNotRequired, ComputeTaskHeartbeatStatusFresh, ComputeTaskHeartbeatStatusStale, ComputeTaskHeartbeatStatusUnknown]
+    ComputeTaskHeartbeat:
+      type: object
+      required: [status]
+      properties:
+        status: { $ref: "#/components/schemas/ComputeTaskHeartbeatStatus" }
+        observedAt: { type: string, format: date-time }
+        timeoutSeconds: { type: integer, minimum: 0 }
+      additionalProperties: false
+    ComputeTaskFailure:
+      type: object
+      required: [code]
+      properties:
+        code: { type: string, minLength: 1 }
+        message: { type: string }
+        retryable: { type: boolean }
+        observedAt: { type: string, format: date-time }
+      additionalProperties: false
+    ComputeTaskResultStatus:
+      type: string
+      enum: [accepted, succeeded, failed, unknown]
+      x-enum-varnames: [ComputeTaskResultStatusAccepted, ComputeTaskResultStatusSucceeded, ComputeTaskResultStatusFailed, ComputeTaskResultStatusUnknown]
+    ComputeTaskResult:
+      type: object
+      required: [status]
+      properties:
+        status: { $ref: "#/components/schemas/ComputeTaskResultStatus" }
+        summary: { type: string }
+        resources:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeResourceRef" }
+        metadata:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeMetadataEntry" }
+      additionalProperties: false
+    ComputeTaskVerificationStatus:
+      type: string
+      enum: [pending, verified, failed, unsupported, unknown]
+      x-enum-varnames: [ComputeTaskVerificationStatusPending, ComputeTaskVerificationStatusVerified, ComputeTaskVerificationStatusFailed, ComputeTaskVerificationStatusUnsupported, ComputeTaskVerificationStatusUnknown]
+    ComputeTaskVerification:
+      type: object
+      required: [status]
+      properties:
+        status: { $ref: "#/components/schemas/ComputeTaskVerificationStatus" }
+        checkedAt: { type: string, format: date-time }
+        verifier: { type: string }
+        summary: { type: string }
+        resources:
+          type: array
+          items: { $ref: "#/components/schemas/ComputeResourceRef" }
+      additionalProperties: false
     ComputeTaskView:
       type: object
       required: [id, domain, sourceType, sourceId, kind, category, normalizedStatus, rawStatus, resources, attemptCount, cancelable, retryable, availableActions, createdAt]
@@ -16168,6 +16494,13 @@ components:
           type: array
           items: { $ref: "#/components/schemas/ComputeTaskAction" }
         errorCode: { type: string }
+        progress: { type: number, minimum: 0, maximum: 1 }
+        heartbeat: { $ref: "#/components/schemas/ComputeTaskHeartbeat" }
+        failure: { $ref: "#/components/schemas/ComputeTaskFailure" }
+        result: { $ref: "#/components/schemas/ComputeTaskResult" }
+        verification: { $ref: "#/components/schemas/ComputeTaskVerification" }
+        auditRef: { type: string, minLength: 1 }
+        approvalRef: { type: string, minLength: 1 }
         createdAt: { type: string, format: date-time }
         startedAt: { type: string, format: date-time }
         finishedAt: { type: string, format: date-time }
@@ -16187,6 +16520,20 @@ components:
       required: [data]
       properties:
         data: { $ref: "#/components/schemas/ComputeTaskView" }
+      additionalProperties: false
+    ComputeTaskStreamEventType:
+      type: string
+      enum: [snapshot, updated, heartbeat, terminal, error]
+      x-enum-varnames: [ComputeTaskStreamEventTypeSnapshot, ComputeTaskStreamEventTypeUpdated, ComputeTaskStreamEventTypeHeartbeat, ComputeTaskStreamEventTypeTerminal, ComputeTaskStreamEventTypeError]
+    ComputeTaskStreamEvent:
+      type: object
+      required: [type, observedAt]
+      properties:
+        type: { $ref: "#/components/schemas/ComputeTaskStreamEventType" }
+        observedAt: { type: string, format: date-time }
+        sequence: { type: integer, format: int64, minimum: 0 }
+        task: { $ref: "#/components/schemas/ComputeTaskView" }
+        message: { type: string }
       additionalProperties: false
     ComputeTaskLog:
       type: object
@@ -17903,6 +18250,22 @@ components:
       properties:
         data:
           $ref: "#/components/schemas/AISettings"
+      additionalProperties: false
+    AISkillsSettings:
+      type: object
+      required: [skillsRegistry]
+      properties:
+        skillsRegistry:
+          type: array
+          items:
+            $ref: "#/components/schemas/AISkillSettings"
+      additionalProperties: false
+    AISkillsSettingsEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/AISkillsSettings"
       additionalProperties: false
     LoginProviderSettings:
       type: object
@@ -23019,9 +23382,17 @@ components:
           $ref: "#/components/schemas/RiskLevel"
         requiresApproval:
           type: boolean
+          description: >-
+            Whether an interactive client must require explicit confirmation from the
+            currently authorized actor before invoking the planned mutation. This field
+            is not an asynchronous approval-request status; workflows that require a
+            separate approver use the dedicated approval APIs.
         inputHash:
           type: string
           pattern: "^[a-f0-9]{64}$"
+          description: >-
+            Deterministic digest of the normalized plan input for change comparison and
+            stale-plan detection. It is not an authorization or approval token.
         changes:
           type: array
           minItems: 1
@@ -23031,6 +23402,8 @@ components:
           type: array
           items:
             type: string
+        kubernetesResourceUpdate:
+          $ref: "#/components/schemas/KubernetesResourceUpdateAnalysis"
       additionalProperties: false
     OperationalPlanEnvelope:
       type: object
@@ -24974,6 +25347,111 @@ components:
         data:
           $ref: "#/components/schemas/KubernetesResourceYaml"
       additionalProperties: false
+    KubernetesResourceUpdatePlanRequest:
+      type: object
+      required: [kind, name, content]
+      properties:
+        namespace: { type: string }
+        kind: { type: string, minLength: 1 }
+        name: { type: string, minLength: 1 }
+        content: { type: string, minLength: 1 }
+      additionalProperties: false
+    KubernetesManagedFieldOwner:
+      type: object
+      required: [manager, operation, apiVersion, fields]
+      properties:
+        manager: { type: string, minLength: 1 }
+        operation: { type: string, minLength: 1 }
+        apiVersion: { type: string, minLength: 1 }
+        time: { type: string, format: date-time }
+        fields:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+      additionalProperties: false
+    KubernetesFieldConflict:
+      type: object
+      required: [field, message]
+      properties:
+        field: { type: string, minLength: 1 }
+        manager: { type: string }
+        message: { type: string, minLength: 1 }
+      additionalProperties: false
+    KubernetesResourceUpdateAnalysis:
+      type: object
+      required: [fieldManager, changedFields, owners, conflicts]
+      properties:
+        fieldManager: { type: string, minLength: 1 }
+        changedFields:
+          type: array
+          uniqueItems: true
+          items: { type: string, minLength: 1 }
+        owners:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesManagedFieldOwner" }
+        conflicts:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesFieldConflict" }
+      additionalProperties: false
+    KubernetesAccessReviewSubjectKind:
+      type: string
+      enum: [User, Group, ServiceAccount]
+      x-enum-varnames:
+        [KubernetesAccessReviewSubjectKindUser, KubernetesAccessReviewSubjectKindGroup, KubernetesAccessReviewSubjectKindServiceAccount]
+    KubernetesAccessReviewSubject:
+      type: object
+      required: [kind, name]
+      properties:
+        kind: { $ref: "#/components/schemas/KubernetesAccessReviewSubjectKind" }
+        name: { type: string, minLength: 1 }
+        namespace: { type: string }
+      additionalProperties: false
+    KubernetesAccessReviewCheck:
+      type: object
+      required: [verb, resource]
+      properties:
+        verb: { type: string, minLength: 1 }
+        group: { type: string }
+        resource: { type: string, minLength: 1 }
+        namespace: { type: string }
+        name: { type: string }
+      additionalProperties: false
+    KubernetesSubjectAccessReviewInput:
+      type: object
+      required: [subject, checks]
+      properties:
+        subject: { $ref: "#/components/schemas/KubernetesAccessReviewSubject" }
+        checks:
+          type: array
+          minItems: 1
+          maxItems: 50
+          items: { $ref: "#/components/schemas/KubernetesAccessReviewCheck" }
+      additionalProperties: false
+    KubernetesAccessReviewDecision:
+      type: object
+      required: [check, allowed, denied]
+      properties:
+        check: { $ref: "#/components/schemas/KubernetesAccessReviewCheck" }
+        allowed: { type: boolean }
+        denied: { type: boolean }
+        reason: { type: string }
+        evaluationError: { type: string }
+      additionalProperties: false
+    KubernetesSubjectAccessReviewResult:
+      type: object
+      required: [subject, decisions]
+      properties:
+        subject: { $ref: "#/components/schemas/KubernetesAccessReviewSubject" }
+        decisions:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesAccessReviewDecision" }
+      additionalProperties: false
+    KubernetesSubjectAccessReviewResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KubernetesSubjectAccessReviewResult" }
+      additionalProperties: false
     KubernetesResourceMetrics:
       type: object
       required: [resourceKind, resourceName, configured, source, generatedAt, rangeMinutes, stepSeconds]
@@ -26258,6 +26736,18 @@ components:
       properties:
         data: { $ref: "#/components/schemas/KubernetesStorageClassDetail" }
       additionalProperties: false
+    KubernetesServicePort:
+      type: object
+      required: [protocol, targetPort, port]
+      properties:
+        name: { type: string }
+        protocol:
+          type: string
+          enum: [TCP, UDP, SCTP]
+        targetPort: { type: string, minLength: 1 }
+        port: { type: integer, format: int32, minimum: 1, maximum: 65535 }
+        nodePort: { type: integer, format: int32, minimum: 1, maximum: 65535 }
+      additionalProperties: false
     KubernetesService:
       type: object
       required: [name, namespace, type, ageSeconds]
@@ -26269,6 +26759,9 @@ components:
         ports:
           type: array
           items: { type: string }
+        portMappings:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesServicePort" }
         selector: { $ref: "#/components/schemas/KubernetesStringMap" }
         ageSeconds: { type: integer, format: int64, minimum: 0 }
         allowedActions:
@@ -26306,6 +26799,9 @@ components:
         ports:
           type: array
           items: { type: string }
+        portMappings:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesServicePort" }
         selector: { $ref: "#/components/schemas/KubernetesStringMap" }
         labels: { $ref: "#/components/schemas/KubernetesStringMap" }
         annotations: { $ref: "#/components/schemas/KubernetesStringMap" }
@@ -27239,6 +27735,30 @@ components:
         items:
           type: array
           items: { $ref: "#/components/schemas/KubernetesHelmReleaseHistory" }
+      additionalProperties: false
+    KubernetesHelmReleaseManifest:
+      type: object
+      required: [name, namespace, revision, content, digest]
+      properties:
+        name: { type: string }
+        namespace: { type: string }
+        revision: { type: string }
+        content: { type: string }
+        digest: { type: string }
+      additionalProperties: false
+    KubernetesHelmReleaseManifestEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KubernetesHelmReleaseManifest" }
+      additionalProperties: false
+    KubernetesHelmReleaseRollbackInput:
+      type: object
+      required: [revision]
+      properties:
+        revision: { type: integer, minimum: 1 }
+        wait: { type: boolean, default: true }
+        timeoutSeconds: { type: integer, minimum: 1, maximum: 3600, default: 300 }
       additionalProperties: false
     KubernetesClusterEvent:
       type: object
@@ -29795,6 +30315,179 @@ components:
         namespace: { type: string, minLength: 1 }
         scopeMode: { $ref: "#/components/schemas/KubernetesResourceScopeMode" }
         uid: { type: string }
+      additionalProperties: false
+    KubernetesResourceStreamEventType:
+      type: string
+      enum: [status, added, modified, deleted, reset, error]
+    KubernetesResourceCacheStatus:
+      type: string
+      enum: [warming, live, degraded, stale, unsupported]
+    KubernetesResourceStreamEvent:
+      type: object
+      required: [type, clusterId, observedAt]
+      properties:
+        type: { $ref: "#/components/schemas/KubernetesResourceStreamEventType" }
+        clusterId: { type: string, minLength: 1 }
+        observedAt: { type: string, format: date-time }
+        source: { type: string }
+        resource: { $ref: "#/components/schemas/KubernetesResourceRef" }
+        resourceVersion: { type: string }
+        cacheStatus: { $ref: "#/components/schemas/KubernetesResourceCacheStatus" }
+        message: { type: string }
+        resyncRequired: { type: boolean, default: false }
+      additionalProperties: false
+    AlertEventStreamSignalType:
+      type: string
+      enum: [status, changed, reset, error]
+    AlertEventStreamSignal:
+      type: object
+      required: [type, observedAt]
+      properties:
+        type: { $ref: "#/components/schemas/AlertEventStreamSignalType" }
+        observedAt: { type: string, format: date-time }
+        clusterId: { type: string, minLength: 1 }
+        namespace: { type: string, minLength: 1 }
+        eventId: { type: string, minLength: 1 }
+        eventStatus: { type: string }
+        message: { type: string }
+        resyncRequired: { type: boolean, default: false }
+      additionalProperties: false
+    KubernetesResourceGraphNode:
+      type: object
+      required: [id, resource]
+      properties:
+        id: { type: string, minLength: 1 }
+        resource: { $ref: "#/components/schemas/KubernetesResourceRef" }
+        status: { type: string }
+        health: { type: string }
+      additionalProperties: false
+    KubernetesResourceGraphEdge:
+      type: object
+      required: [id, sourceId, targetId, relation]
+      properties:
+        id: { type: string, minLength: 1 }
+        sourceId: { type: string, minLength: 1 }
+        targetId: { type: string, minLength: 1 }
+        relation: { type: string, minLength: 1 }
+      additionalProperties: false
+    KubernetesResourceEvidence:
+      type: object
+      required: [id, type, severity, summary, observedAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        type: { type: string, minLength: 1 }
+        severity: { type: string, minLength: 1 }
+        summary: { type: string, minLength: 1 }
+        observedAt: { type: string, format: date-time }
+        resourceId: { type: string }
+        sourceRef: { type: string }
+      additionalProperties: false
+    KubernetesResourceGraph:
+      type: object
+      required: [clusterId, generatedAt, nodes, edges, evidence, warnings]
+      properties:
+        clusterId: { type: string, minLength: 1 }
+        namespace: { type: string }
+        generatedAt: { type: string, format: date-time }
+        rootId: { type: string }
+        nodes:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesResourceGraphNode" }
+        edges:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesResourceGraphEdge" }
+        evidence:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesResourceEvidence" }
+        warnings:
+          type: array
+          items: { type: string }
+      additionalProperties: false
+    KubernetesResourceGraphEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KubernetesResourceGraph" }
+      additionalProperties: false
+    KubernetesSecurityPostureStatus:
+      type: string
+      enum: [available, partial, degraded, unsupported]
+    KubernetesSecuritySeverity:
+      type: string
+      enum: [critical, high, medium, low, unknown]
+    KubernetesSecuritySeverityCounts:
+      type: object
+      required: [critical, high, medium, low, unknown]
+      properties:
+        critical: { type: integer, format: int64, minimum: 0 }
+        high: { type: integer, format: int64, minimum: 0 }
+        medium: { type: integer, format: int64, minimum: 0 }
+        low: { type: integer, format: int64, minimum: 0 }
+        unknown: { type: integer, format: int64, minimum: 0 }
+      additionalProperties: false
+    KubernetesSecurityFinding:
+      type: object
+      required: [id, category, severity, title, status]
+      properties:
+        id: { type: string, minLength: 1 }
+        category: { type: string, enum: [configuration, vulnerability] }
+        severity: { $ref: "#/components/schemas/KubernetesSecuritySeverity" }
+        title: { type: string, minLength: 1 }
+        status: { type: string, minLength: 1 }
+        controlId: { type: string }
+        message: { type: string }
+        remediation: { type: string }
+        observedAt: { type: string, format: date-time }
+        resource: { $ref: "#/components/schemas/KubernetesResourceRef" }
+      additionalProperties: false
+    KubernetesSecurityPosture:
+      type: object
+      required: [clusterId, provider, status, generatedAt, counts, findings, warnings]
+      properties:
+        clusterId: { type: string, minLength: 1 }
+        provider: { type: string, enum: [kubescape] }
+        status: { $ref: "#/components/schemas/KubernetesSecurityPostureStatus" }
+        generatedAt: { type: string, format: date-time }
+        message: { type: string }
+        counts: { $ref: "#/components/schemas/KubernetesSecuritySeverityCounts" }
+        findings:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesSecurityFinding" }
+        warnings:
+          type: array
+          items: { type: string }
+      additionalProperties: false
+    KubernetesSecurityPostureEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KubernetesSecurityPosture" }
+      additionalProperties: false
+    KubernetesResourceSearchItem:
+      type: object
+      required: [resource]
+      properties:
+        resource: { $ref: "#/components/schemas/KubernetesResourceRef" }
+        status:
+          type: string
+          description: Optional normalized lifecycle or health status from the inventory view.
+      additionalProperties: false
+    KubernetesResourceSearchResult:
+      type: object
+      required: [items, truncated]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/KubernetesResourceSearchItem" }
+        truncated:
+          type: boolean
+          description: True when additional authorized matches exist beyond the requested limit.
+      additionalProperties: false
+    KubernetesResourceSearchEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KubernetesResourceSearchResult" }
       additionalProperties: false
     KubernetesResourceScope:
       type: object

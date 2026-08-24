@@ -4084,6 +4084,33 @@
         ],
         "type": "object"
       },
+      "AISkillsSettings": {
+        "additionalProperties": false,
+        "properties": {
+          "skillsRegistry": {
+            "items": {
+              "$ref": "#/components/schemas/AISkillSettings"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "skillsRegistry"
+        ],
+        "type": "object"
+      },
+      "AISkillsSettingsEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AISkillsSettings"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
       "AIWorkbenchModelSettings": {
         "additionalProperties": false,
         "properties": {
@@ -4108,6 +4135,54 @@
           "enabled"
         ],
         "type": "object"
+      },
+      "AlertEventStreamSignal": {
+        "additionalProperties": false,
+        "properties": {
+          "clusterId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "eventId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "eventStatus": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "namespace": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "observedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "resyncRequired": {
+            "default": false,
+            "type": "boolean"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AlertEventStreamSignalType"
+          }
+        },
+        "required": [
+          "type",
+          "observedAt"
+        ],
+        "type": "object"
+      },
+      "AlertEventStreamSignalType": {
+        "enum": [
+          "status",
+          "changed",
+          "reset",
+          "error"
+        ],
+        "type": "string"
       },
       "AnthropicMessagesRequest": {
         "additionalProperties": true,
@@ -7533,6 +7608,42 @@
           "ComputeFeatureTaskActions"
         ]
       },
+      "ComputeFreshness": {
+        "additionalProperties": false,
+        "properties": {
+          "maxAgeSeconds": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "observedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ComputeFreshnessStatus"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "type": "object"
+      },
+      "ComputeFreshnessStatus": {
+        "enum": [
+          "fresh",
+          "stale",
+          "unknown"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "ComputeFreshnessStatusFresh",
+          "ComputeFreshnessStatusStale",
+          "ComputeFreshnessStatusUnknown"
+        ]
+      },
       "ComputeHealthStatus": {
         "enum": [
           "healthy",
@@ -7577,6 +7688,13 @@
               "$ref": "#/components/schemas/ComputeAttention"
             },
             "type": "array"
+          },
+          "freshness": {
+            "$ref": "#/components/schemas/ComputeFreshness"
+          },
+          "generatedAt": {
+            "format": "date-time",
+            "type": "string"
           },
           "partial": {
             "type": "boolean"
@@ -8441,6 +8559,64 @@
         ],
         "type": "object"
       },
+      "ComputeTaskFailure": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "observedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "retryable": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code"
+        ],
+        "type": "object"
+      },
+      "ComputeTaskHeartbeat": {
+        "additionalProperties": false,
+        "properties": {
+          "observedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ComputeTaskHeartbeatStatus"
+          },
+          "timeoutSeconds": {
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "type": "object"
+      },
+      "ComputeTaskHeartbeatStatus": {
+        "enum": [
+          "not_required",
+          "fresh",
+          "stale",
+          "unknown"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "ComputeTaskHeartbeatStatusNotRequired",
+          "ComputeTaskHeartbeatStatusFresh",
+          "ComputeTaskHeartbeatStatusStale",
+          "ComputeTaskHeartbeatStatusUnknown"
+        ]
+      },
       "ComputeTaskListEnvelope": {
         "additionalProperties": false,
         "properties": {
@@ -8537,6 +8713,48 @@
         ],
         "type": "object"
       },
+      "ComputeTaskResult": {
+        "additionalProperties": false,
+        "properties": {
+          "metadata": {
+            "items": {
+              "$ref": "#/components/schemas/ComputeMetadataEntry"
+            },
+            "type": "array"
+          },
+          "resources": {
+            "items": {
+              "$ref": "#/components/schemas/ComputeResourceRef"
+            },
+            "type": "array"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ComputeTaskResultStatus"
+          },
+          "summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "type": "object"
+      },
+      "ComputeTaskResultStatus": {
+        "enum": [
+          "accepted",
+          "succeeded",
+          "failed",
+          "unknown"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "ComputeTaskResultStatusAccepted",
+          "ComputeTaskResultStatusSucceeded",
+          "ComputeTaskResultStatusFailed",
+          "ComputeTaskResultStatusUnknown"
+        ]
+      },
       "ComputeTaskStatus": {
         "enum": [
           "queued",
@@ -8556,6 +8774,51 @@
           "ComputeTaskStatusCanceled",
           "ComputeTaskStatusTimeout",
           "ComputeTaskStatusUnknown"
+        ]
+      },
+      "ComputeTaskStreamEvent": {
+        "additionalProperties": false,
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "observedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "sequence": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "task": {
+            "$ref": "#/components/schemas/ComputeTaskView"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ComputeTaskStreamEventType"
+          }
+        },
+        "required": [
+          "type",
+          "observedAt"
+        ],
+        "type": "object"
+      },
+      "ComputeTaskStreamEventType": {
+        "enum": [
+          "snapshot",
+          "updated",
+          "heartbeat",
+          "terminal",
+          "error"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "ComputeTaskStreamEventTypeSnapshot",
+          "ComputeTaskStreamEventTypeUpdated",
+          "ComputeTaskStreamEventTypeHeartbeat",
+          "ComputeTaskStreamEventTypeTerminal",
+          "ComputeTaskStreamEventTypeError"
         ]
       },
       "ComputeTaskSummary": {
@@ -8581,12 +8844,65 @@
         ],
         "type": "object"
       },
+      "ComputeTaskVerification": {
+        "additionalProperties": false,
+        "properties": {
+          "checkedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "resources": {
+            "items": {
+              "$ref": "#/components/schemas/ComputeResourceRef"
+            },
+            "type": "array"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ComputeTaskVerificationStatus"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "verifier": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "type": "object"
+      },
+      "ComputeTaskVerificationStatus": {
+        "enum": [
+          "pending",
+          "verified",
+          "failed",
+          "unsupported",
+          "unknown"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "ComputeTaskVerificationStatusPending",
+          "ComputeTaskVerificationStatusVerified",
+          "ComputeTaskVerificationStatusFailed",
+          "ComputeTaskVerificationStatusUnsupported",
+          "ComputeTaskVerificationStatusUnknown"
+        ]
+      },
       "ComputeTaskView": {
         "additionalProperties": false,
         "properties": {
+          "approvalRef": {
+            "minLength": 1,
+            "type": "string"
+          },
           "attemptCount": {
             "minimum": 0,
             "type": "integer"
+          },
+          "auditRef": {
+            "minLength": 1,
+            "type": "string"
           },
           "availableActions": {
             "items": {
@@ -8610,9 +8926,15 @@
           "errorCode": {
             "type": "string"
           },
+          "failure": {
+            "$ref": "#/components/schemas/ComputeTaskFailure"
+          },
           "finishedAt": {
             "format": "date-time",
             "type": "string"
+          },
+          "heartbeat": {
+            "$ref": "#/components/schemas/ComputeTaskHeartbeat"
           },
           "id": {
             "type": "string"
@@ -8628,6 +8950,11 @@
           },
           "pluginVersion": {
             "type": "string"
+          },
+          "progress": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
           },
           "providerGeneration": {
             "format": "int64",
@@ -8652,6 +8979,9 @@
             },
             "type": "array"
           },
+          "result": {
+            "$ref": "#/components/schemas/ComputeTaskResult"
+          },
           "retryable": {
             "type": "boolean"
           },
@@ -8667,6 +8997,9 @@
           },
           "summary": {
             "type": "string"
+          },
+          "verification": {
+            "$ref": "#/components/schemas/ComputeTaskVerification"
           },
           "worker": {
             "type": "string"
@@ -15469,6 +15802,92 @@
         ],
         "type": "object"
       },
+      "KubernetesAccessReviewCheck": {
+        "additionalProperties": false,
+        "properties": {
+          "group": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "resource": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "verb": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "verb",
+          "resource"
+        ],
+        "type": "object"
+      },
+      "KubernetesAccessReviewDecision": {
+        "additionalProperties": false,
+        "properties": {
+          "allowed": {
+            "type": "boolean"
+          },
+          "check": {
+            "$ref": "#/components/schemas/KubernetesAccessReviewCheck"
+          },
+          "denied": {
+            "type": "boolean"
+          },
+          "evaluationError": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "check",
+          "allowed",
+          "denied"
+        ],
+        "type": "object"
+      },
+      "KubernetesAccessReviewSubject": {
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/KubernetesAccessReviewSubjectKind"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "name"
+        ],
+        "type": "object"
+      },
+      "KubernetesAccessReviewSubjectKind": {
+        "enum": [
+          "User",
+          "Group",
+          "ServiceAccount"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "KubernetesAccessReviewSubjectKindUser",
+          "KubernetesAccessReviewSubjectKindGroup",
+          "KubernetesAccessReviewSubjectKindServiceAccount"
+        ]
+      },
       "KubernetesAdmissionWebhook": {
         "additionalProperties": false,
         "properties": {
@@ -17281,6 +17700,27 @@
         ],
         "type": "object"
       },
+      "KubernetesFieldConflict": {
+        "additionalProperties": false,
+        "properties": {
+          "field": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "manager": {
+            "type": "string"
+          },
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "field",
+          "message"
+        ],
+        "type": "object"
+      },
       "KubernetesGateway": {
         "additionalProperties": false,
         "properties": {
@@ -18570,6 +19010,69 @@
         ],
         "type": "object"
       },
+      "KubernetesHelmReleaseManifest": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "digest": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "revision": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "namespace",
+          "revision",
+          "content",
+          "digest"
+        ],
+        "type": "object"
+      },
+      "KubernetesHelmReleaseManifestEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/KubernetesHelmReleaseManifest"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "KubernetesHelmReleaseRollbackInput": {
+        "additionalProperties": false,
+        "properties": {
+          "revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "timeoutSeconds": {
+            "default": 300,
+            "maximum": 3600,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "wait": {
+            "default": true,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "revision"
+        ],
+        "type": "object"
+      },
       "KubernetesHorizontalPodAutoscaler": {
         "additionalProperties": false,
         "properties": {
@@ -19704,6 +20207,42 @@
         },
         "required": [
           "type"
+        ],
+        "type": "object"
+      },
+      "KubernetesManagedFieldOwner": {
+        "additionalProperties": false,
+        "properties": {
+          "apiVersion": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "fields": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "manager": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "operation": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "time": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "manager",
+          "operation",
+          "apiVersion",
+          "fields"
         ],
         "type": "object"
       },
@@ -21971,6 +22510,16 @@
         ],
         "type": "object"
       },
+      "KubernetesResourceCacheStatus": {
+        "enum": [
+          "warming",
+          "live",
+          "degraded",
+          "stale",
+          "unsupported"
+        ],
+        "type": "string"
+      },
       "KubernetesResourceCapability": {
         "additionalProperties": false,
         "properties": {
@@ -22345,6 +22894,160 @@
           "KubernetesResourceDryRunStatusFailed",
           "KubernetesResourceDryRunStatusSkipped"
         ]
+      },
+      "KubernetesResourceEvidence": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "observedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "resourceId": {
+            "type": "string"
+          },
+          "severity": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "sourceRef": {
+            "type": "string"
+          },
+          "summary": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "severity",
+          "summary",
+          "observedAt"
+        ],
+        "type": "object"
+      },
+      "KubernetesResourceGraph": {
+        "additionalProperties": false,
+        "properties": {
+          "clusterId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/KubernetesResourceGraphEdge"
+            },
+            "type": "array"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/KubernetesResourceEvidence"
+            },
+            "type": "array"
+          },
+          "generatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/KubernetesResourceGraphNode"
+            },
+            "type": "array"
+          },
+          "rootId": {
+            "type": "string"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "clusterId",
+          "generatedAt",
+          "nodes",
+          "edges",
+          "evidence",
+          "warnings"
+        ],
+        "type": "object"
+      },
+      "KubernetesResourceGraphEdge": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "relation": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "sourceId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "targetId": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "sourceId",
+          "targetId",
+          "relation"
+        ],
+        "type": "object"
+      },
+      "KubernetesResourceGraphEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/KubernetesResourceGraph"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "KubernetesResourceGraphNode": {
+        "additionalProperties": false,
+        "properties": {
+          "health": {
+            "type": "string"
+          },
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "resource": {
+            "$ref": "#/components/schemas/KubernetesResourceRef"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "resource"
+        ],
+        "type": "object"
       },
       "KubernetesResourceMetrics": {
         "additionalProperties": false,
@@ -22747,6 +23450,168 @@
           "KubernetesResourceScopeModeCluster"
         ]
       },
+      "KubernetesResourceSearchEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/KubernetesResourceSearchResult"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "KubernetesResourceSearchItem": {
+        "additionalProperties": false,
+        "properties": {
+          "resource": {
+            "$ref": "#/components/schemas/KubernetesResourceRef"
+          },
+          "status": {
+            "description": "Optional normalized lifecycle or health status from the inventory view.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "resource"
+        ],
+        "type": "object"
+      },
+      "KubernetesResourceSearchResult": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/KubernetesResourceSearchItem"
+            },
+            "type": "array"
+          },
+          "truncated": {
+            "description": "True when additional authorized matches exist beyond the requested limit.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "truncated"
+        ],
+        "type": "object"
+      },
+      "KubernetesResourceStreamEvent": {
+        "additionalProperties": false,
+        "properties": {
+          "cacheStatus": {
+            "$ref": "#/components/schemas/KubernetesResourceCacheStatus"
+          },
+          "clusterId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "observedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "resource": {
+            "$ref": "#/components/schemas/KubernetesResourceRef"
+          },
+          "resourceVersion": {
+            "type": "string"
+          },
+          "resyncRequired": {
+            "default": false,
+            "type": "boolean"
+          },
+          "source": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/KubernetesResourceStreamEventType"
+          }
+        },
+        "required": [
+          "type",
+          "clusterId",
+          "observedAt"
+        ],
+        "type": "object"
+      },
+      "KubernetesResourceStreamEventType": {
+        "enum": [
+          "status",
+          "added",
+          "modified",
+          "deleted",
+          "reset",
+          "error"
+        ],
+        "type": "string"
+      },
+      "KubernetesResourceUpdateAnalysis": {
+        "additionalProperties": false,
+        "properties": {
+          "changedFields": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "conflicts": {
+            "items": {
+              "$ref": "#/components/schemas/KubernetesFieldConflict"
+            },
+            "type": "array"
+          },
+          "fieldManager": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "owners": {
+            "items": {
+              "$ref": "#/components/schemas/KubernetesManagedFieldOwner"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "fieldManager",
+          "changedFields",
+          "owners",
+          "conflicts"
+        ],
+        "type": "object"
+      },
+      "KubernetesResourceUpdatePlanRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "kind": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "name",
+          "content"
+        ],
+        "type": "object"
+      },
       "KubernetesResourceWarning": {
         "additionalProperties": false,
         "properties": {
@@ -23111,6 +23976,176 @@
         ],
         "type": "object"
       },
+      "KubernetesSecurityFinding": {
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "enum": [
+              "configuration",
+              "vulnerability"
+            ],
+            "type": "string"
+          },
+          "controlId": {
+            "type": "string"
+          },
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "observedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "remediation": {
+            "type": "string"
+          },
+          "resource": {
+            "$ref": "#/components/schemas/KubernetesResourceRef"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/KubernetesSecuritySeverity"
+          },
+          "status": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "category",
+          "severity",
+          "title",
+          "status"
+        ],
+        "type": "object"
+      },
+      "KubernetesSecurityPosture": {
+        "additionalProperties": false,
+        "properties": {
+          "clusterId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "counts": {
+            "$ref": "#/components/schemas/KubernetesSecuritySeverityCounts"
+          },
+          "findings": {
+            "items": {
+              "$ref": "#/components/schemas/KubernetesSecurityFinding"
+            },
+            "type": "array"
+          },
+          "generatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "provider": {
+            "enum": [
+              "kubescape"
+            ],
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/KubernetesSecurityPostureStatus"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "clusterId",
+          "provider",
+          "status",
+          "generatedAt",
+          "counts",
+          "findings",
+          "warnings"
+        ],
+        "type": "object"
+      },
+      "KubernetesSecurityPostureEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/KubernetesSecurityPosture"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "KubernetesSecurityPostureStatus": {
+        "enum": [
+          "available",
+          "partial",
+          "degraded",
+          "unsupported"
+        ],
+        "type": "string"
+      },
+      "KubernetesSecuritySeverity": {
+        "enum": [
+          "critical",
+          "high",
+          "medium",
+          "low",
+          "unknown"
+        ],
+        "type": "string"
+      },
+      "KubernetesSecuritySeverityCounts": {
+        "additionalProperties": false,
+        "properties": {
+          "critical": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "high": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "low": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "medium": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "unknown": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "critical",
+          "high",
+          "medium",
+          "low",
+          "unknown"
+        ],
+        "type": "object"
+      },
       "KubernetesService": {
         "additionalProperties": false,
         "properties": {
@@ -23133,6 +24168,12 @@
           },
           "namespace": {
             "type": "string"
+          },
+          "portMappings": {
+            "items": {
+              "$ref": "#/components/schemas/KubernetesServicePort"
+            },
+            "type": "array"
           },
           "ports": {
             "items": {
@@ -23305,6 +24346,12 @@
           },
           "namespace": {
             "type": "string"
+          },
+          "portMappings": {
+            "items": {
+              "$ref": "#/components/schemas/KubernetesServicePort"
+            },
+            "type": "array"
           },
           "ports": {
             "items": {
@@ -23498,6 +24545,44 @@
         },
         "required": [
           "items"
+        ],
+        "type": "object"
+      },
+      "KubernetesServicePort": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "nodePort": {
+            "format": "int32",
+            "maximum": 65535,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "port": {
+            "format": "int32",
+            "maximum": 65535,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "protocol": {
+            "enum": [
+              "TCP",
+              "UDP",
+              "SCTP"
+            ],
+            "type": "string"
+          },
+          "targetPort": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "protocol",
+          "targetPort",
+          "port"
         ],
         "type": "object"
       },
@@ -23812,6 +24897,58 @@
         "additionalProperties": {
           "type": "string"
         },
+        "type": "object"
+      },
+      "KubernetesSubjectAccessReviewInput": {
+        "additionalProperties": false,
+        "properties": {
+          "checks": {
+            "items": {
+              "$ref": "#/components/schemas/KubernetesAccessReviewCheck"
+            },
+            "maxItems": 50,
+            "minItems": 1,
+            "type": "array"
+          },
+          "subject": {
+            "$ref": "#/components/schemas/KubernetesAccessReviewSubject"
+          }
+        },
+        "required": [
+          "subject",
+          "checks"
+        ],
+        "type": "object"
+      },
+      "KubernetesSubjectAccessReviewResult": {
+        "additionalProperties": false,
+        "properties": {
+          "decisions": {
+            "items": {
+              "$ref": "#/components/schemas/KubernetesAccessReviewDecision"
+            },
+            "type": "array"
+          },
+          "subject": {
+            "$ref": "#/components/schemas/KubernetesAccessReviewSubject"
+          }
+        },
+        "required": [
+          "subject",
+          "decisions"
+        ],
+        "type": "object"
+      },
+      "KubernetesSubjectAccessReviewResultEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/KubernetesSubjectAccessReviewResult"
+          }
+        },
+        "required": [
+          "data"
+        ],
         "type": "object"
       },
       "KubernetesWorkloadCondition": {
@@ -32371,13 +33508,18 @@
             "type": "array"
           },
           "inputHash": {
+            "description": "Deterministic digest of the normalized plan input for change comparison and stale-plan detection. It is not an authorization or approval token.",
             "pattern": "^[a-f0-9]{64}$",
             "type": "string"
+          },
+          "kubernetesResourceUpdate": {
+            "$ref": "#/components/schemas/KubernetesResourceUpdateAnalysis"
           },
           "ready": {
             "type": "boolean"
           },
           "requiresApproval": {
+            "description": "Whether an interactive client must require explicit confirmation from the currently authorized actor before invoking the planned mutation. This field is not an asynchronous approval-request status; workflows that require a separate approver use the dedicated approval APIs.",
             "type": "boolean"
           },
           "riskLevel": {
@@ -43806,7 +44948,7 @@
   "info": {
     "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery.\n",
     "title": "Soha API",
-    "version": "0.1.14"
+    "version": "0.1.15"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -50657,6 +51799,37 @@
         ]
       }
     },
+    "/alert-events/stream": {
+      "get": {
+        "description": "Upgrades to an authenticated WebSocket that publishes durable alert change signals. A reset signal requires clients to reload their HTTP alert snapshot.\n",
+        "operationId": "streamAlertEvents",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "clusterId",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "101": {
+            "description": "WebSocket alert event signal stream established."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Observability"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
     "/application-environments": {
       "get": {
         "operationId": "listApplicationEnvironments",
@@ -52280,6 +53453,54 @@
         "x-soha-implementation-status": "implemented"
       }
     },
+    "/clusters/{clusterID}/access-control/access-reviews": {
+      "post": {
+        "operationId": "reviewKubernetesSubjectAccess",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KubernetesSubjectAccessReviewInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesSubjectAccessReviewResultEnvelope"
+                }
+              }
+            },
+            "description": "Effective Kubernetes API authorization decisions for the requested subject."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
     "/clusters/{clusterID}/access-control/clusterrolebindings": {
       "get": {
         "operationId": "listKubernetesClusterRoleBindings",
@@ -53858,6 +55079,166 @@
         "x-soha-implementation-status": "implemented"
       }
     },
+    "/clusters/{clusterID}/helm/releases/{releaseName}/manifest": {
+      "get": {
+        "operationId": "getKubernetesHelmReleaseManifest",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesReleaseName"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNamespaceQuery"
+          },
+          {
+            "in": "query",
+            "name": "revision",
+            "schema": {
+              "pattern": "^[1-9][0-9]*$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesHelmReleaseManifestEnvelope"
+                }
+              }
+            },
+            "description": "Rendered Helm release manifest for the requested revision."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/clusters/{clusterID}/helm/releases/{releaseName}/rollback": {
+      "post": {
+        "operationId": "rollbackKubernetesHelmRelease",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesReleaseName"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNamespaceQuery"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KubernetesHelmReleaseRollbackInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesHelmReleaseDetailEnvelope"
+                }
+              }
+            },
+            "description": "Helm release detail after rollback."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/clusters/{clusterID}/helm/releases/{releaseName}/rollback/plan": {
+      "post": {
+        "operationId": "planKubernetesHelmReleaseRollback",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesReleaseName"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNamespaceQuery"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KubernetesHelmReleaseRollbackInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationalPlanEnvelope"
+                }
+              }
+            },
+            "description": "Server-side dry-run plan for the requested Helm rollback."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
     "/clusters/{clusterID}/infrastructure/nodes": {
       "get": {
         "operationId": "listKubernetesNodes",
@@ -55401,6 +56782,293 @@
           "requiresApproval": false,
           "riskLevel": "analyze"
         }
+      }
+    },
+    "/clusters/{clusterID}/resources/graph": {
+      "get": {
+        "operationId": "getKubernetesResourceGraph",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNamespaceQuery"
+          },
+          {
+            "in": "query",
+            "name": "kind",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesResourceGraphEnvelope"
+                }
+              }
+            },
+            "description": "Permission-filtered resource relationship graph and recent evidence."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/clusters/{clusterID}/resources/search": {
+      "get": {
+        "operationId": "searchKubernetesResources",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNamespaceQuery"
+          },
+          {
+            "description": "Comma-separated canonical Kubernetes kinds. Omit to search the supported default inventory.",
+            "explode": false,
+            "in": "query",
+            "name": "kinds",
+            "schema": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "maxItems": 16,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "style": "form"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesResourceSearchEnvelope"
+                }
+              }
+            },
+            "description": "Bounded permission-filtered resource references matching the query."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/clusters/{clusterID}/resources/stream": {
+      "get": {
+        "description": "Upgrades to an authenticated WebSocket that publishes metadata-only Kubernetes resource changes. Clients must reload their HTTP snapshot after reset events.\n",
+        "operationId": "streamKubernetesResourceEvents",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNamespaceQuery"
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "kinds",
+            "schema": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "maxItems": 16,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "style": "form"
+          }
+        ],
+        "responses": {
+          "101": {
+            "description": "WebSocket resource event stream established."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/clusters/{clusterID}/resources/update-plan": {
+      "post": {
+        "operationId": "planKubernetesResourceUpdate",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KubernetesResourceUpdatePlanRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationalPlanEnvelope"
+                }
+              }
+            },
+            "description": "Authorized, server-side dry-run plan for one Kubernetes resource update."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/clusters/{clusterID}/security/posture": {
+      "get": {
+        "operationId": "getKubernetesSecurityPosture",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNamespaceQuery"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesSecurityPostureEnvelope"
+                }
+              }
+            },
+            "description": "Read-only Kubescape posture",
+            "including explicit unsupported and degraded states.": null
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented"
       }
     },
     "/clusters/{clusterID}/storage/persistentvolumeclaims": {
@@ -57745,6 +59413,29 @@
             }
           },
           {
+            "description": "Stable task field used for server-side ordering. Unsupported values are rejected.",
+            "in": "query",
+            "name": "sortBy",
+            "required": false,
+            "schema": {
+              "default": "createdAt",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "required": false,
+            "schema": {
+              "default": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
             "$ref": "#/components/parameters/ComputeCursor"
           },
           {
@@ -57937,6 +59628,42 @@
         "tags": [
           "Compute"
         ]
+      }
+    },
+    "/compute/tasks/{domain}/{id}/stream": {
+      "get": {
+        "description": "Server-sent events containing ComputeTaskStreamEvent JSON values. The stream emits an initial snapshot and closes after a terminal task state.",
+        "operationId": "streamComputeTask",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ComputeTaskDomain"
+          },
+          {
+            "$ref": "#/components/parameters/ComputeTaskID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Authenticated task stream established."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Compute"
+        ],
+        "x-soha-implementation-status": "implemented"
       }
     },
     "/copilot/agent-providers": {
@@ -66009,6 +67736,31 @@
       }
     },
     "/settings/ai/skills": {
+      "get": {
+        "operationId": "getAISkillsRegistry",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AISkillsSettingsEnvelope"
+                }
+              }
+            },
+            "description": "AI Workbench skills registry."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Settings"
+        ],
+        "x-soha-implementation-status": "implemented"
+      },
       "put": {
         "operationId": "updateAISkillsRegistry",
         "requestBody": {

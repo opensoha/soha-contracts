@@ -27,6 +27,12 @@
         "checkedAt": "2026-07-14T02:00:00Z"
       }
     ],
+    "generatedAt": "2026-07-14T02:00:01Z",
+    "freshness": {
+      "status": "fresh",
+      "observedAt": "2026-07-14T02:00:00Z",
+      "maxAgeSeconds": 120
+    },
     "partial": true,
     "warnings": [{ "code": "runtime_section_unavailable" }]
   }

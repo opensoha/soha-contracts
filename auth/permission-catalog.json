@@ -1,7 +1,7 @@
 {
   "schemaVersion": "authorization.opensoha.io/v1",
   "catalogVersion": "2.0.0",
-  "contentHash": "sha256:0efe8f496fa0fb29703584586f9306d04fdb5b9a38eaea78532107698230f609",
+  "contentHash": "sha256:58321138575c22b20933cf2c1db2742b741a123bb8f6a2983bb436e84be4e58a",
   "permissions": [
     {
       "key": "access.directory.create",
@@ -934,6 +934,70 @@
       "action": "inspect",
       "displayName": "检查 AI 上下文",
       "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "ai.data-sources.create",
+      "domain": "ai",
+      "resource": "data-sources",
+      "action": "create",
+      "displayName": "创建 AI 数据源",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "ai.data-sources.update",
+      "domain": "ai",
+      "resource": "data-sources",
+      "action": "update",
+      "displayName": "修改 AI 数据源",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "ai.data-sources.validate",
+      "domain": "ai",
+      "resource": "data-sources",
+      "action": "validate",
+      "displayName": "校验 AI 数据源",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "ai.data-sources.view",
+      "domain": "ai",
+      "resource": "data-sources",
+      "action": "view",
+      "displayName": "查看 AI 数据源",
+      "riskLevel": "read",
       "scopeKinds": [
         "tenant",
         "workspace",
@@ -5457,6 +5521,26 @@
       "assignable": true
     },
     {
+      "key": "platform.access-control.access-reviews.execute",
+      "domain": "platform",
+      "resource": "access-control.access-reviews",
+      "action": "execute",
+      "displayName": "执行 Kubernetes 有效权限检查",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "workspace",
+        "cluster",
+        "namespace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true,
+      "legacyAliases": [
+        "platform.access-control.view"
+      ]
+    },
+    {
       "key": "platform.access-control.cluster-role-bindings.create",
       "domain": "platform",
       "resource": "access-control.cluster-role-bindings",
@@ -5897,6 +5981,7 @@
       "status": "legacy",
       "assignable": false,
       "replacedBy": [
+        "platform.access-control.access-reviews.execute",
         "platform.access-control.cluster-role-bindings.view",
         "platform.access-control.cluster-roles.view",
         "platform.access-control.role-bindings.view",
@@ -7264,6 +7349,25 @@
       "assignable": true,
       "legacyCapabilities": [
         "delete"
+      ]
+    },
+    {
+      "key": "platform.helm.releases.rollback",
+      "domain": "platform",
+      "resource": "helm.releases",
+      "action": "rollback",
+      "displayName": "回滚 Kubernetes HelmRelease",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "cluster",
+        "namespace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true,
+      "legacyCapabilities": [
+        "rollback"
       ]
     },
     {

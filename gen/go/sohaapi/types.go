@@ -967,6 +967,27 @@ func (e ComputeFeatureID) Valid() bool {
 	}
 }
 
+// Defines values for ComputeFreshnessStatus.
+const (
+	ComputeFreshnessStatusFresh   ComputeFreshnessStatus = "fresh"
+	ComputeFreshnessStatusStale   ComputeFreshnessStatus = "stale"
+	ComputeFreshnessStatusUnknown ComputeFreshnessStatus = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the ComputeFreshnessStatus enum.
+func (e ComputeFreshnessStatus) Valid() bool {
+	switch e {
+	case ComputeFreshnessStatusFresh:
+		return true
+	case ComputeFreshnessStatusStale:
+		return true
+	case ComputeFreshnessStatusUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ComputeHealthStatus.
 const (
 	ComputeHealthStatusDegraded    ComputeHealthStatus = "degraded"
@@ -1285,6 +1306,54 @@ func (e ComputeTaskDomain) Valid() bool {
 	}
 }
 
+// Defines values for ComputeTaskHeartbeatStatus.
+const (
+	ComputeTaskHeartbeatStatusFresh       ComputeTaskHeartbeatStatus = "fresh"
+	ComputeTaskHeartbeatStatusNotRequired ComputeTaskHeartbeatStatus = "not_required"
+	ComputeTaskHeartbeatStatusStale       ComputeTaskHeartbeatStatus = "stale"
+	ComputeTaskHeartbeatStatusUnknown     ComputeTaskHeartbeatStatus = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the ComputeTaskHeartbeatStatus enum.
+func (e ComputeTaskHeartbeatStatus) Valid() bool {
+	switch e {
+	case ComputeTaskHeartbeatStatusFresh:
+		return true
+	case ComputeTaskHeartbeatStatusNotRequired:
+		return true
+	case ComputeTaskHeartbeatStatusStale:
+		return true
+	case ComputeTaskHeartbeatStatusUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeTaskResultStatus.
+const (
+	ComputeTaskResultStatusAccepted  ComputeTaskResultStatus = "accepted"
+	ComputeTaskResultStatusFailed    ComputeTaskResultStatus = "failed"
+	ComputeTaskResultStatusSucceeded ComputeTaskResultStatus = "succeeded"
+	ComputeTaskResultStatusUnknown   ComputeTaskResultStatus = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the ComputeTaskResultStatus enum.
+func (e ComputeTaskResultStatus) Valid() bool {
+	switch e {
+	case ComputeTaskResultStatusAccepted:
+		return true
+	case ComputeTaskResultStatusFailed:
+		return true
+	case ComputeTaskResultStatusSucceeded:
+		return true
+	case ComputeTaskResultStatusUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ComputeTaskStatus.
 const (
 	ComputeTaskStatusCanceled  ComputeTaskStatus = "canceled"
@@ -1312,6 +1381,60 @@ func (e ComputeTaskStatus) Valid() bool {
 	case ComputeTaskStatusTimeout:
 		return true
 	case ComputeTaskStatusUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeTaskStreamEventType.
+const (
+	ComputeTaskStreamEventTypeError     ComputeTaskStreamEventType = "error"
+	ComputeTaskStreamEventTypeHeartbeat ComputeTaskStreamEventType = "heartbeat"
+	ComputeTaskStreamEventTypeSnapshot  ComputeTaskStreamEventType = "snapshot"
+	ComputeTaskStreamEventTypeTerminal  ComputeTaskStreamEventType = "terminal"
+	ComputeTaskStreamEventTypeUpdated   ComputeTaskStreamEventType = "updated"
+)
+
+// Valid indicates whether the value is a known member of the ComputeTaskStreamEventType enum.
+func (e ComputeTaskStreamEventType) Valid() bool {
+	switch e {
+	case ComputeTaskStreamEventTypeError:
+		return true
+	case ComputeTaskStreamEventTypeHeartbeat:
+		return true
+	case ComputeTaskStreamEventTypeSnapshot:
+		return true
+	case ComputeTaskStreamEventTypeTerminal:
+		return true
+	case ComputeTaskStreamEventTypeUpdated:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComputeTaskVerificationStatus.
+const (
+	ComputeTaskVerificationStatusFailed      ComputeTaskVerificationStatus = "failed"
+	ComputeTaskVerificationStatusPending     ComputeTaskVerificationStatus = "pending"
+	ComputeTaskVerificationStatusUnknown     ComputeTaskVerificationStatus = "unknown"
+	ComputeTaskVerificationStatusUnsupported ComputeTaskVerificationStatus = "unsupported"
+	ComputeTaskVerificationStatusVerified    ComputeTaskVerificationStatus = "verified"
+)
+
+// Valid indicates whether the value is a known member of the ComputeTaskVerificationStatus enum.
+func (e ComputeTaskVerificationStatus) Valid() bool {
+	switch e {
+	case ComputeTaskVerificationStatusFailed:
+		return true
+	case ComputeTaskVerificationStatusPending:
+		return true
+	case ComputeTaskVerificationStatusUnknown:
+		return true
+	case ComputeTaskVerificationStatusUnsupported:
+		return true
+	case ComputeTaskVerificationStatusVerified:
 		return true
 	default:
 		return false
@@ -1578,16 +1701,16 @@ func (e DockerContainerPortInputDomainScheme) Valid() bool {
 
 // Defines values for DockerContainerPortInputProtocol.
 const (
-	TCP DockerContainerPortInputProtocol = "tcp"
-	UDP DockerContainerPortInputProtocol = "udp"
+	DockerContainerPortInputProtocolTCP DockerContainerPortInputProtocol = "tcp"
+	DockerContainerPortInputProtocolUDP DockerContainerPortInputProtocol = "udp"
 )
 
 // Valid indicates whether the value is a known member of the DockerContainerPortInputProtocol enum.
 func (e DockerContainerPortInputProtocol) Valid() bool {
 	switch e {
-	case TCP:
+	case DockerContainerPortInputProtocolTCP:
 		return true
-	case UDP:
+	case DockerContainerPortInputProtocolUDP:
 		return true
 	default:
 		return false
@@ -2344,6 +2467,27 @@ func (e KnowledgeSyncRunStatus) Valid() bool {
 	}
 }
 
+// Defines values for KubernetesAccessReviewSubjectKind.
+const (
+	KubernetesAccessReviewSubjectKindGroup          KubernetesAccessReviewSubjectKind = "Group"
+	KubernetesAccessReviewSubjectKindServiceAccount KubernetesAccessReviewSubjectKind = "ServiceAccount"
+	KubernetesAccessReviewSubjectKindUser           KubernetesAccessReviewSubjectKind = "User"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesAccessReviewSubjectKind enum.
+func (e KubernetesAccessReviewSubjectKind) Valid() bool {
+	switch e {
+	case KubernetesAccessReviewSubjectKindGroup:
+		return true
+	case KubernetesAccessReviewSubjectKindServiceAccount:
+		return true
+	case KubernetesAccessReviewSubjectKindUser:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for KubernetesConnectionMode.
 const (
 	KubernetesConnectionModeAgent            KubernetesConnectionMode = "agent"
@@ -2470,6 +2614,33 @@ func (e KubernetesResourceAction) Valid() bool {
 	case KubernetesResourceActionUpdate:
 		return true
 	case KubernetesResourceActionView:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesResourceCacheStatus.
+const (
+	KubernetesResourceCacheStatusDegraded    KubernetesResourceCacheStatus = "degraded"
+	KubernetesResourceCacheStatusLive        KubernetesResourceCacheStatus = "live"
+	KubernetesResourceCacheStatusStale       KubernetesResourceCacheStatus = "stale"
+	KubernetesResourceCacheStatusUnsupported KubernetesResourceCacheStatus = "unsupported"
+	KubernetesResourceCacheStatusWarming     KubernetesResourceCacheStatus = "warming"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesResourceCacheStatus enum.
+func (e KubernetesResourceCacheStatus) Valid() bool {
+	switch e {
+	case KubernetesResourceCacheStatusDegraded:
+		return true
+	case KubernetesResourceCacheStatusLive:
+		return true
+	case KubernetesResourceCacheStatusStale:
+		return true
+	case KubernetesResourceCacheStatusUnsupported:
+		return true
+	case KubernetesResourceCacheStatusWarming:
 		return true
 	default:
 		return false
@@ -2656,6 +2827,120 @@ func (e KubernetesResourceScopeMode) Valid() bool {
 	}
 }
 
+// Defines values for KubernetesResourceStreamEventType.
+const (
+	KubernetesResourceStreamEventTypeAdded    KubernetesResourceStreamEventType = "added"
+	KubernetesResourceStreamEventTypeDeleted  KubernetesResourceStreamEventType = "deleted"
+	KubernetesResourceStreamEventTypeError    KubernetesResourceStreamEventType = "error"
+	KubernetesResourceStreamEventTypeModified KubernetesResourceStreamEventType = "modified"
+	KubernetesResourceStreamEventTypeReset    KubernetesResourceStreamEventType = "reset"
+	KubernetesResourceStreamEventTypeStatus   KubernetesResourceStreamEventType = "status"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesResourceStreamEventType enum.
+func (e KubernetesResourceStreamEventType) Valid() bool {
+	switch e {
+	case KubernetesResourceStreamEventTypeAdded:
+		return true
+	case KubernetesResourceStreamEventTypeDeleted:
+		return true
+	case KubernetesResourceStreamEventTypeError:
+		return true
+	case KubernetesResourceStreamEventTypeModified:
+		return true
+	case KubernetesResourceStreamEventTypeReset:
+		return true
+	case KubernetesResourceStreamEventTypeStatus:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesSecurityFindingCategory.
+const (
+	Configuration KubernetesSecurityFindingCategory = "configuration"
+	Vulnerability KubernetesSecurityFindingCategory = "vulnerability"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesSecurityFindingCategory enum.
+func (e KubernetesSecurityFindingCategory) Valid() bool {
+	switch e {
+	case Configuration:
+		return true
+	case Vulnerability:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesSecurityPostureProvider.
+const (
+	Kubescape KubernetesSecurityPostureProvider = "kubescape"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesSecurityPostureProvider enum.
+func (e KubernetesSecurityPostureProvider) Valid() bool {
+	switch e {
+	case Kubescape:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesSecurityPostureStatus.
+const (
+	KubernetesSecurityPostureStatusAvailable   KubernetesSecurityPostureStatus = "available"
+	KubernetesSecurityPostureStatusDegraded    KubernetesSecurityPostureStatus = "degraded"
+	KubernetesSecurityPostureStatusPartial     KubernetesSecurityPostureStatus = "partial"
+	KubernetesSecurityPostureStatusUnsupported KubernetesSecurityPostureStatus = "unsupported"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesSecurityPostureStatus enum.
+func (e KubernetesSecurityPostureStatus) Valid() bool {
+	switch e {
+	case KubernetesSecurityPostureStatusAvailable:
+		return true
+	case KubernetesSecurityPostureStatusDegraded:
+		return true
+	case KubernetesSecurityPostureStatusPartial:
+		return true
+	case KubernetesSecurityPostureStatusUnsupported:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesSecuritySeverity.
+const (
+	KubernetesSecuritySeverityCritical KubernetesSecuritySeverity = "critical"
+	KubernetesSecuritySeverityHigh     KubernetesSecuritySeverity = "high"
+	KubernetesSecuritySeverityLow      KubernetesSecuritySeverity = "low"
+	KubernetesSecuritySeverityMedium   KubernetesSecuritySeverity = "medium"
+	KubernetesSecuritySeverityUnknown  KubernetesSecuritySeverity = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesSecuritySeverity enum.
+func (e KubernetesSecuritySeverity) Valid() bool {
+	switch e {
+	case KubernetesSecuritySeverityCritical:
+		return true
+	case KubernetesSecuritySeverityHigh:
+		return true
+	case KubernetesSecuritySeverityLow:
+		return true
+	case KubernetesSecuritySeverityMedium:
+		return true
+	case KubernetesSecuritySeverityUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for KubernetesServiceImportRequestOwnershipMode.
 const (
 	KubernetesServiceImportRequestOwnershipModeManaged     KubernetesServiceImportRequestOwnershipMode = "managed"
@@ -2686,6 +2971,27 @@ func (e KubernetesServiceImportResultOwnershipMode) Valid() bool {
 	case KubernetesServiceImportResultOwnershipModeManaged:
 		return true
 	case KubernetesServiceImportResultOwnershipModeObserveOnly:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesServicePortProtocol.
+const (
+	KubernetesServicePortProtocolSCTP KubernetesServicePortProtocol = "SCTP"
+	KubernetesServicePortProtocolTCP  KubernetesServicePortProtocol = "TCP"
+	KubernetesServicePortProtocolUDP  KubernetesServicePortProtocol = "UDP"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesServicePortProtocol enum.
+func (e KubernetesServicePortProtocol) Valid() bool {
+	switch e {
+	case KubernetesServicePortProtocolSCTP:
+		return true
+	case KubernetesServicePortProtocolTCP:
+		return true
+	case KubernetesServicePortProtocolUDP:
 		return true
 	default:
 		return false
@@ -3963,22 +4269,22 @@ func (e ManifestValidationStage) Valid() bool {
 
 // Defines values for MarketplaceAdvisorySeverity.
 const (
-	Critical MarketplaceAdvisorySeverity = "critical"
-	High     MarketplaceAdvisorySeverity = "high"
-	Low      MarketplaceAdvisorySeverity = "low"
-	Medium   MarketplaceAdvisorySeverity = "medium"
+	MarketplaceAdvisorySeverityCritical MarketplaceAdvisorySeverity = "critical"
+	MarketplaceAdvisorySeverityHigh     MarketplaceAdvisorySeverity = "high"
+	MarketplaceAdvisorySeverityLow      MarketplaceAdvisorySeverity = "low"
+	MarketplaceAdvisorySeverityMedium   MarketplaceAdvisorySeverity = "medium"
 )
 
 // Valid indicates whether the value is a known member of the MarketplaceAdvisorySeverity enum.
 func (e MarketplaceAdvisorySeverity) Valid() bool {
 	switch e {
-	case Critical:
+	case MarketplaceAdvisorySeverityCritical:
 		return true
-	case High:
+	case MarketplaceAdvisorySeverityHigh:
 		return true
-	case Low:
+	case MarketplaceAdvisorySeverityLow:
 		return true
-	case Medium:
+	case MarketplaceAdvisorySeverityMedium:
 		return true
 	default:
 		return false
@@ -7228,6 +7534,24 @@ func (e TransitionAgentProviderRolloutParamsRolloutAction) Valid() bool {
 	}
 }
 
+// Defines values for ListComputeTasksParamsSortOrder.
+const (
+	Asc  ListComputeTasksParamsSortOrder = "asc"
+	Desc ListComputeTasksParamsSortOrder = "desc"
+)
+
+// Valid indicates whether the value is a known member of the ListComputeTasksParamsSortOrder enum.
+func (e ListComputeTasksParamsSortOrder) Valid() bool {
+	switch e {
+	case Asc:
+		return true
+	case Desc:
+		return true
+	default:
+		return false
+	}
+}
+
 // AIContextBudgetUsage defines model for AIContextBudgetUsage.
 type AIContextBudgetUsage struct {
 	EvidenceItems  int `json:"evidenceItems"`
@@ -7594,6 +7918,16 @@ type AISkillSettings struct {
 	OwnerModule    string         `json:"ownerModule,omitempty"`
 	ScopeRules     []string       `json:"scopeRules,omitempty"`
 	Scopes         []string       `json:"scopes,omitempty"`
+}
+
+// AISkillsSettings defines model for AISkillsSettings.
+type AISkillsSettings struct {
+	SkillsRegistry []AISkillSettings `json:"skillsRegistry"`
+}
+
+// AISkillsSettingsEnvelope defines model for AISkillsSettingsEnvelope.
+type AISkillsSettingsEnvelope struct {
+	Data AISkillsSettings `json:"data"`
 }
 
 // AIWorkbenchModelSettings defines model for AIWorkbenchModelSettings.
@@ -9190,6 +9524,17 @@ type ComputeFeatureCapability struct {
 // ComputeFeatureID defines model for ComputeFeatureID.
 type ComputeFeatureID string
 
+// ComputeFreshness defines model for ComputeFreshness.
+type ComputeFreshness struct {
+	MaxAgeSeconds int                    `json:"maxAgeSeconds,omitempty"`
+	ObservedAt    *time.Time             `json:"observedAt,omitempty"`
+	Reason        string                 `json:"reason,omitempty"`
+	Status        ComputeFreshnessStatus `json:"status"`
+}
+
+// ComputeFreshnessStatus defines model for ComputeFreshnessStatus.
+type ComputeFreshnessStatus string
+
 // ComputeHealthStatus defines model for ComputeHealthStatus.
 type ComputeHealthStatus string
 
@@ -9203,6 +9548,8 @@ type ComputeMetadataEntry struct {
 type ComputeOverview struct {
 	Agents           *ComputeAgentOverviewSection           `json:"agents,omitempty"`
 	Attention        []ComputeAttention                     `json:"attention"`
+	Freshness        *ComputeFreshness                      `json:"freshness,omitempty"`
+	GeneratedAt      *time.Time                             `json:"generatedAt,omitempty"`
 	Partial          bool                                   `json:"partial"`
 	ProviderHealth   []ComputeProviderHealth                `json:"providerHealth"`
 	RuntimeWorkloads *ComputeRuntimeWorkloadOverviewSection `json:"runtimeWorkloads,omitempty"`
@@ -9447,6 +9794,24 @@ type ComputeTaskEnvelope struct {
 	Data ComputeTaskView `json:"data"`
 }
 
+// ComputeTaskFailure defines model for ComputeTaskFailure.
+type ComputeTaskFailure struct {
+	Code       string     `json:"code"`
+	Message    string     `json:"message,omitempty"`
+	ObservedAt *time.Time `json:"observedAt,omitempty"`
+	Retryable  bool       `json:"retryable,omitempty"`
+}
+
+// ComputeTaskHeartbeat defines model for ComputeTaskHeartbeat.
+type ComputeTaskHeartbeat struct {
+	ObservedAt     *time.Time                 `json:"observedAt,omitempty"`
+	Status         ComputeTaskHeartbeatStatus `json:"status"`
+	TimeoutSeconds int                        `json:"timeoutSeconds,omitempty"`
+}
+
+// ComputeTaskHeartbeatStatus defines model for ComputeTaskHeartbeatStatus.
+type ComputeTaskHeartbeatStatus string
+
 // ComputeTaskListEnvelope defines model for ComputeTaskListEnvelope.
 type ComputeTaskListEnvelope struct {
 	Items      []ComputeTaskView `json:"items"`
@@ -9482,8 +9847,31 @@ type ComputeTaskOverviewSection struct {
 	Warnings []ComputeWarning     `json:"warnings,omitempty"`
 }
 
+// ComputeTaskResult defines model for ComputeTaskResult.
+type ComputeTaskResult struct {
+	Metadata  []ComputeMetadataEntry  `json:"metadata,omitempty"`
+	Resources []ComputeResourceRef    `json:"resources,omitempty"`
+	Status    ComputeTaskResultStatus `json:"status"`
+	Summary   string                  `json:"summary,omitempty"`
+}
+
+// ComputeTaskResultStatus defines model for ComputeTaskResultStatus.
+type ComputeTaskResultStatus string
+
 // ComputeTaskStatus defines model for ComputeTaskStatus.
 type ComputeTaskStatus string
+
+// ComputeTaskStreamEvent defines model for ComputeTaskStreamEvent.
+type ComputeTaskStreamEvent struct {
+	Message    string                     `json:"message,omitempty"`
+	ObservedAt time.Time                  `json:"observedAt"`
+	Sequence   int64                      `json:"sequence,omitempty"`
+	Task       *ComputeTaskView           `json:"task,omitempty"`
+	Type       ComputeTaskStreamEventType `json:"type"`
+}
+
+// ComputeTaskStreamEventType defines model for ComputeTaskStreamEventType.
+type ComputeTaskStreamEventType string
 
 // ComputeTaskSummary defines model for ComputeTaskSummary.
 type ComputeTaskSummary struct {
@@ -9492,33 +9880,52 @@ type ComputeTaskSummary struct {
 	Running int `json:"running"`
 }
 
+// ComputeTaskVerification defines model for ComputeTaskVerification.
+type ComputeTaskVerification struct {
+	CheckedAt *time.Time                    `json:"checkedAt,omitempty"`
+	Resources []ComputeResourceRef          `json:"resources,omitempty"`
+	Status    ComputeTaskVerificationStatus `json:"status"`
+	Summary   string                        `json:"summary,omitempty"`
+	Verifier  string                        `json:"verifier,omitempty"`
+}
+
+// ComputeTaskVerificationStatus defines model for ComputeTaskVerificationStatus.
+type ComputeTaskVerificationStatus string
+
 // ComputeTaskView defines model for ComputeTaskView.
 type ComputeTaskView struct {
-	AttemptCount       int                   `json:"attemptCount"`
-	AvailableActions   []ComputeTaskAction   `json:"availableActions"`
-	Cancelable         bool                  `json:"cancelable"`
-	Category           ComputeTaskCategory   `json:"category"`
-	CreatedAt          time.Time             `json:"createdAt"`
-	Domain             ComputeTaskDomain     `json:"domain"`
-	ErrorCode          string                `json:"errorCode,omitempty"`
-	FinishedAt         *time.Time            `json:"finishedAt,omitempty"`
-	ID                 string                `json:"id"`
-	Kind               string                `json:"kind"`
-	NormalizedStatus   ComputeTaskStatus     `json:"normalizedStatus"`
-	PluginID           string                `json:"pluginId,omitempty"`
-	PluginVersion      string                `json:"pluginVersion,omitempty"`
-	ProviderGeneration int64                 `json:"providerGeneration,omitempty"`
-	ProviderKey        string                `json:"providerKey,omitempty"`
-	ProviderSource     ComputeProviderSource `json:"providerSource,omitempty"`
-	RawStatus          string                `json:"rawStatus"`
-	RequestedBy        string                `json:"requestedBy,omitempty"`
-	Resources          []ComputeResourceRef  `json:"resources"`
-	Retryable          bool                  `json:"retryable"`
-	SourceID           string                `json:"sourceId"`
-	SourceType         string                `json:"sourceType"`
-	StartedAt          *time.Time            `json:"startedAt,omitempty"`
-	Summary            string                `json:"summary,omitempty"`
-	Worker             string                `json:"worker,omitempty"`
+	ApprovalRef        string                   `json:"approvalRef,omitempty"`
+	AttemptCount       int                      `json:"attemptCount"`
+	AuditRef           string                   `json:"auditRef,omitempty"`
+	AvailableActions   []ComputeTaskAction      `json:"availableActions"`
+	Cancelable         bool                     `json:"cancelable"`
+	Category           ComputeTaskCategory      `json:"category"`
+	CreatedAt          time.Time                `json:"createdAt"`
+	Domain             ComputeTaskDomain        `json:"domain"`
+	ErrorCode          string                   `json:"errorCode,omitempty"`
+	Failure            *ComputeTaskFailure      `json:"failure,omitempty"`
+	FinishedAt         *time.Time               `json:"finishedAt,omitempty"`
+	Heartbeat          *ComputeTaskHeartbeat    `json:"heartbeat,omitempty"`
+	ID                 string                   `json:"id"`
+	Kind               string                   `json:"kind"`
+	NormalizedStatus   ComputeTaskStatus        `json:"normalizedStatus"`
+	PluginID           string                   `json:"pluginId,omitempty"`
+	PluginVersion      string                   `json:"pluginVersion,omitempty"`
+	Progress           float32                  `json:"progress,omitempty"`
+	ProviderGeneration int64                    `json:"providerGeneration,omitempty"`
+	ProviderKey        string                   `json:"providerKey,omitempty"`
+	ProviderSource     ComputeProviderSource    `json:"providerSource,omitempty"`
+	RawStatus          string                   `json:"rawStatus"`
+	RequestedBy        string                   `json:"requestedBy,omitempty"`
+	Resources          []ComputeResourceRef     `json:"resources"`
+	Result             *ComputeTaskResult       `json:"result,omitempty"`
+	Retryable          bool                     `json:"retryable"`
+	SourceID           string                   `json:"sourceId"`
+	SourceType         string                   `json:"sourceType"`
+	StartedAt          *time.Time               `json:"startedAt,omitempty"`
+	Summary            string                   `json:"summary,omitempty"`
+	Verification       *ComputeTaskVerification `json:"verification,omitempty"`
+	Worker             string                   `json:"worker,omitempty"`
 }
 
 // ComputeVirtualizationOverviewSection defines model for ComputeVirtualizationOverviewSection.
@@ -11614,6 +12021,34 @@ type KnowledgeSyncRunListEnvelope struct {
 	Items []KnowledgeSyncRun `json:"items"`
 }
 
+// KubernetesAccessReviewCheck defines model for KubernetesAccessReviewCheck.
+type KubernetesAccessReviewCheck struct {
+	Group     string `json:"group,omitempty"`
+	Name      string `json:"name,omitempty"`
+	Namespace string `json:"namespace,omitempty"`
+	Resource  string `json:"resource"`
+	Verb      string `json:"verb"`
+}
+
+// KubernetesAccessReviewDecision defines model for KubernetesAccessReviewDecision.
+type KubernetesAccessReviewDecision struct {
+	Allowed         bool                        `json:"allowed"`
+	Check           KubernetesAccessReviewCheck `json:"check"`
+	Denied          bool                        `json:"denied"`
+	EvaluationError string                      `json:"evaluationError,omitempty"`
+	Reason          string                      `json:"reason,omitempty"`
+}
+
+// KubernetesAccessReviewSubject defines model for KubernetesAccessReviewSubject.
+type KubernetesAccessReviewSubject struct {
+	Kind      KubernetesAccessReviewSubjectKind `json:"kind"`
+	Name      string                            `json:"name"`
+	Namespace string                            `json:"namespace,omitempty"`
+}
+
+// KubernetesAccessReviewSubjectKind defines model for KubernetesAccessReviewSubjectKind.
+type KubernetesAccessReviewSubjectKind string
+
 // KubernetesAdmissionWebhook defines model for KubernetesAdmissionWebhook.
 type KubernetesAdmissionWebhook struct {
 	AdmissionReviewVersions []string                         `json:"admissionReviewVersions,omitempty"`
@@ -12141,6 +12576,13 @@ type KubernetesEndpointSliceListEnvelope struct {
 	Items []KubernetesEndpointSlice `json:"items"`
 }
 
+// KubernetesFieldConflict defines model for KubernetesFieldConflict.
+type KubernetesFieldConflict struct {
+	Field   string `json:"field"`
+	Manager string `json:"manager,omitempty"`
+	Message string `json:"message"`
+}
+
 // KubernetesGRPCRoute defines model for KubernetesGRPCRoute.
 type KubernetesGRPCRoute struct {
 	AgeSeconds      int64    `json:"ageSeconds"`
@@ -12558,6 +13000,27 @@ type KubernetesHelmReleaseListEnvelope struct {
 	Items []KubernetesHelmRelease `json:"items"`
 }
 
+// KubernetesHelmReleaseManifest defines model for KubernetesHelmReleaseManifest.
+type KubernetesHelmReleaseManifest struct {
+	Content   string `json:"content"`
+	Digest    string `json:"digest"`
+	Name      string `json:"name"`
+	Namespace string `json:"namespace"`
+	Revision  string `json:"revision"`
+}
+
+// KubernetesHelmReleaseManifestEnvelope defines model for KubernetesHelmReleaseManifestEnvelope.
+type KubernetesHelmReleaseManifestEnvelope struct {
+	Data KubernetesHelmReleaseManifest `json:"data"`
+}
+
+// KubernetesHelmReleaseRollbackInput defines model for KubernetesHelmReleaseRollbackInput.
+type KubernetesHelmReleaseRollbackInput struct {
+	Revision       int  `json:"revision"`
+	TimeoutSeconds int  `json:"timeoutSeconds,omitempty"`
+	Wait           bool `json:"wait,omitempty"`
+}
+
 // KubernetesHorizontalPodAutoscaler defines model for KubernetesHorizontalPodAutoscaler.
 type KubernetesHorizontalPodAutoscaler struct {
 	AgeSeconds      int64    `json:"ageSeconds"`
@@ -12847,6 +13310,15 @@ type KubernetesLimitRangeRule struct {
 	MaxLimitRequestRatio *KubernetesStringMap `json:"maxLimitRequestRatio,omitempty"`
 	Min                  *KubernetesStringMap `json:"min,omitempty"`
 	Type                 string               `json:"type"`
+}
+
+// KubernetesManagedFieldOwner defines model for KubernetesManagedFieldOwner.
+type KubernetesManagedFieldOwner struct {
+	APIVersion string     `json:"apiVersion"`
+	Fields     []string   `json:"fields"`
+	Manager    string     `json:"manager"`
+	Operation  string     `json:"operation"`
+	Time       *time.Time `json:"time,omitempty"`
 }
 
 // KubernetesMonitoringDetail defines model for KubernetesMonitoringDetail.
@@ -13516,6 +13988,9 @@ type KubernetesResourceAuthorizationDecision struct {
 	ResourceScope KubernetesResourceScope `json:"resourceScope"`
 }
 
+// KubernetesResourceCacheStatus defines model for KubernetesResourceCacheStatus.
+type KubernetesResourceCacheStatus string
+
 // KubernetesResourceCapability defines model for KubernetesResourceCapability.
 type KubernetesResourceCapability struct {
 	Key  string                           `json:"key"`
@@ -13648,6 +14123,50 @@ type KubernetesResourceDryRunDecision struct {
 // KubernetesResourceDryRunStatus defines model for KubernetesResourceDryRunStatus.
 type KubernetesResourceDryRunStatus string
 
+// KubernetesResourceEvidence defines model for KubernetesResourceEvidence.
+type KubernetesResourceEvidence struct {
+	ID         string    `json:"id"`
+	ObservedAt time.Time `json:"observedAt"`
+	ResourceID string    `json:"resourceId,omitempty"`
+	Severity   string    `json:"severity"`
+	SourceRef  string    `json:"sourceRef,omitempty"`
+	Summary    string    `json:"summary"`
+	Type       string    `json:"type"`
+}
+
+// KubernetesResourceGraph defines model for KubernetesResourceGraph.
+type KubernetesResourceGraph struct {
+	ClusterID   string                        `json:"clusterId"`
+	Edges       []KubernetesResourceGraphEdge `json:"edges"`
+	Evidence    []KubernetesResourceEvidence  `json:"evidence"`
+	GeneratedAt time.Time                     `json:"generatedAt"`
+	Namespace   string                        `json:"namespace,omitempty"`
+	Nodes       []KubernetesResourceGraphNode `json:"nodes"`
+	RootID      string                        `json:"rootId,omitempty"`
+	Warnings    []string                      `json:"warnings"`
+}
+
+// KubernetesResourceGraphEdge defines model for KubernetesResourceGraphEdge.
+type KubernetesResourceGraphEdge struct {
+	ID       string `json:"id"`
+	Relation string `json:"relation"`
+	SourceID string `json:"sourceId"`
+	TargetID string `json:"targetId"`
+}
+
+// KubernetesResourceGraphEnvelope defines model for KubernetesResourceGraphEnvelope.
+type KubernetesResourceGraphEnvelope struct {
+	Data KubernetesResourceGraph `json:"data"`
+}
+
+// KubernetesResourceGraphNode defines model for KubernetesResourceGraphNode.
+type KubernetesResourceGraphNode struct {
+	Health   string                `json:"health,omitempty"`
+	ID       string                `json:"id"`
+	Resource KubernetesResourceRef `json:"resource"`
+	Status   string                `json:"status,omitempty"`
+}
+
 // KubernetesResourceMetrics defines model for KubernetesResourceMetrics.
 type KubernetesResourceMetrics struct {
 	Configured     bool                        `json:"configured"`
@@ -13771,6 +14290,59 @@ type KubernetesResourceScope struct {
 // KubernetesResourceScopeMode defines model for KubernetesResourceScopeMode.
 type KubernetesResourceScopeMode string
 
+// KubernetesResourceSearchEnvelope defines model for KubernetesResourceSearchEnvelope.
+type KubernetesResourceSearchEnvelope struct {
+	Data KubernetesResourceSearchResult `json:"data"`
+}
+
+// KubernetesResourceSearchItem defines model for KubernetesResourceSearchItem.
+type KubernetesResourceSearchItem struct {
+	Resource KubernetesResourceRef `json:"resource"`
+
+	// Status Optional normalized lifecycle or health status from the inventory view.
+	Status string `json:"status,omitempty"`
+}
+
+// KubernetesResourceSearchResult defines model for KubernetesResourceSearchResult.
+type KubernetesResourceSearchResult struct {
+	Items []KubernetesResourceSearchItem `json:"items"`
+
+	// Truncated True when additional authorized matches exist beyond the requested limit.
+	Truncated bool `json:"truncated"`
+}
+
+// KubernetesResourceStreamEvent defines model for KubernetesResourceStreamEvent.
+type KubernetesResourceStreamEvent struct {
+	CacheStatus     KubernetesResourceCacheStatus     `json:"cacheStatus,omitempty"`
+	ClusterID       string                            `json:"clusterId"`
+	Message         string                            `json:"message,omitempty"`
+	ObservedAt      time.Time                         `json:"observedAt"`
+	Resource        *KubernetesResourceRef            `json:"resource,omitempty"`
+	ResourceVersion string                            `json:"resourceVersion,omitempty"`
+	ResyncRequired  bool                              `json:"resyncRequired,omitempty"`
+	Source          string                            `json:"source,omitempty"`
+	Type            KubernetesResourceStreamEventType `json:"type"`
+}
+
+// KubernetesResourceStreamEventType defines model for KubernetesResourceStreamEventType.
+type KubernetesResourceStreamEventType string
+
+// KubernetesResourceUpdateAnalysis defines model for KubernetesResourceUpdateAnalysis.
+type KubernetesResourceUpdateAnalysis struct {
+	ChangedFields []string                      `json:"changedFields"`
+	Conflicts     []KubernetesFieldConflict     `json:"conflicts"`
+	FieldManager  string                        `json:"fieldManager"`
+	Owners        []KubernetesManagedFieldOwner `json:"owners"`
+}
+
+// KubernetesResourceUpdatePlanRequest defines model for KubernetesResourceUpdatePlanRequest.
+type KubernetesResourceUpdatePlanRequest struct {
+	Content   string `json:"content"`
+	Kind      string `json:"kind"`
+	Name      string `json:"name"`
+	Namespace string `json:"namespace,omitempty"`
+}
+
 // KubernetesResourceWarning defines model for KubernetesResourceWarning.
 type KubernetesResourceWarning struct {
 	Code  KubernetesResourceCreateErrorCode `json:"code"`
@@ -13885,16 +14457,69 @@ type KubernetesSecretMetadataListEnvelope struct {
 	Items []KubernetesSecretMetadata `json:"items"`
 }
 
+// KubernetesSecurityFinding defines model for KubernetesSecurityFinding.
+type KubernetesSecurityFinding struct {
+	Category    KubernetesSecurityFindingCategory `json:"category"`
+	ControlID   string                            `json:"controlId,omitempty"`
+	ID          string                            `json:"id"`
+	Message     string                            `json:"message,omitempty"`
+	ObservedAt  *time.Time                        `json:"observedAt,omitempty"`
+	Remediation string                            `json:"remediation,omitempty"`
+	Resource    *KubernetesResourceRef            `json:"resource,omitempty"`
+	Severity    KubernetesSecuritySeverity        `json:"severity"`
+	Status      string                            `json:"status"`
+	Title       string                            `json:"title"`
+}
+
+// KubernetesSecurityFindingCategory defines model for KubernetesSecurityFinding.Category.
+type KubernetesSecurityFindingCategory string
+
+// KubernetesSecurityPosture defines model for KubernetesSecurityPosture.
+type KubernetesSecurityPosture struct {
+	ClusterID   string                            `json:"clusterId"`
+	Counts      KubernetesSecuritySeverityCounts  `json:"counts"`
+	Findings    []KubernetesSecurityFinding       `json:"findings"`
+	GeneratedAt time.Time                         `json:"generatedAt"`
+	Message     string                            `json:"message,omitempty"`
+	Provider    KubernetesSecurityPostureProvider `json:"provider"`
+	Status      KubernetesSecurityPostureStatus   `json:"status"`
+	Warnings    []string                          `json:"warnings"`
+}
+
+// KubernetesSecurityPostureProvider defines model for KubernetesSecurityPosture.Provider.
+type KubernetesSecurityPostureProvider string
+
+// KubernetesSecurityPostureEnvelope defines model for KubernetesSecurityPostureEnvelope.
+type KubernetesSecurityPostureEnvelope struct {
+	Data KubernetesSecurityPosture `json:"data"`
+}
+
+// KubernetesSecurityPostureStatus defines model for KubernetesSecurityPostureStatus.
+type KubernetesSecurityPostureStatus string
+
+// KubernetesSecuritySeverity defines model for KubernetesSecuritySeverity.
+type KubernetesSecuritySeverity string
+
+// KubernetesSecuritySeverityCounts defines model for KubernetesSecuritySeverityCounts.
+type KubernetesSecuritySeverityCounts struct {
+	Critical int64 `json:"critical"`
+	High     int64 `json:"high"`
+	Low      int64 `json:"low"`
+	Medium   int64 `json:"medium"`
+	Unknown  int64 `json:"unknown"`
+}
+
 // KubernetesService defines model for KubernetesService.
 type KubernetesService struct {
-	AgeSeconds     int64                `json:"ageSeconds"`
-	AllowedActions []string             `json:"allowedActions,omitempty"`
-	ClusterIP      string               `json:"clusterIp,omitempty"`
-	Name           string               `json:"name"`
-	Namespace      string               `json:"namespace"`
-	Ports          []string             `json:"ports,omitempty"`
-	Selector       *KubernetesStringMap `json:"selector,omitempty"`
-	Type           string               `json:"type"`
+	AgeSeconds     int64                   `json:"ageSeconds"`
+	AllowedActions []string                `json:"allowedActions,omitempty"`
+	ClusterIP      string                  `json:"clusterIp,omitempty"`
+	Name           string                  `json:"name"`
+	Namespace      string                  `json:"namespace"`
+	PortMappings   []KubernetesServicePort `json:"portMappings,omitempty"`
+	Ports          []string                `json:"ports,omitempty"`
+	Selector       *KubernetesStringMap    `json:"selector,omitempty"`
+	Type           string                  `json:"type"`
 }
 
 // KubernetesServiceAccount defines model for KubernetesServiceAccount.
@@ -13944,6 +14569,7 @@ type KubernetesServiceDetail struct {
 	Labels         *KubernetesStringMap        `json:"labels,omitempty"`
 	Name           string                      `json:"name"`
 	Namespace      string                      `json:"namespace"`
+	PortMappings   []KubernetesServicePort     `json:"portMappings,omitempty"`
 	Ports          []string                    `json:"ports,omitempty"`
 	Selector       *KubernetesStringMap        `json:"selector,omitempty"`
 	Type           string                      `json:"type"`
@@ -14003,6 +14629,18 @@ type KubernetesServiceImportResultEnvelope struct {
 type KubernetesServiceListEnvelope struct {
 	Items []KubernetesService `json:"items"`
 }
+
+// KubernetesServicePort defines model for KubernetesServicePort.
+type KubernetesServicePort struct {
+	Name       string                        `json:"name,omitempty"`
+	NodePort   int32                         `json:"nodePort,omitempty"`
+	Port       int32                         `json:"port"`
+	Protocol   KubernetesServicePortProtocol `json:"protocol"`
+	TargetPort string                        `json:"targetPort"`
+}
+
+// KubernetesServicePortProtocol defines model for KubernetesServicePort.Protocol.
+type KubernetesServicePortProtocol string
 
 // KubernetesStatefulSet defines model for KubernetesStatefulSet.
 type KubernetesStatefulSet struct {
@@ -14096,6 +14734,23 @@ type KubernetesStoragePodReference struct {
 
 // KubernetesStringMap defines model for KubernetesStringMap.
 type KubernetesStringMap map[string]string
+
+// KubernetesSubjectAccessReviewInput defines model for KubernetesSubjectAccessReviewInput.
+type KubernetesSubjectAccessReviewInput struct {
+	Checks  []KubernetesAccessReviewCheck `json:"checks"`
+	Subject KubernetesAccessReviewSubject `json:"subject"`
+}
+
+// KubernetesSubjectAccessReviewResult defines model for KubernetesSubjectAccessReviewResult.
+type KubernetesSubjectAccessReviewResult struct {
+	Decisions []KubernetesAccessReviewDecision `json:"decisions"`
+	Subject   KubernetesAccessReviewSubject    `json:"subject"`
+}
+
+// KubernetesSubjectAccessReviewResultEnvelope defines model for KubernetesSubjectAccessReviewResultEnvelope.
+type KubernetesSubjectAccessReviewResultEnvelope struct {
+	Data KubernetesSubjectAccessReviewResult `json:"data"`
+}
 
 // KubernetesWorkloadCondition defines model for KubernetesWorkloadCondition.
 type KubernetesWorkloadCondition struct {
@@ -16668,14 +17323,19 @@ type OperationStatus struct {
 
 // OperationalPlan defines model for OperationalPlan.
 type OperationalPlan struct {
-	Capability       string                  `json:"capability"`
-	Changes          []OperationalPlanChange `json:"changes"`
-	InputHash        string                  `json:"inputHash,omitempty"`
-	Ready            bool                    `json:"ready"`
-	RequiresApproval bool                    `json:"requiresApproval"`
-	RiskLevel        RiskLevel               `json:"riskLevel"`
-	Target           string                  `json:"target"`
-	Warnings         []string                `json:"warnings"`
+	Capability string                  `json:"capability"`
+	Changes    []OperationalPlanChange `json:"changes"`
+
+	// InputHash Deterministic digest of the normalized plan input for change comparison and stale-plan detection. It is not an authorization or approval token.
+	InputHash                string                            `json:"inputHash,omitempty"`
+	KubernetesResourceUpdate *KubernetesResourceUpdateAnalysis `json:"kubernetesResourceUpdate,omitempty"`
+	Ready                    bool                              `json:"ready"`
+
+	// RequiresApproval Whether an interactive client must require explicit confirmation from the currently authorized actor before invoking the planned mutation. This field is not an asynchronous approval-request status; workflows that require a separate approver use the dedicated approval APIs.
+	RequiresApproval bool      `json:"requiresApproval"`
+	RiskLevel        RiskLevel `json:"riskLevel"`
+	Target           string    `json:"target"`
+	Warnings         []string  `json:"warnings"`
 }
 
 // OperationalPlanChange defines model for OperationalPlanChange.
@@ -21108,6 +21768,11 @@ type ListAIMemoryRecordsParams struct {
 	OwnerID   string `form:"ownerId,omitempty" json:"ownerId,omitempty"`
 }
 
+// StreamAlertEventsParams defines parameters for StreamAlertEvents.
+type StreamAlertEventsParams struct {
+	ClusterID string `form:"clusterId,omitempty" json:"clusterId,omitempty"`
+}
+
 // ListApplicationEnvironmentsParams defines parameters for ListApplicationEnvironments.
 type ListApplicationEnvironmentsParams struct {
 	ApplicationID string `form:"applicationId,omitempty" json:"applicationId,omitempty"`
@@ -21357,6 +22022,25 @@ type ListKubernetesHelmReleaseHistoryParams struct {
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
 
+// GetKubernetesHelmReleaseManifestParams defines parameters for GetKubernetesHelmReleaseManifest.
+type GetKubernetesHelmReleaseManifestParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+	Revision  string                   `form:"revision,omitempty" json:"revision,omitempty"`
+}
+
+// RollbackKubernetesHelmReleaseParams defines parameters for RollbackKubernetesHelmRelease.
+type RollbackKubernetesHelmReleaseParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// PlanKubernetesHelmReleaseRollbackParams defines parameters for PlanKubernetesHelmReleaseRollback.
+type PlanKubernetesHelmReleaseRollbackParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
 // ListKubernetesBackendTLSPoliciesParams defines parameters for ListKubernetesBackendTLSPolicies.
 type ListKubernetesBackendTLSPoliciesParams struct {
 	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
@@ -21483,6 +22167,40 @@ type GetKubernetesNetworkTopologyParams struct {
 // ExecuteKubernetesResourceCreateParams defines parameters for ExecuteKubernetesResourceCreate.
 type ExecuteKubernetesResourceCreateParams struct {
 	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
+// GetKubernetesResourceGraphParams defines parameters for GetKubernetesResourceGraph.
+type GetKubernetesResourceGraphParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+	Kind      string                   `form:"kind" json:"kind"`
+	Name      string                   `form:"name" json:"name"`
+}
+
+// SearchKubernetesResourcesParams defines parameters for SearchKubernetesResources.
+type SearchKubernetesResourcesParams struct {
+	Q string `form:"q" json:"q"`
+
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+
+	// Kinds Comma-separated canonical Kubernetes kinds. Omit to search the supported default inventory.
+	Kinds []string `form:"kinds,omitempty" json:"kinds,omitempty"`
+	Limit int      `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// StreamKubernetesResourceEventsParams defines parameters for StreamKubernetesResourceEvents.
+type StreamKubernetesResourceEventsParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+	Kinds     []string                 `form:"kinds,omitempty" json:"kinds,omitempty"`
+}
+
+// GetKubernetesSecurityPostureParams defines parameters for GetKubernetesSecurityPosture.
+type GetKubernetesSecurityPostureParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+	Limit     int                      `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
 // ListKubernetesPersistentVolumeClaimsParams defines parameters for ListKubernetesPersistentVolumeClaims.
@@ -21764,10 +22482,17 @@ type ListComputeTasksParams struct {
 	ResourceKind string `form:"resourceKind,omitempty" json:"resourceKind,omitempty"`
 
 	// ResourceID Exact normalized resource identifier referenced by the task.
-	ResourceID string        `form:"resourceId,omitempty" json:"resourceId,omitempty"`
-	Cursor     ComputeCursor `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit      ComputeLimit  `form:"limit,omitempty" json:"limit,omitempty"`
+	ResourceID string `form:"resourceId,omitempty" json:"resourceId,omitempty"`
+
+	// SortBy Stable task field used for server-side ordering. Unsupported values are rejected.
+	SortBy    string                          `form:"sortBy,omitempty" json:"sortBy,omitempty"`
+	SortOrder ListComputeTasksParamsSortOrder `form:"sortOrder,omitempty" json:"sortOrder,omitempty"`
+	Cursor    ComputeCursor                   `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit     ComputeLimit                    `form:"limit,omitempty" json:"limit,omitempty"`
 }
+
+// ListComputeTasksParamsSortOrder defines parameters for ListComputeTasks.
+type ListComputeTasksParamsSortOrder string
 
 // CancelComputeTaskParams defines parameters for CancelComputeTask.
 type CancelComputeTaskParams struct {
@@ -22459,6 +23184,15 @@ type CreateBuildTemplateJSONRequestBody = BuildTemplateInput
 // UpdateBuildTemplateJSONRequestBody defines body for UpdateBuildTemplate for application/json ContentType.
 type UpdateBuildTemplateJSONRequestBody = BuildTemplateInput
 
+// ReviewKubernetesSubjectAccessJSONRequestBody defines body for ReviewKubernetesSubjectAccess for application/json ContentType.
+type ReviewKubernetesSubjectAccessJSONRequestBody = KubernetesSubjectAccessReviewInput
+
+// RollbackKubernetesHelmReleaseJSONRequestBody defines body for RollbackKubernetesHelmRelease for application/json ContentType.
+type RollbackKubernetesHelmReleaseJSONRequestBody = KubernetesHelmReleaseRollbackInput
+
+// PlanKubernetesHelmReleaseRollbackJSONRequestBody defines body for PlanKubernetesHelmReleaseRollback for application/json ContentType.
+type PlanKubernetesHelmReleaseRollbackJSONRequestBody = KubernetesHelmReleaseRollbackInput
+
 // QueryClusterLogsJSONRequestBody defines body for QueryClusterLogs for application/json ContentType.
 type QueryClusterLogsJSONRequestBody = LogQuery
 
@@ -22485,6 +23219,9 @@ type DecideKubernetesResourceCreateScopeJSONRequestBody = KubernetesResourceCrea
 
 // GenerateKubernetesWorkloadSnapshotJSONRequestBody defines body for GenerateKubernetesWorkloadSnapshot for application/json ContentType.
 type GenerateKubernetesWorkloadSnapshotJSONRequestBody = KubernetesWorkloadSnapshotRequest
+
+// PlanKubernetesResourceUpdateJSONRequestBody defines body for PlanKubernetesResourceUpdate for application/json ContentType.
+type PlanKubernetesResourceUpdateJSONRequestBody = KubernetesResourceUpdatePlanRequest
 
 // RecordCompanionInteractionJSONRequestBody defines body for RecordCompanionInteraction for application/json ContentType.
 type RecordCompanionInteractionJSONRequestBody = CompanionInteractionRequest
@@ -28967,4 +29704,18 @@ const (
 	Organization SAMLAttributeMappingTarget = SAMLAttributeMappingTargetOrganization
 	Team         SAMLAttributeMappingTarget = SAMLAttributeMappingTargetTeam
 	Project      SAMLAttributeMappingTarget = SAMLAttributeMappingTargetProject
+)
+
+// Deprecated: use the DockerContainerPortInputProtocol-prefixed constants in new code.
+const (
+	TCP DockerContainerPortInputProtocol = DockerContainerPortInputProtocolTCP
+	UDP DockerContainerPortInputProtocol = DockerContainerPortInputProtocolUDP
+)
+
+// Deprecated: use the MarketplaceAdvisorySeverity-prefixed constants in new code.
+const (
+	Critical MarketplaceAdvisorySeverity = MarketplaceAdvisorySeverityCritical
+	High     MarketplaceAdvisorySeverity = MarketplaceAdvisorySeverityHigh
+	Medium   MarketplaceAdvisorySeverity = MarketplaceAdvisorySeverityMedium
+	Low      MarketplaceAdvisorySeverity = MarketplaceAdvisorySeverityLow
 )

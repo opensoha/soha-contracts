@@ -22,3 +22,37 @@ func TestWorkbenchMessageDoneEventRoleGeneratedName(t *testing.T) {
 		t.Fatalf("role = %q", WorkbenchMessageDoneEventRoleAssistant)
 	}
 }
+
+func TestKubernetesResourceSearchGeneratedShape(t *testing.T) {
+	result := KubernetesResourceSearchResult{
+		Items: []KubernetesResourceSearchItem{
+			{
+				Resource: KubernetesResourceRef{
+					APIVersion: "v1",
+					ClusterID:  "cluster-a",
+					Kind:       "Pod",
+					Name:       "api-0",
+					Namespace:  "production",
+					ScopeMode:  KubernetesResourceScopeModeNamespace,
+				},
+				Status: "Running",
+			},
+		},
+		Truncated: false,
+	}
+	if len(result.Items) != 1 || result.Items[0].Resource.Name != "api-0" {
+		t.Fatalf("result = %#v", result)
+	}
+}
+
+func TestLegacyEnumAliasesRemainSourceCompatible(t *testing.T) {
+	if TCP != DockerContainerPortInputProtocolTCP || UDP != DockerContainerPortInputProtocolUDP {
+		t.Fatalf("docker protocol aliases = %q/%q", TCP, UDP)
+	}
+	if Critical != MarketplaceAdvisorySeverityCritical ||
+		High != MarketplaceAdvisorySeverityHigh ||
+		Medium != MarketplaceAdvisorySeverityMedium ||
+		Low != MarketplaceAdvisorySeverityLow {
+		t.Fatalf("marketplace severity aliases = %q/%q/%q/%q", Critical, High, Medium, Low)
+	}
+}

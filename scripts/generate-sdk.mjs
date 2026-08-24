@@ -171,6 +171,20 @@ const (
 	Team         SAMLAttributeMappingTarget = SAMLAttributeMappingTargetTeam
 	Project      SAMLAttributeMappingTarget = SAMLAttributeMappingTargetProject
 )
+
+// Deprecated: use the DockerContainerPortInputProtocol-prefixed constants in new code.
+const (
+	TCP DockerContainerPortInputProtocol = DockerContainerPortInputProtocolTCP
+	UDP DockerContainerPortInputProtocol = DockerContainerPortInputProtocolUDP
+)
+
+// Deprecated: use the MarketplaceAdvisorySeverity-prefixed constants in new code.
+const (
+	Critical MarketplaceAdvisorySeverity = MarketplaceAdvisorySeverityCritical
+	High     MarketplaceAdvisorySeverity = MarketplaceAdvisorySeverityHigh
+	Medium   MarketplaceAdvisorySeverity = MarketplaceAdvisorySeverityMedium
+	Low      MarketplaceAdvisorySeverity = MarketplaceAdvisorySeverityLow
+)
 `;
   await writeFile(url, generated);
 }
@@ -195,6 +209,11 @@ function applyGoCompatibility(spec) {
     "KubernetesResourceAgentCreateResult",
     "KubernetesResourceAgentPreflightItem",
     "KubernetesResourceAgentPreflightResult",
+    "KubernetesResourceStreamEvent",
+    "KubernetesResourceGraphEnvelope",
+    "KubernetesSecurityPostureEnvelope",
+    "KubernetesResourceUpdateAnalysis",
+    "ComputeTaskStreamEvent",
     "ObservabilityMetricDataSource",
     "ObservabilityMetricDataSourceListEnvelope",
   ]);
@@ -244,24 +263,23 @@ function applyGoCompatibility(spec) {
 
 function anchorGoSdkSchemas(spec, schemaNames) {
   spec.paths ??= {};
-  const responses = {};
-  const responseCodes = ["200", "201", "202", "206", "207"];
   schemaNames.forEach((schemaName, index) => {
-    responses[responseCodes[index]] = {
-      description: "Go SDK model generation anchor.",
-      content: {
-        "application/json": {
-          schema: { $ref: `#/components/schemas/${schemaName}` },
+    spec.paths[`/__go-sdk-model-anchors/${index}`] = {
+      get: {
+        operationId: `anchorGoSdkModel${index}`,
+        responses: {
+          "200": {
+            description: "Go SDK model generation anchor.",
+            content: {
+              "application/json": {
+                schema: { $ref: `#/components/schemas/${schemaName}` },
+              },
+            },
+          },
         },
       },
     };
   });
-  spec.paths["/__go-sdk-model-anchors"] = {
-    get: {
-      operationId: "anchorGoSdkModels",
-      responses,
-    },
-  };
 }
 
 function setPropertyGoType(schemas, schemaName, propertyName, typeName) {
