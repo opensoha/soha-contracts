@@ -88,6 +88,9 @@ const requiredJsonSchemas = [
 const requiredOpenapiFixtureSchemas = [
   "PasswordLoginRequest",
   "AuthResultEnvelope",
+  "DesktopAuthAttemptCreateRequest",
+  "DesktopAuthAttemptEnvelope",
+  "DesktopAuthAttemptExchangeRequest",
   "ApplicationInput",
   "ExecutionCallbackRequest",
   "DeliveryDraftInput",

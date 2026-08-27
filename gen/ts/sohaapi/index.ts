@@ -145,6 +145,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/desktop/attempts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createDesktopAuthAttempt"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/desktop/attempts/{attemptID}/start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["startDesktopAuthAttempt"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/desktop/attempts/{attemptID}/exchange": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["exchangeDesktopAuthAttempt"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/login/{providerID}/start": {
         parameters: {
             query?: never;
@@ -12181,6 +12229,28 @@ export interface components {
         OIDCExchangeRequest: {
             code: string;
         };
+        DesktopAuthAttemptCreateRequest: {
+            providerId: string;
+            /** Format: uri */
+            redirectUri: string;
+            codeChallenge: string;
+            /** @enum {string} */
+            codeChallengeMethod: "S256";
+        };
+        DesktopAuthAttempt: {
+            attemptId: string;
+            /** Format: uri */
+            authorizationUrl: string;
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        DesktopAuthAttemptEnvelope: {
+            data: components["schemas"]["DesktopAuthAttempt"];
+        };
+        DesktopAuthAttemptExchangeRequest: {
+            code: string;
+            codeVerifier: string;
+        };
         StreamTicketRequest: {
             path: string;
         };
@@ -19821,6 +19891,7 @@ export interface components {
         OIDCState: string;
         OperationID: string;
         ProviderID: string;
+        AttemptID: string;
         PluginID: string;
         /** @description Slash-separated relative path declared by the active companion pack. */
         PluginAssetPath: string;
@@ -20408,6 +20479,10 @@ export type LoginOptions = components['schemas']['LoginOptions'];
 export type PasswordLoginRequest = components['schemas']['PasswordLoginRequest'];
 export type RefreshRequest = components['schemas']['RefreshRequest'];
 export type OIDCExchangeRequest = components['schemas']['OIDCExchangeRequest'];
+export type DesktopAuthAttemptCreateRequest = components['schemas']['DesktopAuthAttemptCreateRequest'];
+export type DesktopAuthAttempt = components['schemas']['DesktopAuthAttempt'];
+export type DesktopAuthAttemptEnvelope = components['schemas']['DesktopAuthAttemptEnvelope'];
+export type DesktopAuthAttemptExchangeRequest = components['schemas']['DesktopAuthAttemptExchangeRequest'];
 export type StreamTicketRequest = components['schemas']['StreamTicketRequest'];
 export type StreamTicket = components['schemas']['StreamTicket'];
 export type PrincipalEnvelope = components['schemas']['PrincipalEnvelope'];
@@ -21385,6 +21460,7 @@ export type ParameterOidcCode = components['parameters']['OIDCCode'];
 export type ParameterOidcState = components['parameters']['OIDCState'];
 export type ParameterOperationId = components['parameters']['OperationID'];
 export type ParameterProviderId = components['parameters']['ProviderID'];
+export type ParameterAttemptId = components['parameters']['AttemptID'];
 export type ParameterPluginId = components['parameters']['PluginID'];
 export type ParameterPluginAssetPath = components['parameters']['PluginAssetPath'];
 export type ParameterKnowledgeBaseId = components['parameters']['KnowledgeBaseID'];
@@ -21622,6 +21698,89 @@ export interface operations {
                     "application/json": components["schemas"]["AuthResultEnvelope"];
                 };
             };
+        };
+    };
+    createDesktopAuthAttempt: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DesktopAuthAttemptCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description Short-lived desktop authentication attempt. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DesktopAuthAttemptEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            429: components["responses"]["Error"];
+        };
+    };
+    startDesktopAuthAttempt: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                attemptID: components["parameters"]["AttemptID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Redirect to the identity provider for this attempt. */
+            307: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            410: components["responses"]["Error"];
+            429: components["responses"]["Error"];
+        };
+    };
+    exchangeDesktopAuthAttempt: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                attemptID: components["parameters"]["AttemptID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DesktopAuthAttemptExchangeRequest"];
+            };
+        };
+        responses: {
+            /** @description Authenticated desktop session. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            410: components["responses"]["Error"];
+            429: components["responses"]["Error"];
         };
     };
     beginProviderLogin: {
