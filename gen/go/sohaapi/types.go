@@ -1588,6 +1588,21 @@ func (e DeliveryPlanInputSource) Valid() bool {
 	}
 }
 
+// Defines values for DesktopAuthAttemptCreateRequestCodeChallengeMethod.
+const (
+	S256 DesktopAuthAttemptCreateRequestCodeChallengeMethod = "S256"
+)
+
+// Valid indicates whether the value is a known member of the DesktopAuthAttemptCreateRequestCodeChallengeMethod enum.
+func (e DesktopAuthAttemptCreateRequestCodeChallengeMethod) Valid() bool {
+	switch e {
+	case S256:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for DirectoryCallbackStatus.
 const (
 	DirectoryCallbackStatusAwaitingEvent DirectoryCallbackStatus = "awaiting_event"
@@ -10362,6 +10377,35 @@ type DeliveryPlanInput struct {
 
 // DeliveryPlanInputSource defines model for DeliveryPlanInput.Source.
 type DeliveryPlanInputSource string
+
+// DesktopAuthAttempt defines model for DesktopAuthAttempt.
+type DesktopAuthAttempt struct {
+	AttemptID        string    `json:"attemptId"`
+	AuthorizationURL string    `json:"authorizationUrl"`
+	ExpiresAt        time.Time `json:"expiresAt"`
+}
+
+// DesktopAuthAttemptCreateRequest defines model for DesktopAuthAttemptCreateRequest.
+type DesktopAuthAttemptCreateRequest struct {
+	CodeChallenge       string                                             `json:"codeChallenge"`
+	CodeChallengeMethod DesktopAuthAttemptCreateRequestCodeChallengeMethod `json:"codeChallengeMethod"`
+	ProviderID          string                                             `json:"providerId"`
+	RedirectURI         string                                             `json:"redirectUri"`
+}
+
+// DesktopAuthAttemptCreateRequestCodeChallengeMethod defines model for DesktopAuthAttemptCreateRequest.CodeChallengeMethod.
+type DesktopAuthAttemptCreateRequestCodeChallengeMethod string
+
+// DesktopAuthAttemptEnvelope defines model for DesktopAuthAttemptEnvelope.
+type DesktopAuthAttemptEnvelope struct {
+	Data DesktopAuthAttempt `json:"data"`
+}
+
+// DesktopAuthAttemptExchangeRequest defines model for DesktopAuthAttemptExchangeRequest.
+type DesktopAuthAttemptExchangeRequest struct {
+	Code         string `json:"code"`
+	CodeVerifier string `json:"codeVerifier"`
+}
 
 // DirectoryCallbackStatus defines model for DirectoryCallbackStatus.
 type DirectoryCallbackStatus string
@@ -21187,6 +21231,9 @@ type ApplicationEnvironmentID = string
 // ApplicationID defines model for ApplicationID.
 type ApplicationID = string
 
+// AttemptID defines model for AttemptID.
+type AttemptID = string
+
 // AutomationPolicyID defines model for AutomationPolicyID.
 type AutomationPolicyID = string
 
@@ -23535,6 +23582,12 @@ type CreateApplicationServiceJSONRequestBody = ApplicationServiceInput
 
 // UpdateApplicationServiceJSONRequestBody defines body for UpdateApplicationService for application/json ContentType.
 type UpdateApplicationServiceJSONRequestBody = ApplicationServiceInput
+
+// CreateDesktopAuthAttemptJSONRequestBody defines body for CreateDesktopAuthAttempt for application/json ContentType.
+type CreateDesktopAuthAttemptJSONRequestBody = DesktopAuthAttemptCreateRequest
+
+// ExchangeDesktopAuthAttemptJSONRequestBody defines body for ExchangeDesktopAuthAttempt for application/json ContentType.
+type ExchangeDesktopAuthAttemptJSONRequestBody = DesktopAuthAttemptExchangeRequest
 
 // PasswordLoginJSONRequestBody defines body for PasswordLogin for application/json ContentType.
 type PasswordLoginJSONRequestBody = PasswordLoginRequest

@@ -166,6 +166,80 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthResultEnvelope"
+  /auth/desktop/attempts:
+    post:
+      tags: [Auth]
+      operationId: createDesktopAuthAttempt
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DesktopAuthAttemptCreateRequest"
+      responses:
+        "201":
+          description: Short-lived desktop authentication attempt.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DesktopAuthAttemptEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "429":
+          $ref: "#/components/responses/Error"
+  /auth/desktop/attempts/{attemptID}/start:
+    get:
+      tags: [Auth]
+      operationId: startDesktopAuthAttempt
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/AttemptID"
+      responses:
+        "307":
+          description: Redirect to the identity provider for this attempt.
+        "400":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "410":
+          $ref: "#/components/responses/Error"
+        "429":
+          $ref: "#/components/responses/Error"
+  /auth/desktop/attempts/{attemptID}/exchange:
+    post:
+      tags: [Auth]
+      operationId: exchangeDesktopAuthAttempt
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/AttemptID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DesktopAuthAttemptExchangeRequest"
+      responses:
+        "200":
+          description: Authenticated desktop session.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "410":
+          $ref: "#/components/responses/Error"
+        "429":
+          $ref: "#/components/responses/Error"
   /auth/login/{providerID}/start:
     get:
       tags: [Auth]
@@ -14489,6 +14563,14 @@ components:
       required: true
       schema:
         type: string
+    AttemptID:
+      name: attemptID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
     PluginID:
       name: pluginID
       in: path
@@ -21213,6 +21295,66 @@ components:
       properties:
         code:
           type: string
+      additionalProperties: false
+    DesktopAuthAttemptCreateRequest:
+      type: object
+      required: [providerId, redirectUri, codeChallenge, codeChallengeMethod]
+      properties:
+        providerId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        redirectUri:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 2048
+        codeChallenge:
+          type: string
+          minLength: 43
+          maxLength: 43
+          pattern: "^[A-Za-z0-9_-]{43}$"
+        codeChallengeMethod:
+          type: string
+          enum: [S256]
+      additionalProperties: false
+    DesktopAuthAttempt:
+      type: object
+      required: [attemptId, authorizationUrl, expiresAt]
+      properties:
+        attemptId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        authorizationUrl:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 2048
+        expiresAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    DesktopAuthAttemptEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/DesktopAuthAttempt"
+      additionalProperties: false
+    DesktopAuthAttemptExchangeRequest:
+      type: object
+      required: [code, codeVerifier]
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 512
+        codeVerifier:
+          type: string
+          minLength: 43
+          maxLength: 128
+          pattern: "^[A-Za-z0-9._~-]+$"
       additionalProperties: false
     StreamTicketRequest:
       type: object

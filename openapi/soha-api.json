@@ -162,6 +162,16 @@
           "type": "string"
         }
       },
+      "AttemptID": {
+        "in": "path",
+        "name": "attemptID",
+        "required": true,
+        "schema": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
       "AutomationPolicyID": {
         "in": "path",
         "name": "policyID",
@@ -9899,6 +9909,100 @@
           "applicationId",
           "applicationEnvironmentId",
           "action"
+        ],
+        "type": "object"
+      },
+      "DesktopAuthAttempt": {
+        "additionalProperties": false,
+        "properties": {
+          "attemptId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "authorizationUrl": {
+            "format": "uri",
+            "maxLength": 2048,
+            "minLength": 1,
+            "type": "string"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "attemptId",
+          "authorizationUrl",
+          "expiresAt"
+        ],
+        "type": "object"
+      },
+      "DesktopAuthAttemptCreateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "codeChallenge": {
+            "maxLength": 43,
+            "minLength": 43,
+            "pattern": "^[A-Za-z0-9_-]{43}$",
+            "type": "string"
+          },
+          "codeChallengeMethod": {
+            "enum": [
+              "S256"
+            ],
+            "type": "string"
+          },
+          "providerId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "redirectUri": {
+            "format": "uri",
+            "maxLength": 2048,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "providerId",
+          "redirectUri",
+          "codeChallenge",
+          "codeChallengeMethod"
+        ],
+        "type": "object"
+      },
+      "DesktopAuthAttemptEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/DesktopAuthAttempt"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "DesktopAuthAttemptExchangeRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "codeVerifier": {
+            "maxLength": 128,
+            "minLength": 43,
+            "pattern": "^[A-Za-z0-9._~-]+$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "codeVerifier"
         ],
         "type": "object"
       },
@@ -53868,6 +53972,131 @@
             "description": "Principal, permission snapshot, and branding bootstrap data."
           }
         },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/desktop/attempts": {
+      "post": {
+        "operationId": "createDesktopAuthAttempt",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DesktopAuthAttemptCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesktopAuthAttemptEnvelope"
+                }
+              }
+            },
+            "description": "Short-lived desktop authentication attempt."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "security": [],
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/desktop/attempts/{attemptID}/exchange": {
+      "post": {
+        "operationId": "exchangeDesktopAuthAttempt",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttemptID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DesktopAuthAttemptExchangeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResultEnvelope"
+                }
+              }
+            },
+            "description": "Authenticated desktop session."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "security": [],
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/desktop/attempts/{attemptID}/start": {
+      "get": {
+        "operationId": "startDesktopAuthAttempt",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttemptID"
+          }
+        ],
+        "responses": {
+          "307": {
+            "description": "Redirect to the identity provider for this attempt."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "security": [],
         "tags": [
           "Auth"
         ]
