@@ -188,7 +188,11 @@ paths:
           $ref: "#/components/responses/Error"
         "404":
           $ref: "#/components/responses/Error"
+        "413":
+          $ref: "#/components/responses/Error"
         "429":
+          $ref: "#/components/responses/Error"
+        "501":
           $ref: "#/components/responses/Error"
   /auth/desktop/attempts/{attemptID}/start:
     get:
@@ -207,6 +211,8 @@ paths:
         "410":
           $ref: "#/components/responses/Error"
         "429":
+          $ref: "#/components/responses/Error"
+        "501":
           $ref: "#/components/responses/Error"
   /auth/desktop/attempts/{attemptID}/exchange:
     post:
@@ -238,7 +244,11 @@ paths:
           $ref: "#/components/responses/Error"
         "410":
           $ref: "#/components/responses/Error"
+        "413":
+          $ref: "#/components/responses/Error"
         "429":
+          $ref: "#/components/responses/Error"
+        "501":
           $ref: "#/components/responses/Error"
   /auth/login/{providerID}/start:
     get:
@@ -16865,12 +16875,27 @@ components:
     ScopeGrantInput:
       type: object
       required: [subjectType, subjectId, role, enabled]
+      if:
+        properties:
+          scopeType:
+            enum: [legacy, delivery]
+      then:
+        required: [businessLineId]
+      else:
+        if:
+          properties:
+            scopeType:
+              const: platform
+          required: [scopeType]
+        then:
+          required: [clusterIds]
       properties:
         id: { type: string, minLength: 1 }
         subjectType: { $ref: "#/components/schemas/ScopeGrantSubjectType" }
         subjectId: { type: string, minLength: 1 }
         businessLineId:
           type: string
+          minLength: 1
           description: Required when scopeType is legacy or delivery.
         environmentIds:
           type: array
@@ -21309,6 +21334,7 @@ components:
           format: uri
           minLength: 1
           maxLength: 2048
+          pattern: '^http://127\.0\.0\.1:(?:(?:10(?:2[4-9]|[3-9][0-9])|1[1-9][0-9]{2}|[2-9][0-9]{3})|(?:[1-5][0-9]{4})|(?:6[0-4][0-9]{3})|(?:65[0-4][0-9]{2})|(?:655[0-2][0-9])|(?:6553[0-5]))/callback/[A-Za-z0-9_-]{16,128}$'
         codeChallenge:
           type: string
           minLength: 43

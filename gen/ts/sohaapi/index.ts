@@ -22070,7 +22070,9 @@ export interface operations {
             };
             400: components["responses"]["Error"];
             404: components["responses"]["Error"];
+            413: components["responses"]["Error"];
             429: components["responses"]["Error"];
+            501: components["responses"]["Error"];
         };
     };
     startDesktopAuthAttempt: {
@@ -22095,6 +22097,7 @@ export interface operations {
             404: components["responses"]["Error"];
             410: components["responses"]["Error"];
             429: components["responses"]["Error"];
+            501: components["responses"]["Error"];
         };
     };
     exchangeDesktopAuthAttempt: {
@@ -22126,7 +22129,9 @@ export interface operations {
             404: components["responses"]["Error"];
             409: components["responses"]["Error"];
             410: components["responses"]["Error"];
+            413: components["responses"]["Error"];
             429: components["responses"]["Error"];
+            501: components["responses"]["Error"];
         };
     };
     beginProviderLogin: {

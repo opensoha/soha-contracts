@@ -9962,6 +9962,7 @@
             "format": "uri",
             "maxLength": 2048,
             "minLength": 1,
+            "pattern": "^http://127\\.0\\.0\\.1:(?:(?:10(?:2[4-9]|[3-9][0-9])|1[1-9][0-9]{2}|[2-9][0-9]{3})|(?:[1-5][0-9]{4})|(?:6[0-4][0-9]{3})|(?:65[0-4][0-9]{2})|(?:655[0-2][0-9])|(?:6553[0-5]))/callback/[A-Za-z0-9_-]{16,128}$",
             "type": "string"
           }
         },
@@ -38455,6 +38456,33 @@
       },
       "ScopeGrantInput": {
         "additionalProperties": false,
+        "else": {
+          "if": {
+            "properties": {
+              "scopeType": {
+                "const": "platform"
+              }
+            },
+            "required": [
+              "scopeType"
+            ]
+          },
+          "then": {
+            "required": [
+              "clusterIds"
+            ]
+          }
+        },
+        "if": {
+          "properties": {
+            "scopeType": {
+              "enum": [
+                "legacy",
+                "delivery"
+              ]
+            }
+          }
+        },
         "properties": {
           "applicationIds": {
             "items": {
@@ -38466,6 +38494,7 @@
           },
           "businessLineId": {
             "description": "Required when scopeType is legacy or delivery.",
+            "minLength": 1,
             "type": "string"
           },
           "clusterIds": {
@@ -38554,6 +38583,11 @@
           "role",
           "enabled"
         ],
+        "then": {
+          "required": [
+            "businessLineId"
+          ]
+        },
         "type": "object"
       },
       "ScopeGrantListEnvelope": {
@@ -54007,7 +54041,13 @@
           "404": {
             "$ref": "#/components/responses/Error"
           },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
           "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "501": {
             "$ref": "#/components/responses/Error"
           }
         },
@@ -54061,7 +54101,13 @@
           "410": {
             "$ref": "#/components/responses/Error"
           },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
           "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "501": {
             "$ref": "#/components/responses/Error"
           }
         },
@@ -54093,6 +54139,9 @@
             "$ref": "#/components/responses/Error"
           },
           "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "501": {
             "$ref": "#/components/responses/Error"
           }
         },

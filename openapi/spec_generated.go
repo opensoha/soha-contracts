@@ -6,8 +6,8 @@ import _ "embed"
 
 const (
 	Version    = "0.1.16"
-	YAMLSHA256 = "049dd49dbc4ba5ad3012a85276062e0f9ab810742eecafd516d20e0d2f0840c0"
-	JSONSHA256 = "e451fca56bdc9b500d73fdd1d293c2d60708d15909d3edc931ee4bd484e891b1"
+	YAMLSHA256 = "bdcd23df5b8d2915e371e81ed9915b9ac30dad08c334e02befd26bd3c407fe15"
+	JSONSHA256 = "0bf54dc8e32263490aacab9489ca04804a218618ad52d6fb95561835d3d81cf7"
 )
 
 //go:embed soha-api.yaml
