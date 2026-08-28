@@ -216,6 +216,11 @@ function applyGoCompatibility(spec) {
     "ComputeTaskStreamEvent",
     "ObservabilityMetricDataSource",
     "ObservabilityMetricDataSourceListEnvelope",
+    "ManifestPackage",
+    "ManifestPackageInput",
+    "ManifestPackagePage",
+    "ManifestPackageEnvelope",
+    "ManifestPackagePageEnvelope",
   ]);
 
   const riskLevel = schemas.RiskLevel;

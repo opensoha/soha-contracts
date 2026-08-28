@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 	"time"
 )
@@ -155,9 +156,9 @@ func TestExchangeDockerHostAgentEnrollmentIsPublicAndReturnsCredentials(t *testi
 		w.WriteHeader(http.StatusCreated)
 		writeJSON(t, w, map[string]any{"data": map[string]any{
 			"hostId": "host-1", "operationId": "operation-1", "agentId": "host-1",
-			"agentBearerToken": "agent-secret-012345678901234567890",
+			"agentBearerToken":   "agent-secret-012345678901234567890",
 			"runtimeBearerToken": "runtime-secret-012345678901234567",
-			"issuedAt": issuedAt,
+			"issuedAt":           issuedAt,
 		}})
 	})
 
@@ -331,7 +332,7 @@ func TestComputeTaskCenterClientSurface(t *testing.T) {
 		case 1:
 			assertCommonRequest(t, r, http.MethodGet, "/api/v1/compute/tasks")
 			assertQuery(t, r, map[string]string{
-				"domain": "virtualization", "resourceKind": "cluster", "resourceId": "cluster-1", "limit": "1",
+				"domain": "virtualization", "resourceKind": "cluster", "resourceId": "cluster-1", "sortBy": "status", "sortOrder": "desc", "limit": "1",
 			})
 			writeJSON(t, w, map[string]any{"items": []any{}})
 		case 2:
@@ -344,12 +345,18 @@ func TestComputeTaskCenterClientSurface(t *testing.T) {
 			}}})
 		case 4:
 			assertCommonRequest(t, r, http.MethodPost, "/api/v1/compute/tasks/virtualization/task%2Fone/cancel")
+			if key := r.Header.Get("Idempotency-Key"); !strings.HasPrefix(key, "compute-") {
+				t.Fatalf("cancel Idempotency-Key = %q", key)
+			}
 			if body := decodeJSONRequestBody[ComputeTaskMutationRequest](t, r); body.Reason != "operator request" {
 				t.Fatalf("cancel reason = %q", body.Reason)
 			}
 			writeJSON(t, w, computeTaskEnvelopeFixture("task/one"))
 		case 5:
 			assertCommonRequest(t, r, http.MethodPost, "/api/v1/compute/tasks/virtualization/task%2Fone/retry")
+			if key := r.Header.Get("Idempotency-Key"); key != "retry-key-1" {
+				t.Fatalf("retry Idempotency-Key = %q", key)
+			}
 			writeJSON(t, w, computeTaskEnvelopeFixture("task/two"))
 		default:
 			t.Fatalf("unexpected request %s %s", r.Method, r.URL.Path)
@@ -357,7 +364,7 @@ func TestComputeTaskCenterClientSurface(t *testing.T) {
 	})
 
 	items, err := client.ListComputeTasks(context.Background(), ListComputeTasksParams{
-		Domain: ComputeTaskDomainVirtualization, ResourceKind: "cluster", ResourceID: "cluster-1", Limit: 1,
+		Domain: ComputeTaskDomainVirtualization, ResourceKind: "cluster", ResourceID: "cluster-1", SortBy: "status", SortOrder: ListComputeTasksParamsSortOrder("desc"), Limit: 1,
 	})
 	if err != nil || len(items.Items) != 0 {
 		t.Fatalf("ListComputeTasks = %#v, %v", items, err)
@@ -371,8 +378,124 @@ func TestComputeTaskCenterClientSurface(t *testing.T) {
 	if _, err := client.CancelComputeTask(context.Background(), ComputeTaskDomainVirtualization, "task/one", ComputeTaskMutationRequest{Reason: "operator request"}); err != nil {
 		t.Fatalf("CancelComputeTask returned error: %v", err)
 	}
-	if task, err := client.RetryComputeTask(context.Background(), ComputeTaskDomainVirtualization, "task/one", ComputeTaskMutationRequest{}); err != nil || task.ID != "task/two" {
+	if task, err := client.RetryComputeTaskWithKey(context.Background(), ComputeTaskDomainVirtualization, "task/one", "retry-key-1", ComputeTaskMutationRequest{}); err != nil || task.ID != "task/two" {
 		t.Fatalf("RetryComputeTask = %#v, %v", task, err)
+	}
+}
+
+func TestComputeInventoryClientSurface(t *testing.T) {
+	requests := 0
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		requests++
+		switch requests {
+		case 1:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/compute/capabilities")
+			writeJSON(t, w, map[string]any{"data": map[string]any{"generation": 1, "features": []any{}}})
+		case 2:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/compute/overview")
+			writeJSON(t, w, map[string]any{"data": map[string]any{"attention": []any{}, "providerHealth": []any{}, "partial": false, "warnings": []any{}}})
+		case 3:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/compute/access-sources")
+			assertQuery(t, r, map[string]string{"sourceType": "virtualization_connection", "providerKey": "pve", "cursor": "next", "limit": "10"})
+			writeJSON(t, w, map[string]any{"items": []any{}})
+		case 4:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/compute/providers")
+			assertQuery(t, r, map[string]string{"domain": "virtualization", "source": "builtin", "limit": "10"})
+			writeJSON(t, w, map[string]any{"items": []any{}})
+		case 5:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/compute/provider-instances")
+			assertQuery(t, r, map[string]string{"domain": "virtualization", "providerKey": "pve", "limit": "10"})
+			writeJSON(t, w, map[string]any{"items": []any{}})
+		case 6:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/compute/provider-instances/virtualization/pve/connection%2Fone")
+			writeJSON(t, w, map[string]any{"data": map[string]any{}})
+		case 7:
+			assertCommonRequest(t, r, http.MethodPost, "/api/v1/compute/provider-instances/virtualization/pve/connection%2Fone/health-checks")
+			if key := r.Header.Get("Idempotency-Key"); key != "health-key-1" {
+				t.Fatalf("health Idempotency-Key = %q", key)
+			}
+			writeJSON(t, w, computeTaskEnvelopeFixture("health-task"))
+		case 8:
+			assertCommonRequest(t, r, http.MethodPost, "/api/v1/compute/provider-instances/virtualization/pve/connection%2Fone/discoveries")
+			if key := r.Header.Get("Idempotency-Key"); key != "discover-key-1" {
+				t.Fatalf("discover Idempotency-Key = %q", key)
+			}
+			writeJSON(t, w, computeTaskEnvelopeFixture("discover-task"))
+		case 9:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/compute/resources/virtualization/vm/vm%2Fone")
+			writeJSON(t, w, map[string]any{"data": map[string]any{"id": "vm/one"}})
+		case 10:
+			assertCommonRequest(t, r, http.MethodGet, "/api/v1/compute/resources/virtualization/vm/vm%2Fone/relations")
+			assertQuery(t, r, map[string]string{"cursor": "next", "limit": "20"})
+			writeJSON(t, w, map[string]any{"data": map[string]any{"resource": map[string]any{"domain": "virtualization", "kind": "vm", "id": "vm/one", "displayName": "vm-one"}, "relations": []any{}}})
+		case 11:
+			assertCommonRequest(t, r, http.MethodPost, "/api/v1/compute/resources/virtualization/vm/vm%2Fone/actions/start")
+			if key := r.Header.Get("Idempotency-Key"); key != "action-key-1" {
+				t.Fatalf("action Idempotency-Key = %q", key)
+			}
+			writeJSON(t, w, computeTaskEnvelopeFixture("action-task"))
+		default:
+			t.Fatalf("unexpected request %s %s", r.Method, r.URL.Path)
+		}
+	})
+
+	ctx := context.Background()
+	if _, err := client.GetComputeCapabilities(ctx); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := client.GetComputeOverview(ctx); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := client.ListComputeAccessSources(ctx, ListComputeAccessSourcesParams{SourceType: ComputeAccessSourceTypeVirtualizationConnection, ProviderKey: "pve", Cursor: "next", Limit: 10}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := client.ListComputeProviders(ctx, ListComputeProvidersParams{Domain: ComputeProviderDomainVirtualization, Source: ComputeProviderSourceBuiltin, Limit: 10}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := client.ListComputeProviderInstances(ctx, ListComputeProviderInstancesParams{Domain: ComputeProviderDomainVirtualization, ProviderKey: "pve", Limit: 10}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := client.GetComputeProviderInstance(ctx, ComputeProviderDomainVirtualization, "pve", "connection/one"); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := client.CheckComputeProviderInstanceHealth(ctx, ComputeProviderDomainVirtualization, "pve", "connection/one", "health-key-1", ComputeProviderReadRequest{ExpectedGeneration: 1}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := client.DiscoverComputeProviderInstance(ctx, ComputeProviderDomainVirtualization, "pve", "connection/one", "discover-key-1", ComputeProviderDiscoverRequest{ExpectedGeneration: 1}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := client.GetComputeResource(ctx, ComputeDomainVirtualization, ComputeResourceKindVM, "vm/one"); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := client.ListComputeResourceRelations(ctx, ComputeDomainVirtualization, ComputeResourceKindVM, "vm/one", ListComputeResourceRelationsParams{Cursor: "next", Limit: 20}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := client.ExecuteComputeResourceAction(ctx, ComputeDomainVirtualization, ComputeResourceKindVM, "vm/one", "start", "action-key-1", ComputeResourceActionRequest{}); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestStreamComputeTask(t *testing.T) {
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet || r.URL.EscapedPath() != "/api/v1/compute/tasks/virtualization/task%2Fone/stream" {
+			t.Fatalf("request = %s %s", r.Method, r.URL.EscapedPath())
+		}
+		if accept := r.Header.Get("Accept"); accept != "text/event-stream" {
+			t.Fatalf("Accept = %q", accept)
+		}
+		if r.Header.Get("Authorization") != "Bearer test-token" || r.Header.Get("User-Agent") != "sohaapi-test" {
+			t.Fatalf("unexpected authenticated stream headers: %#v", r.Header)
+		}
+		_, _ = io.WriteString(w, "event: snapshot\ndata: {\"type\":\"snapshot\",\"observedAt\":\"2026-08-24T12:00:00Z\",\"sequence\":1}\n\n")
+	})
+
+	var events []ComputeTaskStreamEvent
+	err := client.StreamComputeTask(context.Background(), ComputeTaskDomainVirtualization, "task/one", func(event ComputeTaskStreamEvent) error {
+		events = append(events, event)
+		return nil
+	})
+	if err != nil || len(events) != 1 || events[0].Sequence != 1 {
+		t.Fatalf("StreamComputeTask events=%#v err=%v", events, err)
 	}
 }
 

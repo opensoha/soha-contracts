@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Soha API
-  version: 0.1.15
+  version: 0.1.16
   description: >
     Public OpenSoha core API contract. This first contract focuses on stable
     cross-repository boundaries: auth, health, runner-facing control-plane
@@ -1788,6 +1788,142 @@ paths:
                 $ref: "#/components/schemas/OperationStatus"
         "404":
           $ref: "#/components/responses/Error"
+  /delivery/environments:
+    get:
+      tags: [Delivery]
+      operationId: listDeliveryEnvironments
+      responses:
+        "200":
+          description: Reusable delivery environments visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryEnvironmentListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-packages:
+    get:
+      tags: [Delivery]
+      operationId: listManifestPackages
+      parameters:
+        - name: applicationId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: serviceId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: clusterId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: namespace
+          in: query
+          required: false
+          schema: { type: string }
+        - name: search
+          in: query
+          required: false
+          schema: { type: string }
+        - name: page
+          in: query
+          required: false
+          schema: { type: integer, minimum: 1 }
+        - name: pageSize
+          in: query
+          required: false
+          schema: { type: integer, minimum: 1, maximum: 200 }
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer, minimum: 1, maximum: 200 }
+      responses:
+        "200":
+          description: Manifest packages visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestPackagePageEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [Delivery]
+      operationId: createManifestPackage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManifestPackageInput"
+      responses:
+        "201":
+          description: Created manifest package.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestPackageEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /delivery/manifest-packages/{manifestPackageID}:
+    get:
+      tags: [Delivery]
+      operationId: getManifestPackage
+      parameters:
+        - $ref: "#/components/parameters/ManifestPackageID"
+      responses:
+        "200":
+          description: Manifest package detail.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestPackageEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    put:
+      tags: [Delivery]
+      operationId: updateManifestPackage
+      parameters:
+        - $ref: "#/components/parameters/ManifestPackageID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManifestPackageInput"
+      responses:
+        "200":
+          description: Updated manifest package.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManifestPackageEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags: [Delivery]
+      operationId: deleteManifestPackage
+      parameters:
+        - $ref: "#/components/parameters/ManifestPackageID"
+      responses:
+        "200":
+          description: Deleted manifest package.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationStatus"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
   /delivery/manifest-packages/{manifestPackageID}/source:
     get:
       tags: [Delivery]
@@ -2776,6 +2912,11 @@ paths:
         name: virtualization.vms.create.plan
         riskLevel: analyze
         requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - virtualization.flavors.view
+          - virtualization.images.view
+          - virtualization.vms.view
       requestBody:
         required: true
         content:
@@ -2825,6 +2966,9 @@ paths:
         name: virtualization.vms.create.trigger
         riskLevel: execute
         requiresApproval: true
+        permissionKeys:
+          - ai.gateway.invoke
+          - virtualization.vms.create
       parameters:
         - $ref: "#/components/parameters/IdempotencyKey"
       requestBody:
@@ -3351,6 +3495,10 @@ paths:
         name: docker.hosts.quick_create.plan
         riskLevel: analyze
         requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - docker.hosts.view
+          - virtualization.vms.view
       requestBody:
         required: true
         content:
@@ -3377,6 +3525,10 @@ paths:
         name: docker.hosts.quick_create.trigger
         riskLevel: execute
         requiresApproval: true
+        permissionKeys:
+          - ai.gateway.invoke
+          - docker.hosts.create
+          - virtualization.vms.create
       parameters:
         - $ref: "#/components/parameters/IdempotencyKey"
       requestBody:
@@ -3407,6 +3559,10 @@ paths:
         name: docker.projects.deploy.plan
         riskLevel: analyze
         requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - docker.projects.view
+          - docker.templates.view
       parameters:
         - $ref: "#/components/parameters/DockerProjectID"
       requestBody:
@@ -3437,6 +3593,9 @@ paths:
         name: docker.projects.deploy.trigger
         riskLevel: execute
         requiresApproval: true
+        permissionKeys:
+          - ai.gateway.invoke
+          - docker.projects.deploy
       parameters:
         - $ref: "#/components/parameters/DockerProjectID"
         - $ref: "#/components/parameters/IdempotencyKey"
@@ -4497,6 +4656,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesClusters
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.clusters.view
       x-soha-implementation-status: implemented
       responses:
         "200":
@@ -4511,6 +4674,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesClusterDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.clusters.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -4529,6 +4696,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesNamespaces
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.namespaces.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -4549,6 +4720,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesNodes
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.nodes.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -4569,11 +4744,19 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesNodeDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.nodes.view
       x-soha-implementation-status: implemented
       x-soha-capability:
         name: k8s.nodes.detail
         riskLevel: read
         requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - platform.nodes.view
+          - workspace.resource.view
       parameters:
         - $ref: "#/components/parameters/ClusterID"
         - $ref: "#/components/parameters/KubernetesNodeName"
@@ -4594,6 +4777,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesWorkloadOverview
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.overview.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -4615,11 +4802,19 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesPods
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.pods.view
       x-soha-implementation-status: implemented
       x-soha-capability:
         name: k8s.pods.list
         riskLevel: read
         requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - platform.pods.view
+          - workspace.resource.view
       parameters:
         - $ref: "#/components/parameters/ClusterID"
         - $ref: "#/components/parameters/KubernetesNamespaceQuery"
@@ -4640,11 +4835,19 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesPodDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.pods.view
       x-soha-implementation-status: implemented
       x-soha-capability:
         name: k8s.pods.describe
         riskLevel: read
         requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - platform.pods.view
+          - workspace.resource.view
       parameters:
         - $ref: "#/components/parameters/ClusterID"
         - $ref: "#/components/parameters/KubernetesPodName"
@@ -4666,11 +4869,19 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesDeployments
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.deployment.view
       x-soha-implementation-status: implemented
       x-soha-capability:
         name: k8s.deployments.list
         riskLevel: read
         requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - platform.deployment.view
+          - workspace.resource.view
       parameters:
         - $ref: "#/components/parameters/ClusterID"
         - $ref: "#/components/parameters/KubernetesNamespaceQuery"
@@ -4691,6 +4902,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesDeploymentDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.deployment.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -4713,11 +4928,19 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesPodLogs
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.pods.logs
       x-soha-implementation-status: implemented
       x-soha-capability:
         name: k8s.pods.logs
         riskLevel: read
         requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - platform.pods.logs
+          - workspace.resource.view
       parameters:
         - $ref: "#/components/parameters/ClusterID"
         - $ref: "#/components/parameters/KubernetesPodName"
@@ -4748,6 +4971,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesPodYaml
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.pods.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -4767,6 +4994,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesDeploymentYaml
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.deployment.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -4786,6 +5017,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesDeploymentMetrics
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.deployment.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -4808,11 +5043,19 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesDeploymentRolloutStatus
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.deployment.view
       x-soha-implementation-status: implemented
       x-soha-capability:
         name: k8s.deployments.rollout_status
         riskLevel: read
         requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - platform.deployment.view
+          - workspace.resource.view
       parameters:
         - $ref: "#/components/parameters/ClusterID"
         - $ref: "#/components/parameters/KubernetesDeploymentName"
@@ -4831,6 +5074,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesDeploymentRollouts
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.deployment.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -4850,6 +5097,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesStatefulSets
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.stateful-sets.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -4868,6 +5119,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesStatefulSetDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.stateful-sets.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -4887,6 +5142,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesStatefulSetYaml
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.stateful-sets.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -4906,6 +5165,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesStatefulSetMetrics
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.stateful-sets.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -4928,6 +5191,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesDaemonSets
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.daemon-sets.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -4946,6 +5213,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesDaemonSetDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.daemon-sets.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -4965,6 +5236,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesDaemonSetYaml
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.daemon-sets.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -4984,6 +5259,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesDaemonSetMetrics
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.daemon-sets.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5006,6 +5285,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesJobs
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.jobs.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5024,6 +5307,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesJobDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.jobs.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5043,6 +5330,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesJobYaml
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.jobs.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5062,6 +5353,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesCronJobs
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.cron-jobs.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5080,6 +5375,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesCronJobDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.cron-jobs.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5099,6 +5398,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesCronJobYaml
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.cron-jobs.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5118,6 +5421,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesReplicaSets
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.replica-sets.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5136,6 +5443,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesReplicaSetDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.replica-sets.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5155,6 +5466,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesReplicaSetYaml
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.replica-sets.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5174,6 +5489,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesReplicationControllers
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.replication-controllers.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5192,6 +5511,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesReplicationControllerDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.replication-controllers.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5211,6 +5534,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesReplicationControllerYaml
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.replication-controllers.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5230,6 +5557,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesConfigMaps
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.config-maps.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5251,6 +5582,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesConfigMapDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.config-maps.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5273,6 +5608,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesSecretMetadata
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.secrets.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5294,6 +5633,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesConfigMapReferences
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.config-maps.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5312,6 +5655,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesSecretReferences
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.secrets.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5330,6 +5677,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesHorizontalPodAutoscalers
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.horizontal-pod-autoscalers.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5347,6 +5698,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesHorizontalPodAutoscalerDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.horizontal-pod-autoscalers.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5365,6 +5720,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesPodDisruptionBudgets
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.pod-disruption-budgets.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5382,6 +5741,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesPodDisruptionBudgetDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.pod-disruption-budgets.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5400,6 +5763,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesPriorityClasses
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.priority-classes.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5416,6 +5783,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesRuntimeClasses
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.runtime-classes.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5432,6 +5803,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesMutatingWebhookConfigurations
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.mutating-webhook-configurations.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5448,6 +5823,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesMutatingWebhookConfigurationDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.mutating-webhook-configurations.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5465,6 +5844,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesValidatingWebhookConfigurations
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.validating-webhook-configurations.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5481,6 +5864,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesValidatingWebhookConfigurationDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.validating-webhook-configurations.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5498,6 +5885,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesResourceQuotas
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.resource-quotas.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5515,6 +5906,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesResourceQuotaDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.resource-quotas.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5533,6 +5928,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesLimitRanges
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.limit-ranges.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5550,6 +5949,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesLimitRangeDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.limit-ranges.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5568,6 +5971,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesLeases
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.leases.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5585,6 +5992,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesServiceAccounts
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.access-control.service-accounts.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5602,6 +6013,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesServiceAccountDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.access-control.service-accounts.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5620,6 +6035,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesRoles
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.access-control.roles.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5637,6 +6056,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesRoleDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.access-control.roles.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5655,6 +6078,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesRoleBindings
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.access-control.role-bindings.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5676,6 +6103,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesRoleBindingDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.access-control.role-bindings.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5694,6 +6125,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesClusterRoles
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.access-control.cluster-roles.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5710,6 +6145,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesClusterRoleDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.access-control.cluster-roles.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5727,6 +6166,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesClusterRoleBindings
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.access-control.cluster-role-bindings.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5747,6 +6190,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesClusterRoleBindingDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.access-control.cluster-role-bindings.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5764,6 +6211,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesPersistentVolumeClaims
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.storage.persistent-volume-claims.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5781,6 +6232,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesPersistentVolumeClaimDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.storage.persistent-volume-claims.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5799,6 +6254,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesPersistentVolumes
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.storage.persistent-volumes.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5815,6 +6274,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesPersistentVolumeDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.storage.persistent-volumes.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5832,6 +6295,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesStorageClasses
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.storage.storage-classes.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5848,6 +6315,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesStorageClassDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.storage.storage-classes.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5865,11 +6336,19 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesServices
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.services.view
       x-soha-implementation-status: implemented
       x-soha-capability:
         name: k8s.services.list
         riskLevel: read
         requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - platform.network.services.view
+          - workspace.resource.view
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
         "200": { description: Kubernetes Services visible in the selected scope., content: { application/json: { schema: { $ref: "#/components/schemas/KubernetesServiceListEnvelope" } } } }
@@ -5880,6 +6359,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesServiceDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.services.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesServiceName" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -5891,6 +6374,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesNetworkTopology
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.topology.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -5902,6 +6389,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesServiceMetrics
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.services.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -5918,6 +6409,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesIngresses
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.ingresses.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -5929,6 +6424,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesIngressDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.ingresses.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesResourceName" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -5940,6 +6439,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesEndpointSlices
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.endpoint-slices.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -5951,6 +6454,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesEndpointSliceDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.endpoint-slices.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesResourceName" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -5962,6 +6469,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesNetworkPolicies
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.network-policies.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -5973,6 +6484,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesNetworkPolicyDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.network-policies.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesResourceName" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -5984,6 +6499,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesGatewayClasses
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.gateway-classes.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }]
       responses:
@@ -5995,6 +6514,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesGatewayClassDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.gateway-classes.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesResourceName" }]
       responses:
@@ -6006,6 +6529,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesGateways
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.gateways.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -6017,6 +6544,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesGatewayDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.gateways.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesResourceName" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -6028,6 +6559,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesHTTPRoutes
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.http-routes.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -6039,6 +6574,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesHTTPRouteDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.http-routes.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesResourceName" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -6050,6 +6589,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesBackendTLSPolicies
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.backend-tls-policies.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -6061,6 +6604,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesBackendTLSPolicyDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.backend-tls-policies.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesResourceName" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -6072,6 +6619,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesGRPCRoutes
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.grpc-routes.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -6083,6 +6634,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesGRPCRouteDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.grpc-routes.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesResourceName" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -6094,6 +6649,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesReferenceGrants
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.reference-grants.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -6105,6 +6664,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesReferenceGrantDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.reference-grants.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesResourceName" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -6116,6 +6679,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesIngressClasses
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.ingress-classes.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }]
       responses:
@@ -6127,6 +6694,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesIngressClassDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.network.ingress-classes.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesResourceName" }]
       responses:
@@ -6138,6 +6709,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesCustomResourceDefinitions
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.extensions.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }]
       responses:
@@ -6149,6 +6724,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesCustomResources
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.extensions.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesCRDName" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -6160,6 +6739,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesHelmCharts
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.helm.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -6175,6 +6758,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesHelmChartDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.helm.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -6190,6 +6777,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesHelmReleases
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.helm.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -6201,6 +6792,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesHelmReleaseDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.helm.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesReleaseName" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -6212,6 +6807,10 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesHelmReleaseHistory
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.helm.view
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesReleaseName" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
@@ -6223,6 +6822,11 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesHelmReleaseManifest
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.helm.values.view
+          - platform.helm.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -6241,6 +6845,10 @@ paths:
     post:
       tags: [Platform]
       operationId: planKubernetesHelmReleaseRollback
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.helm.releases.rollback
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesReleaseName" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       requestBody:
@@ -6256,6 +6864,10 @@ paths:
     post:
       tags: [Platform]
       operationId: rollbackKubernetesHelmRelease
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.helm.releases.rollback
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesReleaseName" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       requestBody:
@@ -6287,11 +6899,20 @@ paths:
     get:
       tags: [Platform]
       operationId: listKubernetesClusterEvents
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.overview.view
       x-soha-implementation-status: implemented
       x-soha-capability:
         name: k8s.events.list
         riskLevel: read
         requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - observe.events.view
+          - platform.workloads.overview.view
+          - workspace.resource.view
       parameters:
         - $ref: "#/components/parameters/ClusterID"
         - $ref: "#/components/parameters/KubernetesNamespaceQuery"
@@ -6305,6 +6926,8 @@ paths:
     get:
       tags: [Platform]
       operationId: searchKubernetesResources
+      x-soha-permissions:
+        mode: resource
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -6341,6 +6964,8 @@ paths:
     get:
       tags: [Platform]
       operationId: streamKubernetesResourceEvents
+      x-soha-permissions:
+        mode: resource
       x-soha-implementation-status: implemented
       description: >
         Upgrades to an authenticated WebSocket that publishes metadata-only Kubernetes
@@ -6368,6 +6993,8 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesResourceGraph
+      x-soha-permissions:
+        mode: resource
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -6390,6 +7017,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getKubernetesSecurityPosture
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.clusters.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -6407,6 +7038,8 @@ paths:
     post:
       tags: [Platform]
       operationId: planKubernetesResourceUpdate
+      x-soha-permissions:
+        mode: resource
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -6431,6 +7064,11 @@ paths:
     post:
       tags: [Platform]
       operationId: reviewKubernetesSubjectAccess
+      x-soha-permissions:
+        mode: subject
+        keys:
+          - platform.access-control.access-reviews.execute
+          - platform.access-control.service-accounts.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -6450,6 +7088,8 @@ paths:
     get:
       tags: [Platform]
       operationId: listClusterCapabilityMatrix
+      x-soha-permissions:
+        mode: authenticated
       responses:
         "200":
           description: Cluster runtime capability matrix for Direct and Agent modes.
@@ -6463,6 +7103,10 @@ paths:
     get:
       tags: [Platform]
       operationId: getClusterPodMetrics
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.pods.view
       x-soha-implementation-status: implemented
       parameters:
         - $ref: "#/components/parameters/ClusterID"
@@ -6512,6 +7156,10 @@ paths:
     post:
       tags: [Platform]
       operationId: createClusterAgentInstallation
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.clusters.update
       parameters:
         - $ref: "#/components/parameters/ClusterID"
       responses:
@@ -6533,6 +7181,8 @@ paths:
     get:
       tags: [Platform]
       operationId: downloadKubernetesAgentInstallationManifest
+      x-soha-permissions:
+        mode: install-ticket
       security: []
       parameters:
         - $ref: "#/components/parameters/AgentInstallTicket"
@@ -6572,6 +7222,10 @@ paths:
     post:
       tags: [Platform]
       operationId: queryClusterLogs
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.pods.logs
       parameters:
         - $ref: "#/components/parameters/ClusterID"
       requestBody:
@@ -6601,6 +7255,10 @@ paths:
     post:
       tags: [Platform]
       operationId: issueClusterLogStreamTicket
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.pods.logs
       parameters:
         - $ref: "#/components/parameters/ClusterID"
       requestBody:
@@ -6748,6 +7406,10 @@ paths:
     get:
       tags: [Observability]
       operationId: getClusterLogCollection
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.clusters.view
       parameters:
         - $ref: "#/components/parameters/ClusterID"
       responses:
@@ -6765,6 +7427,10 @@ paths:
     post:
       tags: [Observability]
       operationId: preflightClusterLogCollection
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.observability.logging.enable
       parameters:
         - $ref: "#/components/parameters/ClusterID"
       requestBody:
@@ -6790,6 +7456,10 @@ paths:
     post:
       tags: [Observability]
       operationId: enableClusterLogCollection
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.observability.logging.enable
       parameters:
         - $ref: "#/components/parameters/ClusterID"
       requestBody:
@@ -6817,6 +7487,10 @@ paths:
     post:
       tags: [Observability]
       operationId: disableClusterLogCollection
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.observability.logging.disable
       parameters:
         - $ref: "#/components/parameters/ClusterID"
       requestBody:
@@ -7190,6 +7864,8 @@ paths:
     post:
       tags: [Platform]
       operationId: decideKubernetesResourceCreateScope
+      x-soha-permissions:
+        mode: resource
       parameters:
         - $ref: "#/components/parameters/ClusterID"
       requestBody:
@@ -7215,10 +7891,14 @@ paths:
     post:
       tags: [Platform]
       operationId: generateKubernetesWorkloadSnapshot
+      x-soha-permissions:
+        mode: resource
       x-soha-capability:
         name: k8s.workloads.snapshot.generate
         riskLevel: analyze
         requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
       parameters:
         - $ref: "#/components/parameters/ClusterID"
       requestBody:
@@ -7244,10 +7924,15 @@ paths:
     post:
       tags: [Platform]
       operationId: preflightKubernetesResourceCreate
+      x-soha-permissions:
+        mode: resource
       x-soha-capability:
         name: k8s.resources.create.preflight
         riskLevel: analyze
         requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - platform.resource-creation.use
       parameters:
         - $ref: "#/components/parameters/ClusterID"
       requestBody:
@@ -7275,10 +7960,15 @@ paths:
     post:
       tags: [Platform]
       operationId: executeKubernetesResourceCreate
+      x-soha-permissions:
+        mode: resource
       x-soha-capability:
         name: k8s.resources.create.trigger
         riskLevel: high
         requiresApproval: true
+        permissionKeys:
+          - ai.gateway.invoke
+          - platform.resource-creation.use
       parameters:
         - $ref: "#/components/parameters/ClusterID"
         - $ref: "#/components/parameters/IdempotencyKey"
@@ -10269,6 +10959,13 @@ paths:
           schema:
             type: string
             maxLength: 64
+        - name: storageIntegrationId
+          in: query
+          required: false
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
         - name: cursor
           in: query
           required: false
@@ -10351,6 +11048,13 @@ paths:
       tags: [Software]
       operationId: getSoftwareStorage
       parameters:
+        - name: storageIntegrationId
+          in: query
+          required: false
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
         - name: cursor
           in: query
           required: false
@@ -10406,6 +11110,36 @@ paths:
               schema:
                 type: string
                 format: binary
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /software/packages/{packageID}/download-records:
+    get:
+      tags: [Software]
+      operationId: listSoftwarePackageDownloadRecords
+      description: Lists recent successful downloads. Requires system.audit.view or identity.audit.view.
+      parameters:
+        - $ref: "#/components/parameters/SoftwarePackageID"
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+      responses:
+        "200":
+          description: Recent successful download records, newest first.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoftwarePackageDownloadRecordListEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
         "401":
           $ref: "#/components/responses/Error"
         "403":
@@ -12104,6 +12838,138 @@ paths:
         "401": { $ref: "#/components/responses/Error" }
         "403": { $ref: "#/components/responses/Error" }
         "404": { $ref: "#/components/responses/Error" }
+  /access/users/{userID}/scope-grants:
+    parameters:
+      - $ref: "#/components/parameters/UserID"
+    get:
+      tags: [Access]
+      operationId: listUserScopeGrants
+      x-soha-implementation-status: implemented
+      responses:
+        "200":
+          description: Resource scope grants for the user.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ScopeGrantListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Access]
+      operationId: createUserScopeGrant
+      x-soha-implementation-status: implemented
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ScopeGrantInput" }
+      responses:
+        "201":
+          description: Created resource scope grant for the user.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ScopeGrantEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /access/users/{userID}/scope-grants/{scopeGrantID}:
+    parameters:
+      - $ref: "#/components/parameters/UserID"
+      - $ref: "#/components/parameters/ScopeGrantID"
+    put:
+      tags: [Access]
+      operationId: updateUserScopeGrant
+      x-soha-implementation-status: implemented
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ScopeGrantInput" }
+      responses:
+        "200":
+          description: Updated resource scope grant for the user.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ScopeGrantEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [Access]
+      operationId: deleteUserScopeGrant
+      x-soha-implementation-status: implemented
+      responses:
+        "204":
+          description: Resource scope grant for the user deleted.
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /access/teams/{teamID}/scope-grants:
+    parameters:
+      - $ref: "#/components/parameters/TeamID"
+    get:
+      tags: [Access]
+      operationId: listTeamScopeGrants
+      x-soha-implementation-status: implemented
+      responses:
+        "200":
+          description: Resource scope grants for the team.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ScopeGrantListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Access]
+      operationId: createTeamScopeGrant
+      x-soha-implementation-status: implemented
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ScopeGrantInput" }
+      responses:
+        "201":
+          description: Created resource scope grant for the team.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ScopeGrantEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /access/teams/{teamID}/scope-grants/{scopeGrantID}:
+    parameters:
+      - $ref: "#/components/parameters/TeamID"
+      - $ref: "#/components/parameters/ScopeGrantID"
+    put:
+      tags: [Access]
+      operationId: updateTeamScopeGrant
+      x-soha-implementation-status: implemented
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ScopeGrantInput" }
+      responses:
+        "200":
+          description: Updated resource scope grant for the team.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ScopeGrantEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [Access]
+      operationId: deleteTeamScopeGrant
+      x-soha-implementation-status: implemented
+      responses:
+        "204":
+          description: Resource scope grant for the team deleted.
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
   /identity/capabilities:
     get:
       tags: [Identity]
@@ -12426,6 +13292,10 @@ paths:
       responses:
         "201":
           description: Created OIDC client.
+          headers:
+            Cache-Control:
+              description: Always no-store when the response includes a client secret.
+              schema: { type: string }
           content:
             application/json:
               schema: { $ref: "#/components/schemas/OIDCClientCreatedEnvelope" }
@@ -12465,6 +13335,25 @@ paths:
       responses:
         "204": { description: OIDC client deleted. }
         "404": { $ref: "#/components/responses/IdentityError" }
+  /identity/oidc-clients/{oidcClientID}/secret/reveal:
+    parameters:
+      - $ref: "#/components/parameters/OIDCClientID"
+    post:
+      tags: [Identity]
+      operationId: revealIdentityOIDCClientSecret
+      responses:
+        "200":
+          description: Decrypted OIDC client secret for an authorized administrator. The response must not be cached.
+          headers:
+            Cache-Control:
+              description: Always `no-store` for secret responses.
+              schema: { type: string }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OIDCClientSecretRevealEnvelope" }
+        "403": { $ref: "#/components/responses/IdentityError" }
+        "404": { $ref: "#/components/responses/IdentityError" }
+        "409": { $ref: "#/components/responses/IdentityError" }
   /identity/saml/login-sources:
     get:
       tags: [Identity]
@@ -12963,6 +13852,16 @@ components:
       schema: { type: string, minLength: 1, maxLength: 128 }
     AccessRoleID:
       name: accessRoleID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    UserID:
+      name: userID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    TeamID:
+      name: teamID
       in: path
       required: true
       schema: { type: string, minLength: 1, maxLength: 128 }
@@ -13949,7 +14848,36 @@ components:
       additionalProperties: false
     IdentityResourceStatus:
       type: string
-      enum: [active, disabled]
+      enum: [active, draft, enabled, disabled, maintenance]
+    IdentityApplicationProviderType:
+      type: string
+      enum: [link, oidc, proxy]
+    IdentityApplicationAssignmentSubjectType:
+      type: string
+      enum: [user, role, team, tag]
+    IdentityApplicationAssignmentEffect:
+      type: string
+      enum: [allow, deny]
+    IdentityApplicationAssignment:
+      type: object
+      required: [id, applicationId, subjectType, subjectId, effect, createdAt]
+      properties:
+        id: { type: string }
+        applicationId: { type: string }
+        subjectType: { $ref: "#/components/schemas/IdentityApplicationAssignmentSubjectType" }
+        subjectId: { type: string }
+        effect: { $ref: "#/components/schemas/IdentityApplicationAssignmentEffect" }
+        createdBy: { type: string }
+        createdAt: { type: string, format: date-time }
+      additionalProperties: false
+    IdentityApplicationAssignmentInput:
+      type: object
+      required: [subjectType, subjectId, effect]
+      properties:
+        subjectType: { $ref: "#/components/schemas/IdentityApplicationAssignmentSubjectType" }
+        subjectId: { type: string, minLength: 1 }
+        effect: { $ref: "#/components/schemas/IdentityApplicationAssignmentEffect" }
+      additionalProperties: false
     IdentityApplication:
       type: object
       required: [id, name, slug, status, createdAt, updatedAt]
@@ -13958,8 +14886,24 @@ components:
         name: { type: string }
         slug: { type: string }
         description: { type: string }
+        iconUrl: { type: string, format: uri }
+        category: { type: string }
+        tags: { type: array, items: { type: string } }
         launchUrl: { type: string, format: uri }
+        providerId: { type: string }
+        providerType: { $ref: "#/components/schemas/IdentityApplicationProviderType" }
+        portalVisible: { type: boolean }
+        featured: { type: boolean }
+        sortOrder: { type: integer }
         status: { $ref: "#/components/schemas/IdentityResourceStatus" }
+        metadata: { type: object, additionalProperties: true }
+        assignments:
+          type: array
+          items: { $ref: "#/components/schemas/IdentityApplicationAssignment" }
+        favorite: { type: boolean }
+        lastLaunchedAt: { type: string, format: date-time }
+        createdBy: { type: string }
+        updatedBy: { type: string }
         createdAt: { type: string, format: date-time }
         updatedAt: { type: string, format: date-time }
       additionalProperties: false
@@ -13970,8 +14914,20 @@ components:
         name: { type: string, minLength: 1, maxLength: 200 }
         slug: { type: string, pattern: "^[a-z0-9][a-z0-9-]*$" }
         description: { type: string, maxLength: 2000 }
+        iconUrl: { type: string, format: uri }
+        category: { type: string }
+        tags: { type: array, items: { type: string } }
         launchUrl: { type: string, format: uri }
+        providerId: { type: string }
+        providerType: { $ref: "#/components/schemas/IdentityApplicationProviderType" }
+        portalVisible: { type: boolean }
+        featured: { type: boolean }
+        sortOrder: { type: integer }
         status: { $ref: "#/components/schemas/IdentityResourceStatus" }
+        metadata: { type: object, additionalProperties: true }
+        assignments:
+          type: array
+          items: { $ref: "#/components/schemas/IdentityApplicationAssignmentInput" }
       additionalProperties: false
     IdentityApplicationEnvelope:
       type: object
@@ -14021,6 +14977,9 @@ components:
         providerId: { type: string }
         clientId: { type: string }
         clientType: { type: string, enum: [public, confidential] }
+        clientSecretAvailable:
+          type: boolean
+          description: True when the confidential client secret can be revealed by an authorized administrator.
         redirectUris:
           type: array
           description: Strict-match absolute HTTP or HTTPS redirect URIs. HTTPS is recommended for production deployments.
@@ -14052,10 +15011,11 @@ components:
     OIDCClientInput:
       allOf:
         - type: object
-          required: [clientId]
           properties:
             providerId: { type: string }
-            clientId: { type: string }
+            clientId:
+              type: string
+              description: On create, an omitted or blank value is generated by the server. On update, it preserves the current Client ID.
             clientType: { type: string, enum: [public, confidential] }
             clientSecret: { type: string, minLength: 16, writeOnly: true }
             redirectUris:
@@ -14099,7 +15059,9 @@ components:
       required: [client]
       properties:
         client: { $ref: "#/components/schemas/OIDCClient" }
-        clientSecret: { type: string, writeOnly: true }
+        clientSecret:
+          type: string
+          description: Generated or supplied client secret returned after creation. The same value can later be retrieved through the reveal action.
       additionalProperties: false
     OIDCClientCreatedEnvelope:
       type: object
@@ -14118,6 +15080,20 @@ components:
       required: [items]
       properties:
         items: { type: array, items: { $ref: "#/components/schemas/OIDCClient" } }
+      additionalProperties: false
+    OIDCClientSecretReveal:
+      type: object
+      required: [clientId, clientSecret, revealedAt]
+      properties:
+        clientId: { type: string }
+        clientSecret: { type: string }
+        revealedAt: { type: string, format: date-time }
+      additionalProperties: false
+    OIDCClientSecretRevealEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/OIDCClientSecretReveal" }
       additionalProperties: false
     SAMLServiceProvider:
       type: object
@@ -14700,7 +15676,7 @@ components:
       additionalProperties: false
     SystemIntegrationCategory:
       type: string
-      enum: [identity, source_control, project_management, configuration, ci_cd, code_quality, api_gateway, monitoring, messaging, ai, cloud, other]
+      enum: [identity, source_control, project_management, configuration, ci_cd, code_quality, api_gateway, monitoring, messaging, ai, cloud, storage, other]
       x-enum-varnames:
         - SystemIntegrationCategoryIdentity
         - SystemIntegrationCategorySourceControl
@@ -14713,13 +15689,15 @@ components:
         - SystemIntegrationCategoryMessaging
         - SystemIntegrationCategoryAI
         - SystemIntegrationCategoryCloud
+        - SystemIntegrationCategoryStorage
         - SystemIntegrationCategoryOther
     SystemIntegrationHealthStatus:
       type: string
-      enum: [unknown, healthy, unhealthy]
+      enum: [unknown, healthy, degraded, unhealthy]
       x-enum-varnames:
         - SystemIntegrationHealthStatusUnknown
         - SystemIntegrationHealthStatusHealthy
+        - SystemIntegrationHealthStatusDegraded
         - SystemIntegrationHealthStatusUnhealthy
     SystemIntegrationTestStatus:
       type: string
@@ -14778,7 +15756,7 @@ components:
           type: string
           pattern: "^[a-z][a-z0-9._-]*$"
           maxLength: 128
-          description: Extensible provider key such as gitlab, github, gitea, or zadig.
+          description: Extensible provider key such as gitlab, github, gitea, zadig, or s3.
         name:
           type: string
           minLength: 1
@@ -22030,6 +23008,96 @@ components:
         relatedIds:
           $ref: "#/components/schemas/ApplicationDeliveryActionRelatedIDs"
       additionalProperties: false
+    ManifestPackageRenderer:
+      type: string
+      enum: [raw_yaml, kustomize]
+      x-enum-varnames: [ManifestPackageRendererRawYAML, ManifestPackageRendererKustomize]
+    ManifestPackageStatus:
+      type: string
+      enum: [draft, published]
+      x-enum-varnames: [ManifestPackageStatusDraft, ManifestPackageStatusPublished]
+    ManifestPackageBinding:
+      type: object
+      required: [applicationEnvironmentId, environmentKey, clusterId, namespace]
+      properties:
+        id: { type: string }
+        applicationEnvironmentId: { type: string, minLength: 1 }
+        environmentKey: { type: string, minLength: 1 }
+        clusterId: { type: string, minLength: 1 }
+        namespace: { type: string, minLength: 1 }
+        overlay:
+          type: object
+          additionalProperties: { type: string }
+        status: { type: string }
+      additionalProperties: false
+    ManifestPackage:
+      type: object
+      required: [id, name, applicationId, renderer, status, currentRevision, files, bindings, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1 }
+        name: { type: string, minLength: 1 }
+        description: { type: string }
+        applicationId: { type: string, minLength: 1 }
+        serviceId:
+          type: string
+          nullable: true
+        businessLineId: { type: string }
+        renderer: { $ref: "#/components/schemas/ManifestPackageRenderer" }
+        status: { $ref: "#/components/schemas/ManifestPackageStatus" }
+        currentRevision: { type: integer, minimum: 0 }
+        files:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestFile" }
+        bindings:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestPackageBinding" }
+        createdBy: { type: string }
+        updatedBy: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    ManifestPackageInput:
+      type: object
+      required: [name, applicationId, renderer, files, bindings]
+      properties:
+        name: { type: string, minLength: 1 }
+        description: { type: string }
+        applicationId: { type: string, minLength: 1 }
+        serviceId:
+          type: string
+          nullable: true
+        businessLineId: { type: string }
+        renderer: { $ref: "#/components/schemas/ManifestPackageRenderer" }
+        files:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestFile" }
+        bindings:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestPackageBinding" }
+      additionalProperties: false
+    ManifestPackagePage:
+      type: object
+      required: [items, total, page, pageSize]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/ManifestPackage" }
+        total: { type: integer, minimum: 0 }
+        page: { type: integer, minimum: 0 }
+        pageSize: { type: integer, minimum: 0 }
+      additionalProperties: false
+    ManifestPackageEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ManifestPackage" }
+      additionalProperties: false
+    ManifestPackagePageEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ManifestPackagePage" }
+      additionalProperties: false
     ManifestSourceMode:
       type: string
       enum: [soha_managed, git_synced]
@@ -23128,6 +24196,15 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ApplicationEnvironment"
+      additionalProperties: false
+    DeliveryEnvironmentListEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeliveryEnvironment"
       additionalProperties: false
     BuildTemplateEnvelope:
       type: object
@@ -33307,6 +34384,18 @@ components:
         category:
           type: string
           maxLength: 50
+        tenantId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        workspaceId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        visibility:
+          $ref: "#/components/schemas/SoftwarePackageVisibility"
+        status:
+          $ref: "#/components/schemas/SoftwarePackageStatus"
         version:
           type: string
           minLength: 1
@@ -33332,12 +34421,55 @@ components:
         downloadPath:
           type: string
           pattern: "^/api/v1/software/packages/[^/]+/download$"
+        downloadCount:
+          type: integer
+          format: int64
+          minimum: 0
+        storageIntegrationId:
+          type: string
+          minLength: 1
+          maxLength: 128
         createdAt:
           type: string
           format: date-time
         updatedAt:
           type: string
           format: date-time
+      additionalProperties: false
+    SoftwarePackageDownloadRecord:
+      type: object
+      required: [id, actorId, downloadedAt, durationMs]
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        actorId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        actorName:
+          type: string
+          maxLength: 200
+        downloadedAt:
+          type: string
+          format: date-time
+        durationMs:
+          type: integer
+          format: int64
+          minimum: 0
+        sourceIp:
+          type: string
+          maxLength: 64
+      additionalProperties: false
+    SoftwarePackageDownloadRecordListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SoftwarePackageDownloadRecord"
       additionalProperties: false
     SoftwarePackageEnvelope:
       type: object
@@ -33378,6 +34510,16 @@ components:
         category:
           type: string
           maxLength: 50
+        tenantId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        workspaceId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        visibility:
+          $ref: "#/components/schemas/SoftwarePackageVisibility"
         version:
           type: string
           minLength: 1
@@ -33388,6 +34530,10 @@ components:
         arch:
           type: string
           pattern: "^[a-z0-9][a-z0-9._-]{0,63}$"
+        storageIntegrationId:
+          type: string
+          minLength: 1
+          maxLength: 128
         file:
           type: string
           format: binary
@@ -33413,6 +34559,16 @@ components:
         category:
           type: string
           maxLength: 50
+        tenantId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        workspaceId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        visibility:
+          $ref: "#/components/schemas/SoftwarePackageVisibility"
         version:
           type: string
           minLength: 1
@@ -33423,6 +34579,10 @@ components:
         arch:
           type: string
           pattern: "^[a-z0-9][a-z0-9._-]{0,63}$"
+        storageIntegrationId:
+          type: string
+          minLength: 1
+          maxLength: 128
         url:
           type: string
           format: uri
@@ -33433,6 +34593,20 @@ components:
           minLength: 1
           maxLength: 255
       additionalProperties: false
+    SoftwarePackageVisibility:
+      type: string
+      enum: [workspace, tenant, restricted]
+      x-enum-varnames:
+        - SoftwarePackageVisibilityWorkspace
+        - SoftwarePackageVisibilityTenant
+        - SoftwarePackageVisibilityRestricted
+    SoftwarePackageStatus:
+      type: string
+      enum: [ready, quarantined, deleted]
+      x-enum-varnames:
+        - SoftwarePackageStatusReady
+        - SoftwarePackageStatusQuarantined
+        - SoftwarePackageStatusDeleted
     SoftwareStorage:
       type: object
       required: [backend, objectCount, totalBytes, items]
@@ -33441,6 +34615,30 @@ components:
           type: string
           minLength: 1
           maxLength: 64
+        integrationId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        providerType:
+          type: string
+          minLength: 1
+          maxLength: 128
+        endpoint:
+          type: string
+          format: uri
+          maxLength: 2048
+        bucket:
+          type: string
+          minLength: 1
+          maxLength: 255
+        region:
+          type: string
+          maxLength: 128
+        healthStatus:
+          $ref: "#/components/schemas/SystemIntegrationHealthStatus"
+        lastCheckedAt:
+          type: string
+          format: date-time
         objectCount:
           type: integer
           format: int64

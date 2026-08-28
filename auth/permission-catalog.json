@@ -1,7 +1,7 @@
 {
   "schemaVersion": "authorization.opensoha.io/v1",
   "catalogVersion": "2.0.0",
-  "contentHash": "sha256:58321138575c22b20933cf2c1db2742b741a123bb8f6a2983bb436e84be4e58a",
+  "contentHash": "sha256:0da6a1dcd41f78e1699416a03ed0808f39cd569df6ebc7d242e1b35e5001830c",
   "permissions": [
     {
       "key": "access.directory.create",
@@ -10492,9 +10492,9 @@
       "replacedBy": [
         "virtualization.clusters.create",
         "virtualization.clusters.delete",
-        "virtualization.clusters.sync",
         "virtualization.clusters.test",
-        "virtualization.clusters.update"
+        "virtualization.clusters.update",
+        "virtualization.sync.sync"
       ]
     },
     {
@@ -10509,10 +10509,10 @@
         "resource"
       ],
       "approvalPolicy": "never",
-      "status": "active",
-      "assignable": true,
-      "legacyAliases": [
-        "virtualization.clusters.manage"
+      "status": "legacy",
+      "assignable": false,
+      "replacedBy": [
+        "virtualization.sync.sync"
       ]
     },
     {
@@ -10877,6 +10877,7 @@
       "status": "active",
       "assignable": true,
       "legacyAliases": [
+        "virtualization.clusters.sync",
         "virtualization.sync.manage"
       ]
     },

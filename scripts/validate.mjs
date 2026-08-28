@@ -96,6 +96,7 @@ const requiredOpenapiFixtureSchemas = [
   "KubernetesServiceImportResultEnvelope",
   "HelmReleaseImportRequest",
   "HelmReleaseImportResultEnvelope",
+  "ManifestPackage",
   "ManifestSourceUpdateInput",
   "ManifestDeploymentEnvelope",
   "DockerContainerStartInput",
@@ -117,6 +118,7 @@ const requiredOpenapiFixtureSchemas = [
   "SecretRotateRequest",
   "SecretLeaseRedemptionEnvelope",
   "SoftwarePackage",
+  "SoftwarePackageDownloadRecord",
   "SoftwarePackageURLImportRequest",
   "SoftwareStorage",
   "GovernanceStatusEnvelope",
@@ -173,8 +175,10 @@ const requiredOpenapiFixtureSchemas = [
   "RegistryConnectionInput",
   "RegistryConnectionListEnvelope",
   "IdentityRuntimeCapabilityEnvelope",
+  "IdentityApplication",
   "OIDCClient",
   "OIDCClientInput",
+  "OIDCClientSecretRevealEnvelope",
   "IdentityProvider",
   "SAMLMetadataInput",
   "IdentityErrorEnvelope",
@@ -269,10 +273,10 @@ for (const file of requiredSdkEntrypoints) {
 
 const openapiText = await readFile(new URL(openapiPath, root), "utf8");
 const openapi = parse(openapiText);
-validateOpenapiStructure(openapi);
+const permissionDefinitions = await validatePermissionCatalog();
+validateOpenapiStructure(openapi, permissionDefinitions);
 const openapiFixtureCount = await validateOpenapiFixtures(openapi);
 const jsonExampleCount = await validateJsonExamples();
-await validatePermissionCatalog();
 const openapiExampleCount = await validateOpenapiExamples(openapi);
 
 console.log(
@@ -314,6 +318,7 @@ async function validatePermissionCatalog() {
       }
     }
   }
+  return definitions;
 }
 
 async function validateOpenapiExamples(openapi) {
@@ -389,7 +394,7 @@ async function validateExampleFile(file, validate) {
   }
 }
 
-function validateOpenapiStructure(openapi) {
+function validateOpenapiStructure(openapi, permissionDefinitions) {
   if (openapi?.openapi !== "3.1.0") {
     throw new Error(`${openapiPath} must use OpenAPI 3.1.0`);
   }
@@ -419,6 +424,7 @@ function validateOpenapiStructure(openapi) {
 
   validateComputeTaskCenterContract(openapi);
   validateRuntimeConfigContract(openapi);
+  validateReleasedScopeGrantOperations(openapi);
 
   const capabilityNames = new Set();
   const riskLevels = new Set(openapi.components.schemas.RiskLevel?.enum ?? []);
@@ -434,7 +440,8 @@ function validateOpenapiStructure(openapi) {
       if (!operation.responses || Object.keys(operation.responses).length === 0) {
         throw new Error(`${method.toUpperCase()} ${path} is missing responses`);
       }
-      validateCapabilityExtension(operation, `${method.toUpperCase()} ${path}`, capabilityNames, riskLevels);
+      validateCapabilityExtension(operation, `${method.toUpperCase()} ${path}`, capabilityNames, riskLevels, permissionDefinitions);
+      validateKubernetesOperationPermissions(operation, `${method.toUpperCase()} ${path}`, path, permissionDefinitions);
       if (["claimExecutionTask", "claimDockerOperation"].includes(operation.operationId)) {
         for (const status of ["202", "204"]) {
           if (!operation.responses[status]) {
@@ -446,7 +453,55 @@ function validateOpenapiStructure(openapi) {
   }
 }
 
-function validateCapabilityExtension(operation, label, capabilityNames, riskLevels) {
+function validateReleasedScopeGrantOperations(openapi) {
+  const operations = {
+    "/access/scope-grants": { get: "listScopeGrants", post: "createScopeGrant" },
+    "/access/scope-grants/{scopeGrantID}": { put: "updateScopeGrant", delete: "deleteScopeGrant" },
+  };
+  for (const [path, methods] of Object.entries(operations)) {
+    for (const [method, operationId] of Object.entries(methods)) {
+      if (openapi.paths?.[path]?.[method]?.operationId !== operationId) {
+        throw new Error(`${method.toUpperCase()} ${path} must preserve released operation ${operationId}`);
+      }
+    }
+  }
+}
+
+function validateKubernetesOperationPermissions(operation, label, path, permissionDefinitions) {
+  const isKubernetesOperation = path === "/clusters" || path.startsWith("/clusters/") || path.startsWith("/kubernetes/agent-installations/");
+  const declaration = operation["x-soha-permissions"];
+  if (!isKubernetesOperation) {
+    return;
+  }
+  if (!declaration || typeof declaration !== "object" || Array.isArray(declaration)) {
+    throw new Error(`${label} must declare x-soha-permissions`);
+  }
+  const modes = new Set(["all", "authenticated", "install-ticket", "resource", "subject"]);
+  if (!modes.has(declaration.mode)) {
+    throw new Error(`${label} x-soha-permissions.mode is invalid`);
+  }
+  const keys = declaration.keys ?? [];
+  if (!Array.isArray(keys) || keys.some((key) => typeof key !== "string" || key.trim() !== key || key === "")) {
+    throw new Error(`${label} x-soha-permissions.keys must contain trimmed strings`);
+  }
+  if (declaration.mode === "all" && keys.length === 0) {
+    throw new Error(`${label} x-soha-permissions all mode requires keys`);
+  }
+  if (new Set(keys).size !== keys.length || [...keys].sort().some((key, index) => key !== keys[index])) {
+    throw new Error(`${label} x-soha-permissions.keys must be unique and sorted`);
+  }
+  for (const key of keys) {
+    const definition = permissionDefinitions.get(key);
+    if (!definition) {
+      throw new Error(`${label} x-soha-permissions references unknown permission ${key}`);
+    }
+    if (definition.status !== "active" || definition.assignable !== true) {
+      throw new Error(`${label} x-soha-permissions references non-assignable permission ${key}`);
+    }
+  }
+}
+
+function validateCapabilityExtension(operation, label, capabilityNames, riskLevels, permissionDefinitions) {
   const capability = operation["x-soha-capability"];
   if (capability === undefined) {
     return;
@@ -466,6 +521,28 @@ function validateCapabilityExtension(operation, label, capabilityNames, riskLeve
   }
   if (typeof capability.requiresApproval !== "boolean") {
     throw new Error(`${label} x-soha-capability.requiresApproval must be boolean`);
+  }
+  if (!Array.isArray(capability.permissionKeys) || capability.permissionKeys.length === 0) {
+    throw new Error(`${label} x-soha-capability.permissionKeys must be a non-empty array`);
+  }
+  if (capability.permissionKeys.some((key) => typeof key !== "string" || key.trim() !== key || key === "")) {
+    throw new Error(`${label} x-soha-capability.permissionKeys must contain non-empty trimmed strings`);
+  }
+  if (new Set(capability.permissionKeys).size !== capability.permissionKeys.length) {
+    throw new Error(`${label} x-soha-capability.permissionKeys must not contain duplicates`);
+  }
+  const sortedPermissionKeys = [...capability.permissionKeys].sort();
+  if (sortedPermissionKeys.some((key, index) => key !== capability.permissionKeys[index])) {
+    throw new Error(`${label} x-soha-capability.permissionKeys must be sorted`);
+  }
+  for (const key of capability.permissionKeys) {
+    const definition = permissionDefinitions.get(key);
+    if (!definition) {
+      throw new Error(`${label} x-soha-capability.permissionKeys references unknown permission ${key}`);
+    }
+    if (definition.status !== "active" || definition.assignable !== true) {
+      throw new Error(`${label} x-soha-capability.permissionKeys references non-assignable permission ${key}`);
+    }
   }
 }
 

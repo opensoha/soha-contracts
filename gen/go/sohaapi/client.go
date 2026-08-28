@@ -2,8 +2,10 @@
 package sohaapi
 
 import (
+	"bufio"
 	"bytes"
 	"context"
+	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -14,7 +16,7 @@ import (
 	"time"
 )
 
-const defaultUserAgent = "opensoha-contracts/0.1.15"
+const defaultUserAgent = "opensoha-contracts/0.1.16"
 
 type Client struct {
 	BaseURL    string
@@ -544,6 +546,97 @@ func (c *Client) queryLogs(ctx context.Context, path string, query LogQuery) (Lo
 	return out.Data, nil
 }
 
+func (c *Client) GetComputeCapabilities(ctx context.Context) (ComputeCapabilityManifest, error) {
+	var out ComputeCapabilityManifestEnvelope
+	if err := c.doJSON(ctx, http.MethodGet, "/compute/capabilities", true, nil, &out); err != nil {
+		return ComputeCapabilityManifest{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) GetComputeOverview(ctx context.Context) (ComputeOverview, error) {
+	var out ComputeOverviewEnvelope
+	if err := c.doJSON(ctx, http.MethodGet, "/compute/overview", true, nil, &out); err != nil {
+		return ComputeOverview{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) ListComputeAccessSources(ctx context.Context, params ListComputeAccessSourcesParams) (ComputeAccessSourceListEnvelope, error) {
+	var out ComputeAccessSourceListEnvelope
+	if err := c.doJSON(ctx, http.MethodGet, "/compute/access-sources"+computeAccessSourceQuery(params), true, nil, &out); err != nil {
+		return ComputeAccessSourceListEnvelope{}, err
+	}
+	return out, nil
+}
+
+func (c *Client) ListComputeProviders(ctx context.Context, params ListComputeProvidersParams) (ComputeProviderListEnvelope, error) {
+	var out ComputeProviderListEnvelope
+	if err := c.doJSON(ctx, http.MethodGet, "/compute/providers"+computeProviderQuery(params), true, nil, &out); err != nil {
+		return ComputeProviderListEnvelope{}, err
+	}
+	return out, nil
+}
+
+func (c *Client) ListComputeProviderInstances(ctx context.Context, params ListComputeProviderInstancesParams) (ComputeProviderInstanceListEnvelope, error) {
+	var out ComputeProviderInstanceListEnvelope
+	if err := c.doJSON(ctx, http.MethodGet, "/compute/provider-instances"+computeProviderInstanceQuery(params), true, nil, &out); err != nil {
+		return ComputeProviderInstanceListEnvelope{}, err
+	}
+	return out, nil
+}
+
+func (c *Client) GetComputeProviderInstance(ctx context.Context, domain ComputeProviderDomain, providerKey, instanceRef string) (ComputeProviderInstance, error) {
+	var out ComputeProviderInstanceEnvelope
+	if err := c.doJSON(ctx, http.MethodGet, computeProviderInstancePath(domain, providerKey, instanceRef), true, nil, &out); err != nil {
+		return ComputeProviderInstance{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) CheckComputeProviderInstanceHealth(ctx context.Context, domain ComputeProviderDomain, providerKey, instanceRef, idempotencyKey string, req ComputeProviderReadRequest) (ComputeTaskView, error) {
+	return c.mutateComputeProviderInstance(ctx, domain, providerKey, instanceRef, "health-checks", idempotencyKey, req)
+}
+
+func (c *Client) DiscoverComputeProviderInstance(ctx context.Context, domain ComputeProviderDomain, providerKey, instanceRef, idempotencyKey string, req ComputeProviderDiscoverRequest) (ComputeTaskView, error) {
+	return c.mutateComputeProviderInstance(ctx, domain, providerKey, instanceRef, "discoveries", idempotencyKey, req)
+}
+
+func (c *Client) mutateComputeProviderInstance(ctx context.Context, domain ComputeProviderDomain, providerKey, instanceRef, action, idempotencyKey string, req any) (ComputeTaskView, error) {
+	var out ComputeTaskEnvelope
+	path := computeProviderInstancePath(domain, providerKey, instanceRef) + "/" + action
+	if err := c.doJSONWithHeaders(ctx, http.MethodPost, path, true, req, &out, idempotencyHeader(idempotencyKey)); err != nil {
+		return ComputeTaskView{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) GetComputeResource(ctx context.Context, domain ComputeDomain, kind ComputeResourceKind, resourceID string) (AnyValue, error) {
+	var out GenericDataEnvelope
+	if err := c.doJSON(ctx, http.MethodGet, computeResourcePath(domain, kind, resourceID), true, nil, &out); err != nil {
+		return nil, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) ListComputeResourceRelations(ctx context.Context, domain ComputeDomain, kind ComputeResourceKind, resourceID string, params ListComputeResourceRelationsParams) (ComputeResourceRelations, error) {
+	var out ComputeResourceRelationListEnvelope
+	path := computeResourcePath(domain, kind, resourceID) + "/relations" + computeRelationQuery(params)
+	if err := c.doJSON(ctx, http.MethodGet, path, true, nil, &out); err != nil {
+		return ComputeResourceRelations{}, err
+	}
+	return out.Data, nil
+}
+
+func (c *Client) ExecuteComputeResourceAction(ctx context.Context, domain ComputeDomain, kind ComputeResourceKind, resourceID, action, idempotencyKey string, req ComputeResourceActionRequest) (ComputeTaskView, error) {
+	var out ComputeTaskEnvelope
+	path := computeResourcePath(domain, kind, resourceID) + "/actions/" + url.PathEscape(strings.TrimSpace(action))
+	if err := c.doJSONWithHeaders(ctx, http.MethodPost, path, true, req, &out, idempotencyHeader(idempotencyKey)); err != nil {
+		return ComputeTaskView{}, err
+	}
+	return out.Data, nil
+}
+
 func (c *Client) ListComputeTasks(ctx context.Context, params ListComputeTasksParams) (ComputeTaskListEnvelope, error) {
 	var out ComputeTaskListEnvelope
 	if err := c.doJSON(ctx, http.MethodGet, "/compute/tasks"+computeTaskQuery(params), true, nil, &out); err != nil {
@@ -569,20 +662,78 @@ func (c *Client) ListComputeTaskLogs(ctx context.Context, domain ComputeTaskDoma
 }
 
 func (c *Client) CancelComputeTask(ctx context.Context, domain ComputeTaskDomain, taskID string, req ComputeTaskMutationRequest) (ComputeTaskView, error) {
-	return c.mutateComputeTask(ctx, domain, taskID, "cancel", req)
+	return c.CancelComputeTaskWithKey(ctx, domain, taskID, computeMutationKey(domain, taskID, "cancel", req), req)
 }
 
 func (c *Client) RetryComputeTask(ctx context.Context, domain ComputeTaskDomain, taskID string, req ComputeTaskMutationRequest) (ComputeTaskView, error) {
-	return c.mutateComputeTask(ctx, domain, taskID, "retry", req)
+	return c.RetryComputeTaskWithKey(ctx, domain, taskID, computeMutationKey(domain, taskID, "retry", req), req)
 }
 
-func (c *Client) mutateComputeTask(ctx context.Context, domain ComputeTaskDomain, taskID, action string, req ComputeTaskMutationRequest) (ComputeTaskView, error) {
+func (c *Client) CancelComputeTaskWithKey(ctx context.Context, domain ComputeTaskDomain, taskID, idempotencyKey string, req ComputeTaskMutationRequest) (ComputeTaskView, error) {
+	return c.mutateComputeTask(ctx, domain, taskID, "cancel", idempotencyKey, req)
+}
+
+func (c *Client) RetryComputeTaskWithKey(ctx context.Context, domain ComputeTaskDomain, taskID, idempotencyKey string, req ComputeTaskMutationRequest) (ComputeTaskView, error) {
+	return c.mutateComputeTask(ctx, domain, taskID, "retry", idempotencyKey, req)
+}
+
+func (c *Client) mutateComputeTask(ctx context.Context, domain ComputeTaskDomain, taskID, action, idempotencyKey string, req ComputeTaskMutationRequest) (ComputeTaskView, error) {
 	var out ComputeTaskEnvelope
 	path := computeTaskPath(domain, taskID) + "/" + action
-	if err := c.doJSON(ctx, http.MethodPost, path, true, req, &out); err != nil {
+	if err := c.doJSONWithHeaders(ctx, http.MethodPost, path, true, req, &out, idempotencyHeader(idempotencyKey)); err != nil {
 		return ComputeTaskView{}, err
 	}
 	return out.Data, nil
+}
+
+func (c *Client) StreamComputeTask(ctx context.Context, domain ComputeTaskDomain, taskID string, handle func(ComputeTaskStreamEvent) error) error {
+	if handle == nil {
+		return fmt.Errorf("compute task stream handler is required")
+	}
+	endpoint, err := c.endpoint(computeTaskPath(domain, taskID) + "/stream")
+	if err != nil {
+		return err
+	}
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, endpoint, nil)
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Accept", "text/event-stream")
+	if c.UserAgent != "" {
+		req.Header.Set("User-Agent", c.UserAgent)
+	}
+	if strings.TrimSpace(c.Token) != "" {
+		req.Header.Set("Authorization", "Bearer "+strings.TrimSpace(c.Token))
+	}
+	client := c.HTTPClient
+	if client == nil {
+		client = http.DefaultClient
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode >= http.StatusBadRequest {
+		raw, _ := io.ReadAll(io.LimitReader(resp.Body, 1<<20))
+		return fmt.Errorf("GET %s failed: %s: %s", computeTaskPath(domain, taskID)+"/stream", resp.Status, responseErrorMessage(raw))
+	}
+	scanner := bufio.NewScanner(resp.Body)
+	scanner.Buffer(make([]byte, 64<<10), 1<<20)
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+		if !strings.HasPrefix(line, "data:") {
+			continue
+		}
+		var event ComputeTaskStreamEvent
+		if err := json.Unmarshal([]byte(strings.TrimSpace(strings.TrimPrefix(line, "data:"))), &event); err != nil {
+			return fmt.Errorf("decode compute task stream event: %w", err)
+		}
+		if err := handle(event); err != nil {
+			return err
+		}
+	}
+	return scanner.Err()
 }
 
 func (c *Client) ListAIGatewayAuditLogs(ctx context.Context, params ListAIGatewayAuditLogsParams) ([]AuditLog, error) {
@@ -959,6 +1110,48 @@ func computeTaskPath(domain ComputeTaskDomain, taskID string) string {
 	return "/compute/tasks/" + url.PathEscape(string(domain)) + "/" + url.PathEscape(strings.TrimSpace(taskID))
 }
 
+func computeProviderInstancePath(domain ComputeProviderDomain, providerKey, instanceRef string) string {
+	return "/compute/provider-instances/" + url.PathEscape(string(domain)) + "/" + url.PathEscape(strings.TrimSpace(providerKey)) + "/" + url.PathEscape(strings.TrimSpace(instanceRef))
+}
+
+func computeResourcePath(domain ComputeDomain, kind ComputeResourceKind, resourceID string) string {
+	return "/compute/resources/" + url.PathEscape(string(domain)) + "/" + url.PathEscape(string(kind)) + "/" + url.PathEscape(strings.TrimSpace(resourceID))
+}
+
+func computeAccessSourceQuery(params ListComputeAccessSourcesParams) string {
+	values := url.Values{}
+	addQueryString(values, "sourceType", string(params.SourceType))
+	addQueryString(values, "providerKey", params.ProviderKey)
+	addQueryString(values, "cursor", string(params.Cursor))
+	addQueryInt(values, "limit", int(params.Limit))
+	return encodeQuery(values)
+}
+
+func computeProviderQuery(params ListComputeProvidersParams) string {
+	values := url.Values{}
+	addQueryString(values, "domain", string(params.Domain))
+	addQueryString(values, "source", string(params.Source))
+	addQueryString(values, "cursor", string(params.Cursor))
+	addQueryInt(values, "limit", int(params.Limit))
+	return encodeQuery(values)
+}
+
+func computeProviderInstanceQuery(params ListComputeProviderInstancesParams) string {
+	values := url.Values{}
+	addQueryString(values, "domain", string(params.Domain))
+	addQueryString(values, "providerKey", params.ProviderKey)
+	addQueryString(values, "cursor", string(params.Cursor))
+	addQueryInt(values, "limit", int(params.Limit))
+	return encodeQuery(values)
+}
+
+func computeRelationQuery(params ListComputeResourceRelationsParams) string {
+	values := url.Values{}
+	addQueryString(values, "cursor", string(params.Cursor))
+	addQueryInt(values, "limit", int(params.Limit))
+	return encodeQuery(values)
+}
+
 func computeTaskQuery(params ListComputeTasksParams) string {
 	values := url.Values{}
 	addQueryString(values, "domain", string(params.Domain))
@@ -967,9 +1160,21 @@ func computeTaskQuery(params ListComputeTasksParams) string {
 	addQueryString(values, "category", string(params.Category))
 	addQueryString(values, "resourceKind", params.ResourceKind)
 	addQueryString(values, "resourceId", params.ResourceID)
+	addQueryString(values, "sortBy", params.SortBy)
+	addQueryString(values, "sortOrder", string(params.SortOrder))
 	addQueryString(values, "cursor", string(params.Cursor))
 	addQueryInt(values, "limit", int(params.Limit))
 	return encodeQuery(values)
+}
+
+func idempotencyHeader(key string) http.Header {
+	return http.Header{"Idempotency-Key": []string{strings.TrimSpace(key)}}
+}
+
+func computeMutationKey(domain ComputeTaskDomain, taskID, action string, req ComputeTaskMutationRequest) string {
+	payload, _ := json.Marshal(req)
+	sum := sha256.Sum256([]byte(string(domain) + "\x00" + strings.TrimSpace(taskID) + "\x00" + action + "\x00" + string(payload)))
+	return fmt.Sprintf("compute-%x", sum)
 }
 
 func addQueryString(values url.Values, key, value string) {

@@ -1057,6 +1057,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/delivery/environments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listDeliveryEnvironments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-packages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listManifestPackages"];
+        put?: never;
+        post: operations["createManifestPackage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-packages/{manifestPackageID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getManifestPackage"];
+        put: operations["updateManifestPackage"];
+        post?: never;
+        delete: operations["deleteManifestPackage"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/delivery/manifest-packages/{manifestPackageID}/source": {
         parameters: {
             query?: never;
@@ -6581,6 +6629,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/software/packages/{packageID}/download-records": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Lists recent successful downloads. Requires system.audit.view or identity.audit.view. */
+        get: operations["listSoftwarePackageDownloadRecords"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/plugins/installed": {
         parameters: {
             query?: never;
@@ -7755,6 +7820,80 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/access/users/{userID}/scope-grants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userID: components["parameters"]["UserID"];
+            };
+            cookie?: never;
+        };
+        get: operations["listUserScopeGrants"];
+        put?: never;
+        post: operations["createUserScopeGrant"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/access/users/{userID}/scope-grants/{scopeGrantID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userID: components["parameters"]["UserID"];
+                scopeGrantID: components["parameters"]["ScopeGrantID"];
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateUserScopeGrant"];
+        post?: never;
+        delete: operations["deleteUserScopeGrant"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/access/teams/{teamID}/scope-grants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                teamID: components["parameters"]["TeamID"];
+            };
+            cookie?: never;
+        };
+        get: operations["listTeamScopeGrants"];
+        put?: never;
+        post: operations["createTeamScopeGrant"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/access/teams/{teamID}/scope-grants/{scopeGrantID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                teamID: components["parameters"]["TeamID"];
+                scopeGrantID: components["parameters"]["ScopeGrantID"];
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateTeamScopeGrant"];
+        post?: never;
+        delete: operations["deleteTeamScopeGrant"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/identity/capabilities": {
         parameters: {
             query?: never;
@@ -7974,6 +8113,24 @@ export interface paths {
         put: operations["updateIdentityOIDCClient"];
         post?: never;
         delete: operations["deleteIdentityOIDCClient"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/oidc-clients/{oidcClientID}/secret/reveal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                oidcClientID: components["parameters"]["OIDCClientID"];
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["revealIdentityOIDCClientSecret"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -8456,15 +8613,54 @@ export interface components {
             data: components["schemas"]["IdentityRuntimeCapability"];
         };
         /** @enum {string} */
-        IdentityResourceStatus: "active" | "disabled";
+        IdentityResourceStatus: "active" | "draft" | "enabled" | "disabled" | "maintenance";
+        /** @enum {string} */
+        IdentityApplicationProviderType: "link" | "oidc" | "proxy";
+        /** @enum {string} */
+        IdentityApplicationAssignmentSubjectType: "user" | "role" | "team" | "tag";
+        /** @enum {string} */
+        IdentityApplicationAssignmentEffect: "allow" | "deny";
+        IdentityApplicationAssignment: {
+            id: string;
+            applicationId: string;
+            subjectType: components["schemas"]["IdentityApplicationAssignmentSubjectType"];
+            subjectId: string;
+            effect: components["schemas"]["IdentityApplicationAssignmentEffect"];
+            createdBy?: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        IdentityApplicationAssignmentInput: {
+            subjectType: components["schemas"]["IdentityApplicationAssignmentSubjectType"];
+            subjectId: string;
+            effect: components["schemas"]["IdentityApplicationAssignmentEffect"];
+        };
         IdentityApplication: {
             id: string;
             name: string;
             slug: string;
             description?: string;
             /** Format: uri */
+            iconUrl?: string;
+            category?: string;
+            tags?: string[];
+            /** Format: uri */
             launchUrl?: string;
+            providerId?: string;
+            providerType?: components["schemas"]["IdentityApplicationProviderType"];
+            portalVisible?: boolean;
+            featured?: boolean;
+            sortOrder?: number;
             status: components["schemas"]["IdentityResourceStatus"];
+            metadata?: {
+                [key: string]: unknown;
+            };
+            assignments?: components["schemas"]["IdentityApplicationAssignment"][];
+            favorite?: boolean;
+            /** Format: date-time */
+            lastLaunchedAt?: string;
+            createdBy?: string;
+            updatedBy?: string;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -8475,8 +8671,21 @@ export interface components {
             slug: string;
             description?: string;
             /** Format: uri */
+            iconUrl?: string;
+            category?: string;
+            tags?: string[];
+            /** Format: uri */
             launchUrl?: string;
+            providerId?: string;
+            providerType?: components["schemas"]["IdentityApplicationProviderType"];
+            portalVisible?: boolean;
+            featured?: boolean;
+            sortOrder?: number;
             status: components["schemas"]["IdentityResourceStatus"];
+            metadata?: {
+                [key: string]: unknown;
+            };
+            assignments?: components["schemas"]["IdentityApplicationAssignmentInput"][];
         };
         IdentityApplicationEnvelope: {
             data: components["schemas"]["IdentityApplication"];
@@ -8513,6 +8722,8 @@ export interface components {
             clientId: string;
             /** @enum {string} */
             clientType?: "public" | "confidential";
+            /** @description True when the confidential client secret can be revealed by an authorized administrator. */
+            clientSecretAvailable?: boolean;
             /** @description Strict-match absolute HTTP or HTTPS redirect URIs. HTTPS is recommended for production deployments. */
             redirectUris: string[];
             /**
@@ -8538,7 +8749,8 @@ export interface components {
         };
         OIDCClientInput: {
             providerId?: string;
-            clientId: string;
+            /** @description On create, an omitted or blank value is generated by the server. On update, it preserves the current Client ID. */
+            clientId?: string;
             /** @enum {string} */
             clientType?: "public" | "confidential";
             clientSecret?: string;
@@ -8567,6 +8779,7 @@ export interface components {
         });
         OIDCClientCreated: {
             client: components["schemas"]["OIDCClient"];
+            /** @description Generated or supplied client secret returned after creation. The same value can later be retrieved through the reveal action. */
             clientSecret?: string;
         };
         OIDCClientCreatedEnvelope: {
@@ -8577,6 +8790,15 @@ export interface components {
         };
         OIDCClientListEnvelope: {
             items: components["schemas"]["OIDCClient"][];
+        };
+        OIDCClientSecretReveal: {
+            clientId: string;
+            clientSecret: string;
+            /** Format: date-time */
+            revealedAt: string;
+        };
+        OIDCClientSecretRevealEnvelope: {
+            data: components["schemas"]["OIDCClientSecretReveal"];
         };
         SAMLServiceProvider: {
             entityId: string;
@@ -9007,9 +9229,9 @@ export interface components {
             events: components["schemas"]["IdentityOutpostRuntimeEvent"][];
         };
         /** @enum {string} */
-        SystemIntegrationCategory: "identity" | "source_control" | "project_management" | "configuration" | "ci_cd" | "code_quality" | "api_gateway" | "monitoring" | "messaging" | "ai" | "cloud" | "other";
+        SystemIntegrationCategory: "identity" | "source_control" | "project_management" | "configuration" | "ci_cd" | "code_quality" | "api_gateway" | "monitoring" | "messaging" | "ai" | "cloud" | "storage" | "other";
         /** @enum {string} */
-        SystemIntegrationHealthStatus: "unknown" | "healthy" | "unhealthy";
+        SystemIntegrationHealthStatus: "unknown" | "healthy" | "degraded" | "unhealthy";
         /** @enum {string} */
         SystemIntegrationTestStatus: "succeeded" | "failed";
         SystemIntegrationOAuthAuthorization: {
@@ -9029,7 +9251,7 @@ export interface components {
         };
         SystemIntegrationCreateRequest: {
             category: components["schemas"]["SystemIntegrationCategory"];
-            /** @description Extensible provider key such as gitlab, github, gitea, or zadig. */
+            /** @description Extensible provider key such as gitlab, github, gitea, zadig, or s3. */
             providerType: string;
             name: string;
             description?: string;
@@ -13065,6 +13287,62 @@ export interface components {
             relatedIds?: components["schemas"]["ApplicationDeliveryActionRelatedIDs"];
         };
         /** @enum {string} */
+        ManifestPackageRenderer: "raw_yaml" | "kustomize";
+        /** @enum {string} */
+        ManifestPackageStatus: "draft" | "published";
+        ManifestPackageBinding: {
+            id?: string;
+            applicationEnvironmentId: string;
+            environmentKey: string;
+            clusterId: string;
+            namespace: string;
+            overlay?: {
+                [key: string]: string;
+            };
+            status?: string;
+        };
+        ManifestPackage: {
+            id: string;
+            name: string;
+            description?: string;
+            applicationId: string;
+            serviceId?: string | null;
+            businessLineId?: string;
+            renderer: components["schemas"]["ManifestPackageRenderer"];
+            status: components["schemas"]["ManifestPackageStatus"];
+            currentRevision: number;
+            files: components["schemas"]["ManifestFile"][];
+            bindings: components["schemas"]["ManifestPackageBinding"][];
+            createdBy?: string;
+            updatedBy?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ManifestPackageInput: {
+            name: string;
+            description?: string;
+            applicationId: string;
+            serviceId?: string | null;
+            businessLineId?: string;
+            renderer: components["schemas"]["ManifestPackageRenderer"];
+            files: components["schemas"]["ManifestFile"][];
+            bindings: components["schemas"]["ManifestPackageBinding"][];
+        };
+        ManifestPackagePage: {
+            items: components["schemas"]["ManifestPackage"][];
+            total: number;
+            page: number;
+            pageSize: number;
+        };
+        ManifestPackageEnvelope: {
+            data: components["schemas"]["ManifestPackage"];
+        };
+        ManifestPackagePageEnvelope: {
+            data: components["schemas"]["ManifestPackagePage"];
+        };
+        /** @enum {string} */
         ManifestSourceMode: "soha_managed" | "git_synced";
         /** @enum {string} */
         ManifestSourceRefType: "branch" | "tag" | "commit";
@@ -13733,6 +14011,9 @@ export interface components {
         };
         ApplicationEnvironmentListEnvelope: {
             data: components["schemas"]["ApplicationEnvironment"][];
+        };
+        DeliveryEnvironmentListEnvelope: {
+            data: components["schemas"]["DeliveryEnvironment"][];
         };
         BuildTemplateEnvelope: {
             data: components["schemas"]["BuildTemplate"];
@@ -18980,6 +19261,10 @@ export interface components {
             description?: string;
             publisher: string;
             category?: string;
+            tenantId?: string;
+            workspaceId?: string;
+            visibility?: components["schemas"]["SoftwarePackageVisibility"];
+            status?: components["schemas"]["SoftwarePackageStatus"];
             version: string;
             platform: string;
             arch: string;
@@ -18988,10 +19273,26 @@ export interface components {
             sizeBytes: number;
             sha256: string;
             downloadPath: string;
+            /** Format: int64 */
+            downloadCount?: number;
+            storageIntegrationId?: string;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+        };
+        SoftwarePackageDownloadRecord: {
+            id: string;
+            actorId: string;
+            actorName?: string;
+            /** Format: date-time */
+            downloadedAt: string;
+            /** Format: int64 */
+            durationMs: number;
+            sourceIp?: string;
+        };
+        SoftwarePackageDownloadRecordListEnvelope: {
+            items: components["schemas"]["SoftwarePackageDownloadRecord"][];
         };
         SoftwarePackageEnvelope: {
             data: components["schemas"]["SoftwarePackage"];
@@ -19006,9 +19307,13 @@ export interface components {
             description?: string;
             publisher: string;
             category?: string;
+            tenantId?: string;
+            workspaceId?: string;
+            visibility?: components["schemas"]["SoftwarePackageVisibility"];
             version: string;
             platform: string;
             arch: string;
+            storageIntegrationId?: string;
             /** Format: binary */
             file: string;
         };
@@ -19018,15 +19323,32 @@ export interface components {
             description?: string;
             publisher: string;
             category?: string;
+            tenantId?: string;
+            workspaceId?: string;
+            visibility?: components["schemas"]["SoftwarePackageVisibility"];
             version: string;
             platform: string;
             arch: string;
+            storageIntegrationId?: string;
             /** Format: uri */
             url: string;
             fileName?: string;
         };
+        /** @enum {string} */
+        SoftwarePackageVisibility: "workspace" | "tenant" | "restricted";
+        /** @enum {string} */
+        SoftwarePackageStatus: "ready" | "quarantined" | "deleted";
         SoftwareStorage: {
             backend: string;
+            integrationId?: string;
+            providerType?: string;
+            /** Format: uri */
+            endpoint?: string;
+            bucket?: string;
+            region?: string;
+            healthStatus?: components["schemas"]["SystemIntegrationHealthStatus"];
+            /** Format: date-time */
+            lastCheckedAt?: string;
             /** Format: int64 */
             objectCount: number;
             /** Format: int64 */
@@ -19721,6 +20043,8 @@ export interface components {
     parameters: {
         MenuID: string;
         AccessRoleID: string;
+        UserID: string;
+        TeamID: string;
         ScopeGrantID: string;
         IdentityApplicationID: string;
         IdentityProviderID: string;
@@ -19898,6 +20222,11 @@ export type IdentityOutpostRuntimeCapability = components['schemas']['IdentityOu
 export type IdentityRuntimeCapability = components['schemas']['IdentityRuntimeCapability'];
 export type IdentityRuntimeCapabilityEnvelope = components['schemas']['IdentityRuntimeCapabilityEnvelope'];
 export type IdentityResourceStatus = components['schemas']['IdentityResourceStatus'];
+export type IdentityApplicationProviderType = components['schemas']['IdentityApplicationProviderType'];
+export type IdentityApplicationAssignmentSubjectType = components['schemas']['IdentityApplicationAssignmentSubjectType'];
+export type IdentityApplicationAssignmentEffect = components['schemas']['IdentityApplicationAssignmentEffect'];
+export type IdentityApplicationAssignment = components['schemas']['IdentityApplicationAssignment'];
+export type IdentityApplicationAssignmentInput = components['schemas']['IdentityApplicationAssignmentInput'];
 export type IdentityApplication = components['schemas']['IdentityApplication'];
 export type IdentityApplicationInput = components['schemas']['IdentityApplicationInput'];
 export type IdentityApplicationEnvelope = components['schemas']['IdentityApplicationEnvelope'];
@@ -19912,6 +20241,8 @@ export type OIDCClientCreated = components['schemas']['OIDCClientCreated'];
 export type OIDCClientCreatedEnvelope = components['schemas']['OIDCClientCreatedEnvelope'];
 export type OIDCClientEnvelope = components['schemas']['OIDCClientEnvelope'];
 export type OIDCClientListEnvelope = components['schemas']['OIDCClientListEnvelope'];
+export type OIDCClientSecretReveal = components['schemas']['OIDCClientSecretReveal'];
+export type OIDCClientSecretRevealEnvelope = components['schemas']['OIDCClientSecretRevealEnvelope'];
 export type SAMLServiceProvider = components['schemas']['SAMLServiceProvider'];
 export type SAMLServiceProviderInput = components['schemas']['SAMLServiceProviderInput'];
 export type IdentityProvider = components['schemas']['IdentityProvider'];
@@ -20489,6 +20820,14 @@ export type ApplicationDeliveryActionKind = components['schemas']['ApplicationDe
 export type ApplicationDeliveryActionRequest = components['schemas']['ApplicationDeliveryActionRequest'];
 export type ApplicationDeliveryActionRelatedIDs = components['schemas']['ApplicationDeliveryActionRelatedIDs'];
 export type ApplicationDeliveryActionResult = components['schemas']['ApplicationDeliveryActionResult'];
+export type ManifestPackageRenderer = components['schemas']['ManifestPackageRenderer'];
+export type ManifestPackageStatus = components['schemas']['ManifestPackageStatus'];
+export type ManifestPackageBinding = components['schemas']['ManifestPackageBinding'];
+export type ManifestPackage = components['schemas']['ManifestPackage'];
+export type ManifestPackageInput = components['schemas']['ManifestPackageInput'];
+export type ManifestPackagePage = components['schemas']['ManifestPackagePage'];
+export type ManifestPackageEnvelope = components['schemas']['ManifestPackageEnvelope'];
+export type ManifestPackagePageEnvelope = components['schemas']['ManifestPackagePageEnvelope'];
 export type ManifestSourceMode = components['schemas']['ManifestSourceMode'];
 export type ManifestSourceRefType = components['schemas']['ManifestSourceRefType'];
 export type ManifestSourceSyncPolicy = components['schemas']['ManifestSourceSyncPolicy'];
@@ -20566,6 +20905,7 @@ export type ApplicationServiceEnvelope = components['schemas']['ApplicationServi
 export type ApplicationServiceListEnvelope = components['schemas']['ApplicationServiceListEnvelope'];
 export type ApplicationEnvironmentEnvelope = components['schemas']['ApplicationEnvironmentEnvelope'];
 export type ApplicationEnvironmentListEnvelope = components['schemas']['ApplicationEnvironmentListEnvelope'];
+export type DeliveryEnvironmentListEnvelope = components['schemas']['DeliveryEnvironmentListEnvelope'];
 export type BuildTemplateEnvelope = components['schemas']['BuildTemplateEnvelope'];
 export type BuildTemplateListEnvelope = components['schemas']['BuildTemplateListEnvelope'];
 export type WorkflowTemplateEnvelope = components['schemas']['WorkflowTemplateEnvelope'];
@@ -21206,10 +21546,14 @@ export type CloudExtensionPoint = components['schemas']['CloudExtensionPoint'];
 export type CloudExtensionPointListEnvelope = components['schemas']['CloudExtensionPointListEnvelope'];
 export type MarketplacePlugin = components['schemas']['MarketplacePlugin'];
 export type SoftwarePackage = components['schemas']['SoftwarePackage'];
+export type SoftwarePackageDownloadRecord = components['schemas']['SoftwarePackageDownloadRecord'];
+export type SoftwarePackageDownloadRecordListEnvelope = components['schemas']['SoftwarePackageDownloadRecordListEnvelope'];
 export type SoftwarePackageEnvelope = components['schemas']['SoftwarePackageEnvelope'];
 export type SoftwarePackageListEnvelope = components['schemas']['SoftwarePackageListEnvelope'];
 export type SoftwarePackageUploadRequest = components['schemas']['SoftwarePackageUploadRequest'];
 export type SoftwarePackageURLImportRequest = components['schemas']['SoftwarePackageURLImportRequest'];
+export type SoftwarePackageVisibility = components['schemas']['SoftwarePackageVisibility'];
+export type SoftwarePackageStatus = components['schemas']['SoftwarePackageStatus'];
 export type SoftwareStorage = components['schemas']['SoftwareStorage'];
 export type SoftwareStorageEnvelope = components['schemas']['SoftwareStorageEnvelope'];
 export type InstalledPlugin = components['schemas']['InstalledPlugin'];
@@ -21291,6 +21635,8 @@ export type ResponseError = components['responses']['Error'];
 export type ResponseComputeError = components['responses']['ComputeError'];
 export type ParameterMenuId = components['parameters']['MenuID'];
 export type ParameterAccessRoleId = components['parameters']['AccessRoleID'];
+export type ParameterUserId = components['parameters']['UserID'];
+export type ParameterTeamId = components['parameters']['TeamID'];
 export type ParameterScopeGrantId = components['parameters']['ScopeGrantID'];
 export type ParameterIdentityApplicationId = components['parameters']['IdentityApplicationID'];
 export type ParameterIdentityProviderId = components['parameters']['IdentityProviderID'];
@@ -23615,6 +23961,160 @@ export interface operations {
                     "application/json": components["schemas"]["OperationStatus"];
                 };
             };
+            404: components["responses"]["Error"];
+        };
+    };
+    listDeliveryEnvironments: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Reusable delivery environments visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryEnvironmentListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    listManifestPackages: {
+        parameters: {
+            query?: {
+                applicationId?: string;
+                serviceId?: string;
+                clusterId?: string;
+                namespace?: string;
+                search?: string;
+                page?: number;
+                pageSize?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Manifest packages visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestPackagePageEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createManifestPackage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestPackageInput"];
+            };
+        };
+        responses: {
+            /** @description Created manifest package. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestPackageEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    getManifestPackage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestPackageID: components["parameters"]["ManifestPackageID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Manifest package detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestPackageEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateManifestPackage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestPackageID: components["parameters"]["ManifestPackageID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestPackageInput"];
+            };
+        };
+        responses: {
+            /** @description Updated manifest package. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestPackageEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteManifestPackage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestPackageID: components["parameters"]["ManifestPackageID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted manifest package. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            403: components["responses"]["Error"];
             404: components["responses"]["Error"];
         };
     };
@@ -34156,6 +34656,7 @@ export interface operations {
             query?: {
                 platform?: string;
                 arch?: string;
+                storageIntegrationId?: string;
                 cursor?: string;
                 limit?: number;
             };
@@ -34239,6 +34740,7 @@ export interface operations {
     getSoftwareStorage: {
         parameters: {
             query?: {
+                storageIntegrationId?: string;
                 cursor?: string;
                 limit?: number;
             };
@@ -34305,6 +34807,34 @@ export interface operations {
                     "application/octet-stream": string;
                 };
             };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listSoftwarePackageDownloadRecords: {
+        parameters: {
+            query?: {
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                packageID: components["parameters"]["SoftwarePackageID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Recent successful download records, newest first. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SoftwarePackageDownloadRecordListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
             401: components["responses"]["Error"];
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
@@ -36924,6 +37454,222 @@ export interface operations {
             404: components["responses"]["Error"];
         };
     };
+    listUserScopeGrants: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userID: components["parameters"]["UserID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Resource scope grants for the user. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScopeGrantListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createUserScopeGrant: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userID: components["parameters"]["UserID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ScopeGrantInput"];
+            };
+        };
+        responses: {
+            /** @description Created resource scope grant for the user. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScopeGrantEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    updateUserScopeGrant: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userID: components["parameters"]["UserID"];
+                scopeGrantID: components["parameters"]["ScopeGrantID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ScopeGrantInput"];
+            };
+        };
+        responses: {
+            /** @description Updated resource scope grant for the user. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScopeGrantEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteUserScopeGrant: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userID: components["parameters"]["UserID"];
+                scopeGrantID: components["parameters"]["ScopeGrantID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Resource scope grant for the user deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listTeamScopeGrants: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                teamID: components["parameters"]["TeamID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Resource scope grants for the team. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScopeGrantListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createTeamScopeGrant: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                teamID: components["parameters"]["TeamID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ScopeGrantInput"];
+            };
+        };
+        responses: {
+            /** @description Created resource scope grant for the team. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScopeGrantEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    updateTeamScopeGrant: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                teamID: components["parameters"]["TeamID"];
+                scopeGrantID: components["parameters"]["ScopeGrantID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ScopeGrantInput"];
+            };
+        };
+        responses: {
+            /** @description Updated resource scope grant for the team. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScopeGrantEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteTeamScopeGrant: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                teamID: components["parameters"]["TeamID"];
+                scopeGrantID: components["parameters"]["ScopeGrantID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Resource scope grant for the team deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
     getIdentityRuntimeCapabilities: {
         parameters: {
             query?: never;
@@ -37528,6 +38274,8 @@ export interface operations {
             /** @description Created OIDC client. */
             201: {
                 headers: {
+                    /** @description Always no-store when the response includes a client secret. */
+                    "Cache-Control"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -37607,6 +38355,33 @@ export interface operations {
                 content?: never;
             };
             404: components["responses"]["IdentityError"];
+        };
+    };
+    revealIdentityOIDCClientSecret: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                oidcClientID: components["parameters"]["OIDCClientID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Decrypted OIDC client secret for an authorized administrator. The response must not be cached. */
+            200: {
+                headers: {
+                    /** @description Always `no-store` for secret responses. */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OIDCClientSecretRevealEnvelope"];
+                };
+            };
+            403: components["responses"]["IdentityError"];
+            404: components["responses"]["IdentityError"];
+            409: components["responses"]["IdentityError"];
         };
     };
     listSAMLLoginSources: {

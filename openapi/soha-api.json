@@ -1258,6 +1258,16 @@
           "type": "string"
         }
       },
+      "TeamID": {
+        "in": "path",
+        "name": "teamID",
+        "required": true,
+        "schema": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
       "ToolName": {
         "in": "path",
         "name": "toolName",
@@ -1271,6 +1281,16 @@
         "name": "upstreamID",
         "required": true,
         "schema": {
+          "type": "string"
+        }
+      },
+      "UserID": {
+        "in": "path",
+        "name": "userID",
+        "required": true,
+        "schema": {
+          "maxLength": 128,
+          "minLength": 1,
           "type": "string"
         }
       },
@@ -9617,6 +9637,21 @@
         ],
         "type": "object"
       },
+      "DeliveryEnvironmentListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/DeliveryEnvironment"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
       "DeliveryPlan": {
         "additionalProperties": false,
         "properties": {
@@ -13178,31 +13213,82 @@
       "IdentityApplication": {
         "additionalProperties": false,
         "properties": {
+          "assignments": {
+            "items": {
+              "$ref": "#/components/schemas/IdentityApplicationAssignment"
+            },
+            "type": "array"
+          },
+          "category": {
+            "type": "string"
+          },
           "createdAt": {
             "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
             "type": "string"
           },
           "description": {
             "type": "string"
           },
+          "favorite": {
+            "type": "boolean"
+          },
+          "featured": {
+            "type": "boolean"
+          },
+          "iconUrl": {
+            "format": "uri",
+            "type": "string"
+          },
           "id": {
+            "type": "string"
+          },
+          "lastLaunchedAt": {
+            "format": "date-time",
             "type": "string"
           },
           "launchUrl": {
             "format": "uri",
             "type": "string"
           },
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object"
+          },
           "name": {
             "type": "string"
+          },
+          "portalVisible": {
+            "type": "boolean"
+          },
+          "providerId": {
+            "type": "string"
+          },
+          "providerType": {
+            "$ref": "#/components/schemas/IdentityApplicationProviderType"
           },
           "slug": {
             "type": "string"
           },
+          "sortOrder": {
+            "type": "integer"
+          },
           "status": {
             "$ref": "#/components/schemas/IdentityResourceStatus"
           },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
           "updatedAt": {
             "format": "date-time",
+            "type": "string"
+          },
+          "updatedBy": {
             "type": "string"
           }
         },
@@ -13215,6 +13301,79 @@
           "updatedAt"
         ],
         "type": "object"
+      },
+      "IdentityApplicationAssignment": {
+        "additionalProperties": false,
+        "properties": {
+          "applicationId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "effect": {
+            "$ref": "#/components/schemas/IdentityApplicationAssignmentEffect"
+          },
+          "id": {
+            "type": "string"
+          },
+          "subjectId": {
+            "type": "string"
+          },
+          "subjectType": {
+            "$ref": "#/components/schemas/IdentityApplicationAssignmentSubjectType"
+          }
+        },
+        "required": [
+          "id",
+          "applicationId",
+          "subjectType",
+          "subjectId",
+          "effect",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "IdentityApplicationAssignmentEffect": {
+        "enum": [
+          "allow",
+          "deny"
+        ],
+        "type": "string"
+      },
+      "IdentityApplicationAssignmentInput": {
+        "additionalProperties": false,
+        "properties": {
+          "effect": {
+            "$ref": "#/components/schemas/IdentityApplicationAssignmentEffect"
+          },
+          "subjectId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectType": {
+            "$ref": "#/components/schemas/IdentityApplicationAssignmentSubjectType"
+          }
+        },
+        "required": [
+          "subjectType",
+          "subjectId",
+          "effect"
+        ],
+        "type": "object"
+      },
+      "IdentityApplicationAssignmentSubjectType": {
+        "enum": [
+          "user",
+          "role",
+          "team",
+          "tag"
+        ],
+        "type": "string"
       },
       "IdentityApplicationEnvelope": {
         "additionalProperties": false,
@@ -13231,25 +13390,63 @@
       "IdentityApplicationInput": {
         "additionalProperties": false,
         "properties": {
+          "assignments": {
+            "items": {
+              "$ref": "#/components/schemas/IdentityApplicationAssignmentInput"
+            },
+            "type": "array"
+          },
+          "category": {
+            "type": "string"
+          },
           "description": {
             "maxLength": 2000,
+            "type": "string"
+          },
+          "featured": {
+            "type": "boolean"
+          },
+          "iconUrl": {
+            "format": "uri",
             "type": "string"
           },
           "launchUrl": {
             "format": "uri",
             "type": "string"
           },
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object"
+          },
           "name": {
             "maxLength": 200,
             "minLength": 1,
             "type": "string"
           },
+          "portalVisible": {
+            "type": "boolean"
+          },
+          "providerId": {
+            "type": "string"
+          },
+          "providerType": {
+            "$ref": "#/components/schemas/IdentityApplicationProviderType"
+          },
           "slug": {
             "pattern": "^[a-z0-9][a-z0-9-]*$",
             "type": "string"
           },
+          "sortOrder": {
+            "type": "integer"
+          },
           "status": {
             "$ref": "#/components/schemas/IdentityResourceStatus"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
           }
         },
         "required": [
@@ -13273,6 +13470,14 @@
           "items"
         ],
         "type": "object"
+      },
+      "IdentityApplicationProviderType": {
+        "enum": [
+          "link",
+          "oidc",
+          "proxy"
+        ],
+        "type": "string"
       },
       "IdentityCapability": {
         "additionalProperties": false,
@@ -14160,7 +14365,10 @@
       "IdentityResourceStatus": {
         "enum": [
           "active",
-          "disabled"
+          "draft",
+          "enabled",
+          "disabled",
+          "maintenance"
         ],
         "type": "string"
       },
@@ -28972,6 +29180,244 @@
         ],
         "type": "object"
       },
+      "ManifestPackage": {
+        "additionalProperties": false,
+        "properties": {
+          "applicationId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "bindings": {
+            "items": {
+              "$ref": "#/components/schemas/ManifestPackageBinding"
+            },
+            "type": "array"
+          },
+          "businessLineId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "currentRevision": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "description": {
+            "type": "string"
+          },
+          "files": {
+            "items": {
+              "$ref": "#/components/schemas/ManifestFile"
+            },
+            "type": "array"
+          },
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "renderer": {
+            "$ref": "#/components/schemas/ManifestPackageRenderer"
+          },
+          "serviceId": {
+            "nullable": true,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ManifestPackageStatus"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedBy": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "applicationId",
+          "renderer",
+          "status",
+          "currentRevision",
+          "files",
+          "bindings",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "ManifestPackageBinding": {
+        "additionalProperties": false,
+        "properties": {
+          "applicationEnvironmentId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "clusterId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "environmentKey": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "namespace": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "overlay": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "applicationEnvironmentId",
+          "environmentKey",
+          "clusterId",
+          "namespace"
+        ],
+        "type": "object"
+      },
+      "ManifestPackageEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ManifestPackage"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "ManifestPackageInput": {
+        "additionalProperties": false,
+        "properties": {
+          "applicationId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "bindings": {
+            "items": {
+              "$ref": "#/components/schemas/ManifestPackageBinding"
+            },
+            "type": "array"
+          },
+          "businessLineId": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "files": {
+            "items": {
+              "$ref": "#/components/schemas/ManifestFile"
+            },
+            "type": "array"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "renderer": {
+            "$ref": "#/components/schemas/ManifestPackageRenderer"
+          },
+          "serviceId": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "applicationId",
+          "renderer",
+          "files",
+          "bindings"
+        ],
+        "type": "object"
+      },
+      "ManifestPackagePage": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ManifestPackage"
+            },
+            "type": "array"
+          },
+          "page": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "pageSize": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "total": {
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "pageSize"
+        ],
+        "type": "object"
+      },
+      "ManifestPackagePageEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ManifestPackagePage"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "ManifestPackageRenderer": {
+        "enum": [
+          "raw_yaml",
+          "kustomize"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "ManifestPackageRendererRawYAML",
+          "ManifestPackageRendererKustomize"
+        ]
+      },
+      "ManifestPackageStatus": {
+        "enum": [
+          "draft",
+          "published"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "ManifestPackageStatusDraft",
+          "ManifestPackageStatusPublished"
+        ]
+      },
       "ManifestPreflightInput": {
         "additionalProperties": false,
         "properties": {
@@ -32868,6 +33314,10 @@
           "clientId": {
             "type": "string"
           },
+          "clientSecretAvailable": {
+            "description": "True when the confidential client secret can be revealed by an authorized administrator.",
+            "type": "boolean"
+          },
           "clientType": {
             "enum": [
               "public",
@@ -32961,8 +33411,8 @@
             "$ref": "#/components/schemas/OIDCClient"
           },
           "clientSecret": {
-            "type": "string",
-            "writeOnly": true
+            "description": "Generated or supplied client secret returned after creation. The same value can later be retrieved through the reveal action.",
+            "type": "string"
           }
         },
         "required": [
@@ -33022,6 +33472,7 @@
                 "type": "array"
               },
               "clientId": {
+                "description": "On create, an omitted or blank value is generated by the server. On update, it preserves the current Client ID.",
                 "type": "string"
               },
               "clientSecret": {
@@ -33093,9 +33544,6 @@
                 "$ref": "#/components/schemas/IdentityResourceStatus"
               }
             },
-            "required": [
-              "clientId"
-            ],
             "type": "object"
           },
           {
@@ -33149,6 +33597,39 @@
         },
         "required": [
           "items"
+        ],
+        "type": "object"
+      },
+      "OIDCClientSecretReveal": {
+        "additionalProperties": false,
+        "properties": {
+          "clientId": {
+            "type": "string"
+          },
+          "clientSecret": {
+            "type": "string"
+          },
+          "revealedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "clientId",
+          "clientSecret",
+          "revealedAt"
+        ],
+        "type": "object"
+      },
+      "OIDCClientSecretRevealEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/OIDCClientSecretReveal"
+          }
+        },
+        "required": [
+          "data"
         ],
         "type": "object"
       },
@@ -38755,6 +39236,11 @@
             "maxLength": 500,
             "type": "string"
           },
+          "downloadCount": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
           "downloadPath": {
             "pattern": "^/api/v1/software/packages/[^/]+/download$",
             "type": "string"
@@ -38797,12 +39283,33 @@
             "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$",
             "type": "string"
           },
+          "status": {
+            "$ref": "#/components/schemas/SoftwarePackageStatus"
+          },
+          "storageIntegrationId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "tenantId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
           "updatedAt": {
             "format": "date-time",
             "type": "string"
           },
           "version": {
             "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "visibility": {
+            "$ref": "#/components/schemas/SoftwarePackageVisibility"
+          },
+          "workspaceId": {
+            "maxLength": 128,
             "minLength": 1,
             "type": "string"
           }
@@ -38821,6 +39328,60 @@
           "downloadPath",
           "createdAt",
           "updatedAt"
+        ],
+        "type": "object"
+      },
+      "SoftwarePackageDownloadRecord": {
+        "additionalProperties": false,
+        "properties": {
+          "actorId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "actorName": {
+            "maxLength": 200,
+            "type": "string"
+          },
+          "downloadedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "durationMs": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "sourceIp": {
+            "maxLength": 64,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "actorId",
+          "downloadedAt",
+          "durationMs"
+        ],
+        "type": "object"
+      },
+      "SoftwarePackageDownloadRecordListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SoftwarePackageDownloadRecord"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
         ],
         "type": "object"
       },
@@ -38853,6 +39414,19 @@
           "items"
         ],
         "type": "object"
+      },
+      "SoftwarePackageStatus": {
+        "enum": [
+          "ready",
+          "quarantined",
+          "deleted"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "SoftwarePackageStatusReady",
+          "SoftwarePackageStatusQuarantined",
+          "SoftwarePackageStatusDeleted"
+        ]
       },
       "SoftwarePackageUploadRequest": {
         "additionalProperties": false,
@@ -38891,8 +39465,26 @@
             "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$",
             "type": "string"
           },
+          "storageIntegrationId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "tenantId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
           "version": {
             "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "visibility": {
+            "$ref": "#/components/schemas/SoftwarePackageVisibility"
+          },
+          "workspaceId": {
+            "maxLength": 128,
             "minLength": 1,
             "type": "string"
           }
@@ -38946,6 +39538,16 @@
             "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$",
             "type": "string"
           },
+          "storageIntegrationId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "tenantId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
           "url": {
             "format": "uri",
             "maxLength": 2048,
@@ -38954,6 +39556,14 @@
           },
           "version": {
             "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "visibility": {
+            "$ref": "#/components/schemas/SoftwarePackageVisibility"
+          },
+          "workspaceId": {
+            "maxLength": 128,
             "minLength": 1,
             "type": "string"
           }
@@ -38969,11 +39579,42 @@
         ],
         "type": "object"
       },
+      "SoftwarePackageVisibility": {
+        "enum": [
+          "workspace",
+          "tenant",
+          "restricted"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "SoftwarePackageVisibilityWorkspace",
+          "SoftwarePackageVisibilityTenant",
+          "SoftwarePackageVisibilityRestricted"
+        ]
+      },
       "SoftwareStorage": {
         "additionalProperties": false,
         "properties": {
           "backend": {
             "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "bucket": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "endpoint": {
+            "format": "uri",
+            "maxLength": 2048,
+            "type": "string"
+          },
+          "healthStatus": {
+            "$ref": "#/components/schemas/SystemIntegrationHealthStatus"
+          },
+          "integrationId": {
+            "maxLength": 128,
             "minLength": 1,
             "type": "string"
           },
@@ -38983,6 +39624,10 @@
             },
             "type": "array"
           },
+          "lastCheckedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
           "nextCursor": {
             "type": "string"
           },
@@ -38990,6 +39635,15 @@
             "format": "int64",
             "minimum": 0,
             "type": "integer"
+          },
+          "providerType": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "region": {
+            "maxLength": 128,
+            "type": "string"
           },
           "totalBytes": {
             "format": "int64",
@@ -39401,6 +40055,7 @@
           "messaging",
           "ai",
           "cloud",
+          "storage",
           "other"
         ],
         "type": "string",
@@ -39416,6 +40071,7 @@
           "SystemIntegrationCategoryMessaging",
           "SystemIntegrationCategoryAI",
           "SystemIntegrationCategoryCloud",
+          "SystemIntegrationCategoryStorage",
           "SystemIntegrationCategoryOther"
         ]
       },
@@ -39472,7 +40128,7 @@
             "type": "string"
           },
           "providerType": {
-            "description": "Extensible provider key such as gitlab, github, gitea, or zadig.",
+            "description": "Extensible provider key such as gitlab, github, gitea, zadig, or s3.",
             "maxLength": 128,
             "pattern": "^[a-z][a-z0-9._-]*$",
             "type": "string"
@@ -39523,12 +40179,14 @@
         "enum": [
           "unknown",
           "healthy",
+          "degraded",
           "unhealthy"
         ],
         "type": "string",
         "x-enum-varnames": [
           "SystemIntegrationHealthStatusUnknown",
           "SystemIntegrationHealthStatusHealthy",
+          "SystemIntegrationHealthStatusDegraded",
           "SystemIntegrationHealthStatusUnhealthy"
         ]
       },
@@ -44948,7 +45606,7 @@
   "info": {
     "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery.\n",
     "title": "Soha API",
-    "version": "0.1.15"
+    "version": "0.1.16"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -45386,6 +46044,290 @@
               }
             },
             "description": "Updated resource scope grant."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/access/teams/{teamID}/scope-grants": {
+      "get": {
+        "operationId": "listTeamScopeGrants",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScopeGrantListEnvelope"
+                }
+              }
+            },
+            "description": "Resource scope grants for the team."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
+        ],
+        "x-soha-implementation-status": "implemented"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/TeamID"
+        }
+      ],
+      "post": {
+        "operationId": "createTeamScopeGrant",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScopeGrantInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScopeGrantEnvelope"
+                }
+              }
+            },
+            "description": "Created resource scope grant for the team."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/access/teams/{teamID}/scope-grants/{scopeGrantID}": {
+      "delete": {
+        "operationId": "deleteTeamScopeGrant",
+        "responses": {
+          "204": {
+            "description": "Resource scope grant for the team deleted."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
+        ],
+        "x-soha-implementation-status": "implemented"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/TeamID"
+        },
+        {
+          "$ref": "#/components/parameters/ScopeGrantID"
+        }
+      ],
+      "put": {
+        "operationId": "updateTeamScopeGrant",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScopeGrantInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScopeGrantEnvelope"
+                }
+              }
+            },
+            "description": "Updated resource scope grant for the team."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/access/users/{userID}/scope-grants": {
+      "get": {
+        "operationId": "listUserScopeGrants",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScopeGrantListEnvelope"
+                }
+              }
+            },
+            "description": "Resource scope grants for the user."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
+        ],
+        "x-soha-implementation-status": "implemented"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/UserID"
+        }
+      ],
+      "post": {
+        "operationId": "createUserScopeGrant",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScopeGrantInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScopeGrantEnvelope"
+                }
+              }
+            },
+            "description": "Created resource scope grant for the user."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/access/users/{userID}/scope-grants/{scopeGrantID}": {
+      "delete": {
+        "operationId": "deleteUserScopeGrant",
+        "responses": {
+          "204": {
+            "description": "Resource scope grant for the user deleted."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Access"
+        ],
+        "x-soha-implementation-status": "implemented"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/UserID"
+        },
+        {
+          "$ref": "#/components/parameters/ScopeGrantID"
+        }
+      ],
+      "put": {
+        "operationId": "updateUserScopeGrant",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScopeGrantInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScopeGrantEnvelope"
+                }
+              }
+            },
+            "description": "Updated resource scope grant for the user."
           },
           "400": {
             "$ref": "#/components/responses/Error"
@@ -53450,7 +54392,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.clusters.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/access-control/access-reviews": {
@@ -53498,7 +54446,14 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.access-control.access-reviews.execute",
+            "platform.access-control.service-accounts.view"
+          ],
+          "mode": "subject"
+        }
       }
     },
     "/clusters/{clusterID}/access-control/clusterrolebindings": {
@@ -53545,7 +54500,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.access-control.cluster-role-bindings.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/access-control/clusterrolebindings/{name}/detail": {
@@ -53583,7 +54544,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.access-control.cluster-role-bindings.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/access-control/clusterroles": {
@@ -53618,7 +54585,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.access-control.cluster-roles.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/access-control/clusterroles/{name}/detail": {
@@ -53656,7 +54629,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.access-control.cluster-roles.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/access-control/rolebindings": {
@@ -53706,7 +54685,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.access-control.role-bindings.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/access-control/rolebindings/{name}/detail": {
@@ -53747,7 +54732,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.access-control.role-bindings.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/access-control/roles": {
@@ -53785,7 +54776,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.access-control.roles.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/access-control/roles/{name}/detail": {
@@ -53826,7 +54823,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.access-control.roles.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/access-control/serviceaccounts": {
@@ -53864,7 +54867,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.access-control.service-accounts.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/access-control/serviceaccounts/{name}/detail": {
@@ -53905,7 +54914,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.access-control.service-accounts.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/agent-installation": {
@@ -53942,7 +54957,13 @@
         },
         "tags": [
           "Platform"
-        ]
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "platform.clusters.update"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/configmaps": {
@@ -53980,7 +55001,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.config-maps.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/configmaps/{name}/detail": {
@@ -54021,7 +55048,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.config-maps.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/configmaps/{name}/references": {
@@ -54062,7 +55095,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.config-maps.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/hpas": {
@@ -54100,7 +55139,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.horizontal-pod-autoscalers.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/hpas/{name}/detail": {
@@ -54141,7 +55186,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.horizontal-pod-autoscalers.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/leases": {
@@ -54179,7 +55230,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.leases.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/limitranges": {
@@ -54217,7 +55274,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.limit-ranges.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/limitranges/{name}/detail": {
@@ -54258,7 +55321,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.limit-ranges.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/mutatingwebhookconfigurations": {
@@ -54293,7 +55362,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.mutating-webhook-configurations.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/mutatingwebhookconfigurations/{name}/detail": {
@@ -54331,7 +55406,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.mutating-webhook-configurations.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/poddisruptionbudgets": {
@@ -54369,7 +55450,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.pod-disruption-budgets.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/poddisruptionbudgets/{name}/detail": {
@@ -54410,7 +55497,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.pod-disruption-budgets.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/priorityclasses": {
@@ -54445,7 +55538,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.priority-classes.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/resourcequotas": {
@@ -54483,7 +55582,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.resource-quotas.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/resourcequotas/{name}/detail": {
@@ -54524,7 +55629,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.resource-quotas.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/runtimeclasses": {
@@ -54559,7 +55670,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.runtime-classes.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/secrets": {
@@ -54597,7 +55714,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.secrets.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/secrets/{name}/references": {
@@ -54638,7 +55761,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.secrets.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/validatingwebhookconfigurations": {
@@ -54673,7 +55802,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.validating-webhook-configurations.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/configuration/validatingwebhookconfigurations/{name}/detail": {
@@ -54711,7 +55846,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.validating-webhook-configurations.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/detail": {
@@ -54743,7 +55884,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.clusters.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/events": {
@@ -54786,10 +55933,22 @@
         ],
         "x-soha-capability": {
           "name": "k8s.events.list",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "observe.events.view",
+            "platform.workloads.overview.view",
+            "workspace.resource.view"
+          ],
           "requiresApproval": false,
           "riskLevel": "read"
         },
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.overview.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/extensions/crds": {
@@ -54824,7 +55983,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.extensions.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/extensions/crds/{crdName}/resources": {
@@ -54865,7 +56030,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.extensions.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/helm/charts": {
@@ -54909,7 +56080,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.helm.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/helm/charts/{repositoryName}/{chartName}": {
@@ -54956,7 +56133,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.helm.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/helm/releases": {
@@ -54994,7 +56177,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.helm.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/helm/releases/{releaseName}/detail": {
@@ -55035,7 +56224,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.helm.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/helm/releases/{releaseName}/history": {
@@ -55076,7 +56271,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.helm.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/helm/releases/{releaseName}/manifest": {
@@ -55128,7 +56329,14 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.helm.values.view",
+            "platform.helm.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/helm/releases/{releaseName}/rollback": {
@@ -55182,7 +56390,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.helm.releases.rollback"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/helm/releases/{releaseName}/rollback/plan": {
@@ -55236,7 +56450,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.helm.releases.rollback"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/infrastructure/nodes": {
@@ -55271,7 +56491,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.nodes.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/infrastructure/nodes/{nodeName}/detail": {
@@ -55311,10 +56537,21 @@
         ],
         "x-soha-capability": {
           "name": "k8s.nodes.detail",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "platform.nodes.view",
+            "workspace.resource.view"
+          ],
           "requiresApproval": false,
           "riskLevel": "read"
         },
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.nodes.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/logs/query": {
@@ -55364,7 +56601,13 @@
         },
         "tags": [
           "Platform"
-        ]
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "platform.pods.logs"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/logs/stream-ticket": {
@@ -55414,7 +56657,13 @@
         },
         "tags": [
           "Platform"
-        ]
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "platform.pods.logs"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/namespaces": {
@@ -55449,7 +56698,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.namespaces.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/backendtlspolicies": {
@@ -55487,7 +56742,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.backend-tls-policies.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/backendtlspolicies/{name}/detail": {
@@ -55530,7 +56791,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.backend-tls-policies.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/endpointslices": {
@@ -55568,7 +56835,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.endpoint-slices.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/endpointslices/{name}/detail": {
@@ -55611,7 +56884,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.endpoint-slices.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/gatewayclasses": {
@@ -55646,7 +56925,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.gateway-classes.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/gatewayclasses/{name}/detail": {
@@ -55686,7 +56971,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.gateway-classes.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/gateways": {
@@ -55724,7 +57015,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.gateways.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/gateways/{name}/detail": {
@@ -55767,7 +57064,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.gateways.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/grpcroutes": {
@@ -55805,7 +57108,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.grpc-routes.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/grpcroutes/{name}/detail": {
@@ -55848,7 +57157,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.grpc-routes.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/httproutes": {
@@ -55886,7 +57201,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.http-routes.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/httproutes/{name}/detail": {
@@ -55929,7 +57250,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.http-routes.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/ingressclasses": {
@@ -55964,7 +57291,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.ingress-classes.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/ingressclasses/{name}/detail": {
@@ -56002,7 +57335,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.ingress-classes.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/ingresses": {
@@ -56040,7 +57379,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.ingresses.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/ingresses/{name}/detail": {
@@ -56081,7 +57426,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.ingresses.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/networkpolicies": {
@@ -56119,7 +57470,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.network-policies.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/networkpolicies/{name}/detail": {
@@ -56162,7 +57519,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.network-policies.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/referencegrants": {
@@ -56200,7 +57563,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.reference-grants.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/referencegrants/{name}/detail": {
@@ -56241,7 +57610,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.reference-grants.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/services": {
@@ -56281,10 +57656,21 @@
         ],
         "x-soha-capability": {
           "name": "k8s.services.list",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "platform.network.services.view",
+            "workspace.resource.view"
+          ],
           "requiresApproval": false,
           "riskLevel": "read"
         },
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.services.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/services/{serviceName}/detail": {
@@ -56327,7 +57713,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.services.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/services/{serviceName}/metrics": {
@@ -56374,7 +57766,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.services.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/network/topology": {
@@ -56412,7 +57810,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.network.topology.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/observability/logging": {
@@ -56443,7 +57847,13 @@
         },
         "tags": [
           "Observability"
-        ]
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "platform.clusters.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/observability/logging/disable": {
@@ -56487,7 +57897,13 @@
         },
         "tags": [
           "Observability"
-        ]
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "platform.observability.logging.disable"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/observability/logging/enable": {
@@ -56534,7 +57950,13 @@
         },
         "tags": [
           "Observability"
-        ]
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "platform.observability.logging.enable"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/observability/logging/preflight": {
@@ -56578,7 +58000,13 @@
         },
         "tags": [
           "Observability"
-        ]
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "platform.observability.logging.enable"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/resource-creation/execute": {
@@ -56634,8 +58062,15 @@
         ],
         "x-soha-capability": {
           "name": "k8s.resources.create.trigger",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "platform.resource-creation.use"
+          ],
           "requiresApproval": true,
           "riskLevel": "high"
+        },
+        "x-soha-permissions": {
+          "mode": "resource"
         }
       }
     },
@@ -56686,8 +58121,15 @@
         ],
         "x-soha-capability": {
           "name": "k8s.resources.create.preflight",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "platform.resource-creation.use"
+          ],
           "requiresApproval": false,
           "riskLevel": "analyze"
+        },
+        "x-soha-permissions": {
+          "mode": "resource"
         }
       }
     },
@@ -56732,7 +58174,10 @@
         },
         "tags": [
           "Platform"
-        ]
+        ],
+        "x-soha-permissions": {
+          "mode": "resource"
+        }
       }
     },
     "/clusters/{clusterID}/resource-creation/workload-snapshot": {
@@ -56779,8 +58224,14 @@
         ],
         "x-soha-capability": {
           "name": "k8s.workloads.snapshot.generate",
+          "permissionKeys": [
+            "ai.gateway.invoke"
+          ],
           "requiresApproval": false,
           "riskLevel": "analyze"
+        },
+        "x-soha-permissions": {
+          "mode": "resource"
         }
       }
     },
@@ -56840,7 +58291,10 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "mode": "resource"
+        }
       }
     },
     "/clusters/{clusterID}/resources/search": {
@@ -56917,7 +58371,10 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "mode": "resource"
+        }
       }
     },
     "/clusters/{clusterID}/resources/stream": {
@@ -56968,7 +58425,10 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "mode": "resource"
+        }
       }
     },
     "/clusters/{clusterID}/resources/update-plan": {
@@ -57016,7 +58476,10 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "mode": "resource"
+        }
       }
     },
     "/clusters/{clusterID}/security/posture": {
@@ -57068,7 +58531,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.clusters.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/storage/persistentvolumeclaims": {
@@ -57106,7 +58575,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.storage.persistent-volume-claims.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/storage/persistentvolumeclaims/{name}/detail": {
@@ -57147,7 +58622,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.storage.persistent-volume-claims.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/storage/persistentvolumes": {
@@ -57182,7 +58663,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.storage.persistent-volumes.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/storage/persistentvolumes/{name}/detail": {
@@ -57220,7 +58707,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.storage.persistent-volumes.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/storage/storageclasses": {
@@ -57255,7 +58748,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.storage.storage-classes.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/storage/storageclasses/{name}/detail": {
@@ -57293,7 +58792,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.storage.storage-classes.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/cronjobs": {
@@ -57331,7 +58836,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.cron-jobs.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/cronjobs/{cronJobName}/detail": {
@@ -57372,7 +58883,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.cron-jobs.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/cronjobs/{cronJobName}/yaml": {
@@ -57413,7 +58930,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.cron-jobs.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/daemonsets": {
@@ -57451,7 +58974,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.daemon-sets.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/daemonsets/{daemonSetName}/detail": {
@@ -57492,7 +59021,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.daemon-sets.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/daemonsets/{daemonSetName}/metrics": {
@@ -57542,7 +59077,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.daemon-sets.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/daemonsets/{daemonSetName}/yaml": {
@@ -57583,7 +59124,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.daemon-sets.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/deployments": {
@@ -57623,10 +59170,21 @@
         ],
         "x-soha-capability": {
           "name": "k8s.deployments.list",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "platform.deployment.view",
+            "workspace.resource.view"
+          ],
           "requiresApproval": false,
           "riskLevel": "read"
         },
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.deployment.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/deployments/{deploymentName}/detail": {
@@ -57667,7 +59225,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.deployment.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/deployments/{deploymentName}/metrics": {
@@ -57717,7 +59281,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.deployment.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/deployments/{deploymentName}/rollout-status": {
@@ -57760,10 +59330,21 @@
         ],
         "x-soha-capability": {
           "name": "k8s.deployments.rollout_status",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "platform.deployment.view",
+            "workspace.resource.view"
+          ],
           "requiresApproval": false,
           "riskLevel": "read"
         },
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.deployment.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/deployments/{deploymentName}/rollouts": {
@@ -57804,7 +59385,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.deployment.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/deployments/{deploymentName}/yaml": {
@@ -57845,7 +59432,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.deployment.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/jobs": {
@@ -57883,7 +59476,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.jobs.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/jobs/{jobName}/detail": {
@@ -57924,7 +59523,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.jobs.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/jobs/{jobName}/yaml": {
@@ -57965,7 +59570,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.jobs.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/overview": {
@@ -58003,7 +59614,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.overview.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/pods": {
@@ -58043,10 +59660,21 @@
         ],
         "x-soha-capability": {
           "name": "k8s.pods.list",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "platform.pods.view",
+            "workspace.resource.view"
+          ],
           "requiresApproval": false,
           "riskLevel": "read"
         },
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.pods.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/pods/{podName}/detail": {
@@ -58089,10 +59717,21 @@
         ],
         "x-soha-capability": {
           "name": "k8s.pods.describe",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "platform.pods.view",
+            "workspace.resource.view"
+          ],
           "requiresApproval": false,
           "riskLevel": "read"
         },
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.pods.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/pods/{podName}/logs": {
@@ -58169,10 +59808,21 @@
         ],
         "x-soha-capability": {
           "name": "k8s.pods.logs",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "platform.pods.logs",
+            "workspace.resource.view"
+          ],
           "requiresApproval": false,
           "riskLevel": "read"
         },
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.pods.logs"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/pods/{podName}/metrics": {
@@ -58249,7 +59899,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.pods.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/pods/{podName}/yaml": {
@@ -58290,7 +59946,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.pods.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/replicasets": {
@@ -58328,7 +59990,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.replica-sets.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/replicasets/{replicaSetName}/detail": {
@@ -58369,7 +60037,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.replica-sets.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/replicasets/{replicaSetName}/yaml": {
@@ -58410,7 +60084,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.replica-sets.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/replicationcontrollers": {
@@ -58448,7 +60128,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.replication-controllers.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/replicationcontrollers/{name}/detail": {
@@ -58489,7 +60175,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.replication-controllers.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/replicationcontrollers/{name}/yaml": {
@@ -58530,7 +60222,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.replication-controllers.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/statefulsets": {
@@ -58568,7 +60266,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.stateful-sets.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/statefulsets/{statefulSetName}/detail": {
@@ -58609,7 +60313,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.stateful-sets.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/statefulsets/{statefulSetName}/metrics": {
@@ -58659,7 +60369,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.stateful-sets.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/{clusterID}/workloads/statefulsets/{statefulSetName}/yaml": {
@@ -58700,7 +60416,13 @@
         "tags": [
           "Platform"
         ],
-        "x-soha-implementation-status": "implemented"
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.stateful-sets.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/clusters/capabilities": {
@@ -58723,7 +60445,10 @@
         },
         "tags": [
           "Platform"
-        ]
+        ],
+        "x-soha-permissions": {
+          "mode": "authenticated"
+        }
       }
     },
     "/companion/interactions": {
@@ -61429,6 +63154,29 @@
         ]
       }
     },
+    "/delivery/environments": {
+      "get": {
+        "operationId": "listDeliveryEnvironments",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeliveryEnvironmentListEnvelope"
+                }
+              }
+            },
+            "description": "Reusable delivery environments visible to the current principal."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
     "/delivery/execution-callbacks": {
       "post": {
         "operationId": "recordExecutionCallback",
@@ -62159,6 +63907,236 @@
             "$ref": "#/components/responses/Error"
           },
           "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
+    "/delivery/manifest-packages": {
+      "get": {
+        "operationId": "listManifestPackages",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "applicationId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "serviceId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "clusterId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "namespace",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "required": false,
+            "schema": {
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManifestPackagePageEnvelope"
+                }
+              }
+            },
+            "description": "Manifest packages visible to the current principal."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      },
+      "post": {
+        "operationId": "createManifestPackage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ManifestPackageInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManifestPackageEnvelope"
+                }
+              }
+            },
+            "description": "Created manifest package."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
+    "/delivery/manifest-packages/{manifestPackageID}": {
+      "delete": {
+        "operationId": "deleteManifestPackage",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ManifestPackageID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationStatus"
+                }
+              }
+            },
+            "description": "Deleted manifest package."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      },
+      "get": {
+        "operationId": "getManifestPackage",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ManifestPackageID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManifestPackageEnvelope"
+                }
+              }
+            },
+            "description": "Manifest package detail."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      },
+      "put": {
+        "operationId": "updateManifestPackage",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ManifestPackageID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ManifestPackageInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManifestPackageEnvelope"
+                }
+              }
+            },
+            "description": "Updated manifest package."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
             "$ref": "#/components/responses/Error"
           }
         },
@@ -63014,6 +64992,11 @@
         ],
         "x-soha-capability": {
           "name": "docker.hosts.quick_create.trigger",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "docker.hosts.create",
+            "virtualization.vms.create"
+          ],
           "requiresApproval": true,
           "riskLevel": "execute"
         },
@@ -63056,6 +65039,11 @@
         ],
         "x-soha-capability": {
           "name": "docker.hosts.quick_create.plan",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "docker.hosts.view",
+            "virtualization.vms.view"
+          ],
           "requiresApproval": false,
           "riskLevel": "analyze"
         },
@@ -63225,6 +65213,10 @@
         ],
         "x-soha-capability": {
           "name": "docker.projects.deploy.trigger",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "docker.projects.deploy"
+          ],
           "requiresApproval": true,
           "riskLevel": "execute"
         },
@@ -63275,6 +65267,11 @@
         ],
         "x-soha-capability": {
           "name": "docker.projects.deploy.plan",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "docker.projects.view",
+            "docker.templates.view"
+          ],
           "requiresApproval": false,
           "riskLevel": "analyze"
         },
@@ -63929,6 +65926,48 @@
         ]
       }
     },
+    "/identity/oidc-clients/{oidcClientID}/secret/reveal": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/OIDCClientID"
+        }
+      ],
+      "post": {
+        "operationId": "revealIdentityOIDCClientSecret",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OIDCClientSecretRevealEnvelope"
+                }
+              }
+            },
+            "description": "Decrypted OIDC client secret for an authorized administrator. The response must not be cached.",
+            "headers": {
+              "Cache-Control": {
+                "description": "Always `no-store` for secret responses.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/IdentityError"
+          },
+          "404": {
+            "$ref": "#/components/responses/IdentityError"
+          },
+          "409": {
+            "$ref": "#/components/responses/IdentityError"
+          }
+        },
+        "tags": [
+          "Identity"
+        ]
+      }
+    },
     "/identity/outposts": {
       "get": {
         "operationId": "listIdentityOutposts",
@@ -64528,7 +66567,15 @@
                 }
               }
             },
-            "description": "Created OIDC client."
+            "description": "Created OIDC client.",
+            "headers": {
+              "Cache-Control": {
+                "description": "Always no-store when the response includes a client secret.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           },
           "400": {
             "$ref": "#/components/responses/IdentityError"
@@ -65125,7 +67172,10 @@
         "security": [],
         "tags": [
           "Platform"
-        ]
+        ],
+        "x-soha-permissions": {
+          "mode": "install-ticket"
+        }
       }
     },
     "/marketplace/index.json": {
@@ -68277,6 +70327,16 @@
           },
           {
             "in": "query",
+            "name": "storageIntegrationId",
+            "required": false,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
             "name": "cursor",
             "required": false,
             "schema": {
@@ -68423,6 +70483,55 @@
         ]
       }
     },
+    "/software/packages/{packageID}/download-records": {
+      "get": {
+        "description": "Lists recent successful downloads. Requires system.audit.view or identity.audit.view.",
+        "operationId": "listSoftwarePackageDownloadRecords",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SoftwarePackageID"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SoftwarePackageDownloadRecordListEnvelope"
+                }
+              }
+            },
+            "description": "Recent successful download records, newest first."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Software"
+        ]
+      }
+    },
     "/software/packages/import": {
       "post": {
         "operationId": "importSoftwarePackage",
@@ -68472,6 +70581,16 @@
       "get": {
         "operationId": "getSoftwareStorage",
         "parameters": [
+          {
+            "in": "query",
+            "name": "storageIntegrationId",
+            "required": false,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
           {
             "in": "query",
             "name": "cursor",
@@ -70313,6 +72432,10 @@
         ],
         "x-soha-capability": {
           "name": "virtualization.vms.create.trigger",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "virtualization.vms.create"
+          ],
           "requiresApproval": true,
           "riskLevel": "execute"
         },
@@ -70738,6 +72861,12 @@
         ],
         "x-soha-capability": {
           "name": "virtualization.vms.create.plan",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "virtualization.flavors.view",
+            "virtualization.images.view",
+            "virtualization.vms.view"
+          ],
           "requiresApproval": false,
           "riskLevel": "analyze"
         },

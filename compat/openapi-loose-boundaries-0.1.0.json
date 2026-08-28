@@ -1,5 +1,5 @@
 {
-  "version": "0.1.15",
+  "version": "0.1.16",
   "generatedFrom": "openapi/soha-api.yaml",
   "entries": [
     {
@@ -205,6 +205,14 @@
     {
       "kind": "additionalPropertiesTrue",
       "path": "components/schemas/AuthBootstrapEnvelope/properties/data/properties/permissionSnapshot/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/IdentityApplication/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/IdentityApplicationInput/properties/metadata/additionalProperties"
     },
     {
       "kind": "additionalPropertiesTrue",

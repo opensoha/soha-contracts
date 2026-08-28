@@ -1897,6 +1897,69 @@ func (e HelmReleaseImportResultOwnershipMode) Valid() bool {
 	}
 }
 
+// Defines values for IdentityApplicationAssignmentEffect.
+const (
+	IdentityApplicationAssignmentEffectAllow IdentityApplicationAssignmentEffect = "allow"
+	IdentityApplicationAssignmentEffectDeny  IdentityApplicationAssignmentEffect = "deny"
+)
+
+// Valid indicates whether the value is a known member of the IdentityApplicationAssignmentEffect enum.
+func (e IdentityApplicationAssignmentEffect) Valid() bool {
+	switch e {
+	case IdentityApplicationAssignmentEffectAllow:
+		return true
+	case IdentityApplicationAssignmentEffectDeny:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IdentityApplicationAssignmentSubjectType.
+const (
+	IdentityApplicationAssignmentSubjectTypeRole IdentityApplicationAssignmentSubjectType = "role"
+	IdentityApplicationAssignmentSubjectTypeTag  IdentityApplicationAssignmentSubjectType = "tag"
+	IdentityApplicationAssignmentSubjectTypeTeam IdentityApplicationAssignmentSubjectType = "team"
+	IdentityApplicationAssignmentSubjectTypeUser IdentityApplicationAssignmentSubjectType = "user"
+)
+
+// Valid indicates whether the value is a known member of the IdentityApplicationAssignmentSubjectType enum.
+func (e IdentityApplicationAssignmentSubjectType) Valid() bool {
+	switch e {
+	case IdentityApplicationAssignmentSubjectTypeRole:
+		return true
+	case IdentityApplicationAssignmentSubjectTypeTag:
+		return true
+	case IdentityApplicationAssignmentSubjectTypeTeam:
+		return true
+	case IdentityApplicationAssignmentSubjectTypeUser:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IdentityApplicationProviderType.
+const (
+	IdentityApplicationProviderTypeLink  IdentityApplicationProviderType = "link"
+	IdentityApplicationProviderTypeOIDC  IdentityApplicationProviderType = "oidc"
+	IdentityApplicationProviderTypeProxy IdentityApplicationProviderType = "proxy"
+)
+
+// Valid indicates whether the value is a known member of the IdentityApplicationProviderType enum.
+func (e IdentityApplicationProviderType) Valid() bool {
+	switch e {
+	case IdentityApplicationProviderTypeLink:
+		return true
+	case IdentityApplicationProviderTypeOIDC:
+		return true
+	case IdentityApplicationProviderTypeProxy:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for IdentityCapabilityStatus.
 const (
 	IdentityCapabilityStatusAvailable   IdentityCapabilityStatus = "available"
@@ -2106,19 +2169,19 @@ func (e IdentityProtocolErrorCode) Valid() bool {
 
 // Defines values for IdentityProviderType.
 const (
-	OIDC  IdentityProviderType = "oidc"
-	Proxy IdentityProviderType = "proxy"
-	Saml  IdentityProviderType = "saml"
+	IdentityProviderTypeOIDC  IdentityProviderType = "oidc"
+	IdentityProviderTypeProxy IdentityProviderType = "proxy"
+	IdentityProviderTypeSaml  IdentityProviderType = "saml"
 )
 
 // Valid indicates whether the value is a known member of the IdentityProviderType enum.
 func (e IdentityProviderType) Valid() bool {
 	switch e {
-	case OIDC:
+	case IdentityProviderTypeOIDC:
 		return true
-	case Proxy:
+	case IdentityProviderTypeProxy:
 		return true
-	case Saml:
+	case IdentityProviderTypeSaml:
 		return true
 	default:
 		return false
@@ -2127,8 +2190,11 @@ func (e IdentityProviderType) Valid() bool {
 
 // Defines values for IdentityResourceStatus.
 const (
-	IdentityResourceStatusActive   IdentityResourceStatus = "active"
-	IdentityResourceStatusDisabled IdentityResourceStatus = "disabled"
+	IdentityResourceStatusActive      IdentityResourceStatus = "active"
+	IdentityResourceStatusDisabled    IdentityResourceStatus = "disabled"
+	IdentityResourceStatusDraft       IdentityResourceStatus = "draft"
+	IdentityResourceStatusEnabled     IdentityResourceStatus = "enabled"
+	IdentityResourceStatusMaintenance IdentityResourceStatus = "maintenance"
 )
 
 // Valid indicates whether the value is a known member of the IdentityResourceStatus enum.
@@ -2137,6 +2203,12 @@ func (e IdentityResourceStatus) Valid() bool {
 	case IdentityResourceStatusActive:
 		return true
 	case IdentityResourceStatusDisabled:
+		return true
+	case IdentityResourceStatusDraft:
+		return true
+	case IdentityResourceStatusEnabled:
+		return true
+	case IdentityResourceStatusMaintenance:
 		return true
 	default:
 		return false
@@ -4027,6 +4099,42 @@ func (e ManifestExecutionTaskPayloadRenderer) Valid() bool {
 	}
 }
 
+// Defines values for ManifestPackageRenderer.
+const (
+	ManifestPackageRendererKustomize ManifestPackageRenderer = "kustomize"
+	ManifestPackageRendererRawYAML   ManifestPackageRenderer = "raw_yaml"
+)
+
+// Valid indicates whether the value is a known member of the ManifestPackageRenderer enum.
+func (e ManifestPackageRenderer) Valid() bool {
+	switch e {
+	case ManifestPackageRendererKustomize:
+		return true
+	case ManifestPackageRendererRawYAML:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ManifestPackageStatus.
+const (
+	ManifestPackageStatusDraft     ManifestPackageStatus = "draft"
+	ManifestPackageStatusPublished ManifestPackageStatus = "published"
+)
+
+// Valid indicates whether the value is a known member of the ManifestPackageStatus enum.
+func (e ManifestPackageStatus) Valid() bool {
+	switch e {
+	case ManifestPackageStatusDraft:
+		return true
+	case ManifestPackageStatusPublished:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ManifestPreflightResultCapability.
 const (
 	ManifestPreflightResultCapabilityAvailable   ManifestPreflightResultCapability = "available"
@@ -5707,6 +5815,48 @@ func (e SecretVersionStatus) Valid() bool {
 	}
 }
 
+// Defines values for SoftwarePackageStatus.
+const (
+	SoftwarePackageStatusDeleted     SoftwarePackageStatus = "deleted"
+	SoftwarePackageStatusQuarantined SoftwarePackageStatus = "quarantined"
+	SoftwarePackageStatusReady       SoftwarePackageStatus = "ready"
+)
+
+// Valid indicates whether the value is a known member of the SoftwarePackageStatus enum.
+func (e SoftwarePackageStatus) Valid() bool {
+	switch e {
+	case SoftwarePackageStatusDeleted:
+		return true
+	case SoftwarePackageStatusQuarantined:
+		return true
+	case SoftwarePackageStatusReady:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SoftwarePackageVisibility.
+const (
+	SoftwarePackageVisibilityRestricted SoftwarePackageVisibility = "restricted"
+	SoftwarePackageVisibilityTenant     SoftwarePackageVisibility = "tenant"
+	SoftwarePackageVisibilityWorkspace  SoftwarePackageVisibility = "workspace"
+)
+
+// Valid indicates whether the value is a known member of the SoftwarePackageVisibility enum.
+func (e SoftwarePackageVisibility) Valid() bool {
+	switch e {
+	case SoftwarePackageVisibilityRestricted:
+		return true
+	case SoftwarePackageVisibilityTenant:
+		return true
+	case SoftwarePackageVisibilityWorkspace:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for SourceConnectionCapabilities.
 const (
 	Branches     SourceConnectionCapabilities = "branches"
@@ -5763,6 +5913,7 @@ const (
 	SystemIntegrationCategoryOther             SystemIntegrationCategory = "other"
 	SystemIntegrationCategoryProjectManagement SystemIntegrationCategory = "project_management"
 	SystemIntegrationCategorySourceControl     SystemIntegrationCategory = "source_control"
+	SystemIntegrationCategoryStorage           SystemIntegrationCategory = "storage"
 )
 
 // Valid indicates whether the value is a known member of the SystemIntegrationCategory enum.
@@ -5792,6 +5943,8 @@ func (e SystemIntegrationCategory) Valid() bool {
 		return true
 	case SystemIntegrationCategorySourceControl:
 		return true
+	case SystemIntegrationCategoryStorage:
+		return true
 	default:
 		return false
 	}
@@ -5799,6 +5952,7 @@ func (e SystemIntegrationCategory) Valid() bool {
 
 // Defines values for SystemIntegrationHealthStatus.
 const (
+	SystemIntegrationHealthStatusDegraded  SystemIntegrationHealthStatus = "degraded"
 	SystemIntegrationHealthStatusHealthy   SystemIntegrationHealthStatus = "healthy"
 	SystemIntegrationHealthStatusUnhealthy SystemIntegrationHealthStatus = "unhealthy"
 	SystemIntegrationHealthStatusUnknown   SystemIntegrationHealthStatus = "unknown"
@@ -5807,6 +5961,8 @@ const (
 // Valid indicates whether the value is a known member of the SystemIntegrationHealthStatus enum.
 func (e SystemIntegrationHealthStatus) Valid() bool {
 	switch e {
+	case SystemIntegrationHealthStatusDegraded:
+		return true
 	case SystemIntegrationHealthStatusHealthy:
 		return true
 	case SystemIntegrationHealthStatusUnhealthy:
@@ -6171,13 +6327,13 @@ func (e WorkbenchMessageRole) Valid() bool {
 
 // Defines values for WorkbenchMessageDeltaEventRole.
 const (
-	WorkbenchMessageDeltaEventRoleAssistant WorkbenchMessageDeltaEventRole = "assistant"
+	Assistant WorkbenchMessageDeltaEventRole = "assistant"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchMessageDeltaEventRole enum.
 func (e WorkbenchMessageDeltaEventRole) Valid() bool {
 	switch e {
-	case WorkbenchMessageDeltaEventRoleAssistant:
+	case Assistant:
 		return true
 	default:
 		return false
@@ -7386,28 +7542,28 @@ func (e ListAIGatewayRelayModelCallsParamsProviderKind) Valid() bool {
 
 // Defines values for ListAIGatewayRelayModelCallsParamsStatus.
 const (
-	Cancelled       ListAIGatewayRelayModelCallsParamsStatus = "cancelled"
-	ClientCancelled ListAIGatewayRelayModelCallsParamsStatus = "client_cancelled"
-	Failure         ListAIGatewayRelayModelCallsParamsStatus = "failure"
-	PolicyDenied    ListAIGatewayRelayModelCallsParamsStatus = "policy_denied"
-	RateLimited     ListAIGatewayRelayModelCallsParamsStatus = "rate_limited"
-	Success         ListAIGatewayRelayModelCallsParamsStatus = "success"
+	ListAIGatewayRelayModelCallsParamsStatusCancelled       ListAIGatewayRelayModelCallsParamsStatus = "cancelled"
+	ListAIGatewayRelayModelCallsParamsStatusClientCancelled ListAIGatewayRelayModelCallsParamsStatus = "client_cancelled"
+	ListAIGatewayRelayModelCallsParamsStatusFailure         ListAIGatewayRelayModelCallsParamsStatus = "failure"
+	ListAIGatewayRelayModelCallsParamsStatusPolicyDenied    ListAIGatewayRelayModelCallsParamsStatus = "policy_denied"
+	ListAIGatewayRelayModelCallsParamsStatusRateLimited     ListAIGatewayRelayModelCallsParamsStatus = "rate_limited"
+	ListAIGatewayRelayModelCallsParamsStatusSuccess         ListAIGatewayRelayModelCallsParamsStatus = "success"
 )
 
 // Valid indicates whether the value is a known member of the ListAIGatewayRelayModelCallsParamsStatus enum.
 func (e ListAIGatewayRelayModelCallsParamsStatus) Valid() bool {
 	switch e {
-	case Cancelled:
+	case ListAIGatewayRelayModelCallsParamsStatusCancelled:
 		return true
-	case ClientCancelled:
+	case ListAIGatewayRelayModelCallsParamsStatusClientCancelled:
 		return true
-	case Failure:
+	case ListAIGatewayRelayModelCallsParamsStatusFailure:
 		return true
-	case PolicyDenied:
+	case ListAIGatewayRelayModelCallsParamsStatusPolicyDenied:
 		return true
-	case RateLimited:
+	case ListAIGatewayRelayModelCallsParamsStatusRateLimited:
 		return true
-	case Success:
+	case ListAIGatewayRelayModelCallsParamsStatusSuccess:
 		return true
 	default:
 		return false
@@ -10118,6 +10274,11 @@ type DeliveryEnvironment struct {
 	UpdatedAt        time.Time `json:"updatedAt"`
 }
 
+// DeliveryEnvironmentListEnvelope defines model for DeliveryEnvironmentListEnvelope.
+type DeliveryEnvironmentListEnvelope struct {
+	Data []DeliveryEnvironment `json:"data"`
+}
+
 // DeliveryPlan defines model for DeliveryPlan.
 type DeliveryPlan struct {
 	Action                   ApplicationDeliveryActionKind `json:"action"`
@@ -11216,15 +11377,53 @@ type HelmReleaseImportResultEnvelope struct {
 
 // IdentityApplication defines model for IdentityApplication.
 type IdentityApplication struct {
-	CreatedAt   time.Time              `json:"createdAt"`
-	Description string                 `json:"description,omitempty"`
-	ID          string                 `json:"id"`
-	LaunchURL   string                 `json:"launchUrl,omitempty"`
-	Name        string                 `json:"name"`
-	Slug        string                 `json:"slug"`
-	Status      IdentityResourceStatus `json:"status"`
-	UpdatedAt   time.Time              `json:"updatedAt"`
+	Assignments    []IdentityApplicationAssignment `json:"assignments,omitempty"`
+	Category       string                          `json:"category,omitempty"`
+	CreatedAt      time.Time                       `json:"createdAt"`
+	CreatedBy      string                          `json:"createdBy,omitempty"`
+	Description    string                          `json:"description,omitempty"`
+	Favorite       bool                            `json:"favorite,omitempty"`
+	Featured       bool                            `json:"featured,omitempty"`
+	IconURL        string                          `json:"iconUrl,omitempty"`
+	ID             string                          `json:"id"`
+	LastLaunchedAt *time.Time                      `json:"lastLaunchedAt,omitempty"`
+	LaunchURL      string                          `json:"launchUrl,omitempty"`
+	Metadata       map[string]any                  `json:"metadata,omitempty"`
+	Name           string                          `json:"name"`
+	PortalVisible  bool                            `json:"portalVisible,omitempty"`
+	ProviderID     string                          `json:"providerId,omitempty"`
+	ProviderType   IdentityApplicationProviderType `json:"providerType,omitempty"`
+	Slug           string                          `json:"slug"`
+	SortOrder      int                             `json:"sortOrder,omitempty"`
+	Status         IdentityResourceStatus          `json:"status"`
+	Tags           []string                        `json:"tags,omitempty"`
+	UpdatedAt      time.Time                       `json:"updatedAt"`
+	UpdatedBy      string                          `json:"updatedBy,omitempty"`
 }
+
+// IdentityApplicationAssignment defines model for IdentityApplicationAssignment.
+type IdentityApplicationAssignment struct {
+	ApplicationID string                                   `json:"applicationId"`
+	CreatedAt     time.Time                                `json:"createdAt"`
+	CreatedBy     string                                   `json:"createdBy,omitempty"`
+	Effect        IdentityApplicationAssignmentEffect      `json:"effect"`
+	ID            string                                   `json:"id"`
+	SubjectID     string                                   `json:"subjectId"`
+	SubjectType   IdentityApplicationAssignmentSubjectType `json:"subjectType"`
+}
+
+// IdentityApplicationAssignmentEffect defines model for IdentityApplicationAssignmentEffect.
+type IdentityApplicationAssignmentEffect string
+
+// IdentityApplicationAssignmentInput defines model for IdentityApplicationAssignmentInput.
+type IdentityApplicationAssignmentInput struct {
+	Effect      IdentityApplicationAssignmentEffect      `json:"effect"`
+	SubjectID   string                                   `json:"subjectId"`
+	SubjectType IdentityApplicationAssignmentSubjectType `json:"subjectType"`
+}
+
+// IdentityApplicationAssignmentSubjectType defines model for IdentityApplicationAssignmentSubjectType.
+type IdentityApplicationAssignmentSubjectType string
 
 // IdentityApplicationEnvelope defines model for IdentityApplicationEnvelope.
 type IdentityApplicationEnvelope struct {
@@ -11233,17 +11432,30 @@ type IdentityApplicationEnvelope struct {
 
 // IdentityApplicationInput defines model for IdentityApplicationInput.
 type IdentityApplicationInput struct {
-	Description string                 `json:"description,omitempty"`
-	LaunchURL   string                 `json:"launchUrl,omitempty"`
-	Name        string                 `json:"name"`
-	Slug        string                 `json:"slug"`
-	Status      IdentityResourceStatus `json:"status"`
+	Assignments   []IdentityApplicationAssignmentInput `json:"assignments,omitempty"`
+	Category      string                               `json:"category,omitempty"`
+	Description   string                               `json:"description,omitempty"`
+	Featured      bool                                 `json:"featured,omitempty"`
+	IconURL       string                               `json:"iconUrl,omitempty"`
+	LaunchURL     string                               `json:"launchUrl,omitempty"`
+	Metadata      map[string]any                       `json:"metadata,omitempty"`
+	Name          string                               `json:"name"`
+	PortalVisible bool                                 `json:"portalVisible,omitempty"`
+	ProviderID    string                               `json:"providerId,omitempty"`
+	ProviderType  IdentityApplicationProviderType      `json:"providerType,omitempty"`
+	Slug          string                               `json:"slug"`
+	SortOrder     int                                  `json:"sortOrder,omitempty"`
+	Status        IdentityResourceStatus               `json:"status"`
+	Tags          []string                             `json:"tags,omitempty"`
 }
 
 // IdentityApplicationListEnvelope defines model for IdentityApplicationListEnvelope.
 type IdentityApplicationListEnvelope struct {
 	Items []IdentityApplication `json:"items"`
 }
+
+// IdentityApplicationProviderType defines model for IdentityApplicationProviderType.
+type IdentityApplicationProviderType string
 
 // IdentityCapability defines model for IdentityCapability.
 type IdentityCapability struct {
@@ -16100,6 +16312,72 @@ type ManifestFile struct {
 	Path    string `json:"path"`
 }
 
+// ManifestPackage defines model for ManifestPackage.
+type ManifestPackage struct {
+	ApplicationID   string                   `json:"applicationId"`
+	Bindings        []ManifestPackageBinding `json:"bindings"`
+	BusinessLineID  string                   `json:"businessLineId,omitempty"`
+	CreatedAt       time.Time                `json:"createdAt"`
+	CreatedBy       string                   `json:"createdBy,omitempty"`
+	CurrentRevision int                      `json:"currentRevision"`
+	Description     string                   `json:"description,omitempty"`
+	Files           []ManifestFile           `json:"files"`
+	ID              string                   `json:"id"`
+	Name            string                   `json:"name"`
+	Renderer        ManifestPackageRenderer  `json:"renderer"`
+	ServiceID       string                   `json:"serviceId,omitempty"`
+	Status          ManifestPackageStatus    `json:"status"`
+	UpdatedAt       time.Time                `json:"updatedAt"`
+	UpdatedBy       string                   `json:"updatedBy,omitempty"`
+}
+
+// ManifestPackageBinding defines model for ManifestPackageBinding.
+type ManifestPackageBinding struct {
+	ApplicationEnvironmentID string            `json:"applicationEnvironmentId"`
+	ClusterID                string            `json:"clusterId"`
+	EnvironmentKey           string            `json:"environmentKey"`
+	ID                       string            `json:"id,omitempty"`
+	Namespace                string            `json:"namespace"`
+	Overlay                  map[string]string `json:"overlay,omitempty"`
+	Status                   string            `json:"status,omitempty"`
+}
+
+// ManifestPackageEnvelope defines model for ManifestPackageEnvelope.
+type ManifestPackageEnvelope struct {
+	Data ManifestPackage `json:"data"`
+}
+
+// ManifestPackageInput defines model for ManifestPackageInput.
+type ManifestPackageInput struct {
+	ApplicationID  string                   `json:"applicationId"`
+	Bindings       []ManifestPackageBinding `json:"bindings"`
+	BusinessLineID string                   `json:"businessLineId,omitempty"`
+	Description    string                   `json:"description,omitempty"`
+	Files          []ManifestFile           `json:"files"`
+	Name           string                   `json:"name"`
+	Renderer       ManifestPackageRenderer  `json:"renderer"`
+	ServiceID      string                   `json:"serviceId,omitempty"`
+}
+
+// ManifestPackagePage defines model for ManifestPackagePage.
+type ManifestPackagePage struct {
+	Items    []ManifestPackage `json:"items"`
+	Page     int               `json:"page"`
+	PageSize int               `json:"pageSize"`
+	Total    int               `json:"total"`
+}
+
+// ManifestPackagePageEnvelope defines model for ManifestPackagePageEnvelope.
+type ManifestPackagePageEnvelope struct {
+	Data ManifestPackagePage `json:"data"`
+}
+
+// ManifestPackageRenderer defines model for ManifestPackageRenderer.
+type ManifestPackageRenderer string
+
+// ManifestPackageStatus defines model for ManifestPackageStatus.
+type ManifestPackageStatus string
+
 // ManifestPreflightInput defines model for ManifestPreflightInput.
 type ManifestPreflightInput struct {
 	BindingID      string `json:"bindingId"`
@@ -16495,8 +16773,11 @@ type OIDCClient struct {
 	AllowedGrantTypes     []OIDCClientAllowedGrantTypes `json:"allowedGrantTypes,omitempty"`
 	AllowedScopes         []string                      `json:"allowedScopes,omitempty"`
 	ClientID              string                        `json:"clientId"`
-	ClientType            OIDCClientClientType          `json:"clientType,omitempty"`
-	CreatedAt             time.Time                     `json:"createdAt"`
+
+	// ClientSecretAvailable True when the confidential client secret can be revealed by an authorized administrator.
+	ClientSecretAvailable bool                 `json:"clientSecretAvailable,omitempty"`
+	ClientType            OIDCClientClientType `json:"clientType,omitempty"`
+	CreatedAt             time.Time            `json:"createdAt"`
 
 	// GrantTypes Deprecated response alias retained for 0.1.x compatibility; use allowedGrantTypes.
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
@@ -16530,8 +16811,10 @@ type OIDCClientGrantTypes string
 
 // OIDCClientCreated defines model for OIDCClientCreated.
 type OIDCClientCreated struct {
-	Client       OIDCClient `json:"client"`
-	ClientSecret string     `json:"clientSecret,omitempty"`
+	Client OIDCClient `json:"client"`
+
+	// ClientSecret Generated or supplied client secret returned after creation. The same value can later be retrieved through the reveal action.
+	ClientSecret string `json:"clientSecret,omitempty"`
 }
 
 // OIDCClientCreatedEnvelope defines model for OIDCClientCreatedEnvelope.
@@ -16549,9 +16832,11 @@ type OIDCClientInput struct {
 	AccessTokenTTLSeconds int                                `json:"accessTokenTtlSeconds,omitempty"`
 	AllowedGrantTypes     []OIDCClientInputAllowedGrantTypes `json:"allowedGrantTypes,omitempty"`
 	AllowedScopes         []string                           `json:"allowedScopes,omitempty"`
-	ClientID              string                             `json:"clientId"`
-	ClientSecret          string                             `json:"clientSecret,omitempty"`
-	ClientType            OIDCClientInputClientType          `json:"clientType,omitempty"`
+
+	// ClientID On create, an omitted or blank value is generated by the server. On update, it preserves the current Client ID.
+	ClientID     string                    `json:"clientId,omitempty"`
+	ClientSecret string                    `json:"clientSecret,omitempty"`
+	ClientType   OIDCClientInputClientType `json:"clientType,omitempty"`
 
 	// GrantTypes Deprecated request alias retained for 0.1.x compatibility; use allowedGrantTypes.
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
@@ -16584,6 +16869,18 @@ type OIDCClientInputGrantTypes string
 // OIDCClientListEnvelope defines model for OIDCClientListEnvelope.
 type OIDCClientListEnvelope struct {
 	Items []OIDCClient `json:"items"`
+}
+
+// OIDCClientSecretReveal defines model for OIDCClientSecretReveal.
+type OIDCClientSecretReveal struct {
+	ClientID     string    `json:"clientId"`
+	ClientSecret string    `json:"clientSecret"`
+	RevealedAt   time.Time `json:"revealedAt"`
+}
+
+// OIDCClientSecretRevealEnvelope defines model for OIDCClientSecretRevealEnvelope.
+type OIDCClientSecretRevealEnvelope struct {
+	Data OIDCClientSecretReveal `json:"data"`
 }
 
 // OIDCExchangeRequest defines model for OIDCExchangeRequest.
@@ -18787,21 +19084,42 @@ type SkillCapability struct {
 
 // SoftwarePackage defines model for SoftwarePackage.
 type SoftwarePackage struct {
-	Arch         string    `json:"arch"`
-	Category     string    `json:"category,omitempty"`
-	CreatedAt    time.Time `json:"createdAt"`
-	Description  string    `json:"description,omitempty"`
-	DownloadPath string    `json:"downloadPath"`
-	FileName     string    `json:"fileName"`
+	Arch                 string                    `json:"arch"`
+	Category             string                    `json:"category,omitempty"`
+	CreatedAt            time.Time                 `json:"createdAt"`
+	Description          string                    `json:"description,omitempty"`
+	DownloadCount        int64                     `json:"downloadCount,omitempty"`
+	DownloadPath         string                    `json:"downloadPath"`
+	FileName             string                    `json:"fileName"`
+	ID                   string                    `json:"id"`
+	Name                 string                    `json:"name"`
+	Platform             string                    `json:"platform"`
+	Publisher            string                    `json:"publisher"`
+	Sha256               string                    `json:"sha256"`
+	SizeBytes            int64                     `json:"sizeBytes"`
+	SoftwareID           string                    `json:"softwareId"`
+	Status               SoftwarePackageStatus     `json:"status,omitempty"`
+	StorageIntegrationID string                    `json:"storageIntegrationId,omitempty"`
+	TenantID             string                    `json:"tenantId,omitempty"`
+	UpdatedAt            time.Time                 `json:"updatedAt"`
+	Version              string                    `json:"version"`
+	Visibility           SoftwarePackageVisibility `json:"visibility,omitempty"`
+	WorkspaceID          string                    `json:"workspaceId,omitempty"`
+}
+
+// SoftwarePackageDownloadRecord defines model for SoftwarePackageDownloadRecord.
+type SoftwarePackageDownloadRecord struct {
+	ActorID      string    `json:"actorId"`
+	ActorName    string    `json:"actorName,omitempty"`
+	DownloadedAt time.Time `json:"downloadedAt"`
+	DurationMs   int64     `json:"durationMs"`
 	ID           string    `json:"id"`
-	Name         string    `json:"name"`
-	Platform     string    `json:"platform"`
-	Publisher    string    `json:"publisher"`
-	Sha256       string    `json:"sha256"`
-	SizeBytes    int64     `json:"sizeBytes"`
-	SoftwareID   string    `json:"softwareId"`
-	UpdatedAt    time.Time `json:"updatedAt"`
-	Version      string    `json:"version"`
+	SourceIP     string    `json:"sourceIp,omitempty"`
+}
+
+// SoftwarePackageDownloadRecordListEnvelope defines model for SoftwarePackageDownloadRecordListEnvelope.
+type SoftwarePackageDownloadRecordListEnvelope struct {
+	Items []SoftwarePackageDownloadRecord `json:"items"`
 }
 
 // SoftwarePackageEnvelope defines model for SoftwarePackageEnvelope.
@@ -18815,40 +19133,61 @@ type SoftwarePackageListEnvelope struct {
 	NextCursor string            `json:"nextCursor,omitempty"`
 }
 
+// SoftwarePackageStatus defines model for SoftwarePackageStatus.
+type SoftwarePackageStatus string
+
 // SoftwarePackageURLImportRequest defines model for SoftwarePackageURLImportRequest.
 type SoftwarePackageURLImportRequest struct {
-	Arch        string `json:"arch"`
-	Category    string `json:"category,omitempty"`
-	Description string `json:"description,omitempty"`
-	FileName    string `json:"fileName,omitempty"`
-	Name        string `json:"name"`
-	Platform    string `json:"platform"`
-	Publisher   string `json:"publisher"`
-	SoftwareID  string `json:"softwareId"`
-	URL         string `json:"url"`
-	Version     string `json:"version"`
+	Arch                 string                    `json:"arch"`
+	Category             string                    `json:"category,omitempty"`
+	Description          string                    `json:"description,omitempty"`
+	FileName             string                    `json:"fileName,omitempty"`
+	Name                 string                    `json:"name"`
+	Platform             string                    `json:"platform"`
+	Publisher            string                    `json:"publisher"`
+	SoftwareID           string                    `json:"softwareId"`
+	StorageIntegrationID string                    `json:"storageIntegrationId,omitempty"`
+	TenantID             string                    `json:"tenantId,omitempty"`
+	URL                  string                    `json:"url"`
+	Version              string                    `json:"version"`
+	Visibility           SoftwarePackageVisibility `json:"visibility,omitempty"`
+	WorkspaceID          string                    `json:"workspaceId,omitempty"`
 }
 
 // SoftwarePackageUploadRequest defines model for SoftwarePackageUploadRequest.
 type SoftwarePackageUploadRequest struct {
-	Arch        string             `json:"arch"`
-	Category    string             `json:"category,omitempty"`
-	Description string             `json:"description,omitempty"`
-	File        openapi_types.File `json:"file"`
-	Name        string             `json:"name"`
-	Platform    string             `json:"platform"`
-	Publisher   string             `json:"publisher"`
-	SoftwareID  string             `json:"softwareId"`
-	Version     string             `json:"version"`
+	Arch                 string                    `json:"arch"`
+	Category             string                    `json:"category,omitempty"`
+	Description          string                    `json:"description,omitempty"`
+	File                 openapi_types.File        `json:"file"`
+	Name                 string                    `json:"name"`
+	Platform             string                    `json:"platform"`
+	Publisher            string                    `json:"publisher"`
+	SoftwareID           string                    `json:"softwareId"`
+	StorageIntegrationID string                    `json:"storageIntegrationId,omitempty"`
+	TenantID             string                    `json:"tenantId,omitempty"`
+	Version              string                    `json:"version"`
+	Visibility           SoftwarePackageVisibility `json:"visibility,omitempty"`
+	WorkspaceID          string                    `json:"workspaceId,omitempty"`
 }
+
+// SoftwarePackageVisibility defines model for SoftwarePackageVisibility.
+type SoftwarePackageVisibility string
 
 // SoftwareStorage defines model for SoftwareStorage.
 type SoftwareStorage struct {
-	Backend     string            `json:"backend"`
-	Items       []SoftwarePackage `json:"items"`
-	NextCursor  string            `json:"nextCursor,omitempty"`
-	ObjectCount int64             `json:"objectCount"`
-	TotalBytes  int64             `json:"totalBytes"`
+	Backend       string                        `json:"backend"`
+	Bucket        string                        `json:"bucket,omitempty"`
+	Endpoint      string                        `json:"endpoint,omitempty"`
+	HealthStatus  SystemIntegrationHealthStatus `json:"healthStatus,omitempty"`
+	IntegrationID string                        `json:"integrationId,omitempty"`
+	Items         []SoftwarePackage             `json:"items"`
+	LastCheckedAt *time.Time                    `json:"lastCheckedAt,omitempty"`
+	NextCursor    string                        `json:"nextCursor,omitempty"`
+	ObjectCount   int64                         `json:"objectCount"`
+	ProviderType  string                        `json:"providerType,omitempty"`
+	Region        string                        `json:"region,omitempty"`
+	TotalBytes    int64                         `json:"totalBytes"`
 }
 
 // SoftwareStorageEnvelope defines model for SoftwareStorageEnvelope.
@@ -18999,7 +19338,7 @@ type SystemIntegrationCreateRequest struct {
 	Enabled       bool                                  `json:"enabled"`
 	Name          string                                `json:"name"`
 
-	// ProviderType Extensible provider key such as gitlab, github, gitea, or zadig.
+	// ProviderType Extensible provider key such as gitlab, github, gitea, zadig, or s3.
 	ProviderType string `json:"providerType"`
 }
 
@@ -21184,11 +21523,17 @@ type SystemIntegrationID = string
 // TaskID defines model for TaskID.
 type TaskID = string
 
+// TeamID defines model for TeamID.
+type TeamID = string
+
 // ToolName defines model for ToolName.
 type ToolName = string
 
 // UpstreamID defines model for UpstreamID.
 type UpstreamID = string
+
+// UserID defines model for UserID.
+type UserID = string
 
 // WorkflowTemplateID defines model for WorkflowTemplateID.
 type WorkflowTemplateID = string
@@ -22569,6 +22914,18 @@ type ListManifestDeploymentsParams struct {
 	PageSize                 int                     `form:"pageSize,omitempty" json:"pageSize,omitempty"`
 }
 
+// ListManifestPackagesParams defines parameters for ListManifestPackages.
+type ListManifestPackagesParams struct {
+	ApplicationID string `form:"applicationId,omitempty" json:"applicationId,omitempty"`
+	ServiceID     string `form:"serviceId,omitempty" json:"serviceId,omitempty"`
+	ClusterID     string `form:"clusterId,omitempty" json:"clusterId,omitempty"`
+	Namespace     string `form:"namespace,omitempty" json:"namespace,omitempty"`
+	Search        string `form:"search,omitempty" json:"search,omitempty"`
+	Page          int    `form:"page,omitempty" json:"page,omitempty"`
+	PageSize      int    `form:"pageSize,omitempty" json:"pageSize,omitempty"`
+	Limit         int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
 // SyncManifestPackageParams defines parameters for SyncManifestPackage.
 type SyncManifestPackageParams struct {
 	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
@@ -22767,16 +23124,23 @@ type ListSecretsParams struct {
 
 // ListSoftwarePackagesParams defines parameters for ListSoftwarePackages.
 type ListSoftwarePackagesParams struct {
-	Platform string `form:"platform,omitempty" json:"platform,omitempty"`
-	Arch     string `form:"arch,omitempty" json:"arch,omitempty"`
-	Cursor   string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit    int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Platform             string `form:"platform,omitempty" json:"platform,omitempty"`
+	Arch                 string `form:"arch,omitempty" json:"arch,omitempty"`
+	StorageIntegrationID string `form:"storageIntegrationId,omitempty" json:"storageIntegrationId,omitempty"`
+	Cursor               string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit                int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListSoftwarePackageDownloadRecordsParams defines parameters for ListSoftwarePackageDownloadRecords.
+type ListSoftwarePackageDownloadRecordsParams struct {
+	Limit int `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
 // GetSoftwareStorageParams defines parameters for GetSoftwareStorage.
 type GetSoftwareStorageParams struct {
-	Cursor string `form:"cursor,omitempty" json:"cursor,omitempty"`
-	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
+	StorageIntegrationID string `form:"storageIntegrationId,omitempty" json:"storageIntegrationId,omitempty"`
+	Cursor               string `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit                int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
 // ListSourceRepositoriesParams defines parameters for ListSourceRepositories.
@@ -22937,6 +23301,18 @@ type CreateScopeGrantJSONRequestBody = ScopeGrantInput
 
 // UpdateScopeGrantJSONRequestBody defines body for UpdateScopeGrant for application/json ContentType.
 type UpdateScopeGrantJSONRequestBody = ScopeGrantInput
+
+// CreateTeamScopeGrantJSONRequestBody defines body for CreateTeamScopeGrant for application/json ContentType.
+type CreateTeamScopeGrantJSONRequestBody = ScopeGrantInput
+
+// UpdateTeamScopeGrantJSONRequestBody defines body for UpdateTeamScopeGrant for application/json ContentType.
+type UpdateTeamScopeGrantJSONRequestBody = ScopeGrantInput
+
+// CreateUserScopeGrantJSONRequestBody defines body for CreateUserScopeGrant for application/json ContentType.
+type CreateUserScopeGrantJSONRequestBody = ScopeGrantInput
+
+// UpdateUserScopeGrantJSONRequestBody defines body for UpdateUserScopeGrant for application/json ContentType.
+type UpdateUserScopeGrantJSONRequestBody = ScopeGrantInput
 
 // DecideAIGatewayApprovalRequestJSONRequestBody defines body for DecideAIGatewayApprovalRequest for application/json ContentType.
 type DecideAIGatewayApprovalRequestJSONRequestBody = ApprovalDecisionInput
@@ -23339,6 +23715,12 @@ type RepairManifestDeploymentJSONRequestBody = ManifestDeploymentActionInput
 
 // RollbackManifestDeploymentJSONRequestBody defines body for RollbackManifestDeployment for application/json ContentType.
 type RollbackManifestDeploymentJSONRequestBody = ManifestRollbackInput
+
+// CreateManifestPackageJSONRequestBody defines body for CreateManifestPackage for application/json ContentType.
+type CreateManifestPackageJSONRequestBody = ManifestPackageInput
+
+// UpdateManifestPackageJSONRequestBody defines body for UpdateManifestPackage for application/json ContentType.
+type UpdateManifestPackageJSONRequestBody = ManifestPackageInput
 
 // CreateManifestBindingJSONRequestBody defines body for CreateManifestBinding for application/json ContentType.
 type CreateManifestBindingJSONRequestBody = ManifestBindingInput
