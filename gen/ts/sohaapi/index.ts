@@ -769,6 +769,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/applications/{applicationID}/application-environments/{applicationEnvironmentID}/workflow": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["saveApplicationEnvironmentWorkflow"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/applications/{applicationID}/services": {
         parameters: {
             query?: never;
@@ -8750,7 +8766,7 @@ export interface components {
             /** @enum {string} */
             target: "subject" | "username" | "email" | "displayName" | "role" | "organization" | "team" | "project";
             /** @default false */
-            required: boolean;
+            required?: boolean;
         };
         CertificateSummary: {
             id: string;
@@ -9194,7 +9210,7 @@ export interface components {
         IdentityOutpostRoute: {
             host: string;
             /** @default / */
-            pathPrefix: string;
+            pathPrefix?: string;
             applicationId: string;
             providerId: string;
             skipPaths?: string[];
@@ -9766,7 +9782,7 @@ export interface components {
             environmentIds?: string[];
             applicationIds?: string[];
             /** @default legacy */
-            scopeType: components["schemas"]["ScopeGrantType"];
+            scopeType?: components["schemas"]["ScopeGrantType"];
             /** @description Required when scopeType is platform. */
             clusterIds?: string[];
             namespaces?: string[];
@@ -9775,7 +9791,7 @@ export interface components {
             resourceKinds?: string[];
             role: string;
             /** @default allow */
-            effect: components["schemas"]["ScopeGrantEffect"];
+            effect?: components["schemas"]["ScopeGrantEffect"];
             enabled: boolean;
         };
         ScopeGrantEnvelope: {
@@ -11284,7 +11300,7 @@ export interface components {
              * @description Workbench relay endpoint. Supported values are chat/completions, responses, and messages.
              * @default chat/completions
              */
-            defaultEndpoint: string;
+            defaultEndpoint?: string;
             enabled: boolean;
         };
         AISkillSettings: {
@@ -12621,8 +12637,24 @@ export interface components {
             defaultTag?: string;
             config?: components["schemas"]["BuildSourceConfig"];
         };
+        BuildRepositoryBinding: {
+            repositoryId: string;
+            checkoutPath?: string;
+            defaultBranch?: string;
+            /** @default false */
+            allowCommitSelection?: boolean;
+            /** @default false */
+            submodules?: boolean;
+        };
+        BuildRepositoryRefInput: {
+            repositoryId: string;
+            /** @enum {string} */
+            refType: "branch" | "tag" | "commit";
+            refName: string;
+        };
         BuildSourceConfig: {
             repositoryId?: string;
+            repositoryBindings?: components["schemas"]["BuildRepositoryBinding"][];
             dockerfilePath?: string;
             contextDir?: string;
             buildTemplateId?: string;
@@ -12926,6 +12958,14 @@ export interface components {
             };
             enabled: boolean;
         };
+        ApplicationWorkflowInput: {
+            name: string;
+            description?: string;
+            definition: {
+                [key: string]: unknown;
+            };
+            enabled: boolean;
+        };
         ApplicationEnvironment: {
             id: string;
             applicationId: string;
@@ -12933,6 +12973,10 @@ export interface components {
             applicationGroup?: string;
             environmentId: string;
             environmentKey?: string;
+            alias?: string;
+            clusterId?: string;
+            namespace?: string;
+            registryId?: string;
             strategyProfileId?: string;
             promotionPolicyId?: string;
             artifactPolicyId?: string;
@@ -12951,6 +12995,10 @@ export interface components {
             id?: string;
             applicationId: string;
             environmentId: string;
+            alias?: string;
+            clusterId?: string;
+            namespace?: string;
+            registryId?: string;
             strategyProfileId?: string;
             promotionPolicyId?: string;
             artifactPolicyId?: string;
@@ -13298,6 +13346,8 @@ export interface components {
             environmentKey?: string;
             actionKind?: string;
             requiresApproval: boolean;
+            /** @enum {string} */
+            status?: "available" | "unavailable";
             resourceSelector?: components["schemas"]["ResourceSelector"];
             targets?: components["schemas"]["ReleaseTarget"][];
             workloads?: components["schemas"]["ApplicationRuntimeWorkload"][];
@@ -13329,6 +13379,7 @@ export interface components {
             releaseBundleId?: string;
             refType?: string;
             refName?: string;
+            repositoryRefs?: components["schemas"]["BuildRepositoryRefInput"][];
             imageTag?: string;
             releaseName?: string;
             containerName?: string;
@@ -13517,7 +13568,7 @@ export interface components {
             bindingId: string;
             revision?: number;
             /** @default false */
-            forceConflicts: boolean;
+            forceConflicts?: boolean;
         };
         /** @enum {string} */
         ManifestTaskAction: "preflight" | "apply" | "observe" | "repair" | "adopt" | "rollback" | "sync";
@@ -13535,7 +13586,7 @@ export interface components {
             namespace?: string;
             fieldManager?: string;
             /** @default false */
-            forceConflicts: boolean;
+            forceConflicts?: boolean;
             idempotencyKey: string;
             documents?: components["schemas"]["ManifestRenderedDocument"][];
             inventory?: components["schemas"]["ManifestResourceInventory"][];
@@ -13812,14 +13863,14 @@ export interface components {
             expectedGeneration: number;
             reason?: string;
             /** @default false */
-            forceConflicts: boolean;
+            forceConflicts?: boolean;
         };
         ManifestRollbackInput: {
             /** Format: int64 */
             expectedGeneration: number;
             targetRevision?: number;
             /** @default true */
-            useLastKnownGood: boolean;
+            useLastKnownGood?: boolean;
             reason?: string;
         };
         ManifestDeploymentAction: {
@@ -14193,7 +14244,7 @@ export interface components {
             resource: string;
             summary: string;
             /** @default false */
-            sensitiveValuesRedacted: boolean;
+            sensitiveValuesRedacted?: boolean;
         };
         OperationalPlan: {
             capability: string;
@@ -14659,7 +14710,7 @@ export interface components {
              * @default deploy
              * @enum {string}
              */
-            action: "deploy" | "redeploy" | "start" | "stop" | "restart" | "down" | "pull" | "build" | "destroy";
+            action?: "deploy" | "redeploy" | "start" | "stop" | "restart" | "down" | "pull" | "build" | "destroy";
         };
         DockerPayloadScalarValue: string | number | boolean;
         DockerPayloadValue: components["schemas"]["DockerPayloadScalarValue"] | components["schemas"]["DockerPayloadScalarValue"][] | {
@@ -14669,15 +14720,15 @@ export interface components {
             /** Format: uri */
             repositoryUrl: string;
             /** @default main */
-            ref: string;
+            ref?: string;
             /** @default Dockerfile */
-            dockerfilePath: string;
+            dockerfilePath?: string;
             /** @default . */
-            contextDir: string;
+            contextDir?: string;
             /** @default false */
-            pull: boolean;
+            pull?: boolean;
             /** @default false */
-            noCache: boolean;
+            noCache?: boolean;
         };
         DockerContainerPortInput: {
             name?: string;
@@ -14718,7 +14769,7 @@ export interface components {
              * @default image
              * @enum {string}
              */
-            sourceKind: "image" | "git_dockerfile";
+            sourceKind?: "image" | "git_dockerfile";
             gitBuild?: components["schemas"]["DockerGitBuildInput"];
             architecture?: string;
             imagePullPolicy?: string;
@@ -16742,9 +16793,9 @@ export interface components {
         KubernetesHelmReleaseRollbackInput: {
             revision: number;
             /** @default true */
-            wait: boolean;
+            wait?: boolean;
             /** @default 300 */
-            timeoutSeconds: number;
+            timeoutSeconds?: number;
         };
         KubernetesClusterEvent: {
             name: string;
@@ -17210,7 +17261,7 @@ export interface components {
             /** Format: date-time */
             timeTo: string;
             /** @default 60 */
-            stepSeconds: number;
+            stepSeconds?: number;
             variables?: {
                 [key: string]: string;
             };
@@ -17303,7 +17354,7 @@ export interface components {
             /** Format: date-time */
             timeTo: string;
             /** @default 60 */
-            stepSeconds: number;
+            stepSeconds?: number;
         };
         ObservabilityMetricPoint: {
             /** Format: date-time */
@@ -17338,9 +17389,9 @@ export interface components {
             /** Format: date-time */
             timeTo: string;
             /** @default 0 */
-            minDurationMs: number;
+            minDurationMs?: number;
             /** @default 100 */
-            limit: number;
+            limit?: number;
         };
         ObservabilityTraceSpan: {
             traceId: string;
@@ -17464,11 +17515,11 @@ export interface components {
         };
         ObservabilityLogQueryBudget: {
             /** @default 1000 */
-            maxEntries: number;
+            maxEntries?: number;
             /** @default 86400 */
-            maxRangeSeconds: number;
+            maxRangeSeconds?: number;
             /** @default 10 */
-            timeoutSeconds: number;
+            timeoutSeconds?: number;
         };
         ObservabilityLogRedactionPolicy: {
             dropAttributeKeys?: string[];
@@ -17866,7 +17917,7 @@ export interface components {
             cacheStatus?: components["schemas"]["KubernetesResourceCacheStatus"];
             message?: string;
             /** @default false */
-            resyncRequired: boolean;
+            resyncRequired?: boolean;
         };
         /** @enum {string} */
         AlertEventStreamSignalType: "status" | "changed" | "reset" | "error";
@@ -17880,7 +17931,7 @@ export interface components {
             eventStatus?: string;
             message?: string;
             /** @default false */
-            resyncRequired: boolean;
+            resyncRequired?: boolean;
         };
         KubernetesResourceGraphNode: {
             id: string;
@@ -18703,7 +18754,7 @@ export interface components {
             /** Format: date-time */
             olderThan?: string;
             /** @default false */
-            dryRun: boolean;
+            dryRun?: boolean;
         };
         LLMRelayCachePurgeResult: {
             status: string;
@@ -20837,6 +20888,8 @@ export type GitReferenceListEnvelope = components['schemas']['GitReferenceListEn
 export type GitCommitPageEnvelope = components['schemas']['GitCommitPageEnvelope'];
 export type BuildSource = components['schemas']['BuildSource'];
 export type BuildSourceInput = components['schemas']['BuildSourceInput'];
+export type BuildRepositoryBinding = components['schemas']['BuildRepositoryBinding'];
+export type BuildRepositoryRefInput = components['schemas']['BuildRepositoryRefInput'];
 export type BuildSourceConfig = components['schemas']['BuildSourceConfig'];
 export type Application = components['schemas']['Application'];
 export type ApplicationInput = components['schemas']['ApplicationInput'];
@@ -20857,6 +20910,7 @@ export type RegistryConnectionEnvelope = components['schemas']['RegistryConnecti
 export type RegistryConnectionListEnvelope = components['schemas']['RegistryConnectionListEnvelope'];
 export type WorkflowTemplate = components['schemas']['WorkflowTemplate'];
 export type WorkflowTemplateInput = components['schemas']['WorkflowTemplateInput'];
+export type ApplicationWorkflowInput = components['schemas']['ApplicationWorkflowInput'];
 export type ApplicationEnvironment = components['schemas']['ApplicationEnvironment'];
 export type ApplicationEnvironmentInput = components['schemas']['ApplicationEnvironmentInput'];
 export type KubernetesRelatedResource = components['schemas']['KubernetesRelatedResource'];
@@ -23224,6 +23278,36 @@ export interface operations {
                     "application/json": components["schemas"]["ApplicationRuntimeDetailEnvelope"];
                 };
             };
+            404: components["responses"]["Error"];
+        };
+    };
+    saveApplicationEnvironmentWorkflow: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+                applicationEnvironmentID: components["parameters"]["ApplicationEnvironmentID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApplicationWorkflowInput"];
+            };
+        };
+        responses: {
+            /** @description Application environment with its atomically saved workflow. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationEnvironmentEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
             404: components["responses"]["Error"];
         };
     };

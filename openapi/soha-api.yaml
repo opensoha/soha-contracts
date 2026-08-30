@@ -1134,6 +1134,32 @@ paths:
                 $ref: "#/components/schemas/ApplicationRuntimeDetailEnvelope"
         "404":
           $ref: "#/components/responses/Error"
+  /applications/{applicationID}/application-environments/{applicationEnvironmentID}/workflow:
+    put:
+      tags: [Applications, Delivery]
+      operationId: saveApplicationEnvironmentWorkflow
+      parameters:
+        - $ref: "#/components/parameters/ApplicationID"
+        - $ref: "#/components/parameters/ApplicationEnvironmentID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApplicationWorkflowInput"
+      responses:
+        "200":
+          description: Application environment with its atomically saved workflow.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationEnvironmentEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
   /applications/{applicationID}/services:
     get:
       tags: [Applications]
@@ -19500,7 +19526,7 @@ components:
       properties:
         url:
           type: string
-          pattern: "^data:image/(jpeg|png|x-icon|webp);base64,"
+          pattern: "^data:image/(jpeg|png|svg\\+xml|x-icon|webp);base64,"
       additionalProperties: false
     BrandingAssetUploadEnvelope:
       type: object
@@ -21695,11 +21721,44 @@ components:
         config:
           $ref: "#/components/schemas/BuildSourceConfig"
       additionalProperties: false
+    BuildRepositoryBinding:
+      type: object
+      required: [repositoryId]
+      properties:
+        repositoryId:
+          type: string
+        checkoutPath:
+          type: string
+        defaultBranch:
+          type: string
+        allowCommitSelection:
+          type: boolean
+          default: false
+        submodules:
+          type: boolean
+          default: false
+      additionalProperties: false
+    BuildRepositoryRefInput:
+      type: object
+      required: [repositoryId, refType, refName]
+      properties:
+        repositoryId:
+          type: string
+        refType:
+          type: string
+          enum: [branch, tag, commit]
+        refName:
+          type: string
+      additionalProperties: false
     BuildSourceConfig:
       type: object
       properties:
         repositoryId:
           type: string
+        repositoryBindings:
+          type: array
+          items:
+            $ref: "#/components/schemas/BuildRepositoryBinding"
         dockerfilePath:
           type: string
         contextDir:
@@ -22280,6 +22339,21 @@ components:
         enabled:
           type: boolean
       additionalProperties: false
+    ApplicationWorkflowInput:
+      type: object
+      required: [name, definition, enabled]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        description:
+          type: string
+        definition:
+          type: object
+          additionalProperties: true
+        enabled:
+          type: boolean
+      additionalProperties: false
     ApplicationEnvironment:
       type: object
       required: [id, applicationId, environmentId, createdAt, updatedAt]
@@ -22295,6 +22369,14 @@ components:
         environmentId:
           type: string
         environmentKey:
+          type: string
+        alias:
+          type: string
+        clusterId:
+          type: string
+        namespace:
+          type: string
+        registryId:
           type: string
         strategyProfileId:
           type: string
@@ -22332,6 +22414,14 @@ components:
         applicationId:
           type: string
         environmentId:
+          type: string
+        alias:
+          type: string
+        clusterId:
+          type: string
+        namespace:
+          type: string
+        registryId:
           type: string
         strategyProfileId:
           type: string
@@ -23058,6 +23148,9 @@ components:
           type: string
         requiresApproval:
           type: boolean
+        status:
+          type: string
+          enum: [available, unavailable]
         resourceSelector:
           $ref: "#/components/schemas/ResourceSelector"
         targets:
@@ -23128,6 +23221,10 @@ components:
           type: string
         refName:
           type: string
+        repositoryRefs:
+          type: array
+          items:
+            $ref: "#/components/schemas/BuildRepositoryRefInput"
         imageTag:
           type: string
         releaseName:

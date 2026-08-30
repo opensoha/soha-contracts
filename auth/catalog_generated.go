@@ -6,8 +6,8 @@ import _ "embed"
 
 const (
 	PermissionCatalogVersion = "2.0.0"
-	PermissionCatalogContentSHA256 = "0da6a1dcd41f78e1699416a03ed0808f39cd569df6ebc7d242e1b35e5001830c"
-	PermissionCatalogSHA256 = "7ef12f0a326d2fa3a85e2be2095817fb5a3932427ae1bf35cca91ed026e32a3a"
+	PermissionCatalogContentSHA256 = "5aa6fa361c2ab8d987415fb1eb93218510deb9359a68212dfe86655dbfaeea5e"
+	PermissionCatalogSHA256 = "01c80a71427e3d7f4898212fb1667405c27f1b798318d9eac86ece8262cd188c"
 )
 
 //go:embed permission-catalog.json

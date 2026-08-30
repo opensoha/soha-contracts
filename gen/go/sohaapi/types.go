@@ -538,6 +538,24 @@ func (e ApplicationDeliveryActionKind) Valid() bool {
 	}
 }
 
+// Defines values for ApplicationRuntimeEnvironmentStatus.
+const (
+	ApplicationRuntimeEnvironmentStatusAvailable   ApplicationRuntimeEnvironmentStatus = "available"
+	ApplicationRuntimeEnvironmentStatusUnavailable ApplicationRuntimeEnvironmentStatus = "unavailable"
+)
+
+// Valid indicates whether the value is a known member of the ApplicationRuntimeEnvironmentStatus enum.
+func (e ApplicationRuntimeEnvironmentStatus) Valid() bool {
+	switch e {
+	case ApplicationRuntimeEnvironmentStatusAvailable:
+		return true
+	case ApplicationRuntimeEnvironmentStatusUnavailable:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ApplicationServiceServiceKind.
 const (
 	ApplicationServiceServiceKindExternalService    ApplicationServiceServiceKind = "external_service"
@@ -580,6 +598,27 @@ func (e ApplicationServiceInputServiceKind) Valid() bool {
 	case ApplicationServiceInputServiceKindJob:
 		return true
 	case ApplicationServiceInputServiceKindKubernetesWorkload:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for BuildRepositoryRefInputRefType.
+const (
+	BuildRepositoryRefInputRefTypeBranch BuildRepositoryRefInputRefType = "branch"
+	BuildRepositoryRefInputRefTypeCommit BuildRepositoryRefInputRefType = "commit"
+	BuildRepositoryRefInputRefTypeTag    BuildRepositoryRefInputRefType = "tag"
+)
+
+// Valid indicates whether the value is a known member of the BuildRepositoryRefInputRefType enum.
+func (e BuildRepositoryRefInputRefType) Valid() bool {
+	switch e {
+	case BuildRepositoryRefInputRefTypeBranch:
+		return true
+	case BuildRepositoryRefInputRefTypeCommit:
+		return true
+	case BuildRepositoryRefInputRefTypeTag:
 		return true
 	default:
 		return false
@@ -6342,13 +6381,13 @@ func (e WorkbenchMessageRole) Valid() bool {
 
 // Defines values for WorkbenchMessageDeltaEventRole.
 const (
-	Assistant WorkbenchMessageDeltaEventRole = "assistant"
+	WorkbenchMessageDeltaEventRoleAssistant WorkbenchMessageDeltaEventRole = "assistant"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchMessageDeltaEventRole enum.
 func (e WorkbenchMessageDeltaEventRole) Valid() bool {
 	switch e {
-	case Assistant:
+	case WorkbenchMessageDeltaEventRoleAssistant:
 		return true
 	default:
 		return false
@@ -7665,19 +7704,19 @@ func (e ListAIGatewayRelayUpstreamsParamsProviderKind) Valid() bool {
 
 // Defines values for ListAIGatewayRelayUpstreamsParamsStatus.
 const (
-	ListAIGatewayRelayUpstreamsParamsStatusActive   ListAIGatewayRelayUpstreamsParamsStatus = "active"
-	ListAIGatewayRelayUpstreamsParamsStatusDegraded ListAIGatewayRelayUpstreamsParamsStatus = "degraded"
-	ListAIGatewayRelayUpstreamsParamsStatusDisabled ListAIGatewayRelayUpstreamsParamsStatus = "disabled"
+	Active   ListAIGatewayRelayUpstreamsParamsStatus = "active"
+	Degraded ListAIGatewayRelayUpstreamsParamsStatus = "degraded"
+	Disabled ListAIGatewayRelayUpstreamsParamsStatus = "disabled"
 )
 
 // Valid indicates whether the value is a known member of the ListAIGatewayRelayUpstreamsParamsStatus enum.
 func (e ListAIGatewayRelayUpstreamsParamsStatus) Valid() bool {
 	switch e {
-	case ListAIGatewayRelayUpstreamsParamsStatusActive:
+	case Active:
 		return true
-	case ListAIGatewayRelayUpstreamsParamsStatusDegraded:
+	case Degraded:
 		return true
-	case ListAIGatewayRelayUpstreamsParamsStatusDisabled:
+	case Disabled:
 		return true
 	default:
 		return false
@@ -8753,6 +8792,7 @@ type ApplicationDeliveryActionRequest struct {
 	RefType                  string                        `json:"refType,omitempty"`
 	ReleaseBundleID          string                        `json:"releaseBundleId,omitempty"`
 	ReleaseName              string                        `json:"releaseName,omitempty"`
+	RepositoryRefs           []BuildRepositoryRefInput     `json:"repositoryRefs,omitempty"`
 	TargetID                 string                        `json:"targetId,omitempty"`
 
 	// ValuesContent Complete Helm values YAML used when the selected target is a managed Helm release.
@@ -8800,16 +8840,20 @@ type ApplicationEnvelope struct {
 
 // ApplicationEnvironment defines model for ApplicationEnvironment.
 type ApplicationEnvironment struct {
+	Alias              string            `json:"alias,omitempty"`
 	ApplicationGroup   string            `json:"applicationGroup,omitempty"`
 	ApplicationID      string            `json:"applicationId"`
 	ArtifactPolicyID   string            `json:"artifactPolicyId,omitempty"`
 	BuildPolicy        *BuildPolicy      `json:"buildPolicy,omitempty"`
 	BusinessLineID     string            `json:"businessLineId,omitempty"`
+	ClusterID          string            `json:"clusterId,omitempty"`
 	CreatedAt          time.Time         `json:"createdAt"`
 	EnvironmentID      string            `json:"environmentId"`
 	EnvironmentKey     string            `json:"environmentKey,omitempty"`
 	ID                 string            `json:"id"`
+	Namespace          string            `json:"namespace,omitempty"`
 	PromotionPolicyID  string            `json:"promotionPolicyId,omitempty"`
+	RegistryID         string            `json:"registryId,omitempty"`
 	ReleasePolicy      *ReleasePolicy    `json:"releasePolicy,omitempty"`
 	ResourceSelector   *ResourceSelector `json:"resourceSelector,omitempty"`
 	StrategyProfileID  string            `json:"strategyProfileId,omitempty"`
@@ -8846,12 +8890,16 @@ type ApplicationEnvironmentEnvelope struct {
 
 // ApplicationEnvironmentInput defines model for ApplicationEnvironmentInput.
 type ApplicationEnvironmentInput struct {
+	Alias              string               `json:"alias,omitempty"`
 	ApplicationID      string               `json:"applicationId"`
 	ArtifactPolicyID   string               `json:"artifactPolicyId,omitempty"`
 	BuildPolicy        *BuildPolicy         `json:"buildPolicy,omitempty"`
+	ClusterID          string               `json:"clusterId,omitempty"`
 	EnvironmentID      string               `json:"environmentId"`
 	ID                 string               `json:"id,omitempty"`
+	Namespace          string               `json:"namespace,omitempty"`
 	PromotionPolicyID  string               `json:"promotionPolicyId,omitempty"`
+	RegistryID         string               `json:"registryId,omitempty"`
 	ReleasePolicy      *ReleasePolicy       `json:"releasePolicy,omitempty"`
 	ResourceSelector   *ResourceSelector    `json:"resourceSelector,omitempty"`
 	StrategyProfileID  string               `json:"strategyProfileId,omitempty"`
@@ -8906,16 +8954,20 @@ type ApplicationRuntimeDetailEnvelope struct {
 
 // ApplicationRuntimeEnvironment defines model for ApplicationRuntimeEnvironment.
 type ApplicationRuntimeEnvironment struct {
-	ActionKind               string                       `json:"actionKind,omitempty"`
-	ApplicationEnvironmentID string                       `json:"applicationEnvironmentId"`
-	EnvironmentID            string                       `json:"environmentId"`
-	EnvironmentKey           string                       `json:"environmentKey,omitempty"`
-	EnvironmentName          string                       `json:"environmentName,omitempty"`
-	RequiresApproval         bool                         `json:"requiresApproval"`
-	ResourceSelector         *ResourceSelector            `json:"resourceSelector,omitempty"`
-	Targets                  []ReleaseTarget              `json:"targets,omitempty"`
-	Workloads                []ApplicationRuntimeWorkload `json:"workloads,omitempty"`
+	ActionKind               string                              `json:"actionKind,omitempty"`
+	ApplicationEnvironmentID string                              `json:"applicationEnvironmentId"`
+	EnvironmentID            string                              `json:"environmentId"`
+	EnvironmentKey           string                              `json:"environmentKey,omitempty"`
+	EnvironmentName          string                              `json:"environmentName,omitempty"`
+	RequiresApproval         bool                                `json:"requiresApproval"`
+	ResourceSelector         *ResourceSelector                   `json:"resourceSelector,omitempty"`
+	Status                   ApplicationRuntimeEnvironmentStatus `json:"status,omitempty"`
+	Targets                  []ReleaseTarget                     `json:"targets,omitempty"`
+	Workloads                []ApplicationRuntimeWorkload        `json:"workloads,omitempty"`
 }
+
+// ApplicationRuntimeEnvironmentStatus defines model for ApplicationRuntimeEnvironment.Status.
+type ApplicationRuntimeEnvironmentStatus string
 
 // ApplicationRuntimeWorkload defines model for ApplicationRuntimeWorkload.
 type ApplicationRuntimeWorkload struct {
@@ -9026,6 +9078,14 @@ type ApplicationServiceInputServiceKind string
 // ApplicationServiceListEnvelope defines model for ApplicationServiceListEnvelope.
 type ApplicationServiceListEnvelope struct {
 	Data []ApplicationService `json:"data"`
+}
+
+// ApplicationWorkflowInput defines model for ApplicationWorkflowInput.
+type ApplicationWorkflowInput struct {
+	Definition  map[string]any `json:"definition"`
+	Description string         `json:"description,omitempty"`
+	Enabled     bool           `json:"enabled"`
+	Name        string         `json:"name"`
 }
 
 // ApprovalDecisionInput defines model for ApprovalDecisionInput.
@@ -9272,6 +9332,25 @@ type BuildRecord struct {
 	Status        string         `json:"status"`
 }
 
+// BuildRepositoryBinding defines model for BuildRepositoryBinding.
+type BuildRepositoryBinding struct {
+	AllowCommitSelection bool   `json:"allowCommitSelection,omitempty"`
+	CheckoutPath         string `json:"checkoutPath,omitempty"`
+	DefaultBranch        string `json:"defaultBranch,omitempty"`
+	RepositoryID         string `json:"repositoryId"`
+	Submodules           bool   `json:"submodules,omitempty"`
+}
+
+// BuildRepositoryRefInput defines model for BuildRepositoryRefInput.
+type BuildRepositoryRefInput struct {
+	RefName      string                         `json:"refName"`
+	RefType      BuildRepositoryRefInputRefType `json:"refType"`
+	RepositoryID string                         `json:"repositoryId"`
+}
+
+// BuildRepositoryRefInputRefType defines model for BuildRepositoryRefInput.RefType.
+type BuildRepositoryRefInputRefType string
+
 // BuildSource defines model for BuildSource.
 type BuildSource struct {
 	BuildImage string             `json:"buildImage,omitempty"`
@@ -9291,17 +9370,18 @@ type BuildSourceType string
 
 // BuildSourceConfig defines model for BuildSourceConfig.
 type BuildSourceConfig struct {
-	BuildArgs       map[string]BuildSourceConfig_BuildArgs_AdditionalProperties `json:"buildArgs,omitempty"`
-	BuildImage      string                                                      `json:"buildImage,omitempty"`
-	BuildTemplateID string                                                      `json:"buildTemplateId,omitempty"`
-	BuilderKind     BuildSourceConfigBuilderKind                                `json:"builderKind,omitempty"`
-	ContextDir      string                                                      `json:"contextDir,omitempty"`
-	DefaultTag      string                                                      `json:"defaultTag,omitempty"`
-	DockerfilePath  string                                                      `json:"dockerfilePath,omitempty"`
-	PipelineRef     string                                                      `json:"pipelineRef,omitempty"`
-	ProviderKind    string                                                      `json:"providerKind,omitempty"`
-	RepositoryID    string                                                      `json:"repositoryId,omitempty"`
-	Variables       map[string]BuildSourceConfig_Variables_AdditionalProperties `json:"variables,omitempty"`
+	BuildArgs          map[string]BuildSourceConfig_BuildArgs_AdditionalProperties `json:"buildArgs,omitempty"`
+	BuildImage         string                                                      `json:"buildImage,omitempty"`
+	BuildTemplateID    string                                                      `json:"buildTemplateId,omitempty"`
+	BuilderKind        BuildSourceConfigBuilderKind                                `json:"builderKind,omitempty"`
+	ContextDir         string                                                      `json:"contextDir,omitempty"`
+	DefaultTag         string                                                      `json:"defaultTag,omitempty"`
+	DockerfilePath     string                                                      `json:"dockerfilePath,omitempty"`
+	PipelineRef        string                                                      `json:"pipelineRef,omitempty"`
+	ProviderKind       string                                                      `json:"providerKind,omitempty"`
+	RepositoryBindings []BuildRepositoryBinding                                    `json:"repositoryBindings,omitempty"`
+	RepositoryID       string                                                      `json:"repositoryId,omitempty"`
+	Variables          map[string]BuildSourceConfig_Variables_AdditionalProperties `json:"variables,omitempty"`
 }
 
 // BuildSourceConfigBuildArgs0 defines model for .
@@ -23574,6 +23654,9 @@ type CreateApplicationJSONRequestBody = ApplicationInput
 // UpdateApplicationJSONRequestBody defines body for UpdateApplication for application/json ContentType.
 type UpdateApplicationJSONRequestBody = ApplicationInput
 
+// SaveApplicationEnvironmentWorkflowJSONRequestBody defines body for SaveApplicationEnvironmentWorkflow for application/json ContentType.
+type SaveApplicationEnvironmentWorkflowJSONRequestBody = ApplicationWorkflowInput
+
 // TriggerApplicationDeliveryActionJSONRequestBody defines body for TriggerApplicationDeliveryAction for application/json ContentType.
 type TriggerApplicationDeliveryActionJSONRequestBody = ApplicationDeliveryActionRequest
 
@@ -30145,6 +30228,16 @@ const (
 const (
 	TCP DockerContainerPortInputProtocol = DockerContainerPortInputProtocolTCP
 	UDP DockerContainerPortInputProtocol = DockerContainerPortInputProtocolUDP
+)
+
+// Deprecated: use WorkbenchMessageDeltaEventRoleAssistant in new code.
+const Assistant WorkbenchMessageDeltaEventRole = WorkbenchMessageDeltaEventRoleAssistant
+
+// Deprecated: use Active, Degraded, and Disabled in new code.
+const (
+	ListAIGatewayRelayUpstreamsParamsStatusActive   ListAIGatewayRelayUpstreamsParamsStatus = Active
+	ListAIGatewayRelayUpstreamsParamsStatusDegraded ListAIGatewayRelayUpstreamsParamsStatus = Degraded
+	ListAIGatewayRelayUpstreamsParamsStatusDisabled ListAIGatewayRelayUpstreamsParamsStatus = Disabled
 )
 
 // Deprecated: use the MarketplaceAdvisorySeverity-prefixed constants in new code.

@@ -4518,6 +4518,12 @@
           "releaseName": {
             "type": "string"
           },
+          "repositoryRefs": {
+            "items": {
+              "$ref": "#/components/schemas/BuildRepositoryRefInput"
+            },
+            "type": "array"
+          },
           "targetId": {
             "type": "string"
           },
@@ -4644,6 +4650,9 @@
       "ApplicationEnvironment": {
         "additionalProperties": false,
         "properties": {
+          "alias": {
+            "type": "string"
+          },
           "applicationGroup": {
             "type": "string"
           },
@@ -4659,6 +4668,9 @@
           "businessLineId": {
             "type": "string"
           },
+          "clusterId": {
+            "type": "string"
+          },
           "createdAt": {
             "format": "date-time",
             "type": "string"
@@ -4672,7 +4684,13 @@
           "id": {
             "type": "string"
           },
+          "namespace": {
+            "type": "string"
+          },
           "promotionPolicyId": {
+            "type": "string"
+          },
+          "registryId": {
             "type": "string"
           },
           "releasePolicy": {
@@ -4781,6 +4799,9 @@
       "ApplicationEnvironmentInput": {
         "additionalProperties": false,
         "properties": {
+          "alias": {
+            "type": "string"
+          },
           "applicationId": {
             "type": "string"
           },
@@ -4790,13 +4811,22 @@
           "buildPolicy": {
             "$ref": "#/components/schemas/BuildPolicy"
           },
+          "clusterId": {
+            "type": "string"
+          },
           "environmentId": {
             "type": "string"
           },
           "id": {
             "type": "string"
           },
+          "namespace": {
+            "type": "string"
+          },
           "promotionPolicyId": {
+            "type": "string"
+          },
+          "registryId": {
             "type": "string"
           },
           "releasePolicy": {
@@ -4986,6 +5016,13 @@
           },
           "resourceSelector": {
             "$ref": "#/components/schemas/ResourceSelector"
+          },
+          "status": {
+            "enum": [
+              "available",
+              "unavailable"
+            ],
+            "type": "string"
           },
           "targets": {
             "items": {
@@ -5364,6 +5401,31 @@
         },
         "required": [
           "data"
+        ],
+        "type": "object"
+      },
+      "ApplicationWorkflowInput": {
+        "additionalProperties": false,
+        "properties": {
+          "definition": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "description": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "definition",
+          "enabled"
         ],
         "type": "object"
       },
@@ -6128,7 +6190,7 @@
         "additionalProperties": false,
         "properties": {
           "url": {
-            "pattern": "^data:image/(jpeg|png|x-icon|webp);base64,",
+            "pattern": "^data:image/(jpeg|png|svg\\+xml|x-icon|webp);base64,",
             "type": "string"
           }
         },
@@ -6266,6 +6328,57 @@
         ],
         "type": "object"
       },
+      "BuildRepositoryBinding": {
+        "additionalProperties": false,
+        "properties": {
+          "allowCommitSelection": {
+            "default": false,
+            "type": "boolean"
+          },
+          "checkoutPath": {
+            "type": "string"
+          },
+          "defaultBranch": {
+            "type": "string"
+          },
+          "repositoryId": {
+            "type": "string"
+          },
+          "submodules": {
+            "default": false,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "repositoryId"
+        ],
+        "type": "object"
+      },
+      "BuildRepositoryRefInput": {
+        "additionalProperties": false,
+        "properties": {
+          "refName": {
+            "type": "string"
+          },
+          "refType": {
+            "enum": [
+              "branch",
+              "tag",
+              "commit"
+            ],
+            "type": "string"
+          },
+          "repositoryId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "repositoryId",
+          "refType",
+          "refName"
+        ],
+        "type": "object"
+      },
       "BuildSource": {
         "additionalProperties": false,
         "properties": {
@@ -6363,6 +6476,12 @@
           },
           "providerKind": {
             "type": "string"
+          },
+          "repositoryBindings": {
+            "items": {
+              "$ref": "#/components/schemas/BuildRepositoryBinding"
+            },
+            "type": "array"
           },
           "repositoryId": {
             "type": "string"
@@ -53415,6 +53534,54 @@
         },
         "tags": [
           "Applications"
+        ]
+      }
+    },
+    "/applications/{applicationID}/application-environments/{applicationEnvironmentID}/workflow": {
+      "put": {
+        "operationId": "saveApplicationEnvironmentWorkflow",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplicationID"
+          },
+          {
+            "$ref": "#/components/parameters/ApplicationEnvironmentID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationWorkflowInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationEnvironmentEnvelope"
+                }
+              }
+            },
+            "description": "Application environment with its atomically saved workflow."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Applications",
+          "Delivery"
         ]
       }
     },

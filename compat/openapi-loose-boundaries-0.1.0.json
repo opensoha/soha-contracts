@@ -172,6 +172,10 @@
     },
     {
       "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/ApplicationWorkflowInput/properties/definition/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
       "path": "components/schemas/ApprovalRequest/properties/relatedIds/additionalProperties"
     },
     {

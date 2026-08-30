@@ -46,6 +46,8 @@ async function generateSdk(outputRoot) {
     "--root-types",
     "--root-types-no-schema-prefix",
     "--root-types-keep-casing",
+    "--default-non-nullable",
+    "false",
     "--output",
     tsOutput,
   ]);
@@ -53,7 +55,7 @@ async function generateSdk(outputRoot) {
 
   const goSpec = await writeGoCompatibilitySpec();
   try {
-    run("go", [
+  run("go", [
       "run",
       `github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@${oapiCodegenVersion}`,
       "-config",
@@ -176,6 +178,16 @@ const (
 const (
 	TCP DockerContainerPortInputProtocol = DockerContainerPortInputProtocolTCP
 	UDP DockerContainerPortInputProtocol = DockerContainerPortInputProtocolUDP
+)
+
+// Deprecated: use WorkbenchMessageDeltaEventRoleAssistant in new code.
+const Assistant WorkbenchMessageDeltaEventRole = WorkbenchMessageDeltaEventRoleAssistant
+
+// Deprecated: use Active, Degraded, and Disabled in new code.
+const (
+	ListAIGatewayRelayUpstreamsParamsStatusActive   ListAIGatewayRelayUpstreamsParamsStatus = Active
+	ListAIGatewayRelayUpstreamsParamsStatusDegraded ListAIGatewayRelayUpstreamsParamsStatus = Degraded
+	ListAIGatewayRelayUpstreamsParamsStatusDisabled ListAIGatewayRelayUpstreamsParamsStatus = Disabled
 )
 
 // Deprecated: use the MarketplaceAdvisorySeverity-prefixed constants in new code.

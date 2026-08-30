@@ -9,5 +9,5 @@
     "outDir": "dist/types",
     "skipLibCheck": true
   },
-  "include": ["gen/ts/**/*.ts"]
+  "include": ["gen/ts/**/*.ts", "tests/**/*.ts"]
 }

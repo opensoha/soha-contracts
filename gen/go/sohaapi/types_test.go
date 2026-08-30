@@ -23,6 +23,12 @@ func TestWorkbenchMessageDoneEventRoleGeneratedName(t *testing.T) {
 	}
 }
 
+func TestWorkbenchMessageDeltaEventLegacyRoleName(t *testing.T) {
+	if Assistant != WorkbenchMessageDeltaEventRole("assistant") {
+		t.Fatalf("role = %q", Assistant)
+	}
+}
+
 func TestKubernetesResourceSearchGeneratedShape(t *testing.T) {
 	result := KubernetesResourceSearchResult{
 		Items: []KubernetesResourceSearchItem{
@@ -54,5 +60,10 @@ func TestLegacyEnumAliasesRemainSourceCompatible(t *testing.T) {
 		Medium != MarketplaceAdvisorySeverityMedium ||
 		Low != MarketplaceAdvisorySeverityLow {
 		t.Fatalf("marketplace severity aliases = %q/%q/%q/%q", Critical, High, Medium, Low)
+	}
+	if ListAIGatewayRelayUpstreamsParamsStatusActive != Active ||
+		ListAIGatewayRelayUpstreamsParamsStatusDegraded != Degraded ||
+		ListAIGatewayRelayUpstreamsParamsStatusDisabled != Disabled {
+		t.Fatalf("relay status aliases changed")
 	}
 }

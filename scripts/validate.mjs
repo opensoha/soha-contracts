@@ -92,6 +92,8 @@ const requiredOpenapiFixtureSchemas = [
   "DesktopAuthAttemptEnvelope",
   "DesktopAuthAttemptExchangeRequest",
   "ApplicationInput",
+  "ApplicationWorkflowInput",
+  "ApplicationRuntimeEnvironment",
   "ExecutionCallbackRequest",
   "DeliveryDraftInput",
   "KubernetesServiceImportRequest",
