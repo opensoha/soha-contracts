@@ -4641,6 +4641,88 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/alert-rules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAlertRules"];
+        put?: never;
+        post: operations["createAlertRule"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/alert-rules/{ruleID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAlertRule"];
+        put: operations["updateAlertRule"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/alert-rules/{ruleID}/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Compatibility alias for testing an alert rule without persisting it. */
+        post: operations["validateAlertRule"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/alert-rules/{ruleID}/test": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Test an alert rule payload without persisting it; ruleID is a legacy compatibility token. */
+        post: operations["testAlertRule"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/alert-rule-runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAlertRuleRuns"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/alert-events/stream": {
         parameters: {
             query?: never;
@@ -17800,6 +17882,86 @@ export interface components {
             credentials?: components["schemas"]["SystemIntegrationCredentialInput"][];
             clearCredentialKeys?: string[];
         };
+        /** @enum {string} */
+        AlertRuleType: "metrics" | "logs" | "traces" | "external_passthrough";
+        AlertRuleStringMap: {
+            [key: string]: string;
+        };
+        AlertRuleInput: {
+            id?: string;
+            name: string;
+            ruleType: components["schemas"]["AlertRuleType"];
+            datasourceSelector?: components["schemas"]["GenericObject"];
+            querySpec?: components["schemas"]["GenericObject"];
+            thresholdSpec?: components["schemas"]["GenericObject"];
+            forSeconds?: number;
+            groupBy?: string[];
+            labels?: components["schemas"]["AlertRuleStringMap"];
+            annotations?: components["schemas"]["AlertRuleStringMap"];
+            notificationPolicyId?: string;
+            healingPolicyIds?: string[];
+            enabled?: boolean;
+        };
+        AlertRule: {
+            id: string;
+            name: string;
+            ruleType: components["schemas"]["AlertRuleType"];
+            datasourceSelector?: components["schemas"]["GenericObject"];
+            querySpec?: components["schemas"]["GenericObject"];
+            thresholdSpec?: components["schemas"]["GenericObject"];
+            forSeconds: number;
+            groupBy?: string[];
+            labels?: components["schemas"]["AlertRuleStringMap"];
+            annotations?: components["schemas"]["AlertRuleStringMap"];
+            notificationPolicyId?: string;
+            healingPolicyIds?: string[];
+            enabled: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        AlertRuleEnvelope: {
+            data: components["schemas"]["AlertRule"];
+        };
+        AlertRuleListEnvelope: {
+            items: components["schemas"]["AlertRule"][];
+        };
+        AlertRuleTestResult: {
+            ruleId?: string;
+            ruleType?: components["schemas"]["AlertRuleType"];
+            state?: string;
+            summary?: string;
+            matched: boolean;
+            samples?: components["schemas"]["GenericObject"][];
+            dataSources?: string[];
+            errors?: string[];
+            querySnapshot?: components["schemas"]["ObservabilityQuerySnapshot"];
+            notificationPreview?: components["schemas"]["GenericObject"][];
+            /** Format: date-time */
+            executedAt: string;
+        };
+        AlertRuleTestResultEnvelope: {
+            data: components["schemas"]["AlertRuleTestResult"];
+        };
+        AlertRuleRun: {
+            id: string;
+            ruleId: string;
+            status: string;
+            summary?: string;
+            matched: boolean;
+            durationMs: number;
+            error?: string;
+            result?: components["schemas"]["GenericObject"];
+            querySnapshot?: components["schemas"]["ObservabilityQuerySnapshot"];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        AlertRuleRunListEnvelope: {
+            items: components["schemas"]["AlertRuleRun"][];
+        };
         ObservabilityDataSource: {
             id: string;
             name: string;
@@ -17946,6 +18108,8 @@ export interface components {
         };
         LogQuery: {
             sourceMode?: components["schemas"]["LogSourceMode"];
+            /** @description Optional Soha-managed durable log data source. Existing permission and scope checks still apply. */
+            dataSourceId?: string;
             selector?: components["schemas"]["LogSourceSelector"];
             /** Format: date-time */
             from?: string;
@@ -20458,6 +20622,7 @@ export interface components {
         KubernetesResourceName: string;
         AgentInstallTicket: string;
         DataSourceID: string;
+        AlertRuleID: string;
         ObservabilityDataSourceIDQuery: string;
         ObservabilityClusterIDQuery: string;
         ObservabilityEnvironmentQuery: string;
@@ -21712,6 +21877,16 @@ export type ObservabilityLogRedactionPolicy = components['schemas']['Observabili
 export type ObservabilityLogLabelKeys = components['schemas']['ObservabilityLogLabelKeys'];
 export type ObservabilityLogDataSourceConfig = components['schemas']['ObservabilityLogDataSourceConfig'];
 export type ObservabilityDataSourceInput = components['schemas']['ObservabilityDataSourceInput'];
+export type AlertRuleType = components['schemas']['AlertRuleType'];
+export type AlertRuleStringMap = components['schemas']['AlertRuleStringMap'];
+export type AlertRuleInput = components['schemas']['AlertRuleInput'];
+export type AlertRule = components['schemas']['AlertRule'];
+export type AlertRuleEnvelope = components['schemas']['AlertRuleEnvelope'];
+export type AlertRuleListEnvelope = components['schemas']['AlertRuleListEnvelope'];
+export type AlertRuleTestResult = components['schemas']['AlertRuleTestResult'];
+export type AlertRuleTestResultEnvelope = components['schemas']['AlertRuleTestResultEnvelope'];
+export type AlertRuleRun = components['schemas']['AlertRuleRun'];
+export type AlertRuleRunListEnvelope = components['schemas']['AlertRuleRunListEnvelope'];
 export type ObservabilityDataSource = components['schemas']['ObservabilityDataSource'];
 export type ObservabilityDataSourceEnvelope = components['schemas']['ObservabilityDataSourceEnvelope'];
 export type ObservabilityDataSourceListEnvelope = components['schemas']['ObservabilityDataSourceListEnvelope'];
@@ -22071,6 +22246,7 @@ export type ParameterKubernetesMetricsStepSecondsQuery = components['parameters'
 export type ParameterKubernetesResourceName = components['parameters']['KubernetesResourceName'];
 export type ParameterAgentInstallTicket = components['parameters']['AgentInstallTicket'];
 export type ParameterDataSourceId = components['parameters']['DataSourceID'];
+export type ParameterAlertRuleId = components['parameters']['AlertRuleID'];
 export type ParameterObservabilityDataSourceIdQuery = components['parameters']['ObservabilityDataSourceIDQuery'];
 export type ParameterObservabilityClusterIdQuery = components['parameters']['ObservabilityClusterIDQuery'];
 export type ParameterObservabilityEnvironmentQuery = components['parameters']['ObservabilityEnvironmentQuery'];
@@ -31150,6 +31326,188 @@ export interface operations {
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
             503: components["responses"]["Error"];
+        };
+    };
+    listAlertRules: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Alert rules visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AlertRuleListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createAlertRule: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AlertRuleInput"];
+            };
+        };
+        responses: {
+            /** @description Alert rule created. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AlertRuleEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    getAlertRule: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                ruleID: components["parameters"]["AlertRuleID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Alert rule detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AlertRuleEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateAlertRule: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                ruleID: components["parameters"]["AlertRuleID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AlertRuleInput"];
+            };
+        };
+        responses: {
+            /** @description Alert rule updated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AlertRuleEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    validateAlertRule: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Compatibility token retained in the legacy path; preview evaluation does not resolve a persisted rule. */
+                ruleID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AlertRuleInput"];
+            };
+        };
+        responses: {
+            /** @description Alert rule evaluation preview. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AlertRuleTestResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    testAlertRule: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Compatibility token retained in the legacy path; preview evaluation does not resolve a persisted rule. */
+                ruleID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AlertRuleInput"];
+            };
+        };
+        responses: {
+            /** @description Alert rule evaluation preview. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AlertRuleTestResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    listAlertRuleRuns: {
+        parameters: {
+            query?: {
+                ruleId?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Recent alert rule evaluation runs visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AlertRuleRunListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
         };
     };
     streamAlertEvents: {

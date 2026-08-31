@@ -136,6 +136,16 @@
           "type": "string"
         }
       },
+      "AlertRuleID": {
+        "in": "path",
+        "name": "ruleID",
+        "required": true,
+        "schema": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
       "AnalysisProfileID": {
         "in": "path",
         "name": "profileID",
@@ -4233,6 +4243,311 @@
           "error"
         ],
         "type": "string"
+      },
+      "AlertRule": {
+        "additionalProperties": false,
+        "properties": {
+          "annotations": {
+            "$ref": "#/components/schemas/AlertRuleStringMap"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "datasourceSelector": {
+            "$ref": "#/components/schemas/GenericObject"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "forSeconds": {
+            "type": "integer"
+          },
+          "groupBy": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "healingPolicyIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "id": {
+            "type": "string"
+          },
+          "labels": {
+            "$ref": "#/components/schemas/AlertRuleStringMap"
+          },
+          "name": {
+            "type": "string"
+          },
+          "notificationPolicyId": {
+            "type": "string"
+          },
+          "querySpec": {
+            "$ref": "#/components/schemas/GenericObject"
+          },
+          "ruleType": {
+            "$ref": "#/components/schemas/AlertRuleType"
+          },
+          "thresholdSpec": {
+            "$ref": "#/components/schemas/GenericObject"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "ruleType",
+          "forSeconds",
+          "enabled",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "AlertRuleEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AlertRule"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "AlertRuleInput": {
+        "additionalProperties": false,
+        "properties": {
+          "annotations": {
+            "$ref": "#/components/schemas/AlertRuleStringMap"
+          },
+          "datasourceSelector": {
+            "$ref": "#/components/schemas/GenericObject"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "forSeconds": {
+            "type": "integer"
+          },
+          "groupBy": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "healingPolicyIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "id": {
+            "type": "string"
+          },
+          "labels": {
+            "$ref": "#/components/schemas/AlertRuleStringMap"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "notificationPolicyId": {
+            "type": "string"
+          },
+          "querySpec": {
+            "$ref": "#/components/schemas/GenericObject"
+          },
+          "ruleType": {
+            "$ref": "#/components/schemas/AlertRuleType"
+          },
+          "thresholdSpec": {
+            "$ref": "#/components/schemas/GenericObject"
+          }
+        },
+        "required": [
+          "name",
+          "ruleType"
+        ],
+        "type": "object"
+      },
+      "AlertRuleListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AlertRule"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "AlertRuleRun": {
+        "additionalProperties": false,
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "durationMs": {
+            "type": "integer"
+          },
+          "error": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "matched": {
+            "type": "boolean"
+          },
+          "querySnapshot": {
+            "$ref": "#/components/schemas/ObservabilityQuerySnapshot"
+          },
+          "result": {
+            "$ref": "#/components/schemas/GenericObject"
+          },
+          "ruleId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "ruleId",
+          "status",
+          "matched",
+          "durationMs",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "AlertRuleRunListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AlertRuleRun"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "AlertRuleStringMap": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "type": "object"
+      },
+      "AlertRuleTestResult": {
+        "additionalProperties": false,
+        "properties": {
+          "dataSources": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "errors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "executedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "matched": {
+            "type": "boolean"
+          },
+          "notificationPreview": {
+            "items": {
+              "$ref": "#/components/schemas/GenericObject"
+            },
+            "type": "array"
+          },
+          "querySnapshot": {
+            "$ref": "#/components/schemas/ObservabilityQuerySnapshot"
+          },
+          "ruleId": {
+            "type": "string"
+          },
+          "ruleType": {
+            "$ref": "#/components/schemas/AlertRuleType"
+          },
+          "samples": {
+            "items": {
+              "$ref": "#/components/schemas/GenericObject"
+            },
+            "type": "array"
+          },
+          "state": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "matched",
+          "executedAt"
+        ],
+        "type": "object"
+      },
+      "AlertRuleTestResultEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AlertRuleTestResult"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "AlertRuleType": {
+        "enum": [
+          "metrics",
+          "logs",
+          "traces",
+          "external_passthrough"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "AlertRuleTypeMetrics",
+          "AlertRuleTypeLogs",
+          "AlertRuleTypeTraces",
+          "AlertRuleTypeExternalPassthrough"
+        ]
       },
       "AnthropicMessagesRequest": {
         "additionalProperties": true,
@@ -28070,6 +28385,12 @@
         "properties": {
           "cursor": {
             "maxLength": 4096,
+            "type": "string"
+          },
+          "dataSourceId": {
+            "description": "Optional Soha-managed durable log data source. Existing permission and scope checks still apply.",
+            "maxLength": 200,
+            "minLength": 1,
             "type": "string"
           },
           "direction": {
@@ -53391,6 +53712,281 @@
           "Observability"
         ],
         "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/alert-rule-runs": {
+      "get": {
+        "operationId": "listAlertRuleRuns",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ruleId",
+            "required": false,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertRuleRunListEnvelope"
+                }
+              }
+            },
+            "description": "Recent alert rule evaluation runs visible to the current principal."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Observability"
+        ]
+      }
+    },
+    "/alert-rules": {
+      "get": {
+        "operationId": "listAlertRules",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertRuleListEnvelope"
+                }
+              }
+            },
+            "description": "Alert rules visible to the current principal."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Observability"
+        ]
+      },
+      "post": {
+        "operationId": "createAlertRule",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertRuleInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertRuleEnvelope"
+                }
+              }
+            },
+            "description": "Alert rule created."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Observability"
+        ]
+      }
+    },
+    "/alert-rules/{ruleID}": {
+      "get": {
+        "operationId": "getAlertRule",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AlertRuleID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertRuleEnvelope"
+                }
+              }
+            },
+            "description": "Alert rule detail."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Observability"
+        ]
+      },
+      "put": {
+        "operationId": "updateAlertRule",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AlertRuleID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertRuleInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertRuleEnvelope"
+                }
+              }
+            },
+            "description": "Alert rule updated."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Observability"
+        ]
+      }
+    },
+    "/alert-rules/{ruleID}/test": {
+      "post": {
+        "description": "Test an alert rule payload without persisting it; ruleID is a legacy compatibility token.",
+        "operationId": "testAlertRule",
+        "parameters": [
+          {
+            "description": "Compatibility token retained in the legacy path; preview evaluation does not resolve a persisted rule.",
+            "in": "path",
+            "name": "ruleID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertRuleInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertRuleTestResultEnvelope"
+                }
+              }
+            },
+            "description": "Alert rule evaluation preview."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Observability"
+        ]
+      }
+    },
+    "/alert-rules/{ruleID}/validate": {
+      "post": {
+        "description": "Compatibility alias for testing an alert rule without persisting it.",
+        "operationId": "validateAlertRule",
+        "parameters": [
+          {
+            "description": "Compatibility token retained in the legacy path; preview evaluation does not resolve a persisted rule.",
+            "in": "path",
+            "name": "ruleID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertRuleInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertRuleTestResultEnvelope"
+                }
+              }
+            },
+            "description": "Alert rule evaluation preview."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Observability"
+        ]
       }
     },
     "/application-environments": {

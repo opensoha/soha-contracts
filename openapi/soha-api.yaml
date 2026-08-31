@@ -7042,6 +7042,170 @@ paths:
         "403": { $ref: "#/components/responses/Error" }
         "404": { $ref: "#/components/responses/Error" }
         "503": { $ref: "#/components/responses/Error" }
+  /alert-rules:
+    get:
+      tags: [Observability]
+      operationId: listAlertRules
+      responses:
+        "200":
+          description: Alert rules visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlertRuleListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [Observability]
+      operationId: createAlertRule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AlertRuleInput"
+      responses:
+        "201":
+          description: Alert rule created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlertRuleEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /alert-rules/{ruleID}:
+    get:
+      tags: [Observability]
+      operationId: getAlertRule
+      parameters:
+        - $ref: "#/components/parameters/AlertRuleID"
+      responses:
+        "200":
+          description: Alert rule detail.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlertRuleEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+    put:
+      tags: [Observability]
+      operationId: updateAlertRule
+      parameters:
+        - $ref: "#/components/parameters/AlertRuleID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AlertRuleInput"
+      responses:
+        "200":
+          description: Alert rule updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlertRuleEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+  /alert-rules/{ruleID}/validate:
+    post:
+      tags: [Observability]
+      operationId: validateAlertRule
+      description: Compatibility alias for testing an alert rule without persisting it.
+      parameters:
+        - name: ruleID
+          in: path
+          required: true
+          description: Compatibility token retained in the legacy path; preview evaluation does not resolve a persisted rule.
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AlertRuleInput"
+      responses:
+        "200":
+          description: Alert rule evaluation preview.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlertRuleTestResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /alert-rules/{ruleID}/test:
+    post:
+      tags: [Observability]
+      operationId: testAlertRule
+      description: Test an alert rule payload without persisting it; ruleID is a legacy compatibility token.
+      parameters:
+        - name: ruleID
+          in: path
+          required: true
+          description: Compatibility token retained in the legacy path; preview evaluation does not resolve a persisted rule.
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AlertRuleInput"
+      responses:
+        "200":
+          description: Alert rule evaluation preview.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlertRuleTestResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+  /alert-rule-runs:
+    get:
+      tags: [Observability]
+      operationId: listAlertRuleRuns
+      parameters:
+        - name: ruleId
+          in: query
+          required: false
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 20
+      responses:
+        "200":
+          description: Recent alert rule evaluation runs visible to the current principal.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlertRuleRunListEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
   /alert-events/stream:
     get:
       tags: [Observability]
@@ -14454,6 +14618,14 @@ components:
         maxLength: 1024
     DataSourceID:
       name: dataSourceID
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+    AlertRuleID:
+      name: ruleID
       in: path
       required: true
       schema:
@@ -31136,6 +31308,192 @@ components:
             pattern: "^[a-z][a-z0-9._-]*$"
             maxLength: 128
       additionalProperties: false
+    AlertRuleType:
+      type: string
+      enum: [metrics, logs, traces, external_passthrough]
+      x-enum-varnames:
+        - AlertRuleTypeMetrics
+        - AlertRuleTypeLogs
+        - AlertRuleTypeTraces
+        - AlertRuleTypeExternalPassthrough
+    AlertRuleStringMap:
+      type: object
+      additionalProperties:
+        type: string
+    AlertRuleInput:
+      type: object
+      required: [name, ruleType]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          minLength: 1
+        ruleType:
+          $ref: "#/components/schemas/AlertRuleType"
+        datasourceSelector:
+          $ref: "#/components/schemas/GenericObject"
+        querySpec:
+          $ref: "#/components/schemas/GenericObject"
+        thresholdSpec:
+          $ref: "#/components/schemas/GenericObject"
+        forSeconds:
+          type: integer
+        groupBy:
+          type: array
+          items:
+            type: string
+        labels:
+          $ref: "#/components/schemas/AlertRuleStringMap"
+        annotations:
+          $ref: "#/components/schemas/AlertRuleStringMap"
+        notificationPolicyId:
+          type: string
+        healingPolicyIds:
+          type: array
+          items:
+            type: string
+        enabled:
+          type: boolean
+      additionalProperties: false
+    AlertRule:
+      type: object
+      required: [id, name, ruleType, forSeconds, enabled, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        ruleType:
+          $ref: "#/components/schemas/AlertRuleType"
+        datasourceSelector:
+          $ref: "#/components/schemas/GenericObject"
+        querySpec:
+          $ref: "#/components/schemas/GenericObject"
+        thresholdSpec:
+          $ref: "#/components/schemas/GenericObject"
+        forSeconds:
+          type: integer
+        groupBy:
+          type: array
+          items:
+            type: string
+        labels:
+          $ref: "#/components/schemas/AlertRuleStringMap"
+        annotations:
+          $ref: "#/components/schemas/AlertRuleStringMap"
+        notificationPolicyId:
+          type: string
+        healingPolicyIds:
+          type: array
+          items:
+            type: string
+        enabled:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    AlertRuleEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/AlertRule"
+      additionalProperties: false
+    AlertRuleListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/AlertRule"
+      additionalProperties: false
+    AlertRuleTestResult:
+      type: object
+      required: [matched, executedAt]
+      properties:
+        ruleId:
+          type: string
+        ruleType:
+          $ref: "#/components/schemas/AlertRuleType"
+        state:
+          type: string
+        summary:
+          type: string
+        matched:
+          type: boolean
+        samples:
+          type: array
+          items:
+            $ref: "#/components/schemas/GenericObject"
+        dataSources:
+          type: array
+          items:
+            type: string
+        errors:
+          type: array
+          items:
+            type: string
+        querySnapshot:
+          $ref: "#/components/schemas/ObservabilityQuerySnapshot"
+        notificationPreview:
+          type: array
+          items:
+            $ref: "#/components/schemas/GenericObject"
+        executedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    AlertRuleTestResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/AlertRuleTestResult"
+      additionalProperties: false
+    AlertRuleRun:
+      type: object
+      required: [id, ruleId, status, matched, durationMs, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        ruleId:
+          type: string
+        status:
+          type: string
+        summary:
+          type: string
+        matched:
+          type: boolean
+        durationMs:
+          type: integer
+        error:
+          type: string
+        result:
+          $ref: "#/components/schemas/GenericObject"
+        querySnapshot:
+          $ref: "#/components/schemas/ObservabilityQuerySnapshot"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    AlertRuleRunListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/AlertRuleRun"
+      additionalProperties: false
     ObservabilityDataSource:
       type: object
       required: [id, name, backendType, enabled, scope, queryBudget, redactionPolicy, config, credentialKeys, validationStatus, createdAt, updatedAt]
@@ -31474,6 +31832,11 @@ components:
       properties:
         sourceMode:
           $ref: "#/components/schemas/LogSourceMode"
+        dataSourceId:
+          type: string
+          minLength: 1
+          maxLength: 200
+          description: Optional Soha-managed durable log data source. Existing permission and scope checks still apply.
         selector:
           $ref: "#/components/schemas/LogSourceSelector"
         from:

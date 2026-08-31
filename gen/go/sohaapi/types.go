@@ -508,6 +508,30 @@ func (e AgentRunCallbackWorkbenchToolStartedEventType) Valid() bool {
 	}
 }
 
+// Defines values for AlertRuleType.
+const (
+	AlertRuleTypeExternalPassthrough AlertRuleType = "external_passthrough"
+	AlertRuleTypeLogs                AlertRuleType = "logs"
+	AlertRuleTypeMetrics             AlertRuleType = "metrics"
+	AlertRuleTypeTraces              AlertRuleType = "traces"
+)
+
+// Valid indicates whether the value is a known member of the AlertRuleType enum.
+func (e AlertRuleType) Valid() bool {
+	switch e {
+	case AlertRuleTypeExternalPassthrough:
+		return true
+	case AlertRuleTypeLogs:
+		return true
+	case AlertRuleTypeMetrics:
+		return true
+	case AlertRuleTypeTraces:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ApplicationDeliveryActionKind.
 const (
 	ApplicationDeliveryActionKindBuild       ApplicationDeliveryActionKind = "build"
@@ -8755,6 +8779,98 @@ type AgentToolCallResultEnvelope struct {
 	Data AgentToolCallResult `json:"data"`
 }
 
+// AlertRule defines model for AlertRule.
+type AlertRule struct {
+	Annotations          *AlertRuleStringMap `json:"annotations,omitempty"`
+	CreatedAt            time.Time           `json:"createdAt"`
+	DatasourceSelector   *GenericObject      `json:"datasourceSelector,omitempty"`
+	Enabled              bool                `json:"enabled"`
+	ForSeconds           int                 `json:"forSeconds"`
+	GroupBy              []string            `json:"groupBy,omitempty"`
+	HealingPolicyIDs     []string            `json:"healingPolicyIds,omitempty"`
+	ID                   string              `json:"id"`
+	Labels               *AlertRuleStringMap `json:"labels,omitempty"`
+	Name                 string              `json:"name"`
+	NotificationPolicyID string              `json:"notificationPolicyId,omitempty"`
+	QuerySpec            *GenericObject      `json:"querySpec,omitempty"`
+	RuleType             AlertRuleType       `json:"ruleType"`
+	ThresholdSpec        *GenericObject      `json:"thresholdSpec,omitempty"`
+	UpdatedAt            time.Time           `json:"updatedAt"`
+}
+
+// AlertRuleEnvelope defines model for AlertRuleEnvelope.
+type AlertRuleEnvelope struct {
+	Data AlertRule `json:"data"`
+}
+
+// AlertRuleInput defines model for AlertRuleInput.
+type AlertRuleInput struct {
+	Annotations          *AlertRuleStringMap `json:"annotations,omitempty"`
+	DatasourceSelector   *GenericObject      `json:"datasourceSelector,omitempty"`
+	Enabled              bool                `json:"enabled,omitempty"`
+	ForSeconds           int                 `json:"forSeconds,omitempty"`
+	GroupBy              []string            `json:"groupBy,omitempty"`
+	HealingPolicyIDs     []string            `json:"healingPolicyIds,omitempty"`
+	ID                   string              `json:"id,omitempty"`
+	Labels               *AlertRuleStringMap `json:"labels,omitempty"`
+	Name                 string              `json:"name"`
+	NotificationPolicyID string              `json:"notificationPolicyId,omitempty"`
+	QuerySpec            *GenericObject      `json:"querySpec,omitempty"`
+	RuleType             AlertRuleType       `json:"ruleType"`
+	ThresholdSpec        *GenericObject      `json:"thresholdSpec,omitempty"`
+}
+
+// AlertRuleListEnvelope defines model for AlertRuleListEnvelope.
+type AlertRuleListEnvelope struct {
+	Items []AlertRule `json:"items"`
+}
+
+// AlertRuleRun defines model for AlertRuleRun.
+type AlertRuleRun struct {
+	CreatedAt     time.Time                   `json:"createdAt"`
+	DurationMs    int                         `json:"durationMs"`
+	Error         string                      `json:"error,omitempty"`
+	ID            string                      `json:"id"`
+	Matched       bool                        `json:"matched"`
+	QuerySnapshot *ObservabilityQuerySnapshot `json:"querySnapshot,omitempty"`
+	Result        *GenericObject              `json:"result,omitempty"`
+	RuleID        string                      `json:"ruleId"`
+	Status        string                      `json:"status"`
+	Summary       string                      `json:"summary,omitempty"`
+	UpdatedAt     time.Time                   `json:"updatedAt"`
+}
+
+// AlertRuleRunListEnvelope defines model for AlertRuleRunListEnvelope.
+type AlertRuleRunListEnvelope struct {
+	Items []AlertRuleRun `json:"items"`
+}
+
+// AlertRuleStringMap defines model for AlertRuleStringMap.
+type AlertRuleStringMap map[string]string
+
+// AlertRuleTestResult defines model for AlertRuleTestResult.
+type AlertRuleTestResult struct {
+	DataSources         []string                    `json:"dataSources,omitempty"`
+	Errors              []string                    `json:"errors,omitempty"`
+	ExecutedAt          time.Time                   `json:"executedAt"`
+	Matched             bool                        `json:"matched"`
+	NotificationPreview []GenericObject             `json:"notificationPreview,omitempty"`
+	QuerySnapshot       *ObservabilityQuerySnapshot `json:"querySnapshot,omitempty"`
+	RuleID              string                      `json:"ruleId,omitempty"`
+	RuleType            AlertRuleType               `json:"ruleType,omitempty"`
+	Samples             []GenericObject             `json:"samples,omitempty"`
+	State               string                      `json:"state,omitempty"`
+	Summary             string                      `json:"summary,omitempty"`
+}
+
+// AlertRuleTestResultEnvelope defines model for AlertRuleTestResultEnvelope.
+type AlertRuleTestResultEnvelope struct {
+	Data AlertRuleTestResult `json:"data"`
+}
+
+// AlertRuleType defines model for AlertRuleType.
+type AlertRuleType string
+
 // AnthropicMessagesRequest defines model for AnthropicMessagesRequest.
 type AnthropicMessagesRequest struct {
 	MaxTokens            int              `json:"max_tokens"`
@@ -15882,7 +15998,10 @@ type LogPageEnvelope struct {
 
 // LogQuery defines model for LogQuery.
 type LogQuery struct {
-	Cursor         string             `json:"cursor,omitempty"`
+	Cursor string `json:"cursor,omitempty"`
+
+	// DataSourceID Optional Soha-managed durable log data source. Existing permission and scope checks still apply.
+	DataSourceID   string             `json:"dataSourceId,omitempty"`
 	Direction      LogDirection       `json:"direction,omitempty"`
 	From           *time.Time         `json:"from,omitempty"`
 	Limit          int                `json:"limit,omitempty"`
@@ -21485,6 +21604,9 @@ type AgentProviderRolloutAction string
 // AgentProviderRolloutID defines model for AgentProviderRolloutID.
 type AgentProviderRolloutID = string
 
+// AlertRuleID defines model for AlertRuleID.
+type AlertRuleID = string
+
 // AnalysisProfileID defines model for AnalysisProfileID.
 type AnalysisProfileID = string
 
@@ -22432,6 +22554,12 @@ type ListAIMemoryRecordsParams struct {
 // StreamAlertEventsParams defines parameters for StreamAlertEvents.
 type StreamAlertEventsParams struct {
 	ClusterID string `form:"clusterId,omitempty" json:"clusterId,omitempty"`
+}
+
+// ListAlertRuleRunsParams defines parameters for ListAlertRuleRuns.
+type ListAlertRuleRunsParams struct {
+	RuleID string `form:"ruleId,omitempty" json:"ruleId,omitempty"`
+	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
 // ListApplicationEnvironmentsParams defines parameters for ListApplicationEnvironments.
@@ -23829,6 +23957,18 @@ type PutAIMemoryPolicyJSONRequestBody = AIMemoryPolicyInput
 
 // StartAIProductionOperationJSONRequestBody defines body for StartAIProductionOperation for application/json ContentType.
 type StartAIProductionOperationJSONRequestBody = AIProductionOperationInput
+
+// CreateAlertRuleJSONRequestBody defines body for CreateAlertRule for application/json ContentType.
+type CreateAlertRuleJSONRequestBody = AlertRuleInput
+
+// UpdateAlertRuleJSONRequestBody defines body for UpdateAlertRule for application/json ContentType.
+type UpdateAlertRuleJSONRequestBody = AlertRuleInput
+
+// TestAlertRuleJSONRequestBody defines body for TestAlertRule for application/json ContentType.
+type TestAlertRuleJSONRequestBody = AlertRuleInput
+
+// ValidateAlertRuleJSONRequestBody defines body for ValidateAlertRule for application/json ContentType.
+type ValidateAlertRuleJSONRequestBody = AlertRuleInput
 
 // CreateApplicationEnvironmentJSONRequestBody defines body for CreateApplicationEnvironment for application/json ContentType.
 type CreateApplicationEnvironmentJSONRequestBody = ApplicationEnvironmentInput

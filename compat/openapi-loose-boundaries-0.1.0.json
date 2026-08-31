@@ -680,6 +680,51 @@
     },
     {
       "kind": "schemaRef",
+      "path": "components/schemas/AlertRule/properties/datasourceSelector",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/AlertRule/properties/querySpec",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/AlertRule/properties/thresholdSpec",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/AlertRuleInput/properties/datasourceSelector",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/AlertRuleInput/properties/querySpec",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/AlertRuleInput/properties/thresholdSpec",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/AlertRuleRun/properties/result",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/AlertRuleTestResult/properties/notificationPreview/items",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/AlertRuleTestResult/properties/samples/items",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
       "path": "components/schemas/DeliveryDraft/properties/executionHints",
       "target": "#/components/schemas/GenericObject"
     },
