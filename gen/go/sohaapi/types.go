@@ -6136,6 +6136,48 @@ func (e SystemIntegrationTestStatus) Valid() bool {
 	}
 }
 
+// Defines values for UpdateProfileRequestAvatarFit.
+const (
+	UpdateProfileRequestAvatarFitContain UpdateProfileRequestAvatarFit = "contain"
+	UpdateProfileRequestAvatarFitCover   UpdateProfileRequestAvatarFit = "cover"
+	UpdateProfileRequestAvatarFitFill    UpdateProfileRequestAvatarFit = "fill"
+)
+
+// Valid indicates whether the value is a known member of the UpdateProfileRequestAvatarFit enum.
+func (e UpdateProfileRequestAvatarFit) Valid() bool {
+	switch e {
+	case UpdateProfileRequestAvatarFitContain:
+		return true
+	case UpdateProfileRequestAvatarFitCover:
+		return true
+	case UpdateProfileRequestAvatarFitFill:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for UserProfileAvatarFit.
+const (
+	UserProfileAvatarFitContain UserProfileAvatarFit = "contain"
+	UserProfileAvatarFitCover   UserProfileAvatarFit = "cover"
+	UserProfileAvatarFitFill    UserProfileAvatarFit = "fill"
+)
+
+// Valid indicates whether the value is a known member of the UserProfileAvatarFit enum.
+func (e UserProfileAvatarFit) Valid() bool {
+	switch e {
+	case UserProfileAvatarFitContain:
+		return true
+	case UserProfileAvatarFitCover:
+		return true
+	case UserProfileAvatarFitFill:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for VirtualMachineActionInputAction.
 const (
 	VirtualMachineActionInputActionDelete VirtualMachineActionInputAction = "delete"
@@ -9715,6 +9757,12 @@ type CertificateSummary struct {
 
 // CertificateSummaryStatus defines model for CertificateSummary.Status.
 type CertificateSummaryStatus string
+
+// ChangePasswordRequest defines model for ChangePasswordRequest.
+type ChangePasswordRequest struct {
+	CurrentPassword string `json:"currentPassword"`
+	NewPassword     string `json:"newPassword"`
+}
 
 // ClusterCapabilityMatrixEntry defines model for ClusterCapabilityMatrixEntry.
 type ClusterCapabilityMatrixEntry struct {
@@ -18015,6 +18063,11 @@ type OperationalPlanEnvelope struct {
 	Data OperationalPlan `json:"data"`
 }
 
+// PasswordChangeResult defines model for PasswordChangeResult.
+type PasswordChangeResult struct {
+	Status string `json:"status"`
+}
+
 // PasswordLoginRequest defines model for PasswordLoginRequest.
 type PasswordLoginRequest struct {
 	Login    string `json:"login"`
@@ -19915,6 +19968,18 @@ type UpdateLoginProvidersSettingsRequest struct {
 	Providers                 []LoginProviderSettingsInput `json:"providers"`
 }
 
+// UpdateProfileRequest defines model for UpdateProfileRequest.
+type UpdateProfileRequest struct {
+	AvatarFit   UpdateProfileRequestAvatarFit `json:"avatarFit,omitempty"`
+	AvatarURL   string                        `json:"avatarUrl,omitempty"`
+	DisplayName string                        `json:"displayName"`
+	Email       openapi_types.Email           `json:"email"`
+	Phone       string                        `json:"phone,omitempty"`
+}
+
+// UpdateProfileRequestAvatarFit defines model for UpdateProfileRequest.AvatarFit.
+type UpdateProfileRequestAvatarFit string
+
 // UploadBrandingAssetRequest defines model for UploadBrandingAssetRequest.
 type UploadBrandingAssetRequest struct {
 	File openapi_types.File `json:"file"`
@@ -19922,21 +19987,26 @@ type UploadBrandingAssetRequest struct {
 
 // UserProfile defines model for UserProfile.
 type UserProfile struct {
-	DisplayName          string           `json:"displayName"`
-	Email                string           `json:"email"`
-	Identities           []map[string]any `json:"identities,omitempty"`
-	LastLoginAt          *time.Time       `json:"lastLoginAt,omitempty"`
-	Phone                string           `json:"phone,omitempty"`
-	Projects             []string         `json:"projects"`
-	Roles                []string         `json:"roles"`
-	Sessions             []map[string]any `json:"sessions,omitempty"`
-	Status               string           `json:"status"`
-	Tags                 []string         `json:"tags"`
-	Teams                []string         `json:"teams"`
-	UserID               string           `json:"userId"`
-	Username             string           `json:"username"`
-	AdditionalProperties map[string]any   `json:"-"`
+	AvatarFit            UserProfileAvatarFit `json:"avatarFit,omitempty"`
+	AvatarURL            string               `json:"avatarUrl,omitempty"`
+	DisplayName          string               `json:"displayName"`
+	Email                string               `json:"email"`
+	Identities           []map[string]any     `json:"identities,omitempty"`
+	LastLoginAt          *time.Time           `json:"lastLoginAt,omitempty"`
+	Phone                string               `json:"phone,omitempty"`
+	Projects             []string             `json:"projects"`
+	Roles                []string             `json:"roles"`
+	Sessions             []map[string]any     `json:"sessions,omitempty"`
+	Status               string               `json:"status"`
+	Tags                 []string             `json:"tags"`
+	Teams                []string             `json:"teams"`
+	UserID               string               `json:"userId"`
+	Username             string               `json:"username"`
+	AdditionalProperties map[string]any       `json:"-"`
 }
+
+// UserProfileAvatarFit defines model for UserProfile.AvatarFit.
+type UserProfileAvatarFit string
 
 // UserProfileEnvelope defines model for UserProfileEnvelope.
 type UserProfileEnvelope struct {
@@ -24017,6 +24087,12 @@ type LogoutAuthSessionJSONRequestBody = RefreshRequest
 
 // ExchangeOIDCCodeJSONRequestBody defines body for ExchangeOIDCCode for application/json ContentType.
 type ExchangeOIDCCodeJSONRequestBody = OIDCExchangeRequest
+
+// UpdateCurrentUserProfileJSONRequestBody defines body for UpdateCurrentUserProfile for application/json ContentType.
+type UpdateCurrentUserProfileJSONRequestBody = UpdateProfileRequest
+
+// ChangeCurrentUserPasswordJSONRequestBody defines body for ChangeCurrentUserPassword for application/json ContentType.
+type ChangeCurrentUserPasswordJSONRequestBody = ChangePasswordRequest
 
 // RefreshAuthSessionJSONRequestBody defines body for RefreshAuthSession for application/json ContentType.
 type RefreshAuthSessionJSONRequestBody = RefreshRequest
@@ -29006,6 +29082,22 @@ func (a *UserProfile) UnmarshalJSON(b []byte) error {
 		return err
 	}
 
+	if raw, found := object["avatarFit"]; found {
+		err = json.Unmarshal(raw, &a.AvatarFit)
+		if err != nil {
+			return fmt.Errorf("error reading 'avatarFit': %w", err)
+		}
+		delete(object, "avatarFit")
+	}
+
+	if raw, found := object["avatarUrl"]; found {
+		err = json.Unmarshal(raw, &a.AvatarURL)
+		if err != nil {
+			return fmt.Errorf("error reading 'avatarUrl': %w", err)
+		}
+		delete(object, "avatarUrl")
+	}
+
 	if raw, found := object["displayName"]; found {
 		err = json.Unmarshal(raw, &a.DisplayName)
 		if err != nil {
@@ -29128,6 +29220,16 @@ func (a *UserProfile) UnmarshalJSON(b []byte) error {
 func (a UserProfile) MarshalJSON() ([]byte, error) {
 	var err error
 	object := make(map[string]json.RawMessage)
+
+	object["avatarFit"], err = json.Marshal(a.AvatarFit)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'avatarFit': %w", err)
+	}
+
+	object["avatarUrl"], err = json.Marshal(a.AvatarURL)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'avatarUrl': %w", err)
+	}
 
 	object["displayName"], err = json.Marshal(a.DisplayName)
 	if err != nil {

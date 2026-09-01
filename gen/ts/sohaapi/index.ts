@@ -286,6 +286,22 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
+        patch: operations["updateCurrentUserProfile"];
+        trace?: never;
+    };
+    "/auth/profile/password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["changeCurrentUserPassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
         patch?: never;
         trace?: never;
     };
@@ -12732,6 +12748,9 @@ export interface components {
             displayName: string;
             email: string;
             phone?: string;
+            avatarUrl?: string;
+            /** @enum {string} */
+            avatarFit?: "cover" | "contain" | "fill";
             status: string;
             roles: string[];
             teams: string[];
@@ -12747,6 +12766,23 @@ export interface components {
             lastLoginAt?: string;
         } & {
             [key: string]: unknown;
+        };
+        UpdateProfileRequest: {
+            displayName: string;
+            /** Format: email */
+            email: string;
+            phone?: string;
+            avatarUrl?: string;
+            /** @enum {string} */
+            avatarFit?: "cover" | "contain" | "fill";
+        };
+        ChangePasswordRequest: {
+            currentPassword: string;
+            newPassword: string;
+        };
+        PasswordChangeResult: {
+            /** @constant */
+            status: "ok";
         };
         TokenSet: {
             accessToken: string;
@@ -21273,6 +21309,9 @@ export type AgentRunCallbackWorkbenchErrorEvent = components['schemas']['AgentRu
 export type AgentRunCallbackWorkbenchStreamEvent = components['schemas']['AgentRunCallbackWorkbenchStreamEvent'];
 export type Principal = components['schemas']['Principal'];
 export type UserProfile = components['schemas']['UserProfile'];
+export type UpdateProfileRequest = components['schemas']['UpdateProfileRequest'];
+export type ChangePasswordRequest = components['schemas']['ChangePasswordRequest'];
+export type PasswordChangeResult = components['schemas']['PasswordChangeResult'];
 export type TokenSet = components['schemas']['TokenSet'];
 export type AuthResult = components['schemas']['AuthResult'];
 export type AuthProvider = components['schemas']['AuthProvider'];
@@ -22757,6 +22796,60 @@ export interface operations {
                     "application/json": components["schemas"]["UserProfileEnvelope"];
                 };
             };
+            401: components["responses"]["Error"];
+        };
+    };
+    updateCurrentUserProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateProfileRequest"];
+            };
+        };
+        responses: {
+            /** @description Updated current user profile. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserProfileEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    changeCurrentUserPassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChangePasswordRequest"];
+            };
+        };
+        responses: {
+            /** @description Password changed. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PasswordChangeResult"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
         };
     };
     getAuthBootstrap: {

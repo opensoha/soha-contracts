@@ -7183,6 +7183,24 @@
         ],
         "type": "object"
       },
+      "ChangePasswordRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "currentPassword": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "newPassword": {
+            "minLength": 8,
+            "type": "string"
+          }
+        },
+        "required": [
+          "currentPassword",
+          "newPassword"
+        ],
+        "type": "object"
+      },
       "CloudExtensionBoundary": {
         "enum": [
           "public-contract",
@@ -34876,6 +34894,19 @@
         ],
         "type": "object"
       },
+      "PasswordChangeResult": {
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "const": "ok",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "type": "object"
+      },
       "PasswordLoginRequest": {
         "additionalProperties": false,
         "properties": {
@@ -41537,6 +41568,38 @@
         ],
         "type": "object"
       },
+      "UpdateProfileRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "avatarFit": {
+            "enum": [
+              "cover",
+              "contain",
+              "fill"
+            ],
+            "type": "string"
+          },
+          "avatarUrl": {
+            "maxLength": 700000,
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "email": {
+            "format": "email",
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "displayName",
+          "email"
+        ],
+        "type": "object"
+      },
       "UploadBrandingAssetRequest": {
         "additionalProperties": false,
         "properties": {
@@ -41553,6 +41616,18 @@
       "UserProfile": {
         "additionalProperties": true,
         "properties": {
+          "avatarFit": {
+            "enum": [
+              "cover",
+              "contain",
+              "fill"
+            ],
+            "type": "string"
+          },
+          "avatarUrl": {
+            "maxLength": 700000,
+            "type": "string"
+          },
           "displayName": {
             "type": "string"
           },
@@ -55651,6 +55726,82 @@
               }
             },
             "description": "Current user profile."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      },
+      "patch": {
+        "operationId": "updateCurrentUserProfile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfileEnvelope"
+                }
+              }
+            },
+            "description": "Updated current user profile."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/profile/password": {
+      "post": {
+        "operationId": "changeCurrentUserPassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordChangeResult"
+                }
+              }
+            },
+            "description": "Password changed."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
           }
         },
         "tags": [

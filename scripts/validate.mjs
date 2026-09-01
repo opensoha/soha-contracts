@@ -87,6 +87,9 @@ const requiredJsonSchemas = [
 
 const requiredOpenapiFixtureSchemas = [
   "PasswordLoginRequest",
+  "UpdateProfileRequest",
+  "ChangePasswordRequest",
+  "PasswordChangeResult",
   "AuthResultEnvelope",
   "DesktopAuthAttemptCreateRequest",
   "DesktopAuthAttemptEnvelope",
@@ -443,6 +446,7 @@ function validateOpenapiStructure(openapi, permissionDefinitions) {
 
   validateComputeTaskCenterContract(openapi);
   validateRuntimeConfigContract(openapi);
+  validateAuthProfileContract(openapi);
   validateReleasedScopeGrantOperations(openapi);
 
   const capabilityNames = new Set();
@@ -467,6 +471,45 @@ function validateOpenapiStructure(openapi, permissionDefinitions) {
             throw new Error(`${operation.operationId} must declare a ${status} response`);
           }
         }
+      }
+    }
+  }
+}
+
+function validateAuthProfileContract(openapi) {
+  const operations = [
+    {
+      path: "/auth/profile",
+      method: "patch",
+      operationId: "updateCurrentUserProfile",
+      requestSchema: "UpdateProfileRequest",
+      responseSchema: "UserProfileEnvelope",
+      statuses: ["200", "400", "401", "409"],
+    },
+    {
+      path: "/auth/profile/password",
+      method: "post",
+      operationId: "changeCurrentUserPassword",
+      requestSchema: "ChangePasswordRequest",
+      responseSchema: "PasswordChangeResult",
+      statuses: ["200", "400", "401"],
+    },
+  ];
+  for (const contract of operations) {
+    const operation = openapi.paths?.[contract.path]?.[contract.method];
+    const label = `${contract.method.toUpperCase()} ${contract.path}`;
+    if (operation?.operationId !== contract.operationId) {
+      throw new Error(`${label} must declare ${contract.operationId}`);
+    }
+    if (operation.requestBody?.content?.["application/json"]?.schema?.$ref !== `#/components/schemas/${contract.requestSchema}`) {
+      throw new Error(`${label} must use ${contract.requestSchema}`);
+    }
+    if (operation.responses?.["200"]?.content?.["application/json"]?.schema?.$ref !== `#/components/schemas/${contract.responseSchema}`) {
+      throw new Error(`${label} must return ${contract.responseSchema}`);
+    }
+    for (const status of contract.statuses) {
+      if (!operation.responses?.[status]) {
+        throw new Error(`${label} must declare ${status}`);
       }
     }
   }

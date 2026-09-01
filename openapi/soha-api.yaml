@@ -349,6 +349,51 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserProfileEnvelope"
+        "401":
+          $ref: "#/components/responses/Error"
+    patch:
+      tags: [Auth]
+      operationId: updateCurrentUserProfile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProfileRequest"
+      responses:
+        "200":
+          description: Updated current user profile.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfileEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /auth/profile/password:
+    post:
+      tags: [Auth]
+      operationId: changeCurrentUserPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangePasswordRequest"
+      responses:
+        "200":
+          description: Password changed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PasswordChangeResult"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
   /auth/bootstrap:
     get:
       tags: [Auth]
@@ -21702,6 +21747,12 @@ components:
           type: string
         phone:
           type: string
+        avatarUrl:
+          type: string
+          maxLength: 700000
+        avatarFit:
+          type: string
+          enum: [cover, contain, fill]
         status:
           type: string
         roles:
@@ -21734,6 +21785,43 @@ components:
           type: string
           format: date-time
       additionalProperties: true
+    UpdateProfileRequest:
+      type: object
+      required: [displayName, email]
+      properties:
+        displayName:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        avatarUrl:
+          type: string
+          maxLength: 700000
+        avatarFit:
+          type: string
+          enum: [cover, contain, fill]
+      additionalProperties: false
+    ChangePasswordRequest:
+      type: object
+      required: [currentPassword, newPassword]
+      properties:
+        currentPassword:
+          type: string
+          minLength: 1
+        newPassword:
+          type: string
+          minLength: 8
+      additionalProperties: false
+    PasswordChangeResult:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          const: ok
+      additionalProperties: false
     TokenSet:
       type: object
       required: [accessToken, refreshToken, tokenType, expiresIn, expiresAt]
