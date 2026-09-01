@@ -183,6 +183,12 @@ const (
 // Deprecated: use WorkbenchMessageDeltaEventRoleAssistant in new code.
 const Assistant WorkbenchMessageDeltaEventRole = WorkbenchMessageDeltaEventRoleAssistant
 
+// Deprecated: use the ScopeGrantEffect-prefixed constants in new code.
+const (
+	Allow ScopeGrantEffect = ScopeGrantEffectAllow
+	Deny  ScopeGrantEffect = ScopeGrantEffectDeny
+)
+
 // Deprecated: use Active, Degraded, and Disabled in new code.
 const (
 	ListAIGatewayRelayUpstreamsParamsStatusActive   ListAIGatewayRelayUpstreamsParamsStatus = Active

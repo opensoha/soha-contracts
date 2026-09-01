@@ -52,6 +52,17 @@ func TestKubernetesResourceSearchGeneratedShape(t *testing.T) {
 }
 
 func TestLegacyEnumAliasesRemainSourceCompatible(t *testing.T) {
+	if Allow != ScopeGrantEffect("allow") || Deny != ScopeGrantEffect("deny") {
+		t.Fatalf("scope grant effect aliases = %q/%q", Allow, Deny)
+	}
+	if ListAIGatewayRelayModelCallsParamsStatusSuccess != ListAIGatewayRelayModelCallsParamsStatus("success") ||
+		ListAIGatewayRelayModelCallsParamsStatusFailure != ListAIGatewayRelayModelCallsParamsStatus("failure") ||
+		ListAIGatewayRelayModelCallsParamsStatusCancelled != ListAIGatewayRelayModelCallsParamsStatus("cancelled") ||
+		ListAIGatewayRelayModelCallsParamsStatusClientCancelled != ListAIGatewayRelayModelCallsParamsStatus("client_cancelled") ||
+		ListAIGatewayRelayModelCallsParamsStatusRateLimited != ListAIGatewayRelayModelCallsParamsStatus("rate_limited") ||
+		ListAIGatewayRelayModelCallsParamsStatusPolicyDenied != ListAIGatewayRelayModelCallsParamsStatus("policy_denied") {
+		t.Fatalf("relay model call status aliases changed")
+	}
 	if TCP != DockerContainerPortInputProtocolTCP || UDP != DockerContainerPortInputProtocolUDP {
 		t.Fatalf("docker protocol aliases = %q/%q", TCP, UDP)
 	}

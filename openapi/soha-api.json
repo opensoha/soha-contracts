@@ -182,6 +182,16 @@
           "type": "string"
         }
       },
+      "BrowserHandoffID": {
+        "in": "path",
+        "name": "browserHandoffID",
+        "required": true,
+        "schema": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
       "BuildTemplateID": {
         "in": "path",
         "name": "buildTemplateID",
@@ -1018,6 +1028,16 @@
         "name": "pluginID",
         "required": true,
         "schema": {
+          "type": "string"
+        }
+      },
+      "PortalApplicationID": {
+        "in": "path",
+        "name": "applicationID",
+        "required": true,
+        "schema": {
+          "maxLength": 128,
+          "minLength": 1,
           "type": "string"
         }
       },
@@ -6251,6 +6271,98 @@
         "properties": {
           "data": {
             "$ref": "#/components/schemas/BrandingSettings"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "BrowserHandoff": {
+        "additionalProperties": false,
+        "properties": {
+          "accountName": {
+            "type": "string"
+          },
+          "application": {
+            "$ref": "#/components/schemas/BrowserHandoffApplication"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "pending"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "application",
+          "accountName",
+          "status",
+          "expiresAt"
+        ],
+        "type": "object"
+      },
+      "BrowserHandoffApplication": {
+        "additionalProperties": false,
+        "properties": {
+          "iconUrl": {
+            "format": "uri",
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object"
+      },
+      "BrowserHandoffCompletion": {
+        "additionalProperties": false,
+        "properties": {
+          "destinationUrl": {
+            "format": "uri-reference",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "completed"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "destinationUrl"
+        ],
+        "type": "object"
+      },
+      "BrowserHandoffCompletionEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/BrowserHandoffCompletion"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "BrowserHandoffEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/BrowserHandoff"
           }
         },
         "required": [
@@ -13680,6 +13792,73 @@
         ],
         "type": "object"
       },
+      "IdentityApplicationLaunch": {
+        "additionalProperties": false,
+        "properties": {
+          "applicationId": {
+            "type": "string"
+          },
+          "applicationName": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "launchUrl": {
+            "format": "uri-reference",
+            "type": "string"
+          },
+          "providerId": {
+            "type": "string"
+          },
+          "providerType": {
+            "$ref": "#/components/schemas/IdentityApplicationProviderType"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "result": {
+            "type": "string"
+          },
+          "sourceIp": {
+            "type": "string"
+          },
+          "userAgent": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "applicationId",
+          "userId",
+          "providerType",
+          "result",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "IdentityApplicationLaunchListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/IdentityApplicationLaunch"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
       "IdentityApplicationListEnvelope": {
         "additionalProperties": false,
         "properties": {
@@ -13699,7 +13878,8 @@
         "enum": [
           "link",
           "oidc",
-          "proxy"
+          "proxy",
+          "saml"
         ],
         "type": "string"
       },
@@ -36168,6 +36348,178 @@
         ],
         "type": "object"
       },
+      "PortalApplicationListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/IdentityApplication"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "PortalBootstrap": {
+        "additionalProperties": false,
+        "properties": {
+          "applications": {
+            "items": {
+              "$ref": "#/components/schemas/IdentityApplication"
+            },
+            "type": "array"
+          },
+          "categories": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "favorites": {
+            "items": {
+              "$ref": "#/components/schemas/IdentityApplication"
+            },
+            "type": "array"
+          },
+          "principal": {
+            "$ref": "#/components/schemas/Principal"
+          },
+          "recent": {
+            "items": {
+              "$ref": "#/components/schemas/IdentityApplicationLaunch"
+            },
+            "type": "array"
+          },
+          "security": {
+            "$ref": "#/components/schemas/PortalSecuritySummary"
+          }
+        },
+        "required": [
+          "principal",
+          "applications",
+          "favorites",
+          "recent",
+          "categories",
+          "security"
+        ],
+        "type": "object"
+      },
+      "PortalBootstrapEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PortalBootstrap"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "PortalLaunchDecision": {
+        "additionalProperties": false,
+        "properties": {
+          "application": {
+            "$ref": "#/components/schemas/IdentityApplication"
+          },
+          "decision": {
+            "enum": [
+              "allow"
+            ],
+            "type": "string"
+          },
+          "handoffExpiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "launchUrl": {
+            "format": "uri-reference",
+            "type": "string"
+          },
+          "providerType": {
+            "$ref": "#/components/schemas/IdentityApplicationProviderType"
+          }
+        },
+        "required": [
+          "application",
+          "launchUrl",
+          "providerType",
+          "decision"
+        ],
+        "type": "object"
+      },
+      "PortalLaunchDecisionEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PortalLaunchDecision"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "PortalLaunchRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "surface": {
+            "enum": [
+              "web",
+              "desktop"
+            ],
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "PortalSecuritySummary": {
+        "additionalProperties": false,
+        "properties": {
+          "activeSession": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "linkedSources": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "mfaEnabled": {
+            "type": "boolean"
+          },
+          "principal": {
+            "$ref": "#/components/schemas/Principal"
+          },
+          "recentLoginAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "principal",
+          "mfaEnabled",
+          "linkedSources",
+          "activeSession"
+        ],
+        "type": "object"
+      },
+      "PortalSecuritySummaryEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PortalSecuritySummary"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
       "Principal": {
         "additionalProperties": true,
         "properties": {
@@ -38559,7 +38911,11 @@
           "allow",
           "deny"
         ],
-        "type": "string"
+        "type": "string",
+        "x-enum-varnames": [
+          "Allow",
+          "Deny"
+        ]
       },
       "ScopeGrantEnvelope": {
         "additionalProperties": false,
@@ -49784,7 +50140,15 @@
                 "rate_limited",
                 "policy_denied"
               ],
-              "type": "string"
+              "type": "string",
+              "x-enum-varnames": [
+                "ListAIGatewayRelayModelCallsParamsStatusSuccess",
+                "ListAIGatewayRelayModelCallsParamsStatusFailure",
+                "ListAIGatewayRelayModelCallsParamsStatusCancelled",
+                "ListAIGatewayRelayModelCallsParamsStatusClientCancelled",
+                "ListAIGatewayRelayModelCallsParamsStatusRateLimited",
+                "ListAIGatewayRelayModelCallsParamsStatusPolicyDenied"
+              ]
             }
           },
           {
@@ -54173,6 +54537,115 @@
             "description": "Principal, permission snapshot, and branding bootstrap data."
           }
         },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/browser-handoffs/{browserHandoffID}": {
+      "get": {
+        "operationId": "getBrowserHandoff",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BrowserHandoffID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrowserHandoffEnvelope"
+                }
+              }
+            },
+            "description": "Pending desktop-to-browser session handoff.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "enum": [
+                    "no-store"
+                  ],
+                  "type": "string"
+                }
+              },
+              "Referrer-Policy": {
+                "schema": {
+                  "enum": [
+                    "no-referrer"
+                  ],
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "security": [],
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/browser-handoffs/{browserHandoffID}/complete": {
+      "post": {
+        "operationId": "completeBrowserHandoff",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BrowserHandoffID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrowserHandoffCompletionEnvelope"
+                }
+              }
+            },
+            "description": "Browser session created after explicit confirmation.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "enum": [
+                    "no-store"
+                  ],
+                  "type": "string"
+                }
+              },
+              "Referrer-Policy": {
+                "schema": {
+                  "enum": [
+                    "no-referrer"
+                  ],
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "410": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "security": [],
         "tags": [
           "Auth"
         ]
@@ -69407,6 +69880,242 @@
         ]
       }
     },
+    "/portal/applications": {
+      "get": {
+        "operationId": "listPortalApplications",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalApplicationListEnvelope"
+                }
+              }
+            },
+            "description": "Applications visible to the current principal."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Portal"
+        ]
+      }
+    },
+    "/portal/applications/{applicationID}": {
+      "get": {
+        "operationId": "getPortalApplication",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdentityApplicationEnvelope"
+                }
+              }
+            },
+            "description": "Application visible to the current principal."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Portal"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/PortalApplicationID"
+        }
+      ]
+    },
+    "/portal/applications/{applicationID}/favorite": {
+      "delete": {
+        "operationId": "unfavoritePortalApplication",
+        "responses": {
+          "204": {
+            "description": "Application removed from favorites."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Portal"
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/PortalApplicationID"
+        }
+      ],
+      "post": {
+        "operationId": "favoritePortalApplication",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdentityApplicationEnvelope"
+                }
+              }
+            },
+            "description": "Favorited application."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Portal"
+        ]
+      }
+    },
+    "/portal/applications/{applicationID}/launch": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/PortalApplicationID"
+        }
+      ],
+      "post": {
+        "operationId": "launchPortalApplication",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PortalLaunchRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalLaunchDecisionEnvelope"
+                }
+              }
+            },
+            "description": "Authorized launch decision for Web or desktop."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Portal"
+        ]
+      }
+    },
+    "/portal/bootstrap": {
+      "get": {
+        "operationId": "getPortalBootstrap",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalBootstrapEnvelope"
+                }
+              }
+            },
+            "description": "Current principal and visible provider portal data."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Portal"
+        ]
+      }
+    },
+    "/portal/recent": {
+      "get": {
+        "operationId": "listPortalRecentLaunches",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdentityApplicationLaunchListEnvelope"
+                }
+              }
+            },
+            "description": "Recent application launches for the current principal."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Portal"
+        ]
+      }
+    },
+    "/portal/security": {
+      "get": {
+        "operationId": "getPortalSecuritySummary",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalSecuritySummaryEnvelope"
+                }
+              }
+            },
+            "description": "Current principal security summary."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Portal"
+        ]
+      }
+    },
     "/readyz": {
       "get": {
         "operationId": "getReadyz",
@@ -73517,6 +74226,9 @@
     },
     {
       "name": "Identity"
+    },
+    {
+      "name": "Portal"
     },
     {
       "name": "Directory"

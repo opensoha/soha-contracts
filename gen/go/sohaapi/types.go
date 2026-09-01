@@ -604,6 +604,36 @@ func (e ApplicationServiceInputServiceKind) Valid() bool {
 	}
 }
 
+// Defines values for BrowserHandoffStatus.
+const (
+	BrowserHandoffStatusPending BrowserHandoffStatus = "pending"
+)
+
+// Valid indicates whether the value is a known member of the BrowserHandoffStatus enum.
+func (e BrowserHandoffStatus) Valid() bool {
+	switch e {
+	case BrowserHandoffStatusPending:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for BrowserHandoffCompletionStatus.
+const (
+	Completed BrowserHandoffCompletionStatus = "completed"
+)
+
+// Valid indicates whether the value is a known member of the BrowserHandoffCompletionStatus enum.
+func (e BrowserHandoffCompletionStatus) Valid() bool {
+	switch e {
+	case Completed:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for BuildRepositoryRefInputRefType.
 const (
 	BuildRepositoryRefInputRefTypeBranch BuildRepositoryRefInputRefType = "branch"
@@ -1998,6 +2028,7 @@ const (
 	IdentityApplicationProviderTypeLink  IdentityApplicationProviderType = "link"
 	IdentityApplicationProviderTypeOIDC  IdentityApplicationProviderType = "oidc"
 	IdentityApplicationProviderTypeProxy IdentityApplicationProviderType = "proxy"
+	IdentityApplicationProviderTypeSaml  IdentityApplicationProviderType = "saml"
 )
 
 // Valid indicates whether the value is a known member of the IdentityApplicationProviderType enum.
@@ -2008,6 +2039,8 @@ func (e IdentityApplicationProviderType) Valid() bool {
 	case IdentityApplicationProviderTypeOIDC:
 		return true
 	case IdentityApplicationProviderTypeProxy:
+		return true
+	case IdentityApplicationProviderTypeSaml:
 		return true
 	default:
 		return false
@@ -5464,6 +5497,39 @@ func (e PluginRuntimeSpecMode) Valid() bool {
 	}
 }
 
+// Defines values for PortalLaunchDecisionDecision.
+const (
+	PortalLaunchDecisionDecisionAllow PortalLaunchDecisionDecision = "allow"
+)
+
+// Valid indicates whether the value is a known member of the PortalLaunchDecisionDecision enum.
+func (e PortalLaunchDecisionDecision) Valid() bool {
+	switch e {
+	case PortalLaunchDecisionDecisionAllow:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PortalLaunchRequestSurface.
+const (
+	Desktop PortalLaunchRequestSurface = "desktop"
+	Web     PortalLaunchRequestSurface = "web"
+)
+
+// Valid indicates whether the value is a known member of the PortalLaunchRequestSurface enum.
+func (e PortalLaunchRequestSurface) Valid() bool {
+	switch e {
+	case Desktop:
+		return true
+	case Web:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for RepositoryProtocol.
 const (
 	HTTPS RepositoryProtocol = "https"
@@ -5736,16 +5802,16 @@ func (e SAMLNameIDFormat) Valid() bool {
 
 // Defines values for ScopeGrantEffect.
 const (
-	Allow ScopeGrantEffect = "allow"
-	Deny  ScopeGrantEffect = "deny"
+	ScopeGrantEffectAllow ScopeGrantEffect = "allow"
+	ScopeGrantEffectDeny  ScopeGrantEffect = "deny"
 )
 
 // Valid indicates whether the value is a known member of the ScopeGrantEffect enum.
 func (e ScopeGrantEffect) Valid() bool {
 	switch e {
-	case Allow:
+	case ScopeGrantEffectAllow:
 		return true
-	case Deny:
+	case ScopeGrantEffectDeny:
 		return true
 	default:
 		return false
@@ -9309,6 +9375,43 @@ type BrandingSettingsEnvelope struct {
 	Data BrandingSettings `json:"data"`
 }
 
+// BrowserHandoff defines model for BrowserHandoff.
+type BrowserHandoff struct {
+	AccountName string                    `json:"accountName"`
+	Application BrowserHandoffApplication `json:"application"`
+	ExpiresAt   time.Time                 `json:"expiresAt"`
+	Status      BrowserHandoffStatus      `json:"status"`
+}
+
+// BrowserHandoffStatus defines model for BrowserHandoff.Status.
+type BrowserHandoffStatus string
+
+// BrowserHandoffApplication defines model for BrowserHandoffApplication.
+type BrowserHandoffApplication struct {
+	IconURL string `json:"iconUrl,omitempty"`
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+}
+
+// BrowserHandoffCompletion defines model for BrowserHandoffCompletion.
+type BrowserHandoffCompletion struct {
+	DestinationURL string                         `json:"destinationUrl"`
+	Status         BrowserHandoffCompletionStatus `json:"status"`
+}
+
+// BrowserHandoffCompletionStatus defines model for BrowserHandoffCompletion.Status.
+type BrowserHandoffCompletionStatus string
+
+// BrowserHandoffCompletionEnvelope defines model for BrowserHandoffCompletionEnvelope.
+type BrowserHandoffCompletionEnvelope struct {
+	Data BrowserHandoffCompletion `json:"data"`
+}
+
+// BrowserHandoffEnvelope defines model for BrowserHandoffEnvelope.
+type BrowserHandoffEnvelope struct {
+	Data BrowserHandoff `json:"data"`
+}
+
 // BuildPolicy defines model for BuildPolicy.
 type BuildPolicy struct {
 	BuildArgs        map[string]any `json:"buildArgs,omitempty"`
@@ -11571,6 +11674,27 @@ type IdentityApplicationInput struct {
 	SortOrder     int                                  `json:"sortOrder,omitempty"`
 	Status        IdentityResourceStatus               `json:"status"`
 	Tags          []string                             `json:"tags,omitempty"`
+}
+
+// IdentityApplicationLaunch defines model for IdentityApplicationLaunch.
+type IdentityApplicationLaunch struct {
+	ApplicationID   string                          `json:"applicationId"`
+	ApplicationName string                          `json:"applicationName,omitempty"`
+	CreatedAt       time.Time                       `json:"createdAt"`
+	ID              string                          `json:"id"`
+	LaunchURL       string                          `json:"launchUrl,omitempty"`
+	ProviderID      string                          `json:"providerId,omitempty"`
+	ProviderType    IdentityApplicationProviderType `json:"providerType"`
+	Reason          string                          `json:"reason,omitempty"`
+	Result          string                          `json:"result"`
+	SourceIP        string                          `json:"sourceIp,omitempty"`
+	UserAgent       string                          `json:"userAgent,omitempty"`
+	UserID          string                          `json:"userId"`
+}
+
+// IdentityApplicationLaunchListEnvelope defines model for IdentityApplicationLaunchListEnvelope.
+type IdentityApplicationLaunchListEnvelope struct {
+	Items []IdentityApplicationLaunch `json:"items"`
 }
 
 // IdentityApplicationListEnvelope defines model for IdentityApplicationListEnvelope.
@@ -18291,6 +18415,65 @@ type PodMetricsEnvelope struct {
 	Data PodMetrics `json:"data"`
 }
 
+// PortalApplicationListEnvelope defines model for PortalApplicationListEnvelope.
+type PortalApplicationListEnvelope struct {
+	Items []IdentityApplication `json:"items"`
+}
+
+// PortalBootstrap defines model for PortalBootstrap.
+type PortalBootstrap struct {
+	Applications []IdentityApplication       `json:"applications"`
+	Categories   []string                    `json:"categories"`
+	Favorites    []IdentityApplication       `json:"favorites"`
+	Principal    Principal                   `json:"principal"`
+	Recent       []IdentityApplicationLaunch `json:"recent"`
+	Security     PortalSecuritySummary       `json:"security"`
+}
+
+// PortalBootstrapEnvelope defines model for PortalBootstrapEnvelope.
+type PortalBootstrapEnvelope struct {
+	Data PortalBootstrap `json:"data"`
+}
+
+// PortalLaunchDecision defines model for PortalLaunchDecision.
+type PortalLaunchDecision struct {
+	Application      IdentityApplication             `json:"application"`
+	Decision         PortalLaunchDecisionDecision    `json:"decision"`
+	HandoffExpiresAt *time.Time                      `json:"handoffExpiresAt,omitempty"`
+	LaunchURL        string                          `json:"launchUrl"`
+	ProviderType     IdentityApplicationProviderType `json:"providerType"`
+}
+
+// PortalLaunchDecisionDecision defines model for PortalLaunchDecision.Decision.
+type PortalLaunchDecisionDecision string
+
+// PortalLaunchDecisionEnvelope defines model for PortalLaunchDecisionEnvelope.
+type PortalLaunchDecisionEnvelope struct {
+	Data PortalLaunchDecision `json:"data"`
+}
+
+// PortalLaunchRequest defines model for PortalLaunchRequest.
+type PortalLaunchRequest struct {
+	Surface PortalLaunchRequestSurface `json:"surface,omitempty"`
+}
+
+// PortalLaunchRequestSurface defines model for PortalLaunchRequest.Surface.
+type PortalLaunchRequestSurface string
+
+// PortalSecuritySummary defines model for PortalSecuritySummary.
+type PortalSecuritySummary struct {
+	ActiveSession int        `json:"activeSession"`
+	LinkedSources []string   `json:"linkedSources"`
+	MfaEnabled    bool       `json:"mfaEnabled"`
+	Principal     Principal  `json:"principal"`
+	RecentLoginAt *time.Time `json:"recentLoginAt,omitempty"`
+}
+
+// PortalSecuritySummaryEnvelope defines model for PortalSecuritySummaryEnvelope.
+type PortalSecuritySummaryEnvelope struct {
+	Data PortalSecuritySummary `json:"data"`
+}
+
 // Principal defines model for Principal.
 type Principal struct {
 	Email                string         `json:"email"`
@@ -21317,6 +21500,9 @@ type AttemptID = string
 // AutomationPolicyID defines model for AutomationPolicyID.
 type AutomationPolicyID = string
 
+// BrowserHandoffID defines model for BrowserHandoffID.
+type BrowserHandoffID = string
+
 // BuildTemplateID defines model for BuildTemplateID.
 type BuildTemplateID = string
 
@@ -21571,6 +21757,9 @@ type PluginAssetPath = string
 
 // PluginID defines model for PluginID.
 type PluginID = string
+
+// PortalApplicationID defines model for PortalApplicationID.
+type PortalApplicationID = string
 
 // ProviderID defines model for ProviderID.
 type ProviderID = string
@@ -23216,6 +23405,11 @@ type RollbackInstalledPluginParams struct {
 	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
 }
 
+// ListPortalRecentLaunchesParams defines parameters for ListPortalRecentLaunches.
+type ListPortalRecentLaunchesParams struct {
+	Limit int `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
 // ListRegistryConnectionsParams defines parameters for ListRegistryConnections.
 type ListRegistryConnectionsParams struct {
 	Limit int `form:"limit,omitempty" json:"limit,omitempty"`
@@ -24025,6 +24219,9 @@ type RollbackInstalledPluginJSONRequestBody = CompanionRollbackRequest
 
 // UpgradeInstalledPluginJSONRequestBody defines body for UpgradeInstalledPlugin for application/json ContentType.
 type UpgradeInstalledPluginJSONRequestBody = PluginInstallRequest
+
+// LaunchPortalApplicationJSONRequestBody defines body for LaunchPortalApplication for application/json ContentType.
+type LaunchPortalApplicationJSONRequestBody = PortalLaunchRequest
 
 // CreateRegistryConnectionJSONRequestBody defines body for CreateRegistryConnection for application/json ContentType.
 type CreateRegistryConnectionJSONRequestBody = RegistryConnectionInput
@@ -30232,6 +30429,12 @@ const (
 
 // Deprecated: use WorkbenchMessageDeltaEventRoleAssistant in new code.
 const Assistant WorkbenchMessageDeltaEventRole = WorkbenchMessageDeltaEventRoleAssistant
+
+// Deprecated: use the ScopeGrantEffect-prefixed constants in new code.
+const (
+	Allow ScopeGrantEffect = ScopeGrantEffectAllow
+	Deny  ScopeGrantEffect = ScopeGrantEffectDeny
+)
 
 // Deprecated: use Active, Degraded, and Disabled in new code.
 const (

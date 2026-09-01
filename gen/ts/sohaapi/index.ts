@@ -193,6 +193,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/browser-handoffs/{browserHandoffID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getBrowserHandoff"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/browser-handoffs/{browserHandoffID}/complete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["completeBrowserHandoff"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/login/{providerID}/start": {
         parameters: {
             query?: never;
@@ -7974,6 +8006,124 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/portal/bootstrap": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPortalBootstrap"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/portal/applications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listPortalApplications"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/portal/applications/{applicationID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["PortalApplicationID"];
+            };
+            cookie?: never;
+        };
+        get: operations["getPortalApplication"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/portal/applications/{applicationID}/launch": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["PortalApplicationID"];
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["launchPortalApplication"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/portal/applications/{applicationID}/favorite": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["PortalApplicationID"];
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["favoritePortalApplication"];
+        delete: operations["unfavoritePortalApplication"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/portal/recent": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listPortalRecentLaunches"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/portal/security": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPortalSecuritySummary"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/identity/applications": {
         parameters: {
             query?: never;
@@ -8679,7 +8829,7 @@ export interface components {
         /** @enum {string} */
         IdentityResourceStatus: "active" | "draft" | "enabled" | "disabled" | "maintenance";
         /** @enum {string} */
-        IdentityApplicationProviderType: "link" | "oidc" | "proxy";
+        IdentityApplicationProviderType: "link" | "oidc" | "proxy" | "saml";
         /** @enum {string} */
         IdentityApplicationAssignmentSubjectType: "user" | "role" | "team" | "tag";
         /** @enum {string} */
@@ -8756,6 +8906,93 @@ export interface components {
         };
         IdentityApplicationListEnvelope: {
             items: components["schemas"]["IdentityApplication"][];
+        };
+        IdentityApplicationLaunch: {
+            id: string;
+            applicationId: string;
+            applicationName?: string;
+            userId: string;
+            providerId?: string;
+            providerType: components["schemas"]["IdentityApplicationProviderType"];
+            result: string;
+            reason?: string;
+            /** Format: uri-reference */
+            launchUrl?: string;
+            sourceIp?: string;
+            userAgent?: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        IdentityApplicationLaunchListEnvelope: {
+            items: components["schemas"]["IdentityApplicationLaunch"][];
+        };
+        PortalSecuritySummary: {
+            principal: components["schemas"]["Principal"];
+            mfaEnabled: boolean;
+            linkedSources: string[];
+            activeSession: number;
+            /** Format: date-time */
+            recentLoginAt?: string;
+        };
+        PortalSecuritySummaryEnvelope: {
+            data: components["schemas"]["PortalSecuritySummary"];
+        };
+        PortalBootstrap: {
+            principal: components["schemas"]["Principal"];
+            applications: components["schemas"]["IdentityApplication"][];
+            favorites: components["schemas"]["IdentityApplication"][];
+            recent: components["schemas"]["IdentityApplicationLaunch"][];
+            categories: string[];
+            security: components["schemas"]["PortalSecuritySummary"];
+        };
+        PortalBootstrapEnvelope: {
+            data: components["schemas"]["PortalBootstrap"];
+        };
+        PortalApplicationListEnvelope: {
+            items: components["schemas"]["IdentityApplication"][];
+        };
+        PortalLaunchRequest: {
+            /** @enum {string} */
+            surface?: "web" | "desktop";
+        };
+        PortalLaunchDecision: {
+            application: components["schemas"]["IdentityApplication"];
+            /** Format: uri-reference */
+            launchUrl: string;
+            providerType: components["schemas"]["IdentityApplicationProviderType"];
+            /** @enum {string} */
+            decision: "allow";
+            /** Format: date-time */
+            handoffExpiresAt?: string;
+        };
+        PortalLaunchDecisionEnvelope: {
+            data: components["schemas"]["PortalLaunchDecision"];
+        };
+        BrowserHandoffApplication: {
+            id: string;
+            name: string;
+            /** Format: uri */
+            iconUrl?: string;
+        };
+        BrowserHandoff: {
+            application: components["schemas"]["BrowserHandoffApplication"];
+            accountName: string;
+            /** @enum {string} */
+            status: "pending";
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        BrowserHandoffEnvelope: {
+            data: components["schemas"]["BrowserHandoff"];
+        };
+        BrowserHandoffCompletion: {
+            /** @enum {string} */
+            status: "completed";
+            /** Format: uri-reference */
+            destinationUrl: string;
+        };
+        BrowserHandoffCompletionEnvelope: {
+            data: components["schemas"]["BrowserHandoffCompletion"];
         };
         /** @enum {string} */
         IdentityProviderType: "oidc" | "proxy" | "saml";
@@ -20168,6 +20405,8 @@ export interface components {
         TeamID: string;
         ScopeGrantID: string;
         IdentityApplicationID: string;
+        PortalApplicationID: string;
+        BrowserHandoffID: string;
         IdentityProviderID: string;
         IdentityPolicyID: string;
         IdentityOutpostID: string;
@@ -20353,6 +20592,21 @@ export type IdentityApplication = components['schemas']['IdentityApplication'];
 export type IdentityApplicationInput = components['schemas']['IdentityApplicationInput'];
 export type IdentityApplicationEnvelope = components['schemas']['IdentityApplicationEnvelope'];
 export type IdentityApplicationListEnvelope = components['schemas']['IdentityApplicationListEnvelope'];
+export type IdentityApplicationLaunch = components['schemas']['IdentityApplicationLaunch'];
+export type IdentityApplicationLaunchListEnvelope = components['schemas']['IdentityApplicationLaunchListEnvelope'];
+export type PortalSecuritySummary = components['schemas']['PortalSecuritySummary'];
+export type PortalSecuritySummaryEnvelope = components['schemas']['PortalSecuritySummaryEnvelope'];
+export type PortalBootstrap = components['schemas']['PortalBootstrap'];
+export type PortalBootstrapEnvelope = components['schemas']['PortalBootstrapEnvelope'];
+export type PortalApplicationListEnvelope = components['schemas']['PortalApplicationListEnvelope'];
+export type PortalLaunchRequest = components['schemas']['PortalLaunchRequest'];
+export type PortalLaunchDecision = components['schemas']['PortalLaunchDecision'];
+export type PortalLaunchDecisionEnvelope = components['schemas']['PortalLaunchDecisionEnvelope'];
+export type BrowserHandoffApplication = components['schemas']['BrowserHandoffApplication'];
+export type BrowserHandoff = components['schemas']['BrowserHandoff'];
+export type BrowserHandoffEnvelope = components['schemas']['BrowserHandoffEnvelope'];
+export type BrowserHandoffCompletion = components['schemas']['BrowserHandoffCompletion'];
+export type BrowserHandoffCompletionEnvelope = components['schemas']['BrowserHandoffCompletionEnvelope'];
 export type IdentityProviderType = components['schemas']['IdentityProviderType'];
 export type SAMLNameIDFormat = components['schemas']['SAMLNameIDFormat'];
 export type SAMLAttributeMapping = components['schemas']['SAMLAttributeMapping'];
@@ -21768,6 +22022,8 @@ export type ParameterUserId = components['parameters']['UserID'];
 export type ParameterTeamId = components['parameters']['TeamID'];
 export type ParameterScopeGrantId = components['parameters']['ScopeGrantID'];
 export type ParameterIdentityApplicationId = components['parameters']['IdentityApplicationID'];
+export type ParameterPortalApplicationId = components['parameters']['PortalApplicationID'];
+export type ParameterBrowserHandoffId = components['parameters']['BrowserHandoffID'];
 export type ParameterIdentityProviderId = components['parameters']['IdentityProviderID'];
 export type ParameterIdentityPolicyId = components['parameters']['IdentityPolicyID'];
 export type ParameterIdentityOutpostId = components['parameters']['IdentityOutpostID'];
@@ -22186,6 +22442,61 @@ export interface operations {
             413: components["responses"]["Error"];
             429: components["responses"]["Error"];
             501: components["responses"]["Error"];
+        };
+    };
+    getBrowserHandoff: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                browserHandoffID: components["parameters"]["BrowserHandoffID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Pending desktop-to-browser session handoff. */
+            200: {
+                headers: {
+                    "Cache-Control"?: "no-store";
+                    "Referrer-Policy"?: "no-referrer";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BrowserHandoffEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+            410: components["responses"]["Error"];
+            429: components["responses"]["Error"];
+        };
+    };
+    completeBrowserHandoff: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                browserHandoffID: components["parameters"]["BrowserHandoffID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Browser session created after explicit confirmation. */
+            200: {
+                headers: {
+                    "Cache-Control"?: "no-store";
+                    "Referrer-Policy"?: "no-referrer";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BrowserHandoffCompletionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            410: components["responses"]["Error"];
+            429: components["responses"]["Error"];
         };
     };
     beginProviderLogin: {
@@ -37937,6 +38248,194 @@ export interface operations {
                 };
             };
             403: components["responses"]["IdentityError"];
+        };
+    };
+    getPortalBootstrap: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current principal and visible provider portal data. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PortalBootstrapEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+        };
+    };
+    listPortalApplications: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Applications visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PortalApplicationListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+        };
+    };
+    getPortalApplication: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["PortalApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Application visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityApplicationEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    launchPortalApplication: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["PortalApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PortalLaunchRequest"];
+            };
+        };
+        responses: {
+            /** @description Authorized launch decision for Web or desktop. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PortalLaunchDecisionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    favoritePortalApplication: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["PortalApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Favorited application. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityApplicationEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    unfavoritePortalApplication: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["PortalApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Application removed from favorites. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listPortalRecentLaunches: {
+        parameters: {
+            query?: {
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Recent application launches for the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityApplicationLaunchListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+        };
+    };
+    getPortalSecuritySummary: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current principal security summary. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PortalSecuritySummaryEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
         };
     };
     listIdentityApplications: {

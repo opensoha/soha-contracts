@@ -37,6 +37,7 @@ tags:
   - name: Software
   - name: Access
   - name: Identity
+  - name: Portal
   - name: Directory
 paths:
   /healthz:
@@ -249,6 +250,58 @@ paths:
         "429":
           $ref: "#/components/responses/Error"
         "501":
+          $ref: "#/components/responses/Error"
+  /auth/browser-handoffs/{browserHandoffID}:
+    get:
+      tags: [Auth]
+      operationId: getBrowserHandoff
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/BrowserHandoffID"
+      responses:
+        "200":
+          description: Pending desktop-to-browser session handoff.
+          headers:
+            Cache-Control:
+              schema: { type: string, enum: [no-store] }
+            Referrer-Policy:
+              schema: { type: string, enum: [no-referrer] }
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BrowserHandoffEnvelope"
+        "404":
+          $ref: "#/components/responses/Error"
+        "410":
+          $ref: "#/components/responses/Error"
+        "429":
+          $ref: "#/components/responses/Error"
+  /auth/browser-handoffs/{browserHandoffID}/complete:
+    post:
+      tags: [Auth]
+      operationId: completeBrowserHandoff
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/BrowserHandoffID"
+      responses:
+        "200":
+          description: Browser session created after explicit confirmation.
+          headers:
+            Cache-Control:
+              schema: { type: string, enum: [no-store] }
+            Referrer-Policy:
+              schema: { type: string, enum: [no-referrer] }
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BrowserHandoffCompletionEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "410":
+          $ref: "#/components/responses/Error"
+        "429":
           $ref: "#/components/responses/Error"
   /auth/login/{providerID}/start:
     get:
@@ -9029,6 +9082,13 @@ paths:
           schema:
             type: string
             enum: [success, failure, cancelled, client_cancelled, rate_limited, policy_denied]
+            x-enum-varnames:
+              - ListAIGatewayRelayModelCallsParamsStatusSuccess
+              - ListAIGatewayRelayModelCallsParamsStatusFailure
+              - ListAIGatewayRelayModelCallsParamsStatusCancelled
+              - ListAIGatewayRelayModelCallsParamsStatusClientCancelled
+              - ListAIGatewayRelayModelCallsParamsStatusRateLimited
+              - ListAIGatewayRelayModelCallsParamsStatusPolicyDenied
         - name: endpoint
           in: query
           required: false
@@ -13091,6 +13151,112 @@ paths:
             application/json:
               schema: { $ref: "#/components/schemas/IdentityRuntimeCapabilityEnvelope" }
         "403": { $ref: "#/components/responses/IdentityError" }
+  /portal/bootstrap:
+    get:
+      tags: [Portal]
+      operationId: getPortalBootstrap
+      responses:
+        "200":
+          description: Current principal and visible provider portal data.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PortalBootstrapEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+  /portal/applications:
+    get:
+      tags: [Portal]
+      operationId: listPortalApplications
+      responses:
+        "200":
+          description: Applications visible to the current principal.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PortalApplicationListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+  /portal/applications/{applicationID}:
+    parameters:
+      - $ref: "#/components/parameters/PortalApplicationID"
+    get:
+      tags: [Portal]
+      operationId: getPortalApplication
+      responses:
+        "200":
+          description: Application visible to the current principal.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityApplicationEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /portal/applications/{applicationID}/launch:
+    parameters:
+      - $ref: "#/components/parameters/PortalApplicationID"
+    post:
+      tags: [Portal]
+      operationId: launchPortalApplication
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PortalLaunchRequest" }
+      responses:
+        "200":
+          description: Authorized launch decision for Web or desktop.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PortalLaunchDecisionEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /portal/applications/{applicationID}/favorite:
+    parameters:
+      - $ref: "#/components/parameters/PortalApplicationID"
+    post:
+      tags: [Portal]
+      operationId: favoritePortalApplication
+      responses:
+        "200":
+          description: Favorited application.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityApplicationEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [Portal]
+      operationId: unfavoritePortalApplication
+      responses:
+        "204": { description: Application removed from favorites. }
+        "401": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /portal/recent:
+    get:
+      tags: [Portal]
+      operationId: listPortalRecentLaunches
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100, default: 10 }
+      responses:
+        "200":
+          description: Recent application launches for the current principal.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IdentityApplicationLaunchListEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
+  /portal/security:
+    get:
+      tags: [Portal]
+      operationId: getPortalSecuritySummary
+      responses:
+        "200":
+          description: Current principal security summary.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PortalSecuritySummaryEnvelope" }
+        "401": { $ref: "#/components/responses/Error" }
   /identity/applications:
     get:
       tags: [Identity]
@@ -13982,6 +14148,16 @@ components:
       schema: { type: string, minLength: 1, maxLength: 128 }
     IdentityApplicationID:
       name: identityApplicationID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    PortalApplicationID:
+      name: applicationID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    BrowserHandoffID:
+      name: browserHandoffID
       in: path
       required: true
       schema: { type: string, minLength: 1, maxLength: 128 }
@@ -14969,7 +15145,7 @@ components:
       enum: [active, draft, enabled, disabled, maintenance]
     IdentityApplicationProviderType:
       type: string
-      enum: [link, oidc, proxy]
+      enum: [link, oidc, proxy, saml]
     IdentityApplicationAssignmentSubjectType:
       type: string
       enum: [user, role, team, tag]
@@ -15058,6 +15234,125 @@ components:
       required: [items]
       properties:
         items: { type: array, items: { $ref: "#/components/schemas/IdentityApplication" } }
+      additionalProperties: false
+    IdentityApplicationLaunch:
+      type: object
+      required: [id, applicationId, userId, providerType, result, createdAt]
+      properties:
+        id: { type: string }
+        applicationId: { type: string }
+        applicationName: { type: string }
+        userId: { type: string }
+        providerId: { type: string }
+        providerType: { $ref: "#/components/schemas/IdentityApplicationProviderType" }
+        result: { type: string }
+        reason: { type: string }
+        launchUrl: { type: string, format: uri-reference }
+        sourceIp: { type: string }
+        userAgent: { type: string }
+        createdAt: { type: string, format: date-time }
+      additionalProperties: false
+    IdentityApplicationLaunchListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/IdentityApplicationLaunch" } }
+      additionalProperties: false
+    PortalSecuritySummary:
+      type: object
+      required: [principal, mfaEnabled, linkedSources, activeSession]
+      properties:
+        principal: { $ref: "#/components/schemas/Principal" }
+        mfaEnabled: { type: boolean }
+        linkedSources: { type: array, items: { type: string } }
+        activeSession: { type: integer, minimum: 0 }
+        recentLoginAt: { type: string, format: date-time }
+      additionalProperties: false
+    PortalSecuritySummaryEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/PortalSecuritySummary" }
+      additionalProperties: false
+    PortalBootstrap:
+      type: object
+      required: [principal, applications, favorites, recent, categories, security]
+      properties:
+        principal: { $ref: "#/components/schemas/Principal" }
+        applications: { type: array, items: { $ref: "#/components/schemas/IdentityApplication" } }
+        favorites: { type: array, items: { $ref: "#/components/schemas/IdentityApplication" } }
+        recent: { type: array, items: { $ref: "#/components/schemas/IdentityApplicationLaunch" } }
+        categories: { type: array, items: { type: string } }
+        security: { $ref: "#/components/schemas/PortalSecuritySummary" }
+      additionalProperties: false
+    PortalBootstrapEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/PortalBootstrap" }
+      additionalProperties: false
+    PortalApplicationListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/IdentityApplication" } }
+      additionalProperties: false
+    PortalLaunchRequest:
+      type: object
+      properties:
+        surface: { type: string, enum: [web, desktop] }
+      additionalProperties: false
+    PortalLaunchDecision:
+      type: object
+      required: [application, launchUrl, providerType, decision]
+      properties:
+        application: { $ref: "#/components/schemas/IdentityApplication" }
+        launchUrl: { type: string, format: uri-reference }
+        providerType: { $ref: "#/components/schemas/IdentityApplicationProviderType" }
+        decision: { type: string, enum: [allow] }
+        handoffExpiresAt: { type: string, format: date-time }
+      additionalProperties: false
+    PortalLaunchDecisionEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/PortalLaunchDecision" }
+      additionalProperties: false
+    BrowserHandoffApplication:
+      type: object
+      required: [id, name]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        iconUrl: { type: string, format: uri }
+      additionalProperties: false
+    BrowserHandoff:
+      type: object
+      required: [application, accountName, status, expiresAt]
+      properties:
+        application: { $ref: "#/components/schemas/BrowserHandoffApplication" }
+        accountName: { type: string }
+        status: { type: string, enum: [pending] }
+        expiresAt: { type: string, format: date-time }
+      additionalProperties: false
+    BrowserHandoffEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/BrowserHandoff" }
+      additionalProperties: false
+    BrowserHandoffCompletion:
+      type: object
+      required: [status, destinationUrl]
+      properties:
+        status: { type: string, enum: [completed] }
+        destinationUrl: { type: string, format: uri-reference }
+      additionalProperties: false
+    BrowserHandoffCompletionEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/BrowserHandoffCompletion" }
       additionalProperties: false
     IdentityProviderType:
       type: string
@@ -16856,6 +17151,7 @@ components:
     ScopeGrantEffect:
       type: string
       enum: [allow, deny]
+      x-enum-varnames: [Allow, Deny]
     ScopeGrant:
       type: object
       required: [id, subjectType, subjectId, businessLineId, scopeType, role, effect, enabled, createdAt, updatedAt]
