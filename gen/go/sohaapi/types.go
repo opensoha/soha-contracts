@@ -532,6 +532,27 @@ func (e AlertRuleType) Valid() bool {
 	}
 }
 
+// Defines values for AnnouncementReceiptState.
+const (
+	All    AnnouncementReceiptState = "all"
+	Read   AnnouncementReceiptState = "read"
+	Unread AnnouncementReceiptState = "unread"
+)
+
+// Valid indicates whether the value is a known member of the AnnouncementReceiptState enum.
+func (e AnnouncementReceiptState) Valid() bool {
+	switch e {
+	case All:
+		return true
+	case Read:
+		return true
+	case Unread:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ApplicationDeliveryActionKind.
 const (
 	ApplicationDeliveryActionKindBuild       ApplicationDeliveryActionKind = "build"
@@ -1894,6 +1915,153 @@ func (e DockerProjectDeployInputAction) Valid() bool {
 	case DockerProjectDeployInputActionStart:
 		return true
 	case DockerProjectDeployInputActionStop:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EndpointDeviceOwnershipType.
+const (
+	EndpointDeviceOwnershipTypeCompany    EndpointDeviceOwnershipType = "company"
+	EndpointDeviceOwnershipTypePersonal   EndpointDeviceOwnershipType = "personal"
+	EndpointDeviceOwnershipTypeTemporary  EndpointDeviceOwnershipType = "temporary"
+	EndpointDeviceOwnershipTypeUnassigned EndpointDeviceOwnershipType = "unassigned"
+)
+
+// Valid indicates whether the value is a known member of the EndpointDeviceOwnershipType enum.
+func (e EndpointDeviceOwnershipType) Valid() bool {
+	switch e {
+	case EndpointDeviceOwnershipTypeCompany:
+		return true
+	case EndpointDeviceOwnershipTypePersonal:
+		return true
+	case EndpointDeviceOwnershipTypeTemporary:
+		return true
+	case EndpointDeviceOwnershipTypeUnassigned:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EndpointDevicePostureStatus.
+const (
+	EndpointDevicePostureStatusCompliant    EndpointDevicePostureStatus = "compliant"
+	EndpointDevicePostureStatusNonCompliant EndpointDevicePostureStatus = "non_compliant"
+	EndpointDevicePostureStatusUnknown      EndpointDevicePostureStatus = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the EndpointDevicePostureStatus enum.
+func (e EndpointDevicePostureStatus) Valid() bool {
+	switch e {
+	case EndpointDevicePostureStatusCompliant:
+		return true
+	case EndpointDevicePostureStatusNonCompliant:
+		return true
+	case EndpointDevicePostureStatusUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EndpointDeviceStatus.
+const (
+	EndpointDeviceStatusActive      EndpointDeviceStatus = "active"
+	EndpointDeviceStatusPending     EndpointDeviceStatus = "pending"
+	EndpointDeviceStatusQuarantined EndpointDeviceStatus = "quarantined"
+	EndpointDeviceStatusRevoked     EndpointDeviceStatus = "revoked"
+)
+
+// Valid indicates whether the value is a known member of the EndpointDeviceStatus enum.
+func (e EndpointDeviceStatus) Valid() bool {
+	switch e {
+	case EndpointDeviceStatusActive:
+		return true
+	case EndpointDeviceStatusPending:
+		return true
+	case EndpointDeviceStatusQuarantined:
+		return true
+	case EndpointDeviceStatusRevoked:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EndpointDeviceType.
+const (
+	EndpointDeviceTypeDesktop EndpointDeviceType = "desktop"
+	EndpointDeviceTypeLaptop  EndpointDeviceType = "laptop"
+	EndpointDeviceTypeMobile  EndpointDeviceType = "mobile"
+	EndpointDeviceTypeServer  EndpointDeviceType = "server"
+	EndpointDeviceTypeTablet  EndpointDeviceType = "tablet"
+	EndpointDeviceTypeUnknown EndpointDeviceType = "unknown"
+	EndpointDeviceTypeVirtual EndpointDeviceType = "virtual"
+)
+
+// Valid indicates whether the value is a known member of the EndpointDeviceType enum.
+func (e EndpointDeviceType) Valid() bool {
+	switch e {
+	case EndpointDeviceTypeDesktop:
+		return true
+	case EndpointDeviceTypeLaptop:
+		return true
+	case EndpointDeviceTypeMobile:
+		return true
+	case EndpointDeviceTypeServer:
+		return true
+	case EndpointDeviceTypeTablet:
+		return true
+	case EndpointDeviceTypeUnknown:
+		return true
+	case EndpointDeviceTypeVirtual:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EndpointNetworkInterfaceKind.
+const (
+	EndpointNetworkInterfaceKindLoopback EndpointNetworkInterfaceKind = "loopback"
+	EndpointNetworkInterfaceKindPhysical EndpointNetworkInterfaceKind = "physical"
+	EndpointNetworkInterfaceKindUnknown  EndpointNetworkInterfaceKind = "unknown"
+	EndpointNetworkInterfaceKindVirtual  EndpointNetworkInterfaceKind = "virtual"
+)
+
+// Valid indicates whether the value is a known member of the EndpointNetworkInterfaceKind enum.
+func (e EndpointNetworkInterfaceKind) Valid() bool {
+	switch e {
+	case EndpointNetworkInterfaceKindLoopback:
+		return true
+	case EndpointNetworkInterfaceKindPhysical:
+		return true
+	case EndpointNetworkInterfaceKindUnknown:
+		return true
+	case EndpointNetworkInterfaceKindVirtual:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EndpointNetworkInterfaceStatus.
+const (
+	EndpointNetworkInterfaceStatusDown    EndpointNetworkInterfaceStatus = "down"
+	EndpointNetworkInterfaceStatusUnknown EndpointNetworkInterfaceStatus = "unknown"
+	EndpointNetworkInterfaceStatusUp      EndpointNetworkInterfaceStatus = "up"
+)
+
+// Valid indicates whether the value is a known member of the EndpointNetworkInterfaceStatus enum.
+func (e EndpointNetworkInterfaceStatus) Valid() bool {
+	switch e {
+	case EndpointNetworkInterfaceStatusDown:
+		return true
+	case EndpointNetworkInterfaceStatusUnknown:
+		return true
+	case EndpointNetworkInterfaceStatusUp:
 		return true
 	default:
 		return false
@@ -4528,6 +4696,726 @@ func (e MarketplacePublisherVerificationLevel) Valid() bool {
 	case MarketplacePublisherVerificationLevelPrivate:
 		return true
 	case MarketplacePublisherVerificationLevelVerified:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkAccessDeviceType.
+const (
+	NetworkAccessDeviceTypeAccessPoint        NetworkAccessDeviceType = "access_point"
+	NetworkAccessDeviceTypeOther              NetworkAccessDeviceType = "other"
+	NetworkAccessDeviceTypeSwitch             NetworkAccessDeviceType = "switch"
+	NetworkAccessDeviceTypeWirelessController NetworkAccessDeviceType = "wireless_controller"
+)
+
+// Valid indicates whether the value is a known member of the NetworkAccessDeviceType enum.
+func (e NetworkAccessDeviceType) Valid() bool {
+	switch e {
+	case NetworkAccessDeviceTypeAccessPoint:
+		return true
+	case NetworkAccessDeviceTypeOther:
+		return true
+	case NetworkAccessDeviceTypeSwitch:
+		return true
+	case NetworkAccessDeviceTypeWirelessController:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkAccessGrantMode.
+const (
+	NetworkAccessGrantModeNetworkAccessGrantModeExternalDirectZTNA NetworkAccessGrantMode = "external_direct_ztna"
+	NetworkAccessGrantModeNetworkAccessGrantModeExternalVPNZTNA    NetworkAccessGrantMode = "external_vpn_ztna"
+	NetworkAccessGrantModeNetworkAccessGrantModeInternalZTNA       NetworkAccessGrantMode = "internal_ztna"
+)
+
+// Valid indicates whether the value is a known member of the NetworkAccessGrantMode enum.
+func (e NetworkAccessGrantMode) Valid() bool {
+	switch e {
+	case NetworkAccessGrantModeNetworkAccessGrantModeExternalDirectZTNA:
+		return true
+	case NetworkAccessGrantModeNetworkAccessGrantModeExternalVPNZTNA:
+		return true
+	case NetworkAccessGrantModeNetworkAccessGrantModeInternalZTNA:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkAccessGrantInputMode.
+const (
+	NetworkAccessGrantInputModeNetworkAccessGrantModeExternalDirectZTNA NetworkAccessGrantInputMode = "external_direct_ztna"
+	NetworkAccessGrantInputModeNetworkAccessGrantModeExternalVPNZTNA    NetworkAccessGrantInputMode = "external_vpn_ztna"
+	NetworkAccessGrantInputModeNetworkAccessGrantModeInternalZTNA       NetworkAccessGrantInputMode = "internal_ztna"
+)
+
+// Valid indicates whether the value is a known member of the NetworkAccessGrantInputMode enum.
+func (e NetworkAccessGrantInputMode) Valid() bool {
+	switch e {
+	case NetworkAccessGrantInputModeNetworkAccessGrantModeExternalDirectZTNA:
+		return true
+	case NetworkAccessGrantInputModeNetworkAccessGrantModeExternalVPNZTNA:
+		return true
+	case NetworkAccessGrantInputModeNetworkAccessGrantModeInternalZTNA:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkAccessGrantStatus.
+const (
+	NetworkAccessGrantStatusConsumed NetworkAccessGrantStatus = "consumed"
+	NetworkAccessGrantStatusExpired  NetworkAccessGrantStatus = "expired"
+	NetworkAccessGrantStatusIssued   NetworkAccessGrantStatus = "issued"
+	NetworkAccessGrantStatusRevoked  NetworkAccessGrantStatus = "revoked"
+)
+
+// Valid indicates whether the value is a known member of the NetworkAccessGrantStatus enum.
+func (e NetworkAccessGrantStatus) Valid() bool {
+	switch e {
+	case NetworkAccessGrantStatusConsumed:
+		return true
+	case NetworkAccessGrantStatusExpired:
+		return true
+	case NetworkAccessGrantStatusIssued:
+		return true
+	case NetworkAccessGrantStatusRevoked:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkAccessMedium.
+const (
+	NetworkAccessMediumWiFi  NetworkAccessMedium = "wifi"
+	NetworkAccessMediumWired NetworkAccessMedium = "wired"
+)
+
+// Valid indicates whether the value is a known member of the NetworkAccessMedium enum.
+func (e NetworkAccessMedium) Valid() bool {
+	switch e {
+	case NetworkAccessMediumWiFi:
+		return true
+	case NetworkAccessMediumWired:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkAccessMode.
+const (
+	NetworkAccessModeExternalDirectZTNA NetworkAccessMode = "external_direct_ztna"
+	NetworkAccessModeExternalVPN        NetworkAccessMode = "external_vpn"
+	NetworkAccessModeExternalVPNZTNA    NetworkAccessMode = "external_vpn_ztna"
+	NetworkAccessModeInternalDirect     NetworkAccessMode = "internal_direct"
+	NetworkAccessModeInternalZTNA       NetworkAccessMode = "internal_ztna"
+)
+
+// Valid indicates whether the value is a known member of the NetworkAccessMode enum.
+func (e NetworkAccessMode) Valid() bool {
+	switch e {
+	case NetworkAccessModeExternalDirectZTNA:
+		return true
+	case NetworkAccessModeExternalVPN:
+		return true
+	case NetworkAccessModeExternalVPNZTNA:
+		return true
+	case NetworkAccessModeInternalDirect:
+		return true
+	case NetworkAccessModeInternalZTNA:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkAccessProfile.
+const (
+	NetworkAccessProfileDeny       NetworkAccessProfile = "deny"
+	NetworkAccessProfileFull       NetworkAccessProfile = "full"
+	NetworkAccessProfileOnboarding NetworkAccessProfile = "onboarding"
+	NetworkAccessProfileQuarantine NetworkAccessProfile = "quarantine"
+	NetworkAccessProfileRestricted NetworkAccessProfile = "restricted"
+)
+
+// Valid indicates whether the value is a known member of the NetworkAccessProfile enum.
+func (e NetworkAccessProfile) Valid() bool {
+	switch e {
+	case NetworkAccessProfileDeny:
+		return true
+	case NetworkAccessProfileFull:
+		return true
+	case NetworkAccessProfileOnboarding:
+		return true
+	case NetworkAccessProfileQuarantine:
+		return true
+	case NetworkAccessProfileRestricted:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkConflictReason.
+const (
+	Duplicate NetworkConflictReason = "duplicate"
+	Overlap   NetworkConflictReason = "overlap"
+)
+
+// Valid indicates whether the value is a known member of the NetworkConflictReason enum.
+func (e NetworkConflictReason) Valid() bool {
+	switch e {
+	case Duplicate:
+		return true
+	case Overlap:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkConflictSourceType.
+const (
+	NetworkConflictSourceTypeContainer         NetworkConflictSourceType = "container"
+	NetworkConflictSourceTypeKubernetesPod     NetworkConflictSourceType = "kubernetes_pod"
+	NetworkConflictSourceTypeKubernetesService NetworkConflictSourceType = "kubernetes_service"
+	NetworkConflictSourceTypeLAN               NetworkConflictSourceType = "lan"
+	NetworkConflictSourceTypeMihomoFakeIP      NetworkConflictSourceType = "mihomo_fake_ip"
+	NetworkConflictSourceTypeNetworkResource   NetworkConflictSourceType = "network_resource"
+	NetworkConflictSourceTypeNetworkSpace      NetworkConflictSourceType = "network_space"
+	NetworkConflictSourceTypeRFC6598           NetworkConflictSourceType = "rfc6598"
+	NetworkConflictSourceTypeWireGuardOverlay  NetworkConflictSourceType = "wireguard_overlay"
+)
+
+// Valid indicates whether the value is a known member of the NetworkConflictSourceType enum.
+func (e NetworkConflictSourceType) Valid() bool {
+	switch e {
+	case NetworkConflictSourceTypeContainer:
+		return true
+	case NetworkConflictSourceTypeKubernetesPod:
+		return true
+	case NetworkConflictSourceTypeKubernetesService:
+		return true
+	case NetworkConflictSourceTypeLAN:
+		return true
+	case NetworkConflictSourceTypeMihomoFakeIP:
+		return true
+	case NetworkConflictSourceTypeNetworkResource:
+		return true
+	case NetworkConflictSourceTypeNetworkSpace:
+		return true
+	case NetworkConflictSourceTypeRFC6598:
+		return true
+	case NetworkConflictSourceTypeWireGuardOverlay:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkConnectionAuthentication.
+const (
+	NetworkConnectionAuthenticationRadius8021X NetworkConnectionAuthentication = "radius_802_1x"
+)
+
+// Valid indicates whether the value is a known member of the NetworkConnectionAuthentication enum.
+func (e NetworkConnectionAuthentication) Valid() bool {
+	switch e {
+	case NetworkConnectionAuthenticationRadius8021X:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkGatewayAdministrativeStatus.
+const (
+	NetworkGatewayAdministrativeStatusActive   NetworkGatewayAdministrativeStatus = "active"
+	NetworkGatewayAdministrativeStatusDisabled NetworkGatewayAdministrativeStatus = "disabled"
+)
+
+// Valid indicates whether the value is a known member of the NetworkGatewayAdministrativeStatus enum.
+func (e NetworkGatewayAdministrativeStatus) Valid() bool {
+	switch e {
+	case NetworkGatewayAdministrativeStatusActive:
+		return true
+	case NetworkGatewayAdministrativeStatusDisabled:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkGatewayRoutingMode.
+const (
+	NetworkGatewayRoutingModeRouted NetworkGatewayRoutingMode = "routed"
+	NetworkGatewayRoutingModeSNAT   NetworkGatewayRoutingMode = "snat"
+)
+
+// Valid indicates whether the value is a known member of the NetworkGatewayRoutingMode enum.
+func (e NetworkGatewayRoutingMode) Valid() bool {
+	switch e {
+	case NetworkGatewayRoutingModeRouted:
+		return true
+	case NetworkGatewayRoutingModeSNAT:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkGatewayStatus.
+const (
+	NetworkGatewayStatusDegraded NetworkGatewayStatus = "degraded"
+	NetworkGatewayStatusOffline  NetworkGatewayStatus = "offline"
+	NetworkGatewayStatusOnline   NetworkGatewayStatus = "online"
+)
+
+// Valid indicates whether the value is a known member of the NetworkGatewayStatus enum.
+func (e NetworkGatewayStatus) Valid() bool {
+	switch e {
+	case NetworkGatewayStatusDegraded:
+		return true
+	case NetworkGatewayStatusOffline:
+		return true
+	case NetworkGatewayStatusOnline:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkMihomoDNSMode.
+const (
+	NetworkMihomoDNSModeDisabled NetworkMihomoDNSMode = "disabled"
+	NetworkMihomoDNSModeFakeIP   NetworkMihomoDNSMode = "fake_ip"
+)
+
+// Valid indicates whether the value is a known member of the NetworkMihomoDNSMode enum.
+func (e NetworkMihomoDNSMode) Valid() bool {
+	switch e {
+	case NetworkMihomoDNSModeDisabled:
+		return true
+	case NetworkMihomoDNSModeFakeIP:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkMihomoManualProtocol.
+const (
+	NetworkMihomoManualProtocolHTTP   NetworkMihomoManualProtocol = "http"
+	NetworkMihomoManualProtocolHTTPS  NetworkMihomoManualProtocol = "https"
+	NetworkMihomoManualProtocolSOCKS5 NetworkMihomoManualProtocol = "socks5"
+)
+
+// Valid indicates whether the value is a known member of the NetworkMihomoManualProtocol enum.
+func (e NetworkMihomoManualProtocol) Valid() bool {
+	switch e {
+	case NetworkMihomoManualProtocolHTTP:
+		return true
+	case NetworkMihomoManualProtocolHTTPS:
+		return true
+	case NetworkMihomoManualProtocolSOCKS5:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkMihomoMode.
+const (
+	NetworkMihomoModeAppSubscription NetworkMihomoMode = "app_subscription"
+	NetworkMihomoModeManagedFollow   NetworkMihomoMode = "managed_follow"
+)
+
+// Valid indicates whether the value is a known member of the NetworkMihomoMode enum.
+func (e NetworkMihomoMode) Valid() bool {
+	switch e {
+	case NetworkMihomoModeAppSubscription:
+		return true
+	case NetworkMihomoModeManagedFollow:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkMihomoProfileStatus.
+const (
+	NetworkMihomoProfileStatusActive   NetworkMihomoProfileStatus = "active"
+	NetworkMihomoProfileStatusDisabled NetworkMihomoProfileStatus = "disabled"
+)
+
+// Valid indicates whether the value is a known member of the NetworkMihomoProfileStatus enum.
+func (e NetworkMihomoProfileStatus) Valid() bool {
+	switch e {
+	case NetworkMihomoProfileStatusActive:
+		return true
+	case NetworkMihomoProfileStatusDisabled:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkMihomoSourceType.
+const (
+	NetworkMihomoSourceTypeManagedSubscription NetworkMihomoSourceType = "managed_subscription"
+	NetworkMihomoSourceTypeManualNode          NetworkMihomoSourceType = "manual_node"
+)
+
+// Valid indicates whether the value is a known member of the NetworkMihomoSourceType enum.
+func (e NetworkMihomoSourceType) Valid() bool {
+	switch e {
+	case NetworkMihomoSourceTypeManagedSubscription:
+		return true
+	case NetworkMihomoSourceTypeManualNode:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkNASBindingStatus.
+const (
+	NetworkNASBindingStatusActive   NetworkNASBindingStatus = "active"
+	NetworkNASBindingStatusDisabled NetworkNASBindingStatus = "disabled"
+)
+
+// Valid indicates whether the value is a known member of the NetworkNASBindingStatus enum.
+func (e NetworkNASBindingStatus) Valid() bool {
+	switch e {
+	case NetworkNASBindingStatusActive:
+		return true
+	case NetworkNASBindingStatusDisabled:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkPathMode.
+const (
+	NetworkPathModeAccessProxy   NetworkPathMode = "access_proxy"
+	NetworkPathModeAutomatic     NetworkPathMode = "automatic"
+	NetworkPathModeSiteDirect    NetworkPathMode = "site_direct"
+	NetworkPathModeWireGuard     NetworkPathMode = "wireguard"
+	NetworkPathModeWireGuardZTNA NetworkPathMode = "wireguard_ztna"
+)
+
+// Valid indicates whether the value is a known member of the NetworkPathMode enum.
+func (e NetworkPathMode) Valid() bool {
+	switch e {
+	case NetworkPathModeAccessProxy:
+		return true
+	case NetworkPathModeAutomatic:
+		return true
+	case NetworkPathModeSiteDirect:
+		return true
+	case NetworkPathModeWireGuard:
+		return true
+	case NetworkPathModeWireGuardZTNA:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkPolicyDecision.
+const (
+	NetworkPolicyDecisionAllow NetworkPolicyDecision = "allow"
+	NetworkPolicyDecisionDeny  NetworkPolicyDecision = "deny"
+)
+
+// Valid indicates whether the value is a known member of the NetworkPolicyDecision enum.
+func (e NetworkPolicyDecision) Valid() bool {
+	switch e {
+	case NetworkPolicyDecisionAllow:
+		return true
+	case NetworkPolicyDecisionDeny:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkPolicyEffect.
+const (
+	NetworkPolicyEffectAllow NetworkPolicyEffect = "allow"
+	NetworkPolicyEffectDeny  NetworkPolicyEffect = "deny"
+)
+
+// Valid indicates whether the value is a known member of the NetworkPolicyEffect enum.
+func (e NetworkPolicyEffect) Valid() bool {
+	switch e {
+	case NetworkPolicyEffectAllow:
+		return true
+	case NetworkPolicyEffectDeny:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkPolicyPath.
+const (
+	NetworkPolicyPathAccessProxy   NetworkPolicyPath = "access_proxy"
+	NetworkPolicyPathDeny          NetworkPolicyPath = "deny"
+	NetworkPolicyPathSiteDirect    NetworkPolicyPath = "site_direct"
+	NetworkPolicyPathWireGuard     NetworkPolicyPath = "wireguard"
+	NetworkPolicyPathWireGuardZTNA NetworkPolicyPath = "wireguard_ztna"
+)
+
+// Valid indicates whether the value is a known member of the NetworkPolicyPath enum.
+func (e NetworkPolicyPath) Valid() bool {
+	switch e {
+	case NetworkPolicyPathAccessProxy:
+		return true
+	case NetworkPolicyPathDeny:
+		return true
+	case NetworkPolicyPathSiteDirect:
+		return true
+	case NetworkPolicyPathWireGuard:
+		return true
+	case NetworkPolicyPathWireGuardZTNA:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkResourceKind.
+const (
+	NetworkResourceKindCIDR NetworkResourceKind = "cidr"
+	NetworkResourceKindFQDN NetworkResourceKind = "fqdn"
+	NetworkResourceKindIP   NetworkResourceKind = "ip"
+)
+
+// Valid indicates whether the value is a known member of the NetworkResourceKind enum.
+func (e NetworkResourceKind) Valid() bool {
+	switch e {
+	case NetworkResourceKindCIDR:
+		return true
+	case NetworkResourceKindFQDN:
+		return true
+	case NetworkResourceKindIP:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkResourceProtocol.
+const (
+	NetworkResourceProtocolAny  NetworkResourceProtocol = "any"
+	NetworkResourceProtocolICMP NetworkResourceProtocol = "icmp"
+	NetworkResourceProtocolTCP  NetworkResourceProtocol = "tcp"
+	NetworkResourceProtocolUDP  NetworkResourceProtocol = "udp"
+)
+
+// Valid indicates whether the value is a known member of the NetworkResourceProtocol enum.
+func (e NetworkResourceProtocol) Valid() bool {
+	switch e {
+	case NetworkResourceProtocolAny:
+		return true
+	case NetworkResourceProtocolICMP:
+		return true
+	case NetworkResourceProtocolTCP:
+		return true
+	case NetworkResourceProtocolUDP:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkRuntimeEnrollmentStatus.
+const (
+	NetworkRuntimeEnrollmentStatusConsumed NetworkRuntimeEnrollmentStatus = "consumed"
+	NetworkRuntimeEnrollmentStatusPending  NetworkRuntimeEnrollmentStatus = "pending"
+	NetworkRuntimeEnrollmentStatusRevoked  NetworkRuntimeEnrollmentStatus = "revoked"
+)
+
+// Valid indicates whether the value is a known member of the NetworkRuntimeEnrollmentStatus enum.
+func (e NetworkRuntimeEnrollmentStatus) Valid() bool {
+	switch e {
+	case NetworkRuntimeEnrollmentStatusConsumed:
+		return true
+	case NetworkRuntimeEnrollmentStatusPending:
+		return true
+	case NetworkRuntimeEnrollmentStatusRevoked:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkRuntimeKind.
+const (
+	NetworkRuntimeKindEndpoint NetworkRuntimeKind = "endpoint"
+	NetworkRuntimeKindGateway  NetworkRuntimeKind = "gateway"
+	NetworkRuntimeKindNAS      NetworkRuntimeKind = "nas"
+)
+
+// Valid indicates whether the value is a known member of the NetworkRuntimeKind enum.
+func (e NetworkRuntimeKind) Valid() bool {
+	switch e {
+	case NetworkRuntimeKindEndpoint:
+		return true
+	case NetworkRuntimeKindGateway:
+		return true
+	case NetworkRuntimeKindNAS:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkSessionAction.
+const (
+	NetworkSessionActionCoA        NetworkSessionAction = "coa"
+	NetworkSessionActionDisconnect NetworkSessionAction = "disconnect"
+)
+
+// Valid indicates whether the value is a known member of the NetworkSessionAction enum.
+func (e NetworkSessionAction) Valid() bool {
+	switch e {
+	case NetworkSessionActionCoA:
+		return true
+	case NetworkSessionActionDisconnect:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkSessionCommandStatus.
+const (
+	NetworkSessionCommandStatusApplied     NetworkSessionCommandStatus = "applied"
+	NetworkSessionCommandStatusDelivered   NetworkSessionCommandStatus = "delivered"
+	NetworkSessionCommandStatusExpired     NetworkSessionCommandStatus = "expired"
+	NetworkSessionCommandStatusPending     NetworkSessionCommandStatus = "pending"
+	NetworkSessionCommandStatusRejected    NetworkSessionCommandStatus = "rejected"
+	NetworkSessionCommandStatusTimedOut    NetworkSessionCommandStatus = "timed-out"
+	NetworkSessionCommandStatusUnsupported NetworkSessionCommandStatus = "unsupported"
+)
+
+// Valid indicates whether the value is a known member of the NetworkSessionCommandStatus enum.
+func (e NetworkSessionCommandStatus) Valid() bool {
+	switch e {
+	case NetworkSessionCommandStatusApplied:
+		return true
+	case NetworkSessionCommandStatusDelivered:
+		return true
+	case NetworkSessionCommandStatusExpired:
+		return true
+	case NetworkSessionCommandStatusPending:
+		return true
+	case NetworkSessionCommandStatusRejected:
+		return true
+	case NetworkSessionCommandStatusTimedOut:
+		return true
+	case NetworkSessionCommandStatusUnsupported:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkSessionStatus.
+const (
+	NetworkSessionStatusActive     NetworkSessionStatus = "active"
+	NetworkSessionStatusExpired    NetworkSessionStatus = "expired"
+	NetworkSessionStatusPending    NetworkSessionStatus = "pending"
+	NetworkSessionStatusQuarantine NetworkSessionStatus = "quarantine"
+	NetworkSessionStatusRestricted NetworkSessionStatus = "restricted"
+	NetworkSessionStatusRevoked    NetworkSessionStatus = "revoked"
+)
+
+// Valid indicates whether the value is a known member of the NetworkSessionStatus enum.
+func (e NetworkSessionStatus) Valid() bool {
+	switch e {
+	case NetworkSessionStatusActive:
+		return true
+	case NetworkSessionStatusExpired:
+		return true
+	case NetworkSessionStatusPending:
+		return true
+	case NetworkSessionStatusQuarantine:
+		return true
+	case NetworkSessionStatusRestricted:
+		return true
+	case NetworkSessionStatusRevoked:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkSiteStatus.
+const (
+	NetworkSiteStatusActive   NetworkSiteStatus = "active"
+	NetworkSiteStatusDisabled NetworkSiteStatus = "disabled"
+)
+
+// Valid indicates whether the value is a known member of the NetworkSiteStatus enum.
+func (e NetworkSiteStatus) Valid() bool {
+	switch e {
+	case NetworkSiteStatusActive:
+		return true
+	case NetworkSiteStatusDisabled:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkSpaceStatus.
+const (
+	NetworkSpaceStatusActive   NetworkSpaceStatus = "active"
+	NetworkSpaceStatusDisabled NetworkSpaceStatus = "disabled"
+)
+
+// Valid indicates whether the value is a known member of the NetworkSpaceStatus enum.
+func (e NetworkSpaceStatus) Valid() bool {
+	switch e {
+	case NetworkSpaceStatusActive:
+		return true
+	case NetworkSpaceStatusDisabled:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkTelemetryProducerProducerKind.
+const (
+	Endpoint       NetworkTelemetryProducerProducerKind = "endpoint"
+	Freeradius     NetworkTelemetryProducerProducerKind = "freeradius"
+	Gateway        NetworkTelemetryProducerProducerKind = "gateway"
+	NetworkControl NetworkTelemetryProducerProducerKind = "network-control"
+)
+
+// Valid indicates whether the value is a known member of the NetworkTelemetryProducerProducerKind enum.
+func (e NetworkTelemetryProducerProducerKind) Valid() bool {
+	switch e {
+	case Endpoint:
+		return true
+	case Freeradius:
+		return true
+	case Gateway:
+		return true
+	case NetworkControl:
 		return true
 	default:
 		return false
@@ -8913,6 +9801,35 @@ type AlertRuleTestResultEnvelope struct {
 // AlertRuleType defines model for AlertRuleType.
 type AlertRuleType string
 
+// AnnouncementReceipt defines model for AnnouncementReceipt.
+type AnnouncementReceipt struct {
+	DisplayName string     `json:"displayName"`
+	Email       string     `json:"email"`
+	IsRead      bool       `json:"isRead"`
+	ReadAt      *time.Time `json:"readAt,omitempty"`
+	TeamNames   []string   `json:"teamNames,omitempty"`
+	UserID      string     `json:"userId"`
+	Username    string     `json:"username"`
+}
+
+// AnnouncementReceiptPage defines model for AnnouncementReceiptPage.
+type AnnouncementReceiptPage struct {
+	Items       []AnnouncementReceipt `json:"items"`
+	Page        int                   `json:"page"`
+	PageSize    int                   `json:"pageSize"`
+	ReadCount   int                   `json:"readCount"`
+	Total       int                   `json:"total"`
+	UnreadCount int                   `json:"unreadCount"`
+}
+
+// AnnouncementReceiptPageEnvelope defines model for AnnouncementReceiptPageEnvelope.
+type AnnouncementReceiptPageEnvelope struct {
+	Data AnnouncementReceiptPage `json:"data"`
+}
+
+// AnnouncementReceiptState defines model for AnnouncementReceiptState.
+type AnnouncementReceiptState string
+
 // AnthropicMessagesRequest defines model for AnthropicMessagesRequest.
 type AnthropicMessagesRequest struct {
 	MaxTokens            int              `json:"max_tokens"`
@@ -11058,6 +11975,99 @@ type DockerQuickCreateHostInput struct {
 	VirtualizationConnectionID string                        `json:"virtualizationConnectionId,omitempty"`
 	VMTemplateID               string                        `json:"vmTemplateId,omitempty"`
 }
+
+// EndpointDevice defines model for EndpointDevice.
+type EndpointDevice struct {
+	CreatedAt            time.Time                    `json:"createdAt"`
+	CredentialGeneration int                          `json:"credentialGeneration,omitempty"`
+	DeviceType           EndpointDeviceType           `json:"deviceType,omitempty"`
+	Hostname             string                       `json:"hostname,omitempty"`
+	ID                   string                       `json:"id"`
+	LastSeenAt           *time.Time                   `json:"lastSeenAt,omitempty"`
+	Name                 string                       `json:"name"`
+	OwnerUserID          string                       `json:"ownerUserId"`
+	OwnershipType        EndpointDeviceOwnershipType  `json:"ownershipType,omitempty"`
+	Platform             string                       `json:"platform"`
+	PostureStatus        EndpointDevicePostureStatus  `json:"postureStatus"`
+	PostureVersion       int                          `json:"postureVersion"`
+	ReportedFacts        *EndpointDeviceReportedFacts `json:"reportedFacts,omitempty"`
+	SiteID               string                       `json:"siteId,omitempty"`
+	Status               EndpointDeviceStatus         `json:"status"`
+	UpdatedAt            time.Time                    `json:"updatedAt"`
+}
+
+// EndpointDeviceEnvelope defines model for EndpointDeviceEnvelope.
+type EndpointDeviceEnvelope struct {
+	Data EndpointDevice `json:"data"`
+}
+
+// EndpointDeviceInput defines model for EndpointDeviceInput.
+type EndpointDeviceInput struct {
+	DeviceType    EndpointDeviceType          `json:"deviceType,omitempty"`
+	Name          string                      `json:"name"`
+	OwnershipType EndpointDeviceOwnershipType `json:"ownershipType,omitempty"`
+	PostureStatus EndpointDevicePostureStatus `json:"postureStatus,omitempty"`
+	SiteID        string                      `json:"siteId,omitempty"`
+	Status        EndpointDeviceStatus        `json:"status"`
+}
+
+// EndpointDeviceListEnvelope defines model for EndpointDeviceListEnvelope.
+type EndpointDeviceListEnvelope struct {
+	Items []EndpointDevice `json:"items"`
+}
+
+// EndpointDeviceOwnershipType defines model for EndpointDeviceOwnershipType.
+type EndpointDeviceOwnershipType string
+
+// EndpointDevicePostureStatus defines model for EndpointDevicePostureStatus.
+type EndpointDevicePostureStatus string
+
+// EndpointDeviceRegistrationInput defines model for EndpointDeviceRegistrationInput.
+type EndpointDeviceRegistrationInput struct {
+	DeviceType    EndpointDeviceType           `json:"deviceType,omitempty"`
+	Hostname      string                       `json:"hostname,omitempty"`
+	Name          string                       `json:"name"`
+	Platform      string                       `json:"platform"`
+	ReportedFacts *EndpointDeviceReportedFacts `json:"reportedFacts,omitempty"`
+}
+
+// EndpointDeviceReportedFacts defines model for EndpointDeviceReportedFacts.
+type EndpointDeviceReportedFacts struct {
+	AgentVersion      string                     `json:"agentVersion"`
+	Architecture      string                     `json:"architecture"`
+	CollectedAt       time.Time                  `json:"collectedAt"`
+	Manufacturer      string                     `json:"manufacturer,omitempty"`
+	Model             string                     `json:"model,omitempty"`
+	NetworkInterfaces []EndpointNetworkInterface `json:"networkInterfaces"`
+	OsBuild           string                     `json:"osBuild,omitempty"`
+	OsName            string                     `json:"osName,omitempty"`
+	OsVersion         string                     `json:"osVersion,omitempty"`
+	SerialNumber      string                     `json:"serialNumber,omitempty"`
+}
+
+// EndpointDeviceStatus defines model for EndpointDeviceStatus.
+type EndpointDeviceStatus string
+
+// EndpointDeviceType defines model for EndpointDeviceType.
+type EndpointDeviceType string
+
+// EndpointNetworkInterface defines model for EndpointNetworkInterface.
+type EndpointNetworkInterface struct {
+	DisplayName   string                         `json:"displayName,omitempty"`
+	DNSServers    []string                       `json:"dnsServers,omitempty"`
+	Ipv4Addresses []string                       `json:"ipv4Addresses"`
+	Ipv6Addresses []string                       `json:"ipv6Addresses"`
+	Kind          EndpointNetworkInterfaceKind   `json:"kind"`
+	MacAddress    string                         `json:"macAddress,omitempty"`
+	Name          string                         `json:"name"`
+	Status        EndpointNetworkInterfaceStatus `json:"status"`
+}
+
+// EndpointNetworkInterfaceKind defines model for EndpointNetworkInterfaceKind.
+type EndpointNetworkInterfaceKind string
+
+// EndpointNetworkInterfaceStatus defines model for EndpointNetworkInterfaceStatus.
+type EndpointNetworkInterfaceStatus string
 
 // ErrorEnvelope defines model for ErrorEnvelope.
 type ErrorEnvelope struct {
@@ -15863,9 +16873,12 @@ type LLMUpstreamTestResult struct {
 
 	// ErrorMessage Redacted error summary.
 	ErrorMessage   string                            `json:"errorMessage,omitempty"`
+	HTTPStatus     int                               `json:"httpStatus,omitempty"`
 	ModelCount     int                               `json:"modelCount,omitempty"`
+	Models         []string                          `json:"models,omitempty"`
 	ProviderKind   LLMUpstreamTestResultProviderKind `json:"providerKind"`
 	Status         LLMUpstreamTestResultStatus       `json:"status"`
+	UpstreamID     string                            `json:"upstreamId,omitempty"`
 	UpstreamStatus int                               `json:"upstreamStatus,omitempty"`
 }
 
@@ -17181,6 +18194,782 @@ type MultiAgentSubtaskCompletionInput struct {
 
 // NativeProviderObject Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
 type NativeProviderObject map[string]any
+
+// NetworkAccessDeviceType defines model for NetworkAccessDeviceType.
+type NetworkAccessDeviceType string
+
+// NetworkAccessGrant defines model for NetworkAccessGrant.
+type NetworkAccessGrant struct {
+	ConsumedAt       *time.Time               `json:"consumedAt,omitempty"`
+	CreatedAt        time.Time                `json:"createdAt"`
+	CreatedBy        string                   `json:"createdBy"`
+	DeviceID         string                   `json:"deviceId"`
+	ExpiresAt        time.Time                `json:"expiresAt"`
+	ID               string                   `json:"id"`
+	Mode             NetworkAccessGrantMode   `json:"mode"`
+	NetworkSpaceID   string                   `json:"networkSpaceId"`
+	PolicyVersion    int                      `json:"policyVersion"`
+	ReasonCode       string                   `json:"reasonCode,omitempty"`
+	ResourceIDs      []string                 `json:"resourceIds"`
+	ResourceLeaseIDs []string                 `json:"resourceLeaseIds,omitempty"`
+	RevokedAt        *time.Time               `json:"revokedAt,omitempty"`
+	SessionID        string                   `json:"sessionId,omitempty"`
+	SiteID           string                   `json:"siteId"`
+	Status           NetworkAccessGrantStatus `json:"status"`
+	SubjectID        string                   `json:"subjectId"`
+}
+
+// NetworkAccessGrantMode defines model for NetworkAccessGrant.Mode.
+type NetworkAccessGrantMode string
+
+// NetworkAccessGrantEnvelope defines model for NetworkAccessGrantEnvelope.
+type NetworkAccessGrantEnvelope struct {
+	Data NetworkAccessGrant `json:"data"`
+}
+
+// NetworkAccessGrantInput defines model for NetworkAccessGrantInput.
+type NetworkAccessGrantInput struct {
+	DeviceID       string                      `json:"deviceId"`
+	Mode           NetworkAccessGrantInputMode `json:"mode"`
+	NetworkSpaceID string                      `json:"networkSpaceId"`
+	ResourceIDs    []string                    `json:"resourceIds"`
+	SiteID         string                      `json:"siteId"`
+	TTLSeconds     int                         `json:"ttlSeconds,omitempty"`
+}
+
+// NetworkAccessGrantInputMode defines model for NetworkAccessGrantInput.Mode.
+type NetworkAccessGrantInputMode string
+
+// NetworkAccessGrantListEnvelope defines model for NetworkAccessGrantListEnvelope.
+type NetworkAccessGrantListEnvelope struct {
+	Items []NetworkAccessGrant `json:"items"`
+}
+
+// NetworkAccessGrantSecret defines model for NetworkAccessGrantSecret.
+type NetworkAccessGrantSecret struct {
+	Grant NetworkAccessGrant `json:"grant"`
+
+	// Token One-time token returned only by the successful create response and consumed by network-control.
+	Token string `json:"token"`
+}
+
+// NetworkAccessGrantSecretEnvelope defines model for NetworkAccessGrantSecretEnvelope.
+type NetworkAccessGrantSecretEnvelope struct {
+	Data NetworkAccessGrantSecret `json:"data"`
+}
+
+// NetworkAccessGrantStatus defines model for NetworkAccessGrantStatus.
+type NetworkAccessGrantStatus string
+
+// NetworkAccessMedium defines model for NetworkAccessMedium.
+type NetworkAccessMedium string
+
+// NetworkAccessMode defines model for NetworkAccessMode.
+type NetworkAccessMode string
+
+// NetworkAccessPolicy defines model for NetworkAccessPolicy.
+type NetworkAccessPolicy struct {
+	AccessProfile   NetworkAccessProfile          `json:"accessProfile"`
+	CreatedAt       time.Time                     `json:"createdAt"`
+	DeviceStatuses  []EndpointDeviceStatus        `json:"deviceStatuses"`
+	Effect          NetworkPolicyEffect           `json:"effect"`
+	Enabled         bool                          `json:"enabled"`
+	ID              string                        `json:"id"`
+	Modes           []NetworkAccessMode           `json:"modes"`
+	Name            string                        `json:"name"`
+	PostureStatuses []EndpointDevicePostureStatus `json:"postureStatuses"`
+	Priority        int                           `json:"priority"`
+	ResourceIDs     []string                      `json:"resourceIds"`
+	SiteIDs         []string                      `json:"siteIds"`
+	Subjects        NetworkPolicySubjects         `json:"subjects"`
+	UpdatedAt       time.Time                     `json:"updatedAt"`
+	Version         int                           `json:"version"`
+}
+
+// NetworkAccessPolicyEnvelope defines model for NetworkAccessPolicyEnvelope.
+type NetworkAccessPolicyEnvelope struct {
+	Data NetworkAccessPolicy `json:"data"`
+}
+
+// NetworkAccessPolicyInput defines model for NetworkAccessPolicyInput.
+type NetworkAccessPolicyInput struct {
+	AccessProfile   NetworkAccessProfile          `json:"accessProfile"`
+	DeviceStatuses  []EndpointDeviceStatus        `json:"deviceStatuses"`
+	Effect          NetworkPolicyEffect           `json:"effect"`
+	Enabled         bool                          `json:"enabled"`
+	Modes           []NetworkAccessMode           `json:"modes"`
+	Name            string                        `json:"name"`
+	PostureStatuses []EndpointDevicePostureStatus `json:"postureStatuses"`
+	Priority        int                           `json:"priority"`
+	ResourceIDs     []string                      `json:"resourceIds"`
+	SiteIDs         []string                      `json:"siteIds"`
+	Subjects        NetworkPolicySubjects         `json:"subjects"`
+}
+
+// NetworkAccessPolicyListEnvelope defines model for NetworkAccessPolicyListEnvelope.
+type NetworkAccessPolicyListEnvelope struct {
+	Items []NetworkAccessPolicy `json:"items"`
+}
+
+// NetworkAccessProfile defines model for NetworkAccessProfile.
+type NetworkAccessProfile string
+
+// NetworkConflict defines model for NetworkConflict.
+type NetworkConflict struct {
+	Left   NetworkConflictRange  `json:"left"`
+	Reason NetworkConflictReason `json:"reason"`
+	Right  NetworkConflictRange  `json:"right"`
+}
+
+// NetworkConflictReason defines model for NetworkConflict.Reason.
+type NetworkConflictReason string
+
+// NetworkConflictAnalysisEnvelope defines model for NetworkConflictAnalysisEnvelope.
+type NetworkConflictAnalysisEnvelope struct {
+	Data NetworkConflictAnalysisResult `json:"data"`
+}
+
+// NetworkConflictAnalysisRequest defines model for NetworkConflictAnalysisRequest.
+type NetworkConflictAnalysisRequest struct {
+	RuntimeRanges []NetworkConflictRange `json:"runtimeRanges"`
+}
+
+// NetworkConflictAnalysisResult defines model for NetworkConflictAnalysisResult.
+type NetworkConflictAnalysisResult struct {
+	Conflicts      []NetworkConflict `json:"conflicts"`
+	RangesAnalyzed int               `json:"rangesAnalyzed"`
+	Valid          bool              `json:"valid"`
+	Warnings       []string          `json:"warnings"`
+}
+
+// NetworkConflictRange defines model for NetworkConflictRange.
+type NetworkConflictRange struct {
+	// Cidr IPv4 CIDR accepted by the first network-access slice; consumers must additionally require canonical network addresses.
+	Cidr       NetworkIPv4CIDR           `json:"cidr"`
+	Name       string                    `json:"name"`
+	SourceID   string                    `json:"sourceId,omitempty"`
+	SourceType NetworkConflictSourceType `json:"sourceType"`
+}
+
+// NetworkConflictSourceType defines model for NetworkConflictSourceType.
+type NetworkConflictSourceType string
+
+// NetworkConnectionAuthentication defines model for NetworkConnectionAuthentication.
+type NetworkConnectionAuthentication string
+
+// NetworkConnectionOption defines model for NetworkConnectionOption.
+type NetworkConnectionOption struct {
+	AccessMedium   NetworkAccessMedium             `json:"accessMedium"`
+	AccessProfile  NetworkAccessProfile            `json:"accessProfile"`
+	Authentication NetworkConnectionAuthentication `json:"authentication"`
+	PolicyVersion  int                             `json:"policyVersion"`
+	SiteID         string                          `json:"siteId"`
+	SiteName       string                          `json:"siteName"`
+
+	// Ssid Present only for Wi-Fi options.
+	Ssid string `json:"ssid,omitempty"`
+}
+
+// NetworkConnectionOptionListEnvelope defines model for NetworkConnectionOptionListEnvelope.
+type NetworkConnectionOptionListEnvelope struct {
+	Items []NetworkConnectionOption `json:"items"`
+}
+
+// NetworkGateway defines model for NetworkGateway.
+type NetworkGateway struct {
+	AdministrativeStatus       NetworkGatewayAdministrativeStatus `json:"administrativeStatus"`
+	AdvertisedCidrs            []NetworkIPv4CIDR                  `json:"advertisedCidrs,omitempty"`
+	AppliedAt                  *time.Time                         `json:"appliedAt,omitempty"`
+	Capabilities               []string                           `json:"capabilities,omitempty"`
+	CreatedAt                  time.Time                          `json:"createdAt"`
+	DNSServers                 []string                           `json:"dnsServers"`
+	HubGatewayID               string                             `json:"hubGatewayId,omitempty"`
+	ID                         string                             `json:"id"`
+	LastHeartbeatAt            *time.Time                         `json:"lastHeartbeatAt,omitempty"`
+	Mtu                        int                                `json:"mtu"`
+	Name                       string                             `json:"name"`
+	OverlayCidr                string                             `json:"overlayCidr"`
+	PersistentKeepaliveSeconds int                                `json:"persistentKeepaliveSeconds"`
+	PolicyVersion              int                                `json:"policyVersion,omitempty"`
+	PublicEndpointHost         string                             `json:"publicEndpointHost"`
+	PublicEndpointPort         int                                `json:"publicEndpointPort"`
+	RoutingMode                NetworkGatewayRoutingMode          `json:"routingMode"`
+	RuntimeID                  string                             `json:"runtimeId"`
+	SiteID                     string                             `json:"siteId"`
+	Status                     NetworkGatewayStatus               `json:"status"`
+	UpdatedAt                  time.Time                          `json:"updatedAt"`
+	Version                    string                             `json:"version,omitempty"`
+	WireguardPublicKey         string                             `json:"wireguardPublicKey,omitempty"`
+}
+
+// NetworkGatewayAdministrativeStatus defines model for NetworkGatewayAdministrativeStatus.
+type NetworkGatewayAdministrativeStatus string
+
+// NetworkGatewayEnvelope defines model for NetworkGatewayEnvelope.
+type NetworkGatewayEnvelope struct {
+	Data NetworkGateway `json:"data"`
+}
+
+// NetworkGatewayInput defines model for NetworkGatewayInput.
+type NetworkGatewayInput struct {
+	AdministrativeStatus       NetworkGatewayAdministrativeStatus `json:"administrativeStatus"`
+	AdvertisedCidrs            []NetworkIPv4CIDR                  `json:"advertisedCidrs,omitempty"`
+	DNSServers                 []string                           `json:"dnsServers"`
+	HubGatewayID               string                             `json:"hubGatewayId,omitempty"`
+	Mtu                        int                                `json:"mtu"`
+	Name                       string                             `json:"name"`
+	OverlayCidr                string                             `json:"overlayCidr"`
+	PersistentKeepaliveSeconds int                                `json:"persistentKeepaliveSeconds"`
+	PublicEndpointHost         string                             `json:"publicEndpointHost"`
+	PublicEndpointPort         int                                `json:"publicEndpointPort"`
+	RoutingMode                NetworkGatewayRoutingMode          `json:"routingMode"`
+	RuntimeID                  string                             `json:"runtimeId"`
+	SiteID                     string                             `json:"siteId"`
+}
+
+// NetworkGatewayListEnvelope defines model for NetworkGatewayListEnvelope.
+type NetworkGatewayListEnvelope struct {
+	Items []NetworkGateway `json:"items"`
+}
+
+// NetworkGatewayRoutingMode defines model for NetworkGatewayRoutingMode.
+type NetworkGatewayRoutingMode string
+
+// NetworkGatewayStatus defines model for NetworkGatewayStatus.
+type NetworkGatewayStatus string
+
+// NetworkIPv4CIDR IPv4 CIDR accepted by the first network-access slice; consumers must additionally require canonical network addresses.
+type NetworkIPv4CIDR = string
+
+// NetworkMihomoDNSMode defines model for NetworkMihomoDNSMode.
+type NetworkMihomoDNSMode string
+
+// NetworkMihomoManualNodeInput defines model for NetworkMihomoManualNodeInput.
+type NetworkMihomoManualNodeInput struct {
+	// Password Write-only upstream proxy password.
+	Password string                      `json:"password,omitempty"`
+	Port     int                         `json:"port"`
+	Protocol NetworkMihomoManualProtocol `json:"protocol"`
+	Server   string                      `json:"server"`
+	Username string                      `json:"username,omitempty"`
+}
+
+// NetworkMihomoManualProtocol defines model for NetworkMihomoManualProtocol.
+type NetworkMihomoManualProtocol string
+
+// NetworkMihomoMode defines model for NetworkMihomoMode.
+type NetworkMihomoMode string
+
+// NetworkMihomoProfile defines model for NetworkMihomoProfile.
+type NetworkMihomoProfile struct {
+	BypassCidrs    []NetworkIPv4CIDR    `json:"bypassCidrs"`
+	BypassHosts    []string             `json:"bypassHosts"`
+	ControllerPort int                  `json:"controllerPort"`
+	CreatedAt      time.Time            `json:"createdAt"`
+	DeviceID       string               `json:"deviceId"`
+	DNSMode        NetworkMihomoDNSMode `json:"dnsMode"`
+	FailClosed     bool                 `json:"failClosed"`
+
+	// FakeIPRange IPv4 CIDR accepted by the first network-access slice; consumers must additionally require canonical network addresses.
+	FakeIPRange            NetworkIPv4CIDR            `json:"fakeIpRange,omitempty"`
+	ID                     string                     `json:"id"`
+	ManualNodeConfigured   bool                       `json:"manualNodeConfigured,omitempty"`
+	MixedPort              int                        `json:"mixedPort"`
+	Mode                   NetworkMihomoMode          `json:"mode"`
+	Name                   string                     `json:"name"`
+	Revision               int                        `json:"revision"`
+	SelectedProxy          string                     `json:"selectedProxy,omitempty"`
+	SelectorGroup          string                     `json:"selectorGroup"`
+	SourceType             NetworkMihomoSourceType    `json:"sourceType,omitempty"`
+	Status                 NetworkMihomoProfileStatus `json:"status"`
+	SubscriptionConfigured bool                       `json:"subscriptionConfigured"`
+	UpdatedAt              time.Time                  `json:"updatedAt"`
+}
+
+// NetworkMihomoProfileEnvelope defines model for NetworkMihomoProfileEnvelope.
+type NetworkMihomoProfileEnvelope struct {
+	Data NetworkMihomoProfile `json:"data"`
+}
+
+// NetworkMihomoProfileInput defines model for NetworkMihomoProfileInput.
+type NetworkMihomoProfileInput struct {
+	BypassCidrs    []NetworkIPv4CIDR    `json:"bypassCidrs"`
+	BypassHosts    []string             `json:"bypassHosts"`
+	ControllerPort int                  `json:"controllerPort"`
+	DeviceID       string               `json:"deviceId"`
+	DNSMode        NetworkMihomoDNSMode `json:"dnsMode"`
+	FailClosed     bool                 `json:"failClosed"`
+
+	// FakeIPRange IPv4 CIDR accepted by the first network-access slice; consumers must additionally require canonical network addresses.
+	FakeIPRange   NetworkIPv4CIDR               `json:"fakeIpRange,omitempty"`
+	ManualNode    *NetworkMihomoManualNodeInput `json:"manualNode,omitempty"`
+	MixedPort     int                           `json:"mixedPort"`
+	Mode          NetworkMihomoMode             `json:"mode"`
+	Name          string                        `json:"name"`
+	SelectedProxy string                        `json:"selectedProxy,omitempty"`
+	SelectorGroup string                        `json:"selectorGroup"`
+	SourceType    NetworkMihomoSourceType       `json:"sourceType,omitempty"`
+	Status        NetworkMihomoProfileStatus    `json:"status"`
+
+	// SubscriptionURL Write-only HTTPS subscription URL encrypted by Soha and released only to the assigned endpoint over mTLS. Required when creating managed_subscription and forbidden for other sources.
+	SubscriptionURL string `json:"subscriptionUrl,omitempty"`
+}
+
+// NetworkMihomoProfileListEnvelope defines model for NetworkMihomoProfileListEnvelope.
+type NetworkMihomoProfileListEnvelope struct {
+	Items []NetworkMihomoProfile `json:"items"`
+}
+
+// NetworkMihomoProfileStatus defines model for NetworkMihomoProfileStatus.
+type NetworkMihomoProfileStatus string
+
+// NetworkMihomoSourceType defines model for NetworkMihomoSourceType.
+type NetworkMihomoSourceType string
+
+// NetworkNASBinding defines model for NetworkNASBinding.
+type NetworkNASBinding struct {
+	AccessMedium        NetworkAccessMedium     `json:"accessMedium,omitempty"`
+	CoaSupported        bool                    `json:"coaSupported"`
+	CreatedAt           time.Time               `json:"createdAt"`
+	DeviceType          NetworkAccessDeviceType `json:"deviceType,omitempty"`
+	DisconnectSupported bool                    `json:"disconnectSupported"`
+	ID                  string                  `json:"id"`
+	ManagementAddress   string                  `json:"managementAddress,omitempty"`
+	Name                string                  `json:"name"`
+	NasID               string                  `json:"nasId"`
+	RuntimeID           string                  `json:"runtimeId"`
+	SiteID              string                  `json:"siteId"`
+	Ssid                string                  `json:"ssid,omitempty"`
+	Status              NetworkNASBindingStatus `json:"status"`
+	UpdatedAt           time.Time               `json:"updatedAt"`
+}
+
+// NetworkNASBindingEnvelope defines model for NetworkNASBindingEnvelope.
+type NetworkNASBindingEnvelope struct {
+	Data NetworkNASBinding `json:"data"`
+}
+
+// NetworkNASBindingInput defines model for NetworkNASBindingInput.
+type NetworkNASBindingInput struct {
+	AccessMedium        NetworkAccessMedium     `json:"accessMedium,omitempty"`
+	CoaSupported        bool                    `json:"coaSupported"`
+	DeviceType          NetworkAccessDeviceType `json:"deviceType,omitempty"`
+	DisconnectSupported bool                    `json:"disconnectSupported"`
+
+	// ManagementAddress Administrative IP address or hostname of the switch, access point, or controller. Credentials are never stored here.
+	ManagementAddress string `json:"managementAddress,omitempty"`
+	Name              string `json:"name"`
+	NasID             string `json:"nasId"`
+	RuntimeID         string `json:"runtimeId"`
+	SiteID            string `json:"siteId"`
+
+	// Ssid Wi-Fi SSID represented by this logical NAS binding. Omit for wired access.
+	Ssid   string                  `json:"ssid,omitempty"`
+	Status NetworkNASBindingStatus `json:"status"`
+}
+
+// NetworkNASBindingListEnvelope defines model for NetworkNASBindingListEnvelope.
+type NetworkNASBindingListEnvelope struct {
+	Items []NetworkNASBinding `json:"items"`
+}
+
+// NetworkNASBindingStatus defines model for NetworkNASBindingStatus.
+type NetworkNASBindingStatus string
+
+// NetworkPathMode defines model for NetworkPathMode.
+type NetworkPathMode string
+
+// NetworkPolicyDecision defines model for NetworkPolicyDecision.
+type NetworkPolicyDecision string
+
+// NetworkPolicyEffect defines model for NetworkPolicyEffect.
+type NetworkPolicyEffect string
+
+// NetworkPolicyPath defines model for NetworkPolicyPath.
+type NetworkPolicyPath string
+
+// NetworkPolicyPreviewEnvelope defines model for NetworkPolicyPreviewEnvelope.
+type NetworkPolicyPreviewEnvelope struct {
+	Data NetworkPolicyPreviewResult `json:"data"`
+}
+
+// NetworkPolicyPreviewRequest defines model for NetworkPolicyPreviewRequest.
+type NetworkPolicyPreviewRequest struct {
+	DeviceID      string            `json:"deviceId"`
+	Mode          NetworkAccessMode `json:"mode"`
+	ResourceID    string            `json:"resourceId"`
+	SiteID        string            `json:"siteId,omitempty"`
+	SubjectUserID string            `json:"subjectUserId"`
+}
+
+// NetworkPolicyPreviewResult defines model for NetworkPolicyPreviewResult.
+type NetworkPolicyPreviewResult struct {
+	Decision              NetworkPolicyDecision `json:"decision"`
+	NetworkLeaseRequired  bool                  `json:"networkLeaseRequired"`
+	NetworkProfile        string                `json:"networkProfile,omitempty"`
+	Path                  NetworkPolicyPath     `json:"path"`
+	PolicyVersion         int                   `json:"policyVersion"`
+	Protected             bool                  `json:"protected"`
+	Reasons               []string              `json:"reasons"`
+	ResourceLeaseRequired bool                  `json:"resourceLeaseRequired"`
+}
+
+// NetworkPolicySnapshot defines model for NetworkPolicySnapshot.
+type NetworkPolicySnapshot struct {
+	ContentHash            string    `json:"contentHash"`
+	PolicyCount            int       `json:"policyCount"`
+	PolicyVersion          int       `json:"policyVersion"`
+	ProtectedResourceCount int       `json:"protectedResourceCount"`
+	PublishedAt            time.Time `json:"publishedAt"`
+}
+
+// NetworkPolicySnapshotEnvelope defines model for NetworkPolicySnapshotEnvelope.
+type NetworkPolicySnapshotEnvelope struct {
+	Data NetworkPolicySnapshot `json:"data"`
+}
+
+// NetworkPolicySubjects defines model for NetworkPolicySubjects.
+type NetworkPolicySubjects struct {
+	Tags  []string `json:"tags"`
+	Teams []string `json:"teams"`
+	Users []string `json:"users"`
+}
+
+// NetworkProxyFlowSummary defines model for NetworkProxyFlowSummary.
+type NetworkProxyFlowSummary struct {
+	ActiveConnections int64             `json:"activeConnections"`
+	DownloadBytes     int64             `json:"downloadBytes"`
+	Engine            string            `json:"engine"`
+	LastOccurredAt    time.Time         `json:"lastOccurredAt"`
+	Mode              NetworkMihomoMode `json:"mode"`
+	ProducerID        string            `json:"producerId"`
+	ProfileID         string            `json:"profileId"`
+	ProfileRevision   int               `json:"profileRevision"`
+	SelectedProxy     string            `json:"selectedProxy"`
+	UploadBytes       int64             `json:"uploadBytes"`
+}
+
+// NetworkResource defines model for NetworkResource.
+type NetworkResource struct {
+	CreatedAt time.Time               `json:"createdAt"`
+	ID        string                  `json:"id"`
+	Kind      NetworkResourceKind     `json:"kind"`
+	Name      string                  `json:"name"`
+	PathMode  NetworkPathMode         `json:"pathMode"`
+	Ports     []int                   `json:"ports,omitempty"`
+	Protected bool                    `json:"protected"`
+	Protocol  NetworkResourceProtocol `json:"protocol"`
+	SpaceID   string                  `json:"spaceId"`
+	Target    string                  `json:"target"`
+	UpdatedAt time.Time               `json:"updatedAt"`
+}
+
+// NetworkResourceEnvelope defines model for NetworkResourceEnvelope.
+type NetworkResourceEnvelope struct {
+	Data NetworkResource `json:"data"`
+}
+
+// NetworkResourceInput defines model for NetworkResourceInput.
+type NetworkResourceInput struct {
+	Kind      NetworkResourceKind     `json:"kind"`
+	Name      string                  `json:"name"`
+	PathMode  NetworkPathMode         `json:"pathMode"`
+	Ports     []int                   `json:"ports,omitempty"`
+	Protected bool                    `json:"protected"`
+	Protocol  NetworkResourceProtocol `json:"protocol"`
+	SpaceID   string                  `json:"spaceId"`
+	Target    string                  `json:"target"`
+}
+
+// NetworkResourceKind defines model for NetworkResourceKind.
+type NetworkResourceKind string
+
+// NetworkResourceListEnvelope defines model for NetworkResourceListEnvelope.
+type NetworkResourceListEnvelope struct {
+	Items []NetworkResource `json:"items"`
+}
+
+// NetworkResourceProtocol defines model for NetworkResourceProtocol.
+type NetworkResourceProtocol string
+
+// NetworkRuntimeEnrollment defines model for NetworkRuntimeEnrollment.
+type NetworkRuntimeEnrollment struct {
+	ChallengeID string                         `json:"challengeId"`
+	ConsumedAt  *time.Time                     `json:"consumedAt,omitempty"`
+	CreatedAt   time.Time                      `json:"createdAt"`
+	CreatedBy   string                         `json:"createdBy"`
+	DeviceID    string                         `json:"deviceId"`
+	ExpiresAt   time.Time                      `json:"expiresAt"`
+	ID          string                         `json:"id"`
+	RevokedAt   *time.Time                     `json:"revokedAt,omitempty"`
+	RuntimeID   string                         `json:"runtimeId"`
+	RuntimeKind NetworkRuntimeKind             `json:"runtimeKind"`
+	Status      NetworkRuntimeEnrollmentStatus `json:"status"`
+	SubjectID   string                         `json:"subjectId"`
+}
+
+// NetworkRuntimeEnrollmentEnvelope defines model for NetworkRuntimeEnrollmentEnvelope.
+type NetworkRuntimeEnrollmentEnvelope struct {
+	Data NetworkRuntimeEnrollment `json:"data"`
+}
+
+// NetworkRuntimeEnrollmentInput defines model for NetworkRuntimeEnrollmentInput.
+type NetworkRuntimeEnrollmentInput struct {
+	DeviceID    string             `json:"deviceId"`
+	RuntimeID   string             `json:"runtimeId"`
+	RuntimeKind NetworkRuntimeKind `json:"runtimeKind"`
+	SubjectID   string             `json:"subjectId"`
+	TTLSeconds  int                `json:"ttlSeconds,omitempty"`
+}
+
+// NetworkRuntimeEnrollmentListEnvelope defines model for NetworkRuntimeEnrollmentListEnvelope.
+type NetworkRuntimeEnrollmentListEnvelope struct {
+	Items []NetworkRuntimeEnrollment `json:"items"`
+}
+
+// NetworkRuntimeEnrollmentSecret defines model for NetworkRuntimeEnrollmentSecret.
+type NetworkRuntimeEnrollmentSecret struct {
+	Enrollment NetworkRuntimeEnrollment `json:"enrollment"`
+
+	// Token One-time enrollment token returned only by the successful create response.
+	Token string `json:"token"`
+}
+
+// NetworkRuntimeEnrollmentSecretEnvelope defines model for NetworkRuntimeEnrollmentSecretEnvelope.
+type NetworkRuntimeEnrollmentSecretEnvelope struct {
+	Data NetworkRuntimeEnrollmentSecret `json:"data"`
+}
+
+// NetworkRuntimeEnrollmentStatus defines model for NetworkRuntimeEnrollmentStatus.
+type NetworkRuntimeEnrollmentStatus string
+
+// NetworkRuntimeKind defines model for NetworkRuntimeKind.
+type NetworkRuntimeKind string
+
+// NetworkSession defines model for NetworkSession.
+type NetworkSession struct {
+	AccessProfile    NetworkAccessProfile `json:"accessProfile"`
+	DeviceID         string               `json:"deviceId"`
+	ExpiresAt        time.Time            `json:"expiresAt"`
+	GatewayID        string               `json:"gatewayId,omitempty"`
+	ID               string               `json:"id"`
+	Mode             NetworkAccessMode    `json:"mode"`
+	NasID            string               `json:"nasId,omitempty"`
+	NetworkLeaseIDs  []string             `json:"networkLeaseIds"`
+	Path             NetworkPolicyPath    `json:"path"`
+	PolicyVersion    int                  `json:"policyVersion"`
+	ReasonCode       string               `json:"reasonCode,omitempty"`
+	ResourceLeaseIDs []string             `json:"resourceLeaseIds"`
+	SiteID           string               `json:"siteId,omitempty"`
+	StartedAt        time.Time            `json:"startedAt"`
+	Status           NetworkSessionStatus `json:"status"`
+	SubjectID        string               `json:"subjectId"`
+}
+
+// NetworkSessionAction defines model for NetworkSessionAction.
+type NetworkSessionAction string
+
+// NetworkSessionActionExecuteInput defines model for NetworkSessionActionExecuteInput.
+type NetworkSessionActionExecuteInput struct {
+	Action              NetworkSessionAction `json:"action"`
+	PlanHash            string               `json:"planHash"`
+	ReasonCode          string               `json:"reasonCode"`
+	TargetAccessProfile NetworkAccessProfile `json:"targetAccessProfile"`
+}
+
+// NetworkSessionActionInput defines model for NetworkSessionActionInput.
+type NetworkSessionActionInput struct {
+	Action              NetworkSessionAction `json:"action"`
+	ReasonCode          string               `json:"reasonCode"`
+	TargetAccessProfile NetworkAccessProfile `json:"targetAccessProfile"`
+}
+
+// NetworkSessionActionPlan defines model for NetworkSessionActionPlan.
+type NetworkSessionActionPlan struct {
+	CommandExpiresAt     time.Time            `json:"commandExpiresAt"`
+	CurrentAccessProfile NetworkAccessProfile `json:"currentAccessProfile"`
+	EffectiveAction      NetworkSessionAction `json:"effectiveAction"`
+	NasID                string               `json:"nasId"`
+	PlanHash             string               `json:"planHash"`
+	ReasonCode           string               `json:"reasonCode"`
+	RequestedAction      NetworkSessionAction `json:"requestedAction"`
+	RuntimeID            string               `json:"runtimeId"`
+	SessionID            string               `json:"sessionId"`
+	TargetAccessProfile  NetworkAccessProfile `json:"targetAccessProfile"`
+	WillDisconnect       bool                 `json:"willDisconnect"`
+}
+
+// NetworkSessionActionPlanEnvelope defines model for NetworkSessionActionPlanEnvelope.
+type NetworkSessionActionPlanEnvelope struct {
+	Data NetworkSessionActionPlan `json:"data"`
+}
+
+// NetworkSessionCommand defines model for NetworkSessionCommand.
+type NetworkSessionCommand struct {
+	Action              NetworkSessionAction        `json:"action"`
+	CompletedAt         *time.Time                  `json:"completedAt,omitempty"`
+	CreatedAt           time.Time                   `json:"createdAt"`
+	EffectiveAt         time.Time                   `json:"effectiveAt"`
+	ExpiresAt           time.Time                   `json:"expiresAt"`
+	ID                  string                      `json:"id"`
+	NasID               string                      `json:"nasId"`
+	PolicyVersion       int                         `json:"policyVersion"`
+	ReasonCode          string                      `json:"reasonCode"`
+	RuntimeID           string                      `json:"runtimeId"`
+	SessionID           string                      `json:"sessionId"`
+	Status              NetworkSessionCommandStatus `json:"status"`
+	TargetAccessProfile NetworkAccessProfile        `json:"targetAccessProfile"`
+}
+
+// NetworkSessionCommandEnvelope defines model for NetworkSessionCommandEnvelope.
+type NetworkSessionCommandEnvelope struct {
+	Data NetworkSessionCommand `json:"data"`
+}
+
+// NetworkSessionCommandStatus defines model for NetworkSessionCommandStatus.
+type NetworkSessionCommandStatus string
+
+// NetworkSessionEnvelope defines model for NetworkSessionEnvelope.
+type NetworkSessionEnvelope struct {
+	Data NetworkSession `json:"data"`
+}
+
+// NetworkSessionListEnvelope defines model for NetworkSessionListEnvelope.
+type NetworkSessionListEnvelope struct {
+	Items []NetworkSession `json:"items"`
+}
+
+// NetworkSessionStatus defines model for NetworkSessionStatus.
+type NetworkSessionStatus string
+
+// NetworkSite defines model for NetworkSite.
+type NetworkSite struct {
+	CreatedAt   time.Time         `json:"createdAt"`
+	Description string            `json:"description,omitempty"`
+	ID          string            `json:"id"`
+	Location    string            `json:"location,omitempty"`
+	Name        string            `json:"name"`
+	Status      NetworkSiteStatus `json:"status"`
+	UpdatedAt   time.Time         `json:"updatedAt"`
+}
+
+// NetworkSiteEnvelope defines model for NetworkSiteEnvelope.
+type NetworkSiteEnvelope struct {
+	Data NetworkSite `json:"data"`
+}
+
+// NetworkSiteInput defines model for NetworkSiteInput.
+type NetworkSiteInput struct {
+	Description string            `json:"description,omitempty"`
+	Location    string            `json:"location,omitempty"`
+	Name        string            `json:"name"`
+	Status      NetworkSiteStatus `json:"status"`
+}
+
+// NetworkSiteListEnvelope defines model for NetworkSiteListEnvelope.
+type NetworkSiteListEnvelope struct {
+	Items []NetworkSite `json:"items"`
+}
+
+// NetworkSiteProfileBinding defines model for NetworkSiteProfileBinding.
+type NetworkSiteProfileBinding struct {
+	AccessProfile         NetworkAccessProfile `json:"accessProfile"`
+	CreatedAt             time.Time            `json:"createdAt"`
+	FilterID              string               `json:"filterId,omitempty"`
+	ID                    string               `json:"id"`
+	SessionTimeoutSeconds int                  `json:"sessionTimeoutSeconds"`
+	SiteID                string               `json:"siteId"`
+	UpdatedAt             time.Time            `json:"updatedAt"`
+	VlanID                int                  `json:"vlanId,omitempty"`
+}
+
+// NetworkSiteProfileBindingEnvelope defines model for NetworkSiteProfileBindingEnvelope.
+type NetworkSiteProfileBindingEnvelope struct {
+	Data NetworkSiteProfileBinding `json:"data"`
+}
+
+// NetworkSiteProfileBindingInput defines model for NetworkSiteProfileBindingInput.
+type NetworkSiteProfileBindingInput struct {
+	AccessProfile         NetworkAccessProfile `json:"accessProfile"`
+	FilterID              string               `json:"filterId,omitempty"`
+	SessionTimeoutSeconds int                  `json:"sessionTimeoutSeconds"`
+	SiteID                string               `json:"siteId"`
+	VlanID                int                  `json:"vlanId,omitempty"`
+}
+
+// NetworkSiteProfileBindingListEnvelope defines model for NetworkSiteProfileBindingListEnvelope.
+type NetworkSiteProfileBindingListEnvelope struct {
+	Items []NetworkSiteProfileBinding `json:"items"`
+}
+
+// NetworkSiteStatus defines model for NetworkSiteStatus.
+type NetworkSiteStatus string
+
+// NetworkSpace defines model for NetworkSpace.
+type NetworkSpace struct {
+	Cidrs     []NetworkIPv4CIDR  `json:"cidrs"`
+	CreatedAt time.Time          `json:"createdAt"`
+	ID        string             `json:"id"`
+	Name      string             `json:"name"`
+	SiteID    string             `json:"siteId"`
+	Status    NetworkSpaceStatus `json:"status"`
+	UpdatedAt time.Time          `json:"updatedAt"`
+}
+
+// NetworkSpaceEnvelope defines model for NetworkSpaceEnvelope.
+type NetworkSpaceEnvelope struct {
+	Data NetworkSpace `json:"data"`
+}
+
+// NetworkSpaceInput defines model for NetworkSpaceInput.
+type NetworkSpaceInput struct {
+	Cidrs  []NetworkIPv4CIDR  `json:"cidrs"`
+	Name   string             `json:"name"`
+	SiteID string             `json:"siteId"`
+	Status NetworkSpaceStatus `json:"status"`
+}
+
+// NetworkSpaceListEnvelope defines model for NetworkSpaceListEnvelope.
+type NetworkSpaceListEnvelope struct {
+	Items []NetworkSpace `json:"items"`
+}
+
+// NetworkSpaceStatus defines model for NetworkSpaceStatus.
+type NetworkSpaceStatus string
+
+// NetworkTelemetryProducer defines model for NetworkTelemetryProducer.
+type NetworkTelemetryProducer struct {
+	GapCount        int64                                `json:"gapCount"`
+	LastSeenAt      time.Time                            `json:"lastSeenAt"`
+	ProducerID      string                               `json:"producerId"`
+	ProducerKind    NetworkTelemetryProducerProducerKind `json:"producerKind"`
+	RegressionCount int64                                `json:"regressionCount"`
+}
+
+// NetworkTelemetryProducerProducerKind defines model for NetworkTelemetryProducer.ProducerKind.
+type NetworkTelemetryProducerProducerKind string
+
+// NetworkTelemetrySummary defines model for NetworkTelemetrySummary.
+type NetworkTelemetrySummary struct {
+	ActiveConnections      int64                      `json:"activeConnections"`
+	ConnectionSummaryCount int64                      `json:"connectionSummaryCount"`
+	DownloadBytes          int64                      `json:"downloadBytes"`
+	EventCount             int64                      `json:"eventCount"`
+	From                   time.Time                  `json:"from"`
+	HeartbeatCount         int64                      `json:"heartbeatCount"`
+	NetworkFlowCount       int64                      `json:"networkFlowCount"`
+	Producers              []NetworkTelemetryProducer `json:"producers"`
+	ProxyFlowCount         int64                      `json:"proxyFlowCount"`
+	ProxyFlows             []NetworkProxyFlowSummary  `json:"proxyFlows"`
+	RadiusAccountingCount  int64                      `json:"radiusAccountingCount"`
+	To                     time.Time                  `json:"to"`
+	UploadBytes            int64                      `json:"uploadBytes"`
+}
+
+// NetworkTelemetrySummaryEnvelope defines model for NetworkTelemetrySummaryEnvelope.
+type NetworkTelemetrySummaryEnvelope struct {
+	Data NetworkTelemetrySummary `json:"data"`
+}
 
 // OIDCClient defines model for OIDCClient.
 type OIDCClient struct {
@@ -21680,6 +23469,9 @@ type AlertRuleID = string
 // AnalysisProfileID defines model for AnalysisProfileID.
 type AnalysisProfileID = string
 
+// AnnouncementID defines model for AnnouncementID.
+type AnnouncementID = string
+
 // ApplicationEnvironmentID defines model for ApplicationEnvironmentID.
 type ApplicationEnvironmentID = string
 
@@ -22632,6 +24424,14 @@ type ListAlertRuleRunsParams struct {
 	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
+// ListAnnouncementReceiptsParams defines parameters for ListAnnouncementReceipts.
+type ListAnnouncementReceiptsParams struct {
+	Keyword  string                   `form:"keyword,omitempty" json:"keyword,omitempty"`
+	State    AnnouncementReceiptState `form:"state,omitempty" json:"state,omitempty"`
+	Page     int                      `form:"page,omitempty" json:"page,omitempty"`
+	PageSize int                      `form:"pageSize,omitempty" json:"pageSize,omitempty"`
+}
+
 // ListApplicationEnvironmentsParams defines parameters for ListApplicationEnvironments.
 type ListApplicationEnvironmentsParams struct {
 	ApplicationID string `form:"applicationId,omitempty" json:"applicationId,omitempty"`
@@ -23500,6 +25300,115 @@ type ListGitLabTagsParams struct {
 	Limit     int                  `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
+// ListNetworkAccessGrantsParams defines parameters for ListNetworkAccessGrants.
+type ListNetworkAccessGrantsParams struct {
+	SubjectID string                   `form:"subjectId,omitempty" json:"subjectId,omitempty"`
+	DeviceID  string                   `form:"deviceId,omitempty" json:"deviceId,omitempty"`
+	Status    NetworkAccessGrantStatus `form:"status,omitempty" json:"status,omitempty"`
+	Limit     int                      `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListCurrentNetworkConnectionOptionsParams defines parameters for ListCurrentNetworkConnectionOptions.
+type ListCurrentNetworkConnectionOptionsParams struct {
+	DeviceID string `form:"deviceId" json:"deviceId"`
+}
+
+// ListEndpointDevicesParams defines parameters for ListEndpointDevices.
+type ListEndpointDevicesParams struct {
+	Search      string               `form:"search,omitempty" json:"search,omitempty"`
+	Status      EndpointDeviceStatus `form:"status,omitempty" json:"status,omitempty"`
+	OwnerUserID string               `form:"ownerUserId,omitempty" json:"ownerUserId,omitempty"`
+	SiteID      string               `form:"siteId,omitempty" json:"siteId,omitempty"`
+	Limit       int                  `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListNetworkRuntimeEnrollmentsParams defines parameters for ListNetworkRuntimeEnrollments.
+type ListNetworkRuntimeEnrollmentsParams struct {
+	Limit int `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListNetworkGatewaysParams defines parameters for ListNetworkGateways.
+type ListNetworkGatewaysParams struct {
+	Search string               `form:"search,omitempty" json:"search,omitempty"`
+	SiteID string               `form:"siteId,omitempty" json:"siteId,omitempty"`
+	Status NetworkGatewayStatus `form:"status,omitempty" json:"status,omitempty"`
+	Limit  int                  `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListNetworkMihomoProfilesParams defines parameters for ListNetworkMihomoProfiles.
+type ListNetworkMihomoProfilesParams struct {
+	Search   string                     `form:"search,omitempty" json:"search,omitempty"`
+	DeviceID string                     `form:"deviceId,omitempty" json:"deviceId,omitempty"`
+	Mode     NetworkMihomoMode          `form:"mode,omitempty" json:"mode,omitempty"`
+	Status   NetworkMihomoProfileStatus `form:"status,omitempty" json:"status,omitempty"`
+	Limit    int                        `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListNetworkNASBindingsParams defines parameters for ListNetworkNASBindings.
+type ListNetworkNASBindingsParams struct {
+	SiteID    string                  `form:"siteId,omitempty" json:"siteId,omitempty"`
+	RuntimeID string                  `form:"runtimeId,omitempty" json:"runtimeId,omitempty"`
+	Status    NetworkNASBindingStatus `form:"status,omitempty" json:"status,omitempty"`
+	Limit     int                     `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListNetworkAccessPoliciesParams defines parameters for ListNetworkAccessPolicies.
+type ListNetworkAccessPoliciesParams struct {
+	Search  string              `form:"search,omitempty" json:"search,omitempty"`
+	Enabled bool                `form:"enabled,omitempty" json:"enabled,omitempty"`
+	Effect  NetworkPolicyEffect `form:"effect,omitempty" json:"effect,omitempty"`
+	Limit   int                 `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListNetworkResourcesParams defines parameters for ListNetworkResources.
+type ListNetworkResourcesParams struct {
+	Search    string              `form:"search,omitempty" json:"search,omitempty"`
+	SpaceID   string              `form:"spaceId,omitempty" json:"spaceId,omitempty"`
+	Kind      NetworkResourceKind `form:"kind,omitempty" json:"kind,omitempty"`
+	Protected bool                `form:"protected,omitempty" json:"protected,omitempty"`
+	Limit     int                 `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListNetworkSessionsParams defines parameters for ListNetworkSessions.
+type ListNetworkSessionsParams struct {
+	SiteID    string               `form:"siteId,omitempty" json:"siteId,omitempty"`
+	RuntimeID string               `form:"runtimeId,omitempty" json:"runtimeId,omitempty"`
+	SubjectID string               `form:"subjectId,omitempty" json:"subjectId,omitempty"`
+	DeviceID  string               `form:"deviceId,omitempty" json:"deviceId,omitempty"`
+	Status    NetworkSessionStatus `form:"status,omitempty" json:"status,omitempty"`
+	Limit     int                  `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListNetworkSiteProfileBindingsParams defines parameters for ListNetworkSiteProfileBindings.
+type ListNetworkSiteProfileBindingsParams struct {
+	SiteID        string               `form:"siteId,omitempty" json:"siteId,omitempty"`
+	AccessProfile NetworkAccessProfile `form:"accessProfile,omitempty" json:"accessProfile,omitempty"`
+	Limit         int                  `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListNetworkSitesParams defines parameters for ListNetworkSites.
+type ListNetworkSitesParams struct {
+	Search string            `form:"search,omitempty" json:"search,omitempty"`
+	Status NetworkSiteStatus `form:"status,omitempty" json:"status,omitempty"`
+	Limit  int               `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListNetworkSpacesParams defines parameters for ListNetworkSpaces.
+type ListNetworkSpacesParams struct {
+	Search string             `form:"search,omitempty" json:"search,omitempty"`
+	SiteID string             `form:"siteId,omitempty" json:"siteId,omitempty"`
+	Status NetworkSpaceStatus `form:"status,omitempty" json:"status,omitempty"`
+	Limit  int                `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// GetNetworkTelemetrySummaryParams defines parameters for GetNetworkTelemetrySummary.
+type GetNetworkTelemetrySummaryParams struct {
+	From       time.Time `form:"from,omitempty" json:"from,omitempty"`
+	To         time.Time `form:"to,omitempty" json:"to,omitempty"`
+	ProducerID string    `form:"producerId,omitempty" json:"producerId,omitempty"`
+	Limit      int       `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
 // ListObservabilityMetricCatalogParams defines parameters for ListObservabilityMetricCatalog.
 type ListObservabilityMetricCatalogParams struct {
 	DataSourceID ObservabilityDataSourceIDQuery `form:"dataSourceId,omitempty" json:"dataSourceId,omitempty"`
@@ -23925,6 +25834,9 @@ type UpdateAIGatewayRelayModelRouteJSONRequestBody = LLMModelRouteInput
 
 // CreateAIGatewayRelayUpstreamJSONRequestBody defines body for CreateAIGatewayRelayUpstream for application/json ContentType.
 type CreateAIGatewayRelayUpstreamJSONRequestBody = LLMUpstreamInput
+
+// TestAIGatewayRelayUpstreamDraftJSONRequestBody defines body for TestAIGatewayRelayUpstreamDraft for application/json ContentType.
+type TestAIGatewayRelayUpstreamDraftJSONRequestBody = LLMUpstreamInput
 
 // UpdateAIGatewayRelayUpstreamJSONRequestBody defines body for UpdateAIGatewayRelayUpstream for application/json ContentType.
 type UpdateAIGatewayRelayUpstreamJSONRequestBody = LLMUpstreamInput
@@ -24402,6 +26314,78 @@ type CreateMenuJSONRequestBody = MenuInput
 
 // UpdateMenuJSONRequestBody defines body for UpdateMenu for application/json ContentType.
 type UpdateMenuJSONRequestBody = MenuInput
+
+// CreateNetworkAccessGrantJSONRequestBody defines body for CreateNetworkAccessGrant for application/json ContentType.
+type CreateNetworkAccessGrantJSONRequestBody = NetworkAccessGrantInput
+
+// AnalyzeNetworkAccessConflictsJSONRequestBody defines body for AnalyzeNetworkAccessConflicts for application/json ContentType.
+type AnalyzeNetworkAccessConflictsJSONRequestBody = NetworkConflictAnalysisRequest
+
+// UpdateEndpointDeviceJSONRequestBody defines body for UpdateEndpointDevice for application/json ContentType.
+type UpdateEndpointDeviceJSONRequestBody = EndpointDeviceInput
+
+// RegisterEndpointDeviceJSONRequestBody defines body for RegisterEndpointDevice for application/json ContentType.
+type RegisterEndpointDeviceJSONRequestBody = EndpointDeviceRegistrationInput
+
+// CreateNetworkRuntimeEnrollmentJSONRequestBody defines body for CreateNetworkRuntimeEnrollment for application/json ContentType.
+type CreateNetworkRuntimeEnrollmentJSONRequestBody = NetworkRuntimeEnrollmentInput
+
+// CreateNetworkGatewayJSONRequestBody defines body for CreateNetworkGateway for application/json ContentType.
+type CreateNetworkGatewayJSONRequestBody = NetworkGatewayInput
+
+// UpdateNetworkGatewayJSONRequestBody defines body for UpdateNetworkGateway for application/json ContentType.
+type UpdateNetworkGatewayJSONRequestBody = NetworkGatewayInput
+
+// CreateNetworkMihomoProfileJSONRequestBody defines body for CreateNetworkMihomoProfile for application/json ContentType.
+type CreateNetworkMihomoProfileJSONRequestBody = NetworkMihomoProfileInput
+
+// UpdateNetworkMihomoProfileJSONRequestBody defines body for UpdateNetworkMihomoProfile for application/json ContentType.
+type UpdateNetworkMihomoProfileJSONRequestBody = NetworkMihomoProfileInput
+
+// CreateNetworkNASBindingJSONRequestBody defines body for CreateNetworkNASBinding for application/json ContentType.
+type CreateNetworkNASBindingJSONRequestBody = NetworkNASBindingInput
+
+// UpdateNetworkNASBindingJSONRequestBody defines body for UpdateNetworkNASBinding for application/json ContentType.
+type UpdateNetworkNASBindingJSONRequestBody = NetworkNASBindingInput
+
+// CreateNetworkAccessPolicyJSONRequestBody defines body for CreateNetworkAccessPolicy for application/json ContentType.
+type CreateNetworkAccessPolicyJSONRequestBody = NetworkAccessPolicyInput
+
+// UpdateNetworkAccessPolicyJSONRequestBody defines body for UpdateNetworkAccessPolicy for application/json ContentType.
+type UpdateNetworkAccessPolicyJSONRequestBody = NetworkAccessPolicyInput
+
+// PreviewNetworkAccessPolicyJSONRequestBody defines body for PreviewNetworkAccessPolicy for application/json ContentType.
+type PreviewNetworkAccessPolicyJSONRequestBody = NetworkPolicyPreviewRequest
+
+// CreateNetworkResourceJSONRequestBody defines body for CreateNetworkResource for application/json ContentType.
+type CreateNetworkResourceJSONRequestBody = NetworkResourceInput
+
+// UpdateNetworkResourceJSONRequestBody defines body for UpdateNetworkResource for application/json ContentType.
+type UpdateNetworkResourceJSONRequestBody = NetworkResourceInput
+
+// ExecuteNetworkSessionActionJSONRequestBody defines body for ExecuteNetworkSessionAction for application/json ContentType.
+type ExecuteNetworkSessionActionJSONRequestBody = NetworkSessionActionExecuteInput
+
+// PlanNetworkSessionActionJSONRequestBody defines body for PlanNetworkSessionAction for application/json ContentType.
+type PlanNetworkSessionActionJSONRequestBody = NetworkSessionActionInput
+
+// CreateNetworkSiteProfileBindingJSONRequestBody defines body for CreateNetworkSiteProfileBinding for application/json ContentType.
+type CreateNetworkSiteProfileBindingJSONRequestBody = NetworkSiteProfileBindingInput
+
+// UpdateNetworkSiteProfileBindingJSONRequestBody defines body for UpdateNetworkSiteProfileBinding for application/json ContentType.
+type UpdateNetworkSiteProfileBindingJSONRequestBody = NetworkSiteProfileBindingInput
+
+// CreateNetworkSiteJSONRequestBody defines body for CreateNetworkSite for application/json ContentType.
+type CreateNetworkSiteJSONRequestBody = NetworkSiteInput
+
+// UpdateNetworkSiteJSONRequestBody defines body for UpdateNetworkSite for application/json ContentType.
+type UpdateNetworkSiteJSONRequestBody = NetworkSiteInput
+
+// CreateNetworkSpaceJSONRequestBody defines body for CreateNetworkSpace for application/json ContentType.
+type CreateNetworkSpaceJSONRequestBody = NetworkSpaceInput
+
+// UpdateNetworkSpaceJSONRequestBody defines body for UpdateNetworkSpace for application/json ContentType.
+type UpdateNetworkSpaceJSONRequestBody = NetworkSpaceInput
 
 // ImportGrafanaDashboardJSONRequestBody defines body for ImportGrafanaDashboard for application/json ContentType.
 type ImportGrafanaDashboardJSONRequestBody = ObservabilityGrafanaDashboardImportInput

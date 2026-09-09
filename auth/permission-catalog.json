@@ -1,7 +1,7 @@
 {
   "schemaVersion": "authorization.opensoha.io/v1",
   "catalogVersion": "2.0.0",
-  "contentHash": "sha256:5aa6fa361c2ab8d987415fb1eb93218510deb9359a68212dfe86655dbfaeea5e",
+  "contentHash": "sha256:f744896d362070a1e7cdc1eda89c046bee8132f37c6f323dafdd05644e2dbd3c",
   "permissions": [
     {
       "key": "access.directory.create",
@@ -2469,6 +2469,22 @@
       "assignable": true
     },
     {
+      "key": "delivery.application-environments.approve",
+      "domain": "delivery",
+      "resource": "application-environments",
+      "action": "approve",
+      "displayName": "审批应用环境发布",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "workspace",
+        "project",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
       "key": "delivery.application-environments.create",
       "domain": "delivery",
       "resource": "application-environments",
@@ -4492,6 +4508,518 @@
       "resource": "providers",
       "action": "view",
       "displayName": "查看身份 Provider",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.access_grants.create",
+      "domain": "network_access",
+      "resource": "access_grants",
+      "action": "create",
+      "displayName": "申请受保护网络资源访问",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.access_grants.revoke",
+      "domain": "network_access",
+      "resource": "access_grants",
+      "action": "revoke",
+      "displayName": "撤销受保护网络资源访问凭证",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.access_grants.view",
+      "domain": "network_access",
+      "resource": "access_grants",
+      "action": "view",
+      "displayName": "查看受保护网络资源访问凭证",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.endpoint_devices.update",
+      "domain": "network_access",
+      "resource": "endpoint_devices",
+      "action": "update",
+      "displayName": "修改网络接入设备",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.endpoint_devices.view",
+      "domain": "network_access",
+      "resource": "endpoint_devices",
+      "action": "view",
+      "displayName": "查看网络接入设备",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.enrollments.create",
+      "domain": "network_access",
+      "resource": "enrollments",
+      "action": "create",
+      "displayName": "创建网络运行时注册令牌",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.enrollments.revoke",
+      "domain": "network_access",
+      "resource": "enrollments",
+      "action": "revoke",
+      "displayName": "撤销网络运行时注册",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.enrollments.view",
+      "domain": "network_access",
+      "resource": "enrollments",
+      "action": "view",
+      "displayName": "查看网络运行时注册",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.gateways.create",
+      "domain": "network_access",
+      "resource": "gateways",
+      "action": "create",
+      "displayName": "创建网络接入网关",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.gateways.update",
+      "domain": "network_access",
+      "resource": "gateways",
+      "action": "update",
+      "displayName": "更新网络接入网关",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.gateways.view",
+      "domain": "network_access",
+      "resource": "gateways",
+      "action": "view",
+      "displayName": "查看网络接入网关",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.mihomo_profiles.create",
+      "domain": "network_access",
+      "resource": "mihomo_profiles",
+      "action": "create",
+      "displayName": "创建 mihomo 代理配置",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.mihomo_profiles.delete",
+      "domain": "network_access",
+      "resource": "mihomo_profiles",
+      "action": "delete",
+      "displayName": "删除 mihomo 代理配置",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.mihomo_profiles.update",
+      "domain": "network_access",
+      "resource": "mihomo_profiles",
+      "action": "update",
+      "displayName": "更新 mihomo 代理配置",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.mihomo_profiles.view",
+      "domain": "network_access",
+      "resource": "mihomo_profiles",
+      "action": "view",
+      "displayName": "查看 mihomo 代理配置",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.policy.create",
+      "domain": "network_access",
+      "resource": "policy",
+      "action": "create",
+      "displayName": "创建网络访问策略",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.policy.delete",
+      "domain": "network_access",
+      "resource": "policy",
+      "action": "delete",
+      "displayName": "删除网络访问策略",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.policy.update",
+      "domain": "network_access",
+      "resource": "policy",
+      "action": "update",
+      "displayName": "修改和发布网络访问策略",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.policy.view",
+      "domain": "network_access",
+      "resource": "policy",
+      "action": "view",
+      "displayName": "查看和预演网络访问策略",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.resources.create",
+      "domain": "network_access",
+      "resource": "resources",
+      "action": "create",
+      "displayName": "创建网络资源",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.resources.delete",
+      "domain": "network_access",
+      "resource": "resources",
+      "action": "delete",
+      "displayName": "删除网络资源",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.resources.update",
+      "domain": "network_access",
+      "resource": "resources",
+      "action": "update",
+      "displayName": "修改网络资源",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.resources.view",
+      "domain": "network_access",
+      "resource": "resources",
+      "action": "view",
+      "displayName": "查看网络资源",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.sites.create",
+      "domain": "network_access",
+      "resource": "sites",
+      "action": "create",
+      "displayName": "创建网络站点",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.sites.delete",
+      "domain": "network_access",
+      "resource": "sites",
+      "action": "delete",
+      "displayName": "删除网络站点",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.sites.update",
+      "domain": "network_access",
+      "resource": "sites",
+      "action": "update",
+      "displayName": "修改网络站点",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.sites.view",
+      "domain": "network_access",
+      "resource": "sites",
+      "action": "view",
+      "displayName": "查看网络站点",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.spaces.create",
+      "domain": "network_access",
+      "resource": "spaces",
+      "action": "create",
+      "displayName": "创建网络空间",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.spaces.delete",
+      "domain": "network_access",
+      "resource": "spaces",
+      "action": "delete",
+      "displayName": "删除网络空间",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.spaces.update",
+      "domain": "network_access",
+      "resource": "spaces",
+      "action": "update",
+      "displayName": "修改网络空间",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.spaces.view",
+      "domain": "network_access",
+      "resource": "spaces",
+      "action": "view",
+      "displayName": "查看网络空间",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.telemetry.view",
+      "domain": "network_access",
+      "resource": "telemetry",
+      "action": "view",
+      "displayName": "查看网络遥测汇总",
       "riskLevel": "read",
       "scopeKinds": [
         "tenant",

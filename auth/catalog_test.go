@@ -52,6 +52,38 @@ func TestPermissionCatalogIncludesVirtualizationStorageView(t *testing.T) {
 	t.Fatal("virtualization.storage.view is missing")
 }
 
+func TestPermissionCatalogIncludesDeliveryEnvironmentApproval(t *testing.T) {
+	var catalog struct {
+		Permissions []struct {
+			Key            string   `json:"key"`
+			Domain         string   `json:"domain"`
+			Resource       string   `json:"resource"`
+			Action         string   `json:"action"`
+			RiskLevel      string   `json:"riskLevel"`
+			ScopeKinds     []string `json:"scopeKinds"`
+			ApprovalPolicy string   `json:"approvalPolicy"`
+			Status         string   `json:"status"`
+			Assignable     bool     `json:"assignable"`
+		} `json:"permissions"`
+	}
+	if err := json.Unmarshal(PermissionCatalogJSON(), &catalog); err != nil {
+		t.Fatalf("decode permission catalog: %v", err)
+	}
+	for _, permission := range catalog.Permissions {
+		if permission.Key != "delivery.application-environments.approve" {
+			continue
+		}
+		if permission.Domain != "delivery" || permission.Resource != "application-environments" || permission.Action != "approve" ||
+			permission.RiskLevel != "high" || permission.ApprovalPolicy != "eligible" || permission.Status != "active" ||
+			!permission.Assignable || len(permission.ScopeKinds) != 3 || permission.ScopeKinds[0] != "workspace" ||
+			permission.ScopeKinds[1] != "project" || permission.ScopeKinds[2] != "resource" {
+			t.Fatalf("unexpected delivery environment approval permission: %#v", permission)
+		}
+		return
+	}
+	t.Fatal("delivery.application-environments.approve is missing")
+}
+
 func TestPermissionCatalogIncludesIndependentResourceCreationEntry(t *testing.T) {
 	var catalog struct {
 		Permissions []struct {

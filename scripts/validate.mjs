@@ -83,6 +83,18 @@ const requiredJsonSchemas = [
     file: "connectors/connector-event-envelope.schema.json",
     fixtureDir: "fixtures/json-schema/connector-event-envelope",
   },
+  {
+    file: "network/network-runtime-protocol.schema.json",
+    fixtureDir: "fixtures/json-schema/network-runtime-protocol",
+  },
+  {
+    file: "network/network-ingest-event.schema.json",
+    fixtureDir: "fixtures/json-schema/network-ingest-event",
+  },
+  {
+    file: "network/network-radius-accounting.schema.json",
+    fixtureDir: "fixtures/json-schema/network-radius-accounting",
+  },
 ];
 
 const requiredOpenapiFixtureSchemas = [
@@ -107,12 +119,14 @@ const requiredOpenapiFixtureSchemas = [
   "ManifestPackage",
   "ManifestSourceUpdateInput",
   "ManifestDeploymentEnvelope",
+  "AnnouncementReceiptPageEnvelope",
   "DockerContainerStartInput",
   "DockerOperationCallbackRequest",
   "DockerHostAgentEnrollmentRequest",
   "DockerHostAgentCredentialsEnvelope",
   "AgentRunCallbackRequest",
   "AIGatewayManifestEnvelope",
+  "LLMUpstreamTestResultEnvelope",
   "PluginManifest",
   "CompanionPackManifest",
   "CompanionInteractionRequest",
@@ -219,6 +233,35 @@ const requiredOpenapiFixtureSchemas = [
   "ScopeGrantEnvelope",
   "ScopeGrantListEnvelope",
   "AuthorizationDecision",
+  "EndpointDevice",
+  "EndpointDeviceRegistrationInput",
+  "NetworkGateway",
+  "NetworkGatewayInput",
+  "NetworkMihomoProfile",
+  "NetworkMihomoProfileInput",
+  "NetworkConnectionOption",
+  "NetworkNASBinding",
+  "NetworkNASBindingInput",
+  "NetworkLease",
+  "NetworkAccessPolicy",
+  "NetworkAccessPolicyInput",
+  "NetworkConflictAnalysisRequest",
+  "NetworkPolicyPreviewRequest",
+  "NetworkPolicyPreviewResult",
+  "NetworkPolicySnapshot",
+  "NetworkResourceInput",
+  "NetworkRuntimeEnrollmentInput",
+  "NetworkRuntimeEnrollmentSecret",
+  "NetworkSession",
+  "NetworkSessionActionExecuteInput",
+  "NetworkSessionActionInput",
+  "NetworkSessionActionPlan",
+  "NetworkSessionCommand",
+  "NetworkSiteInput",
+  "NetworkSiteProfileBinding",
+  "NetworkSiteProfileBindingInput",
+  "NetworkSpaceInput",
+  "ResourceLease",
 ];
 
 const requiredJsonExamples = [
@@ -447,6 +490,7 @@ function validateOpenapiStructure(openapi, permissionDefinitions) {
   validateComputeTaskCenterContract(openapi);
   validateRuntimeConfigContract(openapi);
   validateAuthProfileContract(openapi);
+  validateNetworkAccessNACContract(openapi);
   validateReleasedScopeGrantOperations(openapi);
 
   const capabilityNames = new Set();
@@ -471,6 +515,27 @@ function validateOpenapiStructure(openapi, permissionDefinitions) {
             throw new Error(`${operation.operationId} must declare a ${status} response`);
           }
         }
+      }
+    }
+  }
+}
+
+function validateNetworkAccessNACContract(openapi) {
+  const operations = {
+    "/network-access/connection-options": { get: "listCurrentNetworkConnectionOptions" },
+    "/network-access/nas-bindings": { get: "listNetworkNASBindings", post: "createNetworkNASBinding" },
+    "/network-access/nas-bindings/{bindingID}": { get: "getNetworkNASBinding", put: "updateNetworkNASBinding", delete: "deleteNetworkNASBinding" },
+    "/network-access/site-profile-bindings": { get: "listNetworkSiteProfileBindings", post: "createNetworkSiteProfileBinding" },
+    "/network-access/site-profile-bindings/{bindingID}": { get: "getNetworkSiteProfileBinding", put: "updateNetworkSiteProfileBinding", delete: "deleteNetworkSiteProfileBinding" },
+    "/network-access/sessions": { get: "listNetworkSessions" },
+    "/network-access/sessions/{sessionID}": { get: "getNetworkSession" },
+    "/network-access/sessions/{sessionID}/actions/plan": { post: "planNetworkSessionAction" },
+    "/network-access/sessions/{sessionID}/actions/execute": { post: "executeNetworkSessionAction" },
+  };
+  for (const [path, methods] of Object.entries(operations)) {
+    for (const [method, operationId] of Object.entries(methods)) {
+      if (openapi.paths?.[path]?.[method]?.operationId !== operationId) {
+        throw new Error(`${method.toUpperCase()} ${path} must declare ${operationId}`);
       }
     }
   }

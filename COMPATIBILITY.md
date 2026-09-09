@@ -281,6 +281,52 @@ rename `operationId`, `operationKind`, `runnerId`, `state`, `occurredAt`,
 `evidence`, `finalState`, or `callback`; must not add new required fields; and
 must not narrow existing lifecycle state names or final status values.
 
+## Network Runtime Protocol
+
+`network/network-runtime-protocol.schema.json` owns messages exchanged by
+network-control, endpoint services and network gateways. The contract carries
+runtime identity, configuration and policy versions, bounded lease grants and
+apply/revoke acknowledgements. It must never carry WireGuard private keys,
+RADIUS shared secrets, passwords, EAP private material or mihomo subscription
+credentials.
+
+For `0.1.x`, patch releases may add optional fields and new message types with
+strict payload definitions. They must not remove or rename `schemaVersion`,
+`messageId`, `messageType`, `producerId`, `runtimeId`, `runtimeKind`,
+`occurredAt`, `expiresAt` or `payload`; must not remove existing message,
+runtime-kind, access-profile or status enum values; and must not loosen unknown
+field rejection. Existing lease identity, subject/device binding, policy
+version and expiry fields must remain required.
+
+NAS authorization and session control use the same versioned envelope. Their
+payloads contain only Soha identity references, bounded standard RADIUS
+attributes and command acknowledgements. Public management bindings map a NAS
+to one registered runtime/site and an access profile to site enforcement
+attributes; neither contract may add RADIUS shared secrets or authentication
+credential material.
+
+WireGuard enrollment carries only a public key. VPN connection authorization
+creates a session-scoped NetworkLease; desired configuration may add a strict
+WireGuard block with overlay addresses, peers, split routes and default-deny
+firewall rules. Private keys never cross this contract. Existing consumers
+must ignore no fields because runtime messages remain closed; therefore a
+consumer advertises `wireguard` only after it supports the full block and its
+configuration version/readback semantics.
+
+## Network Ingest Event
+
+`network/network-ingest-event.schema.json` owns bounded, replayable telemetry
+batches sent to `/api/ingest/v1/**`. Heartbeat, RADIUS Accounting, flow
+aggregate and connection summary payloads remain typed and cannot be treated
+as authorization state.
+
+For `0.1.x`, patch releases may add optional fields, producer kinds and event
+types with strict payload definitions. They must not remove or rename
+`schemaVersion`, `batchId`, `producerId`, `producerKind`, `sentAt`, `events`,
+event `id`, `type`, `sequence`, `occurredAt` or `payload`; must not remove
+existing enum values; must not raise the 1,000-event batch maximum without a
+resource-limit review; and must not introduce an open provider payload object.
+
 ## Permission Catalog
 
 `auth/permission-catalog.json` owns grantable OpenSoha resource/action keys,

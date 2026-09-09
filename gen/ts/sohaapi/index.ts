@@ -33,6 +33,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/announcements/{announcementID}/receipts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAnnouncementReceipts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/providers": {
         parameters: {
             query?: never;
@@ -5830,6 +5846,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ai-gateway/relay/upstreams/test": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["testAIGatewayRelayUpstreamDraft"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/ai-gateway/relay/model-routes": {
         parameters: {
             query?: never;
@@ -8876,6 +8908,567 @@ export interface paths {
         get: operations["beginSAMLIdentityProviderSSO"];
         put?: never;
         post: operations["postSAMLIdentityProviderSSO"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/devices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listEndpointDevices"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/devices/{deviceID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getEndpointDevice"];
+        put: operations["updateEndpointDevice"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/devices/{deviceID}/registration": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** @description Idempotently registers the current user's desktop device without granting network access. */
+        put: operations["registerEndpointDevice"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/sites": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkSites"];
+        put?: never;
+        post: operations["createNetworkSite"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/sites/{siteID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkSite"];
+        put: operations["updateNetworkSite"];
+        post?: never;
+        delete: operations["deleteNetworkSite"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/spaces": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkSpaces"];
+        put?: never;
+        post: operations["createNetworkSpace"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/spaces/{spaceID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkSpace"];
+        put: operations["updateNetworkSpace"];
+        post?: never;
+        delete: operations["deleteNetworkSpace"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/resources": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkResources"];
+        put?: never;
+        post: operations["createNetworkResource"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/resources/{resourceID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkResource"];
+        put: operations["updateNetworkResource"];
+        post?: never;
+        delete: operations["deleteNetworkResource"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/gateways": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkGateways"];
+        put?: never;
+        post: operations["createNetworkGateway"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/gateways/{gatewayID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkGateway"];
+        put: operations["updateNetworkGateway"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/mihomo-profiles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkMihomoProfiles"];
+        put?: never;
+        post: operations["createNetworkMihomoProfile"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/mihomo-profiles/{profileID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkMihomoProfile"];
+        put: operations["updateNetworkMihomoProfile"];
+        post?: never;
+        delete: operations["deleteNetworkMihomoProfile"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/connection-options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listCurrentNetworkConnectionOptions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/nas-bindings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkNASBindings"];
+        put?: never;
+        post: operations["createNetworkNASBinding"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/nas-bindings/{bindingID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkNASBinding"];
+        put: operations["updateNetworkNASBinding"];
+        post?: never;
+        delete: operations["deleteNetworkNASBinding"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/site-profile-bindings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkSiteProfileBindings"];
+        put?: never;
+        post: operations["createNetworkSiteProfileBinding"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/site-profile-bindings/{bindingID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkSiteProfileBinding"];
+        put: operations["updateNetworkSiteProfileBinding"];
+        post?: never;
+        delete: operations["deleteNetworkSiteProfileBinding"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/sessions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkSessions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/telemetry/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkTelemetrySummary"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/sessions/{sessionID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkSession"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/sessions/{sessionID}/actions/plan": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["planNetworkSessionAction"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/sessions/{sessionID}/actions/execute": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["executeNetworkSessionAction"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/access-grants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkAccessGrants"];
+        put?: never;
+        post: operations["createNetworkAccessGrant"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/access-grants/{grantID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkAccessGrant"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/access-grants/{grantID}/revoke": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["revokeNetworkAccessGrant"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/enrollments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkRuntimeEnrollments"];
+        put?: never;
+        post: operations["createNetworkRuntimeEnrollment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/enrollments/{enrollmentID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkRuntimeEnrollment"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/enrollments/{enrollmentID}/revoke": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["revokeNetworkRuntimeEnrollment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/policies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkAccessPolicies"];
+        put?: never;
+        post: operations["createNetworkAccessPolicy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/policies/{policyID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkAccessPolicy"];
+        put: operations["updateNetworkAccessPolicy"];
+        post?: never;
+        delete: operations["deleteNetworkAccessPolicy"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/policies/compile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["compileNetworkAccessPolicySnapshot"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/policy/snapshot": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkAccessPolicySnapshot"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/conflicts/analyze": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["analyzeNetworkAccessConflicts"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/policy/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["previewNetworkAccessPolicy"];
         delete?: never;
         options?: never;
         head?: never;
@@ -12741,6 +13334,32 @@ export interface components {
             permissionKeys?: string[];
         } & {
             [key: string]: unknown;
+        };
+        /**
+         * @default all
+         * @enum {string}
+         */
+        AnnouncementReceiptState: "all" | "read" | "unread";
+        AnnouncementReceipt: {
+            userId: string;
+            username: string;
+            displayName: string;
+            email: string;
+            teamNames?: string[];
+            isRead: boolean;
+            /** Format: date-time */
+            readAt?: string | null;
+        };
+        AnnouncementReceiptPage: {
+            items: components["schemas"]["AnnouncementReceipt"][];
+            total: number;
+            page: number;
+            pageSize: number;
+            readCount: number;
+            unreadCount: number;
+        };
+        AnnouncementReceiptPageEnvelope: {
+            data: components["schemas"]["AnnouncementReceiptPage"];
         };
         UserProfile: {
             userId: string;
@@ -18940,14 +19559,17 @@ export interface components {
             timeoutSeconds?: number;
         };
         LLMUpstreamTestResult: {
+            upstreamId?: string;
             /** @enum {string} */
             status: "success" | "failure";
             /** @enum {string} */
             providerKind: "openai" | "anthropic" | "openai-compatible" | "deepseek" | "qwen" | "openrouter" | "azure-openai" | "gemini" | "cohere";
             upstreamStatus?: number;
+            httpStatus?: number;
             /** Format: int64 */
             durationMs: number;
             modelCount?: number;
+            models?: string[];
             errorCode?: string;
             /** @description Redacted error summary. */
             errorMessage?: string;
@@ -20568,6 +21190,765 @@ export interface components {
         DirectoryProjectionStatus: "active" | "suspended" | "archived";
         /** @enum {string} */
         DirectoryEmploymentStatus: "active" | "suspended" | "departed";
+        /** @enum {string} */
+        EndpointDeviceStatus: "pending" | "active" | "quarantined" | "revoked";
+        /** @enum {string} */
+        EndpointDevicePostureStatus: "unknown" | "compliant" | "non_compliant";
+        /** @enum {string} */
+        EndpointDeviceType: "desktop" | "laptop" | "server" | "mobile" | "tablet" | "virtual" | "unknown";
+        /** @enum {string} */
+        EndpointDeviceOwnershipType: "company" | "personal" | "temporary" | "unassigned";
+        /** @enum {string} */
+        EndpointNetworkInterfaceKind: "physical" | "virtual" | "loopback" | "unknown";
+        /** @enum {string} */
+        EndpointNetworkInterfaceStatus: "up" | "down" | "unknown";
+        EndpointNetworkInterface: {
+            name: string;
+            displayName?: string;
+            kind: components["schemas"]["EndpointNetworkInterfaceKind"];
+            status: components["schemas"]["EndpointNetworkInterfaceStatus"];
+            macAddress?: string;
+            ipv4Addresses: string[];
+            ipv6Addresses: string[];
+            dnsServers?: string[];
+        };
+        EndpointDeviceReportedFacts: {
+            osName?: string;
+            osVersion?: string;
+            osBuild?: string;
+            architecture: string;
+            manufacturer?: string;
+            model?: string;
+            serialNumber?: string;
+            agentVersion: string;
+            /** Format: date-time */
+            collectedAt: string;
+            networkInterfaces: components["schemas"]["EndpointNetworkInterface"][];
+        };
+        EndpointDevice: {
+            id: string;
+            name: string;
+            ownerUserId: string;
+            status: components["schemas"]["EndpointDeviceStatus"];
+            platform: string;
+            deviceType?: components["schemas"]["EndpointDeviceType"];
+            ownershipType?: components["schemas"]["EndpointDeviceOwnershipType"];
+            hostname?: string;
+            siteId?: string;
+            postureStatus: components["schemas"]["EndpointDevicePostureStatus"];
+            postureVersion: number;
+            credentialGeneration?: number;
+            /** Format: date-time */
+            lastSeenAt?: string;
+            reportedFacts?: components["schemas"]["EndpointDeviceReportedFacts"];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        EndpointDeviceInput: {
+            name: string;
+            siteId?: string;
+            status: components["schemas"]["EndpointDeviceStatus"];
+            postureStatus?: components["schemas"]["EndpointDevicePostureStatus"];
+            deviceType?: components["schemas"]["EndpointDeviceType"];
+            ownershipType?: components["schemas"]["EndpointDeviceOwnershipType"];
+        };
+        EndpointDeviceRegistrationInput: {
+            name: string;
+            platform: string;
+            hostname?: string;
+            deviceType?: components["schemas"]["EndpointDeviceType"];
+            reportedFacts?: components["schemas"]["EndpointDeviceReportedFacts"];
+        };
+        EndpointDeviceEnvelope: {
+            data: components["schemas"]["EndpointDevice"];
+        };
+        EndpointDeviceListEnvelope: {
+            items: components["schemas"]["EndpointDevice"][];
+        };
+        /** @enum {string} */
+        NetworkSiteStatus: "active" | "disabled";
+        NetworkSite: {
+            id: string;
+            name: string;
+            status: components["schemas"]["NetworkSiteStatus"];
+            description?: string;
+            location?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        NetworkSiteInput: {
+            name: string;
+            status: components["schemas"]["NetworkSiteStatus"];
+            description?: string;
+            location?: string;
+        };
+        NetworkSiteEnvelope: {
+            data: components["schemas"]["NetworkSite"];
+        };
+        NetworkSiteListEnvelope: {
+            items: components["schemas"]["NetworkSite"][];
+        };
+        /** @description IPv4 CIDR accepted by the first network-access slice; consumers must additionally require canonical network addresses. */
+        NetworkIPv4CIDR: string;
+        /** @enum {string} */
+        NetworkSpaceStatus: "active" | "disabled";
+        NetworkSpace: {
+            id: string;
+            siteId: string;
+            name: string;
+            status: components["schemas"]["NetworkSpaceStatus"];
+            cidrs: components["schemas"]["NetworkIPv4CIDR"][];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        NetworkSpaceInput: {
+            siteId: string;
+            name: string;
+            status: components["schemas"]["NetworkSpaceStatus"];
+            cidrs: components["schemas"]["NetworkIPv4CIDR"][];
+        };
+        NetworkSpaceEnvelope: {
+            data: components["schemas"]["NetworkSpace"];
+        };
+        NetworkSpaceListEnvelope: {
+            items: components["schemas"]["NetworkSpace"][];
+        };
+        /** @enum {string} */
+        NetworkResourceKind: "cidr" | "ip" | "fqdn";
+        /** @enum {string} */
+        NetworkResourceProtocol: "any" | "tcp" | "udp" | "icmp";
+        /** @enum {string} */
+        NetworkPathMode: "automatic" | "site_direct" | "wireguard" | "wireguard_ztna" | "access_proxy";
+        NetworkResource: {
+            id: string;
+            spaceId: string;
+            name: string;
+            kind: components["schemas"]["NetworkResourceKind"];
+            target: string;
+            protected: boolean;
+            protocol: components["schemas"]["NetworkResourceProtocol"];
+            ports?: number[];
+            pathMode: components["schemas"]["NetworkPathMode"];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        NetworkResourceInput: {
+            spaceId: string;
+            name: string;
+            kind: components["schemas"]["NetworkResourceKind"];
+            target: string;
+            protected: boolean;
+            protocol: components["schemas"]["NetworkResourceProtocol"];
+            ports?: number[];
+            pathMode: components["schemas"]["NetworkPathMode"];
+        };
+        NetworkResourceEnvelope: {
+            data: components["schemas"]["NetworkResource"];
+        };
+        NetworkResourceListEnvelope: {
+            items: components["schemas"]["NetworkResource"][];
+        };
+        /** @enum {string} */
+        NetworkGatewayStatus: "offline" | "online" | "degraded";
+        /** @enum {string} */
+        NetworkGatewayAdministrativeStatus: "active" | "disabled";
+        /** @enum {string} */
+        NetworkGatewayRoutingMode: "routed" | "snat";
+        NetworkGatewayInput: {
+            runtimeId: string;
+            siteId: string;
+            name: string;
+            administrativeStatus: components["schemas"]["NetworkGatewayAdministrativeStatus"];
+            publicEndpointHost: string;
+            publicEndpointPort: number;
+            overlayCidr: string;
+            routingMode: components["schemas"]["NetworkGatewayRoutingMode"];
+            hubGatewayId?: string;
+            advertisedCidrs?: components["schemas"]["NetworkIPv4CIDR"][];
+            mtu: number;
+            persistentKeepaliveSeconds: number;
+            dnsServers: string[];
+        };
+        NetworkGateway: {
+            id: string;
+            runtimeId: string;
+            siteId: string;
+            name: string;
+            administrativeStatus: components["schemas"]["NetworkGatewayAdministrativeStatus"];
+            status: components["schemas"]["NetworkGatewayStatus"];
+            publicEndpointHost: string;
+            publicEndpointPort: number;
+            overlayCidr: string;
+            routingMode: components["schemas"]["NetworkGatewayRoutingMode"];
+            hubGatewayId?: string;
+            advertisedCidrs?: components["schemas"]["NetworkIPv4CIDR"][];
+            mtu: number;
+            persistentKeepaliveSeconds: number;
+            dnsServers: string[];
+            wireguardPublicKey?: string;
+            version?: string;
+            /** Format: date-time */
+            lastHeartbeatAt?: string;
+            policyVersion?: number;
+            capabilities?: string[];
+            /** Format: date-time */
+            appliedAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        NetworkGatewayEnvelope: {
+            data: components["schemas"]["NetworkGateway"];
+        };
+        NetworkGatewayListEnvelope: {
+            items: components["schemas"]["NetworkGateway"][];
+        };
+        /** @enum {string} */
+        NetworkMihomoMode: "managed_follow" | "app_subscription";
+        /** @enum {string} */
+        NetworkMihomoSourceType: "managed_subscription" | "manual_node";
+        /** @enum {string} */
+        NetworkMihomoManualProtocol: "http" | "https" | "socks5";
+        NetworkMihomoManualNodeInput: {
+            protocol: components["schemas"]["NetworkMihomoManualProtocol"];
+            server: string;
+            port: number;
+            username?: string;
+            /**
+             * Format: password
+             * @description Write-only upstream proxy password.
+             */
+            password?: string;
+        };
+        /** @enum {string} */
+        NetworkMihomoProfileStatus: "active" | "disabled";
+        /** @enum {string} */
+        NetworkMihomoDNSMode: "disabled" | "fake_ip";
+        NetworkMihomoProfileInput: {
+            deviceId: string;
+            name: string;
+            mode: components["schemas"]["NetworkMihomoMode"];
+            /** @description Managed connection source. Omit for app_subscription; missing managed_follow values retain managed_subscription compatibility. */
+            sourceType?: components["schemas"]["NetworkMihomoSourceType"];
+            status: components["schemas"]["NetworkMihomoProfileStatus"];
+            /**
+             * Format: password
+             * @description Write-only HTTPS subscription URL encrypted by Soha and released only to the assigned endpoint over mTLS. Required when creating managed_subscription and forbidden for other sources.
+             */
+            subscriptionUrl?: string;
+            manualNode?: components["schemas"]["NetworkMihomoManualNodeInput"];
+            mixedPort: number;
+            controllerPort: number;
+            dnsMode: components["schemas"]["NetworkMihomoDNSMode"];
+            fakeIpRange?: components["schemas"]["NetworkIPv4CIDR"];
+            selectorGroup: string;
+            selectedProxy?: string;
+            bypassCidrs: components["schemas"]["NetworkIPv4CIDR"][];
+            bypassHosts: string[];
+            failClosed: boolean;
+        } & unknown & unknown & unknown & unknown;
+        NetworkMihomoProfile: {
+            id: string;
+            deviceId: string;
+            name: string;
+            mode: components["schemas"]["NetworkMihomoMode"];
+            sourceType?: components["schemas"]["NetworkMihomoSourceType"];
+            status: components["schemas"]["NetworkMihomoProfileStatus"];
+            subscriptionConfigured: boolean;
+            manualNodeConfigured?: boolean;
+            revision: number;
+            mixedPort: number;
+            controllerPort: number;
+            dnsMode: components["schemas"]["NetworkMihomoDNSMode"];
+            fakeIpRange?: components["schemas"]["NetworkIPv4CIDR"];
+            selectorGroup: string;
+            selectedProxy?: string;
+            bypassCidrs: components["schemas"]["NetworkIPv4CIDR"][];
+            bypassHosts: string[];
+            failClosed: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        NetworkMihomoProfileEnvelope: {
+            data: components["schemas"]["NetworkMihomoProfile"];
+        };
+        NetworkMihomoProfileListEnvelope: {
+            items: components["schemas"]["NetworkMihomoProfile"][];
+        };
+        NetworkTelemetryProducer: {
+            producerId: string;
+            /** @enum {string} */
+            producerKind: "endpoint" | "gateway" | "freeradius" | "network-control";
+            /** Format: date-time */
+            lastSeenAt: string;
+            /** Format: int64 */
+            gapCount: number;
+            /** Format: int64 */
+            regressionCount: number;
+        };
+        NetworkProxyFlowSummary: {
+            producerId: string;
+            /** @constant */
+            engine: "mihomo";
+            profileId: string;
+            profileRevision: number;
+            mode: components["schemas"]["NetworkMihomoMode"];
+            selectedProxy: string;
+            /** Format: int64 */
+            uploadBytes: number;
+            /** Format: int64 */
+            downloadBytes: number;
+            /** Format: int64 */
+            activeConnections: number;
+            /** Format: date-time */
+            lastOccurredAt: string;
+        };
+        NetworkTelemetrySummary: {
+            /** Format: date-time */
+            from: string;
+            /** Format: date-time */
+            to: string;
+            /** Format: int64 */
+            eventCount: number;
+            /** Format: int64 */
+            heartbeatCount: number;
+            /** Format: int64 */
+            radiusAccountingCount: number;
+            /** Format: int64 */
+            networkFlowCount: number;
+            /** Format: int64 */
+            connectionSummaryCount: number;
+            /** Format: int64 */
+            proxyFlowCount: number;
+            /** Format: int64 */
+            uploadBytes: number;
+            /** Format: int64 */
+            downloadBytes: number;
+            /** Format: int64 */
+            activeConnections: number;
+            producers: components["schemas"]["NetworkTelemetryProducer"][];
+            proxyFlows: components["schemas"]["NetworkProxyFlowSummary"][];
+        };
+        NetworkTelemetrySummaryEnvelope: {
+            data: components["schemas"]["NetworkTelemetrySummary"];
+        };
+        /** @enum {string} */
+        NetworkNASBindingStatus: "active" | "disabled";
+        /** @enum {string} */
+        NetworkAccessMedium: "wifi" | "wired";
+        /** @enum {string} */
+        NetworkAccessDeviceType: "wireless_controller" | "access_point" | "switch" | "other";
+        /** @enum {string} */
+        NetworkConnectionAuthentication: "radius_802_1x";
+        NetworkConnectionOption: {
+            siteId: string;
+            siteName: string;
+            accessMedium: components["schemas"]["NetworkAccessMedium"];
+            /** @description Present only for Wi-Fi options. */
+            ssid?: string;
+            authentication: components["schemas"]["NetworkConnectionAuthentication"];
+            accessProfile: components["schemas"]["NetworkAccessProfile"];
+            policyVersion: number;
+        };
+        NetworkConnectionOptionListEnvelope: {
+            items: components["schemas"]["NetworkConnectionOption"][];
+        };
+        NetworkNASBindingInput: {
+            nasId: string;
+            runtimeId: string;
+            siteId: string;
+            name: string;
+            accessMedium?: components["schemas"]["NetworkAccessMedium"];
+            deviceType?: components["schemas"]["NetworkAccessDeviceType"];
+            /** @description Wi-Fi SSID represented by this logical NAS binding. Omit for wired access. */
+            ssid?: string;
+            /** @description Administrative IP address or hostname of the switch, access point, or controller. Credentials are never stored here. */
+            managementAddress?: string;
+            status: components["schemas"]["NetworkNASBindingStatus"];
+            coaSupported: boolean;
+            disconnectSupported: boolean;
+        };
+        NetworkNASBinding: {
+            id: string;
+            nasId: string;
+            runtimeId: string;
+            siteId: string;
+            name: string;
+            accessMedium?: components["schemas"]["NetworkAccessMedium"];
+            deviceType?: components["schemas"]["NetworkAccessDeviceType"];
+            ssid?: string;
+            managementAddress?: string;
+            status: components["schemas"]["NetworkNASBindingStatus"];
+            coaSupported: boolean;
+            disconnectSupported: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        NetworkNASBindingEnvelope: {
+            data: components["schemas"]["NetworkNASBinding"];
+        };
+        NetworkNASBindingListEnvelope: {
+            items: components["schemas"]["NetworkNASBinding"][];
+        };
+        NetworkSiteProfileBindingInput: {
+            siteId: string;
+            accessProfile: components["schemas"]["NetworkAccessProfile"];
+            vlanId?: number;
+            filterId?: string;
+            sessionTimeoutSeconds: number;
+        };
+        NetworkSiteProfileBinding: {
+            id: string;
+            siteId: string;
+            accessProfile: components["schemas"]["NetworkAccessProfile"];
+            vlanId?: number;
+            filterId?: string;
+            sessionTimeoutSeconds: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        NetworkSiteProfileBindingEnvelope: {
+            data: components["schemas"]["NetworkSiteProfileBinding"];
+        };
+        NetworkSiteProfileBindingListEnvelope: {
+            items: components["schemas"]["NetworkSiteProfileBinding"][];
+        };
+        /** @enum {string} */
+        NetworkRuntimeKind: "endpoint" | "gateway" | "nas";
+        /** @enum {string} */
+        NetworkRuntimeEnrollmentStatus: "pending" | "consumed" | "revoked";
+        NetworkRuntimeEnrollmentInput: {
+            runtimeId: string;
+            runtimeKind: components["schemas"]["NetworkRuntimeKind"];
+            deviceId: string;
+            subjectId: string;
+            /** @default 600 */
+            ttlSeconds?: number;
+        };
+        NetworkRuntimeEnrollment: {
+            id: string;
+            challengeId: string;
+            runtimeId: string;
+            runtimeKind: components["schemas"]["NetworkRuntimeKind"];
+            deviceId: string;
+            subjectId: string;
+            status: components["schemas"]["NetworkRuntimeEnrollmentStatus"];
+            /** Format: date-time */
+            expiresAt: string;
+            createdBy: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            consumedAt?: string;
+            /** Format: date-time */
+            revokedAt?: string;
+        };
+        NetworkRuntimeEnrollmentSecret: {
+            enrollment: components["schemas"]["NetworkRuntimeEnrollment"];
+            /**
+             * Format: password
+             * @description One-time enrollment token returned only by the successful create response.
+             */
+            token: string;
+        };
+        NetworkRuntimeEnrollmentEnvelope: {
+            data: components["schemas"]["NetworkRuntimeEnrollment"];
+        };
+        NetworkRuntimeEnrollmentSecretEnvelope: {
+            data: components["schemas"]["NetworkRuntimeEnrollmentSecret"];
+        };
+        NetworkRuntimeEnrollmentListEnvelope: {
+            items: components["schemas"]["NetworkRuntimeEnrollment"][];
+        };
+        /** @enum {string} */
+        NetworkAccessProfile: "onboarding" | "full" | "restricted" | "quarantine" | "deny";
+        /** @enum {string} */
+        NetworkLeaseStatus: "issued" | "active" | "revoking" | "revoked" | "expired";
+        /** @enum {string} */
+        NetworkSessionStatus: "pending" | "active" | "restricted" | "quarantine" | "revoked" | "expired";
+        /** @enum {string} */
+        NetworkPolicyEffect: "allow" | "deny";
+        NetworkPolicySubjects: {
+            users: string[];
+            teams: string[];
+            tags: string[];
+        };
+        NetworkAccessPolicyInput: {
+            name: string;
+            enabled: boolean;
+            priority: number;
+            effect: components["schemas"]["NetworkPolicyEffect"];
+            subjects: components["schemas"]["NetworkPolicySubjects"];
+            siteIds: string[];
+            resourceIds: string[];
+            modes: components["schemas"]["NetworkAccessMode"][];
+            deviceStatuses: components["schemas"]["EndpointDeviceStatus"][];
+            postureStatuses: components["schemas"]["EndpointDevicePostureStatus"][];
+            accessProfile: components["schemas"]["NetworkAccessProfile"];
+        };
+        NetworkAccessPolicy: {
+            id: string;
+            name: string;
+            enabled: boolean;
+            priority: number;
+            effect: components["schemas"]["NetworkPolicyEffect"];
+            subjects: components["schemas"]["NetworkPolicySubjects"];
+            siteIds: string[];
+            resourceIds: string[];
+            modes: components["schemas"]["NetworkAccessMode"][];
+            deviceStatuses: components["schemas"]["EndpointDeviceStatus"][];
+            postureStatuses: components["schemas"]["EndpointDevicePostureStatus"][];
+            accessProfile: components["schemas"]["NetworkAccessProfile"];
+            version: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        NetworkAccessPolicyEnvelope: {
+            data: components["schemas"]["NetworkAccessPolicy"];
+        };
+        NetworkAccessPolicyListEnvelope: {
+            items: components["schemas"]["NetworkAccessPolicy"][];
+        };
+        NetworkPolicySnapshot: {
+            policyVersion: number;
+            contentHash: string;
+            policyCount: number;
+            protectedResourceCount: number;
+            /** Format: date-time */
+            publishedAt: string;
+        };
+        NetworkPolicySnapshotEnvelope: {
+            data: components["schemas"]["NetworkPolicySnapshot"];
+        };
+        /** @enum {string} */
+        NetworkConflictSourceType: "network_space" | "network_resource" | "lan" | "wireguard_overlay" | "container" | "kubernetes_pod" | "kubernetes_service" | "rfc6598" | "mihomo_fake_ip";
+        NetworkConflictRange: {
+            sourceType: components["schemas"]["NetworkConflictSourceType"];
+            sourceId?: string;
+            name: string;
+            cidr: components["schemas"]["NetworkIPv4CIDR"];
+        };
+        NetworkConflictAnalysisRequest: {
+            runtimeRanges: components["schemas"]["NetworkConflictRange"][];
+        };
+        NetworkConflict: {
+            left: components["schemas"]["NetworkConflictRange"];
+            right: components["schemas"]["NetworkConflictRange"];
+            /** @enum {string} */
+            reason: "duplicate" | "overlap";
+        };
+        NetworkConflictAnalysisResult: {
+            valid: boolean;
+            rangesAnalyzed: number;
+            conflicts: components["schemas"]["NetworkConflict"][];
+            warnings: string[];
+        };
+        NetworkConflictAnalysisEnvelope: {
+            data: components["schemas"]["NetworkConflictAnalysisResult"];
+        };
+        /** @enum {string} */
+        NetworkAccessMode: "internal_direct" | "internal_ztna" | "external_vpn" | "external_vpn_ztna" | "external_direct_ztna";
+        /** @enum {string} */
+        NetworkPolicyDecision: "allow" | "deny";
+        /** @enum {string} */
+        NetworkPolicyPath: "site_direct" | "wireguard" | "wireguard_ztna" | "access_proxy" | "deny";
+        NetworkLease: {
+            id: string;
+            sessionId: string;
+            subjectId: string;
+            deviceId: string;
+            networkSpaceId: string;
+            cidrs: components["schemas"]["NetworkIPv4CIDR"][];
+            policyVersion: number;
+            status: components["schemas"]["NetworkLeaseStatus"];
+            /** Format: date-time */
+            issuedAt: string;
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        ResourceLease: {
+            id: string;
+            sessionId: string;
+            subjectId: string;
+            deviceId: string;
+            resourceIds: string[];
+            policyVersion: number;
+            status: components["schemas"]["NetworkLeaseStatus"];
+            /** Format: date-time */
+            issuedAt: string;
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        /** @enum {string} */
+        NetworkAccessGrantStatus: "issued" | "consumed" | "revoked" | "expired";
+        NetworkAccessGrantInput: {
+            deviceId: string;
+            siteId: string;
+            networkSpaceId: string;
+            /** @enum {string} */
+            mode: "internal_ztna" | "external_vpn_ztna" | "external_direct_ztna";
+            resourceIds: string[];
+            /** @default 300 */
+            ttlSeconds?: number;
+        };
+        NetworkAccessGrant: {
+            id: string;
+            subjectId: string;
+            deviceId: string;
+            siteId: string;
+            networkSpaceId: string;
+            /** @enum {string} */
+            mode: "internal_ztna" | "external_vpn_ztna" | "external_direct_ztna";
+            resourceIds: string[];
+            policyVersion: number;
+            status: components["schemas"]["NetworkAccessGrantStatus"];
+            sessionId?: string;
+            resourceLeaseIds?: string[];
+            reasonCode?: string;
+            createdBy: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            expiresAt: string;
+            /** Format: date-time */
+            consumedAt?: string;
+            /** Format: date-time */
+            revokedAt?: string;
+        };
+        NetworkAccessGrantSecret: {
+            grant: components["schemas"]["NetworkAccessGrant"];
+            /**
+             * Format: password
+             * @description One-time token returned only by the successful create response and consumed by network-control.
+             */
+            token: string;
+        };
+        NetworkAccessGrantEnvelope: {
+            data: components["schemas"]["NetworkAccessGrant"];
+        };
+        NetworkAccessGrantSecretEnvelope: {
+            data: components["schemas"]["NetworkAccessGrantSecret"];
+        };
+        NetworkAccessGrantListEnvelope: {
+            items: components["schemas"]["NetworkAccessGrant"][];
+        };
+        NetworkSession: {
+            id: string;
+            subjectId: string;
+            deviceId: string;
+            siteId?: string;
+            gatewayId?: string;
+            nasId?: string;
+            mode: components["schemas"]["NetworkAccessMode"];
+            path: components["schemas"]["NetworkPolicyPath"];
+            accessProfile: components["schemas"]["NetworkAccessProfile"];
+            status: components["schemas"]["NetworkSessionStatus"];
+            policyVersion: number;
+            networkLeaseIds: string[];
+            resourceLeaseIds: string[];
+            reasonCode?: string;
+            /** Format: date-time */
+            startedAt: string;
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        NetworkSessionEnvelope: {
+            data: components["schemas"]["NetworkSession"];
+        };
+        NetworkSessionListEnvelope: {
+            items: components["schemas"]["NetworkSession"][];
+        };
+        /** @enum {string} */
+        NetworkSessionAction: "coa" | "disconnect";
+        NetworkSessionActionInput: {
+            action: components["schemas"]["NetworkSessionAction"];
+            targetAccessProfile: components["schemas"]["NetworkAccessProfile"];
+            reasonCode: string;
+        };
+        NetworkSessionActionExecuteInput: {
+            action: components["schemas"]["NetworkSessionAction"];
+            targetAccessProfile: components["schemas"]["NetworkAccessProfile"];
+            reasonCode: string;
+            planHash: string;
+        };
+        NetworkSessionActionPlan: {
+            sessionId: string;
+            runtimeId: string;
+            nasId: string;
+            requestedAction: components["schemas"]["NetworkSessionAction"];
+            effectiveAction: components["schemas"]["NetworkSessionAction"];
+            currentAccessProfile: components["schemas"]["NetworkAccessProfile"];
+            targetAccessProfile: components["schemas"]["NetworkAccessProfile"];
+            reasonCode: string;
+            willDisconnect: boolean;
+            /** Format: date-time */
+            commandExpiresAt: string;
+            planHash: string;
+        };
+        NetworkSessionActionPlanEnvelope: {
+            data: components["schemas"]["NetworkSessionActionPlan"];
+        };
+        /** @enum {string} */
+        NetworkSessionCommandStatus: "pending" | "delivered" | "applied" | "rejected" | "unsupported" | "timed-out" | "expired";
+        NetworkSessionCommand: {
+            id: string;
+            sessionId: string;
+            runtimeId: string;
+            nasId: string;
+            action: components["schemas"]["NetworkSessionAction"];
+            targetAccessProfile: components["schemas"]["NetworkAccessProfile"];
+            policyVersion: number;
+            status: components["schemas"]["NetworkSessionCommandStatus"];
+            reasonCode: string;
+            /** Format: date-time */
+            effectiveAt: string;
+            /** Format: date-time */
+            expiresAt: string;
+            /** Format: date-time */
+            completedAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        NetworkSessionCommandEnvelope: {
+            data: components["schemas"]["NetworkSessionCommand"];
+        };
+        NetworkPolicyPreviewRequest: {
+            subjectUserId: string;
+            deviceId: string;
+            resourceId: string;
+            mode: components["schemas"]["NetworkAccessMode"];
+            siteId?: string;
+        };
+        NetworkPolicyPreviewResult: {
+            decision: components["schemas"]["NetworkPolicyDecision"];
+            path: components["schemas"]["NetworkPolicyPath"];
+            policyVersion: number;
+            protected: boolean;
+            networkProfile?: string;
+            networkLeaseRequired: boolean;
+            resourceLeaseRequired: boolean;
+            reasons: string[];
+        };
+        NetworkPolicyPreviewEnvelope: {
+            data: components["schemas"]["NetworkPolicyPreviewResult"];
+        };
     };
     responses: {
         /** @description Stable redacted Identity protocol or management error. */
@@ -20602,6 +21983,7 @@ export interface components {
         MenuID: string;
         AccessRoleID: string;
         UserID: string;
+        AnnouncementID: string;
         TeamID: string;
         ScopeGrantID: string;
         IdentityApplicationID: string;
@@ -21308,6 +22690,10 @@ export type AgentRunCallbackWorkbenchCardCommandEvent = components['schemas']['A
 export type AgentRunCallbackWorkbenchErrorEvent = components['schemas']['AgentRunCallbackWorkbenchErrorEvent'];
 export type AgentRunCallbackWorkbenchStreamEvent = components['schemas']['AgentRunCallbackWorkbenchStreamEvent'];
 export type Principal = components['schemas']['Principal'];
+export type AnnouncementReceiptState = components['schemas']['AnnouncementReceiptState'];
+export type AnnouncementReceipt = components['schemas']['AnnouncementReceipt'];
+export type AnnouncementReceiptPage = components['schemas']['AnnouncementReceiptPage'];
+export type AnnouncementReceiptPageEnvelope = components['schemas']['AnnouncementReceiptPageEnvelope'];
 export type UserProfile = components['schemas']['UserProfile'];
 export type UpdateProfileRequest = components['schemas']['UpdateProfileRequest'];
 export type ChangePasswordRequest = components['schemas']['ChangePasswordRequest'];
@@ -22227,12 +23613,130 @@ export type DirectoryEventListEnvelope = components['schemas']['DirectoryEventLi
 export type DirectoryPersonLifecycle = components['schemas']['DirectoryPersonLifecycle'];
 export type DirectoryProjectionStatus = components['schemas']['DirectoryProjectionStatus'];
 export type DirectoryEmploymentStatus = components['schemas']['DirectoryEmploymentStatus'];
+export type EndpointDeviceStatus = components['schemas']['EndpointDeviceStatus'];
+export type EndpointDevicePostureStatus = components['schemas']['EndpointDevicePostureStatus'];
+export type EndpointDeviceType = components['schemas']['EndpointDeviceType'];
+export type EndpointDeviceOwnershipType = components['schemas']['EndpointDeviceOwnershipType'];
+export type EndpointNetworkInterfaceKind = components['schemas']['EndpointNetworkInterfaceKind'];
+export type EndpointNetworkInterfaceStatus = components['schemas']['EndpointNetworkInterfaceStatus'];
+export type EndpointNetworkInterface = components['schemas']['EndpointNetworkInterface'];
+export type EndpointDeviceReportedFacts = components['schemas']['EndpointDeviceReportedFacts'];
+export type EndpointDevice = components['schemas']['EndpointDevice'];
+export type EndpointDeviceInput = components['schemas']['EndpointDeviceInput'];
+export type EndpointDeviceRegistrationInput = components['schemas']['EndpointDeviceRegistrationInput'];
+export type EndpointDeviceEnvelope = components['schemas']['EndpointDeviceEnvelope'];
+export type EndpointDeviceListEnvelope = components['schemas']['EndpointDeviceListEnvelope'];
+export type NetworkSiteStatus = components['schemas']['NetworkSiteStatus'];
+export type NetworkSite = components['schemas']['NetworkSite'];
+export type NetworkSiteInput = components['schemas']['NetworkSiteInput'];
+export type NetworkSiteEnvelope = components['schemas']['NetworkSiteEnvelope'];
+export type NetworkSiteListEnvelope = components['schemas']['NetworkSiteListEnvelope'];
+export type NetworkIPv4CIDR = components['schemas']['NetworkIPv4CIDR'];
+export type NetworkSpaceStatus = components['schemas']['NetworkSpaceStatus'];
+export type NetworkSpace = components['schemas']['NetworkSpace'];
+export type NetworkSpaceInput = components['schemas']['NetworkSpaceInput'];
+export type NetworkSpaceEnvelope = components['schemas']['NetworkSpaceEnvelope'];
+export type NetworkSpaceListEnvelope = components['schemas']['NetworkSpaceListEnvelope'];
+export type NetworkResourceKind = components['schemas']['NetworkResourceKind'];
+export type NetworkResourceProtocol = components['schemas']['NetworkResourceProtocol'];
+export type NetworkPathMode = components['schemas']['NetworkPathMode'];
+export type NetworkResource = components['schemas']['NetworkResource'];
+export type NetworkResourceInput = components['schemas']['NetworkResourceInput'];
+export type NetworkResourceEnvelope = components['schemas']['NetworkResourceEnvelope'];
+export type NetworkResourceListEnvelope = components['schemas']['NetworkResourceListEnvelope'];
+export type NetworkGatewayStatus = components['schemas']['NetworkGatewayStatus'];
+export type NetworkGatewayAdministrativeStatus = components['schemas']['NetworkGatewayAdministrativeStatus'];
+export type NetworkGatewayRoutingMode = components['schemas']['NetworkGatewayRoutingMode'];
+export type NetworkGatewayInput = components['schemas']['NetworkGatewayInput'];
+export type NetworkGateway = components['schemas']['NetworkGateway'];
+export type NetworkGatewayEnvelope = components['schemas']['NetworkGatewayEnvelope'];
+export type NetworkGatewayListEnvelope = components['schemas']['NetworkGatewayListEnvelope'];
+export type NetworkMihomoMode = components['schemas']['NetworkMihomoMode'];
+export type NetworkMihomoSourceType = components['schemas']['NetworkMihomoSourceType'];
+export type NetworkMihomoManualProtocol = components['schemas']['NetworkMihomoManualProtocol'];
+export type NetworkMihomoManualNodeInput = components['schemas']['NetworkMihomoManualNodeInput'];
+export type NetworkMihomoProfileStatus = components['schemas']['NetworkMihomoProfileStatus'];
+export type NetworkMihomoDNSMode = components['schemas']['NetworkMihomoDNSMode'];
+export type NetworkMihomoProfileInput = components['schemas']['NetworkMihomoProfileInput'];
+export type NetworkMihomoProfile = components['schemas']['NetworkMihomoProfile'];
+export type NetworkMihomoProfileEnvelope = components['schemas']['NetworkMihomoProfileEnvelope'];
+export type NetworkMihomoProfileListEnvelope = components['schemas']['NetworkMihomoProfileListEnvelope'];
+export type NetworkTelemetryProducer = components['schemas']['NetworkTelemetryProducer'];
+export type NetworkProxyFlowSummary = components['schemas']['NetworkProxyFlowSummary'];
+export type NetworkTelemetrySummary = components['schemas']['NetworkTelemetrySummary'];
+export type NetworkTelemetrySummaryEnvelope = components['schemas']['NetworkTelemetrySummaryEnvelope'];
+export type NetworkNASBindingStatus = components['schemas']['NetworkNASBindingStatus'];
+export type NetworkAccessMedium = components['schemas']['NetworkAccessMedium'];
+export type NetworkAccessDeviceType = components['schemas']['NetworkAccessDeviceType'];
+export type NetworkConnectionAuthentication = components['schemas']['NetworkConnectionAuthentication'];
+export type NetworkConnectionOption = components['schemas']['NetworkConnectionOption'];
+export type NetworkConnectionOptionListEnvelope = components['schemas']['NetworkConnectionOptionListEnvelope'];
+export type NetworkNASBindingInput = components['schemas']['NetworkNASBindingInput'];
+export type NetworkNASBinding = components['schemas']['NetworkNASBinding'];
+export type NetworkNASBindingEnvelope = components['schemas']['NetworkNASBindingEnvelope'];
+export type NetworkNASBindingListEnvelope = components['schemas']['NetworkNASBindingListEnvelope'];
+export type NetworkSiteProfileBindingInput = components['schemas']['NetworkSiteProfileBindingInput'];
+export type NetworkSiteProfileBinding = components['schemas']['NetworkSiteProfileBinding'];
+export type NetworkSiteProfileBindingEnvelope = components['schemas']['NetworkSiteProfileBindingEnvelope'];
+export type NetworkSiteProfileBindingListEnvelope = components['schemas']['NetworkSiteProfileBindingListEnvelope'];
+export type NetworkRuntimeKind = components['schemas']['NetworkRuntimeKind'];
+export type NetworkRuntimeEnrollmentStatus = components['schemas']['NetworkRuntimeEnrollmentStatus'];
+export type NetworkRuntimeEnrollmentInput = components['schemas']['NetworkRuntimeEnrollmentInput'];
+export type NetworkRuntimeEnrollment = components['schemas']['NetworkRuntimeEnrollment'];
+export type NetworkRuntimeEnrollmentSecret = components['schemas']['NetworkRuntimeEnrollmentSecret'];
+export type NetworkRuntimeEnrollmentEnvelope = components['schemas']['NetworkRuntimeEnrollmentEnvelope'];
+export type NetworkRuntimeEnrollmentSecretEnvelope = components['schemas']['NetworkRuntimeEnrollmentSecretEnvelope'];
+export type NetworkRuntimeEnrollmentListEnvelope = components['schemas']['NetworkRuntimeEnrollmentListEnvelope'];
+export type NetworkAccessProfile = components['schemas']['NetworkAccessProfile'];
+export type NetworkLeaseStatus = components['schemas']['NetworkLeaseStatus'];
+export type NetworkSessionStatus = components['schemas']['NetworkSessionStatus'];
+export type NetworkPolicyEffect = components['schemas']['NetworkPolicyEffect'];
+export type NetworkPolicySubjects = components['schemas']['NetworkPolicySubjects'];
+export type NetworkAccessPolicyInput = components['schemas']['NetworkAccessPolicyInput'];
+export type NetworkAccessPolicy = components['schemas']['NetworkAccessPolicy'];
+export type NetworkAccessPolicyEnvelope = components['schemas']['NetworkAccessPolicyEnvelope'];
+export type NetworkAccessPolicyListEnvelope = components['schemas']['NetworkAccessPolicyListEnvelope'];
+export type NetworkPolicySnapshot = components['schemas']['NetworkPolicySnapshot'];
+export type NetworkPolicySnapshotEnvelope = components['schemas']['NetworkPolicySnapshotEnvelope'];
+export type NetworkConflictSourceType = components['schemas']['NetworkConflictSourceType'];
+export type NetworkConflictRange = components['schemas']['NetworkConflictRange'];
+export type NetworkConflictAnalysisRequest = components['schemas']['NetworkConflictAnalysisRequest'];
+export type NetworkConflict = components['schemas']['NetworkConflict'];
+export type NetworkConflictAnalysisResult = components['schemas']['NetworkConflictAnalysisResult'];
+export type NetworkConflictAnalysisEnvelope = components['schemas']['NetworkConflictAnalysisEnvelope'];
+export type NetworkAccessMode = components['schemas']['NetworkAccessMode'];
+export type NetworkPolicyDecision = components['schemas']['NetworkPolicyDecision'];
+export type NetworkPolicyPath = components['schemas']['NetworkPolicyPath'];
+export type NetworkLease = components['schemas']['NetworkLease'];
+export type ResourceLease = components['schemas']['ResourceLease'];
+export type NetworkAccessGrantStatus = components['schemas']['NetworkAccessGrantStatus'];
+export type NetworkAccessGrantInput = components['schemas']['NetworkAccessGrantInput'];
+export type NetworkAccessGrant = components['schemas']['NetworkAccessGrant'];
+export type NetworkAccessGrantSecret = components['schemas']['NetworkAccessGrantSecret'];
+export type NetworkAccessGrantEnvelope = components['schemas']['NetworkAccessGrantEnvelope'];
+export type NetworkAccessGrantSecretEnvelope = components['schemas']['NetworkAccessGrantSecretEnvelope'];
+export type NetworkAccessGrantListEnvelope = components['schemas']['NetworkAccessGrantListEnvelope'];
+export type NetworkSession = components['schemas']['NetworkSession'];
+export type NetworkSessionEnvelope = components['schemas']['NetworkSessionEnvelope'];
+export type NetworkSessionListEnvelope = components['schemas']['NetworkSessionListEnvelope'];
+export type NetworkSessionAction = components['schemas']['NetworkSessionAction'];
+export type NetworkSessionActionInput = components['schemas']['NetworkSessionActionInput'];
+export type NetworkSessionActionExecuteInput = components['schemas']['NetworkSessionActionExecuteInput'];
+export type NetworkSessionActionPlan = components['schemas']['NetworkSessionActionPlan'];
+export type NetworkSessionActionPlanEnvelope = components['schemas']['NetworkSessionActionPlanEnvelope'];
+export type NetworkSessionCommandStatus = components['schemas']['NetworkSessionCommandStatus'];
+export type NetworkSessionCommand = components['schemas']['NetworkSessionCommand'];
+export type NetworkSessionCommandEnvelope = components['schemas']['NetworkSessionCommandEnvelope'];
+export type NetworkPolicyPreviewRequest = components['schemas']['NetworkPolicyPreviewRequest'];
+export type NetworkPolicyPreviewResult = components['schemas']['NetworkPolicyPreviewResult'];
+export type NetworkPolicyPreviewEnvelope = components['schemas']['NetworkPolicyPreviewEnvelope'];
 export type ResponseIdentityError = components['responses']['IdentityError'];
 export type ResponseError = components['responses']['Error'];
 export type ResponseComputeError = components['responses']['ComputeError'];
 export type ParameterMenuId = components['parameters']['MenuID'];
 export type ParameterAccessRoleId = components['parameters']['AccessRoleID'];
 export type ParameterUserId = components['parameters']['UserID'];
+export type ParameterAnnouncementId = components['parameters']['AnnouncementID'];
 export type ParameterTeamId = components['parameters']['TeamID'];
 export type ParameterScopeGrantId = components['parameters']['ScopeGrantID'];
 export type ParameterIdentityApplicationId = components['parameters']['IdentityApplicationID'];
@@ -22415,6 +23919,36 @@ export interface operations {
                     "application/json": components["schemas"]["GenericObject"];
                 };
             };
+        };
+    };
+    listAnnouncementReceipts: {
+        parameters: {
+            query?: {
+                keyword?: string;
+                state?: components["schemas"]["AnnouncementReceiptState"];
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                announcementID: components["parameters"]["AnnouncementID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Active users and their read state for the announcement. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AnnouncementReceiptPageEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
         };
     };
     listAuthProviders: {
@@ -33673,6 +35207,32 @@ export interface operations {
             403: components["responses"]["Error"];
         };
     };
+    testAIGatewayRelayUpstreamDraft: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LLMUpstreamInput"];
+            };
+        };
+        responses: {
+            /** @description Redacted connectivity result and discovered models for an unsaved upstream. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LLMUpstreamTestResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
     listAIGatewayRelayModelRoutes: {
         parameters: {
             query?: {
@@ -40345,6 +41905,1606 @@ export interface operations {
                 };
             };
             400: components["responses"]["IdentityError"];
+        };
+    };
+    listEndpointDevices: {
+        parameters: {
+            query?: {
+                search?: string;
+                status?: components["schemas"]["EndpointDeviceStatus"];
+                ownerUserId?: string;
+                siteId?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Endpoint devices visible to the current principal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EndpointDeviceListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    getEndpointDevice: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deviceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Endpoint device detail without private credentials. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EndpointDeviceEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateEndpointDevice: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deviceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EndpointDeviceInput"];
+            };
+        };
+        responses: {
+            /** @description Updated endpoint device. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EndpointDeviceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    registerEndpointDevice: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deviceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EndpointDeviceRegistrationInput"];
+            };
+        };
+        responses: {
+            /** @description Registered endpoint device. New devices remain pending until admitted by policy or an administrator. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EndpointDeviceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listNetworkSites: {
+        parameters: {
+            query?: {
+                search?: string;
+                status?: components["schemas"]["NetworkSiteStatus"];
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Configured network sites. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkSiteListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createNetworkSite: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkSiteInput"];
+            };
+        };
+        responses: {
+            /** @description Created network site. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkSiteEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    getNetworkSite: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                siteID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Network site detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkSiteEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateNetworkSite: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                siteID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkSiteInput"];
+            };
+        };
+        responses: {
+            /** @description Updated network site. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkSiteEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteNetworkSite: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                siteID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted network site. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listNetworkSpaces: {
+        parameters: {
+            query?: {
+                search?: string;
+                siteId?: string;
+                status?: components["schemas"]["NetworkSpaceStatus"];
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Configured network spaces. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkSpaceListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createNetworkSpace: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkSpaceInput"];
+            };
+        };
+        responses: {
+            /** @description Created network space. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkSpaceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    getNetworkSpace: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                spaceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Network space detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkSpaceEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateNetworkSpace: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                spaceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkSpaceInput"];
+            };
+        };
+        responses: {
+            /** @description Updated network space. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkSpaceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteNetworkSpace: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                spaceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted network space. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listNetworkResources: {
+        parameters: {
+            query?: {
+                search?: string;
+                spaceId?: string;
+                kind?: components["schemas"]["NetworkResourceKind"];
+                protected?: boolean;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Configured network resources. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkResourceListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createNetworkResource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkResourceInput"];
+            };
+        };
+        responses: {
+            /** @description Created network resource. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkResourceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    getNetworkResource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                resourceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Network resource detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkResourceEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateNetworkResource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                resourceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkResourceInput"];
+            };
+        };
+        responses: {
+            /** @description Updated network resource. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkResourceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteNetworkResource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                resourceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted network resource. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listNetworkGateways: {
+        parameters: {
+            query?: {
+                search?: string;
+                siteId?: string;
+                status?: components["schemas"]["NetworkGatewayStatus"];
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Registered network gateways. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkGatewayListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createNetworkGateway: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkGatewayInput"];
+            };
+        };
+        responses: {
+            /** @description Created WireGuard network gateway configuration. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkGatewayEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getNetworkGateway: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                gatewayID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Network gateway detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkGatewayEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateNetworkGateway: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                gatewayID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkGatewayInput"];
+            };
+        };
+        responses: {
+            /** @description Updated WireGuard network gateway configuration. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkGatewayEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listNetworkMihomoProfiles: {
+        parameters: {
+            query?: {
+                search?: string;
+                deviceId?: string;
+                mode?: components["schemas"]["NetworkMihomoMode"];
+                status?: components["schemas"]["NetworkMihomoProfileStatus"];
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Mihomo profiles assigned to endpoint devices. Subscription credentials are never returned. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkMihomoProfileListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createNetworkMihomoProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkMihomoProfileInput"];
+            };
+        };
+        responses: {
+            /** @description Created mihomo profile. The write-only subscription URL is not returned. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkMihomoProfileEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getNetworkMihomoProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                profileID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Mihomo profile metadata without subscription credentials. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkMihomoProfileEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateNetworkMihomoProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                profileID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkMihomoProfileInput"];
+            };
+        };
+        responses: {
+            /** @description Updated mihomo profile. Omitting subscriptionUrl preserves the current secret. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkMihomoProfileEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    deleteNetworkMihomoProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                profileID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted mihomo profile. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listCurrentNetworkConnectionOptions: {
+        parameters: {
+            query: {
+                deviceId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Wi-Fi and wired 802.1X connection options authorized for the current user and endpoint. */
+            200: {
+                headers: {
+                    /** @description Always no-store because the result is user and device scoped. */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkConnectionOptionListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listNetworkNASBindings: {
+        parameters: {
+            query?: {
+                siteId?: string;
+                runtimeId?: string;
+                status?: components["schemas"]["NetworkNASBindingStatus"];
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description NAS identities bound to registered network runtimes and sites. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkNASBindingListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createNetworkNASBinding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkNASBindingInput"];
+            };
+        };
+        responses: {
+            /** @description Created NAS binding. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkNASBindingEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getNetworkNASBinding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bindingID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description NAS binding detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkNASBindingEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateNetworkNASBinding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bindingID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkNASBindingInput"];
+            };
+        };
+        responses: {
+            /** @description Updated NAS binding. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkNASBindingEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    deleteNetworkNASBinding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bindingID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted NAS binding. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listNetworkSiteProfileBindings: {
+        parameters: {
+            query?: {
+                siteId?: string;
+                accessProfile?: components["schemas"]["NetworkAccessProfile"];
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Site-specific RADIUS enforcement attributes by access profile. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkSiteProfileBindingListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createNetworkSiteProfileBinding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkSiteProfileBindingInput"];
+            };
+        };
+        responses: {
+            /** @description Created site profile binding. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkSiteProfileBindingEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getNetworkSiteProfileBinding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bindingID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Site profile binding detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkSiteProfileBindingEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateNetworkSiteProfileBinding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bindingID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkSiteProfileBindingInput"];
+            };
+        };
+        responses: {
+            /** @description Updated site profile binding. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkSiteProfileBindingEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    deleteNetworkSiteProfileBinding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bindingID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted site profile binding. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listNetworkSessions: {
+        parameters: {
+            query?: {
+                siteId?: string;
+                runtimeId?: string;
+                subjectId?: string;
+                deviceId?: string;
+                status?: components["schemas"]["NetworkSessionStatus"];
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current and recent network sessions across NAC, VPN and ZTNA paths. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkSessionListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    getNetworkTelemetrySummary: {
+        parameters: {
+            query?: {
+                from?: string;
+                to?: string;
+                producerId?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded aggregate network telemetry. Raw events, destinations and subscription credentials are never returned. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkTelemetrySummaryEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getNetworkSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Network session detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkSessionEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    planNetworkSessionAction: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkSessionActionInput"];
+            };
+        };
+        responses: {
+            /** @description Side-effect-free CoA or disconnect plan, including fallback selection. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkSessionActionPlanEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    executeNetworkSessionAction: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkSessionActionExecuteInput"];
+            };
+        };
+        responses: {
+            /** @description Durable NAS command queued for the authenticated runtime. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkSessionCommandEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listNetworkAccessGrants: {
+        parameters: {
+            query?: {
+                subjectId?: string;
+                deviceId?: string;
+                status?: components["schemas"]["NetworkAccessGrantStatus"];
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Short-lived resource access grants without token material or token digests. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkAccessGrantListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createNetworkAccessGrant: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkAccessGrantInput"];
+            };
+        };
+        responses: {
+            /** @description Policy-authorized, MFA-bound grant and its one-time connection token. */
+            201: {
+                headers: {
+                    /** @description Always `no-store` because the response includes a one-time access token. */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkAccessGrantSecretEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getNetworkAccessGrant: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                grantID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Resource access grant detail without token material or token digests. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkAccessGrantEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    revokeNetworkAccessGrant: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                grantID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Revoked unconsumed resource access grant. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkAccessGrantEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listNetworkRuntimeEnrollments: {
+        parameters: {
+            query?: {
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Runtime enrollment challenges without token material or token digests. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkRuntimeEnrollmentListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createNetworkRuntimeEnrollment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkRuntimeEnrollmentInput"];
+            };
+        };
+        responses: {
+            /** @description Created runtime enrollment and its one-time token. */
+            201: {
+                headers: {
+                    /** @description Always `no-store` because the response includes a one-time enrollment token. */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkRuntimeEnrollmentSecretEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    getNetworkRuntimeEnrollment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                enrollmentID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Runtime enrollment detail without token material or token digests. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkRuntimeEnrollmentEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    revokeNetworkRuntimeEnrollment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                enrollmentID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Revoked pending runtime enrollment. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkRuntimeEnrollmentEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listNetworkAccessPolicies: {
+        parameters: {
+            query?: {
+                search?: string;
+                enabled?: boolean;
+                effect?: components["schemas"]["NetworkPolicyEffect"];
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Draft network access policies. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkAccessPolicyListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createNetworkAccessPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkAccessPolicyInput"];
+            };
+        };
+        responses: {
+            /** @description Created draft network access policy. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkAccessPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    getNetworkAccessPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                policyID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Network access policy detail. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkAccessPolicyEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateNetworkAccessPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                policyID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkAccessPolicyInput"];
+            };
+        };
+        responses: {
+            /** @description Updated draft network access policy. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkAccessPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    deleteNetworkAccessPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                policyID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted draft network access policy. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    compileNetworkAccessPolicySnapshot: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current immutable compiled policy snapshot. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkPolicySnapshotEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getNetworkAccessPolicySnapshot: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Active immutable compiled policy snapshot. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkPolicySnapshotEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    analyzeNetworkAccessConflicts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkConflictAnalysisRequest"];
+            };
+        };
+        responses: {
+            /** @description Deterministic address-range conflict report. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkConflictAnalysisEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    previewNetworkAccessPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkPolicyPreviewRequest"];
+            };
+        };
+        responses: {
+            /** @description Side-effect-free network access decision and selected path. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkPolicyPreviewEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
         };
     };
 }

@@ -156,6 +156,16 @@
           "type": "string"
         }
       },
+      "AnnouncementID": {
+        "in": "path",
+        "name": "announcementID",
+        "required": true,
+        "schema": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
       "ApplicationEnvironmentID": {
         "in": "path",
         "name": "applicationEnvironmentID",
@@ -4548,6 +4558,109 @@
           "AlertRuleTypeTraces",
           "AlertRuleTypeExternalPassthrough"
         ]
+      },
+      "AnnouncementReceipt": {
+        "additionalProperties": false,
+        "properties": {
+          "displayName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "isRead": {
+            "type": "boolean"
+          },
+          "readAt": {
+            "format": "date-time",
+            "nullable": true,
+            "type": "string"
+          },
+          "teamNames": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "userId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId",
+          "username",
+          "displayName",
+          "email",
+          "isRead"
+        ],
+        "type": "object"
+      },
+      "AnnouncementReceiptPage": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AnnouncementReceipt"
+            },
+            "type": "array"
+          },
+          "page": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "pageSize": {
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "readCount": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "total": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "unreadCount": {
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "pageSize",
+          "readCount",
+          "unreadCount"
+        ],
+        "type": "object"
+      },
+      "AnnouncementReceiptPageEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AnnouncementReceiptPage"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "AnnouncementReceiptState": {
+        "default": "all",
+        "enum": [
+          "all",
+          "read",
+          "unread"
+        ],
+        "type": "string"
       },
       "AnthropicMessagesRequest": {
         "additionalProperties": true,
@@ -11523,6 +11636,395 @@
           "name"
         ],
         "type": "object"
+      },
+      "EndpointDevice": {
+        "additionalProperties": false,
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "credentialGeneration": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "deviceType": {
+            "$ref": "#/components/schemas/EndpointDeviceType"
+          },
+          "hostname": {
+            "maxLength": 253,
+            "minLength": 1,
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "lastSeenAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "ownershipType": {
+            "$ref": "#/components/schemas/EndpointDeviceOwnershipType"
+          },
+          "ownerUserId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "platform": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "postureStatus": {
+            "$ref": "#/components/schemas/EndpointDevicePostureStatus"
+          },
+          "postureVersion": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "reportedFacts": {
+            "$ref": "#/components/schemas/EndpointDeviceReportedFacts"
+          },
+          "siteId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/EndpointDeviceStatus"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "ownerUserId",
+          "status",
+          "platform",
+          "postureStatus",
+          "postureVersion",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "EndpointDeviceEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/EndpointDevice"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "EndpointDeviceInput": {
+        "additionalProperties": false,
+        "properties": {
+          "deviceType": {
+            "$ref": "#/components/schemas/EndpointDeviceType"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "ownershipType": {
+            "$ref": "#/components/schemas/EndpointDeviceOwnershipType"
+          },
+          "postureStatus": {
+            "$ref": "#/components/schemas/EndpointDevicePostureStatus"
+          },
+          "siteId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/EndpointDeviceStatus"
+          }
+        },
+        "required": [
+          "name",
+          "status"
+        ],
+        "type": "object"
+      },
+      "EndpointDeviceListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/EndpointDevice"
+            },
+            "maxItems": 200,
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "EndpointDeviceOwnershipType": {
+        "enum": [
+          "company",
+          "personal",
+          "temporary",
+          "unassigned"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "EndpointDeviceOwnershipTypeCompany",
+          "EndpointDeviceOwnershipTypePersonal",
+          "EndpointDeviceOwnershipTypeTemporary",
+          "EndpointDeviceOwnershipTypeUnassigned"
+        ]
+      },
+      "EndpointDevicePostureStatus": {
+        "enum": [
+          "unknown",
+          "compliant",
+          "non_compliant"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "EndpointDevicePostureStatusUnknown",
+          "EndpointDevicePostureStatusCompliant",
+          "EndpointDevicePostureStatusNonCompliant"
+        ]
+      },
+      "EndpointDeviceRegistrationInput": {
+        "additionalProperties": false,
+        "properties": {
+          "deviceType": {
+            "$ref": "#/components/schemas/EndpointDeviceType"
+          },
+          "hostname": {
+            "maxLength": 253,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "platform": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "reportedFacts": {
+            "$ref": "#/components/schemas/EndpointDeviceReportedFacts"
+          }
+        },
+        "required": [
+          "name",
+          "platform"
+        ],
+        "type": "object"
+      },
+      "EndpointDeviceReportedFacts": {
+        "additionalProperties": false,
+        "properties": {
+          "agentVersion": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "architecture": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "collectedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "manufacturer": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "model": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "networkInterfaces": {
+            "items": {
+              "$ref": "#/components/schemas/EndpointNetworkInterface"
+            },
+            "maxItems": 64,
+            "type": "array"
+          },
+          "osBuild": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "osName": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "osVersion": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "serialNumber": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "architecture",
+          "agentVersion",
+          "collectedAt",
+          "networkInterfaces"
+        ],
+        "type": "object"
+      },
+      "EndpointDeviceStatus": {
+        "enum": [
+          "pending",
+          "active",
+          "quarantined",
+          "revoked"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "EndpointDeviceStatusPending",
+          "EndpointDeviceStatusActive",
+          "EndpointDeviceStatusQuarantined",
+          "EndpointDeviceStatusRevoked"
+        ]
+      },
+      "EndpointDeviceType": {
+        "enum": [
+          "desktop",
+          "laptop",
+          "server",
+          "mobile",
+          "tablet",
+          "virtual",
+          "unknown"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "EndpointDeviceTypeDesktop",
+          "EndpointDeviceTypeLaptop",
+          "EndpointDeviceTypeServer",
+          "EndpointDeviceTypeMobile",
+          "EndpointDeviceTypeTablet",
+          "EndpointDeviceTypeVirtual",
+          "EndpointDeviceTypeUnknown"
+        ]
+      },
+      "EndpointNetworkInterface": {
+        "additionalProperties": false,
+        "properties": {
+          "displayName": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "dnsServers": {
+            "items": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 16,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "ipv4Addresses": {
+            "items": {
+              "format": "ipv4",
+              "type": "string"
+            },
+            "maxItems": 32,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "ipv6Addresses": {
+            "items": {
+              "format": "ipv6",
+              "type": "string"
+            },
+            "maxItems": 32,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "kind": {
+            "$ref": "#/components/schemas/EndpointNetworkInterfaceKind"
+          },
+          "macAddress": {
+            "pattern": "^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/EndpointNetworkInterfaceStatus"
+          }
+        },
+        "required": [
+          "name",
+          "kind",
+          "status",
+          "ipv4Addresses",
+          "ipv6Addresses"
+        ],
+        "type": "object"
+      },
+      "EndpointNetworkInterfaceKind": {
+        "enum": [
+          "physical",
+          "virtual",
+          "loopback",
+          "unknown"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "EndpointNetworkInterfaceKindPhysical",
+          "EndpointNetworkInterfaceKindVirtual",
+          "EndpointNetworkInterfaceKindLoopback",
+          "EndpointNetworkInterfaceKindUnknown"
+        ]
+      },
+      "EndpointNetworkInterfaceStatus": {
+        "enum": [
+          "up",
+          "down",
+          "unknown"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "EndpointNetworkInterfaceStatusUp",
+          "EndpointNetworkInterfaceStatusDown",
+          "EndpointNetworkInterfaceStatusUnknown"
+        ]
       },
       "ErrorEnvelope": {
         "additionalProperties": false,
@@ -27519,8 +28021,18 @@
             "description": "Redacted error summary.",
             "type": "string"
           },
-          "modelCount": {
+          "httpStatus": {
             "type": "integer"
+          },
+          "modelCount": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "models": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
           },
           "providerKind": {
             "enum": [
@@ -27541,6 +28053,9 @@
               "success",
               "failure"
             ],
+            "type": "string"
+          },
+          "upstreamId": {
             "type": "string"
           },
           "upstreamStatus": {
@@ -32015,6 +32530,3333 @@
       "NativeProviderObject": {
         "additionalProperties": true,
         "description": "Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.",
+        "type": "object"
+      },
+      "NetworkAccessDeviceType": {
+        "enum": [
+          "wireless_controller",
+          "access_point",
+          "switch",
+          "other"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkAccessDeviceTypeWirelessController",
+          "NetworkAccessDeviceTypeAccessPoint",
+          "NetworkAccessDeviceTypeSwitch",
+          "NetworkAccessDeviceTypeOther"
+        ]
+      },
+      "NetworkAccessGrant": {
+        "additionalProperties": false,
+        "properties": {
+          "consumedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "deviceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "internal_ztna",
+              "external_vpn_ztna",
+              "external_direct_ztna"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "NetworkAccessGrantModeInternalZTNA",
+              "NetworkAccessGrantModeExternalVPNZTNA",
+              "NetworkAccessGrantModeExternalDirectZTNA"
+            ]
+          },
+          "networkSpaceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "policyVersion": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "reasonCode": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "resourceIds": {
+            "items": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 256,
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "resourceLeaseIds": {
+            "items": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 512,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "revokedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "sessionId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "siteId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/NetworkAccessGrantStatus"
+          },
+          "subjectId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "subjectId",
+          "deviceId",
+          "siteId",
+          "networkSpaceId",
+          "mode",
+          "resourceIds",
+          "policyVersion",
+          "status",
+          "createdBy",
+          "createdAt",
+          "expiresAt"
+        ],
+        "type": "object"
+      },
+      "NetworkAccessGrantEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkAccessGrant"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkAccessGrantInput": {
+        "additionalProperties": false,
+        "properties": {
+          "deviceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "internal_ztna",
+              "external_vpn_ztna",
+              "external_direct_ztna"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "NetworkAccessGrantModeInternalZTNA",
+              "NetworkAccessGrantModeExternalVPNZTNA",
+              "NetworkAccessGrantModeExternalDirectZTNA"
+            ]
+          },
+          "networkSpaceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "resourceIds": {
+            "items": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 256,
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "siteId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "ttlSeconds": {
+            "default": 300,
+            "maximum": 300,
+            "minimum": 60,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "deviceId",
+          "siteId",
+          "networkSpaceId",
+          "mode",
+          "resourceIds"
+        ],
+        "type": "object"
+      },
+      "NetworkAccessGrantListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkAccessGrant"
+            },
+            "maxItems": 200,
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "NetworkAccessGrantSecret": {
+        "additionalProperties": false,
+        "properties": {
+          "grant": {
+            "$ref": "#/components/schemas/NetworkAccessGrant"
+          },
+          "token": {
+            "description": "One-time token returned only by the successful create response and consumed by network-control.",
+            "format": "password",
+            "maxLength": 512,
+            "minLength": 32,
+            "type": "string"
+          }
+        },
+        "required": [
+          "grant",
+          "token"
+        ],
+        "type": "object"
+      },
+      "NetworkAccessGrantSecretEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkAccessGrantSecret"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkAccessGrantStatus": {
+        "enum": [
+          "issued",
+          "consumed",
+          "revoked",
+          "expired"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkAccessGrantStatusIssued",
+          "NetworkAccessGrantStatusConsumed",
+          "NetworkAccessGrantStatusRevoked",
+          "NetworkAccessGrantStatusExpired"
+        ]
+      },
+      "NetworkAccessMedium": {
+        "enum": [
+          "wifi",
+          "wired"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkAccessMediumWiFi",
+          "NetworkAccessMediumWired"
+        ]
+      },
+      "NetworkAccessMode": {
+        "enum": [
+          "internal_direct",
+          "internal_ztna",
+          "external_vpn",
+          "external_vpn_ztna",
+          "external_direct_ztna"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkAccessModeInternalDirect",
+          "NetworkAccessModeInternalZTNA",
+          "NetworkAccessModeExternalVPN",
+          "NetworkAccessModeExternalVPNZTNA",
+          "NetworkAccessModeExternalDirectZTNA"
+        ]
+      },
+      "NetworkAccessPolicy": {
+        "additionalProperties": false,
+        "properties": {
+          "accessProfile": {
+            "$ref": "#/components/schemas/NetworkAccessProfile"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deviceStatuses": {
+            "items": {
+              "$ref": "#/components/schemas/EndpointDeviceStatus"
+            },
+            "maxItems": 4,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "effect": {
+            "$ref": "#/components/schemas/NetworkPolicyEffect"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "modes": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkAccessMode"
+            },
+            "maxItems": 5,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "postureStatuses": {
+            "items": {
+              "$ref": "#/components/schemas/EndpointDevicePostureStatus"
+            },
+            "maxItems": 3,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "priority": {
+            "maximum": 10000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "resourceIds": {
+            "items": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 256,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "siteIds": {
+            "items": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 128,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "subjects": {
+            "$ref": "#/components/schemas/NetworkPolicySubjects"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "version": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "enabled",
+          "priority",
+          "effect",
+          "subjects",
+          "siteIds",
+          "resourceIds",
+          "modes",
+          "deviceStatuses",
+          "postureStatuses",
+          "accessProfile",
+          "version",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "NetworkAccessPolicyEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkAccessPolicy"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkAccessPolicyInput": {
+        "additionalProperties": false,
+        "properties": {
+          "accessProfile": {
+            "$ref": "#/components/schemas/NetworkAccessProfile"
+          },
+          "deviceStatuses": {
+            "items": {
+              "$ref": "#/components/schemas/EndpointDeviceStatus"
+            },
+            "maxItems": 4,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "effect": {
+            "$ref": "#/components/schemas/NetworkPolicyEffect"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "modes": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkAccessMode"
+            },
+            "maxItems": 5,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "postureStatuses": {
+            "items": {
+              "$ref": "#/components/schemas/EndpointDevicePostureStatus"
+            },
+            "maxItems": 3,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "priority": {
+            "maximum": 10000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "resourceIds": {
+            "items": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 256,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "siteIds": {
+            "items": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 128,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "subjects": {
+            "$ref": "#/components/schemas/NetworkPolicySubjects"
+          }
+        },
+        "required": [
+          "name",
+          "enabled",
+          "priority",
+          "effect",
+          "subjects",
+          "siteIds",
+          "resourceIds",
+          "modes",
+          "deviceStatuses",
+          "postureStatuses",
+          "accessProfile"
+        ],
+        "type": "object"
+      },
+      "NetworkAccessPolicyListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkAccessPolicy"
+            },
+            "maxItems": 200,
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "NetworkAccessProfile": {
+        "enum": [
+          "onboarding",
+          "full",
+          "restricted",
+          "quarantine",
+          "deny"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkAccessProfileOnboarding",
+          "NetworkAccessProfileFull",
+          "NetworkAccessProfileRestricted",
+          "NetworkAccessProfileQuarantine",
+          "NetworkAccessProfileDeny"
+        ]
+      },
+      "NetworkConflict": {
+        "additionalProperties": false,
+        "properties": {
+          "left": {
+            "$ref": "#/components/schemas/NetworkConflictRange"
+          },
+          "reason": {
+            "enum": [
+              "duplicate",
+              "overlap"
+            ],
+            "type": "string"
+          },
+          "right": {
+            "$ref": "#/components/schemas/NetworkConflictRange"
+          }
+        },
+        "required": [
+          "left",
+          "right",
+          "reason"
+        ],
+        "type": "object"
+      },
+      "NetworkConflictAnalysisEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkConflictAnalysisResult"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkConflictAnalysisRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "runtimeRanges": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkConflictRange"
+            },
+            "maxItems": 128,
+            "type": "array"
+          }
+        },
+        "required": [
+          "runtimeRanges"
+        ],
+        "type": "object"
+      },
+      "NetworkConflictAnalysisResult": {
+        "additionalProperties": false,
+        "properties": {
+          "conflicts": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkConflict"
+            },
+            "maxItems": 10000,
+            "type": "array"
+          },
+          "rangesAnalyzed": {
+            "maximum": 100000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "valid": {
+            "type": "boolean"
+          },
+          "warnings": {
+            "items": {
+              "maxLength": 256,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 128,
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "valid",
+          "rangesAnalyzed",
+          "conflicts",
+          "warnings"
+        ],
+        "type": "object"
+      },
+      "NetworkConflictRange": {
+        "additionalProperties": false,
+        "properties": {
+          "cidr": {
+            "$ref": "#/components/schemas/NetworkIPv4CIDR"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "sourceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "sourceType": {
+            "$ref": "#/components/schemas/NetworkConflictSourceType"
+          }
+        },
+        "required": [
+          "sourceType",
+          "name",
+          "cidr"
+        ],
+        "type": "object"
+      },
+      "NetworkConflictSourceType": {
+        "enum": [
+          "network_space",
+          "network_resource",
+          "lan",
+          "wireguard_overlay",
+          "container",
+          "kubernetes_pod",
+          "kubernetes_service",
+          "rfc6598",
+          "mihomo_fake_ip"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkConflictSourceTypeNetworkSpace",
+          "NetworkConflictSourceTypeNetworkResource",
+          "NetworkConflictSourceTypeLAN",
+          "NetworkConflictSourceTypeWireGuardOverlay",
+          "NetworkConflictSourceTypeContainer",
+          "NetworkConflictSourceTypeKubernetesPod",
+          "NetworkConflictSourceTypeKubernetesService",
+          "NetworkConflictSourceTypeRFC6598",
+          "NetworkConflictSourceTypeMihomoFakeIP"
+        ]
+      },
+      "NetworkConnectionAuthentication": {
+        "enum": [
+          "radius_802_1x"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkConnectionAuthenticationRadius8021X"
+        ]
+      },
+      "NetworkConnectionOption": {
+        "additionalProperties": false,
+        "properties": {
+          "accessMedium": {
+            "$ref": "#/components/schemas/NetworkAccessMedium"
+          },
+          "accessProfile": {
+            "$ref": "#/components/schemas/NetworkAccessProfile"
+          },
+          "authentication": {
+            "$ref": "#/components/schemas/NetworkConnectionAuthentication"
+          },
+          "policyVersion": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "siteId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "siteName": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "ssid": {
+            "description": "Present only for Wi-Fi options.",
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "siteId",
+          "siteName",
+          "accessMedium",
+          "authentication",
+          "accessProfile",
+          "policyVersion"
+        ],
+        "type": "object"
+      },
+      "NetworkConnectionOptionListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkConnectionOption"
+            },
+            "maxItems": 200,
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "NetworkGateway": {
+        "additionalProperties": false,
+        "properties": {
+          "administrativeStatus": {
+            "$ref": "#/components/schemas/NetworkGatewayAdministrativeStatus"
+          },
+          "advertisedCidrs": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkIPv4CIDR"
+            },
+            "maxItems": 64,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "appliedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "capabilities": {
+            "items": {
+              "maxLength": 64,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 32,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "dnsServers": {
+            "items": {
+              "maxLength": 15,
+              "minLength": 7,
+              "type": "string"
+            },
+            "maxItems": 8,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "hubGatewayId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "lastHeartbeatAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "mtu": {
+            "maximum": 1500,
+            "minimum": 1280,
+            "type": "integer"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "overlayCidr": {
+            "maxLength": 18,
+            "minLength": 9,
+            "type": "string"
+          },
+          "persistentKeepaliveSeconds": {
+            "maximum": 300,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "policyVersion": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "publicEndpointHost": {
+            "maxLength": 253,
+            "minLength": 1,
+            "type": "string"
+          },
+          "publicEndpointPort": {
+            "maximum": 65535,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "routingMode": {
+            "$ref": "#/components/schemas/NetworkGatewayRoutingMode"
+          },
+          "runtimeId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+            "type": "string"
+          },
+          "siteId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/NetworkGatewayStatus"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "version": {
+            "maxLength": 64,
+            "type": "string"
+          },
+          "wireguardPublicKey": {
+            "maxLength": 44,
+            "minLength": 44,
+            "pattern": "^[A-Za-z0-9+/]{43}=$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "runtimeId",
+          "siteId",
+          "name",
+          "administrativeStatus",
+          "status",
+          "publicEndpointHost",
+          "publicEndpointPort",
+          "overlayCidr",
+          "routingMode",
+          "mtu",
+          "persistentKeepaliveSeconds",
+          "dnsServers",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "NetworkGatewayAdministrativeStatus": {
+        "enum": [
+          "active",
+          "disabled"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkGatewayAdministrativeStatusActive",
+          "NetworkGatewayAdministrativeStatusDisabled"
+        ]
+      },
+      "NetworkGatewayEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkGateway"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkGatewayInput": {
+        "additionalProperties": false,
+        "properties": {
+          "administrativeStatus": {
+            "$ref": "#/components/schemas/NetworkGatewayAdministrativeStatus"
+          },
+          "advertisedCidrs": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkIPv4CIDR"
+            },
+            "maxItems": 64,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "dnsServers": {
+            "items": {
+              "maxLength": 15,
+              "pattern": "^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$",
+              "type": "string"
+            },
+            "maxItems": 8,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "hubGatewayId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+            "type": "string"
+          },
+          "mtu": {
+            "maximum": 1500,
+            "minimum": 1280,
+            "type": "integer"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "overlayCidr": {
+            "maxLength": 18,
+            "pattern": "^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])/(?:1[6-9]|2[0-9]|30)$",
+            "type": "string"
+          },
+          "persistentKeepaliveSeconds": {
+            "maximum": 300,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "publicEndpointHost": {
+            "maxLength": 253,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?$",
+            "type": "string"
+          },
+          "publicEndpointPort": {
+            "maximum": 65535,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "routingMode": {
+            "$ref": "#/components/schemas/NetworkGatewayRoutingMode"
+          },
+          "runtimeId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+            "type": "string"
+          },
+          "siteId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "runtimeId",
+          "siteId",
+          "name",
+          "administrativeStatus",
+          "publicEndpointHost",
+          "publicEndpointPort",
+          "overlayCidr",
+          "routingMode",
+          "mtu",
+          "persistentKeepaliveSeconds",
+          "dnsServers"
+        ],
+        "type": "object"
+      },
+      "NetworkGatewayListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkGateway"
+            },
+            "maxItems": 200,
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "NetworkGatewayRoutingMode": {
+        "enum": [
+          "routed",
+          "snat"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkGatewayRoutingModeRouted",
+          "NetworkGatewayRoutingModeSNAT"
+        ]
+      },
+      "NetworkGatewayStatus": {
+        "enum": [
+          "offline",
+          "online",
+          "degraded"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkGatewayStatusOffline",
+          "NetworkGatewayStatusOnline",
+          "NetworkGatewayStatusDegraded"
+        ]
+      },
+      "NetworkIPv4CIDR": {
+        "description": "IPv4 CIDR accepted by the first network-access slice; consumers must additionally require canonical network addresses.",
+        "maxLength": 18,
+        "pattern": "^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])/(?:[0-9]|[12][0-9]|3[0-2])$",
+        "type": "string"
+      },
+      "NetworkLease": {
+        "additionalProperties": false,
+        "properties": {
+          "cidrs": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkIPv4CIDR"
+            },
+            "maxItems": 128,
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "deviceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "issuedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "networkSpaceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "policyVersion": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "sessionId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/NetworkLeaseStatus"
+          },
+          "subjectId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "sessionId",
+          "subjectId",
+          "deviceId",
+          "networkSpaceId",
+          "cidrs",
+          "policyVersion",
+          "status",
+          "issuedAt",
+          "expiresAt"
+        ],
+        "type": "object"
+      },
+      "NetworkLeaseStatus": {
+        "enum": [
+          "issued",
+          "active",
+          "revoking",
+          "revoked",
+          "expired"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkLeaseStatusIssued",
+          "NetworkLeaseStatusActive",
+          "NetworkLeaseStatusRevoking",
+          "NetworkLeaseStatusRevoked",
+          "NetworkLeaseStatusExpired"
+        ]
+      },
+      "NetworkMihomoDNSMode": {
+        "enum": [
+          "disabled",
+          "fake_ip"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkMihomoDNSModeDisabled",
+          "NetworkMihomoDNSModeFakeIP"
+        ]
+      },
+      "NetworkMihomoManualNodeInput": {
+        "additionalProperties": false,
+        "dependentRequired": {
+          "password": [
+            "username"
+          ],
+          "username": [
+            "password"
+          ]
+        },
+        "properties": {
+          "password": {
+            "description": "Write-only upstream proxy password.",
+            "format": "password",
+            "maxLength": 4096,
+            "minLength": 1,
+            "type": "string"
+          },
+          "port": {
+            "maximum": 65535,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "protocol": {
+            "$ref": "#/components/schemas/NetworkMihomoManualProtocol"
+          },
+          "server": {
+            "maxLength": 253,
+            "minLength": 1,
+            "type": "string"
+          },
+          "username": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "protocol",
+          "server",
+          "port"
+        ],
+        "type": "object"
+      },
+      "NetworkMihomoManualProtocol": {
+        "enum": [
+          "http",
+          "https",
+          "socks5"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkMihomoManualProtocolHTTP",
+          "NetworkMihomoManualProtocolHTTPS",
+          "NetworkMihomoManualProtocolSOCKS5"
+        ]
+      },
+      "NetworkMihomoMode": {
+        "enum": [
+          "managed_follow",
+          "app_subscription"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkMihomoModeManagedFollow",
+          "NetworkMihomoModeAppSubscription"
+        ]
+      },
+      "NetworkMihomoProfile": {
+        "additionalProperties": false,
+        "properties": {
+          "bypassCidrs": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkIPv4CIDR"
+            },
+            "maxItems": 256,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "bypassHosts": {
+            "items": {
+              "maxLength": 253,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 128,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "controllerPort": {
+            "maximum": 65535,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deviceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "dnsMode": {
+            "$ref": "#/components/schemas/NetworkMihomoDNSMode"
+          },
+          "failClosed": {
+            "type": "boolean"
+          },
+          "fakeIpRange": {
+            "$ref": "#/components/schemas/NetworkIPv4CIDR"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "manualNodeConfigured": {
+            "type": "boolean"
+          },
+          "mixedPort": {
+            "maximum": 65535,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/NetworkMihomoMode"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "selectedProxy": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "selectorGroup": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "sourceType": {
+            "$ref": "#/components/schemas/NetworkMihomoSourceType"
+          },
+          "status": {
+            "$ref": "#/components/schemas/NetworkMihomoProfileStatus"
+          },
+          "subscriptionConfigured": {
+            "type": "boolean"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "deviceId",
+          "name",
+          "mode",
+          "status",
+          "subscriptionConfigured",
+          "revision",
+          "mixedPort",
+          "controllerPort",
+          "dnsMode",
+          "selectorGroup",
+          "bypassCidrs",
+          "bypassHosts",
+          "failClosed",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "NetworkMihomoProfileEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkMihomoProfile"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkMihomoProfileInput": {
+        "allOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "bypassCidrs": {
+                "items": {
+                  "$ref": "#/components/schemas/NetworkIPv4CIDR"
+                },
+                "maxItems": 256,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "bypassHosts": {
+                "items": {
+                  "maxLength": 253,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?$",
+                  "type": "string"
+                },
+                "maxItems": 128,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "controllerPort": {
+                "maximum": 65535,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "deviceId": {
+                "maxLength": 128,
+                "minLength": 1,
+                "type": "string"
+              },
+              "dnsMode": {
+                "$ref": "#/components/schemas/NetworkMihomoDNSMode"
+              },
+              "failClosed": {
+                "type": "boolean"
+              },
+              "fakeIpRange": {
+                "$ref": "#/components/schemas/NetworkIPv4CIDR"
+              },
+              "manualNode": {
+                "$ref": "#/components/schemas/NetworkMihomoManualNodeInput"
+              },
+              "mixedPort": {
+                "maximum": 65535,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "mode": {
+                "$ref": "#/components/schemas/NetworkMihomoMode"
+              },
+              "name": {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              "selectedProxy": {
+                "maxLength": 128,
+                "minLength": 1,
+                "type": "string"
+              },
+              "selectorGroup": {
+                "maxLength": 128,
+                "minLength": 1,
+                "type": "string"
+              },
+              "sourceType": {
+                "$ref": "#/components/schemas/NetworkMihomoSourceType",
+                "description": "Managed connection source. Omit for app_subscription; missing managed_follow values retain managed_subscription compatibility."
+              },
+              "status": {
+                "$ref": "#/components/schemas/NetworkMihomoProfileStatus"
+              },
+              "subscriptionUrl": {
+                "description": "Write-only HTTPS subscription URL encrypted by Soha and released only to the assigned endpoint over mTLS. Required when creating managed_subscription and forbidden for other sources.",
+                "format": "password",
+                "maxLength": 4096,
+                "minLength": 8,
+                "type": "string"
+              }
+            },
+            "required": [
+              "deviceId",
+              "name",
+              "mode",
+              "status",
+              "mixedPort",
+              "controllerPort",
+              "dnsMode",
+              "selectorGroup",
+              "bypassCidrs",
+              "bypassHosts",
+              "failClosed"
+            ],
+            "type": "object"
+          },
+          {
+            "else": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "sourceType"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "subscriptionUrl"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "manualNode"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "selectedProxy"
+                    ]
+                  }
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "mode": {
+                  "const": "managed_follow"
+                }
+              },
+              "required": [
+                "mode"
+              ]
+            },
+            "then": {
+              "properties": {
+                "failClosed": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "allOf": [
+                {
+                  "properties": {
+                    "mode": {
+                      "const": "managed_follow"
+                    }
+                  },
+                  "required": [
+                    "mode"
+                  ]
+                },
+                {
+                  "not": {
+                    "properties": {
+                      "sourceType": {
+                        "const": "manual_node"
+                      }
+                    },
+                    "required": [
+                      "sourceType"
+                    ]
+                  }
+                }
+              ]
+            },
+            "then": {
+              "not": {
+                "required": [
+                  "manualNode"
+                ]
+              },
+              "required": [
+                "selectedProxy"
+              ]
+            }
+          },
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "manualNode"
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "sourceType": {
+                  "const": "manual_node"
+                }
+              },
+              "required": [
+                "sourceType"
+              ]
+            },
+            "then": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "subscriptionUrl"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "selectedProxy"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "fakeIpRange"
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "dnsMode": {
+                  "const": "fake_ip"
+                }
+              },
+              "required": [
+                "dnsMode"
+              ]
+            },
+            "then": {
+              "required": [
+                "fakeIpRange"
+              ]
+            }
+          }
+        ]
+      },
+      "NetworkMihomoProfileListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkMihomoProfile"
+            },
+            "maxItems": 200,
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "NetworkMihomoProfileStatus": {
+        "enum": [
+          "active",
+          "disabled"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkMihomoProfileStatusActive",
+          "NetworkMihomoProfileStatusDisabled"
+        ]
+      },
+      "NetworkMihomoSourceType": {
+        "enum": [
+          "managed_subscription",
+          "manual_node"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkMihomoSourceTypeManagedSubscription",
+          "NetworkMihomoSourceTypeManualNode"
+        ]
+      },
+      "NetworkNASBinding": {
+        "additionalProperties": false,
+        "properties": {
+          "accessMedium": {
+            "$ref": "#/components/schemas/NetworkAccessMedium"
+          },
+          "coaSupported": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deviceType": {
+            "$ref": "#/components/schemas/NetworkAccessDeviceType"
+          },
+          "disconnectSupported": {
+            "type": "boolean"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "managementAddress": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "nasId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "runtimeId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "siteId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "ssid": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/NetworkNASBindingStatus"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "nasId",
+          "runtimeId",
+          "siteId",
+          "name",
+          "status",
+          "coaSupported",
+          "disconnectSupported",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "NetworkNASBindingEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkNASBinding"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkNASBindingInput": {
+        "additionalProperties": false,
+        "properties": {
+          "accessMedium": {
+            "$ref": "#/components/schemas/NetworkAccessMedium"
+          },
+          "coaSupported": {
+            "type": "boolean"
+          },
+          "deviceType": {
+            "$ref": "#/components/schemas/NetworkAccessDeviceType"
+          },
+          "disconnectSupported": {
+            "type": "boolean"
+          },
+          "managementAddress": {
+            "description": "Administrative IP address or hostname of the switch, access point, or controller. Credentials are never stored here.",
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "nasId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "runtimeId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "siteId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "ssid": {
+            "description": "Wi-Fi SSID represented by this logical NAS binding. Omit for wired access.",
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/NetworkNASBindingStatus"
+          }
+        },
+        "required": [
+          "nasId",
+          "runtimeId",
+          "siteId",
+          "name",
+          "status",
+          "coaSupported",
+          "disconnectSupported"
+        ],
+        "type": "object"
+      },
+      "NetworkNASBindingListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkNASBinding"
+            },
+            "maxItems": 200,
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "NetworkNASBindingStatus": {
+        "enum": [
+          "active",
+          "disabled"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkNASBindingStatusActive",
+          "NetworkNASBindingStatusDisabled"
+        ]
+      },
+      "NetworkPathMode": {
+        "enum": [
+          "automatic",
+          "site_direct",
+          "wireguard",
+          "wireguard_ztna",
+          "access_proxy"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkPathModeAutomatic",
+          "NetworkPathModeSiteDirect",
+          "NetworkPathModeWireGuard",
+          "NetworkPathModeWireGuardZTNA",
+          "NetworkPathModeAccessProxy"
+        ]
+      },
+      "NetworkPolicyDecision": {
+        "enum": [
+          "allow",
+          "deny"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkPolicyDecisionAllow",
+          "NetworkPolicyDecisionDeny"
+        ]
+      },
+      "NetworkPolicyEffect": {
+        "enum": [
+          "allow",
+          "deny"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkPolicyEffectAllow",
+          "NetworkPolicyEffectDeny"
+        ]
+      },
+      "NetworkPolicyPath": {
+        "enum": [
+          "site_direct",
+          "wireguard",
+          "wireguard_ztna",
+          "access_proxy",
+          "deny"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkPolicyPathSiteDirect",
+          "NetworkPolicyPathWireGuard",
+          "NetworkPolicyPathWireGuardZTNA",
+          "NetworkPolicyPathAccessProxy",
+          "NetworkPolicyPathDeny"
+        ]
+      },
+      "NetworkPolicyPreviewEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkPolicyPreviewResult"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkPolicyPreviewRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "deviceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/NetworkAccessMode"
+          },
+          "resourceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "siteId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectUserId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "subjectUserId",
+          "deviceId",
+          "resourceId",
+          "mode"
+        ],
+        "type": "object"
+      },
+      "NetworkPolicyPreviewResult": {
+        "additionalProperties": false,
+        "properties": {
+          "decision": {
+            "$ref": "#/components/schemas/NetworkPolicyDecision"
+          },
+          "networkLeaseRequired": {
+            "type": "boolean"
+          },
+          "networkProfile": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "path": {
+            "$ref": "#/components/schemas/NetworkPolicyPath"
+          },
+          "policyVersion": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "protected": {
+            "type": "boolean"
+          },
+          "reasons": {
+            "items": {
+              "maxLength": 256,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 32,
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "resourceLeaseRequired": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "decision",
+          "path",
+          "policyVersion",
+          "protected",
+          "networkLeaseRequired",
+          "resourceLeaseRequired",
+          "reasons"
+        ],
+        "type": "object"
+      },
+      "NetworkPolicySnapshot": {
+        "additionalProperties": false,
+        "properties": {
+          "contentHash": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "policyCount": {
+            "maximum": 10000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "policyVersion": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "protectedResourceCount": {
+            "maximum": 100000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "publishedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "policyVersion",
+          "contentHash",
+          "policyCount",
+          "protectedResourceCount",
+          "publishedAt"
+        ],
+        "type": "object"
+      },
+      "NetworkPolicySnapshotEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkPolicySnapshot"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkPolicySubjects": {
+        "additionalProperties": false,
+        "properties": {
+          "tags": {
+            "items": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 128,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "teams": {
+            "items": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 128,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "users": {
+            "items": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 128,
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "users",
+          "teams",
+          "tags"
+        ],
+        "type": "object"
+      },
+      "NetworkProxyFlowSummary": {
+        "additionalProperties": false,
+        "properties": {
+          "activeConnections": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "downloadBytes": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "engine": {
+            "const": "mihomo",
+            "type": "string"
+          },
+          "lastOccurredAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/NetworkMihomoMode"
+          },
+          "producerId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "profileId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "profileRevision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "selectedProxy": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "uploadBytes": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "producerId",
+          "engine",
+          "profileId",
+          "profileRevision",
+          "mode",
+          "selectedProxy",
+          "uploadBytes",
+          "downloadBytes",
+          "activeConnections",
+          "lastOccurredAt"
+        ],
+        "type": "object"
+      },
+      "NetworkResource": {
+        "additionalProperties": false,
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/NetworkResourceKind"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "pathMode": {
+            "$ref": "#/components/schemas/NetworkPathMode"
+          },
+          "ports": {
+            "items": {
+              "maximum": 65535,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "maxItems": 64,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "protected": {
+            "type": "boolean"
+          },
+          "protocol": {
+            "$ref": "#/components/schemas/NetworkResourceProtocol"
+          },
+          "spaceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "target": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "spaceId",
+          "name",
+          "kind",
+          "target",
+          "protected",
+          "protocol",
+          "pathMode",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "NetworkResourceEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkResource"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkResourceInput": {
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/NetworkResourceKind"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "pathMode": {
+            "$ref": "#/components/schemas/NetworkPathMode"
+          },
+          "ports": {
+            "items": {
+              "maximum": 65535,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "maxItems": 64,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "protected": {
+            "type": "boolean"
+          },
+          "protocol": {
+            "$ref": "#/components/schemas/NetworkResourceProtocol"
+          },
+          "spaceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "target": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "spaceId",
+          "name",
+          "kind",
+          "target",
+          "protected",
+          "protocol",
+          "pathMode"
+        ],
+        "type": "object"
+      },
+      "NetworkResourceKind": {
+        "enum": [
+          "cidr",
+          "ip",
+          "fqdn"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkResourceKindCIDR",
+          "NetworkResourceKindIP",
+          "NetworkResourceKindFQDN"
+        ]
+      },
+      "NetworkResourceListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkResource"
+            },
+            "maxItems": 200,
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "NetworkResourceProtocol": {
+        "enum": [
+          "any",
+          "tcp",
+          "udp",
+          "icmp"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkResourceProtocolAny",
+          "NetworkResourceProtocolTCP",
+          "NetworkResourceProtocolUDP",
+          "NetworkResourceProtocolICMP"
+        ]
+      },
+      "NetworkRuntimeEnrollment": {
+        "additionalProperties": false,
+        "properties": {
+          "challengeId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "consumedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "deviceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "revokedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "runtimeId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "runtimeKind": {
+            "$ref": "#/components/schemas/NetworkRuntimeKind"
+          },
+          "status": {
+            "$ref": "#/components/schemas/NetworkRuntimeEnrollmentStatus"
+          },
+          "subjectId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "challengeId",
+          "runtimeId",
+          "runtimeKind",
+          "deviceId",
+          "subjectId",
+          "status",
+          "expiresAt",
+          "createdBy",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "NetworkRuntimeEnrollmentEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkRuntimeEnrollment"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkRuntimeEnrollmentInput": {
+        "additionalProperties": false,
+        "properties": {
+          "deviceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "runtimeId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "runtimeKind": {
+            "$ref": "#/components/schemas/NetworkRuntimeKind"
+          },
+          "subjectId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "ttlSeconds": {
+            "default": 600,
+            "maximum": 600,
+            "minimum": 60,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "runtimeId",
+          "runtimeKind",
+          "deviceId",
+          "subjectId"
+        ],
+        "type": "object"
+      },
+      "NetworkRuntimeEnrollmentListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkRuntimeEnrollment"
+            },
+            "maxItems": 200,
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "NetworkRuntimeEnrollmentSecret": {
+        "additionalProperties": false,
+        "properties": {
+          "enrollment": {
+            "$ref": "#/components/schemas/NetworkRuntimeEnrollment"
+          },
+          "token": {
+            "description": "One-time enrollment token returned only by the successful create response.",
+            "format": "password",
+            "maxLength": 512,
+            "minLength": 32,
+            "type": "string"
+          }
+        },
+        "required": [
+          "enrollment",
+          "token"
+        ],
+        "type": "object"
+      },
+      "NetworkRuntimeEnrollmentSecretEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkRuntimeEnrollmentSecret"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkRuntimeEnrollmentStatus": {
+        "enum": [
+          "pending",
+          "consumed",
+          "revoked"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkRuntimeEnrollmentStatusPending",
+          "NetworkRuntimeEnrollmentStatusConsumed",
+          "NetworkRuntimeEnrollmentStatusRevoked"
+        ]
+      },
+      "NetworkRuntimeKind": {
+        "enum": [
+          "endpoint",
+          "gateway",
+          "nas"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkRuntimeKindEndpoint",
+          "NetworkRuntimeKindGateway",
+          "NetworkRuntimeKindNAS"
+        ]
+      },
+      "NetworkSession": {
+        "additionalProperties": false,
+        "properties": {
+          "accessProfile": {
+            "$ref": "#/components/schemas/NetworkAccessProfile"
+          },
+          "deviceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "gatewayId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/NetworkAccessMode"
+          },
+          "nasId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "networkLeaseIds": {
+            "items": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 256,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "path": {
+            "$ref": "#/components/schemas/NetworkPolicyPath"
+          },
+          "policyVersion": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "reasonCode": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "resourceLeaseIds": {
+            "items": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 512,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "siteId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "startedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/NetworkSessionStatus"
+          },
+          "subjectId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "subjectId",
+          "deviceId",
+          "mode",
+          "path",
+          "accessProfile",
+          "status",
+          "policyVersion",
+          "networkLeaseIds",
+          "resourceLeaseIds",
+          "startedAt",
+          "expiresAt"
+        ],
+        "type": "object"
+      },
+      "NetworkSessionAction": {
+        "enum": [
+          "coa",
+          "disconnect"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkSessionActionCoA",
+          "NetworkSessionActionDisconnect"
+        ]
+      },
+      "NetworkSessionActionExecuteInput": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "$ref": "#/components/schemas/NetworkSessionAction"
+          },
+          "planHash": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "reasonCode": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "targetAccessProfile": {
+            "$ref": "#/components/schemas/NetworkAccessProfile"
+          }
+        },
+        "required": [
+          "action",
+          "targetAccessProfile",
+          "reasonCode",
+          "planHash"
+        ],
+        "type": "object"
+      },
+      "NetworkSessionActionInput": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "$ref": "#/components/schemas/NetworkSessionAction"
+          },
+          "reasonCode": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "targetAccessProfile": {
+            "$ref": "#/components/schemas/NetworkAccessProfile"
+          }
+        },
+        "required": [
+          "action",
+          "targetAccessProfile",
+          "reasonCode"
+        ],
+        "type": "object"
+      },
+      "NetworkSessionActionPlan": {
+        "additionalProperties": false,
+        "properties": {
+          "commandExpiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "currentAccessProfile": {
+            "$ref": "#/components/schemas/NetworkAccessProfile"
+          },
+          "effectiveAction": {
+            "$ref": "#/components/schemas/NetworkSessionAction"
+          },
+          "nasId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "planHash": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "reasonCode": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "requestedAction": {
+            "$ref": "#/components/schemas/NetworkSessionAction"
+          },
+          "runtimeId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "sessionId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "targetAccessProfile": {
+            "$ref": "#/components/schemas/NetworkAccessProfile"
+          },
+          "willDisconnect": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "sessionId",
+          "runtimeId",
+          "nasId",
+          "requestedAction",
+          "effectiveAction",
+          "currentAccessProfile",
+          "targetAccessProfile",
+          "reasonCode",
+          "willDisconnect",
+          "commandExpiresAt",
+          "planHash"
+        ],
+        "type": "object"
+      },
+      "NetworkSessionActionPlanEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkSessionActionPlan"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkSessionCommand": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "$ref": "#/components/schemas/NetworkSessionAction"
+          },
+          "completedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "effectiveAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "nasId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "policyVersion": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "reasonCode": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "runtimeId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "sessionId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/NetworkSessionCommandStatus"
+          },
+          "targetAccessProfile": {
+            "$ref": "#/components/schemas/NetworkAccessProfile"
+          }
+        },
+        "required": [
+          "id",
+          "sessionId",
+          "runtimeId",
+          "nasId",
+          "action",
+          "targetAccessProfile",
+          "policyVersion",
+          "status",
+          "reasonCode",
+          "effectiveAt",
+          "expiresAt",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "NetworkSessionCommandEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkSessionCommand"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkSessionCommandStatus": {
+        "enum": [
+          "pending",
+          "delivered",
+          "applied",
+          "rejected",
+          "unsupported",
+          "timed-out",
+          "expired"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkSessionCommandStatusPending",
+          "NetworkSessionCommandStatusDelivered",
+          "NetworkSessionCommandStatusApplied",
+          "NetworkSessionCommandStatusRejected",
+          "NetworkSessionCommandStatusUnsupported",
+          "NetworkSessionCommandStatusTimedOut",
+          "NetworkSessionCommandStatusExpired"
+        ]
+      },
+      "NetworkSessionEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkSession"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkSessionListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkSession"
+            },
+            "maxItems": 200,
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "NetworkSessionStatus": {
+        "enum": [
+          "pending",
+          "active",
+          "restricted",
+          "quarantine",
+          "revoked",
+          "expired"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkSessionStatusPending",
+          "NetworkSessionStatusActive",
+          "NetworkSessionStatusRestricted",
+          "NetworkSessionStatusQuarantine",
+          "NetworkSessionStatusRevoked",
+          "NetworkSessionStatusExpired"
+        ]
+      },
+      "NetworkSite": {
+        "additionalProperties": false,
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "location": {
+            "maxLength": 512,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/NetworkSiteStatus"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "status",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "NetworkSiteEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkSite"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkSiteInput": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "location": {
+            "maxLength": 512,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/NetworkSiteStatus"
+          }
+        },
+        "required": [
+          "name",
+          "status"
+        ],
+        "type": "object"
+      },
+      "NetworkSiteListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkSite"
+            },
+            "maxItems": 200,
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "NetworkSiteProfileBinding": {
+        "additionalProperties": false,
+        "properties": {
+          "accessProfile": {
+            "$ref": "#/components/schemas/NetworkAccessProfile"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "filterId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "sessionTimeoutSeconds": {
+            "maximum": 86400,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "siteId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "vlanId": {
+            "maximum": 4094,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "siteId",
+          "accessProfile",
+          "sessionTimeoutSeconds",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "NetworkSiteProfileBindingEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkSiteProfileBinding"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkSiteProfileBindingInput": {
+        "additionalProperties": false,
+        "properties": {
+          "accessProfile": {
+            "$ref": "#/components/schemas/NetworkAccessProfile"
+          },
+          "filterId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "sessionTimeoutSeconds": {
+            "maximum": 86400,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "siteId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "vlanId": {
+            "maximum": 4094,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "siteId",
+          "accessProfile",
+          "sessionTimeoutSeconds"
+        ],
+        "type": "object"
+      },
+      "NetworkSiteProfileBindingListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkSiteProfileBinding"
+            },
+            "maxItems": 200,
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "NetworkSiteStatus": {
+        "enum": [
+          "active",
+          "disabled"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkSiteStatusActive",
+          "NetworkSiteStatusDisabled"
+        ]
+      },
+      "NetworkSpace": {
+        "additionalProperties": false,
+        "properties": {
+          "cidrs": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkIPv4CIDR"
+            },
+            "maxItems": 64,
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "siteId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/NetworkSpaceStatus"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "siteId",
+          "name",
+          "status",
+          "cidrs",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "NetworkSpaceEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkSpace"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkSpaceInput": {
+        "additionalProperties": false,
+        "properties": {
+          "cidrs": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkIPv4CIDR"
+            },
+            "maxItems": 64,
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "siteId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/NetworkSpaceStatus"
+          }
+        },
+        "required": [
+          "siteId",
+          "name",
+          "status",
+          "cidrs"
+        ],
+        "type": "object"
+      },
+      "NetworkSpaceListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkSpace"
+            },
+            "maxItems": 200,
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "NetworkSpaceStatus": {
+        "enum": [
+          "active",
+          "disabled"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkSpaceStatusActive",
+          "NetworkSpaceStatusDisabled"
+        ]
+      },
+      "NetworkTelemetryProducer": {
+        "additionalProperties": false,
+        "properties": {
+          "gapCount": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "lastSeenAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "producerId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "producerKind": {
+            "enum": [
+              "endpoint",
+              "gateway",
+              "freeradius",
+              "network-control"
+            ],
+            "type": "string"
+          },
+          "regressionCount": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "producerId",
+          "producerKind",
+          "lastSeenAt",
+          "gapCount",
+          "regressionCount"
+        ],
+        "type": "object"
+      },
+      "NetworkTelemetrySummary": {
+        "additionalProperties": false,
+        "properties": {
+          "activeConnections": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "connectionSummaryCount": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "downloadBytes": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "eventCount": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "from": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "heartbeatCount": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "networkFlowCount": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "producers": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkTelemetryProducer"
+            },
+            "maxItems": 200,
+            "type": "array"
+          },
+          "proxyFlowCount": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "proxyFlows": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkProxyFlowSummary"
+            },
+            "maxItems": 200,
+            "type": "array"
+          },
+          "radiusAccountingCount": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "to": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "uploadBytes": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "eventCount",
+          "heartbeatCount",
+          "radiusAccountingCount",
+          "networkFlowCount",
+          "connectionSummaryCount",
+          "proxyFlowCount",
+          "uploadBytes",
+          "downloadBytes",
+          "activeConnections",
+          "producers",
+          "proxyFlows"
+        ],
+        "type": "object"
+      },
+      "NetworkTelemetrySummaryEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkTelemetrySummary"
+          }
+        },
+        "required": [
+          "data"
+        ],
         "type": "object"
       },
       "ObservabilityContext": {
@@ -37716,6 +41558,69 @@
           "name",
           "description",
           "permissionKeys"
+        ],
+        "type": "object"
+      },
+      "ResourceLease": {
+        "additionalProperties": false,
+        "properties": {
+          "deviceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "issuedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "policyVersion": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "resourceIds": {
+            "items": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 256,
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "sessionId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/NetworkLeaseStatus"
+          },
+          "subjectId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "sessionId",
+          "subjectId",
+          "deviceId",
+          "resourceIds",
+          "policyVersion",
+          "status",
+          "issuedAt",
+          "expiresAt"
         ],
         "type": "object"
       },
@@ -46615,7 +50520,7 @@
   "info": {
     "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery.\n",
     "title": "Soha API",
-    "version": "0.1.16"
+    "version": "0.1.17"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -50994,6 +54899,43 @@
         "x-soha-implementation-status": "implemented"
       }
     },
+    "/ai-gateway/relay/upstreams/test": {
+      "post": {
+        "operationId": "testAIGatewayRelayUpstreamDraft",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LLMUpstreamInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LLMUpstreamTestResultEnvelope"
+                }
+              }
+            },
+            "description": "Redacted connectivity result and discovered models for an unsaved upstream."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Gateway"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
     "/ai-gateway/resources/read": {
       "post": {
         "operationId": "readAIGatewayResource",
@@ -54062,6 +58004,81 @@
         "tags": [
           "Observability"
         ]
+      }
+    },
+    "/announcements/{announcementID}/receipts": {
+      "get": {
+        "operationId": "listAnnouncementReceipts",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AnnouncementID"
+          },
+          {
+            "in": "query",
+            "name": "keyword",
+            "schema": {
+              "maxLength": 200,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "schema": {
+              "$ref": "#/components/schemas/AnnouncementReceiptState"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "default": 1,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "schema": {
+              "default": 15,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementReceiptPageEnvelope"
+                }
+              }
+            },
+            "description": "Active users and their read state for the announcement."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "System"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "system.announcements.view"
+          ],
+          "mode": "all"
+        }
       }
     },
     "/application-environments": {
@@ -69145,6 +73162,3227 @@
         "x-soha-implementation-status": "implemented"
       }
     },
+    "/network-access/access-grants": {
+      "get": {
+        "operationId": "listNetworkAccessGrants",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "subjectId",
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "deviceId",
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "$ref": "#/components/schemas/NetworkAccessGrantStatus"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkAccessGrantListEnvelope"
+                }
+              }
+            },
+            "description": "Short-lived resource access grants without token material or token digests."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-capability": {
+          "name": "network_access.access_grants.list",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "network_access.access_grants.view"
+          ],
+          "requiresApproval": false,
+          "riskLevel": "read"
+        },
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.access_grants.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "post": {
+        "operationId": "createNetworkAccessGrant",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkAccessGrantInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkAccessGrantSecretEnvelope"
+                }
+              }
+            },
+            "description": "Policy-authorized, MFA-bound grant and its one-time connection token.",
+            "headers": {
+              "Cache-Control": {
+                "description": "Always `no-store` because the response includes a one-time access token.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-capability": {
+          "name": "network_access.access_grants.create",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "network_access.access_grants.create"
+          ],
+          "requiresApproval": true,
+          "riskLevel": "high"
+        },
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.access_grants.create"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/access-grants/{grantID}": {
+      "get": {
+        "operationId": "getNetworkAccessGrant",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "grantID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkAccessGrantEnvelope"
+                }
+              }
+            },
+            "description": "Resource access grant detail without token material or token digests."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.access_grants.view"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/access-grants/{grantID}/revoke": {
+      "post": {
+        "operationId": "revokeNetworkAccessGrant",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "grantID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkAccessGrantEnvelope"
+                }
+              }
+            },
+            "description": "Revoked unconsumed resource access grant."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-capability": {
+          "name": "network_access.access_grants.revoke",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "network_access.access_grants.revoke"
+          ],
+          "requiresApproval": true,
+          "riskLevel": "high"
+        },
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.access_grants.revoke"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/conflicts/analyze": {
+      "post": {
+        "operationId": "analyzeNetworkAccessConflicts",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkConflictAnalysisRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkConflictAnalysisEnvelope"
+                }
+              }
+            },
+            "description": "Deterministic address-range conflict report."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-capability": {
+          "name": "network_access.conflicts.analyze",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "network_access.policy.view"
+          ],
+          "requiresApproval": false,
+          "riskLevel": "analyze"
+        },
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.policy.view"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/connection-options": {
+      "get": {
+        "operationId": "listCurrentNetworkConnectionOptions",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "deviceId",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkConnectionOptionListEnvelope"
+                }
+              }
+            },
+            "description": "Wi-Fi and wired 802.1X connection options authorized for the current user and endpoint.",
+            "headers": {
+              "Cache-Control": {
+                "description": "Always no-store because the result is user and device scoped.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ]
+      }
+    },
+    "/network-access/devices": {
+      "get": {
+        "operationId": "listEndpointDevices",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "maxLength": 200,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "$ref": "#/components/schemas/EndpointDeviceStatus"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ownerUserId",
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "siteId",
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EndpointDeviceListEnvelope"
+                }
+              }
+            },
+            "description": "Endpoint devices visible to the current principal."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.endpoint_devices.view"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/devices/{deviceID}": {
+      "get": {
+        "operationId": "getEndpointDevice",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EndpointDeviceEnvelope"
+                }
+              }
+            },
+            "description": "Endpoint device detail without private credentials."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.endpoint_devices.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "put": {
+        "operationId": "updateEndpointDevice",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EndpointDeviceInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EndpointDeviceEnvelope"
+                }
+              }
+            },
+            "description": "Updated endpoint device."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.endpoint_devices.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/devices/{deviceID}/registration": {
+      "put": {
+        "description": "Idempotently registers the current user's desktop device without granting network access.",
+        "operationId": "registerEndpointDevice",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EndpointDeviceRegistrationInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EndpointDeviceEnvelope"
+                }
+              }
+            },
+            "description": "Registered endpoint device. New devices remain pending until admitted by policy or an administrator."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ]
+      }
+    },
+    "/network-access/enrollments": {
+      "get": {
+        "operationId": "listNetworkRuntimeEnrollments",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkRuntimeEnrollmentListEnvelope"
+                }
+              }
+            },
+            "description": "Runtime enrollment challenges without token material or token digests."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-capability": {
+          "name": "network_access.enrollments.list",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "network_access.enrollments.view"
+          ],
+          "requiresApproval": false,
+          "riskLevel": "read"
+        },
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.enrollments.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "post": {
+        "operationId": "createNetworkRuntimeEnrollment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkRuntimeEnrollmentInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkRuntimeEnrollmentSecretEnvelope"
+                }
+              }
+            },
+            "description": "Created runtime enrollment and its one-time token.",
+            "headers": {
+              "Cache-Control": {
+                "description": "Always `no-store` because the response includes a one-time enrollment token.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-capability": {
+          "name": "network_access.enrollments.create",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "network_access.enrollments.create"
+          ],
+          "requiresApproval": true,
+          "riskLevel": "high"
+        },
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.enrollments.create"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/enrollments/{enrollmentID}": {
+      "get": {
+        "operationId": "getNetworkRuntimeEnrollment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "enrollmentID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkRuntimeEnrollmentEnvelope"
+                }
+              }
+            },
+            "description": "Runtime enrollment detail without token material or token digests."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.enrollments.view"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/enrollments/{enrollmentID}/revoke": {
+      "post": {
+        "operationId": "revokeNetworkRuntimeEnrollment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "enrollmentID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkRuntimeEnrollmentEnvelope"
+                }
+              }
+            },
+            "description": "Revoked pending runtime enrollment."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-capability": {
+          "name": "network_access.enrollments.revoke",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "network_access.enrollments.revoke"
+          ],
+          "requiresApproval": true,
+          "riskLevel": "high"
+        },
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.enrollments.revoke"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/gateways": {
+      "get": {
+        "operationId": "listNetworkGateways",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "maxLength": 200,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "siteId",
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "$ref": "#/components/schemas/NetworkGatewayStatus"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkGatewayListEnvelope"
+                }
+              }
+            },
+            "description": "Registered network gateways."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.gateways.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "post": {
+        "operationId": "createNetworkGateway",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkGatewayInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkGatewayEnvelope"
+                }
+              }
+            },
+            "description": "Created WireGuard network gateway configuration."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-capability": {
+          "name": "network_access.gateways.create",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "network_access.gateways.create"
+          ],
+          "requiresApproval": true,
+          "riskLevel": "high"
+        },
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.gateways.create"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/gateways/{gatewayID}": {
+      "get": {
+        "operationId": "getNetworkGateway",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "gatewayID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkGatewayEnvelope"
+                }
+              }
+            },
+            "description": "Network gateway detail."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.gateways.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "put": {
+        "operationId": "updateNetworkGateway",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "gatewayID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkGatewayInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkGatewayEnvelope"
+                }
+              }
+            },
+            "description": "Updated WireGuard network gateway configuration."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-capability": {
+          "name": "network_access.gateways.update",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "network_access.gateways.update"
+          ],
+          "requiresApproval": true,
+          "riskLevel": "high"
+        },
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.gateways.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/mihomo-profiles": {
+      "get": {
+        "operationId": "listNetworkMihomoProfiles",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "maxLength": 200,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "deviceId",
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "mode",
+            "schema": {
+              "$ref": "#/components/schemas/NetworkMihomoMode"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "$ref": "#/components/schemas/NetworkMihomoProfileStatus"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkMihomoProfileListEnvelope"
+                }
+              }
+            },
+            "description": "Mihomo profiles assigned to endpoint devices. Subscription credentials are never returned."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-capability": {
+          "name": "network_access.mihomo_profiles.list",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "network_access.mihomo_profiles.view"
+          ],
+          "requiresApproval": false,
+          "riskLevel": "read"
+        },
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.mihomo_profiles.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "post": {
+        "operationId": "createNetworkMihomoProfile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkMihomoProfileInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkMihomoProfileEnvelope"
+                }
+              }
+            },
+            "description": "Created mihomo profile. The write-only subscription URL is not returned."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.mihomo_profiles.create"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/mihomo-profiles/{profileID}": {
+      "delete": {
+        "operationId": "deleteNetworkMihomoProfile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "profileID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationStatus"
+                }
+              }
+            },
+            "description": "Deleted mihomo profile."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.mihomo_profiles.delete"
+          ],
+          "mode": "all"
+        }
+      },
+      "get": {
+        "operationId": "getNetworkMihomoProfile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "profileID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkMihomoProfileEnvelope"
+                }
+              }
+            },
+            "description": "Mihomo profile metadata without subscription credentials."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.mihomo_profiles.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "put": {
+        "operationId": "updateNetworkMihomoProfile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "profileID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkMihomoProfileInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkMihomoProfileEnvelope"
+                }
+              }
+            },
+            "description": "Updated mihomo profile. Omitting subscriptionUrl preserves the current secret."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.mihomo_profiles.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/nas-bindings": {
+      "get": {
+        "operationId": "listNetworkNASBindings",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "siteId",
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "runtimeId",
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "$ref": "#/components/schemas/NetworkNASBindingStatus"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkNASBindingListEnvelope"
+                }
+              }
+            },
+            "description": "NAS identities bound to registered network runtimes and sites."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "post": {
+        "operationId": "createNetworkNASBinding",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkNASBindingInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkNASBindingEnvelope"
+                }
+              }
+            },
+            "description": "Created NAS binding."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/nas-bindings/{bindingID}": {
+      "delete": {
+        "operationId": "deleteNetworkNASBinding",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "bindingID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationStatus"
+                }
+              }
+            },
+            "description": "Deleted NAS binding."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.update"
+          ],
+          "mode": "all"
+        }
+      },
+      "get": {
+        "operationId": "getNetworkNASBinding",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "bindingID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkNASBindingEnvelope"
+                }
+              }
+            },
+            "description": "NAS binding detail."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "put": {
+        "operationId": "updateNetworkNASBinding",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "bindingID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkNASBindingInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkNASBindingEnvelope"
+                }
+              }
+            },
+            "description": "Updated NAS binding."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/policies": {
+      "get": {
+        "operationId": "listNetworkAccessPolicies",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "maxLength": 200,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "enabled",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "effect",
+            "schema": {
+              "$ref": "#/components/schemas/NetworkPolicyEffect"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkAccessPolicyListEnvelope"
+                }
+              }
+            },
+            "description": "Draft network access policies."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.policy.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "post": {
+        "operationId": "createNetworkAccessPolicy",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkAccessPolicyInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkAccessPolicyEnvelope"
+                }
+              }
+            },
+            "description": "Created draft network access policy."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.policy.create"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/policies/{policyID}": {
+      "delete": {
+        "operationId": "deleteNetworkAccessPolicy",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "policyID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationStatus"
+                }
+              }
+            },
+            "description": "Deleted draft network access policy."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.policy.delete"
+          ],
+          "mode": "all"
+        }
+      },
+      "get": {
+        "operationId": "getNetworkAccessPolicy",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "policyID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkAccessPolicyEnvelope"
+                }
+              }
+            },
+            "description": "Network access policy detail."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.policy.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "put": {
+        "operationId": "updateNetworkAccessPolicy",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "policyID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkAccessPolicyInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkAccessPolicyEnvelope"
+                }
+              }
+            },
+            "description": "Updated draft network access policy."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.policy.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/policies/compile": {
+      "post": {
+        "operationId": "compileNetworkAccessPolicySnapshot",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkPolicySnapshotEnvelope"
+                }
+              }
+            },
+            "description": "Current immutable compiled policy snapshot."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.policy.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/policy/preview": {
+      "post": {
+        "operationId": "previewNetworkAccessPolicy",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkPolicyPreviewRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkPolicyPreviewEnvelope"
+                }
+              }
+            },
+            "description": "Side-effect-free network access decision and selected path."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-capability": {
+          "name": "network_access.policy.preview",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "network_access.policy.view"
+          ],
+          "requiresApproval": false,
+          "riskLevel": "analyze"
+        },
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.policy.view"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/policy/snapshot": {
+      "get": {
+        "operationId": "getNetworkAccessPolicySnapshot",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkPolicySnapshotEnvelope"
+                }
+              }
+            },
+            "description": "Active immutable compiled policy snapshot."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.policy.view"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/resources": {
+      "get": {
+        "operationId": "listNetworkResources",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "maxLength": 200,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "spaceId",
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "kind",
+            "schema": {
+              "$ref": "#/components/schemas/NetworkResourceKind"
+            }
+          },
+          {
+            "in": "query",
+            "name": "protected",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkResourceListEnvelope"
+                }
+              }
+            },
+            "description": "Configured network resources."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.resources.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "post": {
+        "operationId": "createNetworkResource",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkResourceInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkResourceEnvelope"
+                }
+              }
+            },
+            "description": "Created network resource."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.resources.create"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/resources/{resourceID}": {
+      "delete": {
+        "operationId": "deleteNetworkResource",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resourceID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationStatus"
+                }
+              }
+            },
+            "description": "Deleted network resource."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.resources.delete"
+          ],
+          "mode": "all"
+        }
+      },
+      "get": {
+        "operationId": "getNetworkResource",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resourceID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkResourceEnvelope"
+                }
+              }
+            },
+            "description": "Network resource detail."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.resources.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "put": {
+        "operationId": "updateNetworkResource",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resourceID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkResourceInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkResourceEnvelope"
+                }
+              }
+            },
+            "description": "Updated network resource."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.resources.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/sessions": {
+      "get": {
+        "operationId": "listNetworkSessions",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "siteId",
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "runtimeId",
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "subjectId",
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "deviceId",
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "$ref": "#/components/schemas/NetworkSessionStatus"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkSessionListEnvelope"
+                }
+              }
+            },
+            "description": "Current and recent network sessions across NAC, VPN and ZTNA paths."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-capability": {
+          "name": "network_access.sessions.list",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "network_access.sites.view"
+          ],
+          "requiresApproval": false,
+          "riskLevel": "read"
+        },
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.view"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/sessions/{sessionID}": {
+      "get": {
+        "operationId": "getNetworkSession",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sessionID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkSessionEnvelope"
+                }
+              }
+            },
+            "description": "Network session detail."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.view"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/sessions/{sessionID}/actions/execute": {
+      "post": {
+        "operationId": "executeNetworkSessionAction",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sessionID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkSessionActionExecuteInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkSessionCommandEnvelope"
+                }
+              }
+            },
+            "description": "Durable NAS command queued for the authenticated runtime."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-capability": {
+          "name": "network_access.session.coa.execute",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "network_access.sites.update"
+          ],
+          "requiresApproval": true,
+          "riskLevel": "high"
+        },
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/sessions/{sessionID}/actions/plan": {
+      "post": {
+        "operationId": "planNetworkSessionAction",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sessionID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkSessionActionInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkSessionActionPlanEnvelope"
+                }
+              }
+            },
+            "description": "Side-effect-free CoA or disconnect plan, including fallback selection."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-capability": {
+          "name": "network_access.session.coa.plan",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "network_access.sites.update"
+          ],
+          "requiresApproval": false,
+          "riskLevel": "analyze"
+        },
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/site-profile-bindings": {
+      "get": {
+        "operationId": "listNetworkSiteProfileBindings",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "siteId",
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "accessProfile",
+            "schema": {
+              "$ref": "#/components/schemas/NetworkAccessProfile"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkSiteProfileBindingListEnvelope"
+                }
+              }
+            },
+            "description": "Site-specific RADIUS enforcement attributes by access profile."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "post": {
+        "operationId": "createNetworkSiteProfileBinding",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkSiteProfileBindingInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkSiteProfileBindingEnvelope"
+                }
+              }
+            },
+            "description": "Created site profile binding."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/site-profile-bindings/{bindingID}": {
+      "delete": {
+        "operationId": "deleteNetworkSiteProfileBinding",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "bindingID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationStatus"
+                }
+              }
+            },
+            "description": "Deleted site profile binding."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.update"
+          ],
+          "mode": "all"
+        }
+      },
+      "get": {
+        "operationId": "getNetworkSiteProfileBinding",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "bindingID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkSiteProfileBindingEnvelope"
+                }
+              }
+            },
+            "description": "Site profile binding detail."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "put": {
+        "operationId": "updateNetworkSiteProfileBinding",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "bindingID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkSiteProfileBindingInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkSiteProfileBindingEnvelope"
+                }
+              }
+            },
+            "description": "Updated site profile binding."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/sites": {
+      "get": {
+        "operationId": "listNetworkSites",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "maxLength": 200,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "$ref": "#/components/schemas/NetworkSiteStatus"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkSiteListEnvelope"
+                }
+              }
+            },
+            "description": "Configured network sites."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "post": {
+        "operationId": "createNetworkSite",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkSiteInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkSiteEnvelope"
+                }
+              }
+            },
+            "description": "Created network site."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.create"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/sites/{siteID}": {
+      "delete": {
+        "operationId": "deleteNetworkSite",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "siteID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationStatus"
+                }
+              }
+            },
+            "description": "Deleted network site."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.delete"
+          ],
+          "mode": "all"
+        }
+      },
+      "get": {
+        "operationId": "getNetworkSite",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "siteID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkSiteEnvelope"
+                }
+              }
+            },
+            "description": "Network site detail."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "put": {
+        "operationId": "updateNetworkSite",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "siteID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkSiteInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkSiteEnvelope"
+                }
+              }
+            },
+            "description": "Updated network site."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.sites.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/spaces": {
+      "get": {
+        "operationId": "listNetworkSpaces",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "maxLength": 200,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "siteId",
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "$ref": "#/components/schemas/NetworkSpaceStatus"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkSpaceListEnvelope"
+                }
+              }
+            },
+            "description": "Configured network spaces."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.spaces.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "post": {
+        "operationId": "createNetworkSpace",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkSpaceInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkSpaceEnvelope"
+                }
+              }
+            },
+            "description": "Created network space."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.spaces.create"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/spaces/{spaceID}": {
+      "delete": {
+        "operationId": "deleteNetworkSpace",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "spaceID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationStatus"
+                }
+              }
+            },
+            "description": "Deleted network space."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.spaces.delete"
+          ],
+          "mode": "all"
+        }
+      },
+      "get": {
+        "operationId": "getNetworkSpace",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "spaceID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkSpaceEnvelope"
+                }
+              }
+            },
+            "description": "Network space detail."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.spaces.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "put": {
+        "operationId": "updateNetworkSpace",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "spaceID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkSpaceInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkSpaceEnvelope"
+                }
+              }
+            },
+            "description": "Updated network space."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.spaces.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/telemetry/summary": {
+      "get": {
+        "operationId": "getNetworkTelemetrySummary",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "producerId",
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkTelemetrySummaryEnvelope"
+                }
+              }
+            },
+            "description": "Bounded aggregate network telemetry. Raw events, destinations and subscription credentials are never returned."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-capability": {
+          "name": "network_access.telemetry.summary",
+          "permissionKeys": [
+            "ai.gateway.invoke",
+            "network_access.telemetry.view"
+          ],
+          "requiresApproval": false,
+          "riskLevel": "read"
+        },
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.telemetry.view"
+          ],
+          "mode": "all"
+        }
+      }
+    },
     "/observability/dashboards": {
       "get": {
         "operationId": "listObservabilityDashboards",
@@ -74979,6 +82217,9 @@
     },
     {
       "name": "Directory"
+    },
+    {
+      "name": "Network Access"
     }
   ]
 }

@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Soha API
-  version: 0.1.16
+  version: 0.1.17
   description: >
     Public OpenSoha core API contract. This first contract focuses on stable
     cross-repository boundaries: auth, health, runner-facing control-plane
@@ -39,6 +39,7 @@ tags:
   - name: Identity
   - name: Portal
   - name: Directory
+  - name: Network Access
 paths:
   /healthz:
     get:
@@ -64,6 +65,39 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GenericObject"
+  /announcements/{announcementID}/receipts:
+    get:
+      tags: [System]
+      operationId: listAnnouncementReceipts
+      x-soha-implementation-status: implemented
+      x-soha-permissions:
+        mode: all
+        keys: [system.announcements.view]
+      parameters:
+        - $ref: "#/components/parameters/AnnouncementID"
+        - name: keyword
+          in: query
+          schema: { type: string, maxLength: 200 }
+        - name: state
+          in: query
+          schema:
+            $ref: "#/components/schemas/AnnouncementReceiptState"
+        - name: page
+          in: query
+          schema: { type: integer, minimum: 1, default: 1 }
+        - name: pageSize
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100, default: 15 }
+      responses:
+        "200":
+          description: Active users and their read state for the announcement.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnnouncementReceiptPageEnvelope"
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
   /auth/providers:
     get:
       tags: [Auth]
@@ -9146,6 +9180,28 @@ paths:
                 $ref: "#/components/schemas/LLMUpstreamTestResultEnvelope"
         "403":
           $ref: "#/components/responses/Error"
+  /ai-gateway/relay/upstreams/test:
+    post:
+      tags: [AI Gateway]
+      operationId: testAIGatewayRelayUpstreamDraft
+      x-soha-implementation-status: implemented
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LLMUpstreamInput"
+      responses:
+        "200":
+          description: Redacted connectivity result and discovered models for an unsaved upstream.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LLMUpstreamTestResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
   /ai-gateway/relay/model-routes:
     get:
       tags: [AI Gateway]
@@ -14310,6 +14366,1281 @@ paths:
             text/html:
               schema: { type: string }
         "400": { $ref: "#/components/responses/IdentityError" }
+  /network-access/devices:
+    get:
+      tags: [Network Access]
+      operationId: listEndpointDevices
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.endpoint_devices.view]
+      parameters:
+        - { name: search, in: query, schema: { type: string, maxLength: 200 } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/EndpointDeviceStatus" } }
+        - { name: ownerUserId, in: query, schema: { type: string, maxLength: 128 } }
+        - { name: siteId, in: query, schema: { type: string, maxLength: 128 } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 200, default: 100 } }
+      responses:
+        "200":
+          description: Endpoint devices visible to the current principal.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EndpointDeviceListEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+  /network-access/devices/{deviceID}:
+    get:
+      tags: [Network Access]
+      operationId: getEndpointDevice
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.endpoint_devices.view]
+      parameters:
+        - { name: deviceID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Endpoint device detail without private credentials.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EndpointDeviceEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [Network Access]
+      operationId: updateEndpointDevice
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.endpoint_devices.update]
+      parameters:
+        - { name: deviceID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/EndpointDeviceInput" }
+      responses:
+        "200":
+          description: Updated endpoint device.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EndpointDeviceEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /network-access/devices/{deviceID}/registration:
+    put:
+      tags: [Network Access]
+      operationId: registerEndpointDevice
+      description: Idempotently registers the current user's desktop device without granting network access.
+      parameters:
+        - { name: deviceID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]*$' } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/EndpointDeviceRegistrationInput" }
+      responses:
+        "200":
+          description: Registered endpoint device. New devices remain pending until admitted by policy or an administrator.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EndpointDeviceEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/sites:
+    get:
+      tags: [Network Access]
+      operationId: listNetworkSites
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.view]
+      parameters:
+        - { name: search, in: query, schema: { type: string, maxLength: 200 } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/NetworkSiteStatus" } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 200, default: 100 } }
+      responses:
+        "200":
+          description: Configured network sites.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkSiteListEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Network Access]
+      operationId: createNetworkSite
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.create]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkSiteInput" }
+      responses:
+        "201":
+          description: Created network site.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkSiteEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /network-access/sites/{siteID}:
+    get:
+      tags: [Network Access]
+      operationId: getNetworkSite
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.view]
+      parameters:
+        - { name: siteID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Network site detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkSiteEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [Network Access]
+      operationId: updateNetworkSite
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.update]
+      parameters:
+        - { name: siteID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkSiteInput" }
+      responses:
+        "200":
+          description: Updated network site.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkSiteEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [Network Access]
+      operationId: deleteNetworkSite
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.delete]
+      parameters:
+        - { name: siteID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Deleted network site.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OperationStatus" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/spaces:
+    get:
+      tags: [Network Access]
+      operationId: listNetworkSpaces
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.spaces.view]
+      parameters:
+        - { name: search, in: query, schema: { type: string, maxLength: 200 } }
+        - { name: siteId, in: query, schema: { type: string, maxLength: 128 } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/NetworkSpaceStatus" } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 200, default: 100 } }
+      responses:
+        "200":
+          description: Configured network spaces.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkSpaceListEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Network Access]
+      operationId: createNetworkSpace
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.spaces.create]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkSpaceInput" }
+      responses:
+        "201":
+          description: Created network space.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkSpaceEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /network-access/spaces/{spaceID}:
+    get:
+      tags: [Network Access]
+      operationId: getNetworkSpace
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.spaces.view]
+      parameters:
+        - { name: spaceID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Network space detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkSpaceEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [Network Access]
+      operationId: updateNetworkSpace
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.spaces.update]
+      parameters:
+        - { name: spaceID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkSpaceInput" }
+      responses:
+        "200":
+          description: Updated network space.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkSpaceEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [Network Access]
+      operationId: deleteNetworkSpace
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.spaces.delete]
+      parameters:
+        - { name: spaceID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Deleted network space.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OperationStatus" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/resources:
+    get:
+      tags: [Network Access]
+      operationId: listNetworkResources
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.resources.view]
+      parameters:
+        - { name: search, in: query, schema: { type: string, maxLength: 200 } }
+        - { name: spaceId, in: query, schema: { type: string, maxLength: 128 } }
+        - { name: kind, in: query, schema: { $ref: "#/components/schemas/NetworkResourceKind" } }
+        - { name: protected, in: query, schema: { type: boolean } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 200, default: 100 } }
+      responses:
+        "200":
+          description: Configured network resources.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkResourceListEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Network Access]
+      operationId: createNetworkResource
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.resources.create]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkResourceInput" }
+      responses:
+        "201":
+          description: Created network resource.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkResourceEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /network-access/resources/{resourceID}:
+    get:
+      tags: [Network Access]
+      operationId: getNetworkResource
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.resources.view]
+      parameters:
+        - { name: resourceID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Network resource detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkResourceEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [Network Access]
+      operationId: updateNetworkResource
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.resources.update]
+      parameters:
+        - { name: resourceID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkResourceInput" }
+      responses:
+        "200":
+          description: Updated network resource.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkResourceEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [Network Access]
+      operationId: deleteNetworkResource
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.resources.delete]
+      parameters:
+        - { name: resourceID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Deleted network resource.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OperationStatus" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /network-access/gateways:
+    get:
+      tags: [Network Access]
+      operationId: listNetworkGateways
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.gateways.view]
+      parameters:
+        - { name: search, in: query, schema: { type: string, maxLength: 200 } }
+        - { name: siteId, in: query, schema: { type: string, maxLength: 128 } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/NetworkGatewayStatus" } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 200, default: 100 } }
+      responses:
+        "200":
+          description: Registered network gateways.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkGatewayListEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Network Access]
+      operationId: createNetworkGateway
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.gateways.create]
+      x-soha-capability:
+        name: network_access.gateways.create
+        riskLevel: high
+        requiresApproval: true
+        permissionKeys:
+          - ai.gateway.invoke
+          - network_access.gateways.create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkGatewayInput" }
+      responses:
+        "201":
+          description: Created WireGuard network gateway configuration.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkGatewayEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/gateways/{gatewayID}:
+    get:
+      tags: [Network Access]
+      operationId: getNetworkGateway
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.gateways.view]
+      parameters:
+        - { name: gatewayID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Network gateway detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkGatewayEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [Network Access]
+      operationId: updateNetworkGateway
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.gateways.update]
+      x-soha-capability:
+        name: network_access.gateways.update
+        riskLevel: high
+        requiresApproval: true
+        permissionKeys:
+          - ai.gateway.invoke
+          - network_access.gateways.update
+      parameters:
+        - { name: gatewayID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkGatewayInput" }
+      responses:
+        "200":
+          description: Updated WireGuard network gateway configuration.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkGatewayEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/mihomo-profiles:
+    get:
+      tags: [Network Access]
+      operationId: listNetworkMihomoProfiles
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.mihomo_profiles.view]
+      x-soha-capability:
+        name: network_access.mihomo_profiles.list
+        riskLevel: read
+        requiresApproval: false
+        permissionKeys: [ai.gateway.invoke, network_access.mihomo_profiles.view]
+      parameters:
+        - { name: search, in: query, schema: { type: string, maxLength: 200 } }
+        - { name: deviceId, in: query, schema: { type: string, maxLength: 128 } }
+        - { name: mode, in: query, schema: { $ref: "#/components/schemas/NetworkMihomoMode" } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/NetworkMihomoProfileStatus" } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 200, default: 100 } }
+      responses:
+        "200":
+          description: Mihomo profiles assigned to endpoint devices. Subscription credentials are never returned.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkMihomoProfileListEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Network Access]
+      operationId: createNetworkMihomoProfile
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.mihomo_profiles.create]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkMihomoProfileInput" }
+      responses:
+        "201":
+          description: Created mihomo profile. The write-only subscription URL is not returned.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkMihomoProfileEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/mihomo-profiles/{profileID}:
+    get:
+      tags: [Network Access]
+      operationId: getNetworkMihomoProfile
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.mihomo_profiles.view]
+      parameters:
+        - { name: profileID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Mihomo profile metadata without subscription credentials.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkMihomoProfileEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [Network Access]
+      operationId: updateNetworkMihomoProfile
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.mihomo_profiles.update]
+      parameters:
+        - { name: profileID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkMihomoProfileInput" }
+      responses:
+        "200":
+          description: Updated mihomo profile. Omitting subscriptionUrl preserves the current secret.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkMihomoProfileEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [Network Access]
+      operationId: deleteNetworkMihomoProfile
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.mihomo_profiles.delete]
+      parameters:
+        - { name: profileID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Deleted mihomo profile.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OperationStatus" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /network-access/connection-options:
+    get:
+      tags: [Network Access]
+      operationId: listCurrentNetworkConnectionOptions
+      parameters:
+        - { name: deviceId, in: query, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Wi-Fi and wired 802.1X connection options authorized for the current user and endpoint.
+          headers:
+            Cache-Control:
+              schema: { type: string }
+              description: Always no-store because the result is user and device scoped.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkConnectionOptionListEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /network-access/nas-bindings:
+    get:
+      tags: [Network Access]
+      operationId: listNetworkNASBindings
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.view]
+      parameters:
+        - { name: siteId, in: query, schema: { type: string, maxLength: 128 } }
+        - { name: runtimeId, in: query, schema: { type: string, maxLength: 128 } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/NetworkNASBindingStatus" } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 200, default: 100 } }
+      responses:
+        "200":
+          description: NAS identities bound to registered network runtimes and sites.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkNASBindingListEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Network Access]
+      operationId: createNetworkNASBinding
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.update]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkNASBindingInput" }
+      responses:
+        "201":
+          description: Created NAS binding.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkNASBindingEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/nas-bindings/{bindingID}:
+    get:
+      tags: [Network Access]
+      operationId: getNetworkNASBinding
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.view]
+      parameters:
+        - { name: bindingID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: NAS binding detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkNASBindingEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [Network Access]
+      operationId: updateNetworkNASBinding
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.update]
+      parameters:
+        - { name: bindingID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkNASBindingInput" }
+      responses:
+        "200":
+          description: Updated NAS binding.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkNASBindingEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [Network Access]
+      operationId: deleteNetworkNASBinding
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.update]
+      parameters:
+        - { name: bindingID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Deleted NAS binding.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OperationStatus" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /network-access/site-profile-bindings:
+    get:
+      tags: [Network Access]
+      operationId: listNetworkSiteProfileBindings
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.view]
+      parameters:
+        - { name: siteId, in: query, schema: { type: string, maxLength: 128 } }
+        - { name: accessProfile, in: query, schema: { $ref: "#/components/schemas/NetworkAccessProfile" } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 200, default: 100 } }
+      responses:
+        "200":
+          description: Site-specific RADIUS enforcement attributes by access profile.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkSiteProfileBindingListEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Network Access]
+      operationId: createNetworkSiteProfileBinding
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.update]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkSiteProfileBindingInput" }
+      responses:
+        "201":
+          description: Created site profile binding.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkSiteProfileBindingEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/site-profile-bindings/{bindingID}:
+    get:
+      tags: [Network Access]
+      operationId: getNetworkSiteProfileBinding
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.view]
+      parameters:
+        - { name: bindingID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Site profile binding detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkSiteProfileBindingEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [Network Access]
+      operationId: updateNetworkSiteProfileBinding
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.update]
+      parameters:
+        - { name: bindingID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkSiteProfileBindingInput" }
+      responses:
+        "200":
+          description: Updated site profile binding.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkSiteProfileBindingEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [Network Access]
+      operationId: deleteNetworkSiteProfileBinding
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.update]
+      parameters:
+        - { name: bindingID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Deleted site profile binding.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OperationStatus" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /network-access/sessions:
+    get:
+      tags: [Network Access]
+      operationId: listNetworkSessions
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.view]
+      x-soha-capability:
+        name: network_access.sessions.list
+        riskLevel: read
+        requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - network_access.sites.view
+      parameters:
+        - { name: siteId, in: query, schema: { type: string, maxLength: 128 } }
+        - { name: runtimeId, in: query, schema: { type: string, maxLength: 128 } }
+        - { name: subjectId, in: query, schema: { type: string, maxLength: 128 } }
+        - { name: deviceId, in: query, schema: { type: string, maxLength: 128 } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/NetworkSessionStatus" } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 200, default: 100 } }
+      responses:
+        "200":
+          description: Current and recent network sessions across NAC, VPN and ZTNA paths.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkSessionListEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+  /network-access/telemetry/summary:
+    get:
+      tags: [Network Access]
+      operationId: getNetworkTelemetrySummary
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.telemetry.view]
+      x-soha-capability:
+        name: network_access.telemetry.summary
+        riskLevel: read
+        requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - network_access.telemetry.view
+      parameters:
+        - { name: from, in: query, schema: { type: string, format: date-time } }
+        - { name: to, in: query, schema: { type: string, format: date-time } }
+        - { name: producerId, in: query, schema: { type: string, minLength: 1, maxLength: 128 } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 200, default: 100 } }
+      responses:
+        "200":
+          description: Bounded aggregate network telemetry. Raw events, destinations and subscription credentials are never returned.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkTelemetrySummaryEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /network-access/sessions/{sessionID}:
+    get:
+      tags: [Network Access]
+      operationId: getNetworkSession
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.view]
+      parameters:
+        - { name: sessionID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Network session detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkSessionEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /network-access/sessions/{sessionID}/actions/plan:
+    post:
+      tags: [Network Access]
+      operationId: planNetworkSessionAction
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.update]
+      x-soha-capability:
+        name: network_access.session.coa.plan
+        riskLevel: analyze
+        requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - network_access.sites.update
+      parameters:
+        - { name: sessionID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkSessionActionInput" }
+      responses:
+        "200":
+          description: Side-effect-free CoA or disconnect plan, including fallback selection.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkSessionActionPlanEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/sessions/{sessionID}/actions/execute:
+    post:
+      tags: [Network Access]
+      operationId: executeNetworkSessionAction
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.sites.update]
+      x-soha-capability:
+        name: network_access.session.coa.execute
+        riskLevel: high
+        requiresApproval: true
+        permissionKeys:
+          - ai.gateway.invoke
+          - network_access.sites.update
+      parameters:
+        - { name: sessionID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkSessionActionExecuteInput" }
+      responses:
+        "202":
+          description: Durable NAS command queued for the authenticated runtime.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkSessionCommandEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/access-grants:
+    get:
+      tags: [Network Access]
+      operationId: listNetworkAccessGrants
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.access_grants.view]
+      x-soha-capability:
+        name: network_access.access_grants.list
+        riskLevel: read
+        requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - network_access.access_grants.view
+      parameters:
+        - { name: subjectId, in: query, schema: { type: string, maxLength: 128 } }
+        - { name: deviceId, in: query, schema: { type: string, maxLength: 128 } }
+        - { name: status, in: query, schema: { $ref: "#/components/schemas/NetworkAccessGrantStatus" } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 200, default: 100 } }
+      responses:
+        "200":
+          description: Short-lived resource access grants without token material or token digests.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkAccessGrantListEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Network Access]
+      operationId: createNetworkAccessGrant
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.access_grants.create]
+      x-soha-capability:
+        name: network_access.access_grants.create
+        riskLevel: high
+        requiresApproval: true
+        permissionKeys:
+          - ai.gateway.invoke
+          - network_access.access_grants.create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkAccessGrantInput" }
+      responses:
+        "201":
+          description: Policy-authorized, MFA-bound grant and its one-time connection token.
+          headers:
+            Cache-Control:
+              description: Always `no-store` because the response includes a one-time access token.
+              schema: { type: string }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkAccessGrantSecretEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/access-grants/{grantID}:
+    get:
+      tags: [Network Access]
+      operationId: getNetworkAccessGrant
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.access_grants.view]
+      parameters:
+        - { name: grantID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Resource access grant detail without token material or token digests.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkAccessGrantEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /network-access/access-grants/{grantID}/revoke:
+    post:
+      tags: [Network Access]
+      operationId: revokeNetworkAccessGrant
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.access_grants.revoke]
+      x-soha-capability:
+        name: network_access.access_grants.revoke
+        riskLevel: high
+        requiresApproval: true
+        permissionKeys:
+          - ai.gateway.invoke
+          - network_access.access_grants.revoke
+      parameters:
+        - { name: grantID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Revoked unconsumed resource access grant.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkAccessGrantEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/enrollments:
+    get:
+      tags: [Network Access]
+      operationId: listNetworkRuntimeEnrollments
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.enrollments.view]
+      x-soha-capability:
+        name: network_access.enrollments.list
+        riskLevel: read
+        requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - network_access.enrollments.view
+      parameters:
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 200, default: 100 } }
+      responses:
+        "200":
+          description: Runtime enrollment challenges without token material or token digests.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkRuntimeEnrollmentListEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Network Access]
+      operationId: createNetworkRuntimeEnrollment
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.enrollments.create]
+      x-soha-capability:
+        name: network_access.enrollments.create
+        riskLevel: high
+        requiresApproval: true
+        permissionKeys:
+          - ai.gateway.invoke
+          - network_access.enrollments.create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkRuntimeEnrollmentInput" }
+      responses:
+        "201":
+          description: Created runtime enrollment and its one-time token.
+          headers:
+            Cache-Control:
+              description: Always `no-store` because the response includes a one-time enrollment token.
+              schema: { type: string }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkRuntimeEnrollmentSecretEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /network-access/enrollments/{enrollmentID}:
+    get:
+      tags: [Network Access]
+      operationId: getNetworkRuntimeEnrollment
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.enrollments.view]
+      parameters:
+        - { name: enrollmentID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Runtime enrollment detail without token material or token digests.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkRuntimeEnrollmentEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /network-access/enrollments/{enrollmentID}/revoke:
+    post:
+      tags: [Network Access]
+      operationId: revokeNetworkRuntimeEnrollment
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.enrollments.revoke]
+      x-soha-capability:
+        name: network_access.enrollments.revoke
+        riskLevel: high
+        requiresApproval: true
+        permissionKeys:
+          - ai.gateway.invoke
+          - network_access.enrollments.revoke
+      parameters:
+        - { name: enrollmentID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Revoked pending runtime enrollment.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkRuntimeEnrollmentEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/policies:
+    get:
+      tags: [Network Access]
+      operationId: listNetworkAccessPolicies
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.policy.view]
+      parameters:
+        - { name: search, in: query, schema: { type: string, maxLength: 200 } }
+        - { name: enabled, in: query, schema: { type: boolean } }
+        - { name: effect, in: query, schema: { $ref: "#/components/schemas/NetworkPolicyEffect" } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 200, default: 100 } }
+      responses:
+        "200":
+          description: Draft network access policies.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkAccessPolicyListEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Network Access]
+      operationId: createNetworkAccessPolicy
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.policy.create]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkAccessPolicyInput" }
+      responses:
+        "201":
+          description: Created draft network access policy.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkAccessPolicyEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /network-access/policies/{policyID}:
+    get:
+      tags: [Network Access]
+      operationId: getNetworkAccessPolicy
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.policy.view]
+      parameters:
+        - { name: policyID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Network access policy detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkAccessPolicyEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [Network Access]
+      operationId: updateNetworkAccessPolicy
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.policy.update]
+      parameters:
+        - { name: policyID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkAccessPolicyInput" }
+      responses:
+        "200":
+          description: Updated draft network access policy.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkAccessPolicyEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    delete:
+      tags: [Network Access]
+      operationId: deleteNetworkAccessPolicy
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.policy.delete]
+      parameters:
+        - { name: policyID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Deleted draft network access policy.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OperationStatus" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /network-access/policies/compile:
+    post:
+      tags: [Network Access]
+      operationId: compileNetworkAccessPolicySnapshot
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.policy.update]
+      responses:
+        "200":
+          description: Current immutable compiled policy snapshot.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkPolicySnapshotEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/policy/snapshot:
+    get:
+      tags: [Network Access]
+      operationId: getNetworkAccessPolicySnapshot
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.policy.view]
+      responses:
+        "200":
+          description: Active immutable compiled policy snapshot.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkPolicySnapshotEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /network-access/conflicts/analyze:
+    post:
+      tags: [Network Access]
+      operationId: analyzeNetworkAccessConflicts
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.policy.view]
+      x-soha-capability:
+        name: network_access.conflicts.analyze
+        riskLevel: analyze
+        requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - network_access.policy.view
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkConflictAnalysisRequest" }
+      responses:
+        "200":
+          description: Deterministic address-range conflict report.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkConflictAnalysisEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /network-access/policy/preview:
+    post:
+      tags: [Network Access]
+      operationId: previewNetworkAccessPolicy
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.policy.view]
+      x-soha-capability:
+        name: network_access.policy.preview
+        riskLevel: analyze
+        requiresApproval: false
+        permissionKeys:
+          - ai.gateway.invoke
+          - network_access.policy.view
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkPolicyPreviewRequest" }
+      responses:
+        "200":
+          description: Side-effect-free network access decision and selected path.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkPolicyPreviewEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
 components:
   securitySchemes:
     bearerAuth:
@@ -14342,6 +15673,11 @@ components:
       schema: { type: string, minLength: 1, maxLength: 128 }
     UserID:
       name: userID
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    AnnouncementID:
+      name: announcementID
       in: path
       required: true
       schema: { type: string, minLength: 1, maxLength: 128 }
@@ -21733,6 +23069,46 @@ components:
           items:
             type: string
       additionalProperties: true
+    AnnouncementReceiptState:
+      type: string
+      enum: [all, read, unread]
+      default: all
+    AnnouncementReceipt:
+      type: object
+      required: [userId, username, displayName, email, isRead]
+      properties:
+        userId: { type: string, minLength: 1, maxLength: 128 }
+        username: { type: string }
+        displayName: { type: string }
+        email: { type: string }
+        teamNames:
+          type: array
+          items: { type: string }
+        isRead: { type: boolean }
+        readAt:
+          type: string
+          format: date-time
+          nullable: true
+      additionalProperties: false
+    AnnouncementReceiptPage:
+      type: object
+      required: [items, total, page, pageSize, readCount, unreadCount]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/AnnouncementReceipt" }
+        total: { type: integer, minimum: 0 }
+        page: { type: integer, minimum: 1 }
+        pageSize: { type: integer, minimum: 1, maximum: 100 }
+        readCount: { type: integer, minimum: 0 }
+        unreadCount: { type: integer, minimum: 0 }
+      additionalProperties: false
+    AnnouncementReceiptPageEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/AnnouncementReceiptPage" }
+      additionalProperties: false
     UserProfile:
       type: object
       required: [userId, username, displayName, email, status, roles, teams, projects, tags]
@@ -33600,6 +34976,8 @@ components:
       type: object
       required: [status, providerKind, durationMs]
       properties:
+        upstreamId:
+          type: string
         status:
           type: string
           enum: [success, failure]
@@ -33608,11 +34986,18 @@ components:
           enum: [openai, anthropic, openai-compatible, deepseek, qwen, openrouter, azure-openai, gemini, cohere]
         upstreamStatus:
           type: integer
+        httpStatus:
+          type: integer
         durationMs:
           type: integer
           format: int64
         modelCount:
           type: integer
+          minimum: 0
+        models:
+          type: array
+          items:
+            type: string
         errorCode:
           type: string
         errorMessage:
@@ -37032,3 +38417,1291 @@ components:
       enum: [active, suspended, departed]
       x-enum-varnames:
         [DirectoryEmploymentStatusActive, DirectoryEmploymentStatusSuspended, DirectoryEmploymentStatusDeparted]
+    EndpointDeviceStatus:
+      type: string
+      enum: [pending, active, quarantined, revoked]
+      x-enum-varnames: [EndpointDeviceStatusPending, EndpointDeviceStatusActive, EndpointDeviceStatusQuarantined, EndpointDeviceStatusRevoked]
+    EndpointDevicePostureStatus:
+      type: string
+      enum: [unknown, compliant, non_compliant]
+      x-enum-varnames: [EndpointDevicePostureStatusUnknown, EndpointDevicePostureStatusCompliant, EndpointDevicePostureStatusNonCompliant]
+    EndpointDeviceType:
+      type: string
+      enum: [desktop, laptop, server, mobile, tablet, virtual, unknown]
+      x-enum-varnames: [EndpointDeviceTypeDesktop, EndpointDeviceTypeLaptop, EndpointDeviceTypeServer, EndpointDeviceTypeMobile, EndpointDeviceTypeTablet, EndpointDeviceTypeVirtual, EndpointDeviceTypeUnknown]
+    EndpointDeviceOwnershipType:
+      type: string
+      enum: [company, personal, temporary, unassigned]
+      x-enum-varnames: [EndpointDeviceOwnershipTypeCompany, EndpointDeviceOwnershipTypePersonal, EndpointDeviceOwnershipTypeTemporary, EndpointDeviceOwnershipTypeUnassigned]
+    EndpointNetworkInterfaceKind:
+      type: string
+      enum: [physical, virtual, loopback, unknown]
+      x-enum-varnames: [EndpointNetworkInterfaceKindPhysical, EndpointNetworkInterfaceKindVirtual, EndpointNetworkInterfaceKindLoopback, EndpointNetworkInterfaceKindUnknown]
+    EndpointNetworkInterfaceStatus:
+      type: string
+      enum: [up, down, unknown]
+      x-enum-varnames: [EndpointNetworkInterfaceStatusUp, EndpointNetworkInterfaceStatusDown, EndpointNetworkInterfaceStatusUnknown]
+    EndpointNetworkInterface:
+      type: object
+      required: [name, kind, status, ipv4Addresses, ipv6Addresses]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 128 }
+        displayName: { type: string, minLength: 1, maxLength: 200 }
+        kind: { $ref: "#/components/schemas/EndpointNetworkInterfaceKind" }
+        status: { $ref: "#/components/schemas/EndpointNetworkInterfaceStatus" }
+        macAddress:
+          type: string
+          pattern: '^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$'
+        ipv4Addresses:
+          type: array
+          maxItems: 32
+          uniqueItems: true
+          items: { type: string, format: ipv4 }
+        ipv6Addresses:
+          type: array
+          maxItems: 32
+          uniqueItems: true
+          items: { type: string, format: ipv6 }
+        dnsServers:
+          type: array
+          maxItems: 16
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 128 }
+      additionalProperties: false
+    EndpointDeviceReportedFacts:
+      type: object
+      required: [architecture, agentVersion, collectedAt, networkInterfaces]
+      properties:
+        osName: { type: string, minLength: 1, maxLength: 128 }
+        osVersion: { type: string, minLength: 1, maxLength: 128 }
+        osBuild: { type: string, minLength: 1, maxLength: 128 }
+        architecture: { type: string, minLength: 1, maxLength: 64 }
+        manufacturer: { type: string, minLength: 1, maxLength: 128 }
+        model: { type: string, minLength: 1, maxLength: 200 }
+        serialNumber: { type: string, minLength: 1, maxLength: 200 }
+        agentVersion: { type: string, minLength: 1, maxLength: 64 }
+        collectedAt: { type: string, format: date-time }
+        networkInterfaces:
+          type: array
+          maxItems: 64
+          items: { $ref: "#/components/schemas/EndpointNetworkInterface" }
+      additionalProperties: false
+    EndpointDevice:
+      type: object
+      required: [id, name, ownerUserId, status, platform, postureStatus, postureVersion, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        ownerUserId: { type: string, minLength: 1, maxLength: 128 }
+        status: { $ref: "#/components/schemas/EndpointDeviceStatus" }
+        platform: { type: string, minLength: 1, maxLength: 64 }
+        deviceType: { $ref: "#/components/schemas/EndpointDeviceType" }
+        ownershipType: { $ref: "#/components/schemas/EndpointDeviceOwnershipType" }
+        hostname: { type: string, minLength: 1, maxLength: 253 }
+        siteId: { type: string, minLength: 1, maxLength: 128 }
+        postureStatus: { $ref: "#/components/schemas/EndpointDevicePostureStatus" }
+        postureVersion: { type: integer, minimum: 1 }
+        credentialGeneration: { type: integer, minimum: 1 }
+        lastSeenAt: { type: string, format: date-time }
+        reportedFacts: { $ref: "#/components/schemas/EndpointDeviceReportedFacts" }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    EndpointDeviceInput:
+      type: object
+      required: [name, status]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 200 }
+        siteId: { type: string, minLength: 1, maxLength: 128 }
+        status: { $ref: "#/components/schemas/EndpointDeviceStatus" }
+        postureStatus: { $ref: "#/components/schemas/EndpointDevicePostureStatus" }
+        deviceType: { $ref: "#/components/schemas/EndpointDeviceType" }
+        ownershipType: { $ref: "#/components/schemas/EndpointDeviceOwnershipType" }
+      additionalProperties: false
+    EndpointDeviceRegistrationInput:
+      type: object
+      required: [name, platform]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 200 }
+        platform: { type: string, minLength: 1, maxLength: 64 }
+        hostname: { type: string, minLength: 1, maxLength: 253 }
+        deviceType: { $ref: "#/components/schemas/EndpointDeviceType" }
+        reportedFacts: { $ref: "#/components/schemas/EndpointDeviceReportedFacts" }
+      additionalProperties: false
+    EndpointDeviceEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/EndpointDevice" }
+      additionalProperties: false
+    EndpointDeviceListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          maxItems: 200
+          items: { $ref: "#/components/schemas/EndpointDevice" }
+      additionalProperties: false
+    NetworkSiteStatus:
+      type: string
+      enum: [active, disabled]
+      x-enum-varnames: [NetworkSiteStatusActive, NetworkSiteStatusDisabled]
+    NetworkSite:
+      type: object
+      required: [id, name, status, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        status: { $ref: "#/components/schemas/NetworkSiteStatus" }
+        description: { type: string, maxLength: 2000 }
+        location: { type: string, maxLength: 512 }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    NetworkSiteInput:
+      type: object
+      required: [name, status]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 200 }
+        status: { $ref: "#/components/schemas/NetworkSiteStatus" }
+        description: { type: string, maxLength: 2000 }
+        location: { type: string, maxLength: 512 }
+      additionalProperties: false
+    NetworkSiteEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkSite" }
+      additionalProperties: false
+    NetworkSiteListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          maxItems: 200
+          items: { $ref: "#/components/schemas/NetworkSite" }
+      additionalProperties: false
+    NetworkIPv4CIDR:
+      type: string
+      maxLength: 18
+      pattern: '^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])/(?:[0-9]|[12][0-9]|3[0-2])$'
+      description: IPv4 CIDR accepted by the first network-access slice; consumers must additionally require canonical network addresses.
+    NetworkSpaceStatus:
+      type: string
+      enum: [active, disabled]
+      x-enum-varnames: [NetworkSpaceStatusActive, NetworkSpaceStatusDisabled]
+    NetworkSpace:
+      type: object
+      required: [id, siteId, name, status, cidrs, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        siteId: { type: string, minLength: 1, maxLength: 128 }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        status: { $ref: "#/components/schemas/NetworkSpaceStatus" }
+        cidrs:
+          type: array
+          minItems: 1
+          maxItems: 64
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    NetworkSpaceInput:
+      type: object
+      required: [siteId, name, status, cidrs]
+      properties:
+        siteId: { type: string, minLength: 1, maxLength: 128 }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        status: { $ref: "#/components/schemas/NetworkSpaceStatus" }
+        cidrs:
+          type: array
+          minItems: 1
+          maxItems: 64
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+      additionalProperties: false
+    NetworkSpaceEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkSpace" }
+      additionalProperties: false
+    NetworkSpaceListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          maxItems: 200
+          items: { $ref: "#/components/schemas/NetworkSpace" }
+      additionalProperties: false
+    NetworkResourceKind:
+      type: string
+      enum: [cidr, ip, fqdn]
+      x-enum-varnames: [NetworkResourceKindCIDR, NetworkResourceKindIP, NetworkResourceKindFQDN]
+    NetworkResourceProtocol:
+      type: string
+      enum: [any, tcp, udp, icmp]
+      x-enum-varnames: [NetworkResourceProtocolAny, NetworkResourceProtocolTCP, NetworkResourceProtocolUDP, NetworkResourceProtocolICMP]
+    NetworkPathMode:
+      type: string
+      enum: [automatic, site_direct, wireguard, wireguard_ztna, access_proxy]
+      x-enum-varnames: [NetworkPathModeAutomatic, NetworkPathModeSiteDirect, NetworkPathModeWireGuard, NetworkPathModeWireGuardZTNA, NetworkPathModeAccessProxy]
+    NetworkResource:
+      type: object
+      required: [id, spaceId, name, kind, target, protected, protocol, pathMode, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        spaceId: { type: string, minLength: 1, maxLength: 128 }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        kind: { $ref: "#/components/schemas/NetworkResourceKind" }
+        target: { type: string, minLength: 1, maxLength: 512 }
+        protected: { type: boolean }
+        protocol: { $ref: "#/components/schemas/NetworkResourceProtocol" }
+        ports:
+          type: array
+          maxItems: 64
+          uniqueItems: true
+          items: { type: integer, minimum: 1, maximum: 65535 }
+        pathMode: { $ref: "#/components/schemas/NetworkPathMode" }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    NetworkResourceInput:
+      type: object
+      required: [spaceId, name, kind, target, protected, protocol, pathMode]
+      properties:
+        spaceId: { type: string, minLength: 1, maxLength: 128 }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        kind: { $ref: "#/components/schemas/NetworkResourceKind" }
+        target: { type: string, minLength: 1, maxLength: 512 }
+        protected: { type: boolean }
+        protocol: { $ref: "#/components/schemas/NetworkResourceProtocol" }
+        ports:
+          type: array
+          maxItems: 64
+          uniqueItems: true
+          items: { type: integer, minimum: 1, maximum: 65535 }
+        pathMode: { $ref: "#/components/schemas/NetworkPathMode" }
+      additionalProperties: false
+    NetworkResourceEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkResource" }
+      additionalProperties: false
+    NetworkResourceListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          maxItems: 200
+          items: { $ref: "#/components/schemas/NetworkResource" }
+      additionalProperties: false
+    NetworkGatewayStatus:
+      type: string
+      enum: [offline, online, degraded]
+      x-enum-varnames: [NetworkGatewayStatusOffline, NetworkGatewayStatusOnline, NetworkGatewayStatusDegraded]
+    NetworkGatewayAdministrativeStatus:
+      type: string
+      enum: [active, disabled]
+      x-enum-varnames: [NetworkGatewayAdministrativeStatusActive, NetworkGatewayAdministrativeStatusDisabled]
+    NetworkGatewayRoutingMode:
+      type: string
+      enum: [routed, snat]
+      x-enum-varnames: [NetworkGatewayRoutingModeRouted, NetworkGatewayRoutingModeSNAT]
+    NetworkGatewayInput:
+      type: object
+      required: [runtimeId, siteId, name, administrativeStatus, publicEndpointHost, publicEndpointPort, overlayCidr, routingMode, mtu, persistentKeepaliveSeconds, dnsServers]
+      properties:
+        runtimeId: { type: string, minLength: 1, maxLength: 128, pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]*$" }
+        siteId: { type: string, minLength: 1, maxLength: 128 }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        administrativeStatus: { $ref: "#/components/schemas/NetworkGatewayAdministrativeStatus" }
+        publicEndpointHost: { type: string, minLength: 1, maxLength: 253, pattern: "^[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?$" }
+        publicEndpointPort: { type: integer, minimum: 1, maximum: 65535 }
+        overlayCidr:
+          type: string
+          maxLength: 18
+          pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])/(?:1[6-9]|2[0-9]|30)$"
+        routingMode: { $ref: "#/components/schemas/NetworkGatewayRoutingMode" }
+        hubGatewayId: { type: string, minLength: 1, maxLength: 128, pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]*$" }
+        advertisedCidrs:
+          type: array
+          maxItems: 64
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+        mtu: { type: integer, minimum: 1280, maximum: 1500 }
+        persistentKeepaliveSeconds: { type: integer, minimum: 0, maximum: 300 }
+        dnsServers:
+          type: array
+          maxItems: 8
+          uniqueItems: true
+          items:
+            type: string
+            maxLength: 15
+            pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$"
+      additionalProperties: false
+    NetworkGateway:
+      type: object
+      required: [id, runtimeId, siteId, name, administrativeStatus, status, publicEndpointHost, publicEndpointPort, overlayCidr, routingMode, mtu, persistentKeepaliveSeconds, dnsServers, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        runtimeId: { type: string, minLength: 1, maxLength: 128, pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]*$" }
+        siteId: { type: string, minLength: 1, maxLength: 128 }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        administrativeStatus: { $ref: "#/components/schemas/NetworkGatewayAdministrativeStatus" }
+        status: { $ref: "#/components/schemas/NetworkGatewayStatus" }
+        publicEndpointHost: { type: string, minLength: 1, maxLength: 253 }
+        publicEndpointPort: { type: integer, minimum: 1, maximum: 65535 }
+        overlayCidr: { type: string, minLength: 9, maxLength: 18 }
+        routingMode: { $ref: "#/components/schemas/NetworkGatewayRoutingMode" }
+        hubGatewayId: { type: string, minLength: 1, maxLength: 128 }
+        advertisedCidrs:
+          type: array
+          maxItems: 64
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+        mtu: { type: integer, minimum: 1280, maximum: 1500 }
+        persistentKeepaliveSeconds: { type: integer, minimum: 0, maximum: 300 }
+        dnsServers:
+          type: array
+          maxItems: 8
+          uniqueItems: true
+          items: { type: string, minLength: 7, maxLength: 15 }
+        wireguardPublicKey: { type: string, minLength: 44, maxLength: 44, pattern: "^[A-Za-z0-9+/]{43}=$" }
+        version: { type: string, maxLength: 64 }
+        lastHeartbeatAt: { type: string, format: date-time }
+        policyVersion: { type: integer, minimum: 0 }
+        capabilities:
+          type: array
+          maxItems: 32
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 64 }
+        appliedAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    NetworkGatewayEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkGateway" }
+      additionalProperties: false
+    NetworkGatewayListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          maxItems: 200
+          items: { $ref: "#/components/schemas/NetworkGateway" }
+      additionalProperties: false
+    NetworkMihomoMode:
+      type: string
+      enum: [managed_follow, app_subscription]
+      x-enum-varnames: [NetworkMihomoModeManagedFollow, NetworkMihomoModeAppSubscription]
+    NetworkMihomoSourceType:
+      type: string
+      enum: [managed_subscription, manual_node]
+      x-enum-varnames: [NetworkMihomoSourceTypeManagedSubscription, NetworkMihomoSourceTypeManualNode]
+    NetworkMihomoManualProtocol:
+      type: string
+      enum: [http, https, socks5]
+      x-enum-varnames: [NetworkMihomoManualProtocolHTTP, NetworkMihomoManualProtocolHTTPS, NetworkMihomoManualProtocolSOCKS5]
+    NetworkMihomoManualNodeInput:
+      type: object
+      required: [protocol, server, port]
+      properties:
+        protocol: { $ref: "#/components/schemas/NetworkMihomoManualProtocol" }
+        server: { type: string, minLength: 1, maxLength: 253 }
+        port: { type: integer, minimum: 1, maximum: 65535 }
+        username: { type: string, minLength: 1, maxLength: 256 }
+        password:
+          type: string
+          minLength: 1
+          maxLength: 4096
+          format: password
+          description: Write-only upstream proxy password.
+      dependentRequired:
+        username: [password]
+        password: [username]
+      additionalProperties: false
+    NetworkMihomoProfileStatus:
+      type: string
+      enum: [active, disabled]
+      x-enum-varnames: [NetworkMihomoProfileStatusActive, NetworkMihomoProfileStatusDisabled]
+    NetworkMihomoDNSMode:
+      type: string
+      enum: [disabled, fake_ip]
+      x-enum-varnames: [NetworkMihomoDNSModeDisabled, NetworkMihomoDNSModeFakeIP]
+    NetworkMihomoProfileInput:
+      allOf:
+        - type: object
+          required: [deviceId, name, mode, status, mixedPort, controllerPort, dnsMode, selectorGroup, bypassCidrs, bypassHosts, failClosed]
+          properties:
+            deviceId: { type: string, minLength: 1, maxLength: 128 }
+            name: { type: string, minLength: 1, maxLength: 200 }
+            mode: { $ref: "#/components/schemas/NetworkMihomoMode" }
+            sourceType:
+              $ref: "#/components/schemas/NetworkMihomoSourceType"
+              description: Managed connection source. Omit for app_subscription; missing managed_follow values retain managed_subscription compatibility.
+            status: { $ref: "#/components/schemas/NetworkMihomoProfileStatus" }
+            subscriptionUrl:
+              type: string
+              minLength: 8
+              maxLength: 4096
+              format: password
+              description: Write-only HTTPS subscription URL encrypted by Soha and released only to the assigned endpoint over mTLS. Required when creating managed_subscription and forbidden for other sources.
+            manualNode: { $ref: "#/components/schemas/NetworkMihomoManualNodeInput" }
+            mixedPort: { type: integer, minimum: 1, maximum: 65535 }
+            controllerPort: { type: integer, minimum: 1, maximum: 65535 }
+            dnsMode: { $ref: "#/components/schemas/NetworkMihomoDNSMode" }
+            fakeIpRange: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+            selectorGroup: { type: string, minLength: 1, maxLength: 128 }
+            selectedProxy: { type: string, minLength: 1, maxLength: 128 }
+            bypassCidrs:
+              type: array
+              maxItems: 256
+              uniqueItems: true
+              items: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+            bypassHosts:
+              type: array
+              maxItems: 128
+              uniqueItems: true
+              items: { type: string, minLength: 1, maxLength: 253, pattern: "^[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?$" }
+            failClosed: { type: boolean }
+          additionalProperties: false
+        - if:
+            properties: { mode: { const: managed_follow } }
+            required: [mode]
+          then:
+            properties: { failClosed: { const: true } }
+          else:
+            not: { anyOf: [{ required: [sourceType] }, { required: [subscriptionUrl] }, { required: [manualNode] }, { required: [selectedProxy] }] }
+        - if:
+            allOf:
+              - properties: { mode: { const: managed_follow } }
+                required: [mode]
+              - not:
+                  properties: { sourceType: { const: manual_node } }
+                  required: [sourceType]
+          then:
+            required: [selectedProxy]
+            not: { required: [manualNode] }
+        - if:
+            properties: { sourceType: { const: manual_node } }
+            required: [sourceType]
+          then:
+            not: { anyOf: [{ required: [subscriptionUrl] }, { required: [selectedProxy] }] }
+          else:
+            not: { required: [manualNode] }
+        - if:
+            properties: { dnsMode: { const: fake_ip } }
+            required: [dnsMode]
+          then: { required: [fakeIpRange] }
+          else: { not: { required: [fakeIpRange] } }
+    NetworkMihomoProfile:
+      type: object
+      required: [id, deviceId, name, mode, status, subscriptionConfigured, revision, mixedPort, controllerPort, dnsMode, selectorGroup, bypassCidrs, bypassHosts, failClosed, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        deviceId: { type: string, minLength: 1, maxLength: 128 }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        mode: { $ref: "#/components/schemas/NetworkMihomoMode" }
+        sourceType: { $ref: "#/components/schemas/NetworkMihomoSourceType" }
+        status: { $ref: "#/components/schemas/NetworkMihomoProfileStatus" }
+        subscriptionConfigured: { type: boolean }
+        manualNodeConfigured: { type: boolean }
+        revision: { type: integer, minimum: 1 }
+        mixedPort: { type: integer, minimum: 1, maximum: 65535 }
+        controllerPort: { type: integer, minimum: 1, maximum: 65535 }
+        dnsMode: { $ref: "#/components/schemas/NetworkMihomoDNSMode" }
+        fakeIpRange: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+        selectorGroup: { type: string, minLength: 1, maxLength: 128 }
+        selectedProxy: { type: string, minLength: 1, maxLength: 128 }
+        bypassCidrs:
+          type: array
+          maxItems: 256
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+        bypassHosts:
+          type: array
+          maxItems: 128
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 253 }
+        failClosed: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    NetworkMihomoProfileEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkMihomoProfile" }
+      additionalProperties: false
+    NetworkMihomoProfileListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          maxItems: 200
+          items: { $ref: "#/components/schemas/NetworkMihomoProfile" }
+      additionalProperties: false
+    NetworkTelemetryProducer:
+      type: object
+      required: [producerId, producerKind, lastSeenAt, gapCount, regressionCount]
+      properties:
+        producerId: { type: string, minLength: 1, maxLength: 128 }
+        producerKind: { type: string, enum: [endpoint, gateway, freeradius, network-control] }
+        lastSeenAt: { type: string, format: date-time }
+        gapCount: { type: integer, format: int64, minimum: 0 }
+        regressionCount: { type: integer, format: int64, minimum: 0 }
+      additionalProperties: false
+    NetworkProxyFlowSummary:
+      type: object
+      required: [producerId, engine, profileId, profileRevision, mode, selectedProxy, uploadBytes, downloadBytes, activeConnections, lastOccurredAt]
+      properties:
+        producerId: { type: string, minLength: 1, maxLength: 128 }
+        engine: { type: string, const: mihomo }
+        profileId: { type: string, minLength: 1, maxLength: 128 }
+        profileRevision: { type: integer, minimum: 1 }
+        mode: { $ref: "#/components/schemas/NetworkMihomoMode" }
+        selectedProxy: { type: string, minLength: 1, maxLength: 128 }
+        uploadBytes: { type: integer, format: int64, minimum: 0 }
+        downloadBytes: { type: integer, format: int64, minimum: 0 }
+        activeConnections: { type: integer, format: int64, minimum: 0 }
+        lastOccurredAt: { type: string, format: date-time }
+      additionalProperties: false
+    NetworkTelemetrySummary:
+      type: object
+      required: [from, to, eventCount, heartbeatCount, radiusAccountingCount, networkFlowCount, connectionSummaryCount, proxyFlowCount, uploadBytes, downloadBytes, activeConnections, producers, proxyFlows]
+      properties:
+        from: { type: string, format: date-time }
+        to: { type: string, format: date-time }
+        eventCount: { type: integer, format: int64, minimum: 0 }
+        heartbeatCount: { type: integer, format: int64, minimum: 0 }
+        radiusAccountingCount: { type: integer, format: int64, minimum: 0 }
+        networkFlowCount: { type: integer, format: int64, minimum: 0 }
+        connectionSummaryCount: { type: integer, format: int64, minimum: 0 }
+        proxyFlowCount: { type: integer, format: int64, minimum: 0 }
+        uploadBytes: { type: integer, format: int64, minimum: 0 }
+        downloadBytes: { type: integer, format: int64, minimum: 0 }
+        activeConnections: { type: integer, format: int64, minimum: 0 }
+        producers:
+          type: array
+          maxItems: 200
+          items: { $ref: "#/components/schemas/NetworkTelemetryProducer" }
+        proxyFlows:
+          type: array
+          maxItems: 200
+          items: { $ref: "#/components/schemas/NetworkProxyFlowSummary" }
+      additionalProperties: false
+    NetworkTelemetrySummaryEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkTelemetrySummary" }
+      additionalProperties: false
+    NetworkNASBindingStatus:
+      type: string
+      enum: [active, disabled]
+      x-enum-varnames: [NetworkNASBindingStatusActive, NetworkNASBindingStatusDisabled]
+    NetworkAccessMedium:
+      type: string
+      enum: [wifi, wired]
+      x-enum-varnames: [NetworkAccessMediumWiFi, NetworkAccessMediumWired]
+    NetworkAccessDeviceType:
+      type: string
+      enum: [wireless_controller, access_point, switch, other]
+      x-enum-varnames: [NetworkAccessDeviceTypeWirelessController, NetworkAccessDeviceTypeAccessPoint, NetworkAccessDeviceTypeSwitch, NetworkAccessDeviceTypeOther]
+    NetworkConnectionAuthentication:
+      type: string
+      enum: [radius_802_1x]
+      x-enum-varnames: [NetworkConnectionAuthenticationRadius8021X]
+    NetworkConnectionOption:
+      type: object
+      required: [siteId, siteName, accessMedium, authentication, accessProfile, policyVersion]
+      properties:
+        siteId: { type: string, minLength: 1, maxLength: 128 }
+        siteName: { type: string, minLength: 1, maxLength: 200 }
+        accessMedium: { $ref: "#/components/schemas/NetworkAccessMedium" }
+        ssid:
+          type: string
+          minLength: 1
+          maxLength: 32
+          description: Present only for Wi-Fi options.
+        authentication: { $ref: "#/components/schemas/NetworkConnectionAuthentication" }
+        accessProfile: { $ref: "#/components/schemas/NetworkAccessProfile" }
+        policyVersion: { type: integer, minimum: 1 }
+      additionalProperties: false
+    NetworkConnectionOptionListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          maxItems: 200
+          items: { $ref: "#/components/schemas/NetworkConnectionOption" }
+      additionalProperties: false
+    NetworkNASBindingInput:
+      type: object
+      required: [nasId, runtimeId, siteId, name, status, coaSupported, disconnectSupported]
+      properties:
+        nasId: { type: string, minLength: 1, maxLength: 128 }
+        runtimeId: { type: string, minLength: 1, maxLength: 128 }
+        siteId: { type: string, minLength: 1, maxLength: 128 }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        accessMedium: { $ref: "#/components/schemas/NetworkAccessMedium" }
+        deviceType: { $ref: "#/components/schemas/NetworkAccessDeviceType" }
+        ssid:
+          type: string
+          minLength: 1
+          maxLength: 32
+          description: Wi-Fi SSID represented by this logical NAS binding. Omit for wired access.
+        managementAddress:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Administrative IP address or hostname of the switch, access point, or controller. Credentials are never stored here.
+        status: { $ref: "#/components/schemas/NetworkNASBindingStatus" }
+        coaSupported: { type: boolean }
+        disconnectSupported: { type: boolean }
+      additionalProperties: false
+    NetworkNASBinding:
+      type: object
+      required: [id, nasId, runtimeId, siteId, name, status, coaSupported, disconnectSupported, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        nasId: { type: string, minLength: 1, maxLength: 128 }
+        runtimeId: { type: string, minLength: 1, maxLength: 128 }
+        siteId: { type: string, minLength: 1, maxLength: 128 }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        accessMedium: { $ref: "#/components/schemas/NetworkAccessMedium" }
+        deviceType: { $ref: "#/components/schemas/NetworkAccessDeviceType" }
+        ssid:
+          type: string
+          minLength: 1
+          maxLength: 32
+        managementAddress: { type: string, minLength: 1, maxLength: 255 }
+        status: { $ref: "#/components/schemas/NetworkNASBindingStatus" }
+        coaSupported: { type: boolean }
+        disconnectSupported: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    NetworkNASBindingEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkNASBinding" }
+      additionalProperties: false
+    NetworkNASBindingListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          maxItems: 200
+          items: { $ref: "#/components/schemas/NetworkNASBinding" }
+      additionalProperties: false
+    NetworkSiteProfileBindingInput:
+      type: object
+      required: [siteId, accessProfile, sessionTimeoutSeconds]
+      properties:
+        siteId: { type: string, minLength: 1, maxLength: 128 }
+        accessProfile: { $ref: "#/components/schemas/NetworkAccessProfile" }
+        vlanId: { type: integer, minimum: 1, maximum: 4094 }
+        filterId: { type: string, minLength: 1, maxLength: 128 }
+        sessionTimeoutSeconds: { type: integer, minimum: 1, maximum: 86400 }
+      additionalProperties: false
+    NetworkSiteProfileBinding:
+      type: object
+      required: [id, siteId, accessProfile, sessionTimeoutSeconds, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        siteId: { type: string, minLength: 1, maxLength: 128 }
+        accessProfile: { $ref: "#/components/schemas/NetworkAccessProfile" }
+        vlanId: { type: integer, minimum: 1, maximum: 4094 }
+        filterId: { type: string, minLength: 1, maxLength: 128 }
+        sessionTimeoutSeconds: { type: integer, minimum: 1, maximum: 86400 }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    NetworkSiteProfileBindingEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkSiteProfileBinding" }
+      additionalProperties: false
+    NetworkSiteProfileBindingListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          maxItems: 200
+          items: { $ref: "#/components/schemas/NetworkSiteProfileBinding" }
+      additionalProperties: false
+    NetworkRuntimeKind:
+      type: string
+      enum: [endpoint, gateway, nas]
+      x-enum-varnames: [NetworkRuntimeKindEndpoint, NetworkRuntimeKindGateway, NetworkRuntimeKindNAS]
+    NetworkRuntimeEnrollmentStatus:
+      type: string
+      enum: [pending, consumed, revoked]
+      x-enum-varnames: [NetworkRuntimeEnrollmentStatusPending, NetworkRuntimeEnrollmentStatusConsumed, NetworkRuntimeEnrollmentStatusRevoked]
+    NetworkRuntimeEnrollmentInput:
+      type: object
+      required: [runtimeId, runtimeKind, deviceId, subjectId]
+      properties:
+        runtimeId: { type: string, minLength: 1, maxLength: 128 }
+        runtimeKind: { $ref: "#/components/schemas/NetworkRuntimeKind" }
+        deviceId: { type: string, minLength: 1, maxLength: 128 }
+        subjectId: { type: string, minLength: 1, maxLength: 128 }
+        ttlSeconds: { type: integer, minimum: 60, maximum: 600, default: 600 }
+      additionalProperties: false
+    NetworkRuntimeEnrollment:
+      type: object
+      required: [id, challengeId, runtimeId, runtimeKind, deviceId, subjectId, status, expiresAt, createdBy, createdAt]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        challengeId: { type: string, minLength: 1, maxLength: 128 }
+        runtimeId: { type: string, minLength: 1, maxLength: 128 }
+        runtimeKind: { $ref: "#/components/schemas/NetworkRuntimeKind" }
+        deviceId: { type: string, minLength: 1, maxLength: 128 }
+        subjectId: { type: string, minLength: 1, maxLength: 128 }
+        status: { $ref: "#/components/schemas/NetworkRuntimeEnrollmentStatus" }
+        expiresAt: { type: string, format: date-time }
+        createdBy: { type: string, minLength: 1, maxLength: 128 }
+        createdAt: { type: string, format: date-time }
+        consumedAt: { type: string, format: date-time }
+        revokedAt: { type: string, format: date-time }
+      additionalProperties: false
+    NetworkRuntimeEnrollmentSecret:
+      type: object
+      required: [enrollment, token]
+      properties:
+        enrollment: { $ref: "#/components/schemas/NetworkRuntimeEnrollment" }
+        token:
+          type: string
+          minLength: 32
+          maxLength: 512
+          format: password
+          description: One-time enrollment token returned only by the successful create response.
+      additionalProperties: false
+    NetworkRuntimeEnrollmentEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkRuntimeEnrollment" }
+      additionalProperties: false
+    NetworkRuntimeEnrollmentSecretEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkRuntimeEnrollmentSecret" }
+      additionalProperties: false
+    NetworkRuntimeEnrollmentListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          maxItems: 200
+          items: { $ref: "#/components/schemas/NetworkRuntimeEnrollment" }
+      additionalProperties: false
+    NetworkAccessProfile:
+      type: string
+      enum: [onboarding, full, restricted, quarantine, deny]
+      x-enum-varnames: [NetworkAccessProfileOnboarding, NetworkAccessProfileFull, NetworkAccessProfileRestricted, NetworkAccessProfileQuarantine, NetworkAccessProfileDeny]
+    NetworkLeaseStatus:
+      type: string
+      enum: [issued, active, revoking, revoked, expired]
+      x-enum-varnames: [NetworkLeaseStatusIssued, NetworkLeaseStatusActive, NetworkLeaseStatusRevoking, NetworkLeaseStatusRevoked, NetworkLeaseStatusExpired]
+    NetworkSessionStatus:
+      type: string
+      enum: [pending, active, restricted, quarantine, revoked, expired]
+      x-enum-varnames: [NetworkSessionStatusPending, NetworkSessionStatusActive, NetworkSessionStatusRestricted, NetworkSessionStatusQuarantine, NetworkSessionStatusRevoked, NetworkSessionStatusExpired]
+    NetworkPolicyEffect:
+      type: string
+      enum: [allow, deny]
+      x-enum-varnames: [NetworkPolicyEffectAllow, NetworkPolicyEffectDeny]
+    NetworkPolicySubjects:
+      type: object
+      required: [users, teams, tags]
+      properties:
+        users:
+          type: array
+          maxItems: 128
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 128 }
+        teams:
+          type: array
+          maxItems: 128
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 128 }
+        tags:
+          type: array
+          maxItems: 128
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 128 }
+      additionalProperties: false
+    NetworkAccessPolicyInput:
+      type: object
+      required: [name, enabled, priority, effect, subjects, siteIds, resourceIds, modes, deviceStatuses, postureStatuses, accessProfile]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 200 }
+        enabled: { type: boolean }
+        priority: { type: integer, minimum: 1, maximum: 10000 }
+        effect: { $ref: "#/components/schemas/NetworkPolicyEffect" }
+        subjects: { $ref: "#/components/schemas/NetworkPolicySubjects" }
+        siteIds:
+          type: array
+          maxItems: 128
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 128 }
+        resourceIds:
+          type: array
+          maxItems: 256
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 128 }
+        modes:
+          type: array
+          maxItems: 5
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/NetworkAccessMode" }
+        deviceStatuses:
+          type: array
+          maxItems: 4
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/EndpointDeviceStatus" }
+        postureStatuses:
+          type: array
+          maxItems: 3
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/EndpointDevicePostureStatus" }
+        accessProfile: { $ref: "#/components/schemas/NetworkAccessProfile" }
+      additionalProperties: false
+    NetworkAccessPolicy:
+      type: object
+      required: [id, name, enabled, priority, effect, subjects, siteIds, resourceIds, modes, deviceStatuses, postureStatuses, accessProfile, version, createdAt, updatedAt]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        enabled: { type: boolean }
+        priority: { type: integer, minimum: 1, maximum: 10000 }
+        effect: { $ref: "#/components/schemas/NetworkPolicyEffect" }
+        subjects: { $ref: "#/components/schemas/NetworkPolicySubjects" }
+        siteIds:
+          type: array
+          maxItems: 128
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 128 }
+        resourceIds:
+          type: array
+          maxItems: 256
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 128 }
+        modes:
+          type: array
+          maxItems: 5
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/NetworkAccessMode" }
+        deviceStatuses:
+          type: array
+          maxItems: 4
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/EndpointDeviceStatus" }
+        postureStatuses:
+          type: array
+          maxItems: 3
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/EndpointDevicePostureStatus" }
+        accessProfile: { $ref: "#/components/schemas/NetworkAccessProfile" }
+        version: { type: integer, minimum: 1 }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+      additionalProperties: false
+    NetworkAccessPolicyEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkAccessPolicy" }
+      additionalProperties: false
+    NetworkAccessPolicyListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          maxItems: 200
+          items: { $ref: "#/components/schemas/NetworkAccessPolicy" }
+      additionalProperties: false
+    NetworkPolicySnapshot:
+      type: object
+      required: [policyVersion, contentHash, policyCount, protectedResourceCount, publishedAt]
+      properties:
+        policyVersion: { type: integer, minimum: 1 }
+        contentHash:
+          type: string
+          pattern: '^sha256:[a-f0-9]{64}$'
+        policyCount: { type: integer, minimum: 0, maximum: 10000 }
+        protectedResourceCount: { type: integer, minimum: 0, maximum: 100000 }
+        publishedAt: { type: string, format: date-time }
+      additionalProperties: false
+    NetworkPolicySnapshotEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkPolicySnapshot" }
+      additionalProperties: false
+    NetworkConflictSourceType:
+      type: string
+      enum: [network_space, network_resource, lan, wireguard_overlay, container, kubernetes_pod, kubernetes_service, rfc6598, mihomo_fake_ip]
+      x-enum-varnames: [NetworkConflictSourceTypeNetworkSpace, NetworkConflictSourceTypeNetworkResource, NetworkConflictSourceTypeLAN, NetworkConflictSourceTypeWireGuardOverlay, NetworkConflictSourceTypeContainer, NetworkConflictSourceTypeKubernetesPod, NetworkConflictSourceTypeKubernetesService, NetworkConflictSourceTypeRFC6598, NetworkConflictSourceTypeMihomoFakeIP]
+    NetworkConflictRange:
+      type: object
+      required: [sourceType, name, cidr]
+      properties:
+        sourceType: { $ref: "#/components/schemas/NetworkConflictSourceType" }
+        sourceId: { type: string, minLength: 1, maxLength: 128 }
+        name: { type: string, minLength: 1, maxLength: 200 }
+        cidr: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+      additionalProperties: false
+    NetworkConflictAnalysisRequest:
+      type: object
+      required: [runtimeRanges]
+      properties:
+        runtimeRanges:
+          type: array
+          maxItems: 128
+          items: { $ref: "#/components/schemas/NetworkConflictRange" }
+      additionalProperties: false
+    NetworkConflict:
+      type: object
+      required: [left, right, reason]
+      properties:
+        left: { $ref: "#/components/schemas/NetworkConflictRange" }
+        right: { $ref: "#/components/schemas/NetworkConflictRange" }
+        reason:
+          type: string
+          enum: [duplicate, overlap]
+      additionalProperties: false
+    NetworkConflictAnalysisResult:
+      type: object
+      required: [valid, rangesAnalyzed, conflicts, warnings]
+      properties:
+        valid: { type: boolean }
+        rangesAnalyzed: { type: integer, minimum: 0, maximum: 100000 }
+        conflicts:
+          type: array
+          maxItems: 10000
+          items: { $ref: "#/components/schemas/NetworkConflict" }
+        warnings:
+          type: array
+          maxItems: 128
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 256 }
+      additionalProperties: false
+    NetworkConflictAnalysisEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkConflictAnalysisResult" }
+      additionalProperties: false
+    NetworkAccessMode:
+      type: string
+      enum: [internal_direct, internal_ztna, external_vpn, external_vpn_ztna, external_direct_ztna]
+      x-enum-varnames: [NetworkAccessModeInternalDirect, NetworkAccessModeInternalZTNA, NetworkAccessModeExternalVPN, NetworkAccessModeExternalVPNZTNA, NetworkAccessModeExternalDirectZTNA]
+    NetworkPolicyDecision:
+      type: string
+      enum: [allow, deny]
+      x-enum-varnames: [NetworkPolicyDecisionAllow, NetworkPolicyDecisionDeny]
+    NetworkPolicyPath:
+      type: string
+      enum: [site_direct, wireguard, wireguard_ztna, access_proxy, deny]
+      x-enum-varnames: [NetworkPolicyPathSiteDirect, NetworkPolicyPathWireGuard, NetworkPolicyPathWireGuardZTNA, NetworkPolicyPathAccessProxy, NetworkPolicyPathDeny]
+    NetworkLease:
+      type: object
+      required: [id, sessionId, subjectId, deviceId, networkSpaceId, cidrs, policyVersion, status, issuedAt, expiresAt]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        sessionId: { type: string, minLength: 1, maxLength: 128 }
+        subjectId: { type: string, minLength: 1, maxLength: 128 }
+        deviceId: { type: string, minLength: 1, maxLength: 128 }
+        networkSpaceId: { type: string, minLength: 1, maxLength: 128 }
+        cidrs:
+          type: array
+          minItems: 1
+          maxItems: 128
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+        policyVersion: { type: integer, minimum: 1 }
+        status: { $ref: "#/components/schemas/NetworkLeaseStatus" }
+        issuedAt: { type: string, format: date-time }
+        expiresAt: { type: string, format: date-time }
+      additionalProperties: false
+    ResourceLease:
+      type: object
+      required: [id, sessionId, subjectId, deviceId, resourceIds, policyVersion, status, issuedAt, expiresAt]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        sessionId: { type: string, minLength: 1, maxLength: 128 }
+        subjectId: { type: string, minLength: 1, maxLength: 128 }
+        deviceId: { type: string, minLength: 1, maxLength: 128 }
+        resourceIds:
+          type: array
+          minItems: 1
+          maxItems: 256
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 128 }
+        policyVersion: { type: integer, minimum: 1 }
+        status: { $ref: "#/components/schemas/NetworkLeaseStatus" }
+        issuedAt: { type: string, format: date-time }
+        expiresAt: { type: string, format: date-time }
+      additionalProperties: false
+    NetworkAccessGrantStatus:
+      type: string
+      enum: [issued, consumed, revoked, expired]
+      x-enum-varnames: [NetworkAccessGrantStatusIssued, NetworkAccessGrantStatusConsumed, NetworkAccessGrantStatusRevoked, NetworkAccessGrantStatusExpired]
+    NetworkAccessGrantInput:
+      type: object
+      required: [deviceId, siteId, networkSpaceId, mode, resourceIds]
+      properties:
+        deviceId: { type: string, minLength: 1, maxLength: 128 }
+        siteId: { type: string, minLength: 1, maxLength: 128 }
+        networkSpaceId: { type: string, minLength: 1, maxLength: 128 }
+        mode:
+          type: string
+          enum: [internal_ztna, external_vpn_ztna, external_direct_ztna]
+          x-enum-varnames: [NetworkAccessGrantModeInternalZTNA, NetworkAccessGrantModeExternalVPNZTNA, NetworkAccessGrantModeExternalDirectZTNA]
+        resourceIds:
+          type: array
+          minItems: 1
+          maxItems: 256
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 128 }
+        ttlSeconds: { type: integer, minimum: 60, maximum: 300, default: 300 }
+      additionalProperties: false
+    NetworkAccessGrant:
+      type: object
+      required: [id, subjectId, deviceId, siteId, networkSpaceId, mode, resourceIds, policyVersion, status, createdBy, createdAt, expiresAt]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        subjectId: { type: string, minLength: 1, maxLength: 128 }
+        deviceId: { type: string, minLength: 1, maxLength: 128 }
+        siteId: { type: string, minLength: 1, maxLength: 128 }
+        networkSpaceId: { type: string, minLength: 1, maxLength: 128 }
+        mode:
+          type: string
+          enum: [internal_ztna, external_vpn_ztna, external_direct_ztna]
+          x-enum-varnames: [NetworkAccessGrantModeInternalZTNA, NetworkAccessGrantModeExternalVPNZTNA, NetworkAccessGrantModeExternalDirectZTNA]
+        resourceIds:
+          type: array
+          minItems: 1
+          maxItems: 256
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 128 }
+        policyVersion: { type: integer, minimum: 1 }
+        status: { $ref: "#/components/schemas/NetworkAccessGrantStatus" }
+        sessionId: { type: string, minLength: 1, maxLength: 128 }
+        resourceLeaseIds:
+          type: array
+          maxItems: 512
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 128 }
+        reasonCode: { type: string, minLength: 1, maxLength: 128 }
+        createdBy: { type: string, minLength: 1, maxLength: 128 }
+        createdAt: { type: string, format: date-time }
+        expiresAt: { type: string, format: date-time }
+        consumedAt: { type: string, format: date-time }
+        revokedAt: { type: string, format: date-time }
+      additionalProperties: false
+    NetworkAccessGrantSecret:
+      type: object
+      required: [grant, token]
+      properties:
+        grant: { $ref: "#/components/schemas/NetworkAccessGrant" }
+        token:
+          type: string
+          minLength: 32
+          maxLength: 512
+          format: password
+          description: One-time token returned only by the successful create response and consumed by network-control.
+      additionalProperties: false
+    NetworkAccessGrantEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkAccessGrant" }
+      additionalProperties: false
+    NetworkAccessGrantSecretEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkAccessGrantSecret" }
+      additionalProperties: false
+    NetworkAccessGrantListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          maxItems: 200
+          items: { $ref: "#/components/schemas/NetworkAccessGrant" }
+      additionalProperties: false
+    NetworkSession:
+      type: object
+      required: [id, subjectId, deviceId, mode, path, accessProfile, status, policyVersion, networkLeaseIds, resourceLeaseIds, startedAt, expiresAt]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        subjectId: { type: string, minLength: 1, maxLength: 128 }
+        deviceId: { type: string, minLength: 1, maxLength: 128 }
+        siteId: { type: string, minLength: 1, maxLength: 128 }
+        gatewayId: { type: string, minLength: 1, maxLength: 128 }
+        nasId: { type: string, minLength: 1, maxLength: 128 }
+        mode: { $ref: "#/components/schemas/NetworkAccessMode" }
+        path: { $ref: "#/components/schemas/NetworkPolicyPath" }
+        accessProfile: { $ref: "#/components/schemas/NetworkAccessProfile" }
+        status: { $ref: "#/components/schemas/NetworkSessionStatus" }
+        policyVersion: { type: integer, minimum: 1 }
+        networkLeaseIds:
+          type: array
+          maxItems: 256
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 128 }
+        resourceLeaseIds:
+          type: array
+          maxItems: 512
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 128 }
+        reasonCode: { type: string, minLength: 1, maxLength: 128 }
+        startedAt: { type: string, format: date-time }
+        expiresAt: { type: string, format: date-time }
+      additionalProperties: false
+    NetworkSessionEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkSession" }
+      additionalProperties: false
+    NetworkSessionListEnvelope:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          maxItems: 200
+          items: { $ref: "#/components/schemas/NetworkSession" }
+      additionalProperties: false
+    NetworkSessionAction:
+      type: string
+      enum: [coa, disconnect]
+      x-enum-varnames: [NetworkSessionActionCoA, NetworkSessionActionDisconnect]
+    NetworkSessionActionInput:
+      type: object
+      required: [action, targetAccessProfile, reasonCode]
+      properties:
+        action: { $ref: "#/components/schemas/NetworkSessionAction" }
+        targetAccessProfile: { $ref: "#/components/schemas/NetworkAccessProfile" }
+        reasonCode: { type: string, minLength: 1, maxLength: 128 }
+      additionalProperties: false
+    NetworkSessionActionExecuteInput:
+      type: object
+      required: [action, targetAccessProfile, reasonCode, planHash]
+      properties:
+        action: { $ref: "#/components/schemas/NetworkSessionAction" }
+        targetAccessProfile: { $ref: "#/components/schemas/NetworkAccessProfile" }
+        reasonCode: { type: string, minLength: 1, maxLength: 128 }
+        planHash: { type: string, pattern: '^sha256:[a-f0-9]{64}$' }
+      additionalProperties: false
+    NetworkSessionActionPlan:
+      type: object
+      required: [sessionId, runtimeId, nasId, requestedAction, effectiveAction, currentAccessProfile, targetAccessProfile, reasonCode, willDisconnect, commandExpiresAt, planHash]
+      properties:
+        sessionId: { type: string, minLength: 1, maxLength: 128 }
+        runtimeId: { type: string, minLength: 1, maxLength: 128 }
+        nasId: { type: string, minLength: 1, maxLength: 128 }
+        requestedAction: { $ref: "#/components/schemas/NetworkSessionAction" }
+        effectiveAction: { $ref: "#/components/schemas/NetworkSessionAction" }
+        currentAccessProfile: { $ref: "#/components/schemas/NetworkAccessProfile" }
+        targetAccessProfile: { $ref: "#/components/schemas/NetworkAccessProfile" }
+        reasonCode: { type: string, minLength: 1, maxLength: 128 }
+        willDisconnect: { type: boolean }
+        commandExpiresAt: { type: string, format: date-time }
+        planHash: { type: string, pattern: '^sha256:[a-f0-9]{64}$' }
+      additionalProperties: false
+    NetworkSessionActionPlanEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkSessionActionPlan" }
+      additionalProperties: false
+    NetworkSessionCommandStatus:
+      type: string
+      enum: [pending, delivered, applied, rejected, unsupported, timed-out, expired]
+      x-enum-varnames: [NetworkSessionCommandStatusPending, NetworkSessionCommandStatusDelivered, NetworkSessionCommandStatusApplied, NetworkSessionCommandStatusRejected, NetworkSessionCommandStatusUnsupported, NetworkSessionCommandStatusTimedOut, NetworkSessionCommandStatusExpired]
+    NetworkSessionCommand:
+      type: object
+      required: [id, sessionId, runtimeId, nasId, action, targetAccessProfile, policyVersion, status, reasonCode, effectiveAt, expiresAt, createdAt]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 128 }
+        sessionId: { type: string, minLength: 1, maxLength: 128 }
+        runtimeId: { type: string, minLength: 1, maxLength: 128 }
+        nasId: { type: string, minLength: 1, maxLength: 128 }
+        action: { $ref: "#/components/schemas/NetworkSessionAction" }
+        targetAccessProfile: { $ref: "#/components/schemas/NetworkAccessProfile" }
+        policyVersion: { type: integer, minimum: 1 }
+        status: { $ref: "#/components/schemas/NetworkSessionCommandStatus" }
+        reasonCode: { type: string, minLength: 1, maxLength: 128 }
+        effectiveAt: { type: string, format: date-time }
+        expiresAt: { type: string, format: date-time }
+        completedAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+      additionalProperties: false
+    NetworkSessionCommandEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkSessionCommand" }
+      additionalProperties: false
+    NetworkPolicyPreviewRequest:
+      type: object
+      required: [subjectUserId, deviceId, resourceId, mode]
+      properties:
+        subjectUserId: { type: string, minLength: 1, maxLength: 128 }
+        deviceId: { type: string, minLength: 1, maxLength: 128 }
+        resourceId: { type: string, minLength: 1, maxLength: 128 }
+        mode: { $ref: "#/components/schemas/NetworkAccessMode" }
+        siteId: { type: string, minLength: 1, maxLength: 128 }
+      additionalProperties: false
+    NetworkPolicyPreviewResult:
+      type: object
+      required: [decision, path, policyVersion, protected, networkLeaseRequired, resourceLeaseRequired, reasons]
+      properties:
+        decision: { $ref: "#/components/schemas/NetworkPolicyDecision" }
+        path: { $ref: "#/components/schemas/NetworkPolicyPath" }
+        policyVersion: { type: integer, minimum: 0 }
+        protected: { type: boolean }
+        networkProfile: { type: string, minLength: 1, maxLength: 128 }
+        networkLeaseRequired: { type: boolean }
+        resourceLeaseRequired: { type: boolean }
+        reasons:
+          type: array
+          minItems: 1
+          maxItems: 32
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 256 }
+      additionalProperties: false
+    NetworkPolicyPreviewEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkPolicyPreviewResult" }
+      additionalProperties: false

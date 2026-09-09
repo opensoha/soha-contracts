@@ -32,6 +32,8 @@ auth/token-claims.schema.json         Token/JWT claims contract
 auth/permission-catalog.json          Canonical resource/action permission catalog
 auth/permission-catalog.schema.json   Permission definition and migration metadata
 connectors/connector-event-envelope.schema.json  Connector runtime event batch envelope
+network/network-runtime-protocol.schema.json  Network control/runtime message contract
+network/network-ingest-event.schema.json  Bounded heartbeat, Accounting and flow event batches
 gen/go/sohaapi                        Go SDK types for stable cross-repo contracts
 gen/ts/sohaapi                        TypeScript SDK types for stable Web contracts
 ```
@@ -147,6 +149,12 @@ failure.
 
 ## Consumer Matrix
 
+Network runtime schemas and network-access DTOs require `0.1.17` or later;
+they are absent from npm `0.1.16` and Go `v0.1.15`. For unpublished changes,
+use the local consumer matrix below: it packs this checkout for Web and
+supplies an isolated Go workspace. After publishing, update consumer versions
+and lockfiles and verify them without the local override.
+
 The cross-repository consumer gate is:
 
 ```sh
@@ -163,9 +171,10 @@ npm run check:consumers -- --consumer soha-cli --require-all
 npm run check:consumers -- --consumer soha-agent --require-all
 ```
 
-Go consumers run in a temporary `go.work` that includes this checkout, so
-changes are tested against the local contracts module. `soha-web` runs
-`npm ci` and `npm run build` against its `file:../soha-contracts` dependency.
+Go consumers run in a temporary `go.work` that replaces the contracts module
+with this checkout. `soha-web` runs `npm ci`, installs a packed copy of this
+checkout without changing its dependency manifest or lockfile, and builds
+against that package.
 
 Use `--dry-run` to inspect the discovered commands without executing consumer
 builds.

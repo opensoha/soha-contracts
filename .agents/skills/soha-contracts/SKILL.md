@@ -1,11 +1,6 @@
 ---
 name: soha-contracts
-description: >-
-  Implement or review public OpenSoha contracts in OpenAPI, JSON Schema,
-  generated Go and TypeScript SDKs, compatibility baselines, examples,
-  fixtures, and release artifacts. Use when shared API behavior, agent or
-  runner protocols, MCP, skills, plugins, connectors, knowledge, evaluation,
-  memory, auth, or cross-repository DTOs change.
+description: Change or review shared OpenSoha API schemas, protocol contracts, generated SDKs, compatibility, and releases. Consumer-only UI changes do not require contract edits.
 ---
 
 # Soha Contracts
@@ -28,8 +23,8 @@ import paths.
 4. Run `npm run generate` when OpenAPI DTOs change. Review generated diffs;
    never patch generated DTOs to bypass the source schema.
 5. Update consumers one repository at a time after the contract gate passes.
-6. Run the focused compatibility checks, then `npm test`. Run the consumer
-   matrix for every affected consumer.
+6. For public contract changes, run focused compatibility checks, `npm test`, and the complete
+   four-consumer matrix below. Collaboration skill prose changes do not regenerate SDKs or run consumers.
 
 ## Ownership Rules
 
