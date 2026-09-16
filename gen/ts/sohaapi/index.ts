@@ -11174,11 +11174,13 @@ export interface components {
         IdentityRuntimeCapabilityEnvelope: {
             data: components["schemas"]["IdentityRuntimeCapability"];
         };
+        /** @enum {string} */
+        IdentityResourceStatus: "active" | "draft" | "enabled" | "disabled" | "maintenance";
         /**
-         * @description Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
+         * @description Legacy Outpost management status; use runtimeStatus for observed health.
          * @enum {string}
          */
-        IdentityResourceStatus: "active" | "draft" | "enabled" | "disabled" | "maintenance" | "online" | "offline" | "degraded";
+        IdentityOutpostStatus: "active" | "draft" | "enabled" | "disabled" | "maintenance" | "online" | "offline" | "degraded";
         /** @enum {string} */
         IdentityApplicationProviderType: "link" | "oidc" | "proxy" | "saml";
         /** @enum {string} */
@@ -11648,7 +11650,7 @@ export interface components {
              * @deprecated
              * @description Legacy runtime status derived by the server. Use runtimeStatus and runtimeReason.
              */
-            status: components["schemas"]["IdentityResourceStatus"];
+            status: components["schemas"]["IdentityOutpostStatus"];
             /** @description Legacy node base address. Prefer the explicit forwardAuthUrl for edge integration. */
             endpoint?: string;
             /**
@@ -11713,7 +11715,7 @@ export interface components {
              * @deprecated
              * @description Compatibility input accepted but ignored. Runtime health is observed, not set by management writes.
              */
-            status: components["schemas"]["IdentityResourceStatus"];
+            status: components["schemas"]["IdentityOutpostStatus"];
             /** @description Legacy node base address. */
             endpoint?: string;
             /**
@@ -26101,6 +26103,7 @@ export type IdentityOutpostRuntimeCapability = components['schemas']['IdentityOu
 export type IdentityRuntimeCapability = components['schemas']['IdentityRuntimeCapability'];
 export type IdentityRuntimeCapabilityEnvelope = components['schemas']['IdentityRuntimeCapabilityEnvelope'];
 export type IdentityResourceStatus = components['schemas']['IdentityResourceStatus'];
+export type IdentityOutpostStatus = components['schemas']['IdentityOutpostStatus'];
 export type IdentityApplicationProviderType = components['schemas']['IdentityApplicationProviderType'];
 export type IdentityApplicationAssignmentSubjectType = components['schemas']['IdentityApplicationAssignmentSubjectType'];
 export type IdentityApplicationAssignmentEffect = components['schemas']['IdentityApplicationAssignmentEffect'];

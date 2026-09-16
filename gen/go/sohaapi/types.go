@@ -3758,6 +3758,42 @@ func (e IdentityOutpostRuntimeEventType) Valid() bool {
 	}
 }
 
+// Defines values for IdentityOutpostStatus.
+const (
+	IdentityOutpostStatusActive      IdentityOutpostStatus = "active"
+	IdentityOutpostStatusDegraded    IdentityOutpostStatus = "degraded"
+	IdentityOutpostStatusDisabled    IdentityOutpostStatus = "disabled"
+	IdentityOutpostStatusDraft       IdentityOutpostStatus = "draft"
+	IdentityOutpostStatusEnabled     IdentityOutpostStatus = "enabled"
+	IdentityOutpostStatusMaintenance IdentityOutpostStatus = "maintenance"
+	IdentityOutpostStatusOffline     IdentityOutpostStatus = "offline"
+	IdentityOutpostStatusOnline      IdentityOutpostStatus = "online"
+)
+
+// Valid indicates whether the value is a known member of the IdentityOutpostStatus enum.
+func (e IdentityOutpostStatus) Valid() bool {
+	switch e {
+	case IdentityOutpostStatusActive:
+		return true
+	case IdentityOutpostStatusDegraded:
+		return true
+	case IdentityOutpostStatusDisabled:
+		return true
+	case IdentityOutpostStatusDraft:
+		return true
+	case IdentityOutpostStatusEnabled:
+		return true
+	case IdentityOutpostStatusMaintenance:
+		return true
+	case IdentityOutpostStatusOffline:
+		return true
+	case IdentityOutpostStatusOnline:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for IdentityPolicyEffect.
 const (
 	IdentityPolicyEffectAllow IdentityPolicyEffect = "allow"
@@ -3935,21 +3971,16 @@ func (e IdentityProviderUserMetadataProtocol) Valid() bool {
 // Defines values for IdentityResourceStatus.
 const (
 	IdentityResourceStatusActive      IdentityResourceStatus = "active"
-	IdentityResourceStatusDegraded    IdentityResourceStatus = "degraded"
 	IdentityResourceStatusDisabled    IdentityResourceStatus = "disabled"
 	IdentityResourceStatusDraft       IdentityResourceStatus = "draft"
 	IdentityResourceStatusEnabled     IdentityResourceStatus = "enabled"
 	IdentityResourceStatusMaintenance IdentityResourceStatus = "maintenance"
-	IdentityResourceStatusOffline     IdentityResourceStatus = "offline"
-	IdentityResourceStatusOnline      IdentityResourceStatus = "online"
 )
 
 // Valid indicates whether the value is a known member of the IdentityResourceStatus enum.
 func (e IdentityResourceStatus) Valid() bool {
 	switch e {
 	case IdentityResourceStatusActive:
-		return true
-	case IdentityResourceStatusDegraded:
 		return true
 	case IdentityResourceStatusDisabled:
 		return true
@@ -3958,10 +3989,6 @@ func (e IdentityResourceStatus) Valid() bool {
 	case IdentityResourceStatusEnabled:
 		return true
 	case IdentityResourceStatusMaintenance:
-		return true
-	case IdentityResourceStatusOffline:
-		return true
-	case IdentityResourceStatusOnline:
 		return true
 	default:
 		return false
@@ -9136,25 +9163,25 @@ func (e WorkbenchAgentStatusEventProviderKind) Valid() bool {
 
 // Defines values for WorkbenchAgentStatusEventStatus.
 const (
-	WorkbenchAgentStatusEventStatusCancelled WorkbenchAgentStatusEventStatus = "cancelled"
-	WorkbenchAgentStatusEventStatusFailed    WorkbenchAgentStatusEventStatus = "failed"
-	WorkbenchAgentStatusEventStatusQueued    WorkbenchAgentStatusEventStatus = "queued"
-	WorkbenchAgentStatusEventStatusRunning   WorkbenchAgentStatusEventStatus = "running"
-	WorkbenchAgentStatusEventStatusSucceeded WorkbenchAgentStatusEventStatus = "succeeded"
+	Cancelled WorkbenchAgentStatusEventStatus = "cancelled"
+	Failed    WorkbenchAgentStatusEventStatus = "failed"
+	Queued    WorkbenchAgentStatusEventStatus = "queued"
+	Running   WorkbenchAgentStatusEventStatus = "running"
+	Succeeded WorkbenchAgentStatusEventStatus = "succeeded"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchAgentStatusEventStatus enum.
 func (e WorkbenchAgentStatusEventStatus) Valid() bool {
 	switch e {
-	case WorkbenchAgentStatusEventStatusCancelled:
+	case Cancelled:
 		return true
-	case WorkbenchAgentStatusEventStatusFailed:
+	case Failed:
 		return true
-	case WorkbenchAgentStatusEventStatusQueued:
+	case Queued:
 		return true
-	case WorkbenchAgentStatusEventStatusRunning:
+	case Running:
 		return true
-	case WorkbenchAgentStatusEventStatusSucceeded:
+	case Succeeded:
 		return true
 	default:
 		return false
@@ -16798,12 +16825,10 @@ type IdentityApplication struct {
 	ProviderType   IdentityApplicationProviderType `json:"providerType,omitempty"`
 	Slug           string                          `json:"slug"`
 	SortOrder      int                             `json:"sortOrder,omitempty"`
-
-	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
-	Status    IdentityResourceStatus `json:"status"`
-	Tags      []string               `json:"tags,omitempty"`
-	UpdatedAt time.Time              `json:"updatedAt"`
-	UpdatedBy string                 `json:"updatedBy,omitempty"`
+	Status         IdentityResourceStatus          `json:"status"`
+	Tags           []string                        `json:"tags,omitempty"`
+	UpdatedAt      time.Time                       `json:"updatedAt"`
+	UpdatedBy      string                          `json:"updatedBy,omitempty"`
 }
 
 // IdentityApplicationAssignment defines model for IdentityApplicationAssignment.
@@ -16850,10 +16875,8 @@ type IdentityApplicationInput struct {
 	ProviderType  IdentityApplicationProviderType      `json:"providerType,omitempty"`
 	Slug          string                               `json:"slug"`
 	SortOrder     int                                  `json:"sortOrder,omitempty"`
-
-	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
-	Status IdentityResourceStatus `json:"status"`
-	Tags   []string               `json:"tags,omitempty"`
+	Status        IdentityResourceStatus               `json:"status"`
+	Tags          []string                             `json:"tags,omitempty"`
 }
 
 // IdentityApplicationLaunch defines model for IdentityApplicationLaunch.
@@ -16967,8 +16990,8 @@ type IdentityOutpost struct {
 	RuntimeStatus   IdentityCapabilityStatus `json:"runtimeStatus"`
 	RuntimeVersion  string                   `json:"runtimeVersion,omitempty"`
 
-	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
-	Status IdentityResourceStatus `json:"status"`
+	// Status Legacy Outpost management status; use runtimeStatus for observed health.
+	Status IdentityOutpostStatus `json:"status"`
 
 	// Token Returned once on creation or token rotation; omitted from normal reads.
 	Token     string    `json:"token,omitempty"`
@@ -17072,8 +17095,8 @@ type IdentityOutpostInput struct {
 	Mode           IdentityOutpostMode `json:"mode"`
 	Name           string              `json:"name"`
 
-	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
-	Status IdentityResourceStatus `json:"status"`
+	// Status Legacy Outpost management status; use runtimeStatus for observed health.
+	Status IdentityOutpostStatus `json:"status"`
 
 	// Version Compatibility input accepted but ignored.
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
@@ -17137,22 +17160,23 @@ type IdentityOutpostRuntimeEvent struct {
 // IdentityOutpostRuntimeEventType defines model for IdentityOutpostRuntimeEvent.Type.
 type IdentityOutpostRuntimeEventType string
 
+// IdentityOutpostStatus Legacy Outpost management status; use runtimeStatus for observed health.
+type IdentityOutpostStatus string
+
 // IdentityPolicy defines model for IdentityPolicy.
 type IdentityPolicy struct {
-	ApplicationIDs []string             `json:"applicationIds"`
-	CreatedAt      time.Time            `json:"createdAt"`
-	Description    string               `json:"description,omitempty"`
-	Effect         IdentityPolicyEffect `json:"effect"`
-	ID             string               `json:"id"`
-	Name           string               `json:"name"`
-	Priority       int                  `json:"priority"`
-	RequireMFA     bool                 `json:"requireMFA"`
-	RoleIDs        []string             `json:"roleIds,omitempty"`
-
-	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
-	Status    IdentityResourceStatus `json:"status"`
-	TeamIDs   []string               `json:"teamIds,omitempty"`
-	UpdatedAt time.Time              `json:"updatedAt"`
+	ApplicationIDs []string               `json:"applicationIds"`
+	CreatedAt      time.Time              `json:"createdAt"`
+	Description    string                 `json:"description,omitempty"`
+	Effect         IdentityPolicyEffect   `json:"effect"`
+	ID             string                 `json:"id"`
+	Name           string                 `json:"name"`
+	Priority       int                    `json:"priority"`
+	RequireMFA     bool                   `json:"requireMFA"`
+	RoleIDs        []string               `json:"roleIds,omitempty"`
+	Status         IdentityResourceStatus `json:"status"`
+	TeamIDs        []string               `json:"teamIds,omitempty"`
+	UpdatedAt      time.Time              `json:"updatedAt"`
 }
 
 // IdentityPolicyEffect defines model for IdentityPolicyEffect.
@@ -17165,17 +17189,15 @@ type IdentityPolicyEnvelope struct {
 
 // IdentityPolicyInput defines model for IdentityPolicyInput.
 type IdentityPolicyInput struct {
-	ApplicationIDs []string             `json:"applicationIds"`
-	Description    string               `json:"description,omitempty"`
-	Effect         IdentityPolicyEffect `json:"effect"`
-	Name           string               `json:"name"`
-	Priority       int                  `json:"priority"`
-	RequireMFA     bool                 `json:"requireMFA"`
-	RoleIDs        []string             `json:"roleIds,omitempty"`
-
-	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
-	Status  IdentityResourceStatus `json:"status"`
-	TeamIDs []string               `json:"teamIds,omitempty"`
+	ApplicationIDs []string               `json:"applicationIds"`
+	Description    string                 `json:"description,omitempty"`
+	Effect         IdentityPolicyEffect   `json:"effect"`
+	Name           string                 `json:"name"`
+	Priority       int                    `json:"priority"`
+	RequireMFA     bool                   `json:"requireMFA"`
+	RoleIDs        []string               `json:"roleIds,omitempty"`
+	Status         IdentityResourceStatus `json:"status"`
+	TeamIDs        []string               `json:"teamIds,omitempty"`
 }
 
 // IdentityPolicyListEnvelope defines model for IdentityPolicyListEnvelope.
@@ -17201,13 +17223,11 @@ type IdentityProvider struct {
 
 	// SecretRefs Deprecated response field retained for 0.1.x SDK compatibility; current servers omit it.
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
-	SecretRefs map[string]any `json:"secretRefs,omitempty"`
-
-	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
-	Status    IdentityResourceStatus `json:"status"`
-	Type      IdentityProviderType   `json:"type"`
-	UpdatedAt time.Time              `json:"updatedAt"`
-	UpdatedBy string                 `json:"updatedBy,omitempty"`
+	SecretRefs map[string]any         `json:"secretRefs,omitempty"`
+	Status     IdentityResourceStatus `json:"status"`
+	Type       IdentityProviderType   `json:"type"`
+	UpdatedAt  time.Time              `json:"updatedAt"`
+	UpdatedBy  string                 `json:"updatedBy,omitempty"`
 }
 
 // IdentityProviderEnvelope defines model for IdentityProviderEnvelope.
@@ -17223,11 +17243,9 @@ type IdentityProviderInput struct {
 	Name          string         `json:"name"`
 
 	// SecretRefs Omit on update to preserve existing references; send an empty object to clear them.
-	SecretRefs SecretReferenceMap `json:"secretRefs,omitempty"`
-
-	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
-	Status IdentityResourceStatus `json:"status"`
-	Type   IdentityProviderType   `json:"type"`
+	SecretRefs SecretReferenceMap     `json:"secretRefs,omitempty"`
+	Status     IdentityResourceStatus `json:"status"`
+	Type       IdentityProviderType   `json:"type"`
 }
 
 // IdentityProviderListEnvelope defines model for IdentityProviderListEnvelope.
@@ -17308,7 +17326,7 @@ type IdentityProviderUserMetadataEnvelope struct {
 	Data IdentityProviderUserMetadata `json:"data"`
 }
 
-// IdentityResourceStatus Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
+// IdentityResourceStatus defines model for IdentityResourceStatus.
 type IdentityResourceStatus string
 
 // IdentityRuntimeCapability defines model for IdentityRuntimeCapability.
@@ -23622,13 +23640,11 @@ type OIDCClient struct {
 	RedirectURIRegexes []string `json:"redirectUriRegexes,omitempty"`
 
 	// RedirectUris Strict-match absolute HTTP or HTTPS redirect URIs. HTTPS is recommended for production deployments.
-	RedirectUris           []string `json:"redirectUris"`
-	RefreshTokenTTLSeconds int      `json:"refreshTokenTtlSeconds,omitempty"`
-	RequirePkce            bool     `json:"requirePkce,omitempty"`
-
-	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
-	Status    IdentityResourceStatus `json:"status"`
-	UpdatedAt time.Time              `json:"updatedAt"`
+	RedirectUris           []string               `json:"redirectUris"`
+	RefreshTokenTTLSeconds int                    `json:"refreshTokenTtlSeconds,omitempty"`
+	RequirePkce            bool                   `json:"requirePkce,omitempty"`
+	Status                 IdentityResourceStatus `json:"status"`
+	UpdatedAt              time.Time              `json:"updatedAt"`
 }
 
 // OIDCClientAllowedGrantTypes defines model for OIDCClient.AllowedGrantTypes.
@@ -23682,12 +23698,10 @@ type OIDCClientInput struct {
 	RedirectURIRegexes []string `json:"redirectUriRegexes,omitempty"`
 
 	// RedirectUris Strict-match absolute HTTP or HTTPS redirect URIs. At least one redirectUris or redirectUriRegexes entry is required. HTTPS is recommended for production deployments.
-	RedirectUris           []string `json:"redirectUris,omitempty"`
-	RefreshTokenTTLSeconds int      `json:"refreshTokenTtlSeconds,omitempty"`
-	RequirePkce            bool     `json:"requirePkce,omitempty"`
-
-	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
-	Status IdentityResourceStatus `json:"status,omitempty"`
+	RedirectUris           []string               `json:"redirectUris,omitempty"`
+	RefreshTokenTTLSeconds int                    `json:"refreshTokenTtlSeconds,omitempty"`
+	RequirePkce            bool                   `json:"requirePkce,omitempty"`
+	Status                 IdentityResourceStatus `json:"status,omitempty"`
 }
 
 // OIDCClientInputAllowedGrantTypes defines model for OIDCClientInput.AllowedGrantTypes.
@@ -25834,8 +25848,6 @@ type SAMLLoginSource struct {
 	NameIDFormat            SAMLNameIDFormat       `json:"nameIdFormat"`
 	SingleSignOnURL         string                 `json:"singleSignOnUrl,omitempty"`
 	SloURL                  string                 `json:"sloUrl,omitempty"`
-
-	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
 	Status                  IdentityResourceStatus `json:"status"`
 	UpdatedAt               time.Time              `json:"updatedAt"`
 	WantAuthnRequestsSigned bool                   `json:"wantAuthnRequestsSigned"`
@@ -25859,8 +25871,6 @@ type SAMLLoginSourceInput struct {
 	SigningPrivateKeyRef    string                 `json:"signingPrivateKeyRef,omitempty"`
 	SingleSignOnURL         string                 `json:"singleSignOnUrl"`
 	SloURL                  string                 `json:"sloUrl,omitempty"`
-
-	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
 	Status                  IdentityResourceStatus `json:"status"`
 	WantAuthnRequestsSigned bool                   `json:"wantAuthnRequestsSigned"`
 }
@@ -25875,9 +25885,7 @@ type SAMLMetadataImportRequest struct {
 	AttributeMappings []SAMLAttributeMapping `json:"attributeMappings,omitempty"`
 	Metadata          SAMLMetadataInput      `json:"metadata"`
 	Name              string                 `json:"name"`
-
-	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
-	Status IdentityResourceStatus `json:"status"`
+	Status            IdentityResourceStatus `json:"status"`
 }
 
 // SAMLMetadataInput defines model for SAMLMetadataInput.

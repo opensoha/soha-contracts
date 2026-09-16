@@ -20606,7 +20606,7 @@
             "type": "string"
           },
           "status": {
-            "$ref": "#/components/schemas/IdentityResourceStatus",
+            "$ref": "#/components/schemas/IdentityOutpostStatus",
             "deprecated": true,
             "description": "Legacy runtime status derived by the server. Use runtimeStatus and runtimeReason."
           },
@@ -20934,7 +20934,7 @@
             "type": "string"
           },
           "status": {
-            "$ref": "#/components/schemas/IdentityResourceStatus",
+            "$ref": "#/components/schemas/IdentityOutpostStatus",
             "deprecated": true,
             "description": "Compatibility input accepted but ignored. Runtime health is observed, not set by management writes."
           },
@@ -21141,6 +21141,20 @@
           "occurredAt"
         ],
         "type": "object"
+      },
+      "IdentityOutpostStatus": {
+        "description": "Legacy Outpost management status; use runtimeStatus for observed health.",
+        "enum": [
+          "active",
+          "draft",
+          "enabled",
+          "disabled",
+          "maintenance",
+          "online",
+          "offline",
+          "degraded"
+        ],
+        "type": "string"
       },
       "IdentityPolicy": {
         "additionalProperties": false,
@@ -21655,16 +21669,12 @@
         "type": "object"
       },
       "IdentityResourceStatus": {
-        "description": "Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.",
         "enum": [
           "active",
           "draft",
           "enabled",
           "disabled",
-          "maintenance",
-          "online",
-          "offline",
-          "degraded"
+          "maintenance"
         ],
         "type": "string"
       },

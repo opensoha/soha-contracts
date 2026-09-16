@@ -156,7 +156,7 @@ func TestApprovalScopeKeepsMapCompatibility(t *testing.T) {
 	if err := json.Unmarshal([]byte(`{"resourceScope":{"projectId":"project-1","invocationScopes":[{"hostId":"host-1","projectId":"project-1"}]}}`), &item); err != nil {
 		t.Fatal(err)
 	}
-	var scope map[string]any = item.ResourceScope
+	scope := item.ResourceScope
 	if len(scope) != 2 || scope["projectId"] != "project-1" {
 		t.Fatalf("scope lost: %v", scope)
 	}
@@ -169,7 +169,11 @@ func TestApprovalScopeKeepsMapCompatibility(t *testing.T) {
 		t.Fatal(err)
 	}
 	scopes, ok := again.ResourceScope["invocationScopes"].([]any)
-	if !ok || len(scopes) != 1 || scopes[0].(map[string]any)["hostId"] != "host-1" {
+	if !ok || len(scopes) != 1 {
 		t.Fatalf("resolved scopes lost: %s", encoded)
+	}
+	scope, ok = scopes[0].(map[string]any)
+	if !ok || scope["hostId"] != "host-1" {
+		t.Fatalf("resolved scope lost: %s", encoded)
 	}
 }

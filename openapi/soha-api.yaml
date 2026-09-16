@@ -20497,7 +20497,10 @@ components:
       additionalProperties: false
     IdentityResourceStatus:
       type: string
-      description: Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
+      enum: [active, draft, enabled, disabled, maintenance]
+    IdentityOutpostStatus:
+      type: string
+      description: Legacy Outpost management status; use runtimeStatus for observed health.
       enum: [active, draft, enabled, disabled, maintenance, online, offline, degraded]
     IdentityApplicationProviderType:
       type: string
@@ -21118,7 +21121,7 @@ components:
         name: { type: string }
         mode: { $ref: "#/components/schemas/IdentityOutpostMode" }
         status:
-          $ref: "#/components/schemas/IdentityResourceStatus"
+          $ref: "#/components/schemas/IdentityOutpostStatus"
           deprecated: true
           description: Legacy runtime status derived by the server. Use runtimeStatus and runtimeReason.
         endpoint: { type: string, description: Legacy node base address. Prefer the explicit forwardAuthUrl for edge integration. }
@@ -21161,7 +21164,7 @@ components:
         name: { type: string, minLength: 1, maxLength: 200 }
         mode: { $ref: "#/components/schemas/IdentityOutpostMode" }
         status:
-          $ref: "#/components/schemas/IdentityResourceStatus"
+          $ref: "#/components/schemas/IdentityOutpostStatus"
           deprecated: true
           description: Compatibility input accepted but ignored. Runtime health is observed, not set by management writes.
         endpoint: { type: string, maxLength: 2048, description: Legacy node base address. }
