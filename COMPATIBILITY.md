@@ -399,3 +399,12 @@ managed goal executor with the exact persisted invocation and current authorizat
 It does not promise rollback or authorize a new write. Consumers without these
 optional fields keep the existing version, idempotency, status, and cancellation
 behavior.
+
+## Contracts-first consumer revisions
+
+`compat/consumer-revisions.json` pins a reviewed consumer commit when a contracts
+release introduces APIs implemented by that consumer's pending change. Both CI
+and release use the same commit and run the complete existing consumer checks.
+Unlisted consumers use `main`. Replace the pin with `main` (or remove it) once the
+matching consumer changes reach its default branch; do not skip failed checks to
+resolve a release-order dependency.
