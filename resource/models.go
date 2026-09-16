@@ -1097,6 +1097,10 @@ type CRDView struct {
 }
 
 type CustomResourceView struct {
+	UID            string            `json:"uid,omitempty"`
+	Generation     int64             `json:"generation,omitempty"`
+	DeletingAt     string            `json:"deletingAt,omitempty"`
+	Finalizers     []string          `json:"finalizers,omitempty"`
 	APIVersion     string            `json:"apiVersion,omitempty"`
 	Kind           string            `json:"kind"`
 	Name           string            `json:"name"`
@@ -1105,6 +1109,16 @@ type CustomResourceView struct {
 	CreatedAt      string            `json:"createdAt,omitempty"`
 	AgeSeconds     int64             `json:"ageSeconds"`
 	AllowedActions []string          `json:"allowedActions,omitempty"`
+}
+
+// CustomResourceYAMLRequest is the Core/Agent custom-resource transport.
+// ExpectedUID fences deletion against replacement after a user viewed the object.
+type CustomResourceYAMLRequest struct {
+	Definition  CRDResourceDefinition `json:"definition"`
+	Namespace   string                `json:"namespace"`
+	Name        string                `json:"name,omitempty"`
+	Content     string                `json:"content,omitempty"`
+	ExpectedUID string                `json:"expectedUid,omitempty"`
 }
 
 type HelmReleaseView struct {

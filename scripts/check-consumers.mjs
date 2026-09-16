@@ -27,7 +27,6 @@ const consumers = [
         [
           "install",
           "--no-save",
-          "--package-lock=false",
           "--ignore-scripts",
           "--no-audit",
           "--no-fund",

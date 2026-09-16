@@ -1,7 +1,7 @@
 {
   "schemaVersion": "authorization.opensoha.io/v1",
   "catalogVersion": "2.0.0",
-  "contentHash": "sha256:f744896d362070a1e7cdc1eda89c046bee8132f37c6f323dafdd05644e2dbd3c",
+  "contentHash": "sha256:5b4c9eed71c549d61a6fd538db542681cb2932619d66ab031c74fcbaaa0c9867",
   "permissions": [
     {
       "key": "access.directory.create",
@@ -2847,6 +2847,62 @@
       "assignable": true
     },
     {
+      "key": "delivery.deployment-templates.create",
+      "domain": "delivery",
+      "resource": "deployment-templates",
+      "action": "create",
+      "displayName": "创建构建模板",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "workspace"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "delivery.deployment-templates.delete",
+      "domain": "delivery",
+      "resource": "deployment-templates",
+      "action": "delete",
+      "displayName": "删除构建模板",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "workspace"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "delivery.deployment-templates.update",
+      "domain": "delivery",
+      "resource": "deployment-templates",
+      "action": "update",
+      "displayName": "修改构建模板",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "workspace"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "delivery.deployment-templates.view",
+      "domain": "delivery",
+      "resource": "deployment-templates",
+      "action": "view",
+      "displayName": "查看构建模板",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "workspace"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
       "key": "delivery.execution-tasks.cancel",
       "domain": "delivery",
       "resource": "execution-tasks",
@@ -3316,6 +3372,126 @@
       "scopeKinds": [
         "workspace",
         "project",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "delivery.template-sources.create",
+      "domain": "delivery",
+      "resource": "template-sources",
+      "action": "create",
+      "displayName": "创建交付模板来源",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "delivery.template-sources.delete",
+      "domain": "delivery",
+      "resource": "template-sources",
+      "action": "delete",
+      "displayName": "移除交付模板来源",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "delivery.template-sources.sync",
+      "domain": "delivery",
+      "resource": "template-sources",
+      "action": "sync",
+      "displayName": "同步交付模板来源",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "delivery.template-sources.update",
+      "domain": "delivery",
+      "resource": "template-sources",
+      "action": "update",
+      "displayName": "修改交付模板来源",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "delivery.template-sources.view",
+      "domain": "delivery",
+      "resource": "template-sources",
+      "action": "view",
+      "displayName": "查看交付模板来源",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "delivery.triggers.create",
+      "domain": "delivery",
+      "resource": "triggers",
+      "action": "create",
+      "displayName": "创建交付触发器",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "delivery.triggers.update",
+      "domain": "delivery",
+      "resource": "triggers",
+      "action": "update",
+      "displayName": "修改交付触发器",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "delivery.triggers.view",
+      "domain": "delivery",
+      "resource": "triggers",
+      "action": "view",
+      "displayName": "查看交付触发器",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "workspace",
         "resource"
       ],
       "approvalPolicy": "never",
@@ -5020,6 +5196,198 @@
       "resource": "telemetry",
       "action": "view",
       "displayName": "查看网络遥测汇总",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.vpn_dashboard.view",
+      "domain": "network_access",
+      "resource": "vpn_dashboard",
+      "action": "view",
+      "displayName": "查看VPN 连接看板",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.vpn_profiles.create",
+      "domain": "network_access",
+      "resource": "vpn_profiles",
+      "action": "create",
+      "displayName": "创建VPN 连接方案",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.vpn_profiles.delete",
+      "domain": "network_access",
+      "resource": "vpn_profiles",
+      "action": "delete",
+      "displayName": "删除VPN 连接方案",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.vpn_profiles.publish",
+      "domain": "network_access",
+      "resource": "vpn_profiles",
+      "action": "publish",
+      "displayName": "发布VPN 连接方案",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.vpn_profiles.update",
+      "domain": "network_access",
+      "resource": "vpn_profiles",
+      "action": "update",
+      "displayName": "修改VPN 连接方案",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.vpn_profiles.view",
+      "domain": "network_access",
+      "resource": "vpn_profiles",
+      "action": "view",
+      "displayName": "查看VPN 连接方案",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.vpn_selection_policies.create",
+      "domain": "network_access",
+      "resource": "vpn_selection_policies",
+      "action": "create",
+      "displayName": "创建VPN 选择策略",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.vpn_selection_policies.delete",
+      "domain": "network_access",
+      "resource": "vpn_selection_policies",
+      "action": "delete",
+      "displayName": "删除VPN 选择策略",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.vpn_selection_policies.preview",
+      "domain": "network_access",
+      "resource": "vpn_selection_policies",
+      "action": "preview",
+      "displayName": "模拟VPN 选择策略",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.vpn_selection_policies.publish",
+      "domain": "network_access",
+      "resource": "vpn_selection_policies",
+      "action": "publish",
+      "displayName": "发布VPN 选择策略",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.vpn_selection_policies.update",
+      "domain": "network_access",
+      "resource": "vpn_selection_policies",
+      "action": "update",
+      "displayName": "修改VPN 选择策略",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.vpn_selection_policies.view",
+      "domain": "network_access",
+      "resource": "vpn_selection_policies",
+      "action": "view",
+      "displayName": "查看VPN 选择策略",
       "riskLevel": "read",
       "scopeKinds": [
         "tenant",
@@ -8783,6 +9151,20 @@
         "platform.network.services.view",
         "platform.network.topology.view"
       ]
+    },
+    {
+      "key": "platform.nodes.create",
+      "domain": "platform",
+      "resource": "nodes",
+      "action": "create",
+      "displayName": "创建 Kubernetes Node",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "cluster"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
     },
     {
       "key": "platform.nodes.delete",

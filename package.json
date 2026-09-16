@@ -1,6 +1,6 @@
 {
   "name": "@opensoha/contracts",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "private": false,
   "description": "Shared OpenSoha API, agent, MCP, skill, event, and auth contracts.",
   "license": "Apache-2.0",
@@ -28,6 +28,7 @@
     "test": "npm run check:version-sync && npm run check:generated && npm run validate && npm run lint:openapi && npm run check:openapi-breaking && npm run check:openapi-loose-boundaries && npm run check:json-schema-compat && npm run typecheck && go test ./..."
   },
   "exports": {
+    "./delivery/document.schema.json": "./delivery/document.schema.json",
     "./gen/ts/sohaapi": "./gen/ts/sohaapi/index.ts",
     "./openapi/soha-api.yaml": "./openapi/soha-api.yaml",
     "./openapi/soha-api.json": "./openapi/soha-api.json",
@@ -90,6 +91,7 @@
     "./memory/memory-policy.schema.json": "./memory/memory-policy.schema.json"
   },
   "files": [
+    "delivery",
     "COMPATIBILITY.md",
     "go.mod",
     "go.sum",

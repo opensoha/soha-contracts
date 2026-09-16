@@ -1,6 +1,262 @@
 // Code generated from OpenSoha contracts by openapi-typescript. DO NOT EDIT.
 
 export interface paths {
+    "/network-access/vpn/profiles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkVPNProfiles"];
+        put?: never;
+        post: operations["createNetworkVPNProfile"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/vpn/profiles/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkVPNProfile"];
+        put: operations["updateNetworkVPNProfile"];
+        post?: never;
+        delete: operations["deleteNetworkVPNProfile"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/vpn/profiles/{id}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["publishNetworkVPNProfile"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/vpn/profiles/{id}/rollback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["rollbackNetworkVPNProfile"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/vpn/profiles/{id}/revisions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkVPNProfileRevisions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/vpn/selection-policies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkVPNSelectionPolicies"];
+        put?: never;
+        post: operations["createNetworkVPNSelectionPolicy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/vpn/selection-policies/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkVPNSelectionPolicy"];
+        put: operations["updateNetworkVPNSelectionPolicy"];
+        post?: never;
+        delete: operations["deleteNetworkVPNSelectionPolicy"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/vpn/selection-policies/{id}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["publishNetworkVPNSelectionPolicy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/vpn/selection-policies/{id}/rollback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["rollbackNetworkVPNSelectionPolicy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/vpn/selection-policies/{id}/revisions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkVPNSelectionPolicyRevisions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/vpn/connection-options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listCurrentNetworkVPNConnectionOptions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/vpn/connection-intents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createCurrentNetworkVPNConnectionIntent"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/vpn/selection-preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["previewNetworkVPNSelection"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/vpn/dashboard": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkVPNDashboard"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/vpn/decisions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkVPNDecision"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/vpn/current-connection": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getCurrentNetworkVPNConnection"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/healthz": {
         parameters: {
             query?: never;
@@ -785,6 +1041,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/applications/{applicationID}/helm-chart": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Read a fixed Helm Chart package, defaults and optional schema in an authorized application environment. Does not install or update resources. */
+        post: operations["inspectApplicationHelmChart"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/applications/{applicationID}/buildpacks-capability": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read current dedicated runner readiness and its approved immutable toolchain for this application. This does not create a build. */
+        get: operations["getApplicationBuildpacksCapability"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/applications/{applicationID}": {
         parameters: {
             query?: never;
@@ -908,6 +1198,23 @@ export interface paths {
         put: operations["updateRepository"];
         post?: never;
         delete: operations["deleteRepository"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/applications/{applicationID}/repository-analysis": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Analyze fixed candidate files at a resolved commit in an application-linked repository. Requires application and repository visibility, without granting system integration management. Does not clone repositories, run scripts, or modify service configuration. */
+        post: operations["analyzeApplicationRepository"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -1121,6 +1428,551 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/deployment-templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** listServiceDeploymentTemplates */
+        get: operations["listServiceDeploymentTemplates"];
+        put?: never;
+        /** createServiceDeploymentTemplate */
+        post: operations["createServiceDeploymentTemplate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/deployment-templates/{deploymentTemplateID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** getServiceDeploymentTemplate */
+        get: operations["getServiceDeploymentTemplate"];
+        /** updateServiceDeploymentTemplate */
+        put: operations["updateServiceDeploymentTemplate"];
+        post?: never;
+        /** deprecateServiceDeploymentTemplate */
+        delete: operations["deprecateServiceDeploymentTemplate"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/deployment-templates/{deploymentTemplateID}/versions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** listServiceDeploymentTemplateVersions */
+        get: operations["listServiceDeploymentTemplateVersions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/deployment-templates/{deploymentTemplateID}/versions/{version}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** getServiceDeploymentTemplateVersion */
+        get: operations["getServiceDeploymentTemplateVersion"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/deployment-templates/{deploymentTemplateID}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** publishServiceDeploymentTemplate */
+        post: operations["publishServiceDeploymentTemplate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/applications/{applicationID}/deployment-template-preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** previewServiceDeploymentTemplate */
+        post: operations["previewServiceDeploymentTemplate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/builds": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description List authorized executions, newest first. Definition filters are applied before the limit. */
+        get: operations["listBuildRecords"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/workflows": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description List authorized executions, newest first. Definition filters are applied before the limit. */
+        get: operations["listWorkflowRuns"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/builds/trigger": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Trigger an application build. No environment or deployment target is required. */
+        post: operations["triggerBuild"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/documents/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Parse and authorize a bounded set of YAML or JSON documents. A valid preview stores immutable candidates for 30 minutes; it never publishes templates or starts execution. Every document retains the permissions of its existing template or workflow API. */
+        post: operations["previewDeliveryDocuments"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/documents/imports/{previewID}/apply": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Atomically import only the stored candidates after rechecking actor, expiry, digest, permissions and all target revisions. Templates become drafts; workflows are saved without execution. Replaying the same actor and idempotency key returns the original result. */
+        post: operations["applyDeliveryDocumentImport"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/documents/{kind}/{objectID}/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Export an explicitly selected immutable template version, or the current saved Workflow. A template version is required. Unsupported legacy fields return a diagnostic rather than being dropped; the original template API remains available. */
+        get: operations["exportDeliveryDocument"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/triggers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description List triggers within the caller's target permissions. Trigger configuration never executes its target. */
+        get: operations["listDeliveryTriggers"];
+        put?: never;
+        /** @description Configure a trigger using a proven service account token. Only its non-secret identity is retained. Both configuring and executing subjects must be authorized for the target. */
+        post: operations["createDeliveryTrigger"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/triggers/{triggerID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getDeliveryTrigger"];
+        /** @description Compare-and-swap configuration. Updating cancels undispatched events from the old revision. Secret replacement rotates the signing key immediately; omitting credentials retains them. */
+        put: operations["updateDeliveryTrigger"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/triggers/{triggerID}/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listDeliveryTriggerEvents"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/triggers/{triggerID}/webhook": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description GitLab Standard Webhooks HMAC-SHA256 over event ID, timestamp and exact body. Requires a signed timestamp within five minutes. Stable event IDs deduplicate delivery; conflicting content is rejected. Legacy unsigned tokens are not accepted. */
+        post: operations["receiveDeliveryTriggerWebhook"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/template-sources": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description List authorized Git template sources. Repository permission is checked for every returned source. */
+        get: operations["listDeliveryTemplateSources"];
+        put?: never;
+        /** @description Save a Git source configuration without reading the repository or importing definitions. */
+        post: operations["createDeliveryTemplateSource"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/template-sources/{sourceID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read a source configuration under source and repository permissions. */
+        get: operations["getDeliveryTemplateSource"];
+        /** @description Update source configuration with generation compare-and-swap. Existing templates, versions and bindings are retained. */
+        put: operations["updateDeliveryTemplateSource"];
+        post?: never;
+        /** @description After reviewing associated objects, end source management with an explicit disposition. Generation conflicts require a new review. No object, binding, run or immutable provenance is deleted. */
+        delete: operations["removeDeliveryTemplateSource"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/template-sources/{sourceID}/objects": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description List authorized active source associations, including removed files. Each returned object retains its normal view permission. */
+        get: operations["listDeliveryTemplateSourceObjects"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/template-sources/{sourceID}/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Perform one bounded manual checkout and persist a SyncRun with a fixed commit and a 30-minute import preview. Invalid files leave every existing object unchanged. The same source, actor and idempotency key identify the same attempt; no build or deployment starts. */
+        post: operations["syncDeliveryTemplateSource"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/template-sources/{sourceID}/sync-runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description List recent synchronization attempts without document contents. Read a single attempt to inspect its authorized candidate preview. */
+        get: operations["listDeliveryTemplateSyncRuns"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/template-sources/{sourceID}/sync-runs/{runID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read an attempt and, for its initiating actor with current object permissions, the stored candidates and removed-file impact. */
+        get: operations["getDeliveryTemplateSyncRun"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/template-sources/{sourceID}/sync-runs/{runID}/apply": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Accept only the stored candidate commit, generation and digest. Recheck source, repository and all object permissions; atomically import drafts and source associations, marking missing files removed. Never fetch a newer ref or execute a workflow during apply. */
+        post: operations["applyDeliveryTemplateSync"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/template-sources/{sourceID}/objects/{kind}/{objectID}/detach": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Explicitly end Git management of one object after reviewing its source association. Template deprecation is optional; Workflow supports keep only. Historical version provenance survives. */
+        post: operations["detachDeliveryTemplateSourceObject"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/documents/{kind}/{objectID}/source": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read current Git management and optional immutable version provenance using the normal object view permission. An empty data object means Soha-managed with no requested provenance. */
+        get: operations["getDeliveryDocumentSource"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/execution-history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Authorized execution history in descending createdAt, kind, id order. Batch root runs and their builds appear once; standalone builds remain visible. Filters apply to authorized projections before pagination. No truncated-window total is returned. */
+        get: operations["listDeliveryExecutionHistory"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/workflow-catalog": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Lightweight projections of existing definitions. Items, totals and filter options contain only authorized scopes; no runtime state is queried. */
+        get: operations["listWorkflowCatalog"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery-workflows": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listDeliveryWorkflows"];
+        put?: never;
+        post: operations["createDeliveryWorkflow"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery-workflows/{deliveryWorkflowID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getDeliveryWorkflow"];
+        put: operations["updateDeliveryWorkflow"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery-batches": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listDeliveryBatches"];
+        put?: never;
+        post: operations["createDeliveryBatch"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery-batches/{deliveryBatchID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getDeliveryBatch"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery-batches/{deliveryBatchID}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["cancelDeliveryBatch"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/build-templates": {
         parameters: {
             query?: never;
@@ -1137,7 +1989,39 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/build-templates/{buildTemplateID}": {
+    "/build-templates/{buildTemplateID}/versions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listBuildTemplateVersions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/build-templates/{buildTemplateID}/versions/{version}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getBuildTemplateVersion"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/build-templates/{buildTemplateID}/publish": {
         parameters: {
             query?: never;
             header?: never;
@@ -1145,6 +2029,22 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
+        put?: never;
+        post: operations["publishBuildTemplate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/build-templates/{buildTemplateID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getBuildTemplate"];
         put: operations["updateBuildTemplate"];
         post?: never;
         delete: operations["deleteBuildTemplate"];
@@ -1169,7 +2069,39 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/workflow-templates/{workflowTemplateID}": {
+    "/workflow-templates/{workflowTemplateID}/versions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listWorkflowTemplateVersions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/workflow-templates/{workflowTemplateID}/versions/{version}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getWorkflowTemplateVersion"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/workflow-templates/{workflowTemplateID}/publish": {
         parameters: {
             query?: never;
             header?: never;
@@ -1177,6 +2109,22 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
+        put?: never;
+        post: operations["publishWorkflowTemplate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/workflow-templates/{workflowTemplateID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getWorkflowTemplate"];
         put: operations["updateWorkflowTemplate"];
         post?: never;
         delete: operations["deleteWorkflowTemplate"];
@@ -1228,6 +2176,23 @@ export interface paths {
         put: operations["updateManifestPackage"];
         post?: never;
         delete: operations["deleteManifestPackage"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/manifest-packages/{manifestPackageID}/revisions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Save the current configuration as an immutable revision without creating a build, plan, deployment or execution task. Requires application update permission and the current draft updatedAt token. Existing current published content is returned unchanged. */
+        post: operations["saveManifestRevision"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -1521,6 +2486,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/delivery/blueprints": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listDeliveryBlueprints"];
+        put?: never;
+        post: operations["createDeliveryBlueprint"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/blueprints/{blueprintID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateDeliveryBlueprint"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/blueprints/{blueprintID}/render-spec": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["renderDeliveryBlueprintSpec"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/blueprints/{blueprintID}/bootstrap-application": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["bootstrapApplicationFromBlueprint"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/delivery/drafts": {
         parameters: {
             query?: never;
@@ -1562,6 +2591,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** @description Atomically apply the draft's application, services, environment bindings and manifest seed. Successful confirmation stores a fixed receipt; authorized retries return that receipt without applying the draft again. Historical confirmations without a receipt cannot be replayed. */
         post: operations["confirmDeliveryDraft"];
         delete?: never;
         options?: never;
@@ -1595,6 +2625,23 @@ export interface paths {
         get: operations["getDeliveryPlan"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/plans/{planID}/approval": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Decide the final plan under its application environment approval policy. Delivery batches resume through their existing run after approval. */
+        post: operations["decideDeliveryPlanApproval"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1697,6 +2744,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/delivery/execution-tasks/{taskID}/rollout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getExecutionTaskRollout"];
+        put?: never;
+        /** @description Control the current approved deployment using native UID and resourceVersion preconditions. Promotion cannot skip analysis or a timed pause. Abort requests native traffic restoration; task cancellation completes only after stop confirmation. */
+        post: operations["controlExecutionTaskRollout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/delivery/execution-tasks/{taskID}/artifacts": {
         parameters: {
             query?: never;
@@ -1738,6 +2802,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** @description Claims one task from the authorized subset of requested providers. Local Direct providers are never available over HTTP. Helm Agent providers require the target cluster Agent token; general runner credentials alone do not grant access to confidential Helm inputs. */
         post: operations["claimExecutionTask"];
         delete?: never;
         options?: never;
@@ -1851,6 +2916,92 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["syncVirtualizationCluster"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/worker-pools": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listVirtualizationWorkerPools"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/worker-pools/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        get: operations["getVirtualizationWorkerPool"];
+        put: operations["saveVirtualizationWorkerPool"];
+        post?: never;
+        delete: operations["deleteVirtualizationWorkerPool"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/worker-pools/{id}/nodes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createVirtualizationWorker"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/operations/{taskID}/worker-readiness": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskID: string;
+            };
+            cookie?: never;
+        };
+        get: operations["assessVirtualizationWorkerReadiness"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/capacity/check": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["checkVirtualizationCapacity"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2289,6 +3440,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/docker/projects": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createDockerProject"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/projects/{dockerProjectID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getDockerProject"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/docker/projects/{dockerProjectID}/deploy/plan": {
         parameters: {
             query?: never;
@@ -2411,6 +3594,23 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["recordAgentRunCallback"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/runtime/agent-tools": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Served by the runner, not soha-server. Requires the ephemeral per-run grant from trusted external Agent runtime context. Runner admin and control-plane tokens do not authorize this endpoint. */
+        post: operations["callAgentRunnerTool"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2808,7 +4008,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        get: operations["getWorkbenchInspectionTask"];
         put: operations["updateWorkbenchInspectionTask"];
         post?: never;
         delete: operations["deleteWorkbenchInspectionTask"];
@@ -4545,6 +5745,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/clusters/{clusterID}/extensions/crds/{crdName}/resources/{name}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["deleteKubernetesCustomResource"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/clusters/{clusterID}/helm/charts": {
         parameters: {
             query?: never;
@@ -5536,6 +6752,92 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["invokeAIGatewayTool"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/plans/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["validateCapabilityPlan"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/tasks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listCapabilityTasks"];
+        put?: never;
+        post: operations["createCapabilityTask"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/tasks/{taskId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskId: string;
+            };
+            cookie?: never;
+        };
+        get: operations["getCapabilityTask"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/tasks/{taskId}/resume": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskId: string;
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["resumeCapabilityTask"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai-gateway/tasks/{taskId}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskId: string;
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["cancelCapabilityTask"];
         delete?: never;
         options?: never;
         head?: never;
@@ -8270,6 +9572,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/identity/applications/onboard": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Atomically creates a disabled application, its access assignments, and optional new Provider and first OIDC client. Reusing a slug returns a conflict and never reveals an existing secret. Existing resources are configured through their normal management endpoints. */
+        post: operations["onboardIdentityApplication"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/identity/applications/{identityApplicationID}": {
         parameters: {
             query?: never;
@@ -8317,6 +9636,48 @@ export interface paths {
         put: operations["updateIdentityProvider"];
         post?: never;
         delete: operations["deleteIdentityProvider"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/providers/{identityProviderID}/setup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityProviderID: components["parameters"]["IdentityProviderID"];
+            };
+            cookie?: never;
+        };
+        /** Read saved provider configuration and server-derived integration endpoints. */
+        get: operations["getIdentityProviderSetup"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/identity/providers/{identityProviderID}/users/{userID}/metadata": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityProviderID: components["parameters"]["IdentityProviderID"];
+                userID: string;
+            };
+            cookie?: never;
+        };
+        /**
+         * Preview application attributes for a selected active user without signing tokens or creating a session.
+         * @description Requires both identity.providers.view and access.users.view. Returns attributes derived from current local user data and provider mappings, not raw upstream identity profiles or an authorization decision. Disabled providers and clients can be previewed without enabling login. OIDC uses the selected client's allowed scopes.
+         */
+        get: operations["getIdentityProviderUserMetadata"];
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -9479,6 +10840,302 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** @enum {string} */
+        NetworkVPNAccessMode: "internal_ztna" | "external_vpn" | "external_vpn_ztna" | "external_direct_ztna";
+        /** @enum {string} */
+        NetworkVPNSelectionMode: "auto" | "manual";
+        /** @enum {string} */
+        NetworkVPNSelectionStrategy: "latency" | "provider" | "priority";
+        /** @enum {string} */
+        NetworkVPNProviderPreference: "prefer" | "require";
+        /** @enum {string} */
+        NetworkVPNMissingMeasurements: "priority" | "deny";
+        NetworkVPNSelectionPolicyConfig: {
+            name: string;
+            strategy: components["schemas"]["NetworkVPNSelectionStrategy"];
+            providerOrder: string[];
+            providerPreference: components["schemas"]["NetworkVPNProviderPreference"];
+            maxLatencyMs: number;
+            maxTimeoutPercent: number;
+            maxSampleAgeSeconds: number;
+            minSamples: number;
+            missingMeasurements: components["schemas"]["NetworkVPNMissingMeasurements"];
+            maxAttempts: number;
+            retryCooldownSeconds: number;
+            failoverOnDisconnect: boolean;
+            allowManualFallback: boolean;
+        } & unknown;
+        NetworkVPNProfileAssignment: {
+            userIds: string[];
+            teamIds: string[];
+            deviceIds: string[];
+        };
+        NetworkVPNProfileConfig: {
+            name: string;
+            siteId: string;
+            networkSpaceId: string;
+            mode: components["schemas"]["NetworkVPNAccessMode"];
+            resourceIds: string[];
+            gatewayIds: string[];
+            selectionPolicyId: string;
+            allowManualSelection: boolean;
+            enabled: boolean;
+            assignments: components["schemas"]["NetworkVPNProfileAssignment"];
+        } & unknown;
+        NetworkVPNRevisionInput: {
+            expectedRevision: number;
+        };
+        NetworkVPNRollbackInput: {
+            expectedRevision: number;
+            targetRevision: number;
+        };
+        NetworkVPNProfileInput: {
+            expectedRevision: number;
+            configuration: components["schemas"]["NetworkVPNProfileConfig"];
+        };
+        NetworkVPNProfile: {
+            id: string;
+            revision: number;
+            publishedRevision: number;
+            configuration: components["schemas"]["NetworkVPNProfileConfig"];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        NetworkVPNProfileEnvelope: {
+            data: components["schemas"]["NetworkVPNProfile"];
+        };
+        NetworkVPNProfileListEnvelope: {
+            items: components["schemas"]["NetworkVPNProfile"][];
+        };
+        NetworkVPNProfileRevision: {
+            revision: number;
+            configuration: components["schemas"]["NetworkVPNProfileConfig"];
+            /** Format: date-time */
+            createdAt: string;
+            createdBy: string;
+        };
+        NetworkVPNProfileRevisionListEnvelope: {
+            items: components["schemas"]["NetworkVPNProfileRevision"][];
+        };
+        NetworkVPNSelectionPolicyInput: {
+            expectedRevision: number;
+            configuration: components["schemas"]["NetworkVPNSelectionPolicyConfig"];
+        };
+        NetworkVPNSelectionPolicy: {
+            id: string;
+            revision: number;
+            publishedRevision: number;
+            configuration: components["schemas"]["NetworkVPNSelectionPolicyConfig"];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        NetworkVPNSelectionPolicyEnvelope: {
+            data: components["schemas"]["NetworkVPNSelectionPolicy"];
+        };
+        NetworkVPNSelectionPolicyListEnvelope: {
+            items: components["schemas"]["NetworkVPNSelectionPolicy"][];
+        };
+        NetworkVPNSelectionPolicyRevision: {
+            revision: number;
+            configuration: components["schemas"]["NetworkVPNSelectionPolicyConfig"];
+            /** Format: date-time */
+            createdAt: string;
+            createdBy: string;
+        };
+        NetworkVPNSelectionPolicyRevisionListEnvelope: {
+            items: components["schemas"]["NetworkVPNSelectionPolicyRevision"][];
+        };
+        NetworkVPNCandidate: {
+            gatewayId: string;
+            name: string;
+            region: string;
+            providerCode: string;
+            providerName: string;
+            available: boolean;
+            reasonCode: string;
+            priority: number;
+            /** Format: date-time */
+            measuredAt?: string;
+            latencyMs?: number;
+            timeoutPercent?: number;
+        };
+        NetworkVPNConnectionOption: {
+            profileId: string;
+            profileRevision: number;
+            name: string;
+            siteId: string;
+            networkSpaceId: string;
+            mode: components["schemas"]["NetworkVPNAccessMode"];
+            allowManualSelection: boolean;
+            selectionPolicyId: string;
+            selectionPolicyRevision: number;
+            selectionStrategy: components["schemas"]["NetworkVPNSelectionStrategy"];
+            candidates: components["schemas"]["NetworkVPNCandidate"][];
+            available: boolean;
+            reasonCode: string;
+        };
+        NetworkVPNConnectionOptionListEnvelope: {
+            items: components["schemas"]["NetworkVPNConnectionOption"][];
+            /** Format: date-time */
+            asOf: string;
+        };
+        NetworkVPNConnectionIntentInput: {
+            deviceId: string;
+            profileId: string;
+            selection: components["schemas"]["NetworkVPNSelectionMode"];
+            gatewayId?: string;
+        } & unknown;
+        NetworkVPNConnectionIntentSecret: {
+            intentId: string;
+            token: string;
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        NetworkVPNConnectionIntentEnvelope: {
+            data: components["schemas"]["NetworkVPNConnectionIntentSecret"];
+        };
+        NetworkVPNPreviewInput: {
+            deviceId: string;
+            profileId: string;
+            selection: components["schemas"]["NetworkVPNSelectionMode"];
+            gatewayId?: string;
+            probeBatchId?: string;
+        };
+        NetworkVPNCandidateDecision: {
+            gatewayId: string;
+            name: string;
+            providerCode: string;
+            rank: number;
+            eligible: boolean;
+            reasonCode: string;
+            latencyMs?: number;
+            timeoutPercent?: number;
+            /** Format: date-time */
+            measuredAt?: string;
+        };
+        NetworkVPNDecision: {
+            id: string;
+            profileId: string;
+            profileRevision: number;
+            selectionPolicyId: string;
+            selectionPolicyRevision: number;
+            subjectId: string;
+            deviceId: string;
+            selection: components["schemas"]["NetworkVPNSelectionMode"];
+            requestedGatewayId?: string;
+            effectiveGatewayId?: string;
+            strategy: components["schemas"]["NetworkVPNSelectionStrategy"];
+            reasonCode: string;
+            /** @enum {string} */
+            state: "selected" | "connecting" | "connected" | "failed" | "disconnected";
+            sessionId?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            candidates: components["schemas"]["NetworkVPNCandidateDecision"][];
+        };
+        NetworkVPNDecisionEnvelope: {
+            data: components["schemas"]["NetworkVPNDecision"];
+        };
+        NetworkVPNGatewayMetrics: {
+            gatewayId: string;
+            name: string;
+            region: string;
+            providerCode: string;
+            providerName: string;
+            healthy?: boolean;
+            acceptNewConnections?: boolean;
+            activeSessions: number;
+            maxSessions?: number;
+            attempts: number;
+            successes: number;
+            fallbacks: number;
+            uploadBytes?: number;
+            downloadBytes?: number;
+            uploadBytesPerSecond?: number;
+            downloadBytesPerSecond?: number;
+            latencyP50Ms?: number;
+            latencyP95Ms?: number;
+            /** Format: date-time */
+            measuredAt?: string;
+        };
+        NetworkVPNSeriesPoint: {
+            /** Format: date-time */
+            at: string;
+            attempts: number;
+            successes: number;
+            fallbacks: number;
+            uploadBytes?: number;
+            downloadBytes?: number;
+            latencyP50Ms?: number;
+            latencyP95Ms?: number;
+        };
+        NetworkVPNConnectionView: {
+            sessionId: string;
+            profileId: string;
+            profileName: string;
+            subjectId: string;
+            deviceId: string;
+            gatewayId: string;
+            gatewayName: string;
+            providerCode: string;
+            selection: components["schemas"]["NetworkVPNSelectionMode"];
+            mode: components["schemas"]["NetworkVPNAccessMode"];
+            state: string;
+            reasonCode: string;
+            /** Format: date-time */
+            startedAt: string;
+            /** Format: date-time */
+            endedAt?: string;
+            decisionId: string;
+            tunnelIP?: string;
+            /** Format: date-time */
+            lastHandshakeAt?: string;
+            uploadBytes?: number;
+            downloadBytes?: number;
+            uploadBytesPerSecond?: number;
+            downloadBytesPerSecond?: number;
+            latencyMs?: number;
+            /** Format: date-time */
+            measuredAt?: string;
+        };
+        NetworkVPNDashboard: {
+            /** Format: date-time */
+            asOf: string;
+            /** Format: date-time */
+            from: string;
+            /** Format: date-time */
+            to: string;
+            telemetryAvailable: boolean;
+            partial: boolean;
+            activeSessions: number;
+            availableGateways: number;
+            totalGateways: number;
+            attempts: number;
+            successes: number;
+            fallbacks: number;
+            latencyP50Ms?: number;
+            latencyP95Ms?: number;
+            uploadBytes?: number;
+            downloadBytes?: number;
+            uploadBytesPerSecond?: number;
+            downloadBytesPerSecond?: number;
+            gateways: components["schemas"]["NetworkVPNGatewayMetrics"][];
+            series: components["schemas"]["NetworkVPNSeriesPoint"][];
+            sessions: components["schemas"]["NetworkVPNConnectionView"][];
+            decisions: components["schemas"]["NetworkVPNDecision"][];
+        };
+        NetworkVPNDashboardEnvelope: {
+            data: components["schemas"]["NetworkVPNDashboard"];
+        };
+        NetworkVPNCurrentConnectionEnvelope: {
+            data?: components["schemas"]["NetworkVPNConnectionView"];
+        };
         AnyValue: unknown;
         /** @enum {string} */
         IdentityProtocolErrorCode: "invalid_signature" | "invalid_audience" | "invalid_destination" | "invalid_recipient" | "expired_assertion" | "assertion_not_yet_valid" | "replayed_assertion" | "replayed_request" | "unknown_request" | "unknown_subject" | "invalid_issuer" | "invalid_metadata" | "metadata_fetch_denied" | "provider_disabled" | "mfa_required" | "invalid_challenge" | "challenge_expired" | "challenge_replayed" | "credential_not_found" | "mfa_not_configured" | "webauthn_not_configured";
@@ -9517,8 +11174,11 @@ export interface components {
         IdentityRuntimeCapabilityEnvelope: {
             data: components["schemas"]["IdentityRuntimeCapability"];
         };
-        /** @enum {string} */
-        IdentityResourceStatus: "active" | "draft" | "enabled" | "disabled" | "maintenance";
+        /**
+         * @description Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
+         * @enum {string}
+         */
+        IdentityResourceStatus: "active" | "draft" | "enabled" | "disabled" | "maintenance" | "online" | "offline" | "degraded";
         /** @enum {string} */
         IdentityApplicationProviderType: "link" | "oidc" | "proxy" | "saml";
         /** @enum {string} */
@@ -9591,6 +11251,27 @@ export interface components {
                 [key: string]: unknown;
             };
             assignments?: components["schemas"]["IdentityApplicationAssignmentInput"][];
+        };
+        IdentityApplicationOnboardingInput: {
+            /** @description providerId must be empty. The server creates the application disabled regardless of the submitted status. */
+            application: components["schemas"]["IdentityApplicationInput"];
+            /**
+             * @description Explicit access intent. All-authenticated requires no assignments; restricted requires at least one allow assignment.
+             * @enum {string}
+             */
+            accessMode: "all_authenticated" | "restricted";
+            /** @description Optional new Provider. applicationId must be empty and type must match the new application; binding is assigned inside the transaction. */
+            provider?: components["schemas"]["IdentityProviderInput"];
+            /** @description Optional first client for a new OIDC Provider. providerId must be empty; the server assigns it. */
+            oidcClient?: components["schemas"]["OIDCClientInput"];
+        };
+        IdentityApplicationOnboarding: {
+            application: components["schemas"]["IdentityApplication"];
+            provider?: components["schemas"]["IdentityProvider"];
+            oidcClient?: components["schemas"]["OIDCClientCreated"];
+        };
+        IdentityApplicationOnboardingEnvelope: {
+            data: components["schemas"]["IdentityApplicationOnboarding"];
         };
         IdentityApplicationEnvelope: {
             data: components["schemas"]["IdentityApplication"];
@@ -9812,6 +11493,72 @@ export interface components {
             wantAuthnRequestsSigned: boolean;
             attributeMappings: components["schemas"]["SAMLAttributeMapping"][];
         };
+        IdentityProviderSetupEnvelope: {
+            data: components["schemas"]["IdentityProviderSetup"];
+        };
+        IdentityProviderUserMetadata: {
+            providerId: string;
+            userId: string;
+            /** @enum {string} */
+            protocol: "oidc" | "saml" | "proxy";
+            clientId?: string;
+            scopes?: string[];
+            /** @description SAML NameID when previewing a SAML provider. */
+            subject?: string;
+            /** @description Protocol attribute names and their string values; scalar claims and headers are represented by one-element arrays. Excludes credentials, tokens and upstream raw profiles. */
+            attributes: {
+                [key: string]: string[];
+            };
+        };
+        IdentityProviderUserMetadataEnvelope: {
+            data: components["schemas"]["IdentityProviderUserMetadata"];
+        };
+        IdentityProviderSetup: {
+            providerId: string;
+            /**
+             * @description Saved configuration completeness; does not imply runtime availability or a verified login.
+             * @enum {string}
+             */
+            configurationStatus: "complete" | "incomplete";
+            issues: string[];
+            endpoints: components["schemas"]["IdentityProviderSetupEndpoints"];
+            /** @description The edge proxy must supply the Agent service credential in X-Soha-Outpost-Token, independently of the user session. */
+            requiresOutpostToken: boolean;
+            /** @description The saved provider still uses legacy Core business traffic forwarding. */
+            migrationRequired: boolean;
+            outpostId?: string;
+            outpostName?: string;
+            /** @enum {string} */
+            outpostRuntimeStatus?: "available" | "degraded" | "unavailable";
+            outpostRuntimeReason?: string;
+        };
+        /** @description Absolute URLs derived only from configured server public URL and the selected Outpost. Missing configuration omits the affected endpoint. */
+        IdentityProviderSetupEndpoints: {
+            /** Format: uri */
+            issuer?: string;
+            /** Format: uri */
+            discoveryUrl?: string;
+            /** Format: uri */
+            authorizationUrl?: string;
+            /** Format: uri */
+            tokenUrl?: string;
+            /** Format: uri */
+            userInfoUrl?: string;
+            /** Format: uri */
+            jwksUrl?: string;
+            /** Format: uri */
+            logoutUrl?: string;
+            /** Format: uri */
+            samlMetadataUrl?: string;
+            /** Format: uri */
+            samlSSOUrl?: string;
+            /** Format: uri */
+            forwardAuthUrl?: string;
+            /** Format: uri */
+            loginUrl?: string;
+            /** Format: uri */
+            legacyReverseProxyUrl?: string;
+        };
         IdentityProvider: {
             id: string;
             applicationId: string;
@@ -9897,23 +11644,90 @@ export interface components {
             id: string;
             name: string;
             mode: components["schemas"]["IdentityOutpostMode"];
+            /**
+             * @deprecated
+             * @description Legacy runtime status derived by the server. Use runtimeStatus and runtimeReason.
+             */
             status: components["schemas"]["IdentityResourceStatus"];
-            /** Format: int64 */
+            /** @description Legacy node base address. Prefer the explicit forwardAuthUrl for edge integration. */
+            endpoint?: string;
+            /**
+             * Format: uri
+             * @description Absolute edge-facing Agent Forward Auth URL
+             */
+            forwardAuthUrl?: string;
+            deployment?: components["schemas"]["IdentityOutpostDeployment"];
+            /**
+             * Format: int64
+             * @description Desired configuration version. Zero means no runtime configuration has been issued.
+             */
             configurationVersion: number;
+            /** Format: int64 */
+            appliedConfigurationVersion?: number;
+            /**
+             * Format: date-time
+             * @description Expiry of the configuration reported as applied by the node.
+             */
+            configurationExpiresAt?: string;
             runtimeStatus: components["schemas"]["IdentityCapabilityStatus"];
             runtimeReason?: string;
+            protocolVersion?: string;
+            runtimeVersion?: string;
             claimedAgentId?: string;
             /** Format: date-time */
             lastHeartbeatAt?: string;
+            /**
+             * Format: date-time
+             * @deprecated
+             * @description Legacy last contact time; a configuration poll is not a healthy heartbeat.
+             */
+            lastSeenAt?: string;
+            /**
+             * @deprecated
+             * @description Legacy node version. Use runtimeVersion and protocolVersion.
+             */
+            version?: string;
+            /** @description Returned once on creation or token rotation; omitted from normal reads. */
+            readonly token?: string;
+            /** @description Legacy non-secret node metadata. Never used as runtime health evidence. */
+            metadata?: components["schemas"]["GenericObject"];
+            createdBy?: string;
+            updatedBy?: string;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
         };
+        /** @description Server-derived deployment settings. Trust material contains only the public verification key; credentials are supplied separately. */
+        IdentityOutpostDeployment: {
+            /** Format: uri */
+            controlPlaneUrl?: string;
+            protocolVersion: string;
+            trustKeyId?: string;
+            trustPublicKey?: string;
+        };
         IdentityOutpostInput: {
             name: string;
             mode: components["schemas"]["IdentityOutpostMode"];
+            /**
+             * @deprecated
+             * @description Compatibility input accepted but ignored. Runtime health is observed, not set by management writes.
+             */
             status: components["schemas"]["IdentityResourceStatus"];
+            /** @description Legacy node base address. */
+            endpoint?: string;
+            /**
+             * Format: uri
+             * @description Absolute edge-facing Forward Auth URL.
+             */
+            forwardAuthUrl?: string;
+            /**
+             * @deprecated
+             * @description Compatibility input accepted but ignored.
+             */
+            version?: string;
+            /** @description Legacy non-secret node metadata, separate from runtime observations. */
+            metadata?: components["schemas"]["GenericObject"];
         };
         IdentityOutpostEnvelope: {
             data: components["schemas"]["IdentityOutpost"];
@@ -10132,6 +11946,7 @@ export interface components {
         IdentityOutpostClaimRequest: {
             agentId: string;
             supportedProtocolVersion: string;
+            runtimeVersion?: string;
             /** Format: int64 */
             currentConfigurationVersion?: number;
         };
@@ -10170,6 +11985,9 @@ export interface components {
             /** Format: date-time */
             checkedAt: string;
             errorCode?: string;
+            runtimeVersion?: string;
+            /** Format: date-time */
+            configurationExpiresAt?: string;
         };
         IdentityOutpostHeartbeat: {
             accepted: boolean;
@@ -11402,6 +13220,7 @@ export interface components {
             runId: string;
             sampleId: string;
             attempt: number;
+            /** @description Versioned candidate metadata. Gateway execution applies publicModel, routeId, endpoint, and optional systemPrompt and retrievalContext strings (at most 512 characters each); promptVersion and retrievalVersion identify the supplied variants. */
             candidateRefs: {
                 [key: string]: string;
             };
@@ -11422,6 +13241,7 @@ export interface components {
         EvaluationReplayPlan: {
             id: string;
             sourceTraceRefs: string[];
+            /** @description Versioned candidate metadata. Gateway execution applies publicModel, routeId, endpoint, and optional systemPrompt and retrievalContext strings (at most 512 characters each); promptVersion and retrievalVersion identify the supplied variants. */
             candidateRefs: {
                 [key: string]: string;
             };
@@ -11492,7 +13312,10 @@ export interface components {
             /** Format: date-time */
             createdAt: string;
         };
+        /** @description With sessionId and messageId, records a private owner-scoped task reference; the server verifies ownership and never copies conversation text into the sample. */
         EvaluationFeedbackInput: {
+            sessionId?: string;
+            messageId?: string;
             id: string;
             traceRef: string;
             /** @enum {string} */
@@ -11557,6 +13380,7 @@ export interface components {
             ttlDays: number;
         };
         AIMemoryRecord: {
+            policyId?: string;
             id: string;
             ownerType: string;
             ownerId: string;
@@ -12049,6 +13873,7 @@ export interface components {
             id: string;
             datasetId: string;
             datasetVersion: string;
+            /** @description Versioned candidate metadata. Gateway execution applies publicModel, routeId, endpoint, and optional systemPrompt and retrievalContext strings (at most 512 characters each); promptVersion and retrievalVersion identify the supplied variants. */
             candidateRefs: {
                 [key: string]: string;
             };
@@ -12404,12 +14229,23 @@ export interface components {
             /** Format: date-time */
             createdAt?: string;
         };
+        WorkbenchModelPreferences: {
+            publicModel?: string;
+            /** @enum {string} */
+            reasoningEffort?: "auto" | "low" | "medium" | "high";
+        };
+        WorkbenchModelOption: {
+            publicModel: string;
+            reasoningEfforts: ("low" | "medium" | "high")[];
+        };
         WorkbenchSessionMetadata: {
+            modelPreferences?: components["schemas"]["WorkbenchModelPreferences"];
             /** @enum {string} */
             mode?: "general" | "root_cause" | "performance" | "trace" | "inspection_review";
             status?: string;
             agentProviderId?: string;
             scope?: components["schemas"]["WorkbenchSessionScope"];
+            /** @description May contain branchReference with kind session, sessionId and fixed messageIds; source ownership and availability are rechecked on every use. */
             pinnedContext?: {
                 [key: string]: unknown;
             };
@@ -12425,6 +14261,8 @@ export interface components {
             };
         };
         WorkbenchSession: {
+            /** @enum {string} */
+            readonly activity?: "queued" | "running" | "waiting_approval";
             id: string;
             title: string;
             createdBy: string;
@@ -12440,6 +14278,7 @@ export interface components {
             mode?: "general" | "root_cause" | "performance" | "trace" | "inspection_review";
             agentProviderId?: string;
             scope?: components["schemas"]["WorkbenchSessionScope"];
+            /** @description May contain branchReference with kind session, sessionId and fixed messageIds; source ownership and availability are rechecked on every use. */
             pinnedContext?: {
                 [key: string]: unknown;
             };
@@ -12455,6 +14294,7 @@ export interface components {
             agentProviderId?: string;
             status?: string;
             scope?: components["schemas"]["WorkbenchSessionScope"];
+            /** @description May contain branchReference with kind session, sessionId and fixed messageIds; source ownership and availability are rechecked on every use. */
             pinnedContext?: {
                 [key: string]: unknown;
             };
@@ -12777,6 +14617,7 @@ export interface components {
             updatedAt: string;
         };
         WorkbenchAgentProviderRuntimeStatus: {
+            /** @description Readiness summary. ready requires a recent healthy runner acknowledgement; unavailable and stale are not runnable. */
             state: string;
             reason?: string;
             queuedRuns: number;
@@ -12876,6 +14717,9 @@ export interface components {
             recommendedNextAction?: string;
         };
         WorkbenchAgentRun: {
+            /** @description Parent run for a single read-only specialist delegation; absent on root runs. */
+            parentRunId?: string;
+            chat?: components["schemas"]["AgentChatInput"];
             id: string;
             providerId: string;
             providerKind: string;
@@ -12944,6 +14788,9 @@ export interface components {
             enabled: boolean;
         };
         WorkbenchCatalog: {
+            modelOptions?: components["schemas"]["WorkbenchModelOption"][];
+            defaultPublicModel?: string;
+            modelOptionsError?: string;
             adapters: components["schemas"]["WorkbenchAdapter"][];
             dataSources: components["schemas"]["WorkbenchCatalogDataSource"][];
             analysisProfiles: components["schemas"]["WorkbenchCatalogAnalysisProfile"][];
@@ -12986,12 +14833,26 @@ export interface components {
         WorkbenchAgentRunListEnvelope: {
             items: components["schemas"]["WorkbenchAgentRun"][];
         };
+        /** @description Explicit registration for a frozen capability plan. Schedule uses intervalMinutes; alert uses one registered rule and the same interval as cooldown. Only new firing occurrences after registration are eligible. Each occurrence is durably recorded before execution. */
+        WorkbenchInspectionTrigger: {
+            /** @enum {string} */
+            kind: "schedule" | "alert";
+            alertRuleId?: string;
+            /** @default 3600 */
+            maxEventAgeSeconds?: number;
+        };
         WorkbenchInspectionTaskInput: {
+            /** @description Required when updating a capability registration. */
+            expectedRevision?: number;
             id: string;
             title: string;
             scopeType: string;
             clusterId?: string;
             namespace?: string;
+            capabilityPlan?: components["schemas"]["CapabilityPlan"];
+            aiClientId?: string;
+            skillId?: string;
+            trigger?: components["schemas"]["WorkbenchInspectionTrigger"];
             checks?: string[];
             enabled: boolean;
             intervalMinutes: number;
@@ -13000,11 +14861,16 @@ export interface components {
             };
         };
         WorkbenchInspectionTask: {
+            revision?: number;
             id: string;
             title: string;
             scopeType: string;
             clusterId?: string;
             namespace?: string;
+            capabilityPlan?: components["schemas"]["CapabilityPlan"];
+            aiClientId?: string;
+            skillId?: string;
+            trigger?: components["schemas"]["WorkbenchInspectionTrigger"];
             checks?: string[];
             enabled: boolean;
             intervalMinutes: number;
@@ -13107,6 +14973,13 @@ export interface components {
             ok: boolean;
         };
         WorkbenchSendMessageStreamRequest: {
+            contextSelection?: components["schemas"]["WorkbenchContextSelection"];
+            knowledgeContext?: {
+                enabled: boolean;
+                knowledgeBaseIds: string[];
+                topK?: number;
+            };
+            modelPreferences?: components["schemas"]["WorkbenchModelPreferences"];
             content: string;
             mode?: string;
             agentProviderId?: string;
@@ -13115,9 +14988,32 @@ export interface components {
             source?: string;
             launchContext?: components["schemas"]["WorkbenchLaunchContext"];
             selectionContext?: components["schemas"]["WorkbenchSelectionContext"];
+            /** @description May contain branchReference with kind session, sessionId and fixed messageIds; source ownership and availability are rechecked on every use. */
             pinnedContext?: {
                 [key: string]: unknown;
             };
+        };
+        /** @description Explicit references and UTF-8 text attachments for this request only. The server rechecks source access and records used content hashes and truncations. Not inherited by subsequent requests. */
+        WorkbenchContextSelection: {
+            /** @description Explicit personal memory references; current owner, active policy and expiry are checked on every request. */
+            memoryIds?: string[];
+            references?: components["schemas"]["WorkbenchContextReference"][];
+            attachments?: components["schemas"]["WorkbenchTextAttachment"][];
+        };
+        WorkbenchContextReference: {
+            /** @enum {string} */
+            kind: "session" | "pod" | "deployment" | "service" | "node";
+            name: string;
+            clusterId?: string;
+            namespace?: string;
+            sessionId?: string;
+            messageIds?: string[];
+        };
+        /** @description A UTF-8 text/log/config file, at most 64 KiB per file and 512 KiB per request; binary or unsupported formats are rejected. Parsing is synchronous and successful submission means parsed. Evidence may be clipped to the request budget. */
+        WorkbenchTextAttachment: {
+            id: string;
+            name: string;
+            content: string;
         };
         WorkbenchStreamEventBase: {
             id: string;
@@ -13514,6 +15410,10 @@ export interface components {
             /** @description HTTPS or SSH Git URL. Credentials are resolved only through credentialRef. */
             url: string;
             protocol: components["schemas"]["RepositoryProtocol"];
+            /** @description Explicit platform source connection associated by an authorized administrator. Required together with providerRepositoryId for source analysis; legacy repositories remain usable without it. */
+            sourceConnectionId?: string;
+            /** @description Stable repository identifier on the selected source connection. Never inferred from a repository name or arbitrary URL. */
+            providerRepositoryId?: string;
             gitlabProjectId?: string;
             path: string;
             /** @description Opaque server-side credential reference; never a token or private key. */
@@ -13531,12 +15431,61 @@ export interface components {
             /** @description HTTPS or SSH Git URL without embedded credentials. */
             url: string;
             protocol: components["schemas"]["RepositoryProtocol"];
+            /** @description Explicit platform source connection associated by an authorized administrator. Required together with providerRepositoryId for source analysis; legacy repositories remain usable without it. */
+            sourceConnectionId?: string;
+            /** @description Stable repository identifier on the selected source connection. Never inferred from a repository name or arbitrary URL. */
+            providerRepositoryId?: string;
             gitlabProjectId?: string;
             path: string;
             /** @description Opaque server-side credential reference; never a token or private key. */
             credentialRef?: string;
             defaultBranch: string;
             applicationIds?: string[];
+        };
+        RepositoryAnalysisInput: {
+            repositoryId: string;
+            /** @enum {string} */
+            refType: "branch" | "tag" | "commit";
+            refName: string;
+            /**
+             * @description Repository-relative directory. Absolute paths, parent traversal, backslashes, and control characters are rejected.
+             * @default .
+             */
+            projectPath?: string;
+        };
+        RepositoryAnalysisCandidate: {
+            projectPath: string;
+            /** @description Detected language, or unknown when only a Dockerfile is available. */
+            language: string;
+            packageManager?: string;
+            /** @description Version constraint declared in source metadata; not an installed runtime version. */
+            versionRange?: string;
+            /** @description Only included when source metadata explicitly identifies the framework. */
+            framework?: string;
+            buildMethods: ("repo_dockerfile" | "repo_buildpacks")[];
+            evidencePaths: string[];
+        };
+        RepositoryAnalysisWarning: {
+            code: string;
+            /** @description Sanitized explanation without credentials or source file contents. */
+            message: string;
+            path?: string;
+        };
+        /** @description Static suggestions only. Reads at most 16 candidate files, 256 KiB per file and 1 MiB total, with at most four concurrent reads and a 20-second operation timeout. Results do not prove a successful build or working startup command. */
+        RepositoryAnalysis: {
+            applicationId: string;
+            repositoryId: string;
+            projectPath: string;
+            resolvedCommit?: string;
+            ruleVersion: string;
+            /** @enum {string} */
+            status: "identified" | "multiple_candidates" | "unrecognized" | "unsupported" | "forbidden" | "read_failed";
+            candidates: components["schemas"]["RepositoryAnalysisCandidate"][];
+            evidencePaths: string[];
+            warnings: components["schemas"]["RepositoryAnalysisWarning"][];
+        };
+        RepositoryAnalysisEnvelope: {
+            data: components["schemas"]["RepositoryAnalysis"];
         };
         GitProject: {
             id: string;
@@ -13589,7 +15538,7 @@ export interface components {
             id: string;
             name: string;
             /** @enum {string} */
-            type: "repo_dockerfile" | "platform_build_template" | "external_pipeline";
+            type: "repo_dockerfile" | "platform_build_template" | "external_pipeline" | "repo_buildpacks";
             enabled: boolean;
             isDefault: boolean;
             buildImage?: string;
@@ -13604,7 +15553,7 @@ export interface components {
             id?: string;
             name: string;
             /** @enum {string} */
-            type: "repo_dockerfile" | "platform_build_template" | "external_pipeline";
+            type: "repo_dockerfile" | "platform_build_template" | "external_pipeline" | "repo_buildpacks";
             enabled: boolean;
             isDefault: boolean;
             buildImage?: string;
@@ -13626,7 +15575,59 @@ export interface components {
             refType: "branch" | "tag" | "commit";
             refName: string;
         };
+        BuildpacksConfiguration: {
+            /** @description Platform-approved CNB builder pinned by digest, distinct from the output image. */
+            builderImage: string;
+            runImage: string;
+            /** @enum {string} */
+            platform: "linux/amd64" | "linux/arm64";
+            processType?: string;
+        };
+        BuildpacksCapability: {
+            ready: boolean;
+            reason: string;
+            providerKind: string;
+            packVersion?: string;
+            /**
+             * @description Omission means legacy pack with a dedicated Docker daemon. Podman runs isolated lifecycle phases locally without an API daemon.
+             * @enum {string}
+             */
+            runtime?: "pack" | "podman";
+            runtimeVersion?: string;
+            /** @description Supports SSH checkout with GIT_SSH_KEY and GIT_KNOWN_HOSTS secret references. Omission means unsupported. */
+            supportsSSH?: boolean;
+            /** @description Supports submodules explicitly bound as source repositories at their gitlink paths and fixed commits. Unbound submodules are rejected. */
+            supportsSubmodules?: boolean;
+            /** @description Runner-configured execution budget frozen into each build task. Older runners without this field retain the 300 second limit. */
+            timeoutSeconds?: number;
+            configuration?: components["schemas"]["BuildpacksConfiguration"];
+            lifecycleImage?: string;
+        };
+        BuildpacksCapabilityEnvelope: {
+            data: components["schemas"]["BuildpacksCapability"];
+        };
+        /** @description Server-frozen CNB settings carried in ExecutionTask.payload.buildpacks; output image and fixed source commits use existing payload fields. */
+        BuildpacksExecutionSpec: {
+            configuration: components["schemas"]["BuildpacksConfiguration"];
+            lifecycleImage: string;
+            packVersion?: string;
+            /**
+             * @description Frozen execution backend. Omission means pack; unsupported backends must be rejected.
+             * @enum {string}
+             */
+            runtime?: "pack" | "podman";
+            runtimeVersion?: string;
+            contextDir: string;
+            environment: {
+                [key: string]: string;
+            };
+        };
         BuildSourceConfig: {
+            externalPipeline?: components["schemas"]["ExternalPipelineConfiguration"];
+            buildpacks?: components["schemas"]["BuildpacksConfiguration"];
+            secretRefs?: components["schemas"]["SecretReferenceMap"];
+            /** @description Immutable published build template version, resolved and pinned on save when omitted. */
+            buildTemplateVersion?: number;
             repositoryId?: string;
             repositoryBindings?: components["schemas"]["BuildRepositoryBinding"][];
             dockerfilePath?: string;
@@ -13645,7 +15646,53 @@ export interface components {
                 [key: string]: string | number | boolean;
             };
         };
+        /** @description A trusted GitLab pipeline in the primary bound source repository. Its protected tag pins the CI definition; the pipeline must check out SOHA_SOURCE_COMMIT and emit soha-artifact.json from the named job. Source and pipeline commits are frozen separately. */
+        ExternalPipelineConfiguration: {
+            /** @enum {string} */
+            provider: "gitlab";
+            pipelineTag: string;
+            artifactJob: string;
+            registryId: string;
+        };
+        /** @description Server-frozen external CI identity in ExecutionTask.payload.externalPipeline. Credentials remain in the source and registry connections. */
+        ExternalPipelineExecutionSpec: {
+            configuration: components["schemas"]["ExternalPipelineConfiguration"];
+            repositoryId: string;
+            repositoryUrl: string;
+            sourceConnectionId: string;
+            connectionEndpoint: string;
+            providerProjectId: string;
+            pipelineCommit: string;
+            sourceCommit: string;
+        };
+        /** @description UTF-8 JSON artifact named soha-artifact.json, downloaded by the actual successful job ID. The Server validates all identity fields and verifies the image bytes against the registry digest before accepting completion. */
+        ExternalPipelineArtifactReport: {
+            /** @constant */
+            version: 1;
+            taskId: string;
+            pipelineId: string;
+            jobId: string;
+            sourceCommit: string;
+            pipelineCommit: string;
+            image: string;
+            imageDigest: string;
+        };
+        /** @description Reconciled external identity in ExecutionTask.result.externalPipeline. An unknown dispatch is queried without resubmitting; terminal Soha status requires verified completion or confirmed stop of all discovered child pipelines and jobs. */
+        ExternalPipelineRun: {
+            runId?: string;
+            url?: string;
+            status: string;
+            pipelineCommit?: string;
+            artifactJobId?: string;
+            artifactDigest?: string;
+            stopConfirmed: boolean;
+        };
         Application: {
+            /**
+             * Format: int64
+             * @description Server-maintained configuration version. Read together with repositories and buildSources; use as expectedVersion when updating.
+             */
+            version?: number;
             id: string;
             name: string;
             key: string;
@@ -13675,6 +15722,11 @@ export interface components {
             updatedAt: string;
         };
         ApplicationInput: {
+            /**
+             * Format: int64
+             * @description Optional for legacy clients. When provided, atomically compare the application configuration version and reject stale writes with HTTP 409. Omission keeps legacy unconditional updates and does not prevent lost writes.
+             */
+            expectedVersion?: number;
             id?: string;
             name: string;
             key: string;
@@ -13746,6 +15798,9 @@ export interface components {
             };
         };
         ApplicationService: {
+            deploymentTemplate?: components["schemas"]["ServiceDeploymentTemplateBinding"];
+            /** Format: int64 */
+            version?: number;
             id: string;
             applicationId: string;
             key: string;
@@ -13771,6 +15826,9 @@ export interface components {
             updatedAt: string;
         };
         ApplicationServiceInput: {
+            deploymentTemplate?: components["schemas"]["ServiceDeploymentTemplateBinding"];
+            /** Format: int64 */
+            expectedVersion?: number;
             id?: string;
             key: string;
             name: string;
@@ -13832,6 +15890,8 @@ export interface components {
             updatedAt: string;
         };
         ReleaseTarget: {
+            docker?: components["schemas"]["DockerDeliveryConfiguration"];
+            helm?: components["schemas"]["HelmDeliveryConfiguration"];
             id: string;
             applicationEnvironmentId: string;
             clusterId: string;
@@ -13841,6 +15901,7 @@ export interface components {
             groupKey?: string;
             waveKey?: string;
             regionKey?: string;
+            /** @description For executorKind manifest_ssa, the ID of the Manifest environment binding owned by this application environment. */
             configRef?: string;
             workloadKind: string;
             workloadName: string;
@@ -13855,6 +15916,8 @@ export interface components {
             updatedAt?: string;
         };
         ReleaseTargetInput: {
+            docker?: components["schemas"]["DockerDeliveryConfiguration"];
+            helm?: components["schemas"]["HelmDeliveryConfiguration"];
             id?: string;
             clusterId: string;
             namespace: string;
@@ -13863,6 +15926,7 @@ export interface components {
             groupKey?: string;
             waveKey?: string;
             regionKey?: string;
+            /** @description For executorKind manifest_ssa, the ID of the Manifest environment binding owned by this application environment. */
             configRef?: string;
             workloadKind: string;
             workloadName: string;
@@ -13872,9 +15936,40 @@ export interface components {
             };
             enabled: boolean;
         };
+        /** @description A host_service target with executorKind docker_compose. Uses an existing Docker project for both single-container and Compose deployments. clusterId and namespace must be empty. Images are supplied by a verified release bundle; unmapped services must already use immutable image digests. */
+        DockerDeliveryConfiguration: {
+            hostId: string;
+            projectId: string;
+            /** @description Compose service name to application container name in the release bundle. */
+            imageMappings: {
+                [key: string]: string;
+            };
+        };
+        /** @description Frozen deployment identities and digests. Compose content and environment values remain encrypted on the server. Preflight is an existing Docker operation and does not start containers. */
+        DockerDeliverySnapshot: {
+            deliveryPlanId: string;
+            applicationId: string;
+            applicationEnvironmentId: string;
+            serviceId: string;
+            targetId: string;
+            hostId: string;
+            projectId: string;
+            projectDigest: string;
+            renderedDigest: string;
+            releaseBundleId: string;
+            preflightOperationId: string;
+            deployOperationId: string;
+            expectedServices: string[];
+            images: {
+                [key: string]: string;
+            };
+        };
         RegistryConnectionMetadata: {
             secretConfigured: boolean;
             secretStorage: string;
+            allowedCIDRs?: string;
+            caCertificate?: string;
+            authEndpoint?: string;
         };
         RegistryConnection: {
             id: string;
@@ -13899,6 +15994,15 @@ export interface components {
             username?: string;
             secret?: string;
             insecure?: boolean;
+            /** @description Explicit network access policy used when verifying build image manifests. Empty private network policy permits only public endpoints. */
+            metadata?: {
+                /** @description Comma-separated private CIDRs allowed for the registry and its authentication endpoint. */
+                allowedCIDRs?: string;
+                /** @description Additional PEM CA certificates; TLS verification remains enabled. */
+                caCertificate?: string;
+                /** @description Optional explicit HTTP(S) origin for a separate registry token service; redirects are forbidden. */
+                authEndpoint?: string;
+            };
         };
         RegistryConnectionEnvelope: {
             data: components["schemas"]["RegistryConnection"];
@@ -13906,12 +16010,261 @@ export interface components {
         RegistryConnectionListEnvelope: {
             items: components["schemas"]["RegistryConnection"][];
         };
+        /** @enum {string} */
+        TemplatePublicationState: "draft" | "published" | "deprecated";
+        /** @enum {string} */
+        TemplateParameterType: "string" | "boolean" | "number" | "integer" | "object" | "array" | "secret_reference";
+        /** @description JSON parameter value. The template schema further constrains each value; depth is limited to 12 and combined inputs to 64 KiB at runtime. */
+        TemplateParameterValue: TemplateParameterValue;
+        TemplateParameterValues: {
+            [key: string]: components["schemas"]["TemplateParameterValue"];
+        };
+        /** @description Restricted JSON Schema. Objects reject undeclared keys unless mapValues specifies their schema. secret_reference accepts only a namespaced Secret name/key reference, never a plaintext credential. External references and executable expressions are unsupported. */
+        TemplateParameterSchema: {
+            type: components["schemas"]["TemplateParameterType"];
+            description?: string;
+            properties?: {
+                [key: string]: components["schemas"]["TemplateParameterSchema"];
+            };
+            required?: string[];
+            items?: components["schemas"]["TemplateParameterSchema"];
+            mapValues?: components["schemas"]["TemplateParameterSchema"];
+            enum?: (string | number | boolean)[];
+            minimum?: number;
+            maximum?: number;
+            minLength?: number;
+            maxLength?: number;
+            minItems?: number;
+            maxItems?: number;
+        };
+        DeploymentTemplateGitSource: {
+            repositoryId: string;
+            commit: string;
+            path: string;
+        };
+        DeploymentTemplateHelmSource: {
+            repositoryUrl: string;
+            chart: string;
+            version: string;
+            connectionId?: string;
+            digest?: string;
+            /** @description Application-authorized CHART_USERNAME, CHART_PASSWORD and optional CHART_CA_CERT references. Credentials are resolved only for the selected source. */
+            secretRefs?: components["schemas"]["SecretReferenceMap"];
+            values: components["schemas"]["TemplateParameterValues"];
+        };
+        HelmImageMapping: {
+            containerName: string;
+            /** @description RFC 6901 JSON pointer into Helm values, including array indices when required by the Chart. */
+            path: string;
+            /**
+             * @description Part of the verified immutable container image to write. Charts that accept only mutable tags require a full-image or digest field before artifact promotion can be enabled.
+             * @enum {string}
+             */
+            value: "image" | "repository" | "digest";
+        };
+        HelmDeliveryConfiguration: {
+            source: components["schemas"]["DeploymentTemplateHelmSource"];
+            releaseName: string;
+            /** @description Environment overrides merged by Helm after source values. Sensitive inputs use existing Kubernetes Secret references. */
+            values?: components["schemas"]["TemplateParameterValues"];
+            imageMappings?: components["schemas"]["HelmImageMapping"][];
+            /** @default 300 */
+            timeoutSeconds?: number;
+        };
+        HelmChartInspectionInput: {
+            applicationEnvironmentId: string;
+            source: components["schemas"]["DeploymentTemplateHelmSource"];
+        };
+        HelmChartInspection: {
+            name: string;
+            version: string;
+            digest: string;
+            defaultValues: components["schemas"]["TemplateParameterValues"];
+            hasValuesSchema: boolean;
+            valuesSchema?: components["schemas"]["JSONSchema"];
+            diagnostics?: string[];
+        };
+        HelmChartInspectionEnvelope: {
+            data: components["schemas"]["HelmChartInspection"];
+        };
+        HelmDeliveryResource: {
+            apiVersion: string;
+            kind: string;
+            namespace: string;
+            name: string;
+            hook?: boolean;
+        };
+        HelmDeliverySnapshot: {
+            deliveryPlanId: string;
+            targetId: string;
+            applicationId: string;
+            applicationEnvironmentId: string;
+            serviceId: string;
+            /** Format: int64 */
+            serviceVersion: number;
+            clusterId: string;
+            namespace: string;
+            releaseName: string;
+            /** @enum {string} */
+            operation: "install" | "upgrade" | "rollback";
+            chart: string;
+            chartVersion: string;
+            chartDigest: string;
+            configurationDigest: string;
+            valuesDigest: string;
+            renderedDigest: string;
+            expectedRevision: number;
+            rollbackRevision?: number;
+            resources: components["schemas"]["HelmDeliveryResource"][];
+            preflightTaskId: string;
+            releaseBundleId?: string;
+            timeoutSeconds?: number;
+        };
+        /** @description Confidential runner input. Never returned through ordinary plan, task, history or log reads. */
+        HelmPreparedRelease: {
+            chartArchive: string;
+            values: components["schemas"]["TemplateParameterValues"];
+            manifest: string;
+            hooks: string[];
+        };
+        HelmExecutionTaskPayload: {
+            /** @enum {string} */
+            action: "preflight" | "apply" | "observe";
+            snapshot: components["schemas"]["HelmDeliverySnapshot"];
+            prepared?: components["schemas"]["HelmPreparedRelease"];
+        };
+        HelmExecutionTaskResult: {
+            ready: boolean;
+            /** @description The adapter has returned from all Helm mutation work; context cancellation alone is insufficient. */
+            stopped: boolean;
+            revision: number;
+            status: string;
+            renderedDigest: string;
+            resources: components["schemas"]["ManifestResourceInventory"][];
+            diagnostics?: string[];
+        };
+        DeploymentTemplateSource: {
+            /** @enum {string} */
+            renderer: "raw_yaml" | "kustomize" | "helm";
+            files?: components["schemas"]["ManifestFile"][];
+            kustomize?: components["schemas"]["ManifestKustomizeOptions"];
+            git?: components["schemas"]["DeploymentTemplateGitSource"];
+            helm?: components["schemas"]["DeploymentTemplateHelmSource"];
+        } & ({
+            /** @constant */
+            renderer?: "raw_yaml";
+        } | ({
+            /** @constant */
+            renderer?: "kustomize";
+        } & (unknown | unknown)) | {
+            /** @constant */
+            renderer?: "helm";
+        });
+        DeploymentTemplateHealth: {
+            /** @enum {string} */
+            mode: "workload_ready" | "job_complete" | "configuration_only";
+            timeoutSeconds: number;
+        };
+        ServiceDeploymentTemplateInput: {
+            copiedFrom?: components["schemas"]["TemplateCopyOrigin"];
+            key: string;
+            name: string;
+            description?: string;
+            source: components["schemas"]["DeploymentTemplateSource"];
+            parameterSchema: components["schemas"]["TemplateParameterSchema"];
+            defaults: components["schemas"]["TemplateParameterValues"];
+            environmentOverrides?: string[];
+            /** @description Template artifact names mapped to service container names. Values are supplied as verified image digests at deployment time. */
+            artifacts?: {
+                [key: string]: string;
+            };
+            health: components["schemas"]["DeploymentTemplateHealth"];
+            enabled: boolean;
+            /** Format: int64 */
+            expectedRevision?: number;
+        };
+        ServiceDeploymentTemplate: {
+            id: string;
+            key: string;
+            name: string;
+            description?: string;
+            source: components["schemas"]["DeploymentTemplateSource"];
+            parameterSchema: components["schemas"]["TemplateParameterSchema"];
+            defaults: components["schemas"]["TemplateParameterValues"];
+            environmentOverrides?: string[];
+            artifacts?: {
+                [key: string]: string;
+            };
+            health: components["schemas"]["DeploymentTemplateHealth"];
+            enabled: boolean;
+            /** Format: int64 */
+            revision: number;
+            /** Format: int64 */
+            publishedVersion: number;
+            publicationState: components["schemas"]["TemplatePublicationState"];
+            contentDigest?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ServiceDeploymentTemplateBinding: {
+            templateId: string;
+            /** Format: int64 */
+            version: number;
+            parameters: components["schemas"]["TemplateParameterValues"];
+            /** @default false */
+            detached?: boolean;
+            /** @description Server-copied published template retained when converting to independent configuration. Client-supplied contents never replace this snapshot. */
+            readonly detachedTemplate?: components["schemas"]["ServiceDeploymentTemplate"];
+            manifestPackageId?: string;
+        };
+        DeploymentTemplatePreviewInput: {
+            templateId: string;
+            /** Format: int64 */
+            version: number;
+            serviceKey: string;
+            applicationEnvironmentId?: string;
+            parameters: components["schemas"]["TemplateParameterValues"];
+            overrides?: components["schemas"]["TemplateParameterValues"];
+        };
+        DeploymentTemplatePreview: {
+            templateId: string;
+            /** Format: int64 */
+            version: number;
+            source: components["schemas"]["DeploymentTemplateSource"];
+            parameters: components["schemas"]["TemplateParameterValues"];
+            digest: string;
+            /** @constant */
+            configurationOnly: true;
+            diagnostics: string[];
+        };
+        ServiceDeploymentTemplateEnvelope: {
+            data: components["schemas"]["ServiceDeploymentTemplate"];
+        };
+        ServiceDeploymentTemplateListEnvelope: {
+            data: components["schemas"]["ServiceDeploymentTemplate"][];
+        };
+        DeploymentTemplatePreviewEnvelope: {
+            data: components["schemas"]["DeploymentTemplatePreview"];
+        };
+        TemplatePublishInput: {
+            expectedRevision: number;
+        };
         WorkflowTemplate: {
+            /** @description Current editable revision used for conditional saves. */
+            revision?: number;
+            /** @description Latest immutable published version; zero means unpublished. */
+            publishedVersion?: number;
+            publicationState?: components["schemas"]["TemplatePublicationState"];
+            /** @description Digest of the immutable published content, absent for drafts. */
+            contentDigest?: string;
             id: string;
             key: string;
             name: string;
             description?: string;
             category?: string;
+            /** @description A legacy application DAG, or a DeliveryBatchTemplateDefinition with mode delivery_batch. Batch recipes supply defaults; explicitly supplied workflow settings override them. */
             definition?: {
                 [key: string]: unknown;
             };
@@ -13922,17 +16275,28 @@ export interface components {
             updatedAt: string;
         };
         WorkflowTemplateInput: {
+            copiedFrom?: components["schemas"]["TemplateCopyOrigin"];
+            /** @description Reject an update if the stored revision differs. */
+            expectedRevision?: number;
+            /**
+             * @description Publish an immutable version when saving. False saves a draft; omission preserves legacy save-and-publish behavior.
+             * @default true
+             */
+            publish?: boolean;
             id?: string;
             key: string;
             name: string;
             description?: string;
             category?: string;
+            /** @description A legacy application DAG, or a DeliveryBatchTemplateDefinition with mode delivery_batch. Batch recipes supply defaults; explicitly supplied workflow settings override them. */
             definition?: {
                 [key: string]: unknown;
             };
             enabled: boolean;
         };
         ApplicationWorkflowInput: {
+            /** @description Current application workflow revision for conditional save. */
+            expectedRevision?: number;
             name: string;
             description?: string;
             definition: {
@@ -13941,6 +16305,8 @@ export interface components {
             enabled: boolean;
         };
         ApplicationEnvironment: {
+            /** @description Immutable published workflow template version; omission pins the latest permitted version when the binding is saved. */
+            workflowTemplateVersion?: number;
             id: string;
             applicationId: string;
             businessLineId?: string;
@@ -13966,6 +16332,13 @@ export interface components {
             updatedAt: string;
         };
         ApplicationEnvironmentInput: {
+            /**
+             * Format: date-time
+             * @description Optional optimistic concurrency guard for replacing an existing environment configuration and its release targets. A stale value returns 409 without changes.
+             */
+            expectedUpdatedAt?: string;
+            /** @description Immutable published workflow template version; omission pins the latest permitted version when the binding is saved. */
+            workflowTemplateVersion?: number;
             id?: string;
             applicationId: string;
             environmentId: string;
@@ -14096,13 +16469,22 @@ export interface components {
             data: components["schemas"]["HelmReleaseImportResult"];
         };
         BuildTemplate: {
+            /** @description Current editable revision used for conditional saves. */
+            revision?: number;
+            /** @description Latest immutable published version; zero means unpublished. */
+            publishedVersion?: number;
+            publicationState?: components["schemas"]["TemplatePublicationState"];
+            /** @description Digest of the immutable published content, absent for drafts. */
+            contentDigest?: string;
             id: string;
             key: string;
             name: string;
             description?: string;
             builderKind?: string;
+            /** @description Immutable Dockerfile content rendered into .soha-template.Dockerfile in the build workspace. Declared {{name}} placeholders accept inert literal tokens; undeclared or unsafe substitutions are rejected. */
             dockerfileTemplate?: string;
             buildCommands?: string[];
+            /** @description Flat map of variable names to scalar schemas (string, boolean, number or integer), with a boolean required field. Unknown parameters and reserved system names are rejected. Defaults are overridden by BuildSource config.variables and then trigger variables. Commands can read arbitrary text through quoted SOHA_BUILD_<name> environment variables; variables are not credentials. */
             variableSchema?: {
                 [key: string]: unknown;
             };
@@ -14116,13 +16498,23 @@ export interface components {
             updatedAt: string;
         };
         BuildTemplateInput: {
+            copiedFrom?: components["schemas"]["TemplateCopyOrigin"];
+            /** @description Reject an update if the stored revision differs. */
+            expectedRevision?: number;
+            /**
+             * @description Publish an immutable version when saving. False saves a draft; omission preserves legacy save-and-publish behavior.
+             * @default true
+             */
+            publish?: boolean;
             id?: string;
             key: string;
             name: string;
             description?: string;
             builderKind?: string;
+            /** @description Dockerfile content rendered into .soha-template.Dockerfile at execution. When buildCommands is empty, the configured container builder builds and pushes it. {{name}} substitutions must be inert literal tokens; DOCKERFILE_PATH, CONTEXT_DIR and IMAGE_REF are system values. */
             dockerfileTemplate?: string;
             buildCommands?: string[];
+            /** @description Flat map of variable names to scalar schemas (string, boolean, number or integer), with a boolean required field. Defaults are overridden by BuildSource config.variables and then trigger variables. IMAGE_REF, CONTEXT_DIR, DOCKERFILE_PATH and names starting with SOHA_ are reserved. Commands can read free text through quoted SOHA_BUILD_<name> environment variables; use secret leases for credentials. */
             variableSchema?: {
                 [key: string]: unknown;
             };
@@ -14166,7 +16558,745 @@ export interface components {
             status: string;
             summary?: string;
         };
+        DeliveryTargetInput: {
+            id: string;
+            applicationId: string;
+            serviceId: string;
+            applicationEnvironmentId?: string;
+            releaseTargetId?: string;
+            /** @description Existing owned Helm revision to restore through a new config_update batch. */
+            helmRevision?: number;
+            /** @enum {string} */
+            action: "build_deploy" | "build" | "deploy" | "config_update";
+            releaseBundleId?: string;
+            repositoryRefs?: components["schemas"]["BuildRepositoryRefInput"][];
+            buildArgs?: {
+                [key: string]: string;
+            };
+            /** @default 0 */
+            group?: number;
+            dependsOn?: string[];
+        } & (unknown & unknown);
+        /** @enum {string} */
+        DeliveryDocumentKind: "BuildTemplate" | "DeploymentTemplate" | "WorkflowTemplate" | "Workflow";
+        /** @description Template name is its stable key. For Workflow, name is only a file identifier; its display name is spec.definition.name. IDs, publication state, credentials and source claims cannot be set here. */
+        DeliveryDocumentMetadata: {
+            name: string;
+            displayName?: string;
+            description?: string;
+        };
+        DeliveryBuildVariableSchema: {
+            /** @enum {string} */
+            type: "string" | "boolean" | "integer" | "number";
+            title?: string;
+            label?: string;
+            description?: string;
+            required?: boolean;
+            enum?: (string | number | boolean)[];
+            minimum?: number;
+            maximum?: number;
+            minLength?: number;
+            maxLength?: number;
+        };
+        DeliveryBuildTemplateSpec: {
+            /** @default custom */
+            builderKind?: string;
+            dockerfileTemplate?: string;
+            buildCommands?: string[];
+            variableSchema?: {
+                [key: string]: components["schemas"]["DeliveryBuildVariableSchema"];
+            };
+            defaultVariables?: {
+                [key: string]: string | number | boolean;
+            };
+            /** @default true */
+            enabled?: boolean;
+        } & ({
+            dockerfileTemplate: string;
+        } | unknown);
+        DeliveryDeploymentTemplateSpec: {
+            source: components["schemas"]["DeploymentTemplateSource"];
+            parameterSchema: components["schemas"]["TemplateParameterSchema"];
+            defaults: components["schemas"]["TemplateParameterValues"];
+            environmentOverrides?: string[];
+            artifacts?: {
+                [key: string]: string;
+            };
+            health: components["schemas"]["DeploymentTemplateHealth"];
+            /** @default true */
+            enabled?: boolean;
+        };
+        DeliveryDocumentStep: {
+            id?: string;
+            name?: string;
+            /** @enum {string} */
+            type: "manual_approval" | "deploy_update_image" | "wait_rollout" | "check_http" | "check_k8s_event" | "smoke_test" | "notify" | "rollback_to_previous" | "restart_workload" | "scale_workload" | "delete_pod" | "evict_pod" | "http_callback" | "create_silence" | "build" | "release" | "verify" | "check";
+            position?: {
+                x: number;
+                y: number;
+            };
+            timeoutSeconds?: number;
+            continueOnFailure?: boolean;
+            /** @description Existing executor-specific inert configuration. Keys remain owned and validated by the selected executor; importing never evaluates them. */
+            config?: components["schemas"]["TemplateParameterValues"];
+            executorKind?: string;
+            targetKind?: string;
+            capabilityRef?: string;
+            providerRef?: string;
+            targetId?: string;
+            stage?: string;
+            inputs?: string[];
+            outputs?: string[];
+            serviceSelector?: components["schemas"]["TemplateParameterValues"];
+            environmentSelector?: components["schemas"]["TemplateParameterValues"];
+            targetSelector?: components["schemas"]["TemplateParameterValues"];
+            inputMapping?: components["schemas"]["TemplateParameterValues"];
+            observability?: components["schemas"]["TemplateParameterValues"];
+            artifactOutputs?: {
+                name: string;
+                /** @enum {string} */
+                kind: "image" | "test_report" | "scan_report" | "sbom" | "screenshot" | "video" | "junit" | "log";
+                ref?: string;
+                path?: string;
+                required?: boolean;
+            }[];
+            artifactKinds?: ("image" | "test_report" | "scan_report" | "sbom" | "screenshot" | "video" | "junit" | "log")[];
+            runCondition?: string;
+            failurePolicy?: string;
+            fanOutStrategy?: string;
+            fanOutBatchSize?: number;
+            fanOutFailurePolicy?: string;
+            fanOut?: {
+                strategy?: string;
+                batchSize?: number;
+                failurePolicy?: string;
+            };
+        };
+        DeliveryDocumentDAG: {
+            /** @enum {integer} */
+            schemaVersion?: 1 | 2;
+            /** @enum {string} */
+            mode?: "release_dag" | "delivery_dag";
+            nodes?: (components["schemas"]["DeliveryDocumentStep"] & unknown)[];
+            edges?: {
+                id?: string;
+                source: string;
+                target: string;
+                /** @enum {string} */
+                condition?: "success" | "failure" | "always";
+            }[];
+            stages?: {
+                name: string;
+                steps: components["schemas"]["DeliveryDocumentStep"][];
+            }[];
+            steps?: components["schemas"]["DeliveryDocumentStep"][];
+            onFailure?: components["schemas"]["DeliveryDocumentStep"][];
+        } & (unknown | unknown | unknown);
+        DeliveryWorkflowTemplateSpec: {
+            /** @default release */
+            category?: string;
+            definition: components["schemas"]["DeliveryBatchTemplateDefinition"] | components["schemas"]["DeliveryDocumentDAG"];
+            /** @default true */
+            enabled?: boolean;
+        };
+        DeliveryWorkflowDocumentSpec: {
+            definition: components["schemas"]["DeliveryWorkflowDefinition"];
+        };
+        DeliveryBuildTemplateDocument: {
+            /** @constant */
+            apiVersion: "delivery.soha.io/v1alpha1";
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            kind: "BuildTemplate";
+            metadata: components["schemas"]["DeliveryDocumentMetadata"];
+            spec: components["schemas"]["DeliveryBuildTemplateSpec"];
+        };
+        DeliveryDeploymentTemplateDocument: {
+            /** @constant */
+            apiVersion: "delivery.soha.io/v1alpha1";
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            kind: "DeploymentTemplate";
+            metadata: components["schemas"]["DeliveryDocumentMetadata"];
+            spec: components["schemas"]["DeliveryDeploymentTemplateSpec"];
+        };
+        DeliveryWorkflowTemplateDocument: {
+            /** @constant */
+            apiVersion: "delivery.soha.io/v1alpha1";
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            kind: "WorkflowTemplate";
+            metadata: components["schemas"]["DeliveryDocumentMetadata"];
+            spec: components["schemas"]["DeliveryWorkflowTemplateSpec"];
+        };
+        DeliveryWorkflowDocument: {
+            /** @constant */
+            apiVersion: "delivery.soha.io/v1alpha1";
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            kind: "Workflow";
+            /** @description File identifier only. The workflow display name is spec.definition.name. */
+            metadata: {
+                name: string;
+            };
+            spec: components["schemas"]["DeliveryWorkflowDocumentSpec"];
+        };
+        /**
+         * Soha Delivery Document
+         * @description One UTF-8 YAML 1.2 JSON-subset or JSON document. Duplicate keys, aliases, tags, non-string keys, non-finite numbers, unsafe integers, unknown fields and versions are rejected. Maximum 1 MiB per file and nesting depth 64. No import operation executes document contents.
+         */
+        DeliveryDocument: components["schemas"]["DeliveryBuildTemplateDocument"] | components["schemas"]["DeliveryDeploymentTemplateDocument"] | components["schemas"]["DeliveryWorkflowTemplateDocument"] | components["schemas"]["DeliveryWorkflowDocument"];
+        DeliveryDocumentFile: {
+            /** @description Relative display path; traversal */
+            path: string;
+            content: string;
+            /** @description Explicit existing object to update. Omission creates; names never imply overwrite. */
+            targetId?: string;
+            /** @description Target template revision or Workflow version. Required with targetId. */
+            expectedRevision?: number;
+        };
+        /** @description Total UTF-8 content cannot exceed 2 MiB. Every file must validate before a preview can be applied. */
+        DeliveryDocumentPreviewInput: {
+            /**
+             * @description Validate and normalize for source editing without storing an import candidate. Returns no preview ID or expiry and cannot be applied.
+             * @default false
+             */
+            validateOnly?: boolean;
+            files: components["schemas"]["DeliveryDocumentFile"][];
+        };
+        DeliveryDocumentDiagnostic: {
+            path: string;
+            document: number;
+            /** @description RFC 6901 pointer. Empty means document root. */
+            pointer: string;
+            line?: number;
+            column?: number;
+            code: string;
+            /** @description Diagnostic without raw values or credentials. */
+            message: string;
+        };
+        DeliveryDocumentCandidate: {
+            path: string;
+            document: components["schemas"]["DeliveryDocument"];
+            /** @enum {string} */
+            action: "create" | "update" | "unchanged";
+            targetId?: string;
+            expectedRevision?: number;
+            sourceDigest: string;
+            normalizedSpecDigest: string;
+            changedPaths: string[];
+        };
+        DeliveryDocumentPreview: {
+            id?: string;
+            valid: boolean;
+            candidateDigest?: string;
+            /** Format: date-time */
+            expiresAt?: string;
+            candidates: components["schemas"]["DeliveryDocumentCandidate"][];
+            diagnostics: components["schemas"]["DeliveryDocumentDiagnostic"][];
+        };
+        DeliveryDocumentApplyInput: {
+            candidateDigest: string;
+            idempotencyKey: string;
+        };
+        DeliveryDocumentImportedObject: {
+            path: string;
+            kind: components["schemas"]["DeliveryDocumentKind"];
+            id: string;
+            revision: number;
+            /** @enum {string} */
+            action: "create" | "update" | "unchanged";
+        };
+        DeliveryDocumentImport: {
+            previewId: string;
+            objects: components["schemas"]["DeliveryDocumentImportedObject"][];
+        };
+        DeliveryDocumentExport: {
+            /** @enum {string} */
+            format: "yaml" | "json";
+            content: string;
+            document: components["schemas"]["DeliveryDocument"];
+            normalizedSpecDigest: string;
+        };
+        DeliveryDocumentPreviewEnvelope: {
+            data: components["schemas"]["DeliveryDocumentPreview"];
+        };
+        DeliveryDocumentImportEnvelope: {
+            data: components["schemas"]["DeliveryDocumentImport"];
+        };
+        DeliveryDocumentExportEnvelope: {
+            data: components["schemas"]["DeliveryDocumentExport"];
+        };
+        /** @description Replace only explicit matching repository refs in a versioned workflow with a verified event commit. Unmatched repository/ref pairs are rejected; no repository is inferred. */
+        DeliverySourceCommit: {
+            repositoryId: string;
+            /** @enum {string} */
+            refType: "branch" | "tag";
+            refName: string;
+            commit: string;
+        };
+        DeliveryTriggerWebhook: {
+            /** @enum {string} */
+            provider: "gitlab_standard";
+            repositoryId: string;
+            /** @enum {string} */
+            refType: "branch" | "tag";
+            refValue: string;
+        };
+        /** @description Minute precision, IANA time zone. Missed slots are skipped, repeated DST wall-clock minutes run once, nonexistent minutes are skipped. Excluded local dates apply to cron and explicit calendar times. Dispatch skips a slot while the same trigger's previous batch is active. */
+        DeliveryTriggerSchedule: {
+            timeZone: string;
+            /** @description Five fields (minute hour day month weekday), supporting star, comma-separated numeric values and star/step. Day and weekday both match. Sunday is 0. */
+            cron?: string;
+            runAt?: string[];
+            excludedDates?: string[];
+        } & ({
+            cron: string;
+        } | {
+            runAt: string[];
+        });
+        /** @description Create with expectedRevision=0 and a serviceAccountToken. Updates require the current revision. Credentials are write-only and omitted values retain existing credentials. Template-source triggers import drafts only. Poll is restricted to template sources; workflow schedule requires a fixed workflowVersion. */
+        DeliveryTriggerInput: {
+            expectedRevision: number;
+            name: string;
+            enabled: boolean;
+            /** @enum {string} */
+            targetKind: "template_source" | "workflow";
+            targetId: string;
+            workflowVersion?: number;
+            /** @enum {string} */
+            type: "webhook" | "schedule" | "poll";
+            /** @description Proof of possession. The bearer value is validated and discarded; only subject and revocable token IDs are retained. */
+            serviceAccountToken?: string;
+            /** @description GitLab Standard Webhooks signing token in whsec_base64 format. Encrypted at rest. Replacement immediately revokes the previous signing key. */
+            webhookSigningSecret?: string;
+            webhook?: components["schemas"]["DeliveryTriggerWebhook"];
+            schedule?: components["schemas"]["DeliveryTriggerSchedule"];
+        } & ({
+            /** @constant */
+            type?: "webhook";
+        } | {
+            /** @enum {unknown} */
+            type?: "schedule" | "poll";
+        });
+        DeliveryTrigger: {
+            id: string;
+            revision: number;
+            name: string;
+            enabled: boolean;
+            /** @enum {string} */
+            targetKind: "template_source" | "workflow";
+            targetId: string;
+            workflowVersion?: number;
+            /** @enum {string} */
+            type: "webhook" | "schedule" | "poll";
+            webhook?: components["schemas"]["DeliveryTriggerWebhook"];
+            schedule?: components["schemas"]["DeliveryTriggerSchedule"];
+            serviceAccountId: string;
+            serviceAccountName: string;
+            signingSecretConfigured: boolean;
+            lastEvent?: components["schemas"]["DeliveryTriggerEvent"];
+            createdBy: string;
+            updatedBy: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        /** @description Trigger dispatch result. Succeeded means draft synchronization was applied or an existing Batch was accepted, never that deployment succeeded. Follow batchId for execution status. */
+        DeliveryTriggerEvent: {
+            id: string;
+            triggerId: string;
+            triggerRevision: number;
+            eventId: string;
+            /** @enum {string} */
+            eventType: "webhook" | "schedule" | "poll";
+            /** @enum {string} */
+            status: "queued" | "processing" | "succeeded" | "failed" | "skipped";
+            attempts: number;
+            /** Format: date-time */
+            occurredAt: string;
+            resolvedCommit?: string;
+            syncRunId?: string;
+            batchId?: string;
+            /** @description Safe machine-readable dispatch outcome. No credentials, payloads or remote command output. */
+            reason?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        /** @description External GitLab push/tag push webhook payload. Provider extension fields are retained only for signature verification and are never persisted or interpreted as trigger configuration. */
+        DeliveryGitLabPushEvent: {
+            /** @enum {string} */
+            object_kind: "push" | "tag_push";
+            ref: string;
+            after: string;
+            project: {
+                id: number;
+            } & {
+                [key: string]: unknown;
+            };
+        } & {
+            [key: string]: unknown;
+        };
+        DeliveryTriggerEnvelope: {
+            data: components["schemas"]["DeliveryTrigger"];
+        };
+        DeliveryTriggerListEnvelope: {
+            data: components["schemas"]["DeliveryTrigger"][];
+        };
+        DeliveryTriggerEventEnvelope: {
+            data: components["schemas"]["DeliveryTriggerEvent"];
+        };
+        DeliveryTriggerEventListEnvelope: {
+            data: components["schemas"]["DeliveryTriggerEvent"][];
+        };
+        /** @description Stored repository and opaque credentials only. HTTPS or SSH is required. Saving never fetches, publishes or executes a definition. Creation requires expectedGeneration=0; updates require the current positive generation. */
+        DeliveryTemplateSourceInput: {
+            expectedGeneration: number;
+            name: string;
+            repositoryId: string;
+            /** @enum {string} */
+            refType: "branch" | "tag" | "commit";
+            refValue: string;
+            /** @description Explicit repository-relative directory. Dot selects the root; traversal and symlinks are rejected. */
+            path: string;
+            kinds: components["schemas"]["DeliveryDocumentKind"][];
+            /** @description Defaults to *.soha.yaml, *.soha.yml and *.soha.json recursively under path. */
+            includePatterns?: string[];
+            excludePatterns?: string[];
+            enabled: boolean;
+        };
+        DeliveryTemplateSource: {
+            id: string;
+            name: string;
+            repositoryId: string;
+            /** @enum {string} */
+            refType: "branch" | "tag" | "commit";
+            refValue: string;
+            path: string;
+            kinds: components["schemas"]["DeliveryDocumentKind"][];
+            includePatterns?: string[];
+            excludePatterns?: string[];
+            enabled: boolean;
+            generation: number;
+            lastSyncRunId?: string;
+            lastAppliedRunId?: string;
+            resolvedCommit?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DeliveryTemplateSourceAssociation: {
+            sourceId: string;
+            kind: components["schemas"]["DeliveryDocumentKind"];
+            objectId: string;
+            key: string;
+            path: string;
+            lastImportedRevision: number;
+            resolvedCommit: string;
+            sourceDigest: string;
+            normalizedSpecDigest: string;
+            syncRunId: string;
+            removed: boolean;
+        };
+        /** @description Immutable provenance captured when a template version is published. Source removal and detachment never erase it. Workflow uses its saved version. */
+        DeliveryTemplateProvenance: {
+            sourceId: string;
+            repositoryId: string;
+            kind: components["schemas"]["DeliveryDocumentKind"];
+            objectId: string;
+            version: number;
+            resolvedCommit: string;
+            treeDigest: string;
+            path: string;
+            sourceDigest: string;
+            normalizedSpecDigest: string;
+            syncRunId: string;
+        };
+        /** @description Create-only derivation audit. References a readable template of the same kind. Does not transfer Git management, publication, or execution authority. The server rejects a stale revision; version, when present, selects immutable published content. */
+        TemplateCopyOrigin: {
+            id: string;
+            /** Format: int64 */
+            revision: number;
+            /** Format: int64 */
+            version?: number;
+        };
+        /** @description Registered repository details, included only when the caller can read the repository. URL is the clone address and is never a credential. */
+        DeliveryDocumentRepository: {
+            id: string;
+            name: string;
+            url: string;
+        };
+        DeliveryDocumentSourceInfo: {
+            repository?: components["schemas"]["DeliveryDocumentRepository"];
+            association?: components["schemas"]["DeliveryTemplateSourceAssociation"];
+            provenance?: components["schemas"]["DeliveryTemplateProvenance"];
+        };
+        DeliveryTemplateSyncInput: {
+            expectedGeneration: number;
+            idempotencyKey: string;
+            /** @description Optional exact commit for an authenticated source event. It is part of the idempotency identity and never changes the saved source ref. */
+            resolvedCommit?: string;
+        };
+        DeliveryTemplateSyncRun: {
+            id: string;
+            sourceId: string;
+            sourceGeneration: number;
+            /** @enum {string} */
+            status: "running" | "ready" | "invalid" | "failed" | "applied" | "stale";
+            actorId: string;
+            /** @description Exact event commit supplied to this sync */
+            requestedCommit?: string;
+            resolvedCommit?: string;
+            treeDigest?: string;
+            preview?: components["schemas"]["DeliveryDocumentPreview"];
+            removed?: components["schemas"]["DeliveryTemplateSourceAssociation"][];
+            result?: components["schemas"]["DeliveryDocumentImport"];
+            errorCode?: string;
+            /** @description Safe summary without command output */
+            errorMessage?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DeliveryTemplateSyncApplyInput: {
+            expectedGeneration: number;
+            candidateDigest: string;
+            idempotencyKey: string;
+        };
+        /** @description Review source objects before removing or detaching. keep transfers them to Soha management; deprecate also disables template selection. Workflow supports keep only. Bindings, runs and version provenance are retained. */
+        DeliveryTemplateSourceRemoveInput: {
+            expectedGeneration: number;
+            /** @enum {string} */
+            disposition: "keep" | "deprecate";
+        };
+        DeliveryTemplateSourceEnvelope: {
+            data: components["schemas"]["DeliveryTemplateSource"];
+        };
+        DeliveryTemplateSyncRunEnvelope: {
+            data: components["schemas"]["DeliveryTemplateSyncRun"];
+        };
+        DeliveryDocumentSourceInfoEnvelope: {
+            data: components["schemas"]["DeliveryDocumentSourceInfo"];
+        };
+        DeliveryTemplateSourceListEnvelope: {
+            data: components["schemas"]["DeliveryTemplateSource"][];
+        };
+        DeliveryTemplateSourceAssociationListEnvelope: {
+            data: components["schemas"]["DeliveryTemplateSourceAssociation"][];
+        };
+        DeliveryTemplateSyncRunListEnvelope: {
+            data: components["schemas"]["DeliveryTemplateSyncRun"][];
+        };
+        BuildTriggerRequest: {
+            applicationId: string;
+            applicationEnvironmentId?: string;
+            serviceId?: string;
+            repositoryId?: string;
+            buildSourceId?: string;
+            /**
+             * @default branch
+             * @enum {string}
+             */
+            refType?: "branch" | "tag" | "commit";
+            refName: string;
+            imageTag?: string;
+            resolvedCommit?: string;
+            repositoryRefs?: components["schemas"]["BuildRepositoryRefInput"][];
+            buildArgs?: components["schemas"]["TemplateParameterValues"];
+            variables?: components["schemas"]["TemplateParameterValues"];
+        };
+        BuildTriggerEnvelope: {
+            data: components["schemas"]["BuildRecord"];
+            requestId?: string;
+        };
+        WorkflowCatalogScope: {
+            applicationId: string;
+            applicationName: string;
+            serviceId?: string;
+            applicationEnvironmentId?: string;
+            environmentId?: string;
+            environmentName?: string;
+        };
+        WorkflowCatalogEntry: {
+            /** @description Source-qualified stable identity */
+            id: string;
+            /** @enum {string} */
+            sourceKind: "build_source" | "application_workflow" | "delivery_workflow";
+            sourceId: string;
+            name: string;
+            context: string;
+            enabled: boolean;
+            scopes: components["schemas"]["WorkflowCatalogScope"][];
+        };
+        WorkflowCatalogOption: {
+            value: string;
+            label: string;
+        };
+        /** @description Exactly one of batch, application or build is populated, matching kind. Nested records retain the original detail API and authorization semantics. */
+        DeliveryExecutionHistoryEntry: {
+            id: string;
+            /** @enum {string} */
+            kind: "batch" | "application" | "build";
+            /** Format: date-time */
+            createdAt: string;
+            batch?: components["schemas"]["DeliveryBatch"];
+            application?: components["schemas"]["WorkflowRun"];
+            build?: components["schemas"]["BuildRecord"];
+        };
+        DeliveryExecutionHistoryPage: {
+            items: components["schemas"]["DeliveryExecutionHistoryEntry"][];
+            /** @description Cursor after the last returned authorized record. Omitted when no later page exists. Changing filters starts a new traversal. */
+            nextCursor?: string;
+        };
+        DeliveryExecutionHistoryEnvelope: {
+            data: components["schemas"]["DeliveryExecutionHistoryPage"];
+        };
+        WorkflowCatalogPage: {
+            items: components["schemas"]["WorkflowCatalogEntry"][];
+            total: number;
+            applications: components["schemas"]["WorkflowCatalogOption"][];
+            environments: components["schemas"]["WorkflowCatalogOption"][];
+        };
+        WorkflowCatalogEnvelope: {
+            data: components["schemas"]["WorkflowCatalogPage"];
+            requestId?: string;
+        };
+        DeliveryWorkflowDefinition: {
+            name: string;
+            /**
+             * @default service_serial
+             * @enum {string}
+             */
+            mode?: "service_serial" | "build_all_then_deploy";
+            /** @default true */
+            stopOnFailure?: boolean;
+            /** @default 4 */
+            maxConcurrency?: number;
+            workflowTemplateId?: string;
+            workflowTemplateVersion?: number;
+            targets: components["schemas"]["DeliveryTargetInput"][];
+        };
+        DeliveryWorkflowInput: {
+            /** @description Optional on creation only. Scoped to the actor; identical retries return the original creation receipt, including its version. Reusing a key with changed input conflicts. */
+            idempotencyKey?: string;
+            expectedVersion?: number;
+            definition: components["schemas"]["DeliveryWorkflowDefinition"];
+        };
+        DeliveryWorkflow: {
+            id: string;
+            version: number;
+            definition: components["schemas"]["DeliveryWorkflowDefinition"];
+            createdBy: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DeliveryBatchInput: {
+            idempotencyKey: string;
+            workflowId?: string;
+            workflowVersion?: number;
+            definition?: components["schemas"]["DeliveryWorkflowDefinition"];
+            retryOfBatchId?: string;
+            sourceCommit?: components["schemas"]["DeliverySourceCommit"];
+        } & (unknown | unknown);
+        DeliveryTargetSnapshot: {
+            target: components["schemas"]["DeliveryTargetInput"];
+            applicationName: string;
+            serviceName: string;
+            environmentName?: string;
+            serviceVersion: number;
+            configurationDigest: string;
+            buildFingerprint?: string;
+            buildNodeId?: string;
+            buildSourceId?: string;
+            repositoryRefs?: components["schemas"]["BuildRepositoryRefInput"][];
+            deploymentTemplate?: components["schemas"]["ServiceDeploymentTemplateBinding"];
+            manifestPackageId?: string;
+            manifestBindingId?: string;
+            manifestRevision?: number;
+        };
+        /** @description Versioned batch stage recipe. The server compiles these stages for each target and applies ordering and dependency policy. */
+        DeliveryBatchTemplateDefinition: {
+            /** @enum {string} */
+            mode: "delivery_batch";
+            /** @enum {integer} */
+            schemaVersion: 1;
+            /** @description Exactly build, plan, deploy, health in that order. Stages irrelevant to the target action are omitted; approval remains part of the final plan. */
+            stages: ("build" | "plan" | "deploy" | "health")[];
+            /** @enum {string} */
+            executionMode: "service_serial" | "build_all_then_deploy";
+            stopOnFailure: boolean;
+            maxConcurrency: number;
+        };
+        DeliveryBatch: {
+            /** @description True when targets, counts and status are limited by access or list filters. Whole-batch cancel and retry actions require the complete authorized batch. */
+            partialView?: boolean;
+            id: string;
+            rootRunId: string;
+            workflowId?: string;
+            workflowTemplateDigest?: string;
+            workflowVersion?: number;
+            retryOfBatchId?: string;
+            definition: components["schemas"]["DeliveryWorkflowDefinition"];
+            targets: components["schemas"]["DeliveryTargetSnapshot"][];
+            /** @enum {string} */
+            status: "queued" | "running" | "waiting_approval" | "waiting_execution" | "canceling" | "completed" | "partially_completed" | "failed" | "canceled";
+            /** @enum {string} */
+            stopReason?: "failure" | "user";
+            stopSummary?: string;
+            serviceCount: number;
+            targetCount: number;
+            buildCount: number;
+            nodes: components["schemas"]["WorkflowNodeRun"][];
+            createdBy: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DeliveryBatchActionInput: {
+            reason?: string;
+        };
+        DeliveryWorkflowEnvelope: {
+            data: components["schemas"]["DeliveryWorkflow"];
+        };
+        DeliveryWorkflowListEnvelope: {
+            data: components["schemas"]["DeliveryWorkflow"][];
+        };
+        DeliveryBatchEnvelope: {
+            data: components["schemas"]["DeliveryBatch"];
+        };
+        DeliveryBatchListEnvelope: {
+            data: components["schemas"]["DeliveryBatch"][];
+        };
         WorkflowNodeRun: {
+            dockerOperationId?: string;
+            controlCall?: components["schemas"]["ToolInvocationRequest"];
+            preparedCall?: components["schemas"]["ToolInvocationRequest"];
+            invocation?: components["schemas"]["ToolInvocationResult"];
+            dispatchAttempted?: boolean;
+            targetId?: string;
+            /** @enum {string} */
+            stage?: "build" | "plan" | "deploy" | "health" | "barrier";
+            buildRecordId?: string;
+            releaseBundleId?: string;
+            deliveryPlanId?: string;
+            executionTaskId?: string;
+            manifestDeploymentId?: string;
             nodeId: string;
             name: string;
             type: string;
@@ -14176,6 +17306,9 @@ export interface components {
             finishedAt?: string;
         };
         WorkflowRun: {
+            /** @enum {string} */
+            scope?: "application" | "delivery_batch";
+            deliveryBatchId?: string;
             id: string;
             applicationId: string;
             workflowName: string;
@@ -14325,6 +17458,7 @@ export interface components {
             resourceSelector?: components["schemas"]["ResourceSelector"];
             targets?: components["schemas"]["ReleaseTarget"][];
             workloads?: components["schemas"]["ApplicationRuntimeWorkload"][];
+            manifestDeployments?: components["schemas"]["ManifestDeployment"][];
         };
         ApplicationRuntimeDetail: {
             application: components["schemas"]["Application"];
@@ -14372,6 +17506,7 @@ export interface components {
             workflowRunId?: string;
         };
         ApplicationDeliveryActionResult: {
+            dockerOperationIds?: string[];
             action: components["schemas"]["ApplicationDeliveryActionKind"];
             applicationId: string;
             applicationEnvironmentId: string;
@@ -14379,13 +17514,27 @@ export interface components {
             build?: components["schemas"]["BuildRecord"];
             workflow?: components["schemas"]["WorkflowRun"];
             release?: components["schemas"]["ReleaseRecord"];
+            manifestDeployments?: components["schemas"]["ManifestDeployment"][];
             relatedIds?: components["schemas"]["ApplicationDeliveryActionRelatedIDs"];
         };
         /** @enum {string} */
         ManifestPackageRenderer: "raw_yaml" | "kustomize";
         /** @enum {string} */
         ManifestPackageStatus: "draft" | "published";
+        ManifestKustomizeImage: {
+            /** @description Image name matched by the native Kustomize images transformer. */
+            name: string;
+            /** @description Optional replacement image repository, without a tag or digest. */
+            newName?: string;
+            digest: string;
+        };
+        ManifestKustomizeOptions: {
+            /** @description Directory containing a standard Kustomization file, relative to the package root. Defaults to the package root; the root retains shared bases and generator files. */
+            entryPath?: string;
+            images?: components["schemas"]["ManifestKustomizeImage"][];
+        };
         ManifestPackageBinding: {
+            templateParameters?: components["schemas"]["TemplateParameterValues"];
             id?: string;
             applicationEnvironmentId: string;
             environmentKey: string;
@@ -14394,6 +17543,7 @@ export interface components {
             overlay?: {
                 [key: string]: string;
             };
+            kustomize?: components["schemas"]["ManifestKustomizeOptions"];
             status?: string;
         };
         ManifestPackage: {
@@ -14416,6 +17566,11 @@ export interface components {
             updatedAt: string;
         };
         ManifestPackageInput: {
+            /**
+             * Format: date-time
+             * @description Draft compare-and-swap token from updatedAt, required when updating a service template configuration; stale writes return conflict. Optional for legacy independent packages.
+             */
+            expectedUpdatedAt?: string;
             name: string;
             description?: string;
             applicationId: string;
@@ -14424,6 +17579,14 @@ export interface components {
             renderer: components["schemas"]["ManifestPackageRenderer"];
             files: components["schemas"]["ManifestFile"][];
             bindings: components["schemas"]["ManifestPackageBinding"][];
+        };
+        ManifestRevisionInput: {
+            /**
+             * Format: date-time
+             * @description Current package updatedAt; concurrent changes return conflict.
+             */
+            expectedUpdatedAt: string;
+            note?: string;
         };
         ManifestPackagePage: {
             items: components["schemas"]["ManifestPackage"][];
@@ -14532,6 +17695,8 @@ export interface components {
             /** @enum {string} */
             renderer: "raw_yaml" | "kustomize";
             renderedDigest: string;
+            inputDigest?: string;
+            rendererVersion?: string;
             documents: components["schemas"]["ManifestRenderedDocument"][];
             diagnostics: components["schemas"]["ManifestDiagnostic"][];
         };
@@ -14544,9 +17709,66 @@ export interface components {
             /** @default false */
             forceConflicts?: boolean;
         };
+        ProgressiveRolloutControlInput: {
+            /** @enum {string} */
+            action: "pause" | "promote" | "abort";
+            uid: string;
+            resourceVersion: string;
+        };
+        ProgressiveRolloutMetric: {
+            analysisRun: string;
+            uid: string;
+            name: string;
+            phase: string;
+            count: number;
+            successful: number;
+            failed: number;
+            interval: string;
+            targetCount: number;
+            successCondition: string;
+            value?: string;
+            startedAt?: string;
+            finishedAt?: string;
+        };
+        /** @description Observed Argo Rollouts state. Traffic weights are read from Traefik, never inferred from replica counts. Promotion clears only a manual pause and does not skip analysis. */
+        ProgressiveRolloutStatus: {
+            name: string;
+            namespace: string;
+            uid: string;
+            resourceVersion: string;
+            operationId: string;
+            /** Format: int64 */
+            generation: number;
+            /** Format: int64 */
+            observedGeneration?: number;
+            phase: string;
+            /** @enum {string} */
+            strategy: "blueGreen" | "canary";
+            paused: boolean;
+            aborted: boolean;
+            stableRevision: string;
+            currentRevision: string;
+            activeService: string;
+            previewService: string;
+            activeRevision?: string;
+            previewRevision?: string;
+            currentStep?: number;
+            totalSteps?: number;
+            stableWeight?: number;
+            canaryWeight?: number;
+            metrics: components["schemas"]["ProgressiveRolloutMetric"][];
+            pauseReasons: string[];
+        };
+        ProgressiveRolloutStatusEnvelope: {
+            data: components["schemas"]["ProgressiveRolloutStatus"];
+        };
         /** @enum {string} */
-        ManifestTaskAction: "preflight" | "apply" | "observe" | "repair" | "adopt" | "rollback" | "sync";
+        ManifestTaskAction: "preflight" | "apply" | "observe" | "repair" | "adopt" | "rollback" | "sync" | "rollout_control";
+        /** @description Controller-aware tasks use providerKind manifest_agent_v3.<clusterId> and require manifest.execution.v3. Older runners must not claim these tasks or bypass GitOps and Rollout ownership. */
         ManifestExecutionTaskPayload: {
+            rolloutControl?: components["schemas"]["ProgressiveRolloutControlInput"];
+            /** @description Server-rendered child resources from the single Argo Application's immutable Git source and image overrides; used for ownership admission and live verification, never direct apply. */
+            gitOpsDocuments?: components["schemas"]["ManifestRenderedDocument"][];
             action: components["schemas"]["ManifestTaskAction"];
             packageId: string;
             bindingId?: string;
@@ -14613,6 +17835,7 @@ export interface components {
             evidenceRefs: string[];
         };
         ManifestExecutionTaskResult: {
+            rollout?: components["schemas"]["ProgressiveRolloutStatus"];
             action: components["schemas"]["ManifestTaskAction"];
             deploymentId?: string;
             /** Format: int64 */
@@ -14688,6 +17911,7 @@ export interface components {
         /** @enum {string} */
         ManifestDeletionPolicy: "orphan" | "delete_managed";
         ManifestBinding: {
+            templateParameters?: components["schemas"]["TemplateParameterValues"];
             id: string;
             packageId: string;
             applicationEnvironmentId: string;
@@ -14697,6 +17921,7 @@ export interface components {
             overlay: {
                 [key: string]: string;
             };
+            kustomize?: components["schemas"]["ManifestKustomizeOptions"];
             rolloutStrategyId?: string;
             verificationPolicyId?: string;
             driftPolicy: components["schemas"]["ManifestDriftPolicy"];
@@ -14710,12 +17935,14 @@ export interface components {
             updatedAt: string;
         };
         ManifestBindingInput: {
+            templateParameters?: components["schemas"]["TemplateParameterValues"];
             applicationEnvironmentId: string;
             clusterId: string;
             namespace: string;
             overlay?: {
                 [key: string]: string;
             };
+            kustomize?: components["schemas"]["ManifestKustomizeOptions"];
             rolloutStrategyId?: string;
             verificationPolicyId?: string;
             driftPolicy: components["schemas"]["ManifestDriftPolicy"];
@@ -14723,12 +17950,14 @@ export interface components {
             enabled: boolean;
         };
         ManifestBindingUpdateInput: {
+            templateParameters?: components["schemas"]["TemplateParameterValues"];
             applicationEnvironmentId: string;
             clusterId: string;
             namespace: string;
             overlay?: {
                 [key: string]: string;
             };
+            kustomize?: components["schemas"]["ManifestKustomizeOptions"];
             rolloutStrategyId?: string;
             verificationPolicyId?: string;
             driftPolicy: components["schemas"]["ManifestDriftPolicy"];
@@ -14767,6 +17996,19 @@ export interface components {
             name: string;
             uid?: string;
             resourceVersion?: string;
+            /**
+             * Format: int64
+             * @description Live Kubernetes metadata.generation; distinct from the Soha deployment generation.
+             */
+            resourceGeneration?: number;
+            /**
+             * Format: int64
+             * @description Live status.observedGeneration when reported by the resource controller.
+             */
+            observedResourceGeneration?: number;
+            /** Format: date-time */
+            deletingAt?: string;
+            finalizers?: string[];
             desiredObjectDigest: string;
             observedObjectDigest: string;
             health: string;
@@ -14780,6 +18022,7 @@ export interface components {
         ManifestDeploymentSpec: {
             desiredRevision: number;
             desiredDigest: string;
+            deliverySnapshot?: components["schemas"]["ManifestDeliverySnapshot"];
             reconcilePolicy: components["schemas"]["ManifestReconcilePolicy"];
             driftPolicy: components["schemas"]["ManifestDriftPolicy"];
             deletionPolicy: components["schemas"]["ManifestDeletionPolicy"];
@@ -14906,6 +18149,54 @@ export interface components {
         ManifestDeliveryIntentListEnvelope: {
             data: components["schemas"]["ManifestDeliveryIntent"][];
         };
+        DeliveryBlueprintInput: {
+            id?: string;
+            key: string;
+            name: string;
+            description?: string;
+            enabled: boolean;
+            applicationDraft: components["schemas"]["DeliveryDraftApplication"];
+            services?: components["schemas"]["DeliveryDraftService"][];
+            buildSources?: components["schemas"]["BuildSourceInput"][];
+            environmentBindings?: components["schemas"]["DeliveryDraftEnvironmentBinding"][];
+            files?: components["schemas"]["DeliveryDraftFileTemplate"][];
+            executionHints?: components["schemas"]["GenericObject"];
+            postCreateActions?: string[];
+        };
+        DeliveryBlueprint: {
+            id: string;
+            key: string;
+            name: string;
+            description?: string;
+            enabled: boolean;
+            applicationDraft: components["schemas"]["DeliveryDraftApplication"];
+            services?: components["schemas"]["DeliveryDraftService"][];
+            buildSources?: components["schemas"]["BuildSourceInput"][];
+            environmentBindings?: components["schemas"]["DeliveryDraftEnvironmentBinding"][];
+            files?: components["schemas"]["DeliveryDraftFileTemplate"][];
+            executionHints?: components["schemas"]["GenericObject"];
+            postCreateActions?: string[];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        BlueprintBootstrapResult: {
+            draft: components["schemas"]["DeliveryDraft"];
+            spec: components["schemas"]["RenderedDeliverySpec"];
+        };
+        DeliveryBlueprintEnvelope: {
+            data: components["schemas"]["DeliveryBlueprint"];
+        };
+        DeliveryBlueprintListEnvelope: {
+            data: components["schemas"]["DeliveryBlueprint"][];
+        };
+        RenderedDeliverySpecEnvelope: {
+            data: components["schemas"]["RenderedDeliverySpec"];
+        };
+        BlueprintBootstrapResultEnvelope: {
+            data: components["schemas"]["BlueprintBootstrapResult"];
+        };
         DeliveryDraftFileTemplate: {
             path: string;
             kind: string;
@@ -14914,6 +18205,11 @@ export interface components {
             purpose?: string;
         };
         DeliveryDraftApplication: {
+            /**
+             * Format: int64
+             * @description Application configuration version captured when creating a draft for an existing application. Confirmation uses it unchanged; stale or unversioned existing-application drafts must be recreated.
+             */
+            expectedVersion?: number;
             id?: string;
             name: string;
             key: string;
@@ -14935,6 +18231,11 @@ export interface components {
         };
         DeliveryDraftService: {
             id?: string;
+            /**
+             * Format: int64
+             * @description Version of the existing service to update; required when changing its deployment template. Confirmation rejects concurrent service changes.
+             */
+            expectedVersion?: number;
             key: string;
             name: string;
             description?: string;
@@ -14948,6 +18249,7 @@ export interface components {
             buildSourceId?: string;
             enabled: boolean;
             metadata?: components["schemas"]["GenericObject"];
+            deploymentTemplate?: components["schemas"]["ServiceDeploymentTemplateBinding"];
             containers?: components["schemas"]["ApplicationServiceContainerInput"][];
         };
         DeliveryDraftEnvironmentBinding: {
@@ -14994,6 +18296,8 @@ export interface components {
             updatedAt: string;
         };
         DeliveryDraftInput: {
+            /** @description Optional actor-scoped creation key. Identical retries return the original draft receipt; changed input conflicts. */
+            idempotencyKey?: string;
             id?: string;
             /** @enum {string} */
             source?: "manual" | "ai" | "blueprint";
@@ -15013,9 +18317,11 @@ export interface components {
             spec: components["schemas"]["RenderedDeliverySpec"];
         };
         DeliveryPlan: {
+            dockerSnapshots?: components["schemas"]["DockerDeliverySnapshot"][];
+            helmSnapshots?: components["schemas"]["HelmDeliverySnapshot"][];
             id: string;
             /** @enum {string} */
-            source: "manual" | "ai";
+            source: "manual" | "ai" | "delivery_batch";
             /** @enum {string} */
             status: "draft" | "waiting_approval" | "confirming" | "confirmed";
             applicationId: string;
@@ -15026,6 +18332,7 @@ export interface components {
             targetId?: string;
             targetSummary?: string;
             buildSourceId?: string;
+            manifestSnapshots?: components["schemas"]["ManifestDeliverySnapshot"][];
             releaseBundleId?: string;
             refType?: string;
             refName?: string;
@@ -15053,7 +18360,55 @@ export interface components {
             /** Format: date-time */
             updatedAt: string;
         };
+        ManifestServiceTemplateInputs: {
+            /** Format: int64 */
+            serviceVersion: number;
+            templateId: string;
+            /** Format: int64 */
+            templateVersion: number;
+            templateDigest: string;
+            parameters: components["schemas"]["TemplateParameterValues"];
+            /** @description Verified immutable image references keyed by service container name. */
+            artifactImages: {
+                [key: string]: string;
+            };
+            releaseBundleId?: string;
+        };
+        ManifestDeliverySnapshot: {
+            /** @description Frozen GitOps child resources sharing this plan's preflight, ownership and observation boundaries. */
+            gitOpsDocuments?: components["schemas"]["ManifestRenderedDocument"][];
+            deliveryPlanId: string;
+            targetId: string;
+            packageId: string;
+            serviceId?: string;
+            templateInputs?: components["schemas"]["ManifestServiceTemplateInputs"];
+            bindingId: string;
+            /** Format: int64 */
+            bindingVersion: number;
+            applicationEnvironmentId: string;
+            clusterId: string;
+            namespace: string;
+            revision: number;
+            revisionDigest: string;
+            sourceCommit?: string;
+            /** Format: date-time */
+            packageUpdatedAt: string;
+            rendererVersion: string;
+            inputDigest: string;
+            renderedDigest: string;
+            documents: components["schemas"]["ManifestRenderedDocument"][];
+            preflightTaskId: string;
+            /** Format: int64 */
+            expectedGeneration: number;
+        };
+        DeliveryPlanApprovalInput: {
+            /** @enum {string} */
+            action: "approve" | "reject" | "approved" | "rejected";
+            comment?: string;
+        };
         DeliveryPlanInput: {
+            /** @description Existing owned Helm revision to restore through a new approved plan. */
+            helmRevision?: number;
             id?: string;
             /** @enum {string} */
             source?: "manual" | "ai";
@@ -15065,6 +18420,8 @@ export interface components {
             targetId?: string;
             targetSummary?: string;
             buildSourceId?: string;
+            /** @description Optional published Manifest revision for a single manifest_ssa target. Omit to use the current published revision. */
+            manifestRevision?: number;
             releaseBundleId?: string;
             refType?: string;
             refName?: string;
@@ -15179,9 +18536,13 @@ export interface components {
             runtimeClusterId?: string;
             stopTransport?: string;
             payload: {
+                helm?: components["schemas"]["HelmExecutionTaskPayload"];
+            } & {
                 [key: string]: unknown;
             };
             result?: {
+                helm?: components["schemas"]["HelmExecutionTaskResult"];
+            } & {
                 [key: string]: unknown;
             };
             operationState?: components["schemas"]["OperationState"];
@@ -15253,9 +18614,106 @@ export interface components {
             add?: boolean;
             remove?: boolean;
         };
+        CapabilityAssessmentEnvelope: {
+            data: components["schemas"]["CapabilityAssessment"];
+        };
+        /** @description Operator-owned single supplier configuration for PVE amd64 VMs cloned from a trusted Ubuntu 24.04 image with cloud-init, containerd, kubeadm and kubelet already installed. Kubernetes binaries must match kubernetesVersion. Soha only joins workers; control-plane, external autoscaler ownership and self-hosted supply cycles are unsupported by this adapter. The provider image and target cluster identities are frozen by the server. */
+        VirtualizationWorkerPoolSpec: {
+            name: string;
+            connectionId: string;
+            clusterId: string;
+            /** @enum {string} */
+            owner: "soha-kubeadm";
+            imageId: string;
+            providerNode: string;
+            storage: string;
+            bridge: string;
+            snippetStorage: string;
+            /** @enum {string} */
+            osProfile: "ubuntu-24.04-amd64-containerd";
+            kubernetesVersion: string;
+            cpu: number;
+            memoryMiB: number;
+            diskGiB: number;
+            /** @description Upper bound including queued */
+            maxNodes: number;
+            enabled: boolean;
+            /** @description Labels applied only after the expected worker identity is verified. Kubernetes reserved and control-plane labels are rejected. */
+            labels?: {
+                [key: string]: string;
+            };
+            /** @description Explicit network and storage node agents required before readiness. References and UIDs are verified against the target cluster. */
+            requiredDaemonSets: components["schemas"]["VirtualizationWorkerDaemonSet"][];
+        };
+        VirtualizationWorkerDaemonSet: {
+            namespace: string;
+            name: string;
+        };
+        VirtualizationWorkerPoolInput: {
+            spec: components["schemas"]["VirtualizationWorkerPoolSpec"];
+            expectedRevision: number;
+        };
+        VirtualizationWorkerPool: {
+            /** Format: uuid */
+            id: string;
+            revision: number;
+            spec: components["schemas"]["VirtualizationWorkerPoolSpec"];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        VirtualizationWorkerPoolEnvelope: {
+            data: components["schemas"]["VirtualizationWorkerPool"];
+        };
+        VirtualizationWorkerPoolListEnvelope: {
+            items: components["schemas"]["VirtualizationWorkerPool"][];
+        };
+        VirtualizationWorkerCreateInput: {
+            poolRevision: number;
+            idempotencyKey: string;
+        };
+        VirtualizationCapacityInput: {
+            connectionId: string;
+            /** @description Dedicated CPU cores for a running VM. */
+            cpu: number;
+            /** @description Guest memory in MiB; configured hypervisor overhead is added by the server. */
+            memoryMiB: number;
+            /** @description Root disk capacity in GiB. */
+            diskGiB: number;
+            architecture?: string;
+            namespace?: string;
+            /** @description Optional exact provider node constraint. */
+            node?: string;
+            /** @description Optional exact PVE storage name or KubeVirt StorageClass. */
+            storage?: string;
+        };
+        /** @description A read-only, expiring placement suggestion for one running VM and root disk. Missing or unsupported inventory remains unknown. Creation must independently require atomic capacity admission; this result is not a reservation or a readiness assessment. */
+        VirtualizationCapacityResult: {
+            connectionId: string;
+            provider?: string;
+            /** @enum {string} */
+            status: "available" | "unavailable" | "unknown";
+            reason: string;
+            node?: string;
+            storage?: string;
+            namespace?: string;
+            /** Format: date-time */
+            observedAt?: string;
+            /** Format: date-time */
+            validUntil?: string;
+        };
+        VirtualizationCapacityEnvelope: {
+            data: components["schemas"]["VirtualizationCapacityResult"];
+        };
         VirtualMachineCreateInput: {
             connectionId: string;
             name: string;
+            /**
+             * @description Require fresh provider capacity and reserve node CPU, memory and storage atomically with this operation. Missing inventory or unsupported placement fails closed. This controls concurrent Soha admission; provider admission and runtime readiness remain authoritative.
+             * @default false
+             */
+            requireCapacity?: boolean;
             architecture?: string;
             namespace?: string;
             node?: string;
@@ -15276,6 +18734,7 @@ export interface components {
             disks?: components["schemas"]["VirtualMachineDiskChange"][];
             networks?: components["schemas"]["VirtualMachineNetworkChange"][];
         };
+        /** @description Durable virtualization operation. A canceling operation has requested cancellation but provider effects are not yet confirmed; terminal status alone does not prove resource rollback. VM creation preserves its provider identity across retry. */
         VirtualizationOperation: {
             id: string;
             type?: string;
@@ -15655,6 +19114,11 @@ export interface components {
         };
         DockerQuickCreateHostInput: {
             name: string;
+            /**
+             * @description Require atomic provider capacity admission for the backing VM.
+             * @default false
+             */
+            requireCapacity?: boolean;
             environment?: string;
             owner?: string;
             team?: string;
@@ -15678,6 +19142,67 @@ export interface components {
             config?: {
                 [key: string]: components["schemas"]["DockerPayloadValue"];
             };
+        };
+        /** @description Docker project configuration. Idempotent creation requires inline Compose, no caller ID or sourceRef, and sourceKind compose or single_container; it saves configuration only. */
+        DockerProjectInput: {
+            idempotencyKey?: string;
+            id?: string;
+            hostId: string;
+            name: string;
+            slug?: string;
+            description?: string;
+            environment?: string;
+            owner?: string;
+            team?: string;
+            sourceKind?: string;
+            sourceRef?: string;
+            composeContent?: string;
+            envContent?: string;
+            status?: string;
+            desiredState?: string;
+            templateId?: string;
+            ttlSeconds?: number;
+            labels?: {
+                [key: string]: components["schemas"]["DockerPayloadValue"];
+            };
+            config?: {
+                [key: string]: components["schemas"]["DockerPayloadValue"];
+            };
+        };
+        DockerProject: {
+            id: string;
+            hostId: string;
+            name: string;
+            slug: string;
+            description?: string;
+            environment?: string;
+            owner?: string;
+            team?: string;
+            sourceKind?: string;
+            sourceRef?: string;
+            composeContent?: string;
+            envContent?: string;
+            status: string;
+            desiredState?: string;
+            templateId?: string;
+            ttlSeconds?: number;
+            labels?: {
+                [key: string]: components["schemas"]["DockerPayloadValue"];
+            };
+            config?: {
+                [key: string]: components["schemas"]["DockerPayloadValue"];
+            };
+            /** Format: date-time */
+            expiresAt?: string;
+            /** Format: date-time */
+            lastDeployedAt?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DockerProjectEnvelope: {
+            data: components["schemas"]["DockerProject"];
         };
         DockerProjectDeployInput: {
             /**
@@ -15781,6 +19306,7 @@ export interface components {
             projectId?: string;
             serviceId?: string;
             operationKind: string;
+            /** @description Domain state. canceling is nonterminal and waits for the owning executor; canceled does not imply rollback of runtime effects. */
             status: string;
             claimedByWorkerId?: string;
             /** @description Opaque per-claim credential returned only by the authenticated runner claim endpoint when callback-token fencing is negotiated. */
@@ -15805,13 +19331,32 @@ export interface components {
             workerId: string;
             /** @description Required when the claimed operation included a callback token; omitted only for legacy unfenced claims. */
             callbackToken?: string;
+            /** @description True only after the runner has stopped its commands and completed local cleanup. Required for a canceled callback when the operation is canceling; applied daemon or provider effects are retained. */
+            cancellationAcknowledged?: boolean;
             status: string;
             payload: {
                 [key: string]: unknown;
             };
             logs: string[];
         };
+        AgentChatMessage: {
+            /** @enum {string} */
+            role: "user" | "assistant";
+            content: string;
+        };
+        /** @description Conversation input carried in AgentRun.chat for capabilityId general. History contains prior user and successful assistant messages, oldest first; the current question is separate. The control plane bounds total history and reports omitted messages through historyTruncated. This is conversation data, not an authorization grant or a request to run an analysis workflow. */
+        AgentChatInput: {
+            question: string;
+            history: components["schemas"]["AgentChatMessage"][];
+            historyTruncated?: boolean;
+            locale?: string;
+            /** @description Authorized background for this request only. Treat as untrusted evidence, never as instructions or permission. Do not carry it into subsequent requests unless supplied again. */
+            context?: string;
+        };
         AgentRun: {
+            /** @description Parent run for a single read-only specialist delegation; absent on root runs. */
+            parentRunId?: string;
+            chat?: components["schemas"]["AgentChatInput"];
             id: string;
             providerId: string;
             providerKind: string;
@@ -15879,6 +19424,42 @@ export interface components {
             input?: {
                 [key: string]: unknown;
             };
+        };
+        /** @description External Agent plugin request to POST /api/v1/runtime/agent-tools on its runner. The Authorization bearer is an ephemeral per-run grant supplied through trusted runtime context, never model arguments. The runner supplies the control-plane run identity and callback token. */
+        AgentRunnerToolCallRequest: {
+            toolName: string;
+            input: components["schemas"]["AgentRunnerToolInput"];
+        };
+        AgentRunnerToolInput: {
+            /**
+             * @description Change target for change.request; this only creates a pending approval and never executes the change.
+             * @enum {string}
+             */
+            toolName?: "delivery.applications.create" | "delivery.actions.trigger";
+            arguments?: components["schemas"]["AgentRunnerChangeArguments"];
+            serviceName?: string;
+            title?: string;
+            /** @enum {string} */
+            artifactKind?: "report" | "configuration_preview" | "resource_table";
+            /** @enum {string} */
+            format?: "markdown" | "yaml" | "json" | "text";
+            content?: string;
+            baselineCitationId?: string;
+            query?: string;
+            clusterId?: string;
+            namespace?: string;
+            nodeName?: string;
+            limit?: number;
+        };
+        AgentRunnerChangeArguments: {
+            name?: string;
+            key?: string;
+            description?: string;
+            enabled?: boolean;
+            applicationId?: string;
+            applicationEnvironmentId?: string;
+            /** @enum {string} */
+            action?: "build" | "deploy" | "rollback";
         };
         AgentToolCallResult: {
             runId: string;
@@ -17681,6 +21262,12 @@ export interface components {
             items: components["schemas"]["KubernetesCustomResourceDefinition"][];
         };
         KubernetesCustomResource: {
+            uid?: string;
+            /** Format: int64 */
+            generation?: number;
+            /** Format: date-time */
+            deletingAt?: string;
+            finalizers?: string[];
             apiVersion?: string;
             kind: string;
             name: string;
@@ -19172,6 +22759,32 @@ export interface components {
         KubernetesResourceCreateResultEnvelope: {
             data: components["schemas"]["KubernetesResourceCreateResult"];
         };
+        KubernetesResourceCreationReceiptRef: {
+            apiVersion: string;
+            kind: string;
+            name: string;
+            namespace?: string;
+            namespaced: boolean;
+            /** @description UID returned by the original Kubernetes create. Missing for legacy or unconfirmed results; never inferred from a later same-name object. */
+            uid?: string;
+        };
+        KubernetesResourceCreationReceiptDocument: {
+            index: number;
+            resource: components["schemas"]["KubernetesResourceCreationReceiptRef"];
+            /** @enum {string} */
+            status: "not_started" | "succeeded" | "failed";
+            errorCode?: string;
+            error?: string;
+        };
+        /** @description Original actor-owned resource creation batch. Reading a receipt does not repeat writes. A running receipt after a lost process may have unknown effects; no automatic retry or rollback is promised. Succeeded means create calls completed, not workload health or network reachability. */
+        KubernetesResourceCreationReceipt: {
+            operationId: string;
+            clusterId: string;
+            contentHash: string;
+            /** @enum {string} */
+            status: "running" | "succeeded" | "partial" | "failed";
+            documents: components["schemas"]["KubernetesResourceCreationReceiptDocument"][];
+        };
         KubernetesResourceAgentCreateDocument: {
             document: components["schemas"]["KubernetesResourceDocument"];
             resourceRef: components["schemas"]["KubernetesResourceRef"];
@@ -19215,6 +22828,254 @@ export interface components {
             requiresApproval: boolean;
             inputSchema?: components["schemas"]["JSONSchema"];
             outputSchema?: components["schemas"]["JSONSchema"];
+            /** @description Immutable capability contract version. Absent for legacy tools without version guarantees. */
+            version?: string;
+            execution?: components["schemas"]["ToolExecutionContract"];
+            inputSemantics?: components["schemas"]["CapabilityValueSemantic"][];
+            outputSemantics?: components["schemas"]["CapabilityValueSemantic"][];
+            /** @description Expected business effects, not evidence that execution succeeded. */
+            effects?: string[];
+            /** @description The owning domain can return a structured assessment; missing evidence still yields inconclusive. */
+            producesAssessment?: boolean;
+        };
+        /** @description Meaning of a value in capability input or domain output. Equal JSON shapes do not imply equal kinds, units, or scopes. A whole path segment * matches one canonical array index; scopePaths use the same wildcard captures in order. Invocation bindings remain concrete JSON pointers. */
+        CapabilityValueSemantic: {
+            path: string;
+            kind: string;
+            unit?: string;
+            /** @description Named scope dimensions mapped to JSON pointers in the same input or output document. */
+            scopePaths?: {
+                [key: string]: string;
+            };
+        };
+        /** @description Discoverable read-only check. Invoke the referenced version with its own validated inputs and current authorization. A reference neither runs automatically nor proves availability, reserves capacity, or grants access. Verification tools must produce a CapabilityAssessment. Missing references mean no declared check, not success. */
+        CapabilityCheckReference: {
+            /** @enum {string} */
+            purpose: "availability" | "precondition" | "verification";
+            toolName: string;
+            capabilityVersion: string;
+        };
+        ToolExecutionContract: {
+            /** @enum {string} */
+            mode: "sync" | "async";
+            /** @description Whether repeating identical authorized arguments has the same effect. Never inferred from risk level. */
+            idempotent: boolean;
+            /** @description Required top-level input field whose value must remain stable across retries of this intent. */
+            idempotencyKeyField?: string;
+            /** @description Domain-owned durable task kind returned by asynchronous execution. */
+            taskKind?: string;
+            /** @description Registered tool for reading the durable task; each read requires current authorization. */
+            statusTool?: string;
+            /** @description Registered domain cancellation capability. Absence means cancellation is not guaranteed. */
+            cancelTool?: string;
+            /** @description Optional checks contributed by the owning provider. Discovery includes only currently visible references matching the declared version. Domain admission remains mandatory when a write executes. */
+            checks?: components["schemas"]["CapabilityCheckReference"][];
+            /**
+             * @description The managed goal executor can read the owning domain's receipt using the exact persisted original call and current authorization after a lost reply. This is not rollback, a new intent, or permission to repeat unknown writes. Missing means receipt recovery is not declared.
+             * @enum {string}
+             */
+            recoveryMode?: "original_call";
+        };
+        CapabilityCall: {
+            toolName: string;
+            capabilityVersion?: string;
+            input: {
+                [key: string]: unknown;
+            };
+            secretRefs?: {
+                [key: string]: string;
+            };
+        };
+        CapabilityInputBinding: {
+            inputPath: string;
+            stepId: string;
+            outputPath: string;
+        };
+        CapabilityPlanStep: {
+            id: string;
+            call: components["schemas"]["CapabilityCall"];
+            dependsOn?: string[];
+            bindings?: components["schemas"]["CapabilityInputBinding"][];
+            timeoutSeconds?: number;
+        };
+        /** @description Version-pinned capability calls compiled into the existing Workflow engine. No scripts, expressions, or arbitrary endpoints are accepted. */
+        CapabilityPlan: {
+            goal: string;
+            steps: components["schemas"]["CapabilityPlanStep"][];
+            /** @description Frozen step IDs whose domain assessments determine whether the goal is satisfied. */
+            verificationSteps: string[];
+            /** @default 3600 */
+            timeoutSeconds?: number;
+        };
+        CapabilityPlanIssue: {
+            stepId?: string;
+            code: string;
+            message: string;
+        };
+        CapabilityPlanValidation: {
+            valid: boolean;
+            digest: string;
+            issues: components["schemas"]["CapabilityPlanIssue"][];
+        };
+        CapabilityResourceRef: {
+            kind: string;
+            id: string;
+            version?: string;
+            scope?: {
+                [key: string]: string;
+            };
+        };
+        CapabilityEvidence: {
+            kind: string;
+            source: string;
+            resource?: components["schemas"]["CapabilityResourceRef"];
+            /** Format: date-time */
+            observedAt: string;
+            /** Format: date-time */
+            dataThrough?: string;
+            summary: string;
+            incomplete?: boolean;
+            reference?: components["schemas"]["CapabilityCall"];
+        };
+        /** @description Verify one frozen delivery batch target. HTTP conditions, when supplied, are fixed in the caller's capability plan; the URL must be an entry candidate of that target. Omit HTTP for targets whose goal requires runtime verification only. */
+        DeliveryBatchAssessmentInput: {
+            batchId: string;
+            targetId: string;
+            /** @default 120 */
+            maxAgeSeconds?: number;
+            http?: {
+                /** Format: uri */
+                url: string;
+                healthPath: string;
+                /** @default 200 */
+                expectedStatus?: number;
+            };
+        };
+        /** @description Evaluate a registered metric condition over every step of an explicit window. Missing, partial, non-finite or stale source samples are inconclusive. For post-release checks, bind notBefore to deployment completion; the full metric lookback must follow that time. This evaluates observed metric conditions, not business correctness or uninstrumented instances. */
+        ObservabilityMetricAssessmentInput: {
+            dataSourceId: string;
+            /** @enum {string} */
+            metricKey: "cpu_usage" | "memory_usage" | "restart_rate" | "error_rate" | "latency_p95";
+            scope: {
+                clusterId?: string;
+                namespace?: string;
+                workload?: string;
+                service?: string;
+            };
+            /** Format: date-time */
+            windowStart: string;
+            /** Format: date-time */
+            windowEnd: string;
+            /** Format: date-time */
+            notBefore?: string;
+            /** @default 30 */
+            stepSeconds?: number;
+            /** @default 120 */
+            maxAgeSeconds?: number;
+            /** @enum {string} */
+            unit: "cores" | "bytes" | "count" | "ratio" | "seconds";
+            threshold: {
+                /** @enum {string} */
+                operator: "lt" | "lte" | "gt" | "gte" | "eq";
+                /** Format: double */
+                value: number;
+            };
+        };
+        /** @description A deployment entry candidate and optional bounded probe from the Soha control plane. This does not establish reachability from a developer's network or business correctness. */
+        DeliveryAccessResult: {
+            /** Format: uri */
+            url: string;
+            serviceId: string;
+            /** @enum {string} */
+            probeLocation: "soha_control_plane";
+            /** @enum {string} */
+            reachability: "unverified" | "satisfied" | "unsatisfied" | "inconclusive";
+            /** @enum {string} */
+            authentication: "unknown" | "required";
+            /** @enum {string} */
+            networkRequirement: "private_network" | "unknown";
+            /** Format: date-time */
+            checkedAt?: string;
+            /** Format: date-time */
+            validUntil?: string;
+            statusCode?: number;
+            summary?: string;
+        };
+        DeliveryBatchAssessment: {
+            batchId: string;
+            targetId: string;
+            applicationId: string;
+            serviceId: string;
+            applicationEnvironmentId: string;
+            deliveryPlanId?: string;
+            releaseBundleId?: string;
+            sourceCommit?: string;
+            images?: {
+                [key: string]: string;
+            };
+            /** Format: date-time */
+            deployedAt?: string;
+            /** @enum {string} */
+            verdict: "satisfied" | "unsatisfied" | "inconclusive";
+            summary: string;
+            evidence: components["schemas"]["CapabilityEvidence"][];
+            access: components["schemas"]["DeliveryAccessResult"][];
+        };
+        CapabilityAssessment: {
+            /** @enum {string} */
+            verdict: "satisfied" | "unsatisfied" | "inconclusive";
+            summary: string;
+            evidence: components["schemas"]["CapabilityEvidence"][];
+        };
+        CapabilityTaskInput: {
+            idempotencyKey: string;
+            plan: components["schemas"]["CapabilityPlan"];
+            aiClientId?: string;
+            skillId?: string;
+        };
+        /** @description Retained step IDs inherit their prior SecretRefs when call.secretRefs is omitted; an explicit empty object clears them. All references remain subject to current authorization. */
+        CapabilityTaskRevisionInput: {
+            /** Format: int64 */
+            expectedVersion: number;
+            plan: components["schemas"]["CapabilityPlan"];
+        };
+        /** @description A governed goal and its existing Workflow run. Domain tasks retain ownership of effects and cancellation. */
+        CapabilityTask: {
+            id: string;
+            /** Format: int64 */
+            version: number;
+            planVersion?: number;
+            status: string;
+            createdBy: string;
+            plan: components["schemas"]["CapabilityPlan"];
+            nodes: components["schemas"]["CapabilityTaskNode"][];
+            assessment?: components["schemas"]["CapabilityAssessment"];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        CapabilityTaskNode: {
+            approvalRequestId?: string;
+            id: string;
+            status: string;
+            summary?: string;
+            invocation?: components["schemas"]["ToolInvocationResult"];
+        };
+        /** @description Reference to an existing domain execution record, not a second task queue. A terminal record is not proof that the user's business goal is satisfied. */
+        CapabilityTaskRef: {
+            kind: string;
+            id: string;
+            /** @description Status reported by the owning domain. */
+            status: string;
+            terminal: boolean;
+            statusCall: components["schemas"]["CapabilityCall"];
+            cancelCall?: components["schemas"]["CapabilityCall"];
+            /**
+             * @description Domain-owned execution outcome. Missing or unknown is not success.
+             * @enum {string}
+             */
+            outcome?: "succeeded" | "failed" | "canceled" | "unknown";
         };
         ResourceCapability: {
             name: string;
@@ -19254,6 +23115,9 @@ export interface components {
         AIGatewayManifest: {
             name: string;
             version: string;
+            /** @description Digest of the authorized, filtered tool catalog used by pagination cursors. */
+            catalogRevision?: string;
+            nextCursor?: string;
             /** Format: date-time */
             generatedAt: string;
             principal: components["schemas"]["Principal"];
@@ -19377,6 +23241,8 @@ export interface components {
             skillId?: string;
             requestId?: string;
             secretRefs?: components["schemas"]["SecretReferenceMap"];
+            /** @description Execute only this discovered capability version; a missing or changed version fails before execution. Optional for legacy callers. */
+            capabilityVersion?: string;
         };
         ToolInvocationResult: {
             toolName: string;
@@ -19390,8 +23256,20 @@ export interface components {
             audit?: {
                 [key: string]: unknown;
             };
+            capabilityVersion?: string;
+            task?: components["schemas"]["CapabilityTaskRef"];
+            assessment?: components["schemas"]["CapabilityAssessment"];
         } & {
             [key: string]: unknown;
+        };
+        CapabilityPlanValidationEnvelope: {
+            data: components["schemas"]["CapabilityPlanValidation"];
+        };
+        CapabilityTaskEnvelope: {
+            data: components["schemas"]["CapabilityTask"];
+        };
+        CapabilityTaskListEnvelope: {
+            items: components["schemas"]["CapabilityTask"][];
         };
         ResourceReadRequest: {
             name?: string;
@@ -20885,7 +24763,12 @@ export interface components {
             toolName: string;
             riskLevel: components["schemas"]["RiskLevel"];
             requiresApproval: boolean;
+            /** @description Resource identities reviewed by the approver. Resolved invocation scopes are frozen by the server and must match at replay. */
             resourceScope?: {
+                invocationScopes?: {
+                    [key: string]: string;
+                }[];
+            } & {
                 [key: string]: unknown;
             };
             toolInput?: {
@@ -21363,6 +25246,13 @@ export interface components {
         /** @enum {string} */
         NetworkGatewayRoutingMode: "routed" | "snat";
         NetworkGatewayInput: {
+            region?: string;
+            providerCode?: string;
+            providerName?: string;
+            selectionPriority?: number;
+            acceptNewConnections?: boolean;
+            maxSessions?: number;
+            probeURL?: string;
             runtimeId: string;
             siteId: string;
             name: string;
@@ -21378,6 +25268,13 @@ export interface components {
             dnsServers: string[];
         };
         NetworkGateway: {
+            region?: string;
+            providerCode?: string;
+            providerName?: string;
+            selectionPriority?: number;
+            acceptNewConnections?: boolean;
+            maxSessions?: number;
+            probeURL?: string;
             id: string;
             runtimeId: string;
             siteId: string;
@@ -22152,6 +26049,44 @@ export interface components {
     };
     pathItems: never;
 }
+export type NetworkVPNAccessMode = components['schemas']['NetworkVPNAccessMode'];
+export type NetworkVPNSelectionMode = components['schemas']['NetworkVPNSelectionMode'];
+export type NetworkVPNSelectionStrategy = components['schemas']['NetworkVPNSelectionStrategy'];
+export type NetworkVPNProviderPreference = components['schemas']['NetworkVPNProviderPreference'];
+export type NetworkVPNMissingMeasurements = components['schemas']['NetworkVPNMissingMeasurements'];
+export type NetworkVPNSelectionPolicyConfig = components['schemas']['NetworkVPNSelectionPolicyConfig'];
+export type NetworkVPNProfileAssignment = components['schemas']['NetworkVPNProfileAssignment'];
+export type NetworkVPNProfileConfig = components['schemas']['NetworkVPNProfileConfig'];
+export type NetworkVPNRevisionInput = components['schemas']['NetworkVPNRevisionInput'];
+export type NetworkVPNRollbackInput = components['schemas']['NetworkVPNRollbackInput'];
+export type NetworkVPNProfileInput = components['schemas']['NetworkVPNProfileInput'];
+export type NetworkVPNProfile = components['schemas']['NetworkVPNProfile'];
+export type NetworkVPNProfileEnvelope = components['schemas']['NetworkVPNProfileEnvelope'];
+export type NetworkVPNProfileListEnvelope = components['schemas']['NetworkVPNProfileListEnvelope'];
+export type NetworkVPNProfileRevision = components['schemas']['NetworkVPNProfileRevision'];
+export type NetworkVPNProfileRevisionListEnvelope = components['schemas']['NetworkVPNProfileRevisionListEnvelope'];
+export type NetworkVPNSelectionPolicyInput = components['schemas']['NetworkVPNSelectionPolicyInput'];
+export type NetworkVPNSelectionPolicy = components['schemas']['NetworkVPNSelectionPolicy'];
+export type NetworkVPNSelectionPolicyEnvelope = components['schemas']['NetworkVPNSelectionPolicyEnvelope'];
+export type NetworkVPNSelectionPolicyListEnvelope = components['schemas']['NetworkVPNSelectionPolicyListEnvelope'];
+export type NetworkVPNSelectionPolicyRevision = components['schemas']['NetworkVPNSelectionPolicyRevision'];
+export type NetworkVPNSelectionPolicyRevisionListEnvelope = components['schemas']['NetworkVPNSelectionPolicyRevisionListEnvelope'];
+export type NetworkVPNCandidate = components['schemas']['NetworkVPNCandidate'];
+export type NetworkVPNConnectionOption = components['schemas']['NetworkVPNConnectionOption'];
+export type NetworkVPNConnectionOptionListEnvelope = components['schemas']['NetworkVPNConnectionOptionListEnvelope'];
+export type NetworkVPNConnectionIntentInput = components['schemas']['NetworkVPNConnectionIntentInput'];
+export type NetworkVPNConnectionIntentSecret = components['schemas']['NetworkVPNConnectionIntentSecret'];
+export type NetworkVPNConnectionIntentEnvelope = components['schemas']['NetworkVPNConnectionIntentEnvelope'];
+export type NetworkVPNPreviewInput = components['schemas']['NetworkVPNPreviewInput'];
+export type NetworkVPNCandidateDecision = components['schemas']['NetworkVPNCandidateDecision'];
+export type NetworkVPNDecision = components['schemas']['NetworkVPNDecision'];
+export type NetworkVPNDecisionEnvelope = components['schemas']['NetworkVPNDecisionEnvelope'];
+export type NetworkVPNGatewayMetrics = components['schemas']['NetworkVPNGatewayMetrics'];
+export type NetworkVPNSeriesPoint = components['schemas']['NetworkVPNSeriesPoint'];
+export type NetworkVPNConnectionView = components['schemas']['NetworkVPNConnectionView'];
+export type NetworkVPNDashboard = components['schemas']['NetworkVPNDashboard'];
+export type NetworkVPNDashboardEnvelope = components['schemas']['NetworkVPNDashboardEnvelope'];
+export type NetworkVPNCurrentConnectionEnvelope = components['schemas']['NetworkVPNCurrentConnectionEnvelope'];
 export type AnyObject = Record<string, unknown>;
 export type ApiResponse<T = unknown> = { data: T };
 export type ApiItemsResponse<T = unknown> = { items: T[] };
@@ -22173,6 +26108,9 @@ export type IdentityApplicationAssignment = components['schemas']['IdentityAppli
 export type IdentityApplicationAssignmentInput = components['schemas']['IdentityApplicationAssignmentInput'];
 export type IdentityApplication = components['schemas']['IdentityApplication'];
 export type IdentityApplicationInput = components['schemas']['IdentityApplicationInput'];
+export type IdentityApplicationOnboardingInput = components['schemas']['IdentityApplicationOnboardingInput'];
+export type IdentityApplicationOnboarding = components['schemas']['IdentityApplicationOnboarding'];
+export type IdentityApplicationOnboardingEnvelope = components['schemas']['IdentityApplicationOnboardingEnvelope'];
 export type IdentityApplicationEnvelope = components['schemas']['IdentityApplicationEnvelope'];
 export type IdentityApplicationListEnvelope = components['schemas']['IdentityApplicationListEnvelope'];
 export type IdentityApplicationLaunch = components['schemas']['IdentityApplicationLaunch'];
@@ -22204,6 +26142,11 @@ export type OIDCClientSecretReveal = components['schemas']['OIDCClientSecretReve
 export type OIDCClientSecretRevealEnvelope = components['schemas']['OIDCClientSecretRevealEnvelope'];
 export type SAMLServiceProvider = components['schemas']['SAMLServiceProvider'];
 export type SAMLServiceProviderInput = components['schemas']['SAMLServiceProviderInput'];
+export type IdentityProviderSetupEnvelope = components['schemas']['IdentityProviderSetupEnvelope'];
+export type IdentityProviderUserMetadata = components['schemas']['IdentityProviderUserMetadata'];
+export type IdentityProviderUserMetadataEnvelope = components['schemas']['IdentityProviderUserMetadataEnvelope'];
+export type IdentityProviderSetup = components['schemas']['IdentityProviderSetup'];
+export type IdentityProviderSetupEndpoints = components['schemas']['IdentityProviderSetupEndpoints'];
 export type IdentityProvider = components['schemas']['IdentityProvider'];
 export type IdentityProviderInput = components['schemas']['IdentityProviderInput'];
 export type IdentityProviderEnvelope = components['schemas']['IdentityProviderEnvelope'];
@@ -22215,6 +26158,7 @@ export type IdentityPolicyEnvelope = components['schemas']['IdentityPolicyEnvelo
 export type IdentityPolicyListEnvelope = components['schemas']['IdentityPolicyListEnvelope'];
 export type IdentityOutpostMode = components['schemas']['IdentityOutpostMode'];
 export type IdentityOutpost = components['schemas']['IdentityOutpost'];
+export type IdentityOutpostDeployment = components['schemas']['IdentityOutpostDeployment'];
 export type IdentityOutpostInput = components['schemas']['IdentityOutpostInput'];
 export type IdentityOutpostEnvelope = components['schemas']['IdentityOutpostEnvelope'];
 export type IdentityOutpostListEnvelope = components['schemas']['IdentityOutpostListEnvelope'];
@@ -22591,6 +26535,8 @@ export type UpdateAISkillsRequest = components['schemas']['UpdateAISkillsRequest
 export type WorkbenchSessionScope = components['schemas']['WorkbenchSessionScope'];
 export type WorkbenchSessionToolset = components['schemas']['WorkbenchSessionToolset'];
 export type WorkbenchRunRef = components['schemas']['WorkbenchRunRef'];
+export type WorkbenchModelPreferences = components['schemas']['WorkbenchModelPreferences'];
+export type WorkbenchModelOption = components['schemas']['WorkbenchModelOption'];
 export type WorkbenchSessionMetadata = components['schemas']['WorkbenchSessionMetadata'];
 export type WorkbenchSession = components['schemas']['WorkbenchSession'];
 export type WorkbenchCreateSessionRequest = components['schemas']['WorkbenchCreateSessionRequest'];
@@ -22646,6 +26592,7 @@ export type WorkbenchAutomationPolicyListEnvelope = components['schemas']['Workb
 export type WorkbenchAgentProviderListEnvelope = components['schemas']['WorkbenchAgentProviderListEnvelope'];
 export type WorkbenchAgentRunEnvelope = components['schemas']['WorkbenchAgentRunEnvelope'];
 export type WorkbenchAgentRunListEnvelope = components['schemas']['WorkbenchAgentRunListEnvelope'];
+export type WorkbenchInspectionTrigger = components['schemas']['WorkbenchInspectionTrigger'];
 export type WorkbenchInspectionTaskInput = components['schemas']['WorkbenchInspectionTaskInput'];
 export type WorkbenchInspectionTask = components['schemas']['WorkbenchInspectionTask'];
 export type WorkbenchInspectionFinding = components['schemas']['WorkbenchInspectionFinding'];
@@ -22659,6 +26606,9 @@ export type WorkbenchSelectionContext = components['schemas']['WorkbenchSelectio
 export type WorkbenchGlobalAssistantOpenRequest = components['schemas']['WorkbenchGlobalAssistantOpenRequest'];
 export type WorkbenchGlobalAssistantEventEnvelope = components['schemas']['WorkbenchGlobalAssistantEventEnvelope'];
 export type WorkbenchSendMessageStreamRequest = components['schemas']['WorkbenchSendMessageStreamRequest'];
+export type WorkbenchContextSelection = components['schemas']['WorkbenchContextSelection'];
+export type WorkbenchContextReference = components['schemas']['WorkbenchContextReference'];
+export type WorkbenchTextAttachment = components['schemas']['WorkbenchTextAttachment'];
 export type WorkbenchStreamEventBase = components['schemas']['WorkbenchStreamEventBase'];
 export type WorkbenchToolCall = components['schemas']['WorkbenchToolCall'];
 export type WorkbenchSource = components['schemas']['WorkbenchSource'];
@@ -22722,6 +26672,11 @@ export type RepositoryProvider = components['schemas']['RepositoryProvider'];
 export type RepositoryProtocol = components['schemas']['RepositoryProtocol'];
 export type Repository = components['schemas']['Repository'];
 export type RepositoryInput = components['schemas']['RepositoryInput'];
+export type RepositoryAnalysisInput = components['schemas']['RepositoryAnalysisInput'];
+export type RepositoryAnalysisCandidate = components['schemas']['RepositoryAnalysisCandidate'];
+export type RepositoryAnalysisWarning = components['schemas']['RepositoryAnalysisWarning'];
+export type RepositoryAnalysis = components['schemas']['RepositoryAnalysis'];
+export type RepositoryAnalysisEnvelope = components['schemas']['RepositoryAnalysisEnvelope'];
 export type GitProject = components['schemas']['GitProject'];
 export type GitReference = components['schemas']['GitReference'];
 export type GitCommit = components['schemas']['GitCommit'];
@@ -22734,7 +26689,15 @@ export type BuildSource = components['schemas']['BuildSource'];
 export type BuildSourceInput = components['schemas']['BuildSourceInput'];
 export type BuildRepositoryBinding = components['schemas']['BuildRepositoryBinding'];
 export type BuildRepositoryRefInput = components['schemas']['BuildRepositoryRefInput'];
+export type BuildpacksConfiguration = components['schemas']['BuildpacksConfiguration'];
+export type BuildpacksCapability = components['schemas']['BuildpacksCapability'];
+export type BuildpacksCapabilityEnvelope = components['schemas']['BuildpacksCapabilityEnvelope'];
+export type BuildpacksExecutionSpec = components['schemas']['BuildpacksExecutionSpec'];
 export type BuildSourceConfig = components['schemas']['BuildSourceConfig'];
+export type ExternalPipelineConfiguration = components['schemas']['ExternalPipelineConfiguration'];
+export type ExternalPipelineExecutionSpec = components['schemas']['ExternalPipelineExecutionSpec'];
+export type ExternalPipelineArtifactReport = components['schemas']['ExternalPipelineArtifactReport'];
+export type ExternalPipelineRun = components['schemas']['ExternalPipelineRun'];
 export type Application = components['schemas']['Application'];
 export type ApplicationInput = components['schemas']['ApplicationInput'];
 export type ApplicationServiceContainer = components['schemas']['ApplicationServiceContainer'];
@@ -22747,11 +26710,43 @@ export type ReleasePolicy = components['schemas']['ReleasePolicy'];
 export type DeliveryEnvironment = components['schemas']['DeliveryEnvironment'];
 export type ReleaseTarget = components['schemas']['ReleaseTarget'];
 export type ReleaseTargetInput = components['schemas']['ReleaseTargetInput'];
+export type DockerDeliveryConfiguration = components['schemas']['DockerDeliveryConfiguration'];
+export type DockerDeliverySnapshot = components['schemas']['DockerDeliverySnapshot'];
 export type RegistryConnectionMetadata = components['schemas']['RegistryConnectionMetadata'];
 export type RegistryConnection = components['schemas']['RegistryConnection'];
 export type RegistryConnectionInput = components['schemas']['RegistryConnectionInput'];
 export type RegistryConnectionEnvelope = components['schemas']['RegistryConnectionEnvelope'];
 export type RegistryConnectionListEnvelope = components['schemas']['RegistryConnectionListEnvelope'];
+export type TemplatePublicationState = components['schemas']['TemplatePublicationState'];
+export type TemplateParameterType = components['schemas']['TemplateParameterType'];
+export type TemplateParameterValue = string | number | boolean | TemplateParameterValue[] | {
+            [key: string]: TemplateParameterValue;
+        };
+export type TemplateParameterValues = components['schemas']['TemplateParameterValues'];
+export type TemplateParameterSchema = components['schemas']['TemplateParameterSchema'];
+export type DeploymentTemplateGitSource = components['schemas']['DeploymentTemplateGitSource'];
+export type DeploymentTemplateHelmSource = components['schemas']['DeploymentTemplateHelmSource'];
+export type HelmImageMapping = components['schemas']['HelmImageMapping'];
+export type HelmDeliveryConfiguration = components['schemas']['HelmDeliveryConfiguration'];
+export type HelmChartInspectionInput = components['schemas']['HelmChartInspectionInput'];
+export type HelmChartInspection = components['schemas']['HelmChartInspection'];
+export type HelmChartInspectionEnvelope = components['schemas']['HelmChartInspectionEnvelope'];
+export type HelmDeliveryResource = components['schemas']['HelmDeliveryResource'];
+export type HelmDeliverySnapshot = components['schemas']['HelmDeliverySnapshot'];
+export type HelmPreparedRelease = components['schemas']['HelmPreparedRelease'];
+export type HelmExecutionTaskPayload = components['schemas']['HelmExecutionTaskPayload'];
+export type HelmExecutionTaskResult = components['schemas']['HelmExecutionTaskResult'];
+export type DeploymentTemplateSource = components['schemas']['DeploymentTemplateSource'];
+export type DeploymentTemplateHealth = components['schemas']['DeploymentTemplateHealth'];
+export type ServiceDeploymentTemplateInput = components['schemas']['ServiceDeploymentTemplateInput'];
+export type ServiceDeploymentTemplate = components['schemas']['ServiceDeploymentTemplate'];
+export type ServiceDeploymentTemplateBinding = components['schemas']['ServiceDeploymentTemplateBinding'];
+export type DeploymentTemplatePreviewInput = components['schemas']['DeploymentTemplatePreviewInput'];
+export type DeploymentTemplatePreview = components['schemas']['DeploymentTemplatePreview'];
+export type ServiceDeploymentTemplateEnvelope = components['schemas']['ServiceDeploymentTemplateEnvelope'];
+export type ServiceDeploymentTemplateListEnvelope = components['schemas']['ServiceDeploymentTemplateListEnvelope'];
+export type DeploymentTemplatePreviewEnvelope = components['schemas']['DeploymentTemplatePreviewEnvelope'];
+export type TemplatePublishInput = components['schemas']['TemplatePublishInput'];
 export type WorkflowTemplate = components['schemas']['WorkflowTemplate'];
 export type WorkflowTemplateInput = components['schemas']['WorkflowTemplateInput'];
 export type ApplicationWorkflowInput = components['schemas']['ApplicationWorkflowInput'];
@@ -22778,6 +26773,83 @@ export type BuildTemplateInput = components['schemas']['BuildTemplateInput'];
 export type BuildRecord = components['schemas']['BuildRecord'];
 export type ReleaseRecord = components['schemas']['ReleaseRecord'];
 export type WorkflowStep = components['schemas']['WorkflowStep'];
+export type DeliveryTargetInput = components['schemas']['DeliveryTargetInput'];
+export type DeliveryDocumentKind = components['schemas']['DeliveryDocumentKind'];
+export type DeliveryDocumentMetadata = components['schemas']['DeliveryDocumentMetadata'];
+export type DeliveryBuildVariableSchema = components['schemas']['DeliveryBuildVariableSchema'];
+export type DeliveryBuildTemplateSpec = components['schemas']['DeliveryBuildTemplateSpec'];
+export type DeliveryDeploymentTemplateSpec = components['schemas']['DeliveryDeploymentTemplateSpec'];
+export type DeliveryDocumentStep = components['schemas']['DeliveryDocumentStep'];
+export type DeliveryDocumentDAG = components['schemas']['DeliveryDocumentDAG'];
+export type DeliveryWorkflowTemplateSpec = components['schemas']['DeliveryWorkflowTemplateSpec'];
+export type DeliveryWorkflowDocumentSpec = components['schemas']['DeliveryWorkflowDocumentSpec'];
+export type DeliveryBuildTemplateDocument = components['schemas']['DeliveryBuildTemplateDocument'];
+export type DeliveryDeploymentTemplateDocument = components['schemas']['DeliveryDeploymentTemplateDocument'];
+export type DeliveryWorkflowTemplateDocument = components['schemas']['DeliveryWorkflowTemplateDocument'];
+export type DeliveryWorkflowDocument = components['schemas']['DeliveryWorkflowDocument'];
+export type DeliveryDocument = components['schemas']['DeliveryDocument'];
+export type DeliveryDocumentFile = components['schemas']['DeliveryDocumentFile'];
+export type DeliveryDocumentPreviewInput = components['schemas']['DeliveryDocumentPreviewInput'];
+export type DeliveryDocumentDiagnostic = components['schemas']['DeliveryDocumentDiagnostic'];
+export type DeliveryDocumentCandidate = components['schemas']['DeliveryDocumentCandidate'];
+export type DeliveryDocumentPreview = components['schemas']['DeliveryDocumentPreview'];
+export type DeliveryDocumentApplyInput = components['schemas']['DeliveryDocumentApplyInput'];
+export type DeliveryDocumentImportedObject = components['schemas']['DeliveryDocumentImportedObject'];
+export type DeliveryDocumentImport = components['schemas']['DeliveryDocumentImport'];
+export type DeliveryDocumentExport = components['schemas']['DeliveryDocumentExport'];
+export type DeliveryDocumentPreviewEnvelope = components['schemas']['DeliveryDocumentPreviewEnvelope'];
+export type DeliveryDocumentImportEnvelope = components['schemas']['DeliveryDocumentImportEnvelope'];
+export type DeliveryDocumentExportEnvelope = components['schemas']['DeliveryDocumentExportEnvelope'];
+export type DeliverySourceCommit = components['schemas']['DeliverySourceCommit'];
+export type DeliveryTriggerWebhook = components['schemas']['DeliveryTriggerWebhook'];
+export type DeliveryTriggerSchedule = components['schemas']['DeliveryTriggerSchedule'];
+export type DeliveryTriggerInput = components['schemas']['DeliveryTriggerInput'];
+export type DeliveryTrigger = components['schemas']['DeliveryTrigger'];
+export type DeliveryTriggerEvent = components['schemas']['DeliveryTriggerEvent'];
+export type DeliveryGitLabPushEvent = components['schemas']['DeliveryGitLabPushEvent'];
+export type DeliveryTriggerEnvelope = components['schemas']['DeliveryTriggerEnvelope'];
+export type DeliveryTriggerListEnvelope = components['schemas']['DeliveryTriggerListEnvelope'];
+export type DeliveryTriggerEventEnvelope = components['schemas']['DeliveryTriggerEventEnvelope'];
+export type DeliveryTriggerEventListEnvelope = components['schemas']['DeliveryTriggerEventListEnvelope'];
+export type DeliveryTemplateSourceInput = components['schemas']['DeliveryTemplateSourceInput'];
+export type DeliveryTemplateSource = components['schemas']['DeliveryTemplateSource'];
+export type DeliveryTemplateSourceAssociation = components['schemas']['DeliveryTemplateSourceAssociation'];
+export type DeliveryTemplateProvenance = components['schemas']['DeliveryTemplateProvenance'];
+export type TemplateCopyOrigin = components['schemas']['TemplateCopyOrigin'];
+export type DeliveryDocumentRepository = components['schemas']['DeliveryDocumentRepository'];
+export type DeliveryDocumentSourceInfo = components['schemas']['DeliveryDocumentSourceInfo'];
+export type DeliveryTemplateSyncInput = components['schemas']['DeliveryTemplateSyncInput'];
+export type DeliveryTemplateSyncRun = components['schemas']['DeliveryTemplateSyncRun'];
+export type DeliveryTemplateSyncApplyInput = components['schemas']['DeliveryTemplateSyncApplyInput'];
+export type DeliveryTemplateSourceRemoveInput = components['schemas']['DeliveryTemplateSourceRemoveInput'];
+export type DeliveryTemplateSourceEnvelope = components['schemas']['DeliveryTemplateSourceEnvelope'];
+export type DeliveryTemplateSyncRunEnvelope = components['schemas']['DeliveryTemplateSyncRunEnvelope'];
+export type DeliveryDocumentSourceInfoEnvelope = components['schemas']['DeliveryDocumentSourceInfoEnvelope'];
+export type DeliveryTemplateSourceListEnvelope = components['schemas']['DeliveryTemplateSourceListEnvelope'];
+export type DeliveryTemplateSourceAssociationListEnvelope = components['schemas']['DeliveryTemplateSourceAssociationListEnvelope'];
+export type DeliveryTemplateSyncRunListEnvelope = components['schemas']['DeliveryTemplateSyncRunListEnvelope'];
+export type BuildTriggerRequest = components['schemas']['BuildTriggerRequest'];
+export type BuildTriggerEnvelope = components['schemas']['BuildTriggerEnvelope'];
+export type WorkflowCatalogScope = components['schemas']['WorkflowCatalogScope'];
+export type WorkflowCatalogEntry = components['schemas']['WorkflowCatalogEntry'];
+export type WorkflowCatalogOption = components['schemas']['WorkflowCatalogOption'];
+export type DeliveryExecutionHistoryEntry = components['schemas']['DeliveryExecutionHistoryEntry'];
+export type DeliveryExecutionHistoryPage = components['schemas']['DeliveryExecutionHistoryPage'];
+export type DeliveryExecutionHistoryEnvelope = components['schemas']['DeliveryExecutionHistoryEnvelope'];
+export type WorkflowCatalogPage = components['schemas']['WorkflowCatalogPage'];
+export type WorkflowCatalogEnvelope = components['schemas']['WorkflowCatalogEnvelope'];
+export type DeliveryWorkflowDefinition = components['schemas']['DeliveryWorkflowDefinition'];
+export type DeliveryWorkflowInput = components['schemas']['DeliveryWorkflowInput'];
+export type DeliveryWorkflow = components['schemas']['DeliveryWorkflow'];
+export type DeliveryBatchInput = components['schemas']['DeliveryBatchInput'];
+export type DeliveryTargetSnapshot = components['schemas']['DeliveryTargetSnapshot'];
+export type DeliveryBatchTemplateDefinition = components['schemas']['DeliveryBatchTemplateDefinition'];
+export type DeliveryBatch = components['schemas']['DeliveryBatch'];
+export type DeliveryBatchActionInput = components['schemas']['DeliveryBatchActionInput'];
+export type DeliveryWorkflowEnvelope = components['schemas']['DeliveryWorkflowEnvelope'];
+export type DeliveryWorkflowListEnvelope = components['schemas']['DeliveryWorkflowListEnvelope'];
+export type DeliveryBatchEnvelope = components['schemas']['DeliveryBatchEnvelope'];
+export type DeliveryBatchListEnvelope = components['schemas']['DeliveryBatchListEnvelope'];
 export type WorkflowNodeRun = components['schemas']['WorkflowNodeRun'];
 export type WorkflowRun = components['schemas']['WorkflowRun'];
 export type ExecutionArtifact = components['schemas']['ExecutionArtifact'];
@@ -22795,9 +26867,12 @@ export type ApplicationDeliveryActionRelatedIDs = components['schemas']['Applica
 export type ApplicationDeliveryActionResult = components['schemas']['ApplicationDeliveryActionResult'];
 export type ManifestPackageRenderer = components['schemas']['ManifestPackageRenderer'];
 export type ManifestPackageStatus = components['schemas']['ManifestPackageStatus'];
+export type ManifestKustomizeImage = components['schemas']['ManifestKustomizeImage'];
+export type ManifestKustomizeOptions = components['schemas']['ManifestKustomizeOptions'];
 export type ManifestPackageBinding = components['schemas']['ManifestPackageBinding'];
 export type ManifestPackage = components['schemas']['ManifestPackage'];
 export type ManifestPackageInput = components['schemas']['ManifestPackageInput'];
+export type ManifestRevisionInput = components['schemas']['ManifestRevisionInput'];
 export type ManifestPackagePage = components['schemas']['ManifestPackagePage'];
 export type ManifestPackageEnvelope = components['schemas']['ManifestPackageEnvelope'];
 export type ManifestPackagePageEnvelope = components['schemas']['ManifestPackagePageEnvelope'];
@@ -22816,6 +26891,10 @@ export type ManifestDiagnostic = components['schemas']['ManifestDiagnostic'];
 export type ManifestRenderResult = components['schemas']['ManifestRenderResult'];
 export type ManifestRenderEnvelope = components['schemas']['ManifestRenderEnvelope'];
 export type ManifestPreflightInput = components['schemas']['ManifestPreflightInput'];
+export type ProgressiveRolloutControlInput = components['schemas']['ProgressiveRolloutControlInput'];
+export type ProgressiveRolloutMetric = components['schemas']['ProgressiveRolloutMetric'];
+export type ProgressiveRolloutStatus = components['schemas']['ProgressiveRolloutStatus'];
+export type ProgressiveRolloutStatusEnvelope = components['schemas']['ProgressiveRolloutStatusEnvelope'];
 export type ManifestTaskAction = components['schemas']['ManifestTaskAction'];
 export type ManifestExecutionTaskPayload = components['schemas']['ManifestExecutionTaskPayload'];
 export type ManifestExecutionTask = components['schemas']['ManifestExecutionTask'];
@@ -22861,6 +26940,13 @@ export type ManifestDeliveryIntentDecisionInput = components['schemas']['Manifes
 export type ManifestDeliveryIntent = components['schemas']['ManifestDeliveryIntent'];
 export type ManifestDeliveryIntentEnvelope = components['schemas']['ManifestDeliveryIntentEnvelope'];
 export type ManifestDeliveryIntentListEnvelope = components['schemas']['ManifestDeliveryIntentListEnvelope'];
+export type DeliveryBlueprintInput = components['schemas']['DeliveryBlueprintInput'];
+export type DeliveryBlueprint = components['schemas']['DeliveryBlueprint'];
+export type BlueprintBootstrapResult = components['schemas']['BlueprintBootstrapResult'];
+export type DeliveryBlueprintEnvelope = components['schemas']['DeliveryBlueprintEnvelope'];
+export type DeliveryBlueprintListEnvelope = components['schemas']['DeliveryBlueprintListEnvelope'];
+export type RenderedDeliverySpecEnvelope = components['schemas']['RenderedDeliverySpecEnvelope'];
+export type BlueprintBootstrapResultEnvelope = components['schemas']['BlueprintBootstrapResultEnvelope'];
 export type DeliveryDraftFileTemplate = components['schemas']['DeliveryDraftFileTemplate'];
 export type DeliveryDraftApplication = components['schemas']['DeliveryDraftApplication'];
 export type DeliveryDraftService = components['schemas']['DeliveryDraftService'];
@@ -22870,6 +26956,9 @@ export type DeliveryDraft = components['schemas']['DeliveryDraft'];
 export type DeliveryDraftInput = components['schemas']['DeliveryDraftInput'];
 export type DeliveryDraftConfirmResult = components['schemas']['DeliveryDraftConfirmResult'];
 export type DeliveryPlan = components['schemas']['DeliveryPlan'];
+export type ManifestServiceTemplateInputs = components['schemas']['ManifestServiceTemplateInputs'];
+export type ManifestDeliverySnapshot = components['schemas']['ManifestDeliverySnapshot'];
+export type DeliveryPlanApprovalInput = components['schemas']['DeliveryPlanApprovalInput'];
 export type DeliveryPlanInput = components['schemas']['DeliveryPlanInput'];
 export type DeliveryPlanConfirmResult = components['schemas']['DeliveryPlanConfirmResult'];
 export type ApplicationEnvelope = components['schemas']['ApplicationEnvelope'];
@@ -22903,6 +26992,17 @@ export type OperationalPlan = components['schemas']['OperationalPlan'];
 export type OperationalPlanEnvelope = components['schemas']['OperationalPlanEnvelope'];
 export type VirtualMachineDiskChange = components['schemas']['VirtualMachineDiskChange'];
 export type VirtualMachineNetworkChange = components['schemas']['VirtualMachineNetworkChange'];
+export type CapabilityAssessmentEnvelope = components['schemas']['CapabilityAssessmentEnvelope'];
+export type VirtualizationWorkerPoolSpec = components['schemas']['VirtualizationWorkerPoolSpec'];
+export type VirtualizationWorkerDaemonSet = components['schemas']['VirtualizationWorkerDaemonSet'];
+export type VirtualizationWorkerPoolInput = components['schemas']['VirtualizationWorkerPoolInput'];
+export type VirtualizationWorkerPool = components['schemas']['VirtualizationWorkerPool'];
+export type VirtualizationWorkerPoolEnvelope = components['schemas']['VirtualizationWorkerPoolEnvelope'];
+export type VirtualizationWorkerPoolListEnvelope = components['schemas']['VirtualizationWorkerPoolListEnvelope'];
+export type VirtualizationWorkerCreateInput = components['schemas']['VirtualizationWorkerCreateInput'];
+export type VirtualizationCapacityInput = components['schemas']['VirtualizationCapacityInput'];
+export type VirtualizationCapacityResult = components['schemas']['VirtualizationCapacityResult'];
+export type VirtualizationCapacityEnvelope = components['schemas']['VirtualizationCapacityEnvelope'];
 export type VirtualMachineCreateInput = components['schemas']['VirtualMachineCreateInput'];
 export type VirtualizationOperation = components['schemas']['VirtualizationOperation'];
 export type VirtualizationOperationEnvelope = components['schemas']['VirtualizationOperationEnvelope'];
@@ -22948,6 +27048,9 @@ export type VirtualizationOperationListEnvelope = components['schemas']['Virtual
 export type VirtualizationOperationPage = components['schemas']['VirtualizationOperationPage'];
 export type VirtualizationOperationPageEnvelope = components['schemas']['VirtualizationOperationPageEnvelope'];
 export type DockerQuickCreateHostInput = components['schemas']['DockerQuickCreateHostInput'];
+export type DockerProjectInput = components['schemas']['DockerProjectInput'];
+export type DockerProject = components['schemas']['DockerProject'];
+export type DockerProjectEnvelope = components['schemas']['DockerProjectEnvelope'];
 export type DockerProjectDeployInput = components['schemas']['DockerProjectDeployInput'];
 export type DockerPayloadScalarValue = components['schemas']['DockerPayloadScalarValue'];
 export type DockerPayloadValue = components['schemas']['DockerPayloadValue'];
@@ -22960,10 +27063,15 @@ export type DockerContainerStartInput = components['schemas']['DockerContainerSt
 export type DockerOperation = components['schemas']['DockerOperation'];
 export type DockerOperationClaimRequest = components['schemas']['DockerOperationClaimRequest'];
 export type DockerOperationCallbackRequest = components['schemas']['DockerOperationCallbackRequest'];
+export type AgentChatMessage = components['schemas']['AgentChatMessage'];
+export type AgentChatInput = components['schemas']['AgentChatInput'];
 export type AgentRun = components['schemas']['AgentRun'];
 export type AgentRunClaimRequest = components['schemas']['AgentRunClaimRequest'];
 export type AgentRunCallbackRequest = components['schemas']['AgentRunCallbackRequest'];
 export type AgentRunToolCallRequest = components['schemas']['AgentRunToolCallRequest'];
+export type AgentRunnerToolCallRequest = components['schemas']['AgentRunnerToolCallRequest'];
+export type AgentRunnerToolInput = components['schemas']['AgentRunnerToolInput'];
+export type AgentRunnerChangeArguments = components['schemas']['AgentRunnerChangeArguments'];
 export type AgentToolCallResult = components['schemas']['AgentToolCallResult'];
 export type ExecutionTaskEnvelope = components['schemas']['ExecutionTaskEnvelope'];
 export type DockerOperationEnvelope = components['schemas']['DockerOperationEnvelope'];
@@ -23398,6 +27506,9 @@ export type KubernetesResourceCreateResultItem = components['schemas']['Kubernet
 export type KubernetesResourceCreateBatchStatus = components['schemas']['KubernetesResourceCreateBatchStatus'];
 export type KubernetesResourceCreateResult = components['schemas']['KubernetesResourceCreateResult'];
 export type KubernetesResourceCreateResultEnvelope = components['schemas']['KubernetesResourceCreateResultEnvelope'];
+export type KubernetesResourceCreationReceiptRef = components['schemas']['KubernetesResourceCreationReceiptRef'];
+export type KubernetesResourceCreationReceiptDocument = components['schemas']['KubernetesResourceCreationReceiptDocument'];
+export type KubernetesResourceCreationReceipt = components['schemas']['KubernetesResourceCreationReceipt'];
 export type KubernetesResourceAgentCreateDocument = components['schemas']['KubernetesResourceAgentCreateDocument'];
 export type KubernetesResourceAgentCreateRequest = components['schemas']['KubernetesResourceAgentCreateRequest'];
 export type KubernetesResourceAgentPreflightItem = components['schemas']['KubernetesResourceAgentPreflightItem'];
@@ -23405,6 +27516,27 @@ export type KubernetesResourceAgentPreflightResult = components['schemas']['Kube
 export type KubernetesResourceAgentCreateResult = components['schemas']['KubernetesResourceAgentCreateResult'];
 export type JSONSchema = components['schemas']['JSONSchema'];
 export type ToolCapability = components['schemas']['ToolCapability'];
+export type CapabilityValueSemantic = components['schemas']['CapabilityValueSemantic'];
+export type CapabilityCheckReference = components['schemas']['CapabilityCheckReference'];
+export type ToolExecutionContract = components['schemas']['ToolExecutionContract'];
+export type CapabilityCall = components['schemas']['CapabilityCall'];
+export type CapabilityInputBinding = components['schemas']['CapabilityInputBinding'];
+export type CapabilityPlanStep = components['schemas']['CapabilityPlanStep'];
+export type CapabilityPlan = components['schemas']['CapabilityPlan'];
+export type CapabilityPlanIssue = components['schemas']['CapabilityPlanIssue'];
+export type CapabilityPlanValidation = components['schemas']['CapabilityPlanValidation'];
+export type CapabilityResourceRef = components['schemas']['CapabilityResourceRef'];
+export type CapabilityEvidence = components['schemas']['CapabilityEvidence'];
+export type DeliveryBatchAssessmentInput = components['schemas']['DeliveryBatchAssessmentInput'];
+export type ObservabilityMetricAssessmentInput = components['schemas']['ObservabilityMetricAssessmentInput'];
+export type DeliveryAccessResult = components['schemas']['DeliveryAccessResult'];
+export type DeliveryBatchAssessment = components['schemas']['DeliveryBatchAssessment'];
+export type CapabilityAssessment = components['schemas']['CapabilityAssessment'];
+export type CapabilityTaskInput = components['schemas']['CapabilityTaskInput'];
+export type CapabilityTaskRevisionInput = components['schemas']['CapabilityTaskRevisionInput'];
+export type CapabilityTask = components['schemas']['CapabilityTask'];
+export type CapabilityTaskNode = components['schemas']['CapabilityTaskNode'];
+export type CapabilityTaskRef = components['schemas']['CapabilityTaskRef'];
 export type ResourceCapability = components['schemas']['ResourceCapability'];
 export type PromptCapability = components['schemas']['PromptCapability'];
 export type SkillCapability = components['schemas']['SkillCapability'];
@@ -23430,6 +27562,9 @@ export type SecretLeaseRedemption = components['schemas']['SecretLeaseRedemption
 export type SecretLeaseRedemptionEnvelope = components['schemas']['SecretLeaseRedemptionEnvelope'];
 export type ToolInvocationRequest = components['schemas']['ToolInvocationRequest'];
 export type ToolInvocationResult = components['schemas']['ToolInvocationResult'];
+export type CapabilityPlanValidationEnvelope = components['schemas']['CapabilityPlanValidationEnvelope'];
+export type CapabilityTaskEnvelope = components['schemas']['CapabilityTaskEnvelope'];
+export type CapabilityTaskListEnvelope = components['schemas']['CapabilityTaskListEnvelope'];
 export type ResourceReadRequest = components['schemas']['ResourceReadRequest'];
 export type ResourceReadResult = components['schemas']['ResourceReadResult'];
 export type PromptGetRequest = components['schemas']['PromptGetRequest'];
@@ -23881,6 +28016,712 @@ export type HeaderSohaUpstreamStatusHeader = components['headers']['SohaUpstream
 export type HeaderSohaCacheStatusHeader = components['headers']['SohaCacheStatusHeader'];
 export type $defs = Record<string, never>;
 export interface operations {
+    listNetworkVPNProfiles: {
+        parameters: {
+            query?: {
+                limit?: number;
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNProfileListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    createNetworkVPNProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkVPNProfileInput"];
+            };
+        };
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            201: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNProfileEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getNetworkVPNProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNProfileEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    updateNetworkVPNProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkVPNProfileInput"];
+            };
+        };
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNProfileEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    deleteNetworkVPNProfile: {
+        parameters: {
+            query: {
+                expectedRevision: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    publishNetworkVPNProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkVPNRevisionInput"];
+            };
+        };
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNProfileEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    rollbackNetworkVPNProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkVPNRollbackInput"];
+            };
+        };
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNProfileEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listNetworkVPNProfileRevisions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNProfileRevisionListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listNetworkVPNSelectionPolicies: {
+        parameters: {
+            query?: {
+                limit?: number;
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNSelectionPolicyListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    createNetworkVPNSelectionPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkVPNSelectionPolicyInput"];
+            };
+        };
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            201: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNSelectionPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getNetworkVPNSelectionPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNSelectionPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    updateNetworkVPNSelectionPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkVPNSelectionPolicyInput"];
+            };
+        };
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNSelectionPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    deleteNetworkVPNSelectionPolicy: {
+        parameters: {
+            query: {
+                expectedRevision: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperationStatus"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    publishNetworkVPNSelectionPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkVPNRevisionInput"];
+            };
+        };
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNSelectionPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    rollbackNetworkVPNSelectionPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkVPNRollbackInput"];
+            };
+        };
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNSelectionPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listNetworkVPNSelectionPolicyRevisions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNSelectionPolicyRevisionListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listCurrentNetworkVPNConnectionOptions: {
+        parameters: {
+            query: {
+                deviceId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNConnectionOptionListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    createCurrentNetworkVPNConnectionIntent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkVPNConnectionIntentInput"];
+            };
+        };
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            201: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNConnectionIntentEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    previewNetworkVPNSelection: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkVPNPreviewInput"];
+            };
+        };
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNDecisionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getNetworkVPNDashboard: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+                profileId?: string;
+                siteId?: string;
+                gatewayId?: string;
+                subjectId?: string;
+                teamId?: string;
+                providerCode?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNDashboardEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getNetworkVPNDecision: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNDecisionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getCurrentNetworkVPNConnection: {
+        parameters: {
+            query: {
+                deviceId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description VPN operation result. User and target scope are enforced by the server. */
+            200: {
+                headers: {
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNCurrentConnectionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
     getHealthz: {
         parameters: {
             query?: never;
@@ -25273,6 +30114,61 @@ export interface operations {
             403: components["responses"]["Error"];
         };
     };
+    inspectApplicationHelmChart: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["HelmChartInspectionInput"];
+            };
+        };
+        responses: {
+            /** @description Chart identity, immutable package digest, safe defaults and optional values schema. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HelmChartInspectionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            502: components["responses"]["Error"];
+        };
+    };
+    getApplicationBuildpacksCapability: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Buildpacks runner capability, including an unavailable reason. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BuildpacksCapabilityEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
     getApplication: {
         parameters: {
             query?: never;
@@ -25323,6 +30219,7 @@ export interface operations {
             400: components["responses"]["Error"];
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
         };
     };
     deleteApplication: {
@@ -25675,6 +30572,35 @@ export interface operations {
                     "application/json": components["schemas"]["OperationStatus"];
                 };
             };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    analyzeApplicationRepository: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RepositoryAnalysisInput"];
+            };
+        };
+        responses: {
+            /** @description Static analysis result, including unsupported providers and source read failures. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RepositoryAnalysisEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
         };
@@ -26138,6 +31064,1252 @@ export interface operations {
             404: components["responses"]["Error"];
         };
     };
+    listServiceDeploymentTemplates: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceDeploymentTemplateListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    createServiceDeploymentTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceDeploymentTemplateInput"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceDeploymentTemplateEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getServiceDeploymentTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deploymentTemplateID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceDeploymentTemplateEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    updateServiceDeploymentTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deploymentTemplateID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceDeploymentTemplateInput"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceDeploymentTemplateEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    deprecateServiceDeploymentTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deploymentTemplateID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listServiceDeploymentTemplateVersions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deploymentTemplateID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceDeploymentTemplateListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getServiceDeploymentTemplateVersion: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deploymentTemplateID: string;
+                version: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceDeploymentTemplateEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    publishServiceDeploymentTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deploymentTemplateID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TemplatePublishInput"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceDeploymentTemplateEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    previewServiceDeploymentTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationID: components["parameters"]["ApplicationID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeploymentTemplatePreviewInput"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeploymentTemplatePreviewEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listBuildRecords: {
+        parameters: {
+            query?: {
+                applicationId?: string;
+                buildSourceId?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized execution records */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["BuildRecord"][];
+                    };
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            500: components["responses"]["Error"];
+        };
+    };
+    listWorkflowRuns: {
+        parameters: {
+            query?: {
+                applicationId?: string;
+                applicationEnvironmentId?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized execution records */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["WorkflowRun"][];
+                    };
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            500: components["responses"]["Error"];
+        };
+    };
+    triggerBuild: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BuildTriggerRequest"];
+            };
+        };
+        responses: {
+            /** @description Build accepted */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BuildTriggerEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            500: components["responses"]["Error"];
+        };
+    };
+    previewDeliveryDocuments: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryDocumentPreviewInput"];
+            };
+        };
+        responses: {
+            /** @description Preview and file diagnostics */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryDocumentPreviewEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    applyDeliveryDocumentImport: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                previewID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryDocumentApplyInput"];
+            };
+        };
+        responses: {
+            /** @description Import result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryDocumentImportEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    exportDeliveryDocument: {
+        parameters: {
+            query?: {
+                version?: number;
+                format?: "yaml" | "json";
+            };
+            header?: never;
+            path: {
+                kind: components["schemas"]["DeliveryDocumentKind"];
+                objectID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Exported document */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryDocumentExportEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listDeliveryTriggers: {
+        parameters: {
+            query?: {
+                targetKind?: "template_source" | "workflow";
+                targetId?: string;
+                offset?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized triggers */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryTriggerListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    createDeliveryTrigger: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryTriggerInput"];
+            };
+        };
+        responses: {
+            /** @description Created without execution */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryTriggerEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getDeliveryTrigger: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                triggerID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Trigger configuration without credentials */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryTriggerEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateDeliveryTrigger: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                triggerID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryTriggerInput"];
+            };
+        };
+        responses: {
+            /** @description Updated without execution */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryTriggerEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listDeliveryTriggerEvents: {
+        parameters: {
+            query?: {
+                offset?: number;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                triggerID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Durable acceptance, dispatch and failure records */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryTriggerEventListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    receiveDeliveryTriggerWebhook: {
+        parameters: {
+            query?: never;
+            header: {
+                "webhook-id": string;
+                "webhook-timestamp": string;
+                "webhook-signature": string;
+            };
+            path: {
+                triggerID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryGitLabPushEvent"];
+            };
+        };
+        responses: {
+            /** @description Event durably accepted or previously accepted; this is not build or deployment completion */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryTriggerEventEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            413: components["responses"]["Error"];
+        };
+    };
+    listDeliveryTemplateSources: {
+        parameters: {
+            query?: {
+                offset?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryTemplateSourceListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    createDeliveryTemplateSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryTemplateSourceInput"];
+            };
+        };
+        responses: {
+            /** @description Result */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryTemplateSourceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getDeliveryTemplateSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sourceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryTemplateSourceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    updateDeliveryTemplateSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sourceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryTemplateSourceInput"];
+            };
+        };
+        responses: {
+            /** @description Result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryTemplateSourceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    removeDeliveryTemplateSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sourceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryTemplateSourceRemoveInput"];
+            };
+        };
+        responses: {
+            /** @description Source association removed; objects and history retained */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listDeliveryTemplateSourceObjects: {
+        parameters: {
+            query?: {
+                offset?: number;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                sourceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryTemplateSourceAssociationListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    syncDeliveryTemplateSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sourceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryTemplateSyncInput"];
+            };
+        };
+        responses: {
+            /** @description Result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryTemplateSyncRunEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listDeliveryTemplateSyncRuns: {
+        parameters: {
+            query?: {
+                offset?: number;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                sourceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryTemplateSyncRunListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getDeliveryTemplateSyncRun: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sourceID: string;
+                runID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryTemplateSyncRunEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    applyDeliveryTemplateSync: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sourceID: string;
+                runID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryTemplateSyncApplyInput"];
+            };
+        };
+        responses: {
+            /** @description Result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryTemplateSyncRunEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    detachDeliveryTemplateSourceObject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sourceID: string;
+                kind: components["schemas"]["DeliveryDocumentKind"];
+                objectID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryTemplateSourceRemoveInput"];
+            };
+        };
+        responses: {
+            /** @description Source association removed; objects and history retained */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getDeliveryDocumentSource: {
+        parameters: {
+            query?: {
+                /** @description Optional immutable published template version or saved Workflow version. Omission returns current management association. */
+                version?: number;
+            };
+            header?: never;
+            path: {
+                kind: components["schemas"]["DeliveryDocumentKind"];
+                objectID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryDocumentSourceInfoEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listDeliveryExecutionHistory: {
+        parameters: {
+            query?: {
+                applicationId?: string;
+                serviceId?: string;
+                applicationEnvironmentId?: string;
+                workflowId?: string;
+                buildSourceId?: string;
+                status?: "all" | "running" | "approval" | "succeeded" | "failed" | "canceled";
+                search?: string;
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized execution page */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryExecutionHistoryEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            500: components["responses"]["Error"];
+        };
+    };
+    listWorkflowCatalog: {
+        parameters: {
+            query?: {
+                kind?: "all" | "build" | "workflow";
+                applicationId?: string;
+                environmentId?: string;
+                search?: string;
+                offset?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized definition page */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkflowCatalogEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            500: components["responses"]["Error"];
+        };
+    };
+    listDeliveryWorkflows: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryWorkflowListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    createDeliveryWorkflow: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryWorkflowInput"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryWorkflowEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getDeliveryWorkflow: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deliveryWorkflowID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryWorkflowEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    updateDeliveryWorkflow: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deliveryWorkflowID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryWorkflowInput"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryWorkflowEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listDeliveryBatches: {
+        parameters: {
+            query?: {
+                applicationId?: string;
+                serviceId?: string;
+                limit?: number;
+                /** @description Exact workflow definition ID, applied before the limit. */
+                workflowId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryBatchListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    createDeliveryBatch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryBatchInput"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryBatchEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getDeliveryBatch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deliveryBatchID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryBatchEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    cancelDeliveryBatch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deliveryBatchID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryBatchActionInput"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryBatchEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
     listBuildTemplates: {
         parameters: {
             query?: never;
@@ -26180,6 +32352,108 @@ export interface operations {
                     "application/json": components["schemas"]["BuildTemplateEnvelope"];
                 };
             };
+        };
+    };
+    listBuildTemplateVersions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                buildTemplateID: components["parameters"]["BuildTemplateID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Immutable published build template versions, newest first. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BuildTemplateListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    getBuildTemplateVersion: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                buildTemplateID: components["parameters"]["BuildTemplateID"];
+                version: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Selected immutable build template version. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BuildTemplateEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    publishBuildTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                buildTemplateID: components["parameters"]["BuildTemplateID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TemplatePublishInput"];
+            };
+        };
+        responses: {
+            /** @description Published immutable build template version. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BuildTemplateEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getBuildTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                buildTemplateID: components["parameters"]["BuildTemplateID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current build template draft and publication metadata. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BuildTemplateEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
         };
     };
     updateBuildTemplate: {
@@ -26274,6 +32548,108 @@ export interface operations {
                     "application/json": components["schemas"]["WorkflowTemplateEnvelope"];
                 };
             };
+        };
+    };
+    listWorkflowTemplateVersions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                workflowTemplateID: components["parameters"]["WorkflowTemplateID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Immutable published workflow template versions, newest first. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkflowTemplateListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    getWorkflowTemplateVersion: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                workflowTemplateID: components["parameters"]["WorkflowTemplateID"];
+                version: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Selected immutable workflow template version. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkflowTemplateEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    publishWorkflowTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                workflowTemplateID: components["parameters"]["WorkflowTemplateID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TemplatePublishInput"];
+            };
+        };
+        responses: {
+            /** @description Published immutable workflow template version. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkflowTemplateEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getWorkflowTemplate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                workflowTemplateID: components["parameters"]["WorkflowTemplateID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current workflow template draft and publication metadata. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkflowTemplateEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
         };
     };
     updateWorkflowTemplate: {
@@ -26478,6 +32854,36 @@ export interface operations {
             };
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
+        };
+    };
+    saveManifestRevision: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                manifestPackageID: components["parameters"]["ManifestPackageID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManifestRevisionInput"];
+            };
+        };
+        responses: {
+            /** @description Saved configuration version; no execution was started. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManifestPackageEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
         };
     };
     getManifestSource: {
@@ -27085,6 +33491,135 @@ export interface operations {
             409: components["responses"]["Error"];
         };
     };
+    listDeliveryBlueprints: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Delivery blueprint configuration. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryBlueprintListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    createDeliveryBlueprint: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryBlueprintInput"];
+            };
+        };
+        responses: {
+            /** @description Delivery blueprint configuration. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryBlueprintEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateDeliveryBlueprint: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                blueprintID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryBlueprintInput"];
+            };
+        };
+        responses: {
+            /** @description Delivery blueprint configuration. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryBlueprintEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    renderDeliveryBlueprintSpec: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                blueprintID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Delivery blueprint configuration. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RenderedDeliverySpecEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    bootstrapApplicationFromBlueprint: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                blueprintID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Delivery blueprint configuration. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BlueprintBootstrapResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
     createDeliveryDraft: {
         parameters: {
             query?: never;
@@ -27212,6 +33747,36 @@ export interface operations {
                 };
             };
             404: components["responses"]["Error"];
+        };
+    };
+    decideDeliveryPlanApproval: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                planID: components["parameters"]["PlanID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeliveryPlanApprovalInput"];
+            };
+        };
+        responses: {
+            /** @description Plan with the recorded approval decision. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryPlanEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
         };
     };
     confirmDeliveryPlan: {
@@ -27363,6 +33928,58 @@ export interface operations {
                 };
             };
             404: components["responses"]["Error"];
+        };
+    };
+    getExecutionTaskRollout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskID: components["parameters"]["TaskID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Native rollout traffic, pause and analysis observations for the task's frozen deployment. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProgressiveRolloutStatusEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    controlExecutionTaskRollout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskID: components["parameters"]["TaskID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProgressiveRolloutControlInput"];
+            };
+        };
+        responses: {
+            /** @description Latest native rollout observation after accepting the control. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProgressiveRolloutStatusEnvelope"];
+                };
+            };
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
         };
     };
     listExecutionTaskArtifacts: {
@@ -27678,6 +34295,189 @@ export interface operations {
                     "application/json": components["schemas"]["VirtualizationOperationEnvelope"];
                 };
             };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listVirtualizationWorkerPools: {
+        parameters: {
+            query: {
+                connectionId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Explicitly registered Kubernetes worker pools for this virtualization connection. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationWorkerPoolListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    getVirtualizationWorkerPool: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Worker pool configuration and immutable target identity. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationWorkerPoolEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    saveVirtualizationWorkerPool: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VirtualizationWorkerPoolInput"];
+            };
+        };
+        responses: {
+            /** @description Pool saved with an incremented revision. Revision zero creates a new ID; updates require the current revision. Registration alone does not create nodes. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationWorkerPoolEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    deleteVirtualizationWorkerPool: {
+        parameters: {
+            query: {
+                expectedRevision: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Unused pool configuration deleted. Pools with operation history must be disabled and retained; no VM or Kubernetes Node is deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    createVirtualizationWorker: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VirtualizationWorkerCreateInput"];
+            };
+        };
+        responses: {
+            /** @description One worker creation accepted by the existing VM task queue after pool budget and provider capacity admission. Partial VMs remain owned and count against the pool limit. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationOperationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    assessVirtualizationWorkerReadiness: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Fresh identity, Node Ready, schedulability and required daemon observations for the original worker task. Missing evidence is inconclusive; delivery must still repeat its own scheduling preflight. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CapabilityAssessmentEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    checkVirtualizationCapacity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VirtualizationCapacityInput"];
+            };
+        };
+        responses: {
+            /** @description Read-only capacity selection including outstanding Soha reservations. No capacity is reserved by this check. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationCapacityEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
         };
@@ -28538,6 +35338,57 @@ export interface operations {
             409: components["responses"]["Error"];
         };
     };
+    createDockerProject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DockerProjectInput"];
+            };
+        };
+        responses: {
+            /** @description Project configuration saved without deployment. Idempotent creation returns a fixed receipt without Compose, environment, labels or config content. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerProjectEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getDockerProject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dockerProjectID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current authorized Docker project configuration. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerProjectEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
     planDockerProjectDeploy: {
         parameters: {
             query?: never;
@@ -28771,6 +35622,30 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AgentRunEnvelope"];
+                };
+            };
+        };
+    };
+    callAgentRunnerTool: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AgentRunnerToolCallRequest"];
+            };
+        };
+        responses: {
+            /** @description Authorized tool result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentToolCallResultEnvelope"];
                 };
             };
         };
@@ -29621,6 +36496,30 @@ export interface operations {
             403: components["responses"]["Error"];
         };
     };
+    getWorkbenchInspectionTask: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskID: components["parameters"]["TaskID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Owned inspection registration and current revision. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchInspectionTaskEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
     updateWorkbenchInspectionTask: {
         parameters: {
             query?: never;
@@ -29701,7 +36600,11 @@ export interface operations {
     };
     executeWorkbenchInspectionTask: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Required with expectedRevision for capability registrations. Replays return the original inspection receipt. */
+                idempotencyKey?: string;
+                expectedRevision?: number;
+            };
             header?: never;
             path: {
                 taskID: components["parameters"]["TaskID"];
@@ -29719,8 +36622,10 @@ export interface operations {
                     "application/json": components["schemas"]["WorkbenchInspectionRunEnvelope"];
                 };
             };
+            400: components["responses"]["Error"];
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
         };
     };
     createWorkbenchSessionFromInspectionRun: {
@@ -32712,6 +39617,38 @@ export interface operations {
             503: components["responses"]["Error"];
         };
     };
+    deleteKubernetesCustomResource: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+                /** @description UID observed by the caller. A replacement resource is rejected; when omitted the runtime still fences its read and delete with UID and resourceVersion. */
+                expectedUid?: string;
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                crdName: components["parameters"]["KubernetesCRDName"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deletion request accepted. The resource may remain while finalizers run; refresh the list to confirm disappearance. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
     listKubernetesHelmCharts: {
         parameters: {
             query?: {
@@ -34613,6 +41550,12 @@ export interface operations {
                 aiClientName?: components["parameters"]["AIClientName"];
                 skillId?: components["parameters"]["SkillID"];
                 source?: components["parameters"]["Source"];
+                query?: string;
+                toolDomain?: string;
+                action?: string;
+                resourceKind?: string;
+                limit?: number;
+                cursor?: string;
             };
             header?: never;
             path?: never;
@@ -34657,6 +41600,160 @@ export interface operations {
                 };
             };
             403: components["responses"]["Error"];
+        };
+    };
+    validateCapabilityPlan: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CapabilityTaskInput"];
+            };
+        };
+        responses: {
+            /** @description Structural and semantic plan validation; current conditions are checked again before each step. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CapabilityPlanValidationEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    listCapabilityTasks: {
+        parameters: {
+            query?: {
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Tasks whose frozen capabilities remain visible to the current identity. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CapabilityTaskListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createCapabilityTask: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CapabilityTaskInput"];
+            };
+        };
+        responses: {
+            /** @description The durable Workflow-backed goal, including an existing task for an identical idempotent submission. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CapabilityTaskEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getCapabilityTask: {
+        parameters: {
+            query?: {
+                /** @description Read an archived plan and its execution evidence. Omit for the current plan. */
+                planVersion?: number;
+            };
+            header?: never;
+            path: {
+                taskId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current task state, domain references and evidence under current authorization. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CapabilityTaskEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    resumeCapabilityTask: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CapabilityTaskRevisionInput"];
+            };
+        };
+        responses: {
+            /** @description A new plan revision of a paused or terminal goal. Previous evidence is retained; unresolved dispatched steps cannot be removed or changed. At most 20 plan revisions per goal. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CapabilityTaskEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    cancelCapabilityTask: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Cancellation requested; completed effects are retained and running domain tasks must acknowledge cancellation. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CapabilityTaskEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
         };
     };
     readAIGatewayResource: {
@@ -40496,6 +47593,33 @@ export interface operations {
             403: components["responses"]["IdentityError"];
         };
     };
+    onboardIdentityApplication: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdentityApplicationOnboardingInput"];
+            };
+        };
+        responses: {
+            /** @description Created application and optional authentication resources. Configuration is not a verified login. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityApplicationOnboardingEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+            403: components["responses"]["IdentityError"];
+            409: components["responses"]["IdentityError"];
+        };
+    };
     getIdentityApplication: {
         parameters: {
             query?: never;
@@ -40682,6 +47806,60 @@ export interface operations {
                 };
                 content?: never;
             };
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    getIdentityProviderSetup: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                identityProviderID: components["parameters"]["IdentityProviderID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Configuration completeness and integration endpoints, not proof of a successful login. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityProviderSetupEnvelope"];
+                };
+            };
+            403: components["responses"]["IdentityError"];
+            404: components["responses"]["IdentityError"];
+        };
+    };
+    getIdentityProviderUserMetadata: {
+        parameters: {
+            query?: {
+                /** @description OIDC client record ID. Required for OIDC; the client must belong to this provider. */
+                clientId?: string;
+            };
+            header?: never;
+            path: {
+                identityProviderID: components["parameters"]["IdentityProviderID"];
+                userID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Read-only application attribute preview. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityProviderUserMetadataEnvelope"];
+                };
+            };
+            400: components["responses"]["IdentityError"];
+            401: components["responses"]["IdentityError"];
+            403: components["responses"]["IdentityError"];
             404: components["responses"]["IdentityError"];
         };
     };

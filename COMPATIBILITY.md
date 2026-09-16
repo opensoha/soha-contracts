@@ -100,6 +100,11 @@ requires dynamic JSON, add it to the baseline with an intentional review note.
 If a loose boundary is tightened, remove it from the baseline in the same
 change so the contract surface keeps moving toward named schemas.
 
+`CapabilityCall.input` is intentionally dynamic: a continuation references a
+registered capability whose version and input schema are checked by the Gateway.
+The call envelope and task reference are closed schemas; this input map does not
+permit arbitrary HTTP endpoints, scripts, or bypasses of current authorization.
+
 ## Public Cloud Extension Points
 
 `CloudExtensionPoint` OpenAPI DTOs describe only public extension points that
@@ -115,6 +120,23 @@ required fields; and must not remove `billing`, `quota`, or `saas-iam` from
 the Cloud-only exclusion enum.
 
 ## Fixture Policy
+
+### Outpost management compatibility
+
+Outpost management retains the deployed `online/offline/degraded` status values,
+node metadata, endpoint, version and last-contact fields. The shared
+`IdentityResourceStatus` type is preserved for SDK source compatibility; these
+legacy runtime values apply to Outposts, not to other resources' management
+transitions. Management `status` and `version` inputs remain accepted for old
+clients but cannot manufacture runtime observations. New clients use
+`runtimeStatus`, `lastHeartbeatAt`, applied configuration information and the
+explicit `forwardAuthUrl`. A desired configuration version of zero represents
+an unregistered node and must not be displayed as a deployed version.
+
+The two Outpost metadata references in the loose-boundary inventory document an
+existing deployed JSON object surface. They preserve legacy clients and do not
+authorize runtime health, configuration versions or lease expiry; those are
+separately typed and recorded by authenticated runtime operations.
 
 Every JSON Schema owned by this repository must have at least one valid and one
 invalid fixture under `fixtures/json-schema/<contract>/`.
@@ -363,3 +385,17 @@ npm run check:consumers
 Local runs skip missing sibling checkouts by default. CI and release candidate
 validation should use `--require-all` or a specific `--consumer <name>` so a
 missing checkout is a failure.
+
+## Capability lifecycle metadata
+
+`execution.checks` adds optional version-pinned references to read-only availability,
+precondition, and assessment capabilities. Discovery filters references using the
+caller-visible catalog before pagination. They are suggestions for explicit plan
+steps, not automatic execution or a replacement for domain admission. No declared
+check means unknown support, not a successful check.
+
+`execution.recoveryMode=original_call` declares read-only receipt lookup by the
+managed goal executor with the exact persisted invocation and current authorization.
+It does not promise rollback or authorize a new write. Consumers without these
+optional fields keep the existing version, idempotency, status, and cancellation
+behavior.

@@ -1,6 +1,52 @@
 package sohaapi
 
-import "testing"
+import (
+	"encoding/json"
+	"testing"
+)
+
+func TestToolInvocationResultPreservesAbsentVersion(t *testing.T) {
+	for _, input := range []string{
+		`{"toolName":"legacy","riskLevel":"read","requiresApproval":false,"result":"success"}`,
+		`{"toolName":"versioned","capabilityVersion":"1","riskLevel":"read","requiresApproval":false,"result":"success"}`,
+	} {
+		var value ToolInvocationResult
+		if err := json.Unmarshal([]byte(input), &value); err != nil {
+			t.Fatal(err)
+		}
+		output, err := json.Marshal(value)
+		if err != nil {
+			t.Fatal(err)
+		}
+		var before, after map[string]any
+		if err := json.Unmarshal([]byte(input), &before); err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(output, &after); err != nil {
+			t.Fatal(err)
+		}
+		if before["capabilityVersion"] != after["capabilityVersion"] {
+			t.Fatalf("version presence changed during round trip: %s", output)
+		}
+	}
+}
+
+func TestDeliveryWorkflowPreservesExplicitFalse(t *testing.T) {
+	for _, value := range []string{"false", "true"} {
+		var definition DeliveryWorkflowDefinition
+		if err := json.Unmarshal([]byte(`{"name":"delivery","targets":[],"stopOnFailure":`+value+`}`), &definition); err != nil {
+			t.Fatal(err)
+		}
+		raw, err := json.Marshal(definition)
+		if err != nil {
+			t.Fatal(err)
+		}
+		var fields map[string]json.RawMessage
+		if err := json.Unmarshal(raw, &fields); err != nil || string(fields["stopOnFailure"]) != value {
+			t.Fatalf("stopOnFailure=%s was lost: %s (%v)", value, raw, err)
+		}
+	}
+}
 
 func TestKubernetesWorkloadSnapshotRequestGeneratedShape(t *testing.T) {
 	request := KubernetesWorkloadSnapshotRequest{
@@ -51,6 +97,32 @@ func TestKubernetesResourceSearchGeneratedShape(t *testing.T) {
 	}
 }
 
+func TestDeliveryBatchInputPreservesSourceChoice(t *testing.T) {
+	for _, raw := range []string{
+		`{"idempotencyKey":"attempt-1","definition":{"name":"release","targets":[]}}`,
+		`{"idempotencyKey":"attempt-2","workflowId":"workflow-1","workflowVersion":2}`,
+	} {
+		var input DeliveryBatchInput
+		if err := json.Unmarshal([]byte(raw), &input); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(input)
+		if err != nil {
+			t.Fatal(err)
+		}
+		var fields map[string]json.RawMessage
+		if err := json.Unmarshal(encoded, &fields); err != nil {
+			t.Fatal(err)
+		}
+		_, definition := fields["definition"]
+		_, workflow := fields["workflowId"]
+		_, version := fields["workflowVersion"]
+		if definition == workflow || workflow != version {
+			t.Fatalf("source choice changed: %s", encoded)
+		}
+	}
+}
+
 func TestLegacyEnumAliasesRemainSourceCompatible(t *testing.T) {
 	if Allow != ScopeGrantEffect("allow") || Deny != ScopeGrantEffect("deny") {
 		t.Fatalf("scope grant effect aliases = %q/%q", Allow, Deny)
@@ -76,5 +148,28 @@ func TestLegacyEnumAliasesRemainSourceCompatible(t *testing.T) {
 		ListAIGatewayRelayUpstreamsParamsStatusDegraded != Degraded ||
 		ListAIGatewayRelayUpstreamsParamsStatusDisabled != Disabled {
 		t.Fatalf("relay status aliases changed")
+	}
+}
+
+func TestApprovalScopeKeepsMapCompatibility(t *testing.T) {
+	var item ApprovalRequest
+	if err := json.Unmarshal([]byte(`{"resourceScope":{"projectId":"project-1","invocationScopes":[{"hostId":"host-1","projectId":"project-1"}]}}`), &item); err != nil {
+		t.Fatal(err)
+	}
+	var scope map[string]any = item.ResourceScope
+	if len(scope) != 2 || scope["projectId"] != "project-1" {
+		t.Fatalf("scope lost: %v", scope)
+	}
+	encoded, err := json.Marshal(item)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var again ApprovalRequest
+	if err := json.Unmarshal(encoded, &again); err != nil {
+		t.Fatal(err)
+	}
+	scopes, ok := again.ResourceScope["invocationScopes"].([]any)
+	if !ok || len(scopes) != 1 || scopes[0].(map[string]any)["hostId"] != "host-1" {
+		t.Fatalf("resolved scopes lost: %s", encoded)
 	}
 }

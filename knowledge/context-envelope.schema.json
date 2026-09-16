@@ -22,6 +22,7 @@
     "environment": { "type": "object" },
     "budgets": { "type": "object" },
     "budgetUsage": { "type": "object" },
+    "truncations": { "type": "array", "items": { "type": "string" } },
     "policySnapshot": { "$ref": "#/$defs/versionRef" },
     "contentHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
     "createdAt": { "type": "string", "format": "date-time" }

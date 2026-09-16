@@ -5,6 +5,7 @@ package sohaapi
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"time"
 
@@ -172,6 +173,24 @@ func (e AIProductionOperationInputKind) Valid() bool {
 	case AIProductionOperationInputKindIndexRebuild:
 		return true
 	case AIProductionOperationInputKindRestore:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentChatMessageRole.
+const (
+	AgentChatRoleAssistant AgentChatMessageRole = "assistant"
+	AgentChatRoleUser      AgentChatMessageRole = "user"
+)
+
+// Valid indicates whether the value is a known member of the AgentChatMessageRole enum.
+func (e AgentChatMessageRole) Valid() bool {
+	switch e {
+	case AgentChatRoleAssistant:
+		return true
+	case AgentChatRoleUser:
 		return true
 	default:
 		return false
@@ -508,6 +527,90 @@ func (e AgentRunCallbackWorkbenchToolStartedEventType) Valid() bool {
 	}
 }
 
+// Defines values for AgentRunnerChangeArgumentsAction.
+const (
+	AgentRunnerChangeArgumentsActionBuild    AgentRunnerChangeArgumentsAction = "build"
+	AgentRunnerChangeArgumentsActionDeploy   AgentRunnerChangeArgumentsAction = "deploy"
+	AgentRunnerChangeArgumentsActionRollback AgentRunnerChangeArgumentsAction = "rollback"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunnerChangeArgumentsAction enum.
+func (e AgentRunnerChangeArgumentsAction) Valid() bool {
+	switch e {
+	case AgentRunnerChangeArgumentsActionBuild:
+		return true
+	case AgentRunnerChangeArgumentsActionDeploy:
+		return true
+	case AgentRunnerChangeArgumentsActionRollback:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunnerToolInputArtifactKind.
+const (
+	ConfigurationPreview AgentRunnerToolInputArtifactKind = "configuration_preview"
+	Report               AgentRunnerToolInputArtifactKind = "report"
+	ResourceTable        AgentRunnerToolInputArtifactKind = "resource_table"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunnerToolInputArtifactKind enum.
+func (e AgentRunnerToolInputArtifactKind) Valid() bool {
+	switch e {
+	case ConfigurationPreview:
+		return true
+	case Report:
+		return true
+	case ResourceTable:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunnerToolInputFormat.
+const (
+	AgentRunnerToolInputFormatJSON     AgentRunnerToolInputFormat = "json"
+	AgentRunnerToolInputFormatMarkdown AgentRunnerToolInputFormat = "markdown"
+	AgentRunnerToolInputFormatText     AgentRunnerToolInputFormat = "text"
+	AgentRunnerToolInputFormatYaml     AgentRunnerToolInputFormat = "yaml"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunnerToolInputFormat enum.
+func (e AgentRunnerToolInputFormat) Valid() bool {
+	switch e {
+	case AgentRunnerToolInputFormatJSON:
+		return true
+	case AgentRunnerToolInputFormatMarkdown:
+		return true
+	case AgentRunnerToolInputFormatText:
+		return true
+	case AgentRunnerToolInputFormatYaml:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunnerToolInputToolName.
+const (
+	DeliveryActionsTrigger     AgentRunnerToolInputToolName = "delivery.actions.trigger"
+	DeliveryApplicationsCreate AgentRunnerToolInputToolName = "delivery.applications.create"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunnerToolInputToolName enum.
+func (e AgentRunnerToolInputToolName) Valid() bool {
+	switch e {
+	case DeliveryActionsTrigger:
+		return true
+	case DeliveryApplicationsCreate:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for AlertRuleType.
 const (
 	AlertRuleTypeExternalPassthrough AlertRuleType = "external_passthrough"
@@ -534,19 +637,19 @@ func (e AlertRuleType) Valid() bool {
 
 // Defines values for AnnouncementReceiptState.
 const (
-	All    AnnouncementReceiptState = "all"
-	Read   AnnouncementReceiptState = "read"
-	Unread AnnouncementReceiptState = "unread"
+	AnnouncementReceiptStateAll    AnnouncementReceiptState = "all"
+	AnnouncementReceiptStateRead   AnnouncementReceiptState = "read"
+	AnnouncementReceiptStateUnread AnnouncementReceiptState = "unread"
 )
 
 // Valid indicates whether the value is a known member of the AnnouncementReceiptState enum.
 func (e AnnouncementReceiptState) Valid() bool {
 	switch e {
-	case All:
+	case AnnouncementReceiptStateAll:
 		return true
-	case Read:
+	case AnnouncementReceiptStateRead:
 		return true
-	case Unread:
+	case AnnouncementReceiptStateUnread:
 		return true
 	default:
 		return false
@@ -666,13 +769,13 @@ func (e BrowserHandoffStatus) Valid() bool {
 
 // Defines values for BrowserHandoffCompletionStatus.
 const (
-	Completed BrowserHandoffCompletionStatus = "completed"
+	BrowserHandoffCompletionStatusCompleted BrowserHandoffCompletionStatus = "completed"
 )
 
 // Valid indicates whether the value is a known member of the BrowserHandoffCompletionStatus enum.
 func (e BrowserHandoffCompletionStatus) Valid() bool {
 	switch e {
-	case Completed:
+	case BrowserHandoffCompletionStatusCompleted:
 		return true
 	default:
 		return false
@@ -704,6 +807,7 @@ func (e BuildRepositoryRefInputRefType) Valid() bool {
 const (
 	BuildSourceTypeExternalPipeline      BuildSourceType = "external_pipeline"
 	BuildSourceTypePlatformBuildTemplate BuildSourceType = "platform_build_template"
+	BuildSourceTypeRepoBuildpacks        BuildSourceType = "repo_buildpacks"
 	BuildSourceTypeRepoDockerfile        BuildSourceType = "repo_dockerfile"
 )
 
@@ -713,6 +817,8 @@ func (e BuildSourceType) Valid() bool {
 	case BuildSourceTypeExternalPipeline:
 		return true
 	case BuildSourceTypePlatformBuildTemplate:
+		return true
+	case BuildSourceTypeRepoBuildpacks:
 		return true
 	case BuildSourceTypeRepoDockerfile:
 		return true
@@ -746,6 +852,7 @@ func (e BuildSourceConfigBuilderKind) Valid() bool {
 const (
 	BuildSourceInputTypeExternalPipeline      BuildSourceInputType = "external_pipeline"
 	BuildSourceInputTypePlatformBuildTemplate BuildSourceInputType = "platform_build_template"
+	BuildSourceInputTypeRepoBuildpacks        BuildSourceInputType = "repo_buildpacks"
 	BuildSourceInputTypeRepoDockerfile        BuildSourceInputType = "repo_dockerfile"
 )
 
@@ -756,7 +863,150 @@ func (e BuildSourceInputType) Valid() bool {
 		return true
 	case BuildSourceInputTypePlatformBuildTemplate:
 		return true
+	case BuildSourceInputTypeRepoBuildpacks:
+		return true
 	case BuildSourceInputTypeRepoDockerfile:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for BuildTriggerRequestRefType.
+const (
+	BuildTriggerRequestRefTypeBranch BuildTriggerRequestRefType = "branch"
+	BuildTriggerRequestRefTypeCommit BuildTriggerRequestRefType = "commit"
+	BuildTriggerRequestRefTypeTag    BuildTriggerRequestRefType = "tag"
+)
+
+// Valid indicates whether the value is a known member of the BuildTriggerRequestRefType enum.
+func (e BuildTriggerRequestRefType) Valid() bool {
+	switch e {
+	case BuildTriggerRequestRefTypeBranch:
+		return true
+	case BuildTriggerRequestRefTypeCommit:
+		return true
+	case BuildTriggerRequestRefTypeTag:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for BuildpacksCapabilityRuntime.
+const (
+	BuildpacksCapabilityRuntimePack   BuildpacksCapabilityRuntime = "pack"
+	BuildpacksCapabilityRuntimePodman BuildpacksCapabilityRuntime = "podman"
+)
+
+// Valid indicates whether the value is a known member of the BuildpacksCapabilityRuntime enum.
+func (e BuildpacksCapabilityRuntime) Valid() bool {
+	switch e {
+	case BuildpacksCapabilityRuntimePack:
+		return true
+	case BuildpacksCapabilityRuntimePodman:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for BuildpacksConfigurationPlatform.
+const (
+	LinuxAmd64 BuildpacksConfigurationPlatform = "linux/amd64"
+	LinuxArm64 BuildpacksConfigurationPlatform = "linux/arm64"
+)
+
+// Valid indicates whether the value is a known member of the BuildpacksConfigurationPlatform enum.
+func (e BuildpacksConfigurationPlatform) Valid() bool {
+	switch e {
+	case LinuxAmd64:
+		return true
+	case LinuxArm64:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for BuildpacksExecutionSpecRuntime.
+const (
+	BuildpacksExecutionSpecRuntimePack   BuildpacksExecutionSpecRuntime = "pack"
+	BuildpacksExecutionSpecRuntimePodman BuildpacksExecutionSpecRuntime = "podman"
+)
+
+// Valid indicates whether the value is a known member of the BuildpacksExecutionSpecRuntime enum.
+func (e BuildpacksExecutionSpecRuntime) Valid() bool {
+	switch e {
+	case BuildpacksExecutionSpecRuntimePack:
+		return true
+	case BuildpacksExecutionSpecRuntimePodman:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CapabilityAssessmentVerdict.
+const (
+	CapabilityAssessmentVerdictInconclusive CapabilityAssessmentVerdict = "inconclusive"
+	CapabilityAssessmentVerdictSatisfied    CapabilityAssessmentVerdict = "satisfied"
+	CapabilityAssessmentVerdictUnsatisfied  CapabilityAssessmentVerdict = "unsatisfied"
+)
+
+// Valid indicates whether the value is a known member of the CapabilityAssessmentVerdict enum.
+func (e CapabilityAssessmentVerdict) Valid() bool {
+	switch e {
+	case CapabilityAssessmentVerdictInconclusive:
+		return true
+	case CapabilityAssessmentVerdictSatisfied:
+		return true
+	case CapabilityAssessmentVerdictUnsatisfied:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CapabilityCheckReferencePurpose.
+const (
+	CapabilityCheckAvailability CapabilityCheckReferencePurpose = "availability"
+	CapabilityCheckPrecondition CapabilityCheckReferencePurpose = "precondition"
+	CapabilityCheckVerification CapabilityCheckReferencePurpose = "verification"
+)
+
+// Valid indicates whether the value is a known member of the CapabilityCheckReferencePurpose enum.
+func (e CapabilityCheckReferencePurpose) Valid() bool {
+	switch e {
+	case CapabilityCheckAvailability:
+		return true
+	case CapabilityCheckPrecondition:
+		return true
+	case CapabilityCheckVerification:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CapabilityTaskRefOutcome.
+const (
+	CapabilityTaskRefOutcomeCanceled  CapabilityTaskRefOutcome = "canceled"
+	CapabilityTaskRefOutcomeFailed    CapabilityTaskRefOutcome = "failed"
+	CapabilityTaskRefOutcomeSucceeded CapabilityTaskRefOutcome = "succeeded"
+	CapabilityTaskRefOutcomeUnknown   CapabilityTaskRefOutcome = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the CapabilityTaskRefOutcome enum.
+func (e CapabilityTaskRefOutcome) Valid() bool {
+	switch e {
+	case CapabilityTaskRefOutcomeCanceled:
+		return true
+	case CapabilityTaskRefOutcomeFailed:
+		return true
+	case CapabilityTaskRefOutcomeSucceeded:
+		return true
+	case CapabilityTaskRefOutcomeUnknown:
 		return true
 	default:
 		return false
@@ -1555,6 +1805,672 @@ func (e ComputeTaskVerificationStatus) Valid() bool {
 	}
 }
 
+// Defines values for DeliveryAccessResultAuthentication.
+const (
+	DeliveryAccessResultAuthenticationRequired DeliveryAccessResultAuthentication = "required"
+	DeliveryAccessResultAuthenticationUnknown  DeliveryAccessResultAuthentication = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryAccessResultAuthentication enum.
+func (e DeliveryAccessResultAuthentication) Valid() bool {
+	switch e {
+	case DeliveryAccessResultAuthenticationRequired:
+		return true
+	case DeliveryAccessResultAuthenticationUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryAccessResultNetworkRequirement.
+const (
+	DeliveryAccessResultNetworkRequirementPrivateNetwork DeliveryAccessResultNetworkRequirement = "private_network"
+	DeliveryAccessResultNetworkRequirementUnknown        DeliveryAccessResultNetworkRequirement = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryAccessResultNetworkRequirement enum.
+func (e DeliveryAccessResultNetworkRequirement) Valid() bool {
+	switch e {
+	case DeliveryAccessResultNetworkRequirementPrivateNetwork:
+		return true
+	case DeliveryAccessResultNetworkRequirementUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryAccessResultProbeLocation.
+const (
+	SohaControlPlane DeliveryAccessResultProbeLocation = "soha_control_plane"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryAccessResultProbeLocation enum.
+func (e DeliveryAccessResultProbeLocation) Valid() bool {
+	switch e {
+	case SohaControlPlane:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryAccessResultReachability.
+const (
+	DeliveryAccessResultReachabilityInconclusive DeliveryAccessResultReachability = "inconclusive"
+	DeliveryAccessResultReachabilitySatisfied    DeliveryAccessResultReachability = "satisfied"
+	DeliveryAccessResultReachabilityUnsatisfied  DeliveryAccessResultReachability = "unsatisfied"
+	DeliveryAccessResultReachabilityUnverified   DeliveryAccessResultReachability = "unverified"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryAccessResultReachability enum.
+func (e DeliveryAccessResultReachability) Valid() bool {
+	switch e {
+	case DeliveryAccessResultReachabilityInconclusive:
+		return true
+	case DeliveryAccessResultReachabilitySatisfied:
+		return true
+	case DeliveryAccessResultReachabilityUnsatisfied:
+		return true
+	case DeliveryAccessResultReachabilityUnverified:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryBatchStatus.
+const (
+	DeliveryBatchStatusCanceled           DeliveryBatchStatus = "canceled"
+	DeliveryBatchStatusCanceling          DeliveryBatchStatus = "canceling"
+	DeliveryBatchStatusCompleted          DeliveryBatchStatus = "completed"
+	DeliveryBatchStatusFailed             DeliveryBatchStatus = "failed"
+	DeliveryBatchStatusPartiallyCompleted DeliveryBatchStatus = "partially_completed"
+	DeliveryBatchStatusQueued             DeliveryBatchStatus = "queued"
+	DeliveryBatchStatusRunning            DeliveryBatchStatus = "running"
+	DeliveryBatchStatusWaitingApproval    DeliveryBatchStatus = "waiting_approval"
+	DeliveryBatchStatusWaitingExecution   DeliveryBatchStatus = "waiting_execution"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryBatchStatus enum.
+func (e DeliveryBatchStatus) Valid() bool {
+	switch e {
+	case DeliveryBatchStatusCanceled:
+		return true
+	case DeliveryBatchStatusCanceling:
+		return true
+	case DeliveryBatchStatusCompleted:
+		return true
+	case DeliveryBatchStatusFailed:
+		return true
+	case DeliveryBatchStatusPartiallyCompleted:
+		return true
+	case DeliveryBatchStatusQueued:
+		return true
+	case DeliveryBatchStatusRunning:
+		return true
+	case DeliveryBatchStatusWaitingApproval:
+		return true
+	case DeliveryBatchStatusWaitingExecution:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryBatchStopReason.
+const (
+	DeliveryBatchStopReasonFailure DeliveryBatchStopReason = "failure"
+	DeliveryBatchStopReasonUser    DeliveryBatchStopReason = "user"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryBatchStopReason enum.
+func (e DeliveryBatchStopReason) Valid() bool {
+	switch e {
+	case DeliveryBatchStopReasonFailure:
+		return true
+	case DeliveryBatchStopReasonUser:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryBatchAssessmentVerdict.
+const (
+	Inconclusive DeliveryBatchAssessmentVerdict = "inconclusive"
+	Satisfied    DeliveryBatchAssessmentVerdict = "satisfied"
+	Unsatisfied  DeliveryBatchAssessmentVerdict = "unsatisfied"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryBatchAssessmentVerdict enum.
+func (e DeliveryBatchAssessmentVerdict) Valid() bool {
+	switch e {
+	case Inconclusive:
+		return true
+	case Satisfied:
+		return true
+	case Unsatisfied:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryBatchTemplateDefinitionExecutionMode.
+const (
+	DeliveryBatchTemplateDefinitionExecutionModeBuildAllThenDeploy DeliveryBatchTemplateDefinitionExecutionMode = "build_all_then_deploy"
+	DeliveryBatchTemplateDefinitionExecutionModeServiceSerial      DeliveryBatchTemplateDefinitionExecutionMode = "service_serial"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryBatchTemplateDefinitionExecutionMode enum.
+func (e DeliveryBatchTemplateDefinitionExecutionMode) Valid() bool {
+	switch e {
+	case DeliveryBatchTemplateDefinitionExecutionModeBuildAllThenDeploy:
+		return true
+	case DeliveryBatchTemplateDefinitionExecutionModeServiceSerial:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryBatchTemplateDefinitionMode.
+const (
+	DeliveryBatchTemplateDefinitionModeDeliveryBatch DeliveryBatchTemplateDefinitionMode = "delivery_batch"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryBatchTemplateDefinitionMode enum.
+func (e DeliveryBatchTemplateDefinitionMode) Valid() bool {
+	switch e {
+	case DeliveryBatchTemplateDefinitionModeDeliveryBatch:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryBatchTemplateDefinitionSchemaVersion.
+const (
+	DeliveryBatchTemplateDefinitionSchemaVersionN1 DeliveryBatchTemplateDefinitionSchemaVersion = 1
+)
+
+// Valid indicates whether the value is a known member of the DeliveryBatchTemplateDefinitionSchemaVersion enum.
+func (e DeliveryBatchTemplateDefinitionSchemaVersion) Valid() bool {
+	switch e {
+	case DeliveryBatchTemplateDefinitionSchemaVersionN1:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryBatchTemplateDefinitionStages.
+const (
+	DeliveryBatchTemplateDefinitionStagesBuild  DeliveryBatchTemplateDefinitionStages = "build"
+	DeliveryBatchTemplateDefinitionStagesDeploy DeliveryBatchTemplateDefinitionStages = "deploy"
+	DeliveryBatchTemplateDefinitionStagesHealth DeliveryBatchTemplateDefinitionStages = "health"
+	DeliveryBatchTemplateDefinitionStagesPlan   DeliveryBatchTemplateDefinitionStages = "plan"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryBatchTemplateDefinitionStages enum.
+func (e DeliveryBatchTemplateDefinitionStages) Valid() bool {
+	switch e {
+	case DeliveryBatchTemplateDefinitionStagesBuild:
+		return true
+	case DeliveryBatchTemplateDefinitionStagesDeploy:
+		return true
+	case DeliveryBatchTemplateDefinitionStagesHealth:
+		return true
+	case DeliveryBatchTemplateDefinitionStagesPlan:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryBuildVariableSchemaType.
+const (
+	Boolean DeliveryBuildVariableSchemaType = "boolean"
+	Integer DeliveryBuildVariableSchemaType = "integer"
+	Number  DeliveryBuildVariableSchemaType = "number"
+	String  DeliveryBuildVariableSchemaType = "string"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryBuildVariableSchemaType enum.
+func (e DeliveryBuildVariableSchemaType) Valid() bool {
+	switch e {
+	case Boolean:
+		return true
+	case Integer:
+		return true
+	case Number:
+		return true
+	case String:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryDocumentCandidateAction.
+const (
+	DeliveryDocumentCandidateActionCreate    DeliveryDocumentCandidateAction = "create"
+	DeliveryDocumentCandidateActionUnchanged DeliveryDocumentCandidateAction = "unchanged"
+	DeliveryDocumentCandidateActionUpdate    DeliveryDocumentCandidateAction = "update"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryDocumentCandidateAction enum.
+func (e DeliveryDocumentCandidateAction) Valid() bool {
+	switch e {
+	case DeliveryDocumentCandidateActionCreate:
+		return true
+	case DeliveryDocumentCandidateActionUnchanged:
+		return true
+	case DeliveryDocumentCandidateActionUpdate:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryDocumentDAGEdgesCondition.
+const (
+	DeliveryDocumentDAGEdgesConditionAlways  DeliveryDocumentDAGEdgesCondition = "always"
+	DeliveryDocumentDAGEdgesConditionFailure DeliveryDocumentDAGEdgesCondition = "failure"
+	DeliveryDocumentDAGEdgesConditionSuccess DeliveryDocumentDAGEdgesCondition = "success"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryDocumentDAGEdgesCondition enum.
+func (e DeliveryDocumentDAGEdgesCondition) Valid() bool {
+	switch e {
+	case DeliveryDocumentDAGEdgesConditionAlways:
+		return true
+	case DeliveryDocumentDAGEdgesConditionFailure:
+		return true
+	case DeliveryDocumentDAGEdgesConditionSuccess:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryDocumentDAGMode.
+const (
+	DeliveryDag DeliveryDocumentDAGMode = "delivery_dag"
+	ReleaseDag  DeliveryDocumentDAGMode = "release_dag"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryDocumentDAGMode enum.
+func (e DeliveryDocumentDAGMode) Valid() bool {
+	switch e {
+	case DeliveryDag:
+		return true
+	case ReleaseDag:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryDocumentDAGNodesArtifactKinds.
+const (
+	DeliveryDocumentDAGNodesArtifactKindsImage      DeliveryDocumentDAGNodesArtifactKinds = "image"
+	DeliveryDocumentDAGNodesArtifactKindsJunit      DeliveryDocumentDAGNodesArtifactKinds = "junit"
+	DeliveryDocumentDAGNodesArtifactKindsLog        DeliveryDocumentDAGNodesArtifactKinds = "log"
+	DeliveryDocumentDAGNodesArtifactKindsSbom       DeliveryDocumentDAGNodesArtifactKinds = "sbom"
+	DeliveryDocumentDAGNodesArtifactKindsScanReport DeliveryDocumentDAGNodesArtifactKinds = "scan_report"
+	DeliveryDocumentDAGNodesArtifactKindsScreenshot DeliveryDocumentDAGNodesArtifactKinds = "screenshot"
+	DeliveryDocumentDAGNodesArtifactKindsTestReport DeliveryDocumentDAGNodesArtifactKinds = "test_report"
+	DeliveryDocumentDAGNodesArtifactKindsVideo      DeliveryDocumentDAGNodesArtifactKinds = "video"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryDocumentDAGNodesArtifactKinds enum.
+func (e DeliveryDocumentDAGNodesArtifactKinds) Valid() bool {
+	switch e {
+	case DeliveryDocumentDAGNodesArtifactKindsImage:
+		return true
+	case DeliveryDocumentDAGNodesArtifactKindsJunit:
+		return true
+	case DeliveryDocumentDAGNodesArtifactKindsLog:
+		return true
+	case DeliveryDocumentDAGNodesArtifactKindsSbom:
+		return true
+	case DeliveryDocumentDAGNodesArtifactKindsScanReport:
+		return true
+	case DeliveryDocumentDAGNodesArtifactKindsScreenshot:
+		return true
+	case DeliveryDocumentDAGNodesArtifactKindsTestReport:
+		return true
+	case DeliveryDocumentDAGNodesArtifactKindsVideo:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryDocumentDAGNodesArtifactOutputsKind.
+const (
+	DeliveryDocumentDAGNodesArtifactOutputsKindImage      DeliveryDocumentDAGNodesArtifactOutputsKind = "image"
+	DeliveryDocumentDAGNodesArtifactOutputsKindJunit      DeliveryDocumentDAGNodesArtifactOutputsKind = "junit"
+	DeliveryDocumentDAGNodesArtifactOutputsKindLog        DeliveryDocumentDAGNodesArtifactOutputsKind = "log"
+	DeliveryDocumentDAGNodesArtifactOutputsKindSbom       DeliveryDocumentDAGNodesArtifactOutputsKind = "sbom"
+	DeliveryDocumentDAGNodesArtifactOutputsKindScanReport DeliveryDocumentDAGNodesArtifactOutputsKind = "scan_report"
+	DeliveryDocumentDAGNodesArtifactOutputsKindScreenshot DeliveryDocumentDAGNodesArtifactOutputsKind = "screenshot"
+	DeliveryDocumentDAGNodesArtifactOutputsKindTestReport DeliveryDocumentDAGNodesArtifactOutputsKind = "test_report"
+	DeliveryDocumentDAGNodesArtifactOutputsKindVideo      DeliveryDocumentDAGNodesArtifactOutputsKind = "video"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryDocumentDAGNodesArtifactOutputsKind enum.
+func (e DeliveryDocumentDAGNodesArtifactOutputsKind) Valid() bool {
+	switch e {
+	case DeliveryDocumentDAGNodesArtifactOutputsKindImage:
+		return true
+	case DeliveryDocumentDAGNodesArtifactOutputsKindJunit:
+		return true
+	case DeliveryDocumentDAGNodesArtifactOutputsKindLog:
+		return true
+	case DeliveryDocumentDAGNodesArtifactOutputsKindSbom:
+		return true
+	case DeliveryDocumentDAGNodesArtifactOutputsKindScanReport:
+		return true
+	case DeliveryDocumentDAGNodesArtifactOutputsKindScreenshot:
+		return true
+	case DeliveryDocumentDAGNodesArtifactOutputsKindTestReport:
+		return true
+	case DeliveryDocumentDAGNodesArtifactOutputsKindVideo:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryDocumentDAGNodesType.
+const (
+	DeliveryDocumentDAGNodesTypeBuild              DeliveryDocumentDAGNodesType = "build"
+	DeliveryDocumentDAGNodesTypeCheck              DeliveryDocumentDAGNodesType = "check"
+	DeliveryDocumentDAGNodesTypeCheckHTTP          DeliveryDocumentDAGNodesType = "check_http"
+	DeliveryDocumentDAGNodesTypeCheckK8SEvent      DeliveryDocumentDAGNodesType = "check_k8s_event"
+	DeliveryDocumentDAGNodesTypeCreateSilence      DeliveryDocumentDAGNodesType = "create_silence"
+	DeliveryDocumentDAGNodesTypeDeletePod          DeliveryDocumentDAGNodesType = "delete_pod"
+	DeliveryDocumentDAGNodesTypeDeployUpdateImage  DeliveryDocumentDAGNodesType = "deploy_update_image"
+	DeliveryDocumentDAGNodesTypeEvictPod           DeliveryDocumentDAGNodesType = "evict_pod"
+	DeliveryDocumentDAGNodesTypeHTTPCallback       DeliveryDocumentDAGNodesType = "http_callback"
+	DeliveryDocumentDAGNodesTypeManualApproval     DeliveryDocumentDAGNodesType = "manual_approval"
+	DeliveryDocumentDAGNodesTypeNotify             DeliveryDocumentDAGNodesType = "notify"
+	DeliveryDocumentDAGNodesTypeRelease            DeliveryDocumentDAGNodesType = "release"
+	DeliveryDocumentDAGNodesTypeRestartWorkload    DeliveryDocumentDAGNodesType = "restart_workload"
+	DeliveryDocumentDAGNodesTypeRollbackToPrevious DeliveryDocumentDAGNodesType = "rollback_to_previous"
+	DeliveryDocumentDAGNodesTypeScaleWorkload      DeliveryDocumentDAGNodesType = "scale_workload"
+	DeliveryDocumentDAGNodesTypeSmokeTest          DeliveryDocumentDAGNodesType = "smoke_test"
+	DeliveryDocumentDAGNodesTypeVerify             DeliveryDocumentDAGNodesType = "verify"
+	DeliveryDocumentDAGNodesTypeWaitRollout        DeliveryDocumentDAGNodesType = "wait_rollout"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryDocumentDAGNodesType enum.
+func (e DeliveryDocumentDAGNodesType) Valid() bool {
+	switch e {
+	case DeliveryDocumentDAGNodesTypeBuild:
+		return true
+	case DeliveryDocumentDAGNodesTypeCheck:
+		return true
+	case DeliveryDocumentDAGNodesTypeCheckHTTP:
+		return true
+	case DeliveryDocumentDAGNodesTypeCheckK8SEvent:
+		return true
+	case DeliveryDocumentDAGNodesTypeCreateSilence:
+		return true
+	case DeliveryDocumentDAGNodesTypeDeletePod:
+		return true
+	case DeliveryDocumentDAGNodesTypeDeployUpdateImage:
+		return true
+	case DeliveryDocumentDAGNodesTypeEvictPod:
+		return true
+	case DeliveryDocumentDAGNodesTypeHTTPCallback:
+		return true
+	case DeliveryDocumentDAGNodesTypeManualApproval:
+		return true
+	case DeliveryDocumentDAGNodesTypeNotify:
+		return true
+	case DeliveryDocumentDAGNodesTypeRelease:
+		return true
+	case DeliveryDocumentDAGNodesTypeRestartWorkload:
+		return true
+	case DeliveryDocumentDAGNodesTypeRollbackToPrevious:
+		return true
+	case DeliveryDocumentDAGNodesTypeScaleWorkload:
+		return true
+	case DeliveryDocumentDAGNodesTypeSmokeTest:
+		return true
+	case DeliveryDocumentDAGNodesTypeVerify:
+		return true
+	case DeliveryDocumentDAGNodesTypeWaitRollout:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryDocumentDAGSchemaVersion.
+const (
+	DeliveryDocumentDAGSchemaVersionN1 DeliveryDocumentDAGSchemaVersion = 1
+	DeliveryDocumentDAGSchemaVersionN2 DeliveryDocumentDAGSchemaVersion = 2
+)
+
+// Valid indicates whether the value is a known member of the DeliveryDocumentDAGSchemaVersion enum.
+func (e DeliveryDocumentDAGSchemaVersion) Valid() bool {
+	switch e {
+	case DeliveryDocumentDAGSchemaVersionN1:
+		return true
+	case DeliveryDocumentDAGSchemaVersionN2:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryDocumentExportFormat.
+const (
+	DeliveryDocumentExportFormatJSON DeliveryDocumentExportFormat = "json"
+	DeliveryDocumentExportFormatYaml DeliveryDocumentExportFormat = "yaml"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryDocumentExportFormat enum.
+func (e DeliveryDocumentExportFormat) Valid() bool {
+	switch e {
+	case DeliveryDocumentExportFormatJSON:
+		return true
+	case DeliveryDocumentExportFormatYaml:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryDocumentImportedObjectAction.
+const (
+	DeliveryDocumentImportedObjectActionCreate    DeliveryDocumentImportedObjectAction = "create"
+	DeliveryDocumentImportedObjectActionUnchanged DeliveryDocumentImportedObjectAction = "unchanged"
+	DeliveryDocumentImportedObjectActionUpdate    DeliveryDocumentImportedObjectAction = "update"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryDocumentImportedObjectAction enum.
+func (e DeliveryDocumentImportedObjectAction) Valid() bool {
+	switch e {
+	case DeliveryDocumentImportedObjectActionCreate:
+		return true
+	case DeliveryDocumentImportedObjectActionUnchanged:
+		return true
+	case DeliveryDocumentImportedObjectActionUpdate:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryDocumentKind.
+const (
+	DocumentBuildTemplate      DeliveryDocumentKind = "BuildTemplate"
+	DocumentDeploymentTemplate DeliveryDocumentKind = "DeploymentTemplate"
+	DocumentWorkflow           DeliveryDocumentKind = "Workflow"
+	DocumentWorkflowTemplate   DeliveryDocumentKind = "WorkflowTemplate"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryDocumentKind enum.
+func (e DeliveryDocumentKind) Valid() bool {
+	switch e {
+	case DocumentBuildTemplate:
+		return true
+	case DocumentDeploymentTemplate:
+		return true
+	case DocumentWorkflow:
+		return true
+	case DocumentWorkflowTemplate:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryDocumentStepArtifactKinds.
+const (
+	DeliveryDocumentStepArtifactKindsImage      DeliveryDocumentStepArtifactKinds = "image"
+	DeliveryDocumentStepArtifactKindsJunit      DeliveryDocumentStepArtifactKinds = "junit"
+	DeliveryDocumentStepArtifactKindsLog        DeliveryDocumentStepArtifactKinds = "log"
+	DeliveryDocumentStepArtifactKindsSbom       DeliveryDocumentStepArtifactKinds = "sbom"
+	DeliveryDocumentStepArtifactKindsScanReport DeliveryDocumentStepArtifactKinds = "scan_report"
+	DeliveryDocumentStepArtifactKindsScreenshot DeliveryDocumentStepArtifactKinds = "screenshot"
+	DeliveryDocumentStepArtifactKindsTestReport DeliveryDocumentStepArtifactKinds = "test_report"
+	DeliveryDocumentStepArtifactKindsVideo      DeliveryDocumentStepArtifactKinds = "video"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryDocumentStepArtifactKinds enum.
+func (e DeliveryDocumentStepArtifactKinds) Valid() bool {
+	switch e {
+	case DeliveryDocumentStepArtifactKindsImage:
+		return true
+	case DeliveryDocumentStepArtifactKindsJunit:
+		return true
+	case DeliveryDocumentStepArtifactKindsLog:
+		return true
+	case DeliveryDocumentStepArtifactKindsSbom:
+		return true
+	case DeliveryDocumentStepArtifactKindsScanReport:
+		return true
+	case DeliveryDocumentStepArtifactKindsScreenshot:
+		return true
+	case DeliveryDocumentStepArtifactKindsTestReport:
+		return true
+	case DeliveryDocumentStepArtifactKindsVideo:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryDocumentStepArtifactOutputsKind.
+const (
+	DeliveryDocumentStepArtifactOutputsKindImage      DeliveryDocumentStepArtifactOutputsKind = "image"
+	DeliveryDocumentStepArtifactOutputsKindJunit      DeliveryDocumentStepArtifactOutputsKind = "junit"
+	DeliveryDocumentStepArtifactOutputsKindLog        DeliveryDocumentStepArtifactOutputsKind = "log"
+	DeliveryDocumentStepArtifactOutputsKindSbom       DeliveryDocumentStepArtifactOutputsKind = "sbom"
+	DeliveryDocumentStepArtifactOutputsKindScanReport DeliveryDocumentStepArtifactOutputsKind = "scan_report"
+	DeliveryDocumentStepArtifactOutputsKindScreenshot DeliveryDocumentStepArtifactOutputsKind = "screenshot"
+	DeliveryDocumentStepArtifactOutputsKindTestReport DeliveryDocumentStepArtifactOutputsKind = "test_report"
+	DeliveryDocumentStepArtifactOutputsKindVideo      DeliveryDocumentStepArtifactOutputsKind = "video"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryDocumentStepArtifactOutputsKind enum.
+func (e DeliveryDocumentStepArtifactOutputsKind) Valid() bool {
+	switch e {
+	case DeliveryDocumentStepArtifactOutputsKindImage:
+		return true
+	case DeliveryDocumentStepArtifactOutputsKindJunit:
+		return true
+	case DeliveryDocumentStepArtifactOutputsKindLog:
+		return true
+	case DeliveryDocumentStepArtifactOutputsKindSbom:
+		return true
+	case DeliveryDocumentStepArtifactOutputsKindScanReport:
+		return true
+	case DeliveryDocumentStepArtifactOutputsKindScreenshot:
+		return true
+	case DeliveryDocumentStepArtifactOutputsKindTestReport:
+		return true
+	case DeliveryDocumentStepArtifactOutputsKindVideo:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryDocumentStepType.
+const (
+	DeliveryDocumentStepTypeBuild              DeliveryDocumentStepType = "build"
+	DeliveryDocumentStepTypeCheck              DeliveryDocumentStepType = "check"
+	DeliveryDocumentStepTypeCheckHTTP          DeliveryDocumentStepType = "check_http"
+	DeliveryDocumentStepTypeCheckK8SEvent      DeliveryDocumentStepType = "check_k8s_event"
+	DeliveryDocumentStepTypeCreateSilence      DeliveryDocumentStepType = "create_silence"
+	DeliveryDocumentStepTypeDeletePod          DeliveryDocumentStepType = "delete_pod"
+	DeliveryDocumentStepTypeDeployUpdateImage  DeliveryDocumentStepType = "deploy_update_image"
+	DeliveryDocumentStepTypeEvictPod           DeliveryDocumentStepType = "evict_pod"
+	DeliveryDocumentStepTypeHTTPCallback       DeliveryDocumentStepType = "http_callback"
+	DeliveryDocumentStepTypeManualApproval     DeliveryDocumentStepType = "manual_approval"
+	DeliveryDocumentStepTypeNotify             DeliveryDocumentStepType = "notify"
+	DeliveryDocumentStepTypeRelease            DeliveryDocumentStepType = "release"
+	DeliveryDocumentStepTypeRestartWorkload    DeliveryDocumentStepType = "restart_workload"
+	DeliveryDocumentStepTypeRollbackToPrevious DeliveryDocumentStepType = "rollback_to_previous"
+	DeliveryDocumentStepTypeScaleWorkload      DeliveryDocumentStepType = "scale_workload"
+	DeliveryDocumentStepTypeSmokeTest          DeliveryDocumentStepType = "smoke_test"
+	DeliveryDocumentStepTypeVerify             DeliveryDocumentStepType = "verify"
+	DeliveryDocumentStepTypeWaitRollout        DeliveryDocumentStepType = "wait_rollout"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryDocumentStepType enum.
+func (e DeliveryDocumentStepType) Valid() bool {
+	switch e {
+	case DeliveryDocumentStepTypeBuild:
+		return true
+	case DeliveryDocumentStepTypeCheck:
+		return true
+	case DeliveryDocumentStepTypeCheckHTTP:
+		return true
+	case DeliveryDocumentStepTypeCheckK8SEvent:
+		return true
+	case DeliveryDocumentStepTypeCreateSilence:
+		return true
+	case DeliveryDocumentStepTypeDeletePod:
+		return true
+	case DeliveryDocumentStepTypeDeployUpdateImage:
+		return true
+	case DeliveryDocumentStepTypeEvictPod:
+		return true
+	case DeliveryDocumentStepTypeHTTPCallback:
+		return true
+	case DeliveryDocumentStepTypeManualApproval:
+		return true
+	case DeliveryDocumentStepTypeNotify:
+		return true
+	case DeliveryDocumentStepTypeRelease:
+		return true
+	case DeliveryDocumentStepTypeRestartWorkload:
+		return true
+	case DeliveryDocumentStepTypeRollbackToPrevious:
+		return true
+	case DeliveryDocumentStepTypeScaleWorkload:
+		return true
+	case DeliveryDocumentStepTypeSmokeTest:
+		return true
+	case DeliveryDocumentStepTypeVerify:
+		return true
+	case DeliveryDocumentStepTypeWaitRollout:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for DeliveryDraftSource.
 const (
 	DeliveryDraftSourceAI        DeliveryDraftSource = "ai"
@@ -1642,16 +2558,58 @@ func (e DeliveryDraftServiceServiceKind) Valid() bool {
 	}
 }
 
+// Defines values for DeliveryExecutionHistoryEntryKind.
+const (
+	DeliveryExecutionHistoryEntryKindApplication DeliveryExecutionHistoryEntryKind = "application"
+	DeliveryExecutionHistoryEntryKindBatch       DeliveryExecutionHistoryEntryKind = "batch"
+	DeliveryExecutionHistoryEntryKindBuild       DeliveryExecutionHistoryEntryKind = "build"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryExecutionHistoryEntryKind enum.
+func (e DeliveryExecutionHistoryEntryKind) Valid() bool {
+	switch e {
+	case DeliveryExecutionHistoryEntryKindApplication:
+		return true
+	case DeliveryExecutionHistoryEntryKindBatch:
+		return true
+	case DeliveryExecutionHistoryEntryKindBuild:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryGitLabPushEventObjectKind.
+const (
+	Push    DeliveryGitLabPushEventObjectKind = "push"
+	TagPush DeliveryGitLabPushEventObjectKind = "tag_push"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryGitLabPushEventObjectKind enum.
+func (e DeliveryGitLabPushEventObjectKind) Valid() bool {
+	switch e {
+	case Push:
+		return true
+	case TagPush:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for DeliveryPlanSource.
 const (
-	DeliveryPlanSourceAI     DeliveryPlanSource = "ai"
-	DeliveryPlanSourceManual DeliveryPlanSource = "manual"
+	DeliveryPlanSourceAI            DeliveryPlanSource = "ai"
+	DeliveryPlanSourceDeliveryBatch DeliveryPlanSource = "delivery_batch"
+	DeliveryPlanSourceManual        DeliveryPlanSource = "manual"
 )
 
 // Valid indicates whether the value is a known member of the DeliveryPlanSource enum.
 func (e DeliveryPlanSource) Valid() bool {
 	switch e {
 	case DeliveryPlanSourceAI:
+		return true
+	case DeliveryPlanSourceDeliveryBatch:
 		return true
 	case DeliveryPlanSourceManual:
 		return true
@@ -1684,18 +2642,369 @@ func (e DeliveryPlanStatus) Valid() bool {
 	}
 }
 
+// Defines values for DeliveryPlanApprovalInputAction.
+const (
+	DeliveryPlanApprove  DeliveryPlanApprovalInputAction = "approve"
+	DeliveryPlanApproved DeliveryPlanApprovalInputAction = "approved"
+	DeliveryPlanReject   DeliveryPlanApprovalInputAction = "reject"
+	DeliveryPlanRejected DeliveryPlanApprovalInputAction = "rejected"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryPlanApprovalInputAction enum.
+func (e DeliveryPlanApprovalInputAction) Valid() bool {
+	switch e {
+	case DeliveryPlanApprove:
+		return true
+	case DeliveryPlanApproved:
+		return true
+	case DeliveryPlanReject:
+		return true
+	case DeliveryPlanRejected:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for DeliveryPlanInputSource.
 const (
-	DeliveryPlanInputSourceAI     DeliveryPlanInputSource = "ai"
-	DeliveryPlanInputSourceManual DeliveryPlanInputSource = "manual"
+	AI     DeliveryPlanInputSource = "ai"
+	Manual DeliveryPlanInputSource = "manual"
 )
 
 // Valid indicates whether the value is a known member of the DeliveryPlanInputSource enum.
 func (e DeliveryPlanInputSource) Valid() bool {
 	switch e {
-	case DeliveryPlanInputSourceAI:
+	case AI:
 		return true
-	case DeliveryPlanInputSourceManual:
+	case Manual:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliverySourceCommitRefType.
+const (
+	DeliverySourceCommitRefTypeBranch DeliverySourceCommitRefType = "branch"
+	DeliverySourceCommitRefTypeTag    DeliverySourceCommitRefType = "tag"
+)
+
+// Valid indicates whether the value is a known member of the DeliverySourceCommitRefType enum.
+func (e DeliverySourceCommitRefType) Valid() bool {
+	switch e {
+	case DeliverySourceCommitRefTypeBranch:
+		return true
+	case DeliverySourceCommitRefTypeTag:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryTemplateSourceRefType.
+const (
+	DeliveryTemplateSourceRefTypeBranch DeliveryTemplateSourceRefType = "branch"
+	DeliveryTemplateSourceRefTypeCommit DeliveryTemplateSourceRefType = "commit"
+	DeliveryTemplateSourceRefTypeTag    DeliveryTemplateSourceRefType = "tag"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryTemplateSourceRefType enum.
+func (e DeliveryTemplateSourceRefType) Valid() bool {
+	switch e {
+	case DeliveryTemplateSourceRefTypeBranch:
+		return true
+	case DeliveryTemplateSourceRefTypeCommit:
+		return true
+	case DeliveryTemplateSourceRefTypeTag:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryTemplateSourceInputRefType.
+const (
+	DeliveryTemplateSourceInputRefTypeBranch DeliveryTemplateSourceInputRefType = "branch"
+	DeliveryTemplateSourceInputRefTypeCommit DeliveryTemplateSourceInputRefType = "commit"
+	DeliveryTemplateSourceInputRefTypeTag    DeliveryTemplateSourceInputRefType = "tag"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryTemplateSourceInputRefType enum.
+func (e DeliveryTemplateSourceInputRefType) Valid() bool {
+	switch e {
+	case DeliveryTemplateSourceInputRefTypeBranch:
+		return true
+	case DeliveryTemplateSourceInputRefTypeCommit:
+		return true
+	case DeliveryTemplateSourceInputRefTypeTag:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryTemplateSourceRemoveInputDisposition.
+const (
+	Deprecate DeliveryTemplateSourceRemoveInputDisposition = "deprecate"
+	Keep      DeliveryTemplateSourceRemoveInputDisposition = "keep"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryTemplateSourceRemoveInputDisposition enum.
+func (e DeliveryTemplateSourceRemoveInputDisposition) Valid() bool {
+	switch e {
+	case Deprecate:
+		return true
+	case Keep:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryTemplateSyncRunStatus.
+const (
+	DeliveryTemplateSyncRunStatusApplied DeliveryTemplateSyncRunStatus = "applied"
+	DeliveryTemplateSyncRunStatusFailed  DeliveryTemplateSyncRunStatus = "failed"
+	DeliveryTemplateSyncRunStatusInvalid DeliveryTemplateSyncRunStatus = "invalid"
+	DeliveryTemplateSyncRunStatusReady   DeliveryTemplateSyncRunStatus = "ready"
+	DeliveryTemplateSyncRunStatusRunning DeliveryTemplateSyncRunStatus = "running"
+	DeliveryTemplateSyncRunStatusStale   DeliveryTemplateSyncRunStatus = "stale"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryTemplateSyncRunStatus enum.
+func (e DeliveryTemplateSyncRunStatus) Valid() bool {
+	switch e {
+	case DeliveryTemplateSyncRunStatusApplied:
+		return true
+	case DeliveryTemplateSyncRunStatusFailed:
+		return true
+	case DeliveryTemplateSyncRunStatusInvalid:
+		return true
+	case DeliveryTemplateSyncRunStatusReady:
+		return true
+	case DeliveryTemplateSyncRunStatusRunning:
+		return true
+	case DeliveryTemplateSyncRunStatusStale:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryTriggerTargetKind.
+const (
+	DeliveryTriggerTargetKindTemplateSource DeliveryTriggerTargetKind = "template_source"
+	DeliveryTriggerTargetKindWorkflow       DeliveryTriggerTargetKind = "workflow"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryTriggerTargetKind enum.
+func (e DeliveryTriggerTargetKind) Valid() bool {
+	switch e {
+	case DeliveryTriggerTargetKindTemplateSource:
+		return true
+	case DeliveryTriggerTargetKindWorkflow:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryTriggerType.
+const (
+	DeliveryTriggerTypePoll     DeliveryTriggerType = "poll"
+	DeliveryTriggerTypeSchedule DeliveryTriggerType = "schedule"
+	DeliveryTriggerTypeWebhook  DeliveryTriggerType = "webhook"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryTriggerType enum.
+func (e DeliveryTriggerType) Valid() bool {
+	switch e {
+	case DeliveryTriggerTypePoll:
+		return true
+	case DeliveryTriggerTypeSchedule:
+		return true
+	case DeliveryTriggerTypeWebhook:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryTriggerEventEventType.
+const (
+	DeliveryTriggerEventEventTypePoll     DeliveryTriggerEventEventType = "poll"
+	DeliveryTriggerEventEventTypeSchedule DeliveryTriggerEventEventType = "schedule"
+	DeliveryTriggerEventEventTypeWebhook  DeliveryTriggerEventEventType = "webhook"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryTriggerEventEventType enum.
+func (e DeliveryTriggerEventEventType) Valid() bool {
+	switch e {
+	case DeliveryTriggerEventEventTypePoll:
+		return true
+	case DeliveryTriggerEventEventTypeSchedule:
+		return true
+	case DeliveryTriggerEventEventTypeWebhook:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryTriggerEventStatus.
+const (
+	DeliveryTriggerEventStatusFailed     DeliveryTriggerEventStatus = "failed"
+	DeliveryTriggerEventStatusProcessing DeliveryTriggerEventStatus = "processing"
+	DeliveryTriggerEventStatusQueued     DeliveryTriggerEventStatus = "queued"
+	DeliveryTriggerEventStatusSkipped    DeliveryTriggerEventStatus = "skipped"
+	DeliveryTriggerEventStatusSucceeded  DeliveryTriggerEventStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryTriggerEventStatus enum.
+func (e DeliveryTriggerEventStatus) Valid() bool {
+	switch e {
+	case DeliveryTriggerEventStatusFailed:
+		return true
+	case DeliveryTriggerEventStatusProcessing:
+		return true
+	case DeliveryTriggerEventStatusQueued:
+		return true
+	case DeliveryTriggerEventStatusSkipped:
+		return true
+	case DeliveryTriggerEventStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryTriggerInputTargetKind.
+const (
+	DeliveryTriggerInputTargetKindTemplateSource DeliveryTriggerInputTargetKind = "template_source"
+	DeliveryTriggerInputTargetKindWorkflow       DeliveryTriggerInputTargetKind = "workflow"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryTriggerInputTargetKind enum.
+func (e DeliveryTriggerInputTargetKind) Valid() bool {
+	switch e {
+	case DeliveryTriggerInputTargetKindTemplateSource:
+		return true
+	case DeliveryTriggerInputTargetKindWorkflow:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryTriggerInputType.
+const (
+	DeliveryTriggerInputTypePoll     DeliveryTriggerInputType = "poll"
+	DeliveryTriggerInputTypeSchedule DeliveryTriggerInputType = "schedule"
+	DeliveryTriggerInputTypeWebhook  DeliveryTriggerInputType = "webhook"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryTriggerInputType enum.
+func (e DeliveryTriggerInputType) Valid() bool {
+	switch e {
+	case DeliveryTriggerInputTypePoll:
+		return true
+	case DeliveryTriggerInputTypeSchedule:
+		return true
+	case DeliveryTriggerInputTypeWebhook:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryTriggerWebhookProvider.
+const (
+	GitlabStandard DeliveryTriggerWebhookProvider = "gitlab_standard"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryTriggerWebhookProvider enum.
+func (e DeliveryTriggerWebhookProvider) Valid() bool {
+	switch e {
+	case GitlabStandard:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryTriggerWebhookRefType.
+const (
+	DeliveryTriggerWebhookRefTypeBranch DeliveryTriggerWebhookRefType = "branch"
+	DeliveryTriggerWebhookRefTypeTag    DeliveryTriggerWebhookRefType = "tag"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryTriggerWebhookRefType enum.
+func (e DeliveryTriggerWebhookRefType) Valid() bool {
+	switch e {
+	case DeliveryTriggerWebhookRefTypeBranch:
+		return true
+	case DeliveryTriggerWebhookRefTypeTag:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeliveryWorkflowDefinitionMode.
+const (
+	DeliveryWorkflowDefinitionModeBuildAllThenDeploy DeliveryWorkflowDefinitionMode = "build_all_then_deploy"
+	DeliveryWorkflowDefinitionModeServiceSerial      DeliveryWorkflowDefinitionMode = "service_serial"
+)
+
+// Valid indicates whether the value is a known member of the DeliveryWorkflowDefinitionMode enum.
+func (e DeliveryWorkflowDefinitionMode) Valid() bool {
+	switch e {
+	case DeliveryWorkflowDefinitionModeBuildAllThenDeploy:
+		return true
+	case DeliveryWorkflowDefinitionModeServiceSerial:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeploymentTemplateHealthMode.
+const (
+	DeploymentTemplateHealthConfigurationOnly DeploymentTemplateHealthMode = "configuration_only"
+	DeploymentTemplateHealthJobComplete       DeploymentTemplateHealthMode = "job_complete"
+	DeploymentTemplateHealthWorkloadReady     DeploymentTemplateHealthMode = "workload_ready"
+)
+
+// Valid indicates whether the value is a known member of the DeploymentTemplateHealthMode enum.
+func (e DeploymentTemplateHealthMode) Valid() bool {
+	switch e {
+	case DeploymentTemplateHealthConfigurationOnly:
+		return true
+	case DeploymentTemplateHealthJobComplete:
+		return true
+	case DeploymentTemplateHealthWorkloadReady:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeploymentTemplateSourceRenderer.
+const (
+	DeploymentTemplateRendererHelm      DeploymentTemplateSourceRenderer = "helm"
+	DeploymentTemplateRendererKustomize DeploymentTemplateSourceRenderer = "kustomize"
+	DeploymentTemplateRendererRawYAML   DeploymentTemplateSourceRenderer = "raw_yaml"
+)
+
+// Valid indicates whether the value is a known member of the DeploymentTemplateSourceRenderer enum.
+func (e DeploymentTemplateSourceRenderer) Valid() bool {
+	switch e {
+	case DeploymentTemplateRendererHelm:
+		return true
+	case DeploymentTemplateRendererKustomize:
+		return true
+	case DeploymentTemplateRendererRawYAML:
 		return true
 	default:
 		return false
@@ -1848,16 +3157,16 @@ func (e DockerContainerPortInputProtocol) Valid() bool {
 
 // Defines values for DockerContainerStartInputSourceKind.
 const (
-	GitDockerfile DockerContainerStartInputSourceKind = "git_dockerfile"
-	Image         DockerContainerStartInputSourceKind = "image"
+	DockerContainerStartInputSourceKindGitDockerfile DockerContainerStartInputSourceKind = "git_dockerfile"
+	DockerContainerStartInputSourceKindImage         DockerContainerStartInputSourceKind = "image"
 )
 
 // Valid indicates whether the value is a known member of the DockerContainerStartInputSourceKind enum.
 func (e DockerContainerStartInputSourceKind) Valid() bool {
 	switch e {
-	case GitDockerfile:
+	case DockerContainerStartInputSourceKindGitDockerfile:
 		return true
-	case Image:
+	case DockerContainerStartInputSourceKindImage:
 		return true
 	default:
 		return false
@@ -2137,6 +3446,84 @@ func (e EvaluationRunStatus) Valid() bool {
 	}
 }
 
+// Defines values for ExternalPipelineConfigurationProvider.
+const (
+	ExternalPipelineGitLab ExternalPipelineConfigurationProvider = "gitlab"
+)
+
+// Valid indicates whether the value is a known member of the ExternalPipelineConfigurationProvider enum.
+func (e ExternalPipelineConfigurationProvider) Valid() bool {
+	switch e {
+	case ExternalPipelineGitLab:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for HelmDeliverySnapshotOperation.
+const (
+	HelmDeliverySnapshotOperationInstall  HelmDeliverySnapshotOperation = "install"
+	HelmDeliverySnapshotOperationRollback HelmDeliverySnapshotOperation = "rollback"
+	HelmDeliverySnapshotOperationUpgrade  HelmDeliverySnapshotOperation = "upgrade"
+)
+
+// Valid indicates whether the value is a known member of the HelmDeliverySnapshotOperation enum.
+func (e HelmDeliverySnapshotOperation) Valid() bool {
+	switch e {
+	case HelmDeliverySnapshotOperationInstall:
+		return true
+	case HelmDeliverySnapshotOperationRollback:
+		return true
+	case HelmDeliverySnapshotOperationUpgrade:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for HelmExecutionTaskPayloadAction.
+const (
+	Apply     HelmExecutionTaskPayloadAction = "apply"
+	Observe   HelmExecutionTaskPayloadAction = "observe"
+	Preflight HelmExecutionTaskPayloadAction = "preflight"
+)
+
+// Valid indicates whether the value is a known member of the HelmExecutionTaskPayloadAction enum.
+func (e HelmExecutionTaskPayloadAction) Valid() bool {
+	switch e {
+	case Apply:
+		return true
+	case Observe:
+		return true
+	case Preflight:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for HelmImageMappingValue.
+const (
+	HelmImageMappingValueDigest     HelmImageMappingValue = "digest"
+	HelmImageMappingValueImage      HelmImageMappingValue = "image"
+	HelmImageMappingValueRepository HelmImageMappingValue = "repository"
+)
+
+// Valid indicates whether the value is a known member of the HelmImageMappingValue enum.
+func (e HelmImageMappingValue) Valid() bool {
+	switch e {
+	case HelmImageMappingValueDigest:
+		return true
+	case HelmImageMappingValueImage:
+		return true
+	case HelmImageMappingValueRepository:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for HelmReleaseImportRequestOwnershipMode.
 const (
 	HelmReleaseImportRequestOwnershipModeManaged     HelmReleaseImportRequestOwnershipMode = "managed"
@@ -2209,6 +3596,24 @@ func (e IdentityApplicationAssignmentSubjectType) Valid() bool {
 	case IdentityApplicationAssignmentSubjectTypeTeam:
 		return true
 	case IdentityApplicationAssignmentSubjectTypeUser:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IdentityApplicationOnboardingInputAccessMode.
+const (
+	AllAuthenticated IdentityApplicationOnboardingInputAccessMode = "all_authenticated"
+	Restricted       IdentityApplicationOnboardingInputAccessMode = "restricted"
+)
+
+// Valid indicates whether the value is a known member of the IdentityApplicationOnboardingInputAccessMode enum.
+func (e IdentityApplicationOnboardingInputAccessMode) Valid() bool {
+	switch e {
+	case AllAuthenticated:
+		return true
+	case Restricted:
 		return true
 	default:
 		return false
@@ -2446,6 +3851,45 @@ func (e IdentityProtocolErrorCode) Valid() bool {
 	}
 }
 
+// Defines values for IdentityProviderSetupConfigurationStatus.
+const (
+	Complete   IdentityProviderSetupConfigurationStatus = "complete"
+	Incomplete IdentityProviderSetupConfigurationStatus = "incomplete"
+)
+
+// Valid indicates whether the value is a known member of the IdentityProviderSetupConfigurationStatus enum.
+func (e IdentityProviderSetupConfigurationStatus) Valid() bool {
+	switch e {
+	case Complete:
+		return true
+	case Incomplete:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for IdentityProviderSetupOutpostRuntimeStatus.
+const (
+	IdentityProviderSetupOutpostRuntimeStatusAvailable   IdentityProviderSetupOutpostRuntimeStatus = "available"
+	IdentityProviderSetupOutpostRuntimeStatusDegraded    IdentityProviderSetupOutpostRuntimeStatus = "degraded"
+	IdentityProviderSetupOutpostRuntimeStatusUnavailable IdentityProviderSetupOutpostRuntimeStatus = "unavailable"
+)
+
+// Valid indicates whether the value is a known member of the IdentityProviderSetupOutpostRuntimeStatus enum.
+func (e IdentityProviderSetupOutpostRuntimeStatus) Valid() bool {
+	switch e {
+	case IdentityProviderSetupOutpostRuntimeStatusAvailable:
+		return true
+	case IdentityProviderSetupOutpostRuntimeStatusDegraded:
+		return true
+	case IdentityProviderSetupOutpostRuntimeStatusUnavailable:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for IdentityProviderType.
 const (
 	IdentityProviderTypeOIDC  IdentityProviderType = "oidc"
@@ -2467,19 +3911,45 @@ func (e IdentityProviderType) Valid() bool {
 	}
 }
 
+// Defines values for IdentityProviderUserMetadataProtocol.
+const (
+	OIDC  IdentityProviderUserMetadataProtocol = "oidc"
+	Proxy IdentityProviderUserMetadataProtocol = "proxy"
+	Saml  IdentityProviderUserMetadataProtocol = "saml"
+)
+
+// Valid indicates whether the value is a known member of the IdentityProviderUserMetadataProtocol enum.
+func (e IdentityProviderUserMetadataProtocol) Valid() bool {
+	switch e {
+	case OIDC:
+		return true
+	case Proxy:
+		return true
+	case Saml:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for IdentityResourceStatus.
 const (
 	IdentityResourceStatusActive      IdentityResourceStatus = "active"
+	IdentityResourceStatusDegraded    IdentityResourceStatus = "degraded"
 	IdentityResourceStatusDisabled    IdentityResourceStatus = "disabled"
 	IdentityResourceStatusDraft       IdentityResourceStatus = "draft"
 	IdentityResourceStatusEnabled     IdentityResourceStatus = "enabled"
 	IdentityResourceStatusMaintenance IdentityResourceStatus = "maintenance"
+	IdentityResourceStatusOffline     IdentityResourceStatus = "offline"
+	IdentityResourceStatusOnline      IdentityResourceStatus = "online"
 )
 
 // Valid indicates whether the value is a known member of the IdentityResourceStatus enum.
 func (e IdentityResourceStatus) Valid() bool {
 	switch e {
 	case IdentityResourceStatusActive:
+		return true
+	case IdentityResourceStatusDegraded:
 		return true
 	case IdentityResourceStatusDisabled:
 		return true
@@ -2488,6 +3958,10 @@ func (e IdentityResourceStatus) Valid() bool {
 	case IdentityResourceStatusEnabled:
 		return true
 	case IdentityResourceStatusMaintenance:
+		return true
+	case IdentityResourceStatusOffline:
+		return true
+	case IdentityResourceStatusOnline:
 		return true
 	default:
 		return false
@@ -2922,19 +4396,19 @@ func (e KubernetesImportedTargetWorkloadKind) Valid() bool {
 
 // Defines values for KubernetesRelatedResourceKind.
 const (
-	HorizontalPodAutoscaler KubernetesRelatedResourceKind = "HorizontalPodAutoscaler"
-	Ingress                 KubernetesRelatedResourceKind = "Ingress"
-	Service                 KubernetesRelatedResourceKind = "Service"
+	KubernetesRelatedResourceKindHorizontalPodAutoscaler KubernetesRelatedResourceKind = "HorizontalPodAutoscaler"
+	KubernetesRelatedResourceKindIngress                 KubernetesRelatedResourceKind = "Ingress"
+	KubernetesRelatedResourceKindService                 KubernetesRelatedResourceKind = "Service"
 )
 
 // Valid indicates whether the value is a known member of the KubernetesRelatedResourceKind enum.
 func (e KubernetesRelatedResourceKind) Valid() bool {
 	switch e {
-	case HorizontalPodAutoscaler:
+	case KubernetesRelatedResourceKindHorizontalPodAutoscaler:
 		return true
-	case Ingress:
+	case KubernetesRelatedResourceKindIngress:
 		return true
-	case Service:
+	case KubernetesRelatedResourceKindService:
 		return true
 	default:
 		return false
@@ -4581,13 +6055,14 @@ func (e ManifestSyncTrigger) Valid() bool {
 
 // Defines values for ManifestTaskAction.
 const (
-	ManifestTaskActionAdopt     ManifestTaskAction = "adopt"
-	ManifestTaskActionApply     ManifestTaskAction = "apply"
-	ManifestTaskActionObserve   ManifestTaskAction = "observe"
-	ManifestTaskActionPreflight ManifestTaskAction = "preflight"
-	ManifestTaskActionRepair    ManifestTaskAction = "repair"
-	ManifestTaskActionRollback  ManifestTaskAction = "rollback"
-	ManifestTaskActionSync      ManifestTaskAction = "sync"
+	ManifestTaskActionAdopt          ManifestTaskAction = "adopt"
+	ManifestTaskActionApply          ManifestTaskAction = "apply"
+	ManifestTaskActionObserve        ManifestTaskAction = "observe"
+	ManifestTaskActionPreflight      ManifestTaskAction = "preflight"
+	ManifestTaskActionRepair         ManifestTaskAction = "repair"
+	ManifestTaskActionRollback       ManifestTaskAction = "rollback"
+	ManifestTaskActionRolloutControl ManifestTaskAction = "rollout_control"
+	ManifestTaskActionSync           ManifestTaskAction = "sync"
 )
 
 // Valid indicates whether the value is a known member of the ManifestTaskAction enum.
@@ -4604,6 +6079,8 @@ func (e ManifestTaskAction) Valid() bool {
 	case ManifestTaskActionRepair:
 		return true
 	case ManifestTaskActionRollback:
+		return true
+	case ManifestTaskActionRolloutControl:
 		return true
 	case ManifestTaskActionSync:
 		return true
@@ -5422,6 +6899,132 @@ func (e NetworkTelemetryProducerProducerKind) Valid() bool {
 	}
 }
 
+// Defines values for NetworkVPNAccessMode.
+const (
+	NetworkVPNAccessModeExternalDirectZtna NetworkVPNAccessMode = "external_direct_ztna"
+	NetworkVPNAccessModeExternalVpn        NetworkVPNAccessMode = "external_vpn"
+	NetworkVPNAccessModeExternalVpnZtna    NetworkVPNAccessMode = "external_vpn_ztna"
+	NetworkVPNAccessModeInternalZtna       NetworkVPNAccessMode = "internal_ztna"
+)
+
+// Valid indicates whether the value is a known member of the NetworkVPNAccessMode enum.
+func (e NetworkVPNAccessMode) Valid() bool {
+	switch e {
+	case NetworkVPNAccessModeExternalDirectZtna:
+		return true
+	case NetworkVPNAccessModeExternalVpn:
+		return true
+	case NetworkVPNAccessModeExternalVpnZtna:
+		return true
+	case NetworkVPNAccessModeInternalZtna:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkVPNDecisionState.
+const (
+	NetworkVPNDecisionStateConnected    NetworkVPNDecisionState = "connected"
+	NetworkVPNDecisionStateConnecting   NetworkVPNDecisionState = "connecting"
+	NetworkVPNDecisionStateDisconnected NetworkVPNDecisionState = "disconnected"
+	NetworkVPNDecisionStateFailed       NetworkVPNDecisionState = "failed"
+	NetworkVPNDecisionStateSelected     NetworkVPNDecisionState = "selected"
+)
+
+// Valid indicates whether the value is a known member of the NetworkVPNDecisionState enum.
+func (e NetworkVPNDecisionState) Valid() bool {
+	switch e {
+	case NetworkVPNDecisionStateConnected:
+		return true
+	case NetworkVPNDecisionStateConnecting:
+		return true
+	case NetworkVPNDecisionStateDisconnected:
+		return true
+	case NetworkVPNDecisionStateFailed:
+		return true
+	case NetworkVPNDecisionStateSelected:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkVPNMissingMeasurements.
+const (
+	NetworkVPNMissingMeasurementsDeny     NetworkVPNMissingMeasurements = "deny"
+	NetworkVPNMissingMeasurementsPriority NetworkVPNMissingMeasurements = "priority"
+)
+
+// Valid indicates whether the value is a known member of the NetworkVPNMissingMeasurements enum.
+func (e NetworkVPNMissingMeasurements) Valid() bool {
+	switch e {
+	case NetworkVPNMissingMeasurementsDeny:
+		return true
+	case NetworkVPNMissingMeasurementsPriority:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkVPNProviderPreference.
+const (
+	NetworkVPNProviderPreferencePrefer  NetworkVPNProviderPreference = "prefer"
+	NetworkVPNProviderPreferenceRequire NetworkVPNProviderPreference = "require"
+)
+
+// Valid indicates whether the value is a known member of the NetworkVPNProviderPreference enum.
+func (e NetworkVPNProviderPreference) Valid() bool {
+	switch e {
+	case NetworkVPNProviderPreferencePrefer:
+		return true
+	case NetworkVPNProviderPreferenceRequire:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkVPNSelectionMode.
+const (
+	NetworkVPNSelectionModeAuto   NetworkVPNSelectionMode = "auto"
+	NetworkVPNSelectionModeManual NetworkVPNSelectionMode = "manual"
+)
+
+// Valid indicates whether the value is a known member of the NetworkVPNSelectionMode enum.
+func (e NetworkVPNSelectionMode) Valid() bool {
+	switch e {
+	case NetworkVPNSelectionModeAuto:
+		return true
+	case NetworkVPNSelectionModeManual:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkVPNSelectionStrategy.
+const (
+	NetworkVPNSelectionStrategyLatency  NetworkVPNSelectionStrategy = "latency"
+	NetworkVPNSelectionStrategyPriority NetworkVPNSelectionStrategy = "priority"
+	NetworkVPNSelectionStrategyProvider NetworkVPNSelectionStrategy = "provider"
+)
+
+// Valid indicates whether the value is a known member of the NetworkVPNSelectionStrategy enum.
+func (e NetworkVPNSelectionStrategy) Valid() bool {
+	switch e {
+	case NetworkVPNSelectionStrategyLatency:
+		return true
+	case NetworkVPNSelectionStrategyPriority:
+		return true
+	case NetworkVPNSelectionStrategyProvider:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for OIDCClientAllowedGrantTypes.
 const (
 	OIDCClientAllowedGrantTypesAuthorizationCode OIDCClientAllowedGrantTypes = "authorization_code"
@@ -5737,6 +7340,87 @@ func (e ObservabilityDataSourceValidationStatus) Valid() bool {
 	case ObservabilityDataSourceValidationStatusHealthy:
 		return true
 	case ObservabilityDataSourceValidationStatusUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityMetricAssessmentInputMetricKey.
+const (
+	CPUUsage    ObservabilityMetricAssessmentInputMetricKey = "cpu_usage"
+	ErrorRate   ObservabilityMetricAssessmentInputMetricKey = "error_rate"
+	LatencyP95  ObservabilityMetricAssessmentInputMetricKey = "latency_p95"
+	MemoryUsage ObservabilityMetricAssessmentInputMetricKey = "memory_usage"
+	RestartRate ObservabilityMetricAssessmentInputMetricKey = "restart_rate"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityMetricAssessmentInputMetricKey enum.
+func (e ObservabilityMetricAssessmentInputMetricKey) Valid() bool {
+	switch e {
+	case CPUUsage:
+		return true
+	case ErrorRate:
+		return true
+	case LatencyP95:
+		return true
+	case MemoryUsage:
+		return true
+	case RestartRate:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityMetricAssessmentInputThresholdOperator.
+const (
+	Eq  ObservabilityMetricAssessmentInputThresholdOperator = "eq"
+	Gt  ObservabilityMetricAssessmentInputThresholdOperator = "gt"
+	Gte ObservabilityMetricAssessmentInputThresholdOperator = "gte"
+	Lt  ObservabilityMetricAssessmentInputThresholdOperator = "lt"
+	Lte ObservabilityMetricAssessmentInputThresholdOperator = "lte"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityMetricAssessmentInputThresholdOperator enum.
+func (e ObservabilityMetricAssessmentInputThresholdOperator) Valid() bool {
+	switch e {
+	case Eq:
+		return true
+	case Gt:
+		return true
+	case Gte:
+		return true
+	case Lt:
+		return true
+	case Lte:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ObservabilityMetricAssessmentInputUnit.
+const (
+	Bytes   ObservabilityMetricAssessmentInputUnit = "bytes"
+	Cores   ObservabilityMetricAssessmentInputUnit = "cores"
+	Count   ObservabilityMetricAssessmentInputUnit = "count"
+	Ratio   ObservabilityMetricAssessmentInputUnit = "ratio"
+	Seconds ObservabilityMetricAssessmentInputUnit = "seconds"
+)
+
+// Valid indicates whether the value is a known member of the ObservabilityMetricAssessmentInputUnit enum.
+func (e ObservabilityMetricAssessmentInputUnit) Valid() bool {
+	switch e {
+	case Bytes:
+		return true
+	case Cores:
+		return true
+	case Count:
+		return true
+	case Ratio:
+		return true
+	case Seconds:
 		return true
 	default:
 		return false
@@ -6442,6 +8126,114 @@ func (e PortalLaunchRequestSurface) Valid() bool {
 	}
 }
 
+// Defines values for ProgressiveRolloutControlInputAction.
+const (
+	ProgressiveRolloutControlInputActionAbort   ProgressiveRolloutControlInputAction = "abort"
+	ProgressiveRolloutControlInputActionPause   ProgressiveRolloutControlInputAction = "pause"
+	ProgressiveRolloutControlInputActionPromote ProgressiveRolloutControlInputAction = "promote"
+)
+
+// Valid indicates whether the value is a known member of the ProgressiveRolloutControlInputAction enum.
+func (e ProgressiveRolloutControlInputAction) Valid() bool {
+	switch e {
+	case ProgressiveRolloutControlInputActionAbort:
+		return true
+	case ProgressiveRolloutControlInputActionPause:
+		return true
+	case ProgressiveRolloutControlInputActionPromote:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ProgressiveRolloutStatusStrategy.
+const (
+	BlueGreen ProgressiveRolloutStatusStrategy = "blueGreen"
+	Canary    ProgressiveRolloutStatusStrategy = "canary"
+)
+
+// Valid indicates whether the value is a known member of the ProgressiveRolloutStatusStrategy enum.
+func (e ProgressiveRolloutStatusStrategy) Valid() bool {
+	switch e {
+	case BlueGreen:
+		return true
+	case Canary:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for RepositoryAnalysisStatus.
+const (
+	AnalysisForbidden          RepositoryAnalysisStatus = "forbidden"
+	AnalysisIdentified         RepositoryAnalysisStatus = "identified"
+	AnalysisMultipleCandidates RepositoryAnalysisStatus = "multiple_candidates"
+	AnalysisReadFailed         RepositoryAnalysisStatus = "read_failed"
+	AnalysisUnrecognized       RepositoryAnalysisStatus = "unrecognized"
+	AnalysisUnsupported        RepositoryAnalysisStatus = "unsupported"
+)
+
+// Valid indicates whether the value is a known member of the RepositoryAnalysisStatus enum.
+func (e RepositoryAnalysisStatus) Valid() bool {
+	switch e {
+	case AnalysisForbidden:
+		return true
+	case AnalysisIdentified:
+		return true
+	case AnalysisMultipleCandidates:
+		return true
+	case AnalysisReadFailed:
+		return true
+	case AnalysisUnrecognized:
+		return true
+	case AnalysisUnsupported:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for RepositoryAnalysisCandidateBuildMethods.
+const (
+	AnalysisBuildpacks RepositoryAnalysisCandidateBuildMethods = "repo_buildpacks"
+	AnalysisDockerfile RepositoryAnalysisCandidateBuildMethods = "repo_dockerfile"
+)
+
+// Valid indicates whether the value is a known member of the RepositoryAnalysisCandidateBuildMethods enum.
+func (e RepositoryAnalysisCandidateBuildMethods) Valid() bool {
+	switch e {
+	case AnalysisBuildpacks:
+		return true
+	case AnalysisDockerfile:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for RepositoryAnalysisInputRefType.
+const (
+	AnalysisRefBranch RepositoryAnalysisInputRefType = "branch"
+	AnalysisRefCommit RepositoryAnalysisInputRefType = "commit"
+	AnalysisRefTag    RepositoryAnalysisInputRefType = "tag"
+)
+
+// Valid indicates whether the value is a known member of the RepositoryAnalysisInputRefType enum.
+func (e RepositoryAnalysisInputRefType) Valid() bool {
+	switch e {
+	case AnalysisRefBranch:
+		return true
+	case AnalysisRefCommit:
+		return true
+	case AnalysisRefTag:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for RepositoryProtocol.
 const (
 	HTTPS RepositoryProtocol = "https"
@@ -7024,6 +8816,93 @@ func (e SystemIntegrationTestStatus) Valid() bool {
 	}
 }
 
+// Defines values for TemplateParameterType.
+const (
+	TemplateParameterArray           TemplateParameterType = "array"
+	TemplateParameterBoolean         TemplateParameterType = "boolean"
+	TemplateParameterInteger         TemplateParameterType = "integer"
+	TemplateParameterNumber          TemplateParameterType = "number"
+	TemplateParameterObject          TemplateParameterType = "object"
+	TemplateParameterSecretReference TemplateParameterType = "secret_reference"
+	TemplateParameterString          TemplateParameterType = "string"
+)
+
+// Valid indicates whether the value is a known member of the TemplateParameterType enum.
+func (e TemplateParameterType) Valid() bool {
+	switch e {
+	case TemplateParameterArray:
+		return true
+	case TemplateParameterBoolean:
+		return true
+	case TemplateParameterInteger:
+		return true
+	case TemplateParameterNumber:
+		return true
+	case TemplateParameterObject:
+		return true
+	case TemplateParameterSecretReference:
+		return true
+	case TemplateParameterString:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TemplatePublicationState.
+const (
+	TemplatePublicationDeprecated TemplatePublicationState = "deprecated"
+	TemplatePublicationDraft      TemplatePublicationState = "draft"
+	TemplatePublicationPublished  TemplatePublicationState = "published"
+)
+
+// Valid indicates whether the value is a known member of the TemplatePublicationState enum.
+func (e TemplatePublicationState) Valid() bool {
+	switch e {
+	case TemplatePublicationDeprecated:
+		return true
+	case TemplatePublicationDraft:
+		return true
+	case TemplatePublicationPublished:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ToolExecutionContractMode.
+const (
+	Async ToolExecutionContractMode = "async"
+	Sync  ToolExecutionContractMode = "sync"
+)
+
+// Valid indicates whether the value is a known member of the ToolExecutionContractMode enum.
+func (e ToolExecutionContractMode) Valid() bool {
+	switch e {
+	case Async:
+		return true
+	case Sync:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ToolExecutionContractRecoveryMode.
+const (
+	CapabilityRecoveryOriginalCall ToolExecutionContractRecoveryMode = "original_call"
+)
+
+// Valid indicates whether the value is a known member of the ToolExecutionContractRecoveryMode enum.
+func (e ToolExecutionContractRecoveryMode) Valid() bool {
+	switch e {
+	case CapabilityRecoveryOriginalCall:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for UpdateProfileRequestAvatarFit.
 const (
 	UpdateProfileRequestAvatarFitContain UpdateProfileRequestAvatarFit = "contain"
@@ -7095,22 +8974,43 @@ func (e VirtualMachineActionInputAction) Valid() bool {
 
 // Defines values for VirtualMachinePowerInputAction.
 const (
-	VirtualMachinePowerInputActionDelete VirtualMachinePowerInputAction = "delete"
-	VirtualMachinePowerInputActionReboot VirtualMachinePowerInputAction = "reboot"
-	VirtualMachinePowerInputActionStart  VirtualMachinePowerInputAction = "start"
-	VirtualMachinePowerInputActionStop   VirtualMachinePowerInputAction = "stop"
+	Delete VirtualMachinePowerInputAction = "delete"
+	Reboot VirtualMachinePowerInputAction = "reboot"
+	Start  VirtualMachinePowerInputAction = "start"
+	Stop   VirtualMachinePowerInputAction = "stop"
 )
 
 // Valid indicates whether the value is a known member of the VirtualMachinePowerInputAction enum.
 func (e VirtualMachinePowerInputAction) Valid() bool {
 	switch e {
-	case VirtualMachinePowerInputActionDelete:
+	case Delete:
 		return true
-	case VirtualMachinePowerInputActionReboot:
+	case Reboot:
 		return true
-	case VirtualMachinePowerInputActionStart:
+	case Start:
 		return true
-	case VirtualMachinePowerInputActionStop:
+	case Stop:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VirtualizationCapacityResultStatus.
+const (
+	VirtualizationCapacityResultStatusAvailable   VirtualizationCapacityResultStatus = "available"
+	VirtualizationCapacityResultStatusUnavailable VirtualizationCapacityResultStatus = "unavailable"
+	VirtualizationCapacityResultStatusUnknown     VirtualizationCapacityResultStatus = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the VirtualizationCapacityResultStatus enum.
+func (e VirtualizationCapacityResultStatus) Valid() bool {
+	switch e {
+	case VirtualizationCapacityResultStatusAvailable:
+		return true
+	case VirtualizationCapacityResultStatusUnavailable:
+		return true
+	case VirtualizationCapacityResultStatusUnknown:
 		return true
 	default:
 		return false
@@ -7147,6 +9047,36 @@ func (e VirtualizationConnectionInputProvider) Valid() bool {
 	case VirtualizationConnectionInputProviderKubevirt:
 		return true
 	case VirtualizationConnectionInputProviderPve:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VirtualizationWorkerPoolSpecOsProfile.
+const (
+	Ubuntu2404Amd64Containerd VirtualizationWorkerPoolSpecOsProfile = "ubuntu-24.04-amd64-containerd"
+)
+
+// Valid indicates whether the value is a known member of the VirtualizationWorkerPoolSpecOsProfile enum.
+func (e VirtualizationWorkerPoolSpecOsProfile) Valid() bool {
+	switch e {
+	case Ubuntu2404Amd64Containerd:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VirtualizationWorkerPoolSpecOwner.
+const (
+	SohaKubeadm VirtualizationWorkerPoolSpecOwner = "soha-kubeadm"
+)
+
+// Valid indicates whether the value is a known member of the VirtualizationWorkerPoolSpecOwner enum.
+func (e VirtualizationWorkerPoolSpecOwner) Valid() bool {
+	switch e {
+	case SohaKubeadm:
 		return true
 	default:
 		return false
@@ -7276,6 +9206,33 @@ func (e WorkbenchCardCommandEventType) Valid() bool {
 	}
 }
 
+// Defines values for WorkbenchContextReferenceKind.
+const (
+	WorkbenchContextReferenceKindDeployment WorkbenchContextReferenceKind = "deployment"
+	WorkbenchContextReferenceKindNode       WorkbenchContextReferenceKind = "node"
+	WorkbenchContextReferenceKindPod        WorkbenchContextReferenceKind = "pod"
+	WorkbenchContextReferenceKindService    WorkbenchContextReferenceKind = "service"
+	WorkbenchContextReferenceKindSession    WorkbenchContextReferenceKind = "session"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchContextReferenceKind enum.
+func (e WorkbenchContextReferenceKind) Valid() bool {
+	switch e {
+	case WorkbenchContextReferenceKindDeployment:
+		return true
+	case WorkbenchContextReferenceKindNode:
+		return true
+	case WorkbenchContextReferenceKindPod:
+		return true
+	case WorkbenchContextReferenceKindService:
+		return true
+	case WorkbenchContextReferenceKindSession:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for WorkbenchCreateSessionRequestMode.
 const (
 	WorkbenchCreateSessionRequestModeGeneral          WorkbenchCreateSessionRequestMode = "general"
@@ -7339,6 +9296,24 @@ func (e WorkbenchGlobalAssistantOpenRequestAction) Valid() bool {
 	case Open:
 		return true
 	case OpenWorkbench:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchInspectionTriggerKind.
+const (
+	WorkbenchInspectionTriggerKindAlert    WorkbenchInspectionTriggerKind = "alert"
+	WorkbenchInspectionTriggerKindSchedule WorkbenchInspectionTriggerKind = "schedule"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchInspectionTriggerKind enum.
+func (e WorkbenchInspectionTriggerKind) Valid() bool {
+	switch e {
+	case WorkbenchInspectionTriggerKindAlert:
+		return true
+	case WorkbenchInspectionTriggerKindSchedule:
 		return true
 	default:
 		return false
@@ -7459,6 +9434,51 @@ func (e WorkbenchMessageDoneEventType) Valid() bool {
 	}
 }
 
+// Defines values for WorkbenchModelOptionReasoningEfforts.
+const (
+	WorkbenchModelOptionReasoningEffortsHigh   WorkbenchModelOptionReasoningEfforts = "high"
+	WorkbenchModelOptionReasoningEffortsLow    WorkbenchModelOptionReasoningEfforts = "low"
+	WorkbenchModelOptionReasoningEffortsMedium WorkbenchModelOptionReasoningEfforts = "medium"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchModelOptionReasoningEfforts enum.
+func (e WorkbenchModelOptionReasoningEfforts) Valid() bool {
+	switch e {
+	case WorkbenchModelOptionReasoningEffortsHigh:
+		return true
+	case WorkbenchModelOptionReasoningEffortsLow:
+		return true
+	case WorkbenchModelOptionReasoningEffortsMedium:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchModelPreferencesReasoningEffort.
+const (
+	WorkbenchModelPreferencesReasoningEffortAuto   WorkbenchModelPreferencesReasoningEffort = "auto"
+	WorkbenchModelPreferencesReasoningEffortHigh   WorkbenchModelPreferencesReasoningEffort = "high"
+	WorkbenchModelPreferencesReasoningEffortLow    WorkbenchModelPreferencesReasoningEffort = "low"
+	WorkbenchModelPreferencesReasoningEffortMedium WorkbenchModelPreferencesReasoningEffort = "medium"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchModelPreferencesReasoningEffort enum.
+func (e WorkbenchModelPreferencesReasoningEffort) Valid() bool {
+	switch e {
+	case WorkbenchModelPreferencesReasoningEffortAuto:
+		return true
+	case WorkbenchModelPreferencesReasoningEffortHigh:
+		return true
+	case WorkbenchModelPreferencesReasoningEffortLow:
+		return true
+	case WorkbenchModelPreferencesReasoningEffortMedium:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for WorkbenchSelectionContextKind.
 const (
 	WorkbenchSelectionContextKindError  WorkbenchSelectionContextKind = "error"
@@ -7483,6 +9503,27 @@ func (e WorkbenchSelectionContextKind) Valid() bool {
 	case WorkbenchSelectionContextKindPlain:
 		return true
 	case WorkbenchSelectionContextKindYaml:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchSessionActivity.
+const (
+	WorkbenchSessionActivityQueued          WorkbenchSessionActivity = "queued"
+	WorkbenchSessionActivityRunning         WorkbenchSessionActivity = "running"
+	WorkbenchSessionActivityWaitingApproval WorkbenchSessionActivity = "waiting_approval"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchSessionActivity enum.
+func (e WorkbenchSessionActivity) Valid() bool {
+	switch e {
+	case WorkbenchSessionActivityQueued:
+		return true
+	case WorkbenchSessionActivityRunning:
+		return true
+	case WorkbenchSessionActivityWaitingApproval:
 		return true
 	default:
 		return false
@@ -7687,6 +9728,72 @@ func (e WorkbenchUpdateSessionRequestMode) Valid() bool {
 	case RootCause:
 		return true
 	case Trace:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkflowCatalogEntrySourceKind.
+const (
+	WorkflowCatalogEntrySourceKindApplicationWorkflow WorkflowCatalogEntrySourceKind = "application_workflow"
+	WorkflowCatalogEntrySourceKindBuildSource         WorkflowCatalogEntrySourceKind = "build_source"
+	WorkflowCatalogEntrySourceKindDeliveryWorkflow    WorkflowCatalogEntrySourceKind = "delivery_workflow"
+)
+
+// Valid indicates whether the value is a known member of the WorkflowCatalogEntrySourceKind enum.
+func (e WorkflowCatalogEntrySourceKind) Valid() bool {
+	switch e {
+	case WorkflowCatalogEntrySourceKindApplicationWorkflow:
+		return true
+	case WorkflowCatalogEntrySourceKindBuildSource:
+		return true
+	case WorkflowCatalogEntrySourceKindDeliveryWorkflow:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkflowNodeRunStage.
+const (
+	WorkflowNodeRunStageBarrier WorkflowNodeRunStage = "barrier"
+	WorkflowNodeRunStageBuild   WorkflowNodeRunStage = "build"
+	WorkflowNodeRunStageDeploy  WorkflowNodeRunStage = "deploy"
+	WorkflowNodeRunStageHealth  WorkflowNodeRunStage = "health"
+	WorkflowNodeRunStagePlan    WorkflowNodeRunStage = "plan"
+)
+
+// Valid indicates whether the value is a known member of the WorkflowNodeRunStage enum.
+func (e WorkflowNodeRunStage) Valid() bool {
+	switch e {
+	case WorkflowNodeRunStageBarrier:
+		return true
+	case WorkflowNodeRunStageBuild:
+		return true
+	case WorkflowNodeRunStageDeploy:
+		return true
+	case WorkflowNodeRunStageHealth:
+		return true
+	case WorkflowNodeRunStagePlan:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkflowRunScope.
+const (
+	WorkflowRunScopeApplication   WorkflowRunScope = "application"
+	WorkflowRunScopeDeliveryBatch WorkflowRunScope = "delivery_batch"
+)
+
+// Valid indicates whether the value is a known member of the WorkflowRunScope enum.
+func (e WorkflowRunScope) Valid() bool {
+	switch e {
+	case WorkflowRunScopeApplication:
+		return true
+	case WorkflowRunScopeDeliveryBatch:
 		return true
 	default:
 		return false
@@ -8782,6 +10889,93 @@ func (e ListComputeTasksParamsSortOrder) Valid() bool {
 	}
 }
 
+// Defines values for ExportDeliveryDocumentParamsFormat.
+const (
+	JSON ExportDeliveryDocumentParamsFormat = "json"
+	Yaml ExportDeliveryDocumentParamsFormat = "yaml"
+)
+
+// Valid indicates whether the value is a known member of the ExportDeliveryDocumentParamsFormat enum.
+func (e ExportDeliveryDocumentParamsFormat) Valid() bool {
+	switch e {
+	case JSON:
+		return true
+	case Yaml:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ListDeliveryExecutionHistoryParamsStatus.
+const (
+	ListDeliveryExecutionHistoryParamsStatusAll       ListDeliveryExecutionHistoryParamsStatus = "all"
+	ListDeliveryExecutionHistoryParamsStatusApproval  ListDeliveryExecutionHistoryParamsStatus = "approval"
+	ListDeliveryExecutionHistoryParamsStatusCanceled  ListDeliveryExecutionHistoryParamsStatus = "canceled"
+	ListDeliveryExecutionHistoryParamsStatusFailed    ListDeliveryExecutionHistoryParamsStatus = "failed"
+	ListDeliveryExecutionHistoryParamsStatusRunning   ListDeliveryExecutionHistoryParamsStatus = "running"
+	ListDeliveryExecutionHistoryParamsStatusSucceeded ListDeliveryExecutionHistoryParamsStatus = "succeeded"
+)
+
+// Valid indicates whether the value is a known member of the ListDeliveryExecutionHistoryParamsStatus enum.
+func (e ListDeliveryExecutionHistoryParamsStatus) Valid() bool {
+	switch e {
+	case ListDeliveryExecutionHistoryParamsStatusAll:
+		return true
+	case ListDeliveryExecutionHistoryParamsStatusApproval:
+		return true
+	case ListDeliveryExecutionHistoryParamsStatusCanceled:
+		return true
+	case ListDeliveryExecutionHistoryParamsStatusFailed:
+		return true
+	case ListDeliveryExecutionHistoryParamsStatusRunning:
+		return true
+	case ListDeliveryExecutionHistoryParamsStatusSucceeded:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ListDeliveryTriggersParamsTargetKind.
+const (
+	TemplateSource ListDeliveryTriggersParamsTargetKind = "template_source"
+	Workflow       ListDeliveryTriggersParamsTargetKind = "workflow"
+)
+
+// Valid indicates whether the value is a known member of the ListDeliveryTriggersParamsTargetKind enum.
+func (e ListDeliveryTriggersParamsTargetKind) Valid() bool {
+	switch e {
+	case TemplateSource:
+		return true
+	case Workflow:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ListWorkflowCatalogParamsKind.
+const (
+	ListWorkflowCatalogParamsKindAll      ListWorkflowCatalogParamsKind = "all"
+	ListWorkflowCatalogParamsKindBuild    ListWorkflowCatalogParamsKind = "build"
+	ListWorkflowCatalogParamsKindWorkflow ListWorkflowCatalogParamsKind = "workflow"
+)
+
+// Valid indicates whether the value is a known member of the ListWorkflowCatalogParamsKind enum.
+func (e ListWorkflowCatalogParamsKind) Valid() bool {
+	switch e {
+	case ListWorkflowCatalogParamsKindAll:
+		return true
+	case ListWorkflowCatalogParamsKindBuild:
+		return true
+	case ListWorkflowCatalogParamsKindWorkflow:
+		return true
+	default:
+		return false
+	}
+}
+
 // AIContextBudgetUsage defines model for AIContextBudgetUsage.
 type AIContextBudgetUsage struct {
 	EvidenceItems  int `json:"evidenceItems"`
@@ -8971,15 +11165,19 @@ type AIEnvironmentTemplateListEnvelope struct {
 
 // AIGatewayManifest defines model for AIGatewayManifest.
 type AIGatewayManifest struct {
-	Caller         CallerContext        `json:"caller"`
-	GeneratedAt    time.Time            `json:"generatedAt"`
-	Name           string               `json:"name"`
-	PermissionKeys []string             `json:"permissionKeys"`
-	Principal      Principal            `json:"principal"`
-	Prompts        []PromptCapability   `json:"prompts,omitempty"`
-	Resources      []ResourceCapability `json:"resources,omitempty"`
-	Skills         []SkillCapability    `json:"skills,omitempty"`
-	Summary        struct {
+	Caller CallerContext `json:"caller"`
+
+	// CatalogRevision Digest of the authorized, filtered tool catalog used by pagination cursors.
+	CatalogRevision string               `json:"catalogRevision,omitempty"`
+	GeneratedAt     time.Time            `json:"generatedAt"`
+	Name            string               `json:"name"`
+	NextCursor      string               `json:"nextCursor,omitempty"`
+	PermissionKeys  []string             `json:"permissionKeys"`
+	Principal       Principal            `json:"principal"`
+	Prompts         []PromptCapability   `json:"prompts,omitempty"`
+	Resources       []ResourceCapability `json:"resources,omitempty"`
+	Skills          []SkillCapability    `json:"skills,omitempty"`
+	Summary         struct {
 		DeniedCount   int `json:"deniedCount"`
 		PromptCount   int `json:"promptCount"`
 		ResourceCount int `json:"resourceCount"`
@@ -9041,6 +11239,7 @@ type AIMemoryRecord struct {
 	ID            string                   `json:"id"`
 	OwnerID       string                   `json:"ownerId"`
 	OwnerType     string                   `json:"ownerType"`
+	PolicyID      string                   `json:"policyId,omitempty"`
 	PolicyVersion string                   `json:"policyVersion"`
 	ScopeHash     string                   `json:"scopeHash"`
 	SourceRefs    []string                 `json:"sourceRefs"`
@@ -9210,6 +11409,25 @@ type AccessRoleInput struct {
 type AccessRoleListEnvelope struct {
 	Items []AccessRole `json:"items"`
 }
+
+// AgentChatInput Conversation input carried in AgentRun.chat for capabilityId general. History contains prior user and successful assistant messages, oldest first; the current question is separate. The control plane bounds total history and reports omitted messages through historyTruncated. This is conversation data, not an authorization grant or a request to run an analysis workflow.
+type AgentChatInput struct {
+	// Context Authorized background for this request only. Treat as untrusted evidence, never as instructions or permission. Do not carry it into subsequent requests unless supplied again.
+	Context          string             `json:"context,omitempty"`
+	History          []AgentChatMessage `json:"history"`
+	HistoryTruncated bool               `json:"historyTruncated,omitempty"`
+	Locale           string             `json:"locale,omitempty"`
+	Question         string             `json:"question"`
+}
+
+// AgentChatMessage defines model for AgentChatMessage.
+type AgentChatMessage struct {
+	Content string               `json:"content"`
+	Role    AgentChatMessageRole `json:"role"`
+}
+
+// AgentChatMessageRole defines model for AgentChatMessage.Role.
+type AgentChatMessageRole string
 
 // AgentInstallation defines model for AgentInstallation.
 type AgentInstallation struct {
@@ -9421,12 +11639,18 @@ type AgentProviderRuntimeStatusEnvelope struct {
 
 // AgentRun defines model for AgentRun.
 type AgentRun struct {
-	AnalysisArtifacts    []map[string]any  `json:"analysisArtifacts,omitempty"`
-	CallbackToken        string            `json:"callbackToken"`
-	CapabilityID         string            `json:"capabilityId"`
-	ID                   string            `json:"id"`
-	Input                map[string]any    `json:"input,omitempty"`
-	Output               map[string]any    `json:"output,omitempty"`
+	AnalysisArtifacts []map[string]any `json:"analysisArtifacts,omitempty"`
+	CallbackToken     string           `json:"callbackToken"`
+	CapabilityID      string           `json:"capabilityId"`
+
+	// Chat Conversation input carried in AgentRun.chat for capabilityId general. History contains prior user and successful assistant messages, oldest first; the current question is separate. The control plane bounds total history and reports omitted messages through historyTruncated. This is conversation data, not an authorization grant or a request to run an analysis workflow.
+	Chat   *AgentChatInput `json:"chat,omitempty"`
+	ID     string          `json:"id"`
+	Input  map[string]any  `json:"input,omitempty"`
+	Output map[string]any  `json:"output,omitempty"`
+
+	// ParentRunID Parent run for a single read-only specialist delegation; absent on root runs.
+	ParentRunID          string            `json:"parentRunId,omitempty"`
 	ProviderID           string            `json:"providerId"`
 	ProviderKind         string            `json:"providerKind"`
 	Scope                map[string]any    `json:"scope,omitempty"`
@@ -9696,6 +11920,54 @@ type AgentRunToolCallRequest struct {
 	ToolName      string         `json:"toolName,omitempty"`
 }
 
+// AgentRunnerChangeArguments defines model for AgentRunnerChangeArguments.
+type AgentRunnerChangeArguments struct {
+	Action                   AgentRunnerChangeArgumentsAction `json:"action,omitempty"`
+	ApplicationEnvironmentID string                           `json:"applicationEnvironmentId,omitempty"`
+	ApplicationID            string                           `json:"applicationId,omitempty"`
+	Description              string                           `json:"description,omitempty"`
+	Enabled                  bool                             `json:"enabled,omitempty"`
+	Key                      string                           `json:"key,omitempty"`
+	Name                     string                           `json:"name,omitempty"`
+}
+
+// AgentRunnerChangeArgumentsAction defines model for AgentRunnerChangeArguments.Action.
+type AgentRunnerChangeArgumentsAction string
+
+// AgentRunnerToolCallRequest External Agent plugin request to POST /api/v1/runtime/agent-tools on its runner. The Authorization bearer is an ephemeral per-run grant supplied through trusted runtime context, never model arguments. The runner supplies the control-plane run identity and callback token.
+type AgentRunnerToolCallRequest struct {
+	Input    AgentRunnerToolInput `json:"input"`
+	ToolName string               `json:"toolName"`
+}
+
+// AgentRunnerToolInput defines model for AgentRunnerToolInput.
+type AgentRunnerToolInput struct {
+	Arguments          *AgentRunnerChangeArguments      `json:"arguments,omitempty"`
+	ArtifactKind       AgentRunnerToolInputArtifactKind `json:"artifactKind,omitempty"`
+	BaselineCitationID string                           `json:"baselineCitationId,omitempty"`
+	ClusterID          string                           `json:"clusterId,omitempty"`
+	Content            string                           `json:"content,omitempty"`
+	Format             AgentRunnerToolInputFormat       `json:"format,omitempty"`
+	Limit              int                              `json:"limit,omitempty"`
+	Namespace          string                           `json:"namespace,omitempty"`
+	NodeName           string                           `json:"nodeName,omitempty"`
+	Query              string                           `json:"query,omitempty"`
+	ServiceName        string                           `json:"serviceName,omitempty"`
+	Title              string                           `json:"title,omitempty"`
+
+	// ToolName Change target for change.request; this only creates a pending approval and never executes the change.
+	ToolName AgentRunnerToolInputToolName `json:"toolName,omitempty"`
+}
+
+// AgentRunnerToolInputArtifactKind defines model for AgentRunnerToolInput.ArtifactKind.
+type AgentRunnerToolInputArtifactKind string
+
+// AgentRunnerToolInputFormat defines model for AgentRunnerToolInput.Format.
+type AgentRunnerToolInputFormat string
+
+// AgentRunnerToolInputToolName Change target for change.request; this only creates a pending approval and never executes the change.
+type AgentRunnerToolInputToolName string
+
 // AgentToolCallResult defines model for AgentToolCallResult.
 type AgentToolCallResult struct {
 	Output               map[string]any `json:"output,omitempty"`
@@ -9886,6 +12158,9 @@ type Application struct {
 	RepositoryProjectID string         `json:"repositoryProjectId,omitempty"`
 	RepositoryProvider  string         `json:"repositoryProvider,omitempty"`
 	UpdatedAt           time.Time      `json:"updatedAt"`
+
+	// Version Server-maintained configuration version. Read together with repositories and buildSources; use as expectedVersion when updating.
+	Version int64 `json:"version,omitempty"`
 }
 
 // ApplicationBindingSummary defines model for ApplicationBindingSummary.
@@ -9947,6 +12222,8 @@ type ApplicationDeliveryActionResult struct {
 	ApplicationEnvironmentID string                               `json:"applicationEnvironmentId"`
 	ApplicationID            string                               `json:"applicationId"`
 	Build                    *BuildRecord                         `json:"build,omitempty"`
+	DockerOperationIDs       []string                             `json:"dockerOperationIds,omitempty"`
+	ManifestDeployments      []ManifestDeployment                 `json:"manifestDeployments,omitempty"`
 	RelatedIDs               *ApplicationDeliveryActionRelatedIDs `json:"relatedIds,omitempty"`
 	Release                  *ReleaseRecord                       `json:"release,omitempty"`
 	Target                   *ReleaseTarget                       `json:"target,omitempty"`
@@ -10002,6 +12279,9 @@ type ApplicationEnvironment struct {
 	UpdatedAt          time.Time         `json:"updatedAt"`
 	WorkflowTemplate   *WorkflowTemplate `json:"workflowTemplate,omitempty"`
 	WorkflowTemplateID string            `json:"workflowTemplateId,omitempty"`
+
+	// WorkflowTemplateVersion Immutable published workflow template version; omission pins the latest permitted version when the binding is saved.
+	WorkflowTemplateVersion int `json:"workflowTemplateVersion,omitempty"`
 }
 
 // ApplicationEnvironmentDeliveryDetail defines model for ApplicationEnvironmentDeliveryDetail.
@@ -10031,12 +12311,15 @@ type ApplicationEnvironmentEnvelope struct {
 
 // ApplicationEnvironmentInput defines model for ApplicationEnvironmentInput.
 type ApplicationEnvironmentInput struct {
-	Alias              string               `json:"alias,omitempty"`
-	ApplicationID      string               `json:"applicationId"`
-	ArtifactPolicyID   string               `json:"artifactPolicyId,omitempty"`
-	BuildPolicy        *BuildPolicy         `json:"buildPolicy,omitempty"`
-	ClusterID          string               `json:"clusterId,omitempty"`
-	EnvironmentID      string               `json:"environmentId"`
+	Alias            string       `json:"alias,omitempty"`
+	ApplicationID    string       `json:"applicationId"`
+	ArtifactPolicyID string       `json:"artifactPolicyId,omitempty"`
+	BuildPolicy      *BuildPolicy `json:"buildPolicy,omitempty"`
+	ClusterID        string       `json:"clusterId,omitempty"`
+	EnvironmentID    string       `json:"environmentId"`
+
+	// ExpectedUpdatedAt Optional optimistic concurrency guard for replacing an existing environment configuration and its release targets. A stale value returns 409 without changes.
+	ExpectedUpdatedAt  *time.Time           `json:"expectedUpdatedAt,omitempty"`
 	ID                 string               `json:"id,omitempty"`
 	Namespace          string               `json:"namespace,omitempty"`
 	PromotionPolicyID  string               `json:"promotionPolicyId,omitempty"`
@@ -10046,6 +12329,9 @@ type ApplicationEnvironmentInput struct {
 	StrategyProfileID  string               `json:"strategyProfileId,omitempty"`
 	Targets            []ReleaseTargetInput `json:"targets,omitempty"`
 	WorkflowTemplateID string               `json:"workflowTemplateId,omitempty"`
+
+	// WorkflowTemplateVersion Immutable published workflow template version; omission pins the latest permitted version when the binding is saved.
+	WorkflowTemplateVersion int `json:"workflowTemplateVersion,omitempty"`
 }
 
 // ApplicationEnvironmentListEnvelope defines model for ApplicationEnvironmentListEnvelope.
@@ -10055,26 +12341,29 @@ type ApplicationEnvironmentListEnvelope struct {
 
 // ApplicationInput defines model for ApplicationInput.
 type ApplicationInput struct {
-	BuildContextDir     string             `json:"buildContextDir,omitempty"`
-	BuildImage          string             `json:"buildImage,omitempty"`
-	BuildSources        []BuildSourceInput `json:"buildSources,omitempty"`
-	BusinessLineID      string             `json:"businessLineId,omitempty"`
-	DefaultBranch       string             `json:"defaultBranch,omitempty"`
-	DefaultTag          string             `json:"defaultTag,omitempty"`
-	Description         string             `json:"description,omitempty"`
-	DockerfilePath      string             `json:"dockerfilePath,omitempty"`
-	Enabled             bool               `json:"enabled"`
-	Group               string             `json:"group,omitempty"`
-	ID                  string             `json:"id,omitempty"`
-	Key                 string             `json:"key"`
-	Language            string             `json:"language,omitempty"`
-	Metadata            map[string]any     `json:"metadata,omitempty"`
-	Name                string             `json:"name"`
-	OwnerTeam           string             `json:"ownerTeam,omitempty"`
-	RepositoryIDs       []string           `json:"repositoryIds,omitempty"`
-	RepositoryPath      string             `json:"repositoryPath,omitempty"`
-	RepositoryProjectID string             `json:"repositoryProjectId,omitempty"`
-	RepositoryProvider  string             `json:"repositoryProvider,omitempty"`
+	BuildContextDir string             `json:"buildContextDir,omitempty"`
+	BuildImage      string             `json:"buildImage,omitempty"`
+	BuildSources    []BuildSourceInput `json:"buildSources,omitempty"`
+	BusinessLineID  string             `json:"businessLineId,omitempty"`
+	DefaultBranch   string             `json:"defaultBranch,omitempty"`
+	DefaultTag      string             `json:"defaultTag,omitempty"`
+	Description     string             `json:"description,omitempty"`
+	DockerfilePath  string             `json:"dockerfilePath,omitempty"`
+	Enabled         bool               `json:"enabled"`
+
+	// ExpectedVersion Optional for legacy clients. When provided, atomically compare the application configuration version and reject stale writes with HTTP 409. Omission keeps legacy unconditional updates and does not prevent lost writes.
+	ExpectedVersion     int64          `json:"expectedVersion,omitempty"`
+	Group               string         `json:"group,omitempty"`
+	ID                  string         `json:"id,omitempty"`
+	Key                 string         `json:"key"`
+	Language            string         `json:"language,omitempty"`
+	Metadata            map[string]any `json:"metadata,omitempty"`
+	Name                string         `json:"name"`
+	OwnerTeam           string         `json:"ownerTeam,omitempty"`
+	RepositoryIDs       []string       `json:"repositoryIds,omitempty"`
+	RepositoryPath      string         `json:"repositoryPath,omitempty"`
+	RepositoryProjectID string         `json:"repositoryProjectId,omitempty"`
+	RepositoryProvider  string         `json:"repositoryProvider,omitempty"`
 }
 
 // ApplicationListEnvelope defines model for ApplicationListEnvelope.
@@ -10100,6 +12389,7 @@ type ApplicationRuntimeEnvironment struct {
 	EnvironmentID            string                              `json:"environmentId"`
 	EnvironmentKey           string                              `json:"environmentKey,omitempty"`
 	EnvironmentName          string                              `json:"environmentName,omitempty"`
+	ManifestDeployments      []ManifestDeployment                `json:"manifestDeployments,omitempty"`
 	RequiresApproval         bool                                `json:"requiresApproval"`
 	ResourceSelector         *ResourceSelector                   `json:"resourceSelector,omitempty"`
 	Status                   ApplicationRuntimeEnvironmentStatus `json:"status,omitempty"`
@@ -10133,24 +12423,26 @@ type ApplicationRuntimeWorkload struct {
 
 // ApplicationService defines model for ApplicationService.
 type ApplicationService struct {
-	ApplicationID       string                        `json:"applicationId"`
-	BuildSourceID       string                        `json:"buildSourceId,omitempty"`
-	Containers          []ApplicationServiceContainer `json:"containers,omitempty"`
-	CreatedAt           time.Time                     `json:"createdAt"`
-	DefaultBranch       string                        `json:"defaultBranch,omitempty"`
-	Description         string                        `json:"description,omitempty"`
-	Enabled             bool                          `json:"enabled"`
-	ID                  string                        `json:"id"`
-	Key                 string                        `json:"key"`
-	Metadata            map[string]any                `json:"metadata,omitempty"`
-	Name                string                        `json:"name"`
-	OwnerTeam           string                        `json:"ownerTeam,omitempty"`
-	RepositoryID        string                        `json:"repositoryId,omitempty"`
-	RepositoryPath      string                        `json:"repositoryPath,omitempty"`
-	RepositoryProjectID string                        `json:"repositoryProjectId,omitempty"`
-	RepositoryProvider  string                        `json:"repositoryProvider,omitempty"`
-	ServiceKind         ApplicationServiceServiceKind `json:"serviceKind"`
-	UpdatedAt           time.Time                     `json:"updatedAt"`
+	ApplicationID       string                            `json:"applicationId"`
+	BuildSourceID       string                            `json:"buildSourceId,omitempty"`
+	Containers          []ApplicationServiceContainer     `json:"containers,omitempty"`
+	CreatedAt           time.Time                         `json:"createdAt"`
+	DefaultBranch       string                            `json:"defaultBranch,omitempty"`
+	DeploymentTemplate  *ServiceDeploymentTemplateBinding `json:"deploymentTemplate,omitempty"`
+	Description         string                            `json:"description,omitempty"`
+	Enabled             bool                              `json:"enabled"`
+	ID                  string                            `json:"id"`
+	Key                 string                            `json:"key"`
+	Metadata            map[string]any                    `json:"metadata,omitempty"`
+	Name                string                            `json:"name"`
+	OwnerTeam           string                            `json:"ownerTeam,omitempty"`
+	RepositoryID        string                            `json:"repositoryId,omitempty"`
+	RepositoryPath      string                            `json:"repositoryPath,omitempty"`
+	RepositoryProjectID string                            `json:"repositoryProjectId,omitempty"`
+	RepositoryProvider  string                            `json:"repositoryProvider,omitempty"`
+	ServiceKind         ApplicationServiceServiceKind     `json:"serviceKind"`
+	UpdatedAt           time.Time                         `json:"updatedAt"`
+	Version             int64                             `json:"version,omitempty"`
 }
 
 // ApplicationServiceServiceKind defines model for ApplicationService.ServiceKind.
@@ -10199,8 +12491,10 @@ type ApplicationServiceInput struct {
 	BuildSourceID       string                             `json:"buildSourceId,omitempty"`
 	Containers          []ApplicationServiceContainerInput `json:"containers,omitempty"`
 	DefaultBranch       string                             `json:"defaultBranch,omitempty"`
+	DeploymentTemplate  *ServiceDeploymentTemplateBinding  `json:"deploymentTemplate,omitempty"`
 	Description         string                             `json:"description,omitempty"`
 	Enabled             bool                               `json:"enabled"`
+	ExpectedVersion     int64                              `json:"expectedVersion,omitempty"`
 	ID                  string                             `json:"id,omitempty"`
 	Key                 string                             `json:"key"`
 	Metadata            map[string]any                     `json:"metadata,omitempty"`
@@ -10226,7 +12520,10 @@ type ApplicationWorkflowInput struct {
 	Definition  map[string]any `json:"definition"`
 	Description string         `json:"description,omitempty"`
 	Enabled     bool           `json:"enabled"`
-	Name        string         `json:"name"`
+
+	// ExpectedRevision Current application workflow revision for conditional save.
+	ExpectedRevision int    `json:"expectedRevision,omitempty"`
+	Name             string `json:"name"`
 }
 
 // ApprovalDecisionInput defines model for ApprovalDecisionInput.
@@ -10260,38 +12557,40 @@ type ApprovalDecisionTrace struct {
 
 // ApprovalRequest defines model for ApprovalRequest.
 type ApprovalRequest struct {
-	ActorID           string              `json:"actorId"`
-	ActorName         string              `json:"actorName,omitempty"`
-	ActorRoles        []string            `json:"actorRoles,omitempty"`
-	ActorTeams        []string            `json:"actorTeams,omitempty"`
-	ActorType         string              `json:"actorType"`
-	AIClientID        string              `json:"aiClientId,omitempty"`
-	AIClientName      string              `json:"aiClientName,omitempty"`
-	ApprovalPolicyRef string              `json:"approvalPolicyRef,omitempty"`
-	ApprovalTrace     *ApprovalTrace      `json:"approvalTrace,omitempty"`
-	CreatedAt         time.Time           `json:"createdAt"`
-	DecidedAt         *time.Time          `json:"decidedAt,omitempty"`
-	DecidedBy         string              `json:"decidedBy,omitempty"`
-	DecidedByName     string              `json:"decidedByName,omitempty"`
-	DecisionComment   string              `json:"decisionComment,omitempty"`
-	ExpiresAt         *time.Time          `json:"expiresAt,omitempty"`
-	ID                string              `json:"id"`
-	Output            AnyValue            `json:"output,omitempty"`
-	PolicyID          string              `json:"policyId,omitempty"`
-	RelatedIDs        map[string]any      `json:"relatedIds,omitempty"`
-	RequestID         string              `json:"requestId,omitempty"`
-	RequiresApproval  bool                `json:"requiresApproval"`
-	ResourceScope     map[string]any      `json:"resourceScope,omitempty"`
-	RiskLevel         RiskLevel           `json:"riskLevel"`
-	SecretRefs        *SecretReferenceMap `json:"secretRefs,omitempty"`
-	SkillID           string              `json:"skillId,omitempty"`
-	SourceIP          string              `json:"sourceIp,omitempty"`
-	Status            string              `json:"status"`
-	Strategy          string              `json:"strategy"`
-	Summary           string              `json:"summary"`
-	ToolInput         map[string]any      `json:"toolInput,omitempty"`
-	ToolName          string              `json:"toolName"`
-	UpdatedAt         time.Time           `json:"updatedAt"`
+	ActorID           string         `json:"actorId"`
+	ActorName         string         `json:"actorName,omitempty"`
+	ActorRoles        []string       `json:"actorRoles,omitempty"`
+	ActorTeams        []string       `json:"actorTeams,omitempty"`
+	ActorType         string         `json:"actorType"`
+	AIClientID        string         `json:"aiClientId,omitempty"`
+	AIClientName      string         `json:"aiClientName,omitempty"`
+	ApprovalPolicyRef string         `json:"approvalPolicyRef,omitempty"`
+	ApprovalTrace     *ApprovalTrace `json:"approvalTrace,omitempty"`
+	CreatedAt         time.Time      `json:"createdAt"`
+	DecidedAt         *time.Time     `json:"decidedAt,omitempty"`
+	DecidedBy         string         `json:"decidedBy,omitempty"`
+	DecidedByName     string         `json:"decidedByName,omitempty"`
+	DecisionComment   string         `json:"decisionComment,omitempty"`
+	ExpiresAt         *time.Time     `json:"expiresAt,omitempty"`
+	ID                string         `json:"id"`
+	Output            AnyValue       `json:"output,omitempty"`
+	PolicyID          string         `json:"policyId,omitempty"`
+	RelatedIDs        map[string]any `json:"relatedIds,omitempty"`
+	RequestID         string         `json:"requestId,omitempty"`
+	RequiresApproval  bool           `json:"requiresApproval"`
+
+	// ResourceScope Resource identities reviewed by the approver. Resolved invocation scopes are frozen by the server and must match at replay.
+	ResourceScope map[string]any      `json:"resourceScope,omitempty"`
+	RiskLevel     RiskLevel           `json:"riskLevel"`
+	SecretRefs    *SecretReferenceMap `json:"secretRefs,omitempty"`
+	SkillID       string              `json:"skillId,omitempty"`
+	SourceIP      string              `json:"sourceIp,omitempty"`
+	Status        string              `json:"status"`
+	Strategy      string              `json:"strategy"`
+	Summary       string              `json:"summary"`
+	ToolInput     map[string]any      `json:"toolInput,omitempty"`
+	ToolName      string              `json:"toolName"`
+	UpdatedAt     time.Time           `json:"updatedAt"`
 }
 
 // ApprovalRequestListEnvelope defines model for ApprovalRequestListEnvelope.
@@ -10424,6 +12723,17 @@ type AuthResultEnvelope struct {
 	Data AuthResult `json:"data"`
 }
 
+// BlueprintBootstrapResult defines model for BlueprintBootstrapResult.
+type BlueprintBootstrapResult struct {
+	Draft DeliveryDraft        `json:"draft"`
+	Spec  RenderedDeliverySpec `json:"spec"`
+}
+
+// BlueprintBootstrapResultEnvelope defines model for BlueprintBootstrapResultEnvelope.
+type BlueprintBootstrapResultEnvelope struct {
+	Data BlueprintBootstrapResult `json:"data"`
+}
+
 // BrandingAssetUpload defines model for BrandingAssetUpload.
 type BrandingAssetUpload struct {
 	URL string `json:"url"`
@@ -10548,17 +12858,25 @@ type BuildSourceType string
 
 // BuildSourceConfig defines model for BuildSourceConfig.
 type BuildSourceConfig struct {
-	BuildArgs          map[string]BuildSourceConfig_BuildArgs_AdditionalProperties `json:"buildArgs,omitempty"`
-	BuildImage         string                                                      `json:"buildImage,omitempty"`
-	BuildTemplateID    string                                                      `json:"buildTemplateId,omitempty"`
-	BuilderKind        BuildSourceConfigBuilderKind                                `json:"builderKind,omitempty"`
-	ContextDir         string                                                      `json:"contextDir,omitempty"`
-	DefaultTag         string                                                      `json:"defaultTag,omitempty"`
-	DockerfilePath     string                                                      `json:"dockerfilePath,omitempty"`
+	BuildArgs       map[string]BuildSourceConfig_BuildArgs_AdditionalProperties `json:"buildArgs,omitempty"`
+	BuildImage      string                                                      `json:"buildImage,omitempty"`
+	BuildTemplateID string                                                      `json:"buildTemplateId,omitempty"`
+
+	// BuildTemplateVersion Immutable published build template version, resolved and pinned on save when omitted.
+	BuildTemplateVersion int                          `json:"buildTemplateVersion,omitempty"`
+	BuilderKind          BuildSourceConfigBuilderKind `json:"builderKind,omitempty"`
+	Buildpacks           *BuildpacksConfiguration     `json:"buildpacks,omitempty"`
+	ContextDir           string                       `json:"contextDir,omitempty"`
+	DefaultTag           string                       `json:"defaultTag,omitempty"`
+	DockerfilePath       string                       `json:"dockerfilePath,omitempty"`
+
+	// ExternalPipeline A trusted GitLab pipeline in the primary bound source repository. Its protected tag pins the CI definition; the pipeline must check out SOHA_SOURCE_COMMIT and emit soha-artifact.json from the named job. Source and pipeline commits are frozen separately.
+	ExternalPipeline   *ExternalPipelineConfiguration                              `json:"externalPipeline,omitempty"`
 	PipelineRef        string                                                      `json:"pipelineRef,omitempty"`
 	ProviderKind       string                                                      `json:"providerKind,omitempty"`
 	RepositoryBindings []BuildRepositoryBinding                                    `json:"repositoryBindings,omitempty"`
 	RepositoryID       string                                                      `json:"repositoryId,omitempty"`
+	SecretRefs         *SecretReferenceMap                                         `json:"secretRefs,omitempty"`
 	Variables          map[string]BuildSourceConfig_Variables_AdditionalProperties `json:"variables,omitempty"`
 }
 
@@ -10610,18 +12928,32 @@ type BuildSourceInputType string
 
 // BuildTemplate defines model for BuildTemplate.
 type BuildTemplate struct {
-	BuildCommands      []string       `json:"buildCommands,omitempty"`
-	BuilderKind        string         `json:"builderKind,omitempty"`
-	CreatedAt          time.Time      `json:"createdAt"`
-	DefaultVariables   map[string]any `json:"defaultVariables,omitempty"`
-	Description        string         `json:"description,omitempty"`
-	DockerfileTemplate string         `json:"dockerfileTemplate,omitempty"`
-	Enabled            bool           `json:"enabled"`
-	ID                 string         `json:"id"`
-	Key                string         `json:"key"`
-	Name               string         `json:"name"`
-	UpdatedAt          time.Time      `json:"updatedAt"`
-	VariableSchema     map[string]any `json:"variableSchema,omitempty"`
+	BuildCommands []string `json:"buildCommands,omitempty"`
+	BuilderKind   string   `json:"builderKind,omitempty"`
+
+	// ContentDigest Digest of the immutable published content, absent for drafts.
+	ContentDigest    string         `json:"contentDigest,omitempty"`
+	CreatedAt        time.Time      `json:"createdAt"`
+	DefaultVariables map[string]any `json:"defaultVariables,omitempty"`
+	Description      string         `json:"description,omitempty"`
+
+	// DockerfileTemplate Immutable Dockerfile content rendered into .soha-template.Dockerfile in the build workspace. Declared {{name}} placeholders accept inert literal tokens; undeclared or unsafe substitutions are rejected.
+	DockerfileTemplate string                   `json:"dockerfileTemplate,omitempty"`
+	Enabled            bool                     `json:"enabled"`
+	ID                 string                   `json:"id"`
+	Key                string                   `json:"key"`
+	Name               string                   `json:"name"`
+	PublicationState   TemplatePublicationState `json:"publicationState,omitempty"`
+
+	// PublishedVersion Latest immutable published version; zero means unpublished.
+	PublishedVersion int `json:"publishedVersion,omitempty"`
+
+	// Revision Current editable revision used for conditional saves.
+	Revision  int       `json:"revision,omitempty"`
+	UpdatedAt time.Time `json:"updatedAt"`
+
+	// VariableSchema Flat map of variable names to scalar schemas (string, boolean, number or integer), with a boolean required field. Unknown parameters and reserved system names are rejected. Defaults are overridden by BuildSource config.variables and then trigger variables. Commands can read arbitrary text through quoted SOHA_BUILD_<name> environment variables; variables are not credentials.
+	VariableSchema map[string]any `json:"variableSchema,omitempty"`
 }
 
 // BuildTemplateEnvelope defines model for BuildTemplateEnvelope.
@@ -10631,22 +12963,119 @@ type BuildTemplateEnvelope struct {
 
 // BuildTemplateInput defines model for BuildTemplateInput.
 type BuildTemplateInput struct {
-	BuildCommands      []string       `json:"buildCommands,omitempty"`
-	BuilderKind        string         `json:"builderKind,omitempty"`
-	DefaultVariables   map[string]any `json:"defaultVariables,omitempty"`
-	Description        string         `json:"description,omitempty"`
-	DockerfileTemplate string         `json:"dockerfileTemplate,omitempty"`
-	Enabled            bool           `json:"enabled"`
-	ID                 string         `json:"id,omitempty"`
-	Key                string         `json:"key"`
-	Name               string         `json:"name"`
-	VariableSchema     map[string]any `json:"variableSchema,omitempty"`
+	BuildCommands []string `json:"buildCommands,omitempty"`
+	BuilderKind   string   `json:"builderKind,omitempty"`
+
+	// CopiedFrom Create-only derivation audit. References a readable template of the same kind. Does not transfer Git management, publication, or execution authority. The server rejects a stale revision; version, when present, selects immutable published content.
+	CopiedFrom       *TemplateCopyOrigin `json:"copiedFrom,omitempty"`
+	DefaultVariables map[string]any      `json:"defaultVariables,omitempty"`
+	Description      string              `json:"description,omitempty"`
+
+	// DockerfileTemplate Dockerfile content rendered into .soha-template.Dockerfile at execution. When buildCommands is empty, the configured container builder builds and pushes it. {{name}} substitutions must be inert literal tokens; DOCKERFILE_PATH, CONTEXT_DIR and IMAGE_REF are system values.
+	DockerfileTemplate string `json:"dockerfileTemplate,omitempty"`
+	Enabled            bool   `json:"enabled"`
+
+	// ExpectedRevision Reject an update if the stored revision differs.
+	ExpectedRevision int    `json:"expectedRevision,omitempty"`
+	ID               string `json:"id,omitempty"`
+	Key              string `json:"key"`
+	Name             string `json:"name"`
+
+	// Publish Publish an immutable version when saving. False saves a draft; omission preserves legacy save-and-publish behavior.
+	Publish bool `json:"publish,omitempty"`
+
+	// VariableSchema Flat map of variable names to scalar schemas (string, boolean, number or integer), with a boolean required field. Defaults are overridden by BuildSource config.variables and then trigger variables. IMAGE_REF, CONTEXT_DIR, DOCKERFILE_PATH and names starting with SOHA_ are reserved. Commands can read free text through quoted SOHA_BUILD_<name> environment variables; use secret leases for credentials.
+	VariableSchema map[string]any `json:"variableSchema,omitempty"`
 }
 
 // BuildTemplateListEnvelope defines model for BuildTemplateListEnvelope.
 type BuildTemplateListEnvelope struct {
 	Data []BuildTemplate `json:"data"`
 }
+
+// BuildTriggerEnvelope defines model for BuildTriggerEnvelope.
+type BuildTriggerEnvelope struct {
+	Data      BuildRecord `json:"data"`
+	RequestID string      `json:"requestId,omitempty"`
+}
+
+// BuildTriggerRequest defines model for BuildTriggerRequest.
+type BuildTriggerRequest struct {
+	ApplicationEnvironmentID string                     `json:"applicationEnvironmentId,omitempty"`
+	ApplicationID            string                     `json:"applicationId"`
+	BuildArgs                *TemplateParameterValues   `json:"buildArgs,omitempty"`
+	BuildSourceID            string                     `json:"buildSourceId,omitempty"`
+	ImageTag                 string                     `json:"imageTag,omitempty"`
+	RefName                  string                     `json:"refName"`
+	RefType                  BuildTriggerRequestRefType `json:"refType,omitempty"`
+	RepositoryID             string                     `json:"repositoryId,omitempty"`
+	RepositoryRefs           []BuildRepositoryRefInput  `json:"repositoryRefs,omitempty"`
+	ResolvedCommit           string                     `json:"resolvedCommit,omitempty"`
+	ServiceID                string                     `json:"serviceId,omitempty"`
+	Variables                *TemplateParameterValues   `json:"variables,omitempty"`
+}
+
+// BuildTriggerRequestRefType defines model for BuildTriggerRequest.RefType.
+type BuildTriggerRequestRefType string
+
+// BuildpacksCapability defines model for BuildpacksCapability.
+type BuildpacksCapability struct {
+	Configuration  *BuildpacksConfiguration `json:"configuration,omitempty"`
+	LifecycleImage string                   `json:"lifecycleImage,omitempty"`
+	PackVersion    string                   `json:"packVersion,omitempty"`
+	ProviderKind   string                   `json:"providerKind"`
+	Ready          bool                     `json:"ready"`
+	Reason         string                   `json:"reason"`
+
+	// Runtime Omission means legacy pack with a dedicated Docker daemon. Podman runs isolated lifecycle phases locally without an API daemon.
+	Runtime        BuildpacksCapabilityRuntime `json:"runtime,omitempty"`
+	RuntimeVersion string                      `json:"runtimeVersion,omitempty"`
+
+	// SupportsSSH Supports SSH checkout with GIT_SSH_KEY and GIT_KNOWN_HOSTS secret references. Omission means unsupported.
+	SupportsSSH bool `json:"supportsSSH,omitempty"`
+
+	// SupportsSubmodules Supports submodules explicitly bound as source repositories at their gitlink paths and fixed commits. Unbound submodules are rejected.
+	SupportsSubmodules bool `json:"supportsSubmodules,omitempty"`
+
+	// TimeoutSeconds Runner-configured execution budget frozen into each build task. Older runners without this field retain the 300 second limit.
+	TimeoutSeconds int `json:"timeoutSeconds,omitempty"`
+}
+
+// BuildpacksCapabilityRuntime Omission means legacy pack with a dedicated Docker daemon. Podman runs isolated lifecycle phases locally without an API daemon.
+type BuildpacksCapabilityRuntime string
+
+// BuildpacksCapabilityEnvelope defines model for BuildpacksCapabilityEnvelope.
+type BuildpacksCapabilityEnvelope struct {
+	Data BuildpacksCapability `json:"data"`
+}
+
+// BuildpacksConfiguration defines model for BuildpacksConfiguration.
+type BuildpacksConfiguration struct {
+	// BuilderImage Platform-approved CNB builder pinned by digest, distinct from the output image.
+	BuilderImage string                          `json:"builderImage"`
+	Platform     BuildpacksConfigurationPlatform `json:"platform"`
+	ProcessType  string                          `json:"processType,omitempty"`
+	RunImage     string                          `json:"runImage"`
+}
+
+// BuildpacksConfigurationPlatform defines model for BuildpacksConfiguration.Platform.
+type BuildpacksConfigurationPlatform string
+
+// BuildpacksExecutionSpec Server-frozen CNB settings carried in ExecutionTask.payload.buildpacks; output image and fixed source commits use existing payload fields.
+type BuildpacksExecutionSpec struct {
+	Configuration  BuildpacksConfiguration `json:"configuration"`
+	ContextDir     string                  `json:"contextDir"`
+	Environment    map[string]string       `json:"environment"`
+	LifecycleImage string                  `json:"lifecycleImage"`
+	PackVersion    string                  `json:"packVersion,omitempty"`
+
+	// Runtime Frozen execution backend. Omission means pack; unsupported backends must be rejected.
+	Runtime        BuildpacksExecutionSpecRuntime `json:"runtime,omitempty"`
+	RuntimeVersion string                         `json:"runtimeVersion,omitempty"`
+}
+
+// BuildpacksExecutionSpecRuntime Frozen execution backend. Omission means pack; unsupported backends must be rejected.
+type BuildpacksExecutionSpecRuntime string
 
 // CallerContext defines model for CallerContext.
 type CallerContext struct {
@@ -10659,6 +13088,186 @@ type CallerContext struct {
 	SubjectID    string `json:"subjectId,omitempty"`
 	SubjectType  string `json:"subjectType,omitempty"`
 	TokenID      string `json:"tokenId,omitempty"`
+}
+
+// CapabilityAssessment defines model for CapabilityAssessment.
+type CapabilityAssessment struct {
+	Evidence []CapabilityEvidence        `json:"evidence"`
+	Summary  string                      `json:"summary"`
+	Verdict  CapabilityAssessmentVerdict `json:"verdict"`
+}
+
+// CapabilityAssessmentVerdict defines model for CapabilityAssessment.Verdict.
+type CapabilityAssessmentVerdict string
+
+// CapabilityAssessmentEnvelope defines model for CapabilityAssessmentEnvelope.
+type CapabilityAssessmentEnvelope struct {
+	Data CapabilityAssessment `json:"data"`
+}
+
+// CapabilityCall defines model for CapabilityCall.
+type CapabilityCall struct {
+	CapabilityVersion string            `json:"capabilityVersion,omitempty"`
+	Input             map[string]any    `json:"input"`
+	SecretRefs        map[string]string `json:"secretRefs,omitempty"`
+	ToolName          string            `json:"toolName"`
+}
+
+// CapabilityCheckReference Discoverable read-only check. Invoke the referenced version with its own validated inputs and current authorization. A reference neither runs automatically nor proves availability, reserves capacity, or grants access. Verification tools must produce a CapabilityAssessment. Missing references mean no declared check, not success.
+type CapabilityCheckReference struct {
+	CapabilityVersion string                          `json:"capabilityVersion"`
+	Purpose           CapabilityCheckReferencePurpose `json:"purpose"`
+	ToolName          string                          `json:"toolName"`
+}
+
+// CapabilityCheckReferencePurpose defines model for CapabilityCheckReference.Purpose.
+type CapabilityCheckReferencePurpose string
+
+// CapabilityEvidence defines model for CapabilityEvidence.
+type CapabilityEvidence struct {
+	DataThrough *time.Time             `json:"dataThrough,omitempty"`
+	Incomplete  bool                   `json:"incomplete,omitempty"`
+	Kind        string                 `json:"kind"`
+	ObservedAt  time.Time              `json:"observedAt"`
+	Reference   *CapabilityCall        `json:"reference,omitempty"`
+	Resource    *CapabilityResourceRef `json:"resource,omitempty"`
+	Source      string                 `json:"source"`
+	Summary     string                 `json:"summary"`
+}
+
+// CapabilityInputBinding defines model for CapabilityInputBinding.
+type CapabilityInputBinding struct {
+	InputPath  string `json:"inputPath"`
+	OutputPath string `json:"outputPath"`
+	StepID     string `json:"stepId"`
+}
+
+// CapabilityPlan Version-pinned capability calls compiled into the existing Workflow engine. No scripts, expressions, or arbitrary endpoints are accepted.
+type CapabilityPlan struct {
+	Goal           string               `json:"goal"`
+	Steps          []CapabilityPlanStep `json:"steps"`
+	TimeoutSeconds int                  `json:"timeoutSeconds,omitempty"`
+
+	// VerificationSteps Frozen step IDs whose domain assessments determine whether the goal is satisfied.
+	VerificationSteps []string `json:"verificationSteps"`
+}
+
+// CapabilityPlanIssue defines model for CapabilityPlanIssue.
+type CapabilityPlanIssue struct {
+	Code    string `json:"code"`
+	Message string `json:"message"`
+	StepID  string `json:"stepId,omitempty"`
+}
+
+// CapabilityPlanStep defines model for CapabilityPlanStep.
+type CapabilityPlanStep struct {
+	Bindings       []CapabilityInputBinding `json:"bindings,omitempty"`
+	Call           CapabilityCall           `json:"call"`
+	DependsOn      []string                 `json:"dependsOn,omitempty"`
+	ID             string                   `json:"id"`
+	TimeoutSeconds int                      `json:"timeoutSeconds,omitempty"`
+}
+
+// CapabilityPlanValidation defines model for CapabilityPlanValidation.
+type CapabilityPlanValidation struct {
+	Digest string                `json:"digest"`
+	Issues []CapabilityPlanIssue `json:"issues"`
+	Valid  bool                  `json:"valid"`
+}
+
+// CapabilityPlanValidationEnvelope defines model for CapabilityPlanValidationEnvelope.
+type CapabilityPlanValidationEnvelope struct {
+	Data CapabilityPlanValidation `json:"data"`
+}
+
+// CapabilityResourceRef defines model for CapabilityResourceRef.
+type CapabilityResourceRef struct {
+	ID      string            `json:"id"`
+	Kind    string            `json:"kind"`
+	Scope   map[string]string `json:"scope,omitempty"`
+	Version string            `json:"version,omitempty"`
+}
+
+// CapabilityTask A governed goal and its existing Workflow run. Domain tasks retain ownership of effects and cancellation.
+type CapabilityTask struct {
+	Assessment *CapabilityAssessment `json:"assessment,omitempty"`
+	CreatedAt  time.Time             `json:"createdAt"`
+	CreatedBy  string                `json:"createdBy"`
+	ID         string                `json:"id"`
+	Nodes      []CapabilityTaskNode  `json:"nodes"`
+
+	// Plan Version-pinned capability calls compiled into the existing Workflow engine. No scripts, expressions, or arbitrary endpoints are accepted.
+	Plan        CapabilityPlan `json:"plan"`
+	PlanVersion int            `json:"planVersion,omitempty"`
+	Status      string         `json:"status"`
+	UpdatedAt   time.Time      `json:"updatedAt"`
+	Version     int64          `json:"version"`
+}
+
+// CapabilityTaskEnvelope defines model for CapabilityTaskEnvelope.
+type CapabilityTaskEnvelope struct {
+	// Data A governed goal and its existing Workflow run. Domain tasks retain ownership of effects and cancellation.
+	Data CapabilityTask `json:"data"`
+}
+
+// CapabilityTaskInput defines model for CapabilityTaskInput.
+type CapabilityTaskInput struct {
+	AIClientID     string `json:"aiClientId,omitempty"`
+	IdempotencyKey string `json:"idempotencyKey"`
+
+	// Plan Version-pinned capability calls compiled into the existing Workflow engine. No scripts, expressions, or arbitrary endpoints are accepted.
+	Plan    CapabilityPlan `json:"plan"`
+	SkillID string         `json:"skillId,omitempty"`
+}
+
+// CapabilityTaskListEnvelope defines model for CapabilityTaskListEnvelope.
+type CapabilityTaskListEnvelope struct {
+	Items []CapabilityTask `json:"items"`
+}
+
+// CapabilityTaskNode defines model for CapabilityTaskNode.
+type CapabilityTaskNode struct {
+	ApprovalRequestID string                `json:"approvalRequestId,omitempty"`
+	ID                string                `json:"id"`
+	Invocation        *ToolInvocationResult `json:"invocation,omitempty"`
+	Status            string                `json:"status"`
+	Summary           string                `json:"summary,omitempty"`
+}
+
+// CapabilityTaskRef Reference to an existing domain execution record, not a second task queue. A terminal record is not proof that the user's business goal is satisfied.
+type CapabilityTaskRef struct {
+	CancelCall *CapabilityCall `json:"cancelCall,omitempty"`
+	ID         string          `json:"id"`
+	Kind       string          `json:"kind"`
+
+	// Outcome Domain-owned execution outcome. Missing or unknown is not success.
+	Outcome CapabilityTaskRefOutcome `json:"outcome,omitempty"`
+
+	// Status Status reported by the owning domain.
+	Status     string         `json:"status"`
+	StatusCall CapabilityCall `json:"statusCall"`
+	Terminal   bool           `json:"terminal"`
+}
+
+// CapabilityTaskRefOutcome Domain-owned execution outcome. Missing or unknown is not success.
+type CapabilityTaskRefOutcome string
+
+// CapabilityTaskRevisionInput Retained step IDs inherit their prior SecretRefs when call.secretRefs is omitted; an explicit empty object clears them. All references remain subject to current authorization.
+type CapabilityTaskRevisionInput struct {
+	ExpectedVersion int64 `json:"expectedVersion"`
+
+	// Plan Version-pinned capability calls compiled into the existing Workflow engine. No scripts, expressions, or arbitrary endpoints are accepted.
+	Plan CapabilityPlan `json:"plan"`
+}
+
+// CapabilityValueSemantic Meaning of a value in capability input or domain output. Equal JSON shapes do not imply equal kinds, units, or scopes. A whole path segment * matches one canonical array index; scopePaths use the same wildcard captures in order. Invocation bindings remain concrete JSON pointers.
+type CapabilityValueSemantic struct {
+	Kind string `json:"kind"`
+	Path string `json:"path"`
+
+	// ScopePaths Named scope dimensions mapped to JSON pointers in the same input or output document.
+	ScopePaths map[string]string `json:"scopePaths,omitempty"`
+	Unit       string            `json:"unit,omitempty"`
 }
 
 // CertificateSummary defines model for CertificateSummary.
@@ -11412,6 +14021,565 @@ type CreatedServiceAccountTokenEnvelope struct {
 	Data CreatedServiceAccountToken `json:"data"`
 }
 
+// DeliveryAccessResult A deployment entry candidate and optional bounded probe from the Soha control plane. This does not establish reachability from a developer's network or business correctness.
+type DeliveryAccessResult struct {
+	Authentication     DeliveryAccessResultAuthentication     `json:"authentication"`
+	CheckedAt          *time.Time                             `json:"checkedAt,omitempty"`
+	NetworkRequirement DeliveryAccessResultNetworkRequirement `json:"networkRequirement"`
+	ProbeLocation      DeliveryAccessResultProbeLocation      `json:"probeLocation"`
+	Reachability       DeliveryAccessResultReachability       `json:"reachability"`
+	ServiceID          string                                 `json:"serviceId"`
+	StatusCode         int                                    `json:"statusCode,omitempty"`
+	Summary            string                                 `json:"summary,omitempty"`
+	URL                string                                 `json:"url"`
+	ValidUntil         *time.Time                             `json:"validUntil,omitempty"`
+}
+
+// DeliveryAccessResultAuthentication defines model for DeliveryAccessResult.Authentication.
+type DeliveryAccessResultAuthentication string
+
+// DeliveryAccessResultNetworkRequirement defines model for DeliveryAccessResult.NetworkRequirement.
+type DeliveryAccessResultNetworkRequirement string
+
+// DeliveryAccessResultProbeLocation defines model for DeliveryAccessResult.ProbeLocation.
+type DeliveryAccessResultProbeLocation string
+
+// DeliveryAccessResultReachability defines model for DeliveryAccessResult.Reachability.
+type DeliveryAccessResultReachability string
+
+// DeliveryBatch defines model for DeliveryBatch.
+type DeliveryBatch struct {
+	BuildCount int                        `json:"buildCount"`
+	CreatedAt  time.Time                  `json:"createdAt"`
+	CreatedBy  string                     `json:"createdBy"`
+	Definition DeliveryWorkflowDefinition `json:"definition"`
+	ID         string                     `json:"id"`
+	Nodes      []WorkflowNodeRun          `json:"nodes"`
+
+	// PartialView True when targets, counts and status are limited by access or list filters. Whole-batch cancel and retry actions require the complete authorized batch.
+	PartialView            bool                     `json:"partialView,omitempty"`
+	RetryOfBatchID         string                   `json:"retryOfBatchId,omitempty"`
+	RootRunID              string                   `json:"rootRunId"`
+	ServiceCount           int                      `json:"serviceCount"`
+	Status                 DeliveryBatchStatus      `json:"status"`
+	StopReason             DeliveryBatchStopReason  `json:"stopReason,omitempty"`
+	StopSummary            string                   `json:"stopSummary,omitempty"`
+	TargetCount            int                      `json:"targetCount"`
+	Targets                []DeliveryTargetSnapshot `json:"targets"`
+	UpdatedAt              time.Time                `json:"updatedAt"`
+	WorkflowID             string                   `json:"workflowId,omitempty"`
+	WorkflowTemplateDigest string                   `json:"workflowTemplateDigest,omitempty"`
+	WorkflowVersion        int                      `json:"workflowVersion,omitempty"`
+}
+
+// DeliveryBatchStatus defines model for DeliveryBatch.Status.
+type DeliveryBatchStatus string
+
+// DeliveryBatchStopReason defines model for DeliveryBatch.StopReason.
+type DeliveryBatchStopReason string
+
+// DeliveryBatchActionInput defines model for DeliveryBatchActionInput.
+type DeliveryBatchActionInput struct {
+	Reason string `json:"reason,omitempty"`
+}
+
+// DeliveryBatchAssessment defines model for DeliveryBatchAssessment.
+type DeliveryBatchAssessment struct {
+	Access                   []DeliveryAccessResult         `json:"access"`
+	ApplicationEnvironmentID string                         `json:"applicationEnvironmentId"`
+	ApplicationID            string                         `json:"applicationId"`
+	BatchID                  string                         `json:"batchId"`
+	DeliveryPlanID           string                         `json:"deliveryPlanId,omitempty"`
+	DeployedAt               *time.Time                     `json:"deployedAt,omitempty"`
+	Evidence                 []CapabilityEvidence           `json:"evidence"`
+	Images                   map[string]string              `json:"images,omitempty"`
+	ReleaseBundleID          string                         `json:"releaseBundleId,omitempty"`
+	ServiceID                string                         `json:"serviceId"`
+	SourceCommit             string                         `json:"sourceCommit,omitempty"`
+	Summary                  string                         `json:"summary"`
+	TargetID                 string                         `json:"targetId"`
+	Verdict                  DeliveryBatchAssessmentVerdict `json:"verdict"`
+}
+
+// DeliveryBatchAssessmentVerdict defines model for DeliveryBatchAssessment.Verdict.
+type DeliveryBatchAssessmentVerdict string
+
+// DeliveryBatchAssessmentInput Verify one frozen delivery batch target. HTTP conditions, when supplied, are fixed in the caller's capability plan; the URL must be an entry candidate of that target. Omit HTTP for targets whose goal requires runtime verification only.
+type DeliveryBatchAssessmentInput struct {
+	BatchID string `json:"batchId"`
+	HTTP    *struct {
+		ExpectedStatus int    `json:"expectedStatus,omitempty"`
+		HealthPath     string `json:"healthPath"`
+		URL            string `json:"url"`
+	} `json:"http,omitempty"`
+	MaxAgeSeconds int    `json:"maxAgeSeconds,omitempty"`
+	TargetID      string `json:"targetId"`
+}
+
+// DeliveryBatchEnvelope defines model for DeliveryBatchEnvelope.
+type DeliveryBatchEnvelope struct {
+	Data DeliveryBatch `json:"data"`
+}
+
+// DeliveryBatchInput defines model for DeliveryBatchInput.
+type DeliveryBatchInput struct {
+	Definition     *DeliveryWorkflowDefinition `json:"definition,omitempty"`
+	IdempotencyKey string                      `json:"idempotencyKey"`
+	RetryOfBatchID string                      `json:"retryOfBatchId,omitempty"`
+
+	// SourceCommit Replace only explicit matching repository refs in a versioned workflow with a verified event commit. Unmatched repository/ref pairs are rejected; no repository is inferred.
+	SourceCommit    *DeliverySourceCommit `json:"sourceCommit,omitempty"`
+	WorkflowID      string                `json:"workflowId,omitempty"`
+	WorkflowVersion int                   `json:"workflowVersion,omitempty"`
+}
+
+// DeliveryBatchListEnvelope defines model for DeliveryBatchListEnvelope.
+type DeliveryBatchListEnvelope struct {
+	Data []DeliveryBatch `json:"data"`
+}
+
+// DeliveryBatchTemplateDefinition Versioned batch stage recipe. The server compiles these stages for each target and applies ordering and dependency policy.
+type DeliveryBatchTemplateDefinition struct {
+	ExecutionMode  DeliveryBatchTemplateDefinitionExecutionMode `json:"executionMode"`
+	MaxConcurrency int                                          `json:"maxConcurrency"`
+	Mode           DeliveryBatchTemplateDefinitionMode          `json:"mode"`
+	SchemaVersion  DeliveryBatchTemplateDefinitionSchemaVersion `json:"schemaVersion"`
+
+	// Stages Exactly build, plan, deploy, health in that order. Stages irrelevant to the target action are omitted; approval remains part of the final plan.
+	Stages        []DeliveryBatchTemplateDefinitionStages `json:"stages"`
+	StopOnFailure bool                                    `json:"stopOnFailure"`
+}
+
+// DeliveryBatchTemplateDefinitionExecutionMode defines model for DeliveryBatchTemplateDefinition.ExecutionMode.
+type DeliveryBatchTemplateDefinitionExecutionMode string
+
+// DeliveryBatchTemplateDefinitionMode defines model for DeliveryBatchTemplateDefinition.Mode.
+type DeliveryBatchTemplateDefinitionMode string
+
+// DeliveryBatchTemplateDefinitionSchemaVersion defines model for DeliveryBatchTemplateDefinition.SchemaVersion.
+type DeliveryBatchTemplateDefinitionSchemaVersion int
+
+// DeliveryBatchTemplateDefinitionStages defines model for DeliveryBatchTemplateDefinition.Stages.
+type DeliveryBatchTemplateDefinitionStages string
+
+// DeliveryBlueprint defines model for DeliveryBlueprint.
+type DeliveryBlueprint struct {
+	ApplicationDraft    DeliveryDraftApplication          `json:"applicationDraft"`
+	BuildSources        []BuildSourceInput                `json:"buildSources,omitempty"`
+	CreatedAt           time.Time                         `json:"createdAt"`
+	Description         string                            `json:"description,omitempty"`
+	Enabled             bool                              `json:"enabled"`
+	EnvironmentBindings []DeliveryDraftEnvironmentBinding `json:"environmentBindings,omitempty"`
+	ExecutionHints      *GenericObject                    `json:"executionHints,omitempty"`
+	Files               []DeliveryDraftFileTemplate       `json:"files,omitempty"`
+	ID                  string                            `json:"id"`
+	Key                 string                            `json:"key"`
+	Name                string                            `json:"name"`
+	PostCreateActions   []string                          `json:"postCreateActions,omitempty"`
+	Services            []DeliveryDraftService            `json:"services,omitempty"`
+	UpdatedAt           time.Time                         `json:"updatedAt"`
+}
+
+// DeliveryBlueprintEnvelope defines model for DeliveryBlueprintEnvelope.
+type DeliveryBlueprintEnvelope struct {
+	Data DeliveryBlueprint `json:"data"`
+}
+
+// DeliveryBlueprintInput defines model for DeliveryBlueprintInput.
+type DeliveryBlueprintInput struct {
+	ApplicationDraft    DeliveryDraftApplication          `json:"applicationDraft"`
+	BuildSources        []BuildSourceInput                `json:"buildSources,omitempty"`
+	Description         string                            `json:"description,omitempty"`
+	Enabled             bool                              `json:"enabled"`
+	EnvironmentBindings []DeliveryDraftEnvironmentBinding `json:"environmentBindings,omitempty"`
+	ExecutionHints      *GenericObject                    `json:"executionHints,omitempty"`
+	Files               []DeliveryDraftFileTemplate       `json:"files,omitempty"`
+	ID                  string                            `json:"id,omitempty"`
+	Key                 string                            `json:"key"`
+	Name                string                            `json:"name"`
+	PostCreateActions   []string                          `json:"postCreateActions,omitempty"`
+	Services            []DeliveryDraftService            `json:"services,omitempty"`
+}
+
+// DeliveryBlueprintListEnvelope defines model for DeliveryBlueprintListEnvelope.
+type DeliveryBlueprintListEnvelope struct {
+	Data []DeliveryBlueprint `json:"data"`
+}
+
+// DeliveryBuildTemplateDocument defines model for DeliveryBuildTemplateDocument.
+type DeliveryBuildTemplateDocument struct {
+	APIVersion string `json:"apiVersion"`
+	Kind       string `json:"kind"`
+
+	// Metadata Template name is its stable key. For Workflow, name is only a file identifier; its display name is spec.definition.name. IDs, publication state, credentials and source claims cannot be set here.
+	Metadata DeliveryDocumentMetadata  `json:"metadata"`
+	Spec     DeliveryBuildTemplateSpec `json:"spec"`
+}
+
+// DeliveryBuildTemplateSpec defines model for DeliveryBuildTemplateSpec.
+type DeliveryBuildTemplateSpec struct {
+	union json.RawMessage
+}
+
+// DeliveryBuildTemplateSpec0 defines model for .
+type DeliveryBuildTemplateSpec0 struct {
+	DockerfileTemplate string `json:"dockerfileTemplate"`
+}
+
+// DeliveryBuildTemplateSpec1 defines model for .
+type DeliveryBuildTemplateSpec1 = interface{}
+
+// DeliveryBuildVariableSchema defines model for DeliveryBuildVariableSchema.
+type DeliveryBuildVariableSchema struct {
+	Description string                                  `json:"description,omitempty"`
+	Enum        []DeliveryBuildVariableSchema_Enum_Item `json:"enum,omitempty"`
+	Label       string                                  `json:"label,omitempty"`
+	MaxLength   int                                     `json:"maxLength,omitempty"`
+	Maximum     float32                                 `json:"maximum,omitempty"`
+	MinLength   int                                     `json:"minLength,omitempty"`
+	Minimum     float32                                 `json:"minimum,omitempty"`
+	Required    bool                                    `json:"required,omitempty"`
+	Title       string                                  `json:"title,omitempty"`
+	Type        DeliveryBuildVariableSchemaType         `json:"type"`
+}
+
+// DeliveryBuildVariableSchemaEnum0 defines model for .
+type DeliveryBuildVariableSchemaEnum0 = string
+
+// DeliveryBuildVariableSchemaEnum1 defines model for .
+type DeliveryBuildVariableSchemaEnum1 = float32
+
+// DeliveryBuildVariableSchemaEnum2 defines model for .
+type DeliveryBuildVariableSchemaEnum2 = bool
+
+// DeliveryBuildVariableSchema_Enum_Item defines model for DeliveryBuildVariableSchema.enum.Item.
+type DeliveryBuildVariableSchema_Enum_Item struct {
+	union json.RawMessage
+}
+
+// DeliveryBuildVariableSchemaType defines model for DeliveryBuildVariableSchema.Type.
+type DeliveryBuildVariableSchemaType string
+
+// DeliveryDeploymentTemplateDocument defines model for DeliveryDeploymentTemplateDocument.
+type DeliveryDeploymentTemplateDocument struct {
+	APIVersion string `json:"apiVersion"`
+	Kind       string `json:"kind"`
+
+	// Metadata Template name is its stable key. For Workflow, name is only a file identifier; its display name is spec.definition.name. IDs, publication state, credentials and source claims cannot be set here.
+	Metadata DeliveryDocumentMetadata       `json:"metadata"`
+	Spec     DeliveryDeploymentTemplateSpec `json:"spec"`
+}
+
+// DeliveryDeploymentTemplateSpec defines model for DeliveryDeploymentTemplateSpec.
+type DeliveryDeploymentTemplateSpec struct {
+	Artifacts            map[string]string        `json:"artifacts,omitempty"`
+	Defaults             TemplateParameterValues  `json:"defaults"`
+	Enabled              bool                     `json:"enabled,omitempty"`
+	EnvironmentOverrides []string                 `json:"environmentOverrides,omitempty"`
+	Health               DeploymentTemplateHealth `json:"health"`
+
+	// ParameterSchema Restricted JSON Schema. Objects reject undeclared keys unless mapValues specifies their schema. secret_reference accepts only a namespaced Secret name/key reference, never a plaintext credential. External references and executable expressions are unsupported.
+	ParameterSchema TemplateParameterSchema  `json:"parameterSchema"`
+	Source          DeploymentTemplateSource `json:"source"`
+}
+
+// DeliveryDocument One UTF-8 YAML 1.2 JSON-subset or JSON document. Duplicate keys, aliases, tags, non-string keys, non-finite numbers, unsafe integers, unknown fields and versions are rejected. Maximum 1 MiB per file and nesting depth 64. No import operation executes document contents.
+type DeliveryDocument struct {
+	union json.RawMessage
+}
+
+// DeliveryDocumentApplyInput defines model for DeliveryDocumentApplyInput.
+type DeliveryDocumentApplyInput struct {
+	CandidateDigest string `json:"candidateDigest"`
+	IdempotencyKey  string `json:"idempotencyKey"`
+}
+
+// DeliveryDocumentCandidate defines model for DeliveryDocumentCandidate.
+type DeliveryDocumentCandidate struct {
+	Action       DeliveryDocumentCandidateAction `json:"action"`
+	ChangedPaths []string                        `json:"changedPaths"`
+
+	// Document One UTF-8 YAML 1.2 JSON-subset or JSON document. Duplicate keys, aliases, tags, non-string keys, non-finite numbers, unsafe integers, unknown fields and versions are rejected. Maximum 1 MiB per file and nesting depth 64. No import operation executes document contents.
+	Document             DeliveryDocument `json:"document"`
+	ExpectedRevision     int              `json:"expectedRevision,omitempty"`
+	NormalizedSpecDigest string           `json:"normalizedSpecDigest"`
+	Path                 string           `json:"path"`
+	SourceDigest         string           `json:"sourceDigest"`
+	TargetID             string           `json:"targetId,omitempty"`
+}
+
+// DeliveryDocumentCandidateAction defines model for DeliveryDocumentCandidate.Action.
+type DeliveryDocumentCandidateAction string
+
+// DeliveryDocumentDAG defines model for DeliveryDocumentDAG.
+type DeliveryDocumentDAG struct {
+	Edges []struct {
+		Condition DeliveryDocumentDAGEdgesCondition `json:"condition,omitempty"`
+		ID        string                            `json:"id,omitempty"`
+		Source    string                            `json:"source"`
+		Target    string                            `json:"target"`
+	} `json:"edges,omitempty"`
+	Mode  DeliveryDocumentDAGMode `json:"mode,omitempty"`
+	Nodes []struct {
+		ArtifactKinds   []DeliveryDocumentDAGNodesArtifactKinds `json:"artifactKinds,omitempty"`
+		ArtifactOutputs []struct {
+			Kind     DeliveryDocumentDAGNodesArtifactOutputsKind `json:"kind"`
+			Name     string                                      `json:"name"`
+			Path     string                                      `json:"path,omitempty"`
+			Ref      string                                      `json:"ref,omitempty"`
+			Required bool                                        `json:"required,omitempty"`
+		} `json:"artifactOutputs,omitempty"`
+		CapabilityRef       string                   `json:"capabilityRef,omitempty"`
+		Config              *TemplateParameterValues `json:"config,omitempty"`
+		ContinueOnFailure   bool                     `json:"continueOnFailure,omitempty"`
+		EnvironmentSelector *TemplateParameterValues `json:"environmentSelector,omitempty"`
+		ExecutorKind        string                   `json:"executorKind,omitempty"`
+		FailurePolicy       string                   `json:"failurePolicy,omitempty"`
+		FanOut              *struct {
+			BatchSize     int    `json:"batchSize,omitempty"`
+			FailurePolicy string `json:"failurePolicy,omitempty"`
+			Strategy      string `json:"strategy,omitempty"`
+		} `json:"fanOut,omitempty"`
+		FanOutBatchSize     int                      `json:"fanOutBatchSize,omitempty"`
+		FanOutFailurePolicy string                   `json:"fanOutFailurePolicy,omitempty"`
+		FanOutStrategy      string                   `json:"fanOutStrategy,omitempty"`
+		ID                  string                   `json:"id"`
+		InputMapping        *TemplateParameterValues `json:"inputMapping,omitempty"`
+		Inputs              []string                 `json:"inputs,omitempty"`
+		Name                string                   `json:"name,omitempty"`
+		Observability       *TemplateParameterValues `json:"observability,omitempty"`
+		Outputs             []string                 `json:"outputs,omitempty"`
+		Position            *struct {
+			X float32 `json:"x"`
+			Y float32 `json:"y"`
+		} `json:"position,omitempty"`
+		ProviderRef     string                       `json:"providerRef,omitempty"`
+		RunCondition    string                       `json:"runCondition,omitempty"`
+		ServiceSelector *TemplateParameterValues     `json:"serviceSelector,omitempty"`
+		Stage           string                       `json:"stage,omitempty"`
+		TargetID        string                       `json:"targetId,omitempty"`
+		TargetKind      string                       `json:"targetKind,omitempty"`
+		TargetSelector  *TemplateParameterValues     `json:"targetSelector,omitempty"`
+		TimeoutSeconds  int                          `json:"timeoutSeconds,omitempty"`
+		Type            DeliveryDocumentDAGNodesType `json:"type"`
+	} `json:"nodes,omitempty"`
+	OnFailure     []DeliveryDocumentStep           `json:"onFailure,omitempty"`
+	SchemaVersion DeliveryDocumentDAGSchemaVersion `json:"schemaVersion,omitempty"`
+	Stages        []struct {
+		Name  string                 `json:"name"`
+		Steps []DeliveryDocumentStep `json:"steps"`
+	} `json:"stages,omitempty"`
+	Steps []DeliveryDocumentStep `json:"steps,omitempty"`
+	union json.RawMessage
+}
+
+// DeliveryDocumentDAGEdgesCondition defines model for DeliveryDocumentDAG.Edges.Condition.
+type DeliveryDocumentDAGEdgesCondition string
+
+// DeliveryDocumentDAGMode defines model for DeliveryDocumentDAG.Mode.
+type DeliveryDocumentDAGMode string
+
+// DeliveryDocumentDAGNodesArtifactKinds defines model for DeliveryDocumentDAG.Nodes.ArtifactKinds.
+type DeliveryDocumentDAGNodesArtifactKinds string
+
+// DeliveryDocumentDAGNodesArtifactOutputsKind defines model for DeliveryDocumentDAG.Nodes.ArtifactOutputs.Kind.
+type DeliveryDocumentDAGNodesArtifactOutputsKind string
+
+// DeliveryDocumentDAGNodesType defines model for DeliveryDocumentDAG.Nodes.Type.
+type DeliveryDocumentDAGNodesType string
+
+// DeliveryDocumentDAGSchemaVersion defines model for DeliveryDocumentDAG.SchemaVersion.
+type DeliveryDocumentDAGSchemaVersion int
+
+// DeliveryDocumentDAG0 defines model for .
+type DeliveryDocumentDAG0 = interface{}
+
+// DeliveryDocumentDAG1 defines model for .
+type DeliveryDocumentDAG1 = interface{}
+
+// DeliveryDocumentDAG2 defines model for .
+type DeliveryDocumentDAG2 = interface{}
+
+// DeliveryDocumentDiagnostic defines model for DeliveryDocumentDiagnostic.
+type DeliveryDocumentDiagnostic struct {
+	Code     string `json:"code"`
+	Column   int    `json:"column,omitempty"`
+	Document int    `json:"document"`
+	Line     int    `json:"line,omitempty"`
+
+	// Message Diagnostic without raw values or credentials.
+	Message string `json:"message"`
+	Path    string `json:"path"`
+
+	// Pointer RFC 6901 pointer. Empty means document root.
+	Pointer string `json:"pointer"`
+}
+
+// DeliveryDocumentExport defines model for DeliveryDocumentExport.
+type DeliveryDocumentExport struct {
+	Content string `json:"content"`
+
+	// Document One UTF-8 YAML 1.2 JSON-subset or JSON document. Duplicate keys, aliases, tags, non-string keys, non-finite numbers, unsafe integers, unknown fields and versions are rejected. Maximum 1 MiB per file and nesting depth 64. No import operation executes document contents.
+	Document             DeliveryDocument             `json:"document"`
+	Format               DeliveryDocumentExportFormat `json:"format"`
+	NormalizedSpecDigest string                       `json:"normalizedSpecDigest"`
+}
+
+// DeliveryDocumentExportFormat defines model for DeliveryDocumentExport.Format.
+type DeliveryDocumentExportFormat string
+
+// DeliveryDocumentExportEnvelope defines model for DeliveryDocumentExportEnvelope.
+type DeliveryDocumentExportEnvelope struct {
+	Data DeliveryDocumentExport `json:"data"`
+}
+
+// DeliveryDocumentFile defines model for DeliveryDocumentFile.
+type DeliveryDocumentFile struct {
+	Content string `json:"content"`
+
+	// ExpectedRevision Target template revision or Workflow version. Required with targetId.
+	ExpectedRevision int `json:"expectedRevision,omitempty"`
+
+	// Path Relative display path; traversal
+	Path string `json:"path"`
+
+	// TargetID Explicit existing object to update. Omission creates; names never imply overwrite.
+	TargetID string `json:"targetId,omitempty"`
+}
+
+// DeliveryDocumentImport defines model for DeliveryDocumentImport.
+type DeliveryDocumentImport struct {
+	Objects   []DeliveryDocumentImportedObject `json:"objects"`
+	PreviewID string                           `json:"previewId"`
+}
+
+// DeliveryDocumentImportEnvelope defines model for DeliveryDocumentImportEnvelope.
+type DeliveryDocumentImportEnvelope struct {
+	Data DeliveryDocumentImport `json:"data"`
+}
+
+// DeliveryDocumentImportedObject defines model for DeliveryDocumentImportedObject.
+type DeliveryDocumentImportedObject struct {
+	Action   DeliveryDocumentImportedObjectAction `json:"action"`
+	ID       string                               `json:"id"`
+	Kind     DeliveryDocumentKind                 `json:"kind"`
+	Path     string                               `json:"path"`
+	Revision int                                  `json:"revision"`
+}
+
+// DeliveryDocumentImportedObjectAction defines model for DeliveryDocumentImportedObject.Action.
+type DeliveryDocumentImportedObjectAction string
+
+// DeliveryDocumentKind defines model for DeliveryDocumentKind.
+type DeliveryDocumentKind string
+
+// DeliveryDocumentMetadata Template name is its stable key. For Workflow, name is only a file identifier; its display name is spec.definition.name. IDs, publication state, credentials and source claims cannot be set here.
+type DeliveryDocumentMetadata struct {
+	Description string `json:"description,omitempty"`
+	DisplayName string `json:"displayName,omitempty"`
+	Name        string `json:"name"`
+}
+
+// DeliveryDocumentPreview defines model for DeliveryDocumentPreview.
+type DeliveryDocumentPreview struct {
+	CandidateDigest string                       `json:"candidateDigest,omitempty"`
+	Candidates      []DeliveryDocumentCandidate  `json:"candidates"`
+	Diagnostics     []DeliveryDocumentDiagnostic `json:"diagnostics"`
+	ExpiresAt       *time.Time                   `json:"expiresAt,omitempty"`
+	ID              string                       `json:"id,omitempty"`
+	Valid           bool                         `json:"valid"`
+}
+
+// DeliveryDocumentPreviewEnvelope defines model for DeliveryDocumentPreviewEnvelope.
+type DeliveryDocumentPreviewEnvelope struct {
+	Data DeliveryDocumentPreview `json:"data"`
+}
+
+// DeliveryDocumentPreviewInput Total UTF-8 content cannot exceed 2 MiB. Every file must validate before a preview can be applied.
+type DeliveryDocumentPreviewInput struct {
+	Files []DeliveryDocumentFile `json:"files"`
+
+	// ValidateOnly Validate and normalize for source editing without storing an import candidate. Returns no preview ID or expiry and cannot be applied.
+	ValidateOnly bool `json:"validateOnly,omitempty"`
+}
+
+// DeliveryDocumentRepository Registered repository details, included only when the caller can read the repository. URL is the clone address and is never a credential.
+type DeliveryDocumentRepository struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+	URL  string `json:"url"`
+}
+
+// DeliveryDocumentSourceInfo defines model for DeliveryDocumentSourceInfo.
+type DeliveryDocumentSourceInfo struct {
+	Association *DeliveryTemplateSourceAssociation `json:"association,omitempty"`
+
+	// Provenance Immutable provenance captured when a template version is published. Source removal and detachment never erase it. Workflow uses its saved version.
+	Provenance *DeliveryTemplateProvenance `json:"provenance,omitempty"`
+
+	// Repository Registered repository details, included only when the caller can read the repository. URL is the clone address and is never a credential.
+	Repository *DeliveryDocumentRepository `json:"repository,omitempty"`
+}
+
+// DeliveryDocumentSourceInfoEnvelope defines model for DeliveryDocumentSourceInfoEnvelope.
+type DeliveryDocumentSourceInfoEnvelope struct {
+	Data DeliveryDocumentSourceInfo `json:"data"`
+}
+
+// DeliveryDocumentStep defines model for DeliveryDocumentStep.
+type DeliveryDocumentStep struct {
+	ArtifactKinds   []DeliveryDocumentStepArtifactKinds `json:"artifactKinds,omitempty"`
+	ArtifactOutputs []struct {
+		Kind     DeliveryDocumentStepArtifactOutputsKind `json:"kind"`
+		Name     string                                  `json:"name"`
+		Path     string                                  `json:"path,omitempty"`
+		Ref      string                                  `json:"ref,omitempty"`
+		Required bool                                    `json:"required,omitempty"`
+	} `json:"artifactOutputs,omitempty"`
+	CapabilityRef       string                   `json:"capabilityRef,omitempty"`
+	Config              *TemplateParameterValues `json:"config,omitempty"`
+	ContinueOnFailure   bool                     `json:"continueOnFailure,omitempty"`
+	EnvironmentSelector *TemplateParameterValues `json:"environmentSelector,omitempty"`
+	ExecutorKind        string                   `json:"executorKind,omitempty"`
+	FailurePolicy       string                   `json:"failurePolicy,omitempty"`
+	FanOut              *struct {
+		BatchSize     int    `json:"batchSize,omitempty"`
+		FailurePolicy string `json:"failurePolicy,omitempty"`
+		Strategy      string `json:"strategy,omitempty"`
+	} `json:"fanOut,omitempty"`
+	FanOutBatchSize     int                      `json:"fanOutBatchSize,omitempty"`
+	FanOutFailurePolicy string                   `json:"fanOutFailurePolicy,omitempty"`
+	FanOutStrategy      string                   `json:"fanOutStrategy,omitempty"`
+	ID                  string                   `json:"id,omitempty"`
+	InputMapping        *TemplateParameterValues `json:"inputMapping,omitempty"`
+	Inputs              []string                 `json:"inputs,omitempty"`
+	Name                string                   `json:"name,omitempty"`
+	Observability       *TemplateParameterValues `json:"observability,omitempty"`
+	Outputs             []string                 `json:"outputs,omitempty"`
+	Position            *struct {
+		X float32 `json:"x"`
+		Y float32 `json:"y"`
+	} `json:"position,omitempty"`
+	ProviderRef     string                   `json:"providerRef,omitempty"`
+	RunCondition    string                   `json:"runCondition,omitempty"`
+	ServiceSelector *TemplateParameterValues `json:"serviceSelector,omitempty"`
+	Stage           string                   `json:"stage,omitempty"`
+	TargetID        string                   `json:"targetId,omitempty"`
+	TargetKind      string                   `json:"targetKind,omitempty"`
+	TargetSelector  *TemplateParameterValues `json:"targetSelector,omitempty"`
+	TimeoutSeconds  int                      `json:"timeoutSeconds,omitempty"`
+	Type            DeliveryDocumentStepType `json:"type"`
+}
+
+// DeliveryDocumentStepArtifactKinds defines model for DeliveryDocumentStep.ArtifactKinds.
+type DeliveryDocumentStepArtifactKinds string
+
+// DeliveryDocumentStepArtifactOutputsKind defines model for DeliveryDocumentStep.ArtifactOutputs.Kind.
+type DeliveryDocumentStepArtifactOutputsKind string
+
+// DeliveryDocumentStepType defines model for DeliveryDocumentStep.Type.
+type DeliveryDocumentStepType string
+
 // DeliveryDraft defines model for DeliveryDraft.
 type DeliveryDraft struct {
 	ApplicationDraft    DeliveryDraftApplication          `json:"applicationDraft"`
@@ -11438,14 +14606,17 @@ type DeliveryDraftStatus string
 
 // DeliveryDraftApplication defines model for DeliveryDraftApplication.
 type DeliveryDraftApplication struct {
-	BuildContextDir     string         `json:"buildContextDir,omitempty"`
-	BuildImage          string         `json:"buildImage,omitempty"`
-	BusinessLineID      string         `json:"businessLineId,omitempty"`
-	DefaultBranch       string         `json:"defaultBranch,omitempty"`
-	DefaultTag          string         `json:"defaultTag,omitempty"`
-	Description         string         `json:"description,omitempty"`
-	DockerfilePath      string         `json:"dockerfilePath,omitempty"`
-	Enabled             bool           `json:"enabled"`
+	BuildContextDir string `json:"buildContextDir,omitempty"`
+	BuildImage      string `json:"buildImage,omitempty"`
+	BusinessLineID  string `json:"businessLineId,omitempty"`
+	DefaultBranch   string `json:"defaultBranch,omitempty"`
+	DefaultTag      string `json:"defaultTag,omitempty"`
+	Description     string `json:"description,omitempty"`
+	DockerfilePath  string `json:"dockerfilePath,omitempty"`
+	Enabled         bool   `json:"enabled"`
+
+	// ExpectedVersion Application configuration version captured when creating a draft for an existing application. Confirmation uses it unchanged; stale or unversioned existing-application drafts must be recreated.
+	ExpectedVersion     int64          `json:"expectedVersion,omitempty"`
 	Group               string         `json:"group"`
 	ID                  string         `json:"id,omitempty"`
 	Key                 string         `json:"key"`
@@ -11509,9 +14680,12 @@ type DeliveryDraftInput struct {
 	ExecutionHints      *GenericObject                    `json:"executionHints,omitempty"`
 	Files               []DeliveryDraftFileTemplate       `json:"files,omitempty"`
 	ID                  string                            `json:"id,omitempty"`
-	PostCreateActions   []string                          `json:"postCreateActions,omitempty"`
-	Services            []DeliveryDraftService            `json:"services,omitempty"`
-	Source              DeliveryDraftInputSource          `json:"source,omitempty"`
+
+	// IdempotencyKey Optional actor-scoped creation key. Identical retries return the original draft receipt; changed input conflicts.
+	IdempotencyKey    string                   `json:"idempotencyKey,omitempty"`
+	PostCreateActions []string                 `json:"postCreateActions,omitempty"`
+	Services          []DeliveryDraftService   `json:"services,omitempty"`
+	Source            DeliveryDraftInputSource `json:"source,omitempty"`
 }
 
 // DeliveryDraftInputSource defines model for DeliveryDraftInput.Source.
@@ -11519,20 +14693,24 @@ type DeliveryDraftInputSource string
 
 // DeliveryDraftService defines model for DeliveryDraftService.
 type DeliveryDraftService struct {
-	BuildSourceID       string                             `json:"buildSourceId,omitempty"`
-	Containers          []ApplicationServiceContainerInput `json:"containers,omitempty"`
-	DefaultBranch       string                             `json:"defaultBranch,omitempty"`
-	Description         string                             `json:"description,omitempty"`
-	Enabled             bool                               `json:"enabled"`
-	ID                  string                             `json:"id,omitempty"`
-	Key                 string                             `json:"key"`
-	Metadata            *GenericObject                     `json:"metadata,omitempty"`
-	Name                string                             `json:"name"`
-	OwnerTeam           string                             `json:"ownerTeam,omitempty"`
-	RepositoryPath      string                             `json:"repositoryPath,omitempty"`
-	RepositoryProjectID string                             `json:"repositoryProjectId,omitempty"`
-	RepositoryProvider  string                             `json:"repositoryProvider,omitempty"`
-	ServiceKind         DeliveryDraftServiceServiceKind    `json:"serviceKind"`
+	BuildSourceID      string                             `json:"buildSourceId,omitempty"`
+	Containers         []ApplicationServiceContainerInput `json:"containers,omitempty"`
+	DefaultBranch      string                             `json:"defaultBranch,omitempty"`
+	DeploymentTemplate *ServiceDeploymentTemplateBinding  `json:"deploymentTemplate,omitempty"`
+	Description        string                             `json:"description,omitempty"`
+	Enabled            bool                               `json:"enabled"`
+
+	// ExpectedVersion Version of the existing service to update; required when changing its deployment template. Confirmation rejects concurrent service changes.
+	ExpectedVersion     int64                           `json:"expectedVersion,omitempty"`
+	ID                  string                          `json:"id,omitempty"`
+	Key                 string                          `json:"key"`
+	Metadata            *GenericObject                  `json:"metadata,omitempty"`
+	Name                string                          `json:"name"`
+	OwnerTeam           string                          `json:"ownerTeam,omitempty"`
+	RepositoryPath      string                          `json:"repositoryPath,omitempty"`
+	RepositoryProjectID string                          `json:"repositoryProjectId,omitempty"`
+	RepositoryProvider  string                          `json:"repositoryProvider,omitempty"`
+	ServiceKind         DeliveryDraftServiceServiceKind `json:"serviceKind"`
 }
 
 // DeliveryDraftServiceServiceKind defines model for DeliveryDraftService.ServiceKind.
@@ -11558,6 +14736,50 @@ type DeliveryEnvironmentListEnvelope struct {
 	Data []DeliveryEnvironment `json:"data"`
 }
 
+// DeliveryExecutionHistoryEntry Exactly one of batch, application or build is populated, matching kind. Nested records retain the original detail API and authorization semantics.
+type DeliveryExecutionHistoryEntry struct {
+	Application *WorkflowRun                      `json:"application,omitempty"`
+	Batch       *DeliveryBatch                    `json:"batch,omitempty"`
+	Build       *BuildRecord                      `json:"build,omitempty"`
+	CreatedAt   time.Time                         `json:"createdAt"`
+	ID          string                            `json:"id"`
+	Kind        DeliveryExecutionHistoryEntryKind `json:"kind"`
+}
+
+// DeliveryExecutionHistoryEntryKind defines model for DeliveryExecutionHistoryEntry.Kind.
+type DeliveryExecutionHistoryEntryKind string
+
+// DeliveryExecutionHistoryEnvelope defines model for DeliveryExecutionHistoryEnvelope.
+type DeliveryExecutionHistoryEnvelope struct {
+	Data DeliveryExecutionHistoryPage `json:"data"`
+}
+
+// DeliveryExecutionHistoryPage defines model for DeliveryExecutionHistoryPage.
+type DeliveryExecutionHistoryPage struct {
+	Items []DeliveryExecutionHistoryEntry `json:"items"`
+
+	// NextCursor Cursor after the last returned authorized record. Omitted when no later page exists. Changing filters starts a new traversal.
+	NextCursor string `json:"nextCursor,omitempty"`
+}
+
+// DeliveryGitLabPushEvent External GitLab push/tag push webhook payload. Provider extension fields are retained only for signature verification and are never persisted or interpreted as trigger configuration.
+type DeliveryGitLabPushEvent struct {
+	After                string                            `json:"after"`
+	ObjectKind           DeliveryGitLabPushEventObjectKind `json:"object_kind"`
+	Project              DeliveryGitLabPushEvent_Project   `json:"project"`
+	Ref                  string                            `json:"ref"`
+	AdditionalProperties map[string]any                    `json:"-"`
+}
+
+// DeliveryGitLabPushEventObjectKind defines model for DeliveryGitLabPushEvent.ObjectKind.
+type DeliveryGitLabPushEventObjectKind string
+
+// DeliveryGitLabPushEvent_Project defines model for DeliveryGitLabPushEvent.Project.
+type DeliveryGitLabPushEvent_Project struct {
+	ID                   int            `json:"id"`
+	AdditionalProperties map[string]any `json:"-"`
+}
+
 // DeliveryPlan defines model for DeliveryPlan.
 type DeliveryPlan struct {
 	Action                   ApplicationDeliveryActionKind `json:"action"`
@@ -11570,10 +14792,13 @@ type DeliveryPlan struct {
 	ContainerName            string                        `json:"containerName,omitempty"`
 	CreatedAt                time.Time                     `json:"createdAt"`
 	CreatedBy                string                        `json:"createdBy,omitempty"`
+	DockerSnapshots          []DockerDeliverySnapshot      `json:"dockerSnapshots,omitempty"`
 	EnvironmentKey           string                        `json:"environmentKey,omitempty"`
+	HelmSnapshots            []HelmDeliverySnapshot        `json:"helmSnapshots,omitempty"`
 	ID                       string                        `json:"id"`
 	ImageTag                 string                        `json:"imageTag,omitempty"`
 	Impact                   map[string]any                `json:"impact,omitempty"`
+	ManifestSnapshots        []ManifestDeliverySnapshot    `json:"manifestSnapshots,omitempty"`
 	Reason                   string                        `json:"reason,omitempty"`
 	RefName                  string                        `json:"refName,omitempty"`
 	RefType                  string                        `json:"refType,omitempty"`
@@ -11595,6 +14820,15 @@ type DeliveryPlanSource string
 
 // DeliveryPlanStatus defines model for DeliveryPlan.Status.
 type DeliveryPlanStatus string
+
+// DeliveryPlanApprovalInput defines model for DeliveryPlanApprovalInput.
+type DeliveryPlanApprovalInput struct {
+	Action  DeliveryPlanApprovalInputAction `json:"action"`
+	Comment string                          `json:"comment,omitempty"`
+}
+
+// DeliveryPlanApprovalInputAction defines model for DeliveryPlanApprovalInput.Action.
+type DeliveryPlanApprovalInputAction string
 
 // DeliveryPlanConfirmResult defines model for DeliveryPlanConfirmResult.
 type DeliveryPlanConfirmResult struct {
@@ -11622,25 +14856,534 @@ type DeliveryPlanInput struct {
 	BuildSourceID            string                        `json:"buildSourceId,omitempty"`
 	ContainerName            string                        `json:"containerName,omitempty"`
 	EnvironmentKey           string                        `json:"environmentKey,omitempty"`
-	ID                       string                        `json:"id,omitempty"`
-	ImageTag                 string                        `json:"imageTag,omitempty"`
-	Impact                   map[string]any                `json:"impact,omitempty"`
-	Reason                   string                        `json:"reason,omitempty"`
-	RefName                  string                        `json:"refName,omitempty"`
-	RefType                  string                        `json:"refType,omitempty"`
-	ReleaseBundleID          string                        `json:"releaseBundleId,omitempty"`
-	ReleaseName              string                        `json:"releaseName,omitempty"`
-	RequiresApproval         bool                          `json:"requiresApproval,omitempty"`
-	RiskLevel                string                        `json:"riskLevel,omitempty"`
-	RollbackStrategy         string                        `json:"rollbackStrategy,omitempty"`
-	Source                   DeliveryPlanInputSource       `json:"source,omitempty"`
-	TargetID                 string                        `json:"targetId,omitempty"`
-	TargetSummary            string                        `json:"targetSummary,omitempty"`
-	Variables                map[string]any                `json:"variables,omitempty"`
+
+	// HelmRevision Existing owned Helm revision to restore through a new approved plan.
+	HelmRevision int            `json:"helmRevision,omitempty"`
+	ID           string         `json:"id,omitempty"`
+	ImageTag     string         `json:"imageTag,omitempty"`
+	Impact       map[string]any `json:"impact,omitempty"`
+
+	// ManifestRevision Optional published Manifest revision for a single manifest_ssa target. Omit to use the current published revision.
+	ManifestRevision int                     `json:"manifestRevision,omitempty"`
+	Reason           string                  `json:"reason,omitempty"`
+	RefName          string                  `json:"refName,omitempty"`
+	RefType          string                  `json:"refType,omitempty"`
+	ReleaseBundleID  string                  `json:"releaseBundleId,omitempty"`
+	ReleaseName      string                  `json:"releaseName,omitempty"`
+	RequiresApproval bool                    `json:"requiresApproval,omitempty"`
+	RiskLevel        string                  `json:"riskLevel,omitempty"`
+	RollbackStrategy string                  `json:"rollbackStrategy,omitempty"`
+	Source           DeliveryPlanInputSource `json:"source,omitempty"`
+	TargetID         string                  `json:"targetId,omitempty"`
+	TargetSummary    string                  `json:"targetSummary,omitempty"`
+	Variables        map[string]any          `json:"variables,omitempty"`
 }
 
 // DeliveryPlanInputSource defines model for DeliveryPlanInput.Source.
 type DeliveryPlanInputSource string
+
+// DeliverySourceCommit Replace only explicit matching repository refs in a versioned workflow with a verified event commit. Unmatched repository/ref pairs are rejected; no repository is inferred.
+type DeliverySourceCommit struct {
+	Commit       string                      `json:"commit"`
+	RefName      string                      `json:"refName"`
+	RefType      DeliverySourceCommitRefType `json:"refType"`
+	RepositoryID string                      `json:"repositoryId"`
+}
+
+// DeliverySourceCommitRefType defines model for DeliverySourceCommit.RefType.
+type DeliverySourceCommitRefType string
+
+// DeliveryTargetInput defines model for DeliveryTargetInput.
+type DeliveryTargetInput = interface{}
+
+// DeliveryTargetSnapshot defines model for DeliveryTargetSnapshot.
+type DeliveryTargetSnapshot struct {
+	ApplicationName     string                            `json:"applicationName"`
+	BuildFingerprint    string                            `json:"buildFingerprint,omitempty"`
+	BuildNodeID         string                            `json:"buildNodeId,omitempty"`
+	BuildSourceID       string                            `json:"buildSourceId,omitempty"`
+	ConfigurationDigest string                            `json:"configurationDigest"`
+	DeploymentTemplate  *ServiceDeploymentTemplateBinding `json:"deploymentTemplate,omitempty"`
+	EnvironmentName     string                            `json:"environmentName,omitempty"`
+	ManifestBindingID   string                            `json:"manifestBindingId,omitempty"`
+	ManifestPackageID   string                            `json:"manifestPackageId,omitempty"`
+	ManifestRevision    int                               `json:"manifestRevision,omitempty"`
+	RepositoryRefs      []BuildRepositoryRefInput         `json:"repositoryRefs,omitempty"`
+	ServiceName         string                            `json:"serviceName"`
+	ServiceVersion      int                               `json:"serviceVersion"`
+	Target              DeliveryTargetInput               `json:"target"`
+}
+
+// DeliveryTemplateProvenance Immutable provenance captured when a template version is published. Source removal and detachment never erase it. Workflow uses its saved version.
+type DeliveryTemplateProvenance struct {
+	Kind                 DeliveryDocumentKind `json:"kind"`
+	NormalizedSpecDigest string               `json:"normalizedSpecDigest"`
+	ObjectID             string               `json:"objectId"`
+	Path                 string               `json:"path"`
+	RepositoryID         string               `json:"repositoryId"`
+	ResolvedCommit       string               `json:"resolvedCommit"`
+	SourceDigest         string               `json:"sourceDigest"`
+	SourceID             string               `json:"sourceId"`
+	SyncRunID            string               `json:"syncRunId"`
+	TreeDigest           string               `json:"treeDigest"`
+	Version              int                  `json:"version"`
+}
+
+// DeliveryTemplateSource defines model for DeliveryTemplateSource.
+type DeliveryTemplateSource struct {
+	CreatedAt        time.Time                     `json:"createdAt"`
+	Enabled          bool                          `json:"enabled"`
+	ExcludePatterns  []string                      `json:"excludePatterns,omitempty"`
+	Generation       int                           `json:"generation"`
+	ID               string                        `json:"id"`
+	IncludePatterns  []string                      `json:"includePatterns,omitempty"`
+	Kinds            []DeliveryDocumentKind        `json:"kinds"`
+	LastAppliedRunID string                        `json:"lastAppliedRunId,omitempty"`
+	LastSyncRunID    string                        `json:"lastSyncRunId,omitempty"`
+	Name             string                        `json:"name"`
+	Path             string                        `json:"path"`
+	RefType          DeliveryTemplateSourceRefType `json:"refType"`
+	RefValue         string                        `json:"refValue"`
+	RepositoryID     string                        `json:"repositoryId"`
+	ResolvedCommit   string                        `json:"resolvedCommit,omitempty"`
+	UpdatedAt        time.Time                     `json:"updatedAt"`
+}
+
+// DeliveryTemplateSourceRefType defines model for DeliveryTemplateSource.RefType.
+type DeliveryTemplateSourceRefType string
+
+// DeliveryTemplateSourceAssociation defines model for DeliveryTemplateSourceAssociation.
+type DeliveryTemplateSourceAssociation struct {
+	Key                  string               `json:"key"`
+	Kind                 DeliveryDocumentKind `json:"kind"`
+	LastImportedRevision int                  `json:"lastImportedRevision"`
+	NormalizedSpecDigest string               `json:"normalizedSpecDigest"`
+	ObjectID             string               `json:"objectId"`
+	Path                 string               `json:"path"`
+	Removed              bool                 `json:"removed"`
+	ResolvedCommit       string               `json:"resolvedCommit"`
+	SourceDigest         string               `json:"sourceDigest"`
+	SourceID             string               `json:"sourceId"`
+	SyncRunID            string               `json:"syncRunId"`
+}
+
+// DeliveryTemplateSourceAssociationListEnvelope defines model for DeliveryTemplateSourceAssociationListEnvelope.
+type DeliveryTemplateSourceAssociationListEnvelope struct {
+	Data []DeliveryTemplateSourceAssociation `json:"data"`
+}
+
+// DeliveryTemplateSourceEnvelope defines model for DeliveryTemplateSourceEnvelope.
+type DeliveryTemplateSourceEnvelope struct {
+	Data DeliveryTemplateSource `json:"data"`
+}
+
+// DeliveryTemplateSourceInput Stored repository and opaque credentials only. HTTPS or SSH is required. Saving never fetches, publishes or executes a definition. Creation requires expectedGeneration=0; updates require the current positive generation.
+type DeliveryTemplateSourceInput struct {
+	Enabled            bool     `json:"enabled"`
+	ExcludePatterns    []string `json:"excludePatterns,omitempty"`
+	ExpectedGeneration int      `json:"expectedGeneration"`
+
+	// IncludePatterns Defaults to *.soha.yaml, *.soha.yml and *.soha.json recursively under path.
+	IncludePatterns []string               `json:"includePatterns,omitempty"`
+	Kinds           []DeliveryDocumentKind `json:"kinds"`
+	Name            string                 `json:"name"`
+
+	// Path Explicit repository-relative directory. Dot selects the root; traversal and symlinks are rejected.
+	Path         string                             `json:"path"`
+	RefType      DeliveryTemplateSourceInputRefType `json:"refType"`
+	RefValue     string                             `json:"refValue"`
+	RepositoryID string                             `json:"repositoryId"`
+}
+
+// DeliveryTemplateSourceInputRefType defines model for DeliveryTemplateSourceInput.RefType.
+type DeliveryTemplateSourceInputRefType string
+
+// DeliveryTemplateSourceListEnvelope defines model for DeliveryTemplateSourceListEnvelope.
+type DeliveryTemplateSourceListEnvelope struct {
+	Data []DeliveryTemplateSource `json:"data"`
+}
+
+// DeliveryTemplateSourceRemoveInput Review source objects before removing or detaching. keep transfers them to Soha management; deprecate also disables template selection. Workflow supports keep only. Bindings, runs and version provenance are retained.
+type DeliveryTemplateSourceRemoveInput struct {
+	Disposition        DeliveryTemplateSourceRemoveInputDisposition `json:"disposition"`
+	ExpectedGeneration int                                          `json:"expectedGeneration"`
+}
+
+// DeliveryTemplateSourceRemoveInputDisposition defines model for DeliveryTemplateSourceRemoveInput.Disposition.
+type DeliveryTemplateSourceRemoveInputDisposition string
+
+// DeliveryTemplateSyncApplyInput defines model for DeliveryTemplateSyncApplyInput.
+type DeliveryTemplateSyncApplyInput struct {
+	CandidateDigest    string `json:"candidateDigest"`
+	ExpectedGeneration int    `json:"expectedGeneration"`
+	IdempotencyKey     string `json:"idempotencyKey"`
+}
+
+// DeliveryTemplateSyncInput defines model for DeliveryTemplateSyncInput.
+type DeliveryTemplateSyncInput struct {
+	ExpectedGeneration int    `json:"expectedGeneration"`
+	IdempotencyKey     string `json:"idempotencyKey"`
+
+	// ResolvedCommit Optional exact commit for an authenticated source event. It is part of the idempotency identity and never changes the saved source ref.
+	ResolvedCommit string `json:"resolvedCommit,omitempty"`
+}
+
+// DeliveryTemplateSyncRun defines model for DeliveryTemplateSyncRun.
+type DeliveryTemplateSyncRun struct {
+	ActorID   string    `json:"actorId"`
+	CreatedAt time.Time `json:"createdAt"`
+	ErrorCode string    `json:"errorCode,omitempty"`
+
+	// ErrorMessage Safe summary without command output
+	ErrorMessage string                              `json:"errorMessage,omitempty"`
+	ID           string                              `json:"id"`
+	Preview      *DeliveryDocumentPreview            `json:"preview,omitempty"`
+	Removed      []DeliveryTemplateSourceAssociation `json:"removed,omitempty"`
+
+	// RequestedCommit Exact event commit supplied to this sync
+	RequestedCommit  string                        `json:"requestedCommit,omitempty"`
+	ResolvedCommit   string                        `json:"resolvedCommit,omitempty"`
+	Result           *DeliveryDocumentImport       `json:"result,omitempty"`
+	SourceGeneration int                           `json:"sourceGeneration"`
+	SourceID         string                        `json:"sourceId"`
+	Status           DeliveryTemplateSyncRunStatus `json:"status"`
+	TreeDigest       string                        `json:"treeDigest,omitempty"`
+	UpdatedAt        time.Time                     `json:"updatedAt"`
+}
+
+// DeliveryTemplateSyncRunStatus defines model for DeliveryTemplateSyncRun.Status.
+type DeliveryTemplateSyncRunStatus string
+
+// DeliveryTemplateSyncRunEnvelope defines model for DeliveryTemplateSyncRunEnvelope.
+type DeliveryTemplateSyncRunEnvelope struct {
+	Data DeliveryTemplateSyncRun `json:"data"`
+}
+
+// DeliveryTemplateSyncRunListEnvelope defines model for DeliveryTemplateSyncRunListEnvelope.
+type DeliveryTemplateSyncRunListEnvelope struct {
+	Data []DeliveryTemplateSyncRun `json:"data"`
+}
+
+// DeliveryTrigger defines model for DeliveryTrigger.
+type DeliveryTrigger struct {
+	CreatedAt time.Time `json:"createdAt"`
+	CreatedBy string    `json:"createdBy"`
+	Enabled   bool      `json:"enabled"`
+	ID        string    `json:"id"`
+
+	// LastEvent Trigger dispatch result. Succeeded means draft synchronization was applied or an existing Batch was accepted, never that deployment succeeded. Follow batchId for execution status.
+	LastEvent *DeliveryTriggerEvent `json:"lastEvent,omitempty"`
+	Name      string                `json:"name"`
+	Revision  int                   `json:"revision"`
+
+	// Schedule Minute precision, IANA time zone. Missed slots are skipped, repeated DST wall-clock minutes run once, nonexistent minutes are skipped. Excluded local dates apply to cron and explicit calendar times. Dispatch skips a slot while the same trigger's previous batch is active.
+	Schedule                *DeliveryTriggerSchedule  `json:"schedule,omitempty"`
+	ServiceAccountID        string                    `json:"serviceAccountId"`
+	ServiceAccountName      string                    `json:"serviceAccountName"`
+	SigningSecretConfigured bool                      `json:"signingSecretConfigured"`
+	TargetID                string                    `json:"targetId"`
+	TargetKind              DeliveryTriggerTargetKind `json:"targetKind"`
+	Type                    DeliveryTriggerType       `json:"type"`
+	UpdatedAt               time.Time                 `json:"updatedAt"`
+	UpdatedBy               string                    `json:"updatedBy"`
+	Webhook                 *DeliveryTriggerWebhook   `json:"webhook,omitempty"`
+	WorkflowVersion         int                       `json:"workflowVersion,omitempty"`
+}
+
+// DeliveryTriggerTargetKind defines model for DeliveryTrigger.TargetKind.
+type DeliveryTriggerTargetKind string
+
+// DeliveryTriggerType defines model for DeliveryTrigger.Type.
+type DeliveryTriggerType string
+
+// DeliveryTriggerEnvelope defines model for DeliveryTriggerEnvelope.
+type DeliveryTriggerEnvelope struct {
+	Data DeliveryTrigger `json:"data"`
+}
+
+// DeliveryTriggerEvent Trigger dispatch result. Succeeded means draft synchronization was applied or an existing Batch was accepted, never that deployment succeeded. Follow batchId for execution status.
+type DeliveryTriggerEvent struct {
+	Attempts   int                           `json:"attempts"`
+	BatchID    string                        `json:"batchId,omitempty"`
+	CreatedAt  time.Time                     `json:"createdAt"`
+	EventID    string                        `json:"eventId"`
+	EventType  DeliveryTriggerEventEventType `json:"eventType"`
+	ID         string                        `json:"id"`
+	OccurredAt time.Time                     `json:"occurredAt"`
+
+	// Reason Safe machine-readable dispatch outcome. No credentials, payloads or remote command output.
+	Reason          string                     `json:"reason,omitempty"`
+	ResolvedCommit  string                     `json:"resolvedCommit,omitempty"`
+	Status          DeliveryTriggerEventStatus `json:"status"`
+	SyncRunID       string                     `json:"syncRunId,omitempty"`
+	TriggerID       string                     `json:"triggerId"`
+	TriggerRevision int                        `json:"triggerRevision"`
+	UpdatedAt       time.Time                  `json:"updatedAt"`
+}
+
+// DeliveryTriggerEventEventType defines model for DeliveryTriggerEvent.EventType.
+type DeliveryTriggerEventEventType string
+
+// DeliveryTriggerEventStatus defines model for DeliveryTriggerEvent.Status.
+type DeliveryTriggerEventStatus string
+
+// DeliveryTriggerEventEnvelope defines model for DeliveryTriggerEventEnvelope.
+type DeliveryTriggerEventEnvelope struct {
+	// Data Trigger dispatch result. Succeeded means draft synchronization was applied or an existing Batch was accepted, never that deployment succeeded. Follow batchId for execution status.
+	Data DeliveryTriggerEvent `json:"data"`
+}
+
+// DeliveryTriggerEventListEnvelope defines model for DeliveryTriggerEventListEnvelope.
+type DeliveryTriggerEventListEnvelope struct {
+	Data []DeliveryTriggerEvent `json:"data"`
+}
+
+// DeliveryTriggerInput Create with expectedRevision=0 and a serviceAccountToken. Updates require the current revision. Credentials are write-only and omitted values retain existing credentials. Template-source triggers import drafts only. Poll is restricted to template sources; workflow schedule requires a fixed workflowVersion.
+type DeliveryTriggerInput struct {
+	Enabled          bool   `json:"enabled"`
+	ExpectedRevision int    `json:"expectedRevision"`
+	Name             string `json:"name"`
+
+	// Schedule Minute precision, IANA time zone. Missed slots are skipped, repeated DST wall-clock minutes run once, nonexistent minutes are skipped. Excluded local dates apply to cron and explicit calendar times. Dispatch skips a slot while the same trigger's previous batch is active.
+	Schedule *DeliveryTriggerSchedule `json:"schedule,omitempty"`
+
+	// ServiceAccountToken Proof of possession. The bearer value is validated and discarded; only subject and revocable token IDs are retained.
+	ServiceAccountToken string                         `json:"serviceAccountToken,omitempty"`
+	TargetID            string                         `json:"targetId"`
+	TargetKind          DeliveryTriggerInputTargetKind `json:"targetKind"`
+	Type                DeliveryTriggerInputType       `json:"type"`
+	Webhook             *DeliveryTriggerWebhook        `json:"webhook,omitempty"`
+
+	// WebhookSigningSecret GitLab Standard Webhooks signing token in whsec_base64 format. Encrypted at rest. Replacement immediately revokes the previous signing key.
+	WebhookSigningSecret string `json:"webhookSigningSecret,omitempty"`
+	WorkflowVersion      int    `json:"workflowVersion,omitempty"`
+	union                json.RawMessage
+}
+
+// DeliveryTriggerInputTargetKind defines model for DeliveryTriggerInput.TargetKind.
+type DeliveryTriggerInputTargetKind string
+
+// DeliveryTriggerInputType defines model for DeliveryTriggerInput.Type.
+type DeliveryTriggerInputType string
+
+// DeliveryTriggerInput0 defines model for .
+type DeliveryTriggerInput0 struct {
+	Type interface{} `json:"type,omitempty"`
+}
+
+// DeliveryTriggerInput1 defines model for .
+type DeliveryTriggerInput1 struct {
+	Type interface{} `json:"type,omitempty"`
+}
+
+// DeliveryTriggerListEnvelope defines model for DeliveryTriggerListEnvelope.
+type DeliveryTriggerListEnvelope struct {
+	Data []DeliveryTrigger `json:"data"`
+}
+
+// DeliveryTriggerSchedule Minute precision, IANA time zone. Missed slots are skipped, repeated DST wall-clock minutes run once, nonexistent minutes are skipped. Excluded local dates apply to cron and explicit calendar times. Dispatch skips a slot while the same trigger's previous batch is active.
+type DeliveryTriggerSchedule struct {
+	// Cron Five fields (minute hour day month weekday), supporting star, comma-separated numeric values and star/step. Day and weekday both match. Sunday is 0.
+	Cron          string      `json:"cron,omitempty"`
+	ExcludedDates []string    `json:"excludedDates,omitempty"`
+	RunAt         []time.Time `json:"runAt,omitempty"`
+	TimeZone      string      `json:"timeZone"`
+	union         json.RawMessage
+}
+
+// DeliveryTriggerSchedule0 defines model for .
+type DeliveryTriggerSchedule0 struct {
+	Cron string `json:"cron"`
+}
+
+// DeliveryTriggerSchedule1 defines model for .
+type DeliveryTriggerSchedule1 struct {
+	RunAt []time.Time `json:"runAt"`
+}
+
+// DeliveryTriggerWebhook defines model for DeliveryTriggerWebhook.
+type DeliveryTriggerWebhook struct {
+	Provider     DeliveryTriggerWebhookProvider `json:"provider"`
+	RefType      DeliveryTriggerWebhookRefType  `json:"refType"`
+	RefValue     string                         `json:"refValue"`
+	RepositoryID string                         `json:"repositoryId"`
+}
+
+// DeliveryTriggerWebhookProvider defines model for DeliveryTriggerWebhook.Provider.
+type DeliveryTriggerWebhookProvider string
+
+// DeliveryTriggerWebhookRefType defines model for DeliveryTriggerWebhook.RefType.
+type DeliveryTriggerWebhookRefType string
+
+// DeliveryWorkflow defines model for DeliveryWorkflow.
+type DeliveryWorkflow struct {
+	CreatedAt  time.Time                  `json:"createdAt"`
+	CreatedBy  string                     `json:"createdBy"`
+	Definition DeliveryWorkflowDefinition `json:"definition"`
+	ID         string                     `json:"id"`
+	UpdatedAt  time.Time                  `json:"updatedAt"`
+	Version    int                        `json:"version"`
+}
+
+// DeliveryWorkflowDefinition defines model for DeliveryWorkflowDefinition.
+type DeliveryWorkflowDefinition struct {
+	MaxConcurrency          int                            `json:"maxConcurrency,omitempty"`
+	Mode                    DeliveryWorkflowDefinitionMode `json:"mode,omitempty"`
+	Name                    string                         `json:"name"`
+	StopOnFailure           *bool                          `json:"stopOnFailure,omitempty"`
+	Targets                 []DeliveryTargetInput          `json:"targets"`
+	WorkflowTemplateID      string                         `json:"workflowTemplateId,omitempty"`
+	WorkflowTemplateVersion int                            `json:"workflowTemplateVersion,omitempty"`
+}
+
+// DeliveryWorkflowDefinitionMode defines model for DeliveryWorkflowDefinition.Mode.
+type DeliveryWorkflowDefinitionMode string
+
+// DeliveryWorkflowDocument defines model for DeliveryWorkflowDocument.
+type DeliveryWorkflowDocument struct {
+	APIVersion string `json:"apiVersion"`
+	Kind       string `json:"kind"`
+
+	// Metadata File identifier only. The workflow display name is spec.definition.name.
+	Metadata struct {
+		Name string `json:"name"`
+	} `json:"metadata"`
+	Spec DeliveryWorkflowDocumentSpec `json:"spec"`
+}
+
+// DeliveryWorkflowDocumentSpec defines model for DeliveryWorkflowDocumentSpec.
+type DeliveryWorkflowDocumentSpec struct {
+	Definition DeliveryWorkflowDefinition `json:"definition"`
+}
+
+// DeliveryWorkflowEnvelope defines model for DeliveryWorkflowEnvelope.
+type DeliveryWorkflowEnvelope struct {
+	Data DeliveryWorkflow `json:"data"`
+}
+
+// DeliveryWorkflowInput defines model for DeliveryWorkflowInput.
+type DeliveryWorkflowInput struct {
+	Definition      DeliveryWorkflowDefinition `json:"definition"`
+	ExpectedVersion int                        `json:"expectedVersion,omitempty"`
+
+	// IdempotencyKey Optional on creation only. Scoped to the actor; identical retries return the original creation receipt, including its version. Reusing a key with changed input conflicts.
+	IdempotencyKey string `json:"idempotencyKey,omitempty"`
+}
+
+// DeliveryWorkflowListEnvelope defines model for DeliveryWorkflowListEnvelope.
+type DeliveryWorkflowListEnvelope struct {
+	Data []DeliveryWorkflow `json:"data"`
+}
+
+// DeliveryWorkflowTemplateDocument defines model for DeliveryWorkflowTemplateDocument.
+type DeliveryWorkflowTemplateDocument struct {
+	APIVersion string `json:"apiVersion"`
+	Kind       string `json:"kind"`
+
+	// Metadata Template name is its stable key. For Workflow, name is only a file identifier; its display name is spec.definition.name. IDs, publication state, credentials and source claims cannot be set here.
+	Metadata DeliveryDocumentMetadata     `json:"metadata"`
+	Spec     DeliveryWorkflowTemplateSpec `json:"spec"`
+}
+
+// DeliveryWorkflowTemplateSpec defines model for DeliveryWorkflowTemplateSpec.
+type DeliveryWorkflowTemplateSpec struct {
+	Category   string                                  `json:"category,omitempty"`
+	Definition DeliveryWorkflowTemplateSpec_Definition `json:"definition"`
+	Enabled    bool                                    `json:"enabled,omitempty"`
+}
+
+// DeliveryWorkflowTemplateSpec_Definition defines model for DeliveryWorkflowTemplateSpec.Definition.
+type DeliveryWorkflowTemplateSpec_Definition struct {
+	union json.RawMessage
+}
+
+// DeploymentTemplateGitSource defines model for DeploymentTemplateGitSource.
+type DeploymentTemplateGitSource struct {
+	Commit       string `json:"commit"`
+	Path         string `json:"path"`
+	RepositoryID string `json:"repositoryId"`
+}
+
+// DeploymentTemplateHealth defines model for DeploymentTemplateHealth.
+type DeploymentTemplateHealth struct {
+	Mode           DeploymentTemplateHealthMode `json:"mode"`
+	TimeoutSeconds int                          `json:"timeoutSeconds"`
+}
+
+// DeploymentTemplateHealthMode defines model for DeploymentTemplateHealth.Mode.
+type DeploymentTemplateHealthMode string
+
+// DeploymentTemplateHelmSource defines model for DeploymentTemplateHelmSource.
+type DeploymentTemplateHelmSource struct {
+	Chart         string                  `json:"chart"`
+	ConnectionID  string                  `json:"connectionId,omitempty"`
+	Digest        string                  `json:"digest,omitempty"`
+	RepositoryURL string                  `json:"repositoryUrl"`
+	SecretRefs    *SecretReferenceMap     `json:"secretRefs,omitempty"`
+	Values        TemplateParameterValues `json:"values"`
+	Version       string                  `json:"version"`
+}
+
+// DeploymentTemplatePreview defines model for DeploymentTemplatePreview.
+type DeploymentTemplatePreview struct {
+	ConfigurationOnly bool                     `json:"configurationOnly"`
+	Diagnostics       []string                 `json:"diagnostics"`
+	Digest            string                   `json:"digest"`
+	Parameters        TemplateParameterValues  `json:"parameters"`
+	Source            DeploymentTemplateSource `json:"source"`
+	TemplateID        string                   `json:"templateId"`
+	Version           int64                    `json:"version"`
+}
+
+// DeploymentTemplatePreviewEnvelope defines model for DeploymentTemplatePreviewEnvelope.
+type DeploymentTemplatePreviewEnvelope struct {
+	Data DeploymentTemplatePreview `json:"data"`
+}
+
+// DeploymentTemplatePreviewInput defines model for DeploymentTemplatePreviewInput.
+type DeploymentTemplatePreviewInput struct {
+	ApplicationEnvironmentID string                   `json:"applicationEnvironmentId,omitempty"`
+	Overrides                *TemplateParameterValues `json:"overrides,omitempty"`
+	Parameters               TemplateParameterValues  `json:"parameters"`
+	ServiceKey               string                   `json:"serviceKey"`
+	TemplateID               string                   `json:"templateId"`
+	Version                  int64                    `json:"version"`
+}
+
+// DeploymentTemplateSource defines model for DeploymentTemplateSource.
+type DeploymentTemplateSource struct {
+	Files     []ManifestFile                   `json:"files,omitempty"`
+	Git       *DeploymentTemplateGitSource     `json:"git,omitempty"`
+	Helm      *DeploymentTemplateHelmSource    `json:"helm,omitempty"`
+	Kustomize *ManifestKustomizeOptions        `json:"kustomize,omitempty"`
+	Renderer  DeploymentTemplateSourceRenderer `json:"renderer"`
+	union     json.RawMessage
+}
+
+// DeploymentTemplateSourceRenderer defines model for DeploymentTemplateSource.Renderer.
+type DeploymentTemplateSourceRenderer string
+
+// DeploymentTemplateSource0 defines model for .
+type DeploymentTemplateSource0 struct {
+	Renderer interface{} `json:"renderer,omitempty"`
+}
+
+// DeploymentTemplateSource1 defines model for .
+type DeploymentTemplateSource1 struct {
+	Renderer interface{} `json:"renderer,omitempty"`
+	union    json.RawMessage
+}
+
+// DeploymentTemplateSource10 defines model for .
+type DeploymentTemplateSource10 = interface{}
+
+// DeploymentTemplateSource11 defines model for .
+type DeploymentTemplateSource11 = interface{}
+
+// DeploymentTemplateSource2 defines model for .
+type DeploymentTemplateSource2 struct {
+	Renderer interface{} `json:"renderer,omitempty"`
+}
 
 // DesktopAuthAttempt defines model for DesktopAuthAttempt.
 type DesktopAuthAttempt struct {
@@ -11822,6 +15565,33 @@ type DockerContainerVolumeInput struct {
 // DockerContainerVolumeInputType defines model for DockerContainerVolumeInput.Type.
 type DockerContainerVolumeInputType string
 
+// DockerDeliveryConfiguration A host_service target with executorKind docker_compose. Uses an existing Docker project for both single-container and Compose deployments. clusterId and namespace must be empty. Images are supplied by a verified release bundle; unmapped services must already use immutable image digests.
+type DockerDeliveryConfiguration struct {
+	HostID string `json:"hostId"`
+
+	// ImageMappings Compose service name to application container name in the release bundle.
+	ImageMappings map[string]string `json:"imageMappings"`
+	ProjectID     string            `json:"projectId"`
+}
+
+// DockerDeliverySnapshot Frozen deployment identities and digests. Compose content and environment values remain encrypted on the server. Preflight is an existing Docker operation and does not start containers.
+type DockerDeliverySnapshot struct {
+	ApplicationEnvironmentID string            `json:"applicationEnvironmentId"`
+	ApplicationID            string            `json:"applicationId"`
+	DeliveryPlanID           string            `json:"deliveryPlanId"`
+	DeployOperationID        string            `json:"deployOperationId"`
+	ExpectedServices         []string          `json:"expectedServices"`
+	HostID                   string            `json:"hostId"`
+	Images                   map[string]string `json:"images"`
+	PreflightOperationID     string            `json:"preflightOperationId"`
+	ProjectDigest            string            `json:"projectDigest"`
+	ProjectID                string            `json:"projectId"`
+	ReleaseBundleID          string            `json:"releaseBundleId"`
+	RenderedDigest           string            `json:"renderedDigest"`
+	ServiceID                string            `json:"serviceId"`
+	TargetID                 string            `json:"targetId"`
+}
+
 // DockerGitBuildInput defines model for DockerGitBuildInput.
 type DockerGitBuildInput struct {
 	ContextDir     string `json:"contextDir,omitempty"`
@@ -11875,14 +15645,16 @@ type DockerHostAgentInstallationEnvelope struct {
 // DockerOperation defines model for DockerOperation.
 type DockerOperation struct {
 	// CallbackToken Opaque per-claim credential returned only by the authenticated runner claim endpoint when callback-token fencing is negotiated.
-	CallbackToken        string         `json:"callbackToken,omitempty"`
-	ClaimedByWorkerID    string         `json:"claimedByWorkerId,omitempty"`
-	HostID               string         `json:"hostId,omitempty"`
-	ID                   string         `json:"id"`
-	OperationKind        string         `json:"operationKind"`
-	Payload              map[string]any `json:"payload"`
-	ProjectID            string         `json:"projectId,omitempty"`
-	ServiceID            string         `json:"serviceId,omitempty"`
+	CallbackToken     string         `json:"callbackToken,omitempty"`
+	ClaimedByWorkerID string         `json:"claimedByWorkerId,omitempty"`
+	HostID            string         `json:"hostId,omitempty"`
+	ID                string         `json:"id"`
+	OperationKind     string         `json:"operationKind"`
+	Payload           map[string]any `json:"payload"`
+	ProjectID         string         `json:"projectId,omitempty"`
+	ServiceID         string         `json:"serviceId,omitempty"`
+
+	// Status Domain state. canceling is nonterminal and waits for the owning executor; canceled does not imply rollback of runtime effects.
 	Status               string         `json:"status"`
 	TimeoutSeconds       int            `json:"timeoutSeconds"`
 	AdditionalProperties map[string]any `json:"-"`
@@ -11891,12 +15663,15 @@ type DockerOperation struct {
 // DockerOperationCallbackRequest defines model for DockerOperationCallbackRequest.
 type DockerOperationCallbackRequest struct {
 	// CallbackToken Required when the claimed operation included a callback token; omitted only for legacy unfenced claims.
-	CallbackToken string         `json:"callbackToken,omitempty"`
-	Logs          []string       `json:"logs"`
-	OperationID   string         `json:"operationId"`
-	Payload       map[string]any `json:"payload"`
-	Status        string         `json:"status"`
-	WorkerID      string         `json:"workerId"`
+	CallbackToken string `json:"callbackToken,omitempty"`
+
+	// CancellationAcknowledged True only after the runner has stopped its commands and completed local cleanup. Required for a canceled callback when the operation is canceling; applied daemon or provider effects are retained.
+	CancellationAcknowledged bool           `json:"cancellationAcknowledged,omitempty"`
+	Logs                     []string       `json:"logs"`
+	OperationID              string         `json:"operationId"`
+	Payload                  map[string]any `json:"payload"`
+	Status                   string         `json:"status"`
+	WorkerID                 string         `json:"workerId"`
 }
 
 // DockerOperationClaimRequest defines model for DockerOperationClaimRequest.
@@ -11943,6 +15718,32 @@ type DockerPayloadValue1 = []DockerPayloadScalarValue
 // DockerPayloadValue2 defines model for .
 type DockerPayloadValue2 map[string]DockerPayloadScalarValue
 
+// DockerProject defines model for DockerProject.
+type DockerProject struct {
+	ComposeContent string                        `json:"composeContent,omitempty"`
+	Config         map[string]DockerPayloadValue `json:"config,omitempty"`
+	CreatedAt      time.Time                     `json:"createdAt"`
+	Description    string                        `json:"description,omitempty"`
+	DesiredState   string                        `json:"desiredState,omitempty"`
+	EnvContent     string                        `json:"envContent,omitempty"`
+	Environment    string                        `json:"environment,omitempty"`
+	ExpiresAt      *time.Time                    `json:"expiresAt,omitempty"`
+	HostID         string                        `json:"hostId"`
+	ID             string                        `json:"id"`
+	Labels         map[string]DockerPayloadValue `json:"labels,omitempty"`
+	LastDeployedAt *time.Time                    `json:"lastDeployedAt,omitempty"`
+	Name           string                        `json:"name"`
+	Owner          string                        `json:"owner,omitempty"`
+	Slug           string                        `json:"slug"`
+	SourceKind     string                        `json:"sourceKind,omitempty"`
+	SourceRef      string                        `json:"sourceRef,omitempty"`
+	Status         string                        `json:"status"`
+	Team           string                        `json:"team,omitempty"`
+	TemplateID     string                        `json:"templateId,omitempty"`
+	TTLSeconds     int                           `json:"ttlSeconds,omitempty"`
+	UpdatedAt      time.Time                     `json:"updatedAt"`
+}
+
 // DockerProjectDeployInput defines model for DockerProjectDeployInput.
 type DockerProjectDeployInput struct {
 	Action DockerProjectDeployInputAction `json:"action,omitempty"`
@@ -11951,6 +15752,34 @@ type DockerProjectDeployInput struct {
 // DockerProjectDeployInputAction defines model for DockerProjectDeployInput.Action.
 type DockerProjectDeployInputAction string
 
+// DockerProjectEnvelope defines model for DockerProjectEnvelope.
+type DockerProjectEnvelope struct {
+	Data DockerProject `json:"data"`
+}
+
+// DockerProjectInput Docker project configuration. Idempotent creation requires inline Compose, no caller ID or sourceRef, and sourceKind compose or single_container; it saves configuration only.
+type DockerProjectInput struct {
+	ComposeContent string                        `json:"composeContent,omitempty"`
+	Config         map[string]DockerPayloadValue `json:"config,omitempty"`
+	Description    string                        `json:"description,omitempty"`
+	DesiredState   string                        `json:"desiredState,omitempty"`
+	EnvContent     string                        `json:"envContent,omitempty"`
+	Environment    string                        `json:"environment,omitempty"`
+	HostID         string                        `json:"hostId"`
+	ID             string                        `json:"id,omitempty"`
+	IdempotencyKey string                        `json:"idempotencyKey,omitempty"`
+	Labels         map[string]DockerPayloadValue `json:"labels,omitempty"`
+	Name           string                        `json:"name"`
+	Owner          string                        `json:"owner,omitempty"`
+	Slug           string                        `json:"slug,omitempty"`
+	SourceKind     string                        `json:"sourceKind,omitempty"`
+	SourceRef      string                        `json:"sourceRef,omitempty"`
+	Status         string                        `json:"status,omitempty"`
+	Team           string                        `json:"team,omitempty"`
+	TemplateID     string                        `json:"templateId,omitempty"`
+	TTLSeconds     int                           `json:"ttlSeconds,omitempty"`
+}
+
 // DockerQuickCreateHostInput defines model for DockerQuickCreateHostInput.
 type DockerQuickCreateHostInput struct {
 	Architecture       string `json:"architecture,omitempty"`
@@ -11958,22 +15787,25 @@ type DockerQuickCreateHostInput struct {
 	AvailablePortStart int    `json:"availablePortStart,omitempty"`
 
 	// CloudInit Sensitive bootstrap content. It is never returned by plan or audit responses.
-	CloudInit                  string                        `json:"cloudInit,omitempty"`
-	Config                     map[string]DockerPayloadValue `json:"config,omitempty"`
-	CPUCoreCount               int                           `json:"cpuCoreCount,omitempty"`
-	DiskBytes                  int                           `json:"diskBytes,omitempty"`
-	Environment                string                        `json:"environment,omitempty"`
-	FlavorID                   string                        `json:"flavorId,omitempty"`
-	ImageID                    string                        `json:"imageId,omitempty"`
-	Labels                     map[string]DockerPayloadValue `json:"labels,omitempty"`
-	MemoryBytes                int                           `json:"memoryBytes,omitempty"`
-	Name                       string                        `json:"name"`
-	Network                    string                        `json:"network,omitempty"`
-	Owner                      string                        `json:"owner,omitempty"`
-	Team                       string                        `json:"team,omitempty"`
-	TTLSeconds                 int                           `json:"ttlSeconds,omitempty"`
-	VirtualizationConnectionID string                        `json:"virtualizationConnectionId,omitempty"`
-	VMTemplateID               string                        `json:"vmTemplateId,omitempty"`
+	CloudInit    string                        `json:"cloudInit,omitempty"`
+	Config       map[string]DockerPayloadValue `json:"config,omitempty"`
+	CPUCoreCount int                           `json:"cpuCoreCount,omitempty"`
+	DiskBytes    int                           `json:"diskBytes,omitempty"`
+	Environment  string                        `json:"environment,omitempty"`
+	FlavorID     string                        `json:"flavorId,omitempty"`
+	ImageID      string                        `json:"imageId,omitempty"`
+	Labels       map[string]DockerPayloadValue `json:"labels,omitempty"`
+	MemoryBytes  int                           `json:"memoryBytes,omitempty"`
+	Name         string                        `json:"name"`
+	Network      string                        `json:"network,omitempty"`
+	Owner        string                        `json:"owner,omitempty"`
+
+	// RequireCapacity Require atomic provider capacity admission for the backing VM.
+	RequireCapacity            bool   `json:"requireCapacity,omitempty"`
+	Team                       string `json:"team,omitempty"`
+	TTLSeconds                 int    `json:"ttlSeconds,omitempty"`
+	VirtualizationConnectionID string `json:"virtualizationConnectionId,omitempty"`
+	VMTemplateID               string `json:"vmTemplateId,omitempty"`
 }
 
 // EndpointDevice defines model for EndpointDevice.
@@ -12160,10 +15992,12 @@ type EvaluationFeedbackEnvelope struct {
 	Data EvaluationFeedback `json:"data"`
 }
 
-// EvaluationFeedbackInput defines model for EvaluationFeedbackInput.
+// EvaluationFeedbackInput With sessionId and messageId, records a private owner-scoped task reference; the server verifies ownership and never copies conversation text into the sample.
 type EvaluationFeedbackInput struct {
 	Disposition EvaluationFeedbackInputDisposition `json:"disposition"`
 	ID          string                             `json:"id"`
+	MessageID   string                             `json:"messageId,omitempty"`
+	SessionID   string                             `json:"sessionId,omitempty"`
 	TraceRef    string                             `json:"traceRef"`
 }
 
@@ -12245,6 +16079,7 @@ type EvaluationGateRequest struct {
 
 // EvaluationReplayPlan defines model for EvaluationReplayPlan.
 type EvaluationReplayPlan struct {
+	// CandidateRefs Versioned candidate metadata. Gateway execution applies publicModel, routeId, endpoint, and optional systemPrompt and retrievalContext strings (at most 512 characters each); promptVersion and retrievalVersion identify the supplied variants.
 	CandidateRefs   map[string]string         `json:"candidateRefs"`
 	CreatedAt       time.Time                 `json:"createdAt"`
 	ID              string                    `json:"id"`
@@ -12290,15 +16125,17 @@ type EvaluationResultListEnvelope struct {
 
 // EvaluationRun defines model for EvaluationRun.
 type EvaluationRun struct {
-	AggregateScores map[string]float32  `json:"aggregateScores,omitempty"`
-	CandidateRefs   map[string]string   `json:"candidateRefs"`
-	CompletedAt     *time.Time          `json:"completedAt,omitempty"`
-	DatasetID       string              `json:"datasetId"`
-	DatasetVersion  string              `json:"datasetVersion"`
-	ID              string              `json:"id"`
-	SchemaVersion   string              `json:"schemaVersion"`
-	StartedAt       time.Time           `json:"startedAt"`
-	Status          EvaluationRunStatus `json:"status"`
+	AggregateScores map[string]float32 `json:"aggregateScores,omitempty"`
+
+	// CandidateRefs Versioned candidate metadata. Gateway execution applies publicModel, routeId, endpoint, and optional systemPrompt and retrievalContext strings (at most 512 characters each); promptVersion and retrievalVersion identify the supplied variants.
+	CandidateRefs  map[string]string   `json:"candidateRefs"`
+	CompletedAt    *time.Time          `json:"completedAt,omitempty"`
+	DatasetID      string              `json:"datasetId"`
+	DatasetVersion string              `json:"datasetVersion"`
+	ID             string              `json:"id"`
+	SchemaVersion  string              `json:"schemaVersion"`
+	StartedAt      time.Time           `json:"startedAt"`
+	Status         EvaluationRunStatus `json:"status"`
 }
 
 // EvaluationRunStatus defines model for EvaluationRun.Status.
@@ -12316,7 +16153,9 @@ type EvaluationRunListEnvelope struct {
 
 // EvaluationSampleAttempt defines model for EvaluationSampleAttempt.
 type EvaluationSampleAttempt struct {
-	Attempt       int                `json:"attempt"`
+	Attempt int `json:"attempt"`
+
+	// CandidateRefs Versioned candidate metadata. Gateway execution applies publicModel, routeId, endpoint, and optional systemPrompt and retrievalContext strings (at most 512 characters each); promptVersion and retrievalVersion identify the supplied variants.
 	CandidateRefs map[string]string  `json:"candidateRefs"`
 	CompletedAt   time.Time          `json:"completedAt"`
 	ErrorCode     string             `json:"errorCode,omitempty"`
@@ -12397,7 +16236,7 @@ type ExecutionTask struct {
 	ProviderKind             string              `json:"providerKind"`
 	QueueKey                 string              `json:"queueKey,omitempty"`
 	ReleaseBundleID          string              `json:"releaseBundleId,omitempty"`
-	Result                   map[string]any      `json:"result,omitempty"`
+	Result                   *map[string]any     `json:"result,omitempty"`
 	RuntimeClusterID         string              `json:"runtimeClusterId,omitempty"`
 	RuntimeEndpoint          string              `json:"runtimeEndpoint,omitempty"`
 	SecretLease              *SecretLeaseGrant   `json:"secretLease,omitempty"`
@@ -12426,6 +16265,53 @@ type ExecutionTaskEnvelope struct {
 // ExecutionTaskListEnvelope defines model for ExecutionTaskListEnvelope.
 type ExecutionTaskListEnvelope struct {
 	Data []ExecutionTask `json:"data"`
+}
+
+// ExternalPipelineArtifactReport UTF-8 JSON artifact named soha-artifact.json, downloaded by the actual successful job ID. The Server validates all identity fields and verifies the image bytes against the registry digest before accepting completion.
+type ExternalPipelineArtifactReport struct {
+	Image          string `json:"image"`
+	ImageDigest    string `json:"imageDigest"`
+	JobID          string `json:"jobId"`
+	PipelineCommit string `json:"pipelineCommit"`
+	PipelineID     string `json:"pipelineId"`
+	SourceCommit   string `json:"sourceCommit"`
+	TaskID         string `json:"taskId"`
+	Version        int    `json:"version"`
+}
+
+// ExternalPipelineConfiguration A trusted GitLab pipeline in the primary bound source repository. Its protected tag pins the CI definition; the pipeline must check out SOHA_SOURCE_COMMIT and emit soha-artifact.json from the named job. Source and pipeline commits are frozen separately.
+type ExternalPipelineConfiguration struct {
+	ArtifactJob string                                `json:"artifactJob"`
+	PipelineTag string                                `json:"pipelineTag"`
+	Provider    ExternalPipelineConfigurationProvider `json:"provider"`
+	RegistryID  string                                `json:"registryId"`
+}
+
+// ExternalPipelineConfigurationProvider defines model for ExternalPipelineConfiguration.Provider.
+type ExternalPipelineConfigurationProvider string
+
+// ExternalPipelineExecutionSpec Server-frozen external CI identity in ExecutionTask.payload.externalPipeline. Credentials remain in the source and registry connections.
+type ExternalPipelineExecutionSpec struct {
+	// Configuration A trusted GitLab pipeline in the primary bound source repository. Its protected tag pins the CI definition; the pipeline must check out SOHA_SOURCE_COMMIT and emit soha-artifact.json from the named job. Source and pipeline commits are frozen separately.
+	Configuration      ExternalPipelineConfiguration `json:"configuration"`
+	ConnectionEndpoint string                        `json:"connectionEndpoint"`
+	PipelineCommit     string                        `json:"pipelineCommit"`
+	ProviderProjectID  string                        `json:"providerProjectId"`
+	RepositoryID       string                        `json:"repositoryId"`
+	RepositoryURL      string                        `json:"repositoryUrl"`
+	SourceCommit       string                        `json:"sourceCommit"`
+	SourceConnectionID string                        `json:"sourceConnectionId"`
+}
+
+// ExternalPipelineRun Reconciled external identity in ExecutionTask.result.externalPipeline. An unknown dispatch is queried without resubmitting; terminal Soha status requires verified completion or confirmed stop of all discovered child pipelines and jobs.
+type ExternalPipelineRun struct {
+	ArtifactDigest string `json:"artifactDigest,omitempty"`
+	ArtifactJobID  string `json:"artifactJobId,omitempty"`
+	PipelineCommit string `json:"pipelineCommit,omitempty"`
+	RunID          string `json:"runId,omitempty"`
+	Status         string `json:"status"`
+	StopConfirmed  bool   `json:"stopConfirmed"`
+	URL            string `json:"url,omitempty"`
 }
 
 // GeminiGenerateContentRequest Native Gemini generateContent request body. The model is taken from the path and mapped by Soha model routes. Gemini text, inlineData, fileData, cachedContent, generationConfig, and safetySettings fields are passed through; multimodal audio/image/file inputs bypass response cache and local token estimation only counts text parts when provider usageMetadata is absent.
@@ -12721,6 +16607,114 @@ type GovernanceTokenSummary struct {
 	Stale                 []GovernanceTokenFinding `json:"stale,omitempty"`
 }
 
+// HelmChartInspection defines model for HelmChartInspection.
+type HelmChartInspection struct {
+	DefaultValues   TemplateParameterValues `json:"defaultValues"`
+	Diagnostics     []string                `json:"diagnostics,omitempty"`
+	Digest          string                  `json:"digest"`
+	HasValuesSchema bool                    `json:"hasValuesSchema"`
+	Name            string                  `json:"name"`
+	ValuesSchema    JSONSchema              `json:"valuesSchema,omitempty"`
+	Version         string                  `json:"version"`
+}
+
+// HelmChartInspectionEnvelope defines model for HelmChartInspectionEnvelope.
+type HelmChartInspectionEnvelope struct {
+	Data HelmChartInspection `json:"data"`
+}
+
+// HelmChartInspectionInput defines model for HelmChartInspectionInput.
+type HelmChartInspectionInput struct {
+	ApplicationEnvironmentID string                       `json:"applicationEnvironmentId"`
+	Source                   DeploymentTemplateHelmSource `json:"source"`
+}
+
+// HelmDeliveryConfiguration defines model for HelmDeliveryConfiguration.
+type HelmDeliveryConfiguration struct {
+	ImageMappings  []HelmImageMapping           `json:"imageMappings,omitempty"`
+	ReleaseName    string                       `json:"releaseName"`
+	Source         DeploymentTemplateHelmSource `json:"source"`
+	TimeoutSeconds int                          `json:"timeoutSeconds,omitempty"`
+	Values         *TemplateParameterValues     `json:"values,omitempty"`
+}
+
+// HelmDeliveryResource defines model for HelmDeliveryResource.
+type HelmDeliveryResource struct {
+	APIVersion string `json:"apiVersion"`
+	Hook       bool   `json:"hook,omitempty"`
+	Kind       string `json:"kind"`
+	Name       string `json:"name"`
+	Namespace  string `json:"namespace"`
+}
+
+// HelmDeliverySnapshot defines model for HelmDeliverySnapshot.
+type HelmDeliverySnapshot struct {
+	ApplicationEnvironmentID string                        `json:"applicationEnvironmentId"`
+	ApplicationID            string                        `json:"applicationId"`
+	Chart                    string                        `json:"chart"`
+	ChartDigest              string                        `json:"chartDigest"`
+	ChartVersion             string                        `json:"chartVersion"`
+	ClusterID                string                        `json:"clusterId"`
+	ConfigurationDigest      string                        `json:"configurationDigest"`
+	DeliveryPlanID           string                        `json:"deliveryPlanId"`
+	ExpectedRevision         int                           `json:"expectedRevision"`
+	Namespace                string                        `json:"namespace"`
+	Operation                HelmDeliverySnapshotOperation `json:"operation"`
+	PreflightTaskID          string                        `json:"preflightTaskId"`
+	ReleaseBundleID          string                        `json:"releaseBundleId,omitempty"`
+	ReleaseName              string                        `json:"releaseName"`
+	RenderedDigest           string                        `json:"renderedDigest"`
+	Resources                []HelmDeliveryResource        `json:"resources"`
+	RollbackRevision         int                           `json:"rollbackRevision,omitempty"`
+	ServiceID                string                        `json:"serviceId"`
+	ServiceVersion           int64                         `json:"serviceVersion"`
+	TargetID                 string                        `json:"targetId"`
+	TimeoutSeconds           int                           `json:"timeoutSeconds,omitempty"`
+	ValuesDigest             string                        `json:"valuesDigest"`
+}
+
+// HelmDeliverySnapshotOperation defines model for HelmDeliverySnapshot.Operation.
+type HelmDeliverySnapshotOperation string
+
+// HelmExecutionTaskPayload defines model for HelmExecutionTaskPayload.
+type HelmExecutionTaskPayload struct {
+	Action HelmExecutionTaskPayloadAction `json:"action"`
+
+	// Prepared Confidential runner input. Never returned through ordinary plan, task, history or log reads.
+	Prepared *HelmPreparedRelease `json:"prepared,omitempty"`
+	Snapshot HelmDeliverySnapshot `json:"snapshot"`
+}
+
+// HelmExecutionTaskPayloadAction defines model for HelmExecutionTaskPayload.Action.
+type HelmExecutionTaskPayloadAction string
+
+// HelmExecutionTaskResult defines model for HelmExecutionTaskResult.
+type HelmExecutionTaskResult struct {
+	Diagnostics    []string                    `json:"diagnostics,omitempty"`
+	Ready          bool                        `json:"ready"`
+	RenderedDigest string                      `json:"renderedDigest"`
+	Resources      []ManifestResourceInventory `json:"resources"`
+	Revision       int                         `json:"revision"`
+	Status         string                      `json:"status"`
+
+	// Stopped The adapter has returned from all Helm mutation work; context cancellation alone is insufficient.
+	Stopped bool `json:"stopped"`
+}
+
+// HelmImageMapping defines model for HelmImageMapping.
+type HelmImageMapping struct {
+	ContainerName string `json:"containerName"`
+
+	// Path RFC 6901 JSON pointer into Helm values, including array indices when required by the Chart.
+	Path string `json:"path"`
+
+	// Value Part of the verified immutable container image to write. Charts that accept only mutable tags require a full-image or digest field before artifact promotion can be enabled.
+	Value HelmImageMappingValue `json:"value"`
+}
+
+// HelmImageMappingValue Part of the verified immutable container image to write. Charts that accept only mutable tags require a full-image or digest field before artifact promotion can be enabled.
+type HelmImageMappingValue string
+
 // HelmImportedService defines model for HelmImportedService.
 type HelmImportedService struct {
 	Created     bool   `json:"created"`
@@ -12735,6 +16729,14 @@ type HelmImportedTarget struct {
 	Created     bool   `json:"created"`
 	ID          string `json:"id"`
 	ReleaseName string `json:"releaseName"`
+}
+
+// HelmPreparedRelease Confidential runner input. Never returned through ordinary plan, task, history or log reads.
+type HelmPreparedRelease struct {
+	ChartArchive string                  `json:"chartArchive"`
+	Hooks        []string                `json:"hooks"`
+	Manifest     string                  `json:"manifest"`
+	Values       TemplateParameterValues `json:"values"`
 }
 
 // HelmReleaseImportInput defines model for HelmReleaseImportInput.
@@ -12796,10 +16798,12 @@ type IdentityApplication struct {
 	ProviderType   IdentityApplicationProviderType `json:"providerType,omitempty"`
 	Slug           string                          `json:"slug"`
 	SortOrder      int                             `json:"sortOrder,omitempty"`
-	Status         IdentityResourceStatus          `json:"status"`
-	Tags           []string                        `json:"tags,omitempty"`
-	UpdatedAt      time.Time                       `json:"updatedAt"`
-	UpdatedBy      string                          `json:"updatedBy,omitempty"`
+
+	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
+	Status    IdentityResourceStatus `json:"status"`
+	Tags      []string               `json:"tags,omitempty"`
+	UpdatedAt time.Time              `json:"updatedAt"`
+	UpdatedBy string                 `json:"updatedBy,omitempty"`
 }
 
 // IdentityApplicationAssignment defines model for IdentityApplicationAssignment.
@@ -12846,8 +16850,10 @@ type IdentityApplicationInput struct {
 	ProviderType  IdentityApplicationProviderType      `json:"providerType,omitempty"`
 	Slug          string                               `json:"slug"`
 	SortOrder     int                                  `json:"sortOrder,omitempty"`
-	Status        IdentityResourceStatus               `json:"status"`
-	Tags          []string                             `json:"tags,omitempty"`
+
+	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
+	Status IdentityResourceStatus `json:"status"`
+	Tags   []string               `json:"tags,omitempty"`
 }
 
 // IdentityApplicationLaunch defines model for IdentityApplicationLaunch.
@@ -12875,6 +16881,30 @@ type IdentityApplicationLaunchListEnvelope struct {
 type IdentityApplicationListEnvelope struct {
 	Items []IdentityApplication `json:"items"`
 }
+
+// IdentityApplicationOnboarding defines model for IdentityApplicationOnboarding.
+type IdentityApplicationOnboarding struct {
+	Application IdentityApplication `json:"application"`
+	OIDCClient  *OIDCClientCreated  `json:"oidcClient,omitempty"`
+	Provider    *IdentityProvider   `json:"provider,omitempty"`
+}
+
+// IdentityApplicationOnboardingEnvelope defines model for IdentityApplicationOnboardingEnvelope.
+type IdentityApplicationOnboardingEnvelope struct {
+	Data IdentityApplicationOnboarding `json:"data"`
+}
+
+// IdentityApplicationOnboardingInput defines model for IdentityApplicationOnboardingInput.
+type IdentityApplicationOnboardingInput struct {
+	// AccessMode Explicit access intent. All-authenticated requires no assignments; restricted requires at least one allow assignment.
+	AccessMode  IdentityApplicationOnboardingInputAccessMode `json:"accessMode"`
+	Application IdentityApplicationInput                     `json:"application"`
+	OIDCClient  OIDCClientInput                              `json:"oidcClient,omitempty"`
+	Provider    *IdentityProviderInput                       `json:"provider,omitempty"`
+}
+
+// IdentityApplicationOnboardingInputAccessMode Explicit access intent. All-authenticated requires no assignments; restricted requires at least one allow assignment.
+type IdentityApplicationOnboardingInputAccessMode string
 
 // IdentityApplicationProviderType defines model for IdentityApplicationProviderType.
 type IdentityApplicationProviderType string
@@ -12904,17 +16934,50 @@ type IdentityErrorEnvelope struct {
 
 // IdentityOutpost defines model for IdentityOutpost.
 type IdentityOutpost struct {
-	ClaimedAgentID       string                   `json:"claimedAgentId,omitempty"`
-	ConfigurationVersion int64                    `json:"configurationVersion"`
-	CreatedAt            time.Time                `json:"createdAt"`
-	ID                   string                   `json:"id"`
-	LastHeartbeatAt      *time.Time               `json:"lastHeartbeatAt,omitempty"`
-	Mode                 IdentityOutpostMode      `json:"mode"`
-	Name                 string                   `json:"name"`
-	RuntimeReason        string                   `json:"runtimeReason,omitempty"`
-	RuntimeStatus        IdentityCapabilityStatus `json:"runtimeStatus"`
-	Status               IdentityResourceStatus   `json:"status"`
-	UpdatedAt            time.Time                `json:"updatedAt"`
+	AppliedConfigurationVersion int64  `json:"appliedConfigurationVersion,omitempty"`
+	ClaimedAgentID              string `json:"claimedAgentId,omitempty"`
+
+	// ConfigurationExpiresAt Expiry of the configuration reported as applied by the node.
+	ConfigurationExpiresAt *time.Time `json:"configurationExpiresAt,omitempty"`
+
+	// ConfigurationVersion Desired configuration version. Zero means no runtime configuration has been issued.
+	ConfigurationVersion int64     `json:"configurationVersion"`
+	CreatedAt            time.Time `json:"createdAt"`
+	CreatedBy            string    `json:"createdBy,omitempty"`
+
+	// Deployment Server-derived deployment settings. Trust material contains only the public verification key; credentials are supplied separately.
+	Deployment *IdentityOutpostDeployment `json:"deployment,omitempty"`
+
+	// Endpoint Legacy node base address. Prefer the explicit forwardAuthUrl for edge integration.
+	Endpoint string `json:"endpoint,omitempty"`
+
+	// ForwardAuthURL Absolute edge-facing Agent Forward Auth URL
+	ForwardAuthURL  string     `json:"forwardAuthUrl,omitempty"`
+	ID              string     `json:"id"`
+	LastHeartbeatAt *time.Time `json:"lastHeartbeatAt,omitempty"`
+
+	// LastSeenAt Legacy last contact time; a configuration poll is not a healthy heartbeat.
+	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
+	LastSeenAt      *time.Time               `json:"lastSeenAt,omitempty"`
+	Metadata        *GenericObject           `json:"metadata,omitempty"`
+	Mode            IdentityOutpostMode      `json:"mode"`
+	Name            string                   `json:"name"`
+	ProtocolVersion string                   `json:"protocolVersion,omitempty"`
+	RuntimeReason   string                   `json:"runtimeReason,omitempty"`
+	RuntimeStatus   IdentityCapabilityStatus `json:"runtimeStatus"`
+	RuntimeVersion  string                   `json:"runtimeVersion,omitempty"`
+
+	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
+	Status IdentityResourceStatus `json:"status"`
+
+	// Token Returned once on creation or token rotation; omitted from normal reads.
+	Token     string    `json:"token,omitempty"`
+	UpdatedAt time.Time `json:"updatedAt"`
+	UpdatedBy string    `json:"updatedBy,omitempty"`
+
+	// Version Legacy node version. Use runtimeVersion and protocolVersion.
+	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
+	Version string `json:"version,omitempty"`
 }
 
 // IdentityOutpostAccessCheck defines model for IdentityOutpostAccessCheck.
@@ -12950,7 +17013,16 @@ type IdentityOutpostAccessCheckRequest struct {
 type IdentityOutpostClaimRequest struct {
 	AgentID                     string `json:"agentId"`
 	CurrentConfigurationVersion int64  `json:"currentConfigurationVersion,omitempty"`
+	RuntimeVersion              string `json:"runtimeVersion,omitempty"`
 	SupportedProtocolVersion    string `json:"supportedProtocolVersion"`
+}
+
+// IdentityOutpostDeployment Server-derived deployment settings. Trust material contains only the public verification key; credentials are supplied separately.
+type IdentityOutpostDeployment struct {
+	ControlPlaneURL string `json:"controlPlaneUrl,omitempty"`
+	ProtocolVersion string `json:"protocolVersion"`
+	TrustKeyID      string `json:"trustKeyId,omitempty"`
+	TrustPublicKey  string `json:"trustPublicKey,omitempty"`
 }
 
 // IdentityOutpostEnvelope defines model for IdentityOutpostEnvelope.
@@ -12977,11 +17049,13 @@ type IdentityOutpostHeartbeatEnvelope struct {
 
 // IdentityOutpostHeartbeatRequest defines model for IdentityOutpostHeartbeatRequest.
 type IdentityOutpostHeartbeatRequest struct {
-	AgentID              string                                `json:"agentId"`
-	CheckedAt            time.Time                             `json:"checkedAt"`
-	ConfigurationVersion int64                                 `json:"configurationVersion"`
-	ErrorCode            string                                `json:"errorCode,omitempty"`
-	Status               IdentityOutpostHeartbeatRequestStatus `json:"status"`
+	AgentID                string                                `json:"agentId"`
+	CheckedAt              time.Time                             `json:"checkedAt"`
+	ConfigurationExpiresAt *time.Time                            `json:"configurationExpiresAt,omitempty"`
+	ConfigurationVersion   int64                                 `json:"configurationVersion"`
+	ErrorCode              string                                `json:"errorCode,omitempty"`
+	RuntimeVersion         string                                `json:"runtimeVersion,omitempty"`
+	Status                 IdentityOutpostHeartbeatRequestStatus `json:"status"`
 }
 
 // IdentityOutpostHeartbeatRequestStatus defines model for IdentityOutpostHeartbeatRequest.Status.
@@ -12989,9 +17063,21 @@ type IdentityOutpostHeartbeatRequestStatus string
 
 // IdentityOutpostInput defines model for IdentityOutpostInput.
 type IdentityOutpostInput struct {
-	Mode   IdentityOutpostMode    `json:"mode"`
-	Name   string                 `json:"name"`
+	// Endpoint Legacy node base address.
+	Endpoint string `json:"endpoint,omitempty"`
+
+	// ForwardAuthURL Absolute edge-facing Forward Auth URL.
+	ForwardAuthURL string              `json:"forwardAuthUrl,omitempty"`
+	Metadata       *GenericObject      `json:"metadata,omitempty"`
+	Mode           IdentityOutpostMode `json:"mode"`
+	Name           string              `json:"name"`
+
+	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
 	Status IdentityResourceStatus `json:"status"`
+
+	// Version Compatibility input accepted but ignored.
+	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
+	Version string `json:"version,omitempty"`
 }
 
 // IdentityOutpostListEnvelope defines model for IdentityOutpostListEnvelope.
@@ -13053,18 +17139,20 @@ type IdentityOutpostRuntimeEventType string
 
 // IdentityPolicy defines model for IdentityPolicy.
 type IdentityPolicy struct {
-	ApplicationIDs []string               `json:"applicationIds"`
-	CreatedAt      time.Time              `json:"createdAt"`
-	Description    string                 `json:"description,omitempty"`
-	Effect         IdentityPolicyEffect   `json:"effect"`
-	ID             string                 `json:"id"`
-	Name           string                 `json:"name"`
-	Priority       int                    `json:"priority"`
-	RequireMFA     bool                   `json:"requireMFA"`
-	RoleIDs        []string               `json:"roleIds,omitempty"`
-	Status         IdentityResourceStatus `json:"status"`
-	TeamIDs        []string               `json:"teamIds,omitempty"`
-	UpdatedAt      time.Time              `json:"updatedAt"`
+	ApplicationIDs []string             `json:"applicationIds"`
+	CreatedAt      time.Time            `json:"createdAt"`
+	Description    string               `json:"description,omitempty"`
+	Effect         IdentityPolicyEffect `json:"effect"`
+	ID             string               `json:"id"`
+	Name           string               `json:"name"`
+	Priority       int                  `json:"priority"`
+	RequireMFA     bool                 `json:"requireMFA"`
+	RoleIDs        []string             `json:"roleIds,omitempty"`
+
+	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
+	Status    IdentityResourceStatus `json:"status"`
+	TeamIDs   []string               `json:"teamIds,omitempty"`
+	UpdatedAt time.Time              `json:"updatedAt"`
 }
 
 // IdentityPolicyEffect defines model for IdentityPolicyEffect.
@@ -13077,15 +17165,17 @@ type IdentityPolicyEnvelope struct {
 
 // IdentityPolicyInput defines model for IdentityPolicyInput.
 type IdentityPolicyInput struct {
-	ApplicationIDs []string               `json:"applicationIds"`
-	Description    string                 `json:"description,omitempty"`
-	Effect         IdentityPolicyEffect   `json:"effect"`
-	Name           string                 `json:"name"`
-	Priority       int                    `json:"priority"`
-	RequireMFA     bool                   `json:"requireMFA"`
-	RoleIDs        []string               `json:"roleIds,omitempty"`
-	Status         IdentityResourceStatus `json:"status"`
-	TeamIDs        []string               `json:"teamIds,omitempty"`
+	ApplicationIDs []string             `json:"applicationIds"`
+	Description    string               `json:"description,omitempty"`
+	Effect         IdentityPolicyEffect `json:"effect"`
+	Name           string               `json:"name"`
+	Priority       int                  `json:"priority"`
+	RequireMFA     bool                 `json:"requireMFA"`
+	RoleIDs        []string             `json:"roleIds,omitempty"`
+
+	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
+	Status  IdentityResourceStatus `json:"status"`
+	TeamIDs []string               `json:"teamIds,omitempty"`
 }
 
 // IdentityPolicyListEnvelope defines model for IdentityPolicyListEnvelope.
@@ -13111,11 +17201,13 @@ type IdentityProvider struct {
 
 	// SecretRefs Deprecated response field retained for 0.1.x SDK compatibility; current servers omit it.
 	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
-	SecretRefs map[string]any         `json:"secretRefs,omitempty"`
-	Status     IdentityResourceStatus `json:"status"`
-	Type       IdentityProviderType   `json:"type"`
-	UpdatedAt  time.Time              `json:"updatedAt"`
-	UpdatedBy  string                 `json:"updatedBy,omitempty"`
+	SecretRefs map[string]any `json:"secretRefs,omitempty"`
+
+	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
+	Status    IdentityResourceStatus `json:"status"`
+	Type      IdentityProviderType   `json:"type"`
+	UpdatedAt time.Time              `json:"updatedAt"`
+	UpdatedBy string                 `json:"updatedBy,omitempty"`
 }
 
 // IdentityProviderEnvelope defines model for IdentityProviderEnvelope.
@@ -13131,9 +17223,11 @@ type IdentityProviderInput struct {
 	Name          string         `json:"name"`
 
 	// SecretRefs Omit on update to preserve existing references; send an empty object to clear them.
-	SecretRefs SecretReferenceMap     `json:"secretRefs,omitempty"`
-	Status     IdentityResourceStatus `json:"status"`
-	Type       IdentityProviderType   `json:"type"`
+	SecretRefs SecretReferenceMap `json:"secretRefs,omitempty"`
+
+	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
+	Status IdentityResourceStatus `json:"status"`
+	Type   IdentityProviderType   `json:"type"`
 }
 
 // IdentityProviderListEnvelope defines model for IdentityProviderListEnvelope.
@@ -13141,10 +17235,80 @@ type IdentityProviderListEnvelope struct {
 	Items []IdentityProvider `json:"items"`
 }
 
+// IdentityProviderSetup defines model for IdentityProviderSetup.
+type IdentityProviderSetup struct {
+	// ConfigurationStatus Saved configuration completeness; does not imply runtime availability or a verified login.
+	ConfigurationStatus IdentityProviderSetupConfigurationStatus `json:"configurationStatus"`
+
+	// Endpoints Absolute URLs derived only from configured server public URL and the selected Outpost. Missing configuration omits the affected endpoint.
+	Endpoints IdentityProviderSetupEndpoints `json:"endpoints"`
+	Issues    []string                       `json:"issues"`
+
+	// MigrationRequired The saved provider still uses legacy Core business traffic forwarding.
+	MigrationRequired    bool                                      `json:"migrationRequired"`
+	OutpostID            string                                    `json:"outpostId,omitempty"`
+	OutpostName          string                                    `json:"outpostName,omitempty"`
+	OutpostRuntimeReason string                                    `json:"outpostRuntimeReason,omitempty"`
+	OutpostRuntimeStatus IdentityProviderSetupOutpostRuntimeStatus `json:"outpostRuntimeStatus,omitempty"`
+	ProviderID           string                                    `json:"providerId"`
+
+	// RequiresOutpostToken The edge proxy must supply the Agent service credential in X-Soha-Outpost-Token, independently of the user session.
+	RequiresOutpostToken bool `json:"requiresOutpostToken"`
+}
+
+// IdentityProviderSetupConfigurationStatus Saved configuration completeness; does not imply runtime availability or a verified login.
+type IdentityProviderSetupConfigurationStatus string
+
+// IdentityProviderSetupOutpostRuntimeStatus defines model for IdentityProviderSetup.OutpostRuntimeStatus.
+type IdentityProviderSetupOutpostRuntimeStatus string
+
+// IdentityProviderSetupEndpoints Absolute URLs derived only from configured server public URL and the selected Outpost. Missing configuration omits the affected endpoint.
+type IdentityProviderSetupEndpoints struct {
+	AuthorizationURL      string `json:"authorizationUrl,omitempty"`
+	DiscoveryURL          string `json:"discoveryUrl,omitempty"`
+	ForwardAuthURL        string `json:"forwardAuthUrl,omitempty"`
+	Issuer                string `json:"issuer,omitempty"`
+	JwksURL               string `json:"jwksUrl,omitempty"`
+	LegacyReverseProxyURL string `json:"legacyReverseProxyUrl,omitempty"`
+	LoginURL              string `json:"loginUrl,omitempty"`
+	LogoutURL             string `json:"logoutUrl,omitempty"`
+	SamlMetadataURL       string `json:"samlMetadataUrl,omitempty"`
+	SamlSSOUrl            string `json:"samlSSOUrl,omitempty"`
+	TokenURL              string `json:"tokenUrl,omitempty"`
+	UserInfoURL           string `json:"userInfoUrl,omitempty"`
+}
+
+// IdentityProviderSetupEnvelope defines model for IdentityProviderSetupEnvelope.
+type IdentityProviderSetupEnvelope struct {
+	Data IdentityProviderSetup `json:"data"`
+}
+
 // IdentityProviderType defines model for IdentityProviderType.
 type IdentityProviderType string
 
-// IdentityResourceStatus defines model for IdentityResourceStatus.
+// IdentityProviderUserMetadata defines model for IdentityProviderUserMetadata.
+type IdentityProviderUserMetadata struct {
+	// Attributes Protocol attribute names and their string values; scalar claims and headers are represented by one-element arrays. Excludes credentials, tokens and upstream raw profiles.
+	Attributes map[string][]string                  `json:"attributes"`
+	ClientID   string                               `json:"clientId,omitempty"`
+	Protocol   IdentityProviderUserMetadataProtocol `json:"protocol"`
+	ProviderID string                               `json:"providerId"`
+	Scopes     []string                             `json:"scopes,omitempty"`
+
+	// Subject SAML NameID when previewing a SAML provider.
+	Subject string `json:"subject,omitempty"`
+	UserID  string `json:"userId"`
+}
+
+// IdentityProviderUserMetadataProtocol defines model for IdentityProviderUserMetadata.Protocol.
+type IdentityProviderUserMetadataProtocol string
+
+// IdentityProviderUserMetadataEnvelope defines model for IdentityProviderUserMetadataEnvelope.
+type IdentityProviderUserMetadataEnvelope struct {
+	Data IdentityProviderUserMetadata `json:"data"`
+}
+
+// IdentityResourceStatus Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
 type IdentityResourceStatus string
 
 // IdentityRuntimeCapability defines model for IdentityRuntimeCapability.
@@ -14023,10 +18187,14 @@ type KubernetesCustomResource struct {
 	AllowedActions []string             `json:"allowedActions,omitempty"`
 	APIVersion     string               `json:"apiVersion,omitempty"`
 	CreatedAt      string               `json:"createdAt,omitempty"`
+	DeletingAt     *time.Time           `json:"deletingAt,omitempty"`
+	Finalizers     []string             `json:"finalizers,omitempty"`
+	Generation     int64                `json:"generation,omitempty"`
 	Kind           string               `json:"kind"`
 	Labels         *KubernetesStringMap `json:"labels,omitempty"`
 	Name           string               `json:"name"`
 	Namespace      string               `json:"namespace,omitempty"`
+	UID            string               `json:"uid,omitempty"`
 }
 
 // KubernetesCustomResourceDefinition defines model for KubernetesCustomResourceDefinition.
@@ -17382,21 +21550,23 @@ type MFAWebAuthnResponse struct {
 
 // ManifestBinding defines model for ManifestBinding.
 type ManifestBinding struct {
-	ApplicationEnvironmentID string                 `json:"applicationEnvironmentId"`
-	ClusterID                string                 `json:"clusterId"`
-	CreatedAt                time.Time              `json:"createdAt"`
-	DeletionPolicy           ManifestDeletionPolicy `json:"deletionPolicy"`
-	DriftPolicy              ManifestDriftPolicy    `json:"driftPolicy"`
-	Enabled                  bool                   `json:"enabled"`
-	EnvironmentKey           string                 `json:"environmentKey"`
-	ID                       string                 `json:"id"`
-	Namespace                string                 `json:"namespace"`
-	Overlay                  map[string]string      `json:"overlay"`
-	PackageID                string                 `json:"packageId"`
-	RolloutStrategyID        string                 `json:"rolloutStrategyId,omitempty"`
-	UpdatedAt                time.Time              `json:"updatedAt"`
-	VerificationPolicyID     string                 `json:"verificationPolicyId,omitempty"`
-	Version                  int64                  `json:"version"`
+	ApplicationEnvironmentID string                    `json:"applicationEnvironmentId"`
+	ClusterID                string                    `json:"clusterId"`
+	CreatedAt                time.Time                 `json:"createdAt"`
+	DeletionPolicy           ManifestDeletionPolicy    `json:"deletionPolicy"`
+	DriftPolicy              ManifestDriftPolicy       `json:"driftPolicy"`
+	Enabled                  bool                      `json:"enabled"`
+	EnvironmentKey           string                    `json:"environmentKey"`
+	ID                       string                    `json:"id"`
+	Kustomize                *ManifestKustomizeOptions `json:"kustomize,omitempty"`
+	Namespace                string                    `json:"namespace"`
+	Overlay                  map[string]string         `json:"overlay"`
+	PackageID                string                    `json:"packageId"`
+	RolloutStrategyID        string                    `json:"rolloutStrategyId,omitempty"`
+	TemplateParameters       *TemplateParameterValues  `json:"templateParameters,omitempty"`
+	UpdatedAt                time.Time                 `json:"updatedAt"`
+	VerificationPolicyID     string                    `json:"verificationPolicyId,omitempty"`
+	Version                  int64                     `json:"version"`
 }
 
 // ManifestBindingEnvelope defines model for ManifestBindingEnvelope.
@@ -17406,15 +21576,17 @@ type ManifestBindingEnvelope struct {
 
 // ManifestBindingInput defines model for ManifestBindingInput.
 type ManifestBindingInput struct {
-	ApplicationEnvironmentID string                 `json:"applicationEnvironmentId"`
-	ClusterID                string                 `json:"clusterId"`
-	DeletionPolicy           ManifestDeletionPolicy `json:"deletionPolicy"`
-	DriftPolicy              ManifestDriftPolicy    `json:"driftPolicy"`
-	Enabled                  bool                   `json:"enabled"`
-	Namespace                string                 `json:"namespace"`
-	Overlay                  map[string]string      `json:"overlay,omitempty"`
-	RolloutStrategyID        string                 `json:"rolloutStrategyId,omitempty"`
-	VerificationPolicyID     string                 `json:"verificationPolicyId,omitempty"`
+	ApplicationEnvironmentID string                    `json:"applicationEnvironmentId"`
+	ClusterID                string                    `json:"clusterId"`
+	DeletionPolicy           ManifestDeletionPolicy    `json:"deletionPolicy"`
+	DriftPolicy              ManifestDriftPolicy       `json:"driftPolicy"`
+	Enabled                  bool                      `json:"enabled"`
+	Kustomize                *ManifestKustomizeOptions `json:"kustomize,omitempty"`
+	Namespace                string                    `json:"namespace"`
+	Overlay                  map[string]string         `json:"overlay,omitempty"`
+	RolloutStrategyID        string                    `json:"rolloutStrategyId,omitempty"`
+	TemplateParameters       *TemplateParameterValues  `json:"templateParameters,omitempty"`
+	VerificationPolicyID     string                    `json:"verificationPolicyId,omitempty"`
 }
 
 // ManifestBindingListEnvelope defines model for ManifestBindingListEnvelope.
@@ -17424,16 +21596,18 @@ type ManifestBindingListEnvelope struct {
 
 // ManifestBindingUpdateInput defines model for ManifestBindingUpdateInput.
 type ManifestBindingUpdateInput struct {
-	ApplicationEnvironmentID string                 `json:"applicationEnvironmentId"`
-	ClusterID                string                 `json:"clusterId"`
-	DeletionPolicy           ManifestDeletionPolicy `json:"deletionPolicy"`
-	DriftPolicy              ManifestDriftPolicy    `json:"driftPolicy"`
-	Enabled                  bool                   `json:"enabled"`
-	ExpectedVersion          int64                  `json:"expectedVersion"`
-	Namespace                string                 `json:"namespace"`
-	Overlay                  map[string]string      `json:"overlay,omitempty"`
-	RolloutStrategyID        string                 `json:"rolloutStrategyId,omitempty"`
-	VerificationPolicyID     string                 `json:"verificationPolicyId,omitempty"`
+	ApplicationEnvironmentID string                    `json:"applicationEnvironmentId"`
+	ClusterID                string                    `json:"clusterId"`
+	DeletionPolicy           ManifestDeletionPolicy    `json:"deletionPolicy"`
+	DriftPolicy              ManifestDriftPolicy       `json:"driftPolicy"`
+	Enabled                  bool                      `json:"enabled"`
+	ExpectedVersion          int64                     `json:"expectedVersion"`
+	Kustomize                *ManifestKustomizeOptions `json:"kustomize,omitempty"`
+	Namespace                string                    `json:"namespace"`
+	Overlay                  map[string]string         `json:"overlay,omitempty"`
+	RolloutStrategyID        string                    `json:"rolloutStrategyId,omitempty"`
+	TemplateParameters       *TemplateParameterValues  `json:"templateParameters,omitempty"`
+	VerificationPolicyID     string                    `json:"verificationPolicyId,omitempty"`
 }
 
 // ManifestCondition defines model for ManifestCondition.
@@ -17515,6 +21689,33 @@ type ManifestDeliveryIntentListEnvelope struct {
 // ManifestDeliveryIntentStatus defines model for ManifestDeliveryIntentStatus.
 type ManifestDeliveryIntentStatus string
 
+// ManifestDeliverySnapshot defines model for ManifestDeliverySnapshot.
+type ManifestDeliverySnapshot struct {
+	ApplicationEnvironmentID string                     `json:"applicationEnvironmentId"`
+	BindingID                string                     `json:"bindingId"`
+	BindingVersion           int64                      `json:"bindingVersion"`
+	ClusterID                string                     `json:"clusterId"`
+	DeliveryPlanID           string                     `json:"deliveryPlanId"`
+	Documents                []ManifestRenderedDocument `json:"documents"`
+	ExpectedGeneration       int64                      `json:"expectedGeneration"`
+
+	// GitOpsDocuments Frozen GitOps child resources sharing this plan's preflight, ownership and observation boundaries.
+	GitOpsDocuments  []ManifestRenderedDocument     `json:"gitOpsDocuments,omitempty"`
+	InputDigest      string                         `json:"inputDigest"`
+	Namespace        string                         `json:"namespace"`
+	PackageID        string                         `json:"packageId"`
+	PackageUpdatedAt time.Time                      `json:"packageUpdatedAt"`
+	PreflightTaskID  string                         `json:"preflightTaskId"`
+	RenderedDigest   string                         `json:"renderedDigest"`
+	RendererVersion  string                         `json:"rendererVersion"`
+	Revision         int                            `json:"revision"`
+	RevisionDigest   string                         `json:"revisionDigest"`
+	ServiceID        string                         `json:"serviceId,omitempty"`
+	SourceCommit     string                         `json:"sourceCommit,omitempty"`
+	TargetID         string                         `json:"targetId"`
+	TemplateInputs   *ManifestServiceTemplateInputs `json:"templateInputs,omitempty"`
+}
+
 // ManifestDeployment defines model for ManifestDeployment.
 type ManifestDeployment struct {
 	BindingID  string                   `json:"bindingId"`
@@ -17568,11 +21769,12 @@ type ManifestDeploymentPhase string
 
 // ManifestDeploymentSpec defines model for ManifestDeploymentSpec.
 type ManifestDeploymentSpec struct {
-	DeletionPolicy  ManifestDeletionPolicy  `json:"deletionPolicy"`
-	DesiredDigest   string                  `json:"desiredDigest"`
-	DesiredRevision int                     `json:"desiredRevision"`
-	DriftPolicy     ManifestDriftPolicy     `json:"driftPolicy"`
-	ReconcilePolicy ManifestReconcilePolicy `json:"reconcilePolicy"`
+	DeletionPolicy   ManifestDeletionPolicy    `json:"deletionPolicy"`
+	DeliverySnapshot *ManifestDeliverySnapshot `json:"deliverySnapshot,omitempty"`
+	DesiredDigest    string                    `json:"desiredDigest"`
+	DesiredRevision  int                       `json:"desiredRevision"`
+	DriftPolicy      ManifestDriftPolicy       `json:"driftPolicy"`
+	ReconcilePolicy  ManifestReconcilePolicy   `json:"reconcilePolicy"`
 }
 
 // ManifestDeploymentStatus defines model for ManifestDeploymentStatus.
@@ -17646,36 +21848,38 @@ type ManifestDriftReport struct {
 
 // ManifestExecutionTask defines model for ManifestExecutionTask.
 type ManifestExecutionTask struct {
-	ApplicationEnvironmentID string                       `json:"applicationEnvironmentId"`
-	ApplicationID            string                       `json:"applicationId"`
-	Artifacts                []ExecutionArtifact          `json:"artifacts,omitempty"`
-	AttemptCount             int                          `json:"attemptCount,omitempty"`
-	CallbackToken            string                       `json:"callbackToken"`
-	ClaimedByAgentID         string                       `json:"claimedByAgentId,omitempty"`
-	CreatedAt                *time.Time                   `json:"createdAt,omitempty"`
-	FinishedAt               *time.Time                   `json:"finishedAt,omitempty"`
-	ID                       string                       `json:"id"`
-	LastHeartbeatAt          *time.Time                   `json:"lastHeartbeatAt,omitempty"`
-	LastRuntimeSeenAt        *time.Time                   `json:"lastRuntimeSeenAt,omitempty"`
-	LockKey                  string                       `json:"lockKey,omitempty"`
-	MaxRetries               int                          `json:"maxRetries,omitempty"`
-	OperationState           *OperationState              `json:"operationState,omitempty"`
-	Payload                  ManifestExecutionTaskPayload `json:"payload"`
-	ProviderKind             string                       `json:"providerKind"`
-	QueueKey                 string                       `json:"queueKey,omitempty"`
-	ReleaseBundleID          string                       `json:"releaseBundleId,omitempty"`
-	Result                   *ManifestExecutionTaskResult `json:"result,omitempty"`
-	RuntimeClusterID         string                       `json:"runtimeClusterId,omitempty"`
-	RuntimeEndpoint          string                       `json:"runtimeEndpoint,omitempty"`
-	SecretLease              *SecretLeaseGrant            `json:"secretLease,omitempty"`
-	StartedAt                *time.Time                   `json:"startedAt,omitempty"`
-	Status                   string                       `json:"status"`
-	StopTransport            string                       `json:"stopTransport,omitempty"`
-	TargetKind               string                       `json:"targetKind,omitempty"`
-	TaskKind                 string                       `json:"taskKind"`
-	TimeoutSeconds           int                          `json:"timeoutSeconds,omitempty"`
-	UpdatedAt                *time.Time                   `json:"updatedAt,omitempty"`
-	AdditionalProperties     map[string]any               `json:"-"`
+	ApplicationEnvironmentID string              `json:"applicationEnvironmentId"`
+	ApplicationID            string              `json:"applicationId"`
+	Artifacts                []ExecutionArtifact `json:"artifacts,omitempty"`
+	AttemptCount             int                 `json:"attemptCount,omitempty"`
+	CallbackToken            string              `json:"callbackToken"`
+	ClaimedByAgentID         string              `json:"claimedByAgentId,omitempty"`
+	CreatedAt                *time.Time          `json:"createdAt,omitempty"`
+	FinishedAt               *time.Time          `json:"finishedAt,omitempty"`
+	ID                       string              `json:"id"`
+	LastHeartbeatAt          *time.Time          `json:"lastHeartbeatAt,omitempty"`
+	LastRuntimeSeenAt        *time.Time          `json:"lastRuntimeSeenAt,omitempty"`
+	LockKey                  string              `json:"lockKey,omitempty"`
+	MaxRetries               int                 `json:"maxRetries,omitempty"`
+	OperationState           *OperationState     `json:"operationState,omitempty"`
+
+	// Payload Controller-aware tasks use providerKind manifest_agent_v3.<clusterId> and require manifest.execution.v3. Older runners must not claim these tasks or bypass GitOps and Rollout ownership.
+	Payload              ManifestExecutionTaskPayload `json:"payload"`
+	ProviderKind         string                       `json:"providerKind"`
+	QueueKey             string                       `json:"queueKey,omitempty"`
+	ReleaseBundleID      string                       `json:"releaseBundleId,omitempty"`
+	Result               *ManifestExecutionTaskResult `json:"result,omitempty"`
+	RuntimeClusterID     string                       `json:"runtimeClusterId,omitempty"`
+	RuntimeEndpoint      string                       `json:"runtimeEndpoint,omitempty"`
+	SecretLease          *SecretLeaseGrant            `json:"secretLease,omitempty"`
+	StartedAt            *time.Time                   `json:"startedAt,omitempty"`
+	Status               string                       `json:"status"`
+	StopTransport        string                       `json:"stopTransport,omitempty"`
+	TargetKind           string                       `json:"targetKind,omitempty"`
+	TaskKind             string                       `json:"taskKind"`
+	TimeoutSeconds       int                          `json:"timeoutSeconds,omitempty"`
+	UpdatedAt            *time.Time                   `json:"updatedAt,omitempty"`
+	AdditionalProperties map[string]any               `json:"-"`
 }
 
 // ManifestExecutionTaskEnvelope defines model for ManifestExecutionTaskEnvelope.
@@ -17683,17 +21887,20 @@ type ManifestExecutionTaskEnvelope struct {
 	Data ManifestExecutionTask `json:"data"`
 }
 
-// ManifestExecutionTaskPayload defines model for ManifestExecutionTaskPayload.
+// ManifestExecutionTaskPayload Controller-aware tasks use providerKind manifest_agent_v3.<clusterId> and require manifest.execution.v3. Older runners must not claim these tasks or bypass GitOps and Rollout ownership.
 type ManifestExecutionTaskPayload struct {
-	Action          ManifestTaskAction                   `json:"action"`
-	BindingID       string                               `json:"bindingId,omitempty"`
-	ClusterID       string                               `json:"clusterId,omitempty"`
-	DeploymentID    string                               `json:"deploymentId,omitempty"`
-	Documents       []ManifestRenderedDocument           `json:"documents,omitempty"`
-	ExcludePatterns []string                             `json:"excludePatterns,omitempty"`
-	FieldManager    string                               `json:"fieldManager,omitempty"`
-	ForceConflicts  bool                                 `json:"forceConflicts,omitempty"`
-	Generation      int64                                `json:"generation"`
+	Action          ManifestTaskAction         `json:"action"`
+	BindingID       string                     `json:"bindingId,omitempty"`
+	ClusterID       string                     `json:"clusterId,omitempty"`
+	DeploymentID    string                     `json:"deploymentId,omitempty"`
+	Documents       []ManifestRenderedDocument `json:"documents,omitempty"`
+	ExcludePatterns []string                   `json:"excludePatterns,omitempty"`
+	FieldManager    string                     `json:"fieldManager,omitempty"`
+	ForceConflicts  bool                       `json:"forceConflicts,omitempty"`
+	Generation      int64                      `json:"generation"`
+
+	// GitOpsDocuments Server-rendered child resources from the single Argo Application's immutable Git source and image overrides; used for ownership admission and live verification, never direct apply.
+	GitOpsDocuments []ManifestRenderedDocument           `json:"gitOpsDocuments,omitempty"`
 	IdempotencyKey  string                               `json:"idempotencyKey"`
 	IncludePatterns []string                             `json:"includePatterns,omitempty"`
 	Inventory       []ManifestResourceInventory          `json:"inventory,omitempty"`
@@ -17709,6 +21916,7 @@ type ManifestExecutionTaskPayload struct {
 	RequestedBy     string                               `json:"requestedBy,omitempty"`
 	RequestedCommit string                               `json:"requestedCommit,omitempty"`
 	Revision        int                                  `json:"revision,omitempty"`
+	RolloutControl  *ProgressiveRolloutControlInput      `json:"rolloutControl,omitempty"`
 	SourceID        string                               `json:"sourceId,omitempty"`
 }
 
@@ -17729,15 +21937,36 @@ type ManifestExecutionTaskResult struct {
 	Preflight       *ManifestPreflightResult    `json:"preflight,omitempty"`
 	RenderedDigest  string                      `json:"renderedDigest,omitempty"`
 	ResolvedCommit  string                      `json:"resolvedCommit,omitempty"`
-	Stale           bool                        `json:"stale"`
-	SyncedFiles     []ManifestFile              `json:"syncedFiles,omitempty"`
-	TreeDigest      string                      `json:"treeDigest,omitempty"`
+
+	// Rollout Observed Argo Rollouts state. Traffic weights are read from Traefik, never inferred from replica counts. Promotion clears only a manual pause and does not skip analysis.
+	Rollout     *ProgressiveRolloutStatus `json:"rollout,omitempty"`
+	Stale       bool                      `json:"stale"`
+	SyncedFiles []ManifestFile            `json:"syncedFiles,omitempty"`
+	TreeDigest  string                    `json:"treeDigest,omitempty"`
 }
 
 // ManifestFile defines model for ManifestFile.
 type ManifestFile struct {
 	Content string `json:"content"`
 	Path    string `json:"path"`
+}
+
+// ManifestKustomizeImage defines model for ManifestKustomizeImage.
+type ManifestKustomizeImage struct {
+	Digest string `json:"digest"`
+
+	// Name Image name matched by the native Kustomize images transformer.
+	Name string `json:"name"`
+
+	// NewName Optional replacement image repository, without a tag or digest.
+	NewName string `json:"newName,omitempty"`
+}
+
+// ManifestKustomizeOptions defines model for ManifestKustomizeOptions.
+type ManifestKustomizeOptions struct {
+	// EntryPath Directory containing a standard Kustomization file, relative to the package root. Defaults to the package root; the root retains shared bases and generator files.
+	EntryPath string                   `json:"entryPath,omitempty"`
+	Images    []ManifestKustomizeImage `json:"images,omitempty"`
 }
 
 // ManifestPackage defines model for ManifestPackage.
@@ -17761,13 +21990,15 @@ type ManifestPackage struct {
 
 // ManifestPackageBinding defines model for ManifestPackageBinding.
 type ManifestPackageBinding struct {
-	ApplicationEnvironmentID string            `json:"applicationEnvironmentId"`
-	ClusterID                string            `json:"clusterId"`
-	EnvironmentKey           string            `json:"environmentKey"`
-	ID                       string            `json:"id,omitempty"`
-	Namespace                string            `json:"namespace"`
-	Overlay                  map[string]string `json:"overlay,omitempty"`
-	Status                   string            `json:"status,omitempty"`
+	ApplicationEnvironmentID string                    `json:"applicationEnvironmentId"`
+	ClusterID                string                    `json:"clusterId"`
+	EnvironmentKey           string                    `json:"environmentKey"`
+	ID                       string                    `json:"id,omitempty"`
+	Kustomize                *ManifestKustomizeOptions `json:"kustomize,omitempty"`
+	Namespace                string                    `json:"namespace"`
+	Overlay                  map[string]string         `json:"overlay,omitempty"`
+	Status                   string                    `json:"status,omitempty"`
+	TemplateParameters       *TemplateParameterValues  `json:"templateParameters,omitempty"`
 }
 
 // ManifestPackageEnvelope defines model for ManifestPackageEnvelope.
@@ -17781,10 +22012,13 @@ type ManifestPackageInput struct {
 	Bindings       []ManifestPackageBinding `json:"bindings"`
 	BusinessLineID string                   `json:"businessLineId,omitempty"`
 	Description    string                   `json:"description,omitempty"`
-	Files          []ManifestFile           `json:"files"`
-	Name           string                   `json:"name"`
-	Renderer       ManifestPackageRenderer  `json:"renderer"`
-	ServiceID      string                   `json:"serviceId,omitempty"`
+
+	// ExpectedUpdatedAt Draft compare-and-swap token from updatedAt, required when updating a service template configuration; stale writes return conflict. Optional for legacy independent packages.
+	ExpectedUpdatedAt *time.Time              `json:"expectedUpdatedAt,omitempty"`
+	Files             []ManifestFile          `json:"files"`
+	Name              string                  `json:"name"`
+	Renderer          ManifestPackageRenderer `json:"renderer"`
+	ServiceID         string                  `json:"serviceId,omitempty"`
 }
 
 // ManifestPackagePage defines model for ManifestPackagePage.
@@ -17841,13 +22075,15 @@ type ManifestRenderInput struct {
 
 // ManifestRenderResult defines model for ManifestRenderResult.
 type ManifestRenderResult struct {
-	BindingID      string                       `json:"bindingId"`
-	Diagnostics    []ManifestDiagnostic         `json:"diagnostics"`
-	Documents      []ManifestRenderedDocument   `json:"documents"`
-	PackageID      string                       `json:"packageId"`
-	RenderedDigest string                       `json:"renderedDigest"`
-	Renderer       ManifestRenderResultRenderer `json:"renderer"`
-	Revision       int                          `json:"revision"`
+	BindingID       string                       `json:"bindingId"`
+	Diagnostics     []ManifestDiagnostic         `json:"diagnostics"`
+	Documents       []ManifestRenderedDocument   `json:"documents"`
+	InputDigest     string                       `json:"inputDigest,omitempty"`
+	PackageID       string                       `json:"packageId"`
+	RenderedDigest  string                       `json:"renderedDigest"`
+	Renderer        ManifestRenderResultRenderer `json:"renderer"`
+	RendererVersion string                       `json:"rendererVersion,omitempty"`
+	Revision        int                          `json:"revision"`
 }
 
 // ManifestRenderResultRenderer defines model for ManifestRenderResult.Renderer.
@@ -17867,18 +22103,33 @@ type ManifestRenderedDocument struct {
 
 // ManifestResourceInventory defines model for ManifestResourceInventory.
 type ManifestResourceInventory struct {
-	APIVersion           string    `json:"apiVersion"`
-	DeploymentID         string    `json:"deploymentId"`
-	DesiredObjectDigest  string    `json:"desiredObjectDigest"`
-	Generation           int64     `json:"generation"`
-	Health               string    `json:"health"`
-	Kind                 string    `json:"kind"`
-	LastObservedAt       time.Time `json:"lastObservedAt"`
-	Name                 string    `json:"name"`
-	Namespace            string    `json:"namespace"`
-	ObservedObjectDigest string    `json:"observedObjectDigest"`
-	ResourceVersion      string    `json:"resourceVersion,omitempty"`
-	UID                  string    `json:"uid,omitempty"`
+	APIVersion           string     `json:"apiVersion"`
+	DeletingAt           *time.Time `json:"deletingAt,omitempty"`
+	DeploymentID         string     `json:"deploymentId"`
+	DesiredObjectDigest  string     `json:"desiredObjectDigest"`
+	Finalizers           []string   `json:"finalizers,omitempty"`
+	Generation           int64      `json:"generation"`
+	Health               string     `json:"health"`
+	Kind                 string     `json:"kind"`
+	LastObservedAt       time.Time  `json:"lastObservedAt"`
+	Name                 string     `json:"name"`
+	Namespace            string     `json:"namespace"`
+	ObservedObjectDigest string     `json:"observedObjectDigest"`
+
+	// ObservedResourceGeneration Live status.observedGeneration when reported by the resource controller.
+	ObservedResourceGeneration *int64 `json:"observedResourceGeneration,omitempty"`
+
+	// ResourceGeneration Live Kubernetes metadata.generation; distinct from the Soha deployment generation.
+	ResourceGeneration int64  `json:"resourceGeneration,omitempty"`
+	ResourceVersion    string `json:"resourceVersion,omitempty"`
+	UID                string `json:"uid,omitempty"`
+}
+
+// ManifestRevisionInput defines model for ManifestRevisionInput.
+type ManifestRevisionInput struct {
+	// ExpectedUpdatedAt Current package updatedAt; concurrent changes return conflict.
+	ExpectedUpdatedAt time.Time `json:"expectedUpdatedAt"`
+	Note              string    `json:"note,omitempty"`
 }
 
 // ManifestRollbackInput defines model for ManifestRollbackInput.
@@ -17887,6 +22138,18 @@ type ManifestRollbackInput struct {
 	Reason             string `json:"reason,omitempty"`
 	TargetRevision     int    `json:"targetRevision,omitempty"`
 	UseLastKnownGood   bool   `json:"useLastKnownGood,omitempty"`
+}
+
+// ManifestServiceTemplateInputs defines model for ManifestServiceTemplateInputs.
+type ManifestServiceTemplateInputs struct {
+	// ArtifactImages Verified immutable image references keyed by service container name.
+	ArtifactImages  map[string]string       `json:"artifactImages"`
+	Parameters      TemplateParameterValues `json:"parameters"`
+	ReleaseBundleID string                  `json:"releaseBundleId,omitempty"`
+	ServiceVersion  int64                   `json:"serviceVersion"`
+	TemplateDigest  string                  `json:"templateDigest"`
+	TemplateID      string                  `json:"templateId"`
+	TemplateVersion int64                   `json:"templateVersion"`
 }
 
 // ManifestSource defines model for ManifestSource.
@@ -18377,6 +22640,7 @@ type NetworkConnectionOptionListEnvelope struct {
 
 // NetworkGateway defines model for NetworkGateway.
 type NetworkGateway struct {
+	AcceptNewConnections       *bool                              `json:"acceptNewConnections,omitempty"`
 	AdministrativeStatus       NetworkGatewayAdministrativeStatus `json:"administrativeStatus"`
 	AdvertisedCidrs            []NetworkIPv4CIDR                  `json:"advertisedCidrs,omitempty"`
 	AppliedAt                  *time.Time                         `json:"appliedAt,omitempty"`
@@ -18386,15 +22650,21 @@ type NetworkGateway struct {
 	HubGatewayID               string                             `json:"hubGatewayId,omitempty"`
 	ID                         string                             `json:"id"`
 	LastHeartbeatAt            *time.Time                         `json:"lastHeartbeatAt,omitempty"`
+	MaxSessions                int                                `json:"maxSessions,omitempty"`
 	Mtu                        int                                `json:"mtu"`
 	Name                       string                             `json:"name"`
 	OverlayCidr                string                             `json:"overlayCidr"`
 	PersistentKeepaliveSeconds int                                `json:"persistentKeepaliveSeconds"`
 	PolicyVersion              int                                `json:"policyVersion,omitempty"`
+	ProbeURL                   string                             `json:"probeURL,omitempty"`
+	ProviderCode               string                             `json:"providerCode,omitempty"`
+	ProviderName               string                             `json:"providerName,omitempty"`
 	PublicEndpointHost         string                             `json:"publicEndpointHost"`
 	PublicEndpointPort         int                                `json:"publicEndpointPort"`
+	Region                     string                             `json:"region,omitempty"`
 	RoutingMode                NetworkGatewayRoutingMode          `json:"routingMode"`
 	RuntimeID                  string                             `json:"runtimeId"`
+	SelectionPriority          int                                `json:"selectionPriority,omitempty"`
 	SiteID                     string                             `json:"siteId"`
 	Status                     NetworkGatewayStatus               `json:"status"`
 	UpdatedAt                  time.Time                          `json:"updatedAt"`
@@ -18412,18 +22682,25 @@ type NetworkGatewayEnvelope struct {
 
 // NetworkGatewayInput defines model for NetworkGatewayInput.
 type NetworkGatewayInput struct {
+	AcceptNewConnections       *bool                              `json:"acceptNewConnections,omitempty"`
 	AdministrativeStatus       NetworkGatewayAdministrativeStatus `json:"administrativeStatus"`
 	AdvertisedCidrs            []NetworkIPv4CIDR                  `json:"advertisedCidrs,omitempty"`
 	DNSServers                 []string                           `json:"dnsServers"`
 	HubGatewayID               string                             `json:"hubGatewayId,omitempty"`
+	MaxSessions                *int                               `json:"maxSessions,omitempty"`
 	Mtu                        int                                `json:"mtu"`
 	Name                       string                             `json:"name"`
 	OverlayCidr                string                             `json:"overlayCidr"`
 	PersistentKeepaliveSeconds int                                `json:"persistentKeepaliveSeconds"`
+	ProbeURL                   *string                            `json:"probeURL,omitempty"`
+	ProviderCode               *string                            `json:"providerCode,omitempty"`
+	ProviderName               *string                            `json:"providerName,omitempty"`
 	PublicEndpointHost         string                             `json:"publicEndpointHost"`
 	PublicEndpointPort         int                                `json:"publicEndpointPort"`
+	Region                     *string                            `json:"region,omitempty"`
 	RoutingMode                NetworkGatewayRoutingMode          `json:"routingMode"`
 	RuntimeID                  string                             `json:"runtimeId"`
+	SelectionPriority          *int                               `json:"selectionPriority,omitempty"`
 	SiteID                     string                             `json:"siteId"`
 }
 
@@ -18971,6 +23248,354 @@ type NetworkTelemetrySummaryEnvelope struct {
 	Data NetworkTelemetrySummary `json:"data"`
 }
 
+// NetworkVPNAccessMode defines model for NetworkVPNAccessMode.
+type NetworkVPNAccessMode string
+
+// NetworkVPNCandidate defines model for NetworkVPNCandidate.
+type NetworkVPNCandidate struct {
+	Available      bool       `json:"available"`
+	GatewayID      string     `json:"gatewayId"`
+	LatencyMs      *float32   `json:"latencyMs,omitempty"`
+	MeasuredAt     *time.Time `json:"measuredAt,omitempty"`
+	Name           string     `json:"name"`
+	Priority       int        `json:"priority"`
+	ProviderCode   string     `json:"providerCode"`
+	ProviderName   string     `json:"providerName"`
+	ReasonCode     string     `json:"reasonCode"`
+	Region         string     `json:"region"`
+	TimeoutPercent *float32   `json:"timeoutPercent,omitempty"`
+}
+
+// NetworkVPNCandidateDecision defines model for NetworkVPNCandidateDecision.
+type NetworkVPNCandidateDecision struct {
+	Eligible       bool       `json:"eligible"`
+	GatewayID      string     `json:"gatewayId"`
+	LatencyMs      *float32   `json:"latencyMs,omitempty"`
+	MeasuredAt     *time.Time `json:"measuredAt,omitempty"`
+	Name           string     `json:"name"`
+	ProviderCode   string     `json:"providerCode"`
+	Rank           int        `json:"rank"`
+	ReasonCode     string     `json:"reasonCode"`
+	TimeoutPercent *float32   `json:"timeoutPercent,omitempty"`
+}
+
+// NetworkVPNConnectionIntentEnvelope defines model for NetworkVPNConnectionIntentEnvelope.
+type NetworkVPNConnectionIntentEnvelope struct {
+	Data NetworkVPNConnectionIntentSecret `json:"data"`
+}
+
+// NetworkVPNConnectionIntentInput defines model for NetworkVPNConnectionIntentInput.
+type NetworkVPNConnectionIntentInput struct {
+	DeviceID  string                  `json:"deviceId"`
+	GatewayID string                  `json:"gatewayId,omitempty"`
+	ProfileID string                  `json:"profileId"`
+	Selection NetworkVPNSelectionMode `json:"selection"`
+}
+
+// NetworkVPNConnectionIntentSecret defines model for NetworkVPNConnectionIntentSecret.
+type NetworkVPNConnectionIntentSecret struct {
+	ExpiresAt time.Time `json:"expiresAt"`
+	IntentID  string    `json:"intentId"`
+	Token     string    `json:"token"`
+}
+
+// NetworkVPNConnectionOption defines model for NetworkVPNConnectionOption.
+type NetworkVPNConnectionOption struct {
+	AllowManualSelection    bool                        `json:"allowManualSelection"`
+	Available               bool                        `json:"available"`
+	Candidates              []NetworkVPNCandidate       `json:"candidates"`
+	Mode                    NetworkVPNAccessMode        `json:"mode"`
+	Name                    string                      `json:"name"`
+	NetworkSpaceID          string                      `json:"networkSpaceId"`
+	ProfileID               string                      `json:"profileId"`
+	ProfileRevision         int                         `json:"profileRevision"`
+	ReasonCode              string                      `json:"reasonCode"`
+	SelectionPolicyID       string                      `json:"selectionPolicyId"`
+	SelectionPolicyRevision int                         `json:"selectionPolicyRevision"`
+	SelectionStrategy       NetworkVPNSelectionStrategy `json:"selectionStrategy"`
+	SiteID                  string                      `json:"siteId"`
+}
+
+// NetworkVPNConnectionOptionListEnvelope defines model for NetworkVPNConnectionOptionListEnvelope.
+type NetworkVPNConnectionOptionListEnvelope struct {
+	AsOf  time.Time                    `json:"asOf"`
+	Items []NetworkVPNConnectionOption `json:"items"`
+}
+
+// NetworkVPNConnectionView defines model for NetworkVPNConnectionView.
+type NetworkVPNConnectionView struct {
+	DecisionID             string                  `json:"decisionId"`
+	DeviceID               string                  `json:"deviceId"`
+	DownloadBytes          int                     `json:"downloadBytes,omitempty"`
+	DownloadBytesPerSecond *float32                `json:"downloadBytesPerSecond,omitempty"`
+	EndedAt                *time.Time              `json:"endedAt,omitempty"`
+	GatewayID              string                  `json:"gatewayId"`
+	GatewayName            string                  `json:"gatewayName"`
+	LastHandshakeAt        *time.Time              `json:"lastHandshakeAt,omitempty"`
+	LatencyMs              *float32                `json:"latencyMs,omitempty"`
+	MeasuredAt             *time.Time              `json:"measuredAt,omitempty"`
+	Mode                   NetworkVPNAccessMode    `json:"mode"`
+	ProfileID              string                  `json:"profileId"`
+	ProfileName            string                  `json:"profileName"`
+	ProviderCode           string                  `json:"providerCode"`
+	ReasonCode             string                  `json:"reasonCode"`
+	Selection              NetworkVPNSelectionMode `json:"selection"`
+	SessionID              string                  `json:"sessionId"`
+	StartedAt              time.Time               `json:"startedAt"`
+	State                  string                  `json:"state"`
+	SubjectID              string                  `json:"subjectId"`
+	TunnelIP               string                  `json:"tunnelIP,omitempty"`
+	UploadBytes            int                     `json:"uploadBytes,omitempty"`
+	UploadBytesPerSecond   *float32                `json:"uploadBytesPerSecond,omitempty"`
+}
+
+// NetworkVPNCurrentConnectionEnvelope defines model for NetworkVPNCurrentConnectionEnvelope.
+type NetworkVPNCurrentConnectionEnvelope struct {
+	Data *NetworkVPNConnectionView `json:"data,omitempty"`
+}
+
+// NetworkVPNDashboard defines model for NetworkVPNDashboard.
+type NetworkVPNDashboard struct {
+	ActiveSessions         int                        `json:"activeSessions"`
+	AsOf                   time.Time                  `json:"asOf"`
+	Attempts               int                        `json:"attempts"`
+	AvailableGateways      int                        `json:"availableGateways"`
+	Decisions              []NetworkVPNDecision       `json:"decisions"`
+	DownloadBytes          int                        `json:"downloadBytes,omitempty"`
+	DownloadBytesPerSecond *float32                   `json:"downloadBytesPerSecond,omitempty"`
+	Fallbacks              int                        `json:"fallbacks"`
+	From                   time.Time                  `json:"from"`
+	Gateways               []NetworkVPNGatewayMetrics `json:"gateways"`
+	LatencyP50Ms           *float32                   `json:"latencyP50Ms,omitempty"`
+	LatencyP95Ms           *float32                   `json:"latencyP95Ms,omitempty"`
+	Partial                bool                       `json:"partial"`
+	Series                 []NetworkVPNSeriesPoint    `json:"series"`
+	Sessions               []NetworkVPNConnectionView `json:"sessions"`
+	Successes              int                        `json:"successes"`
+	TelemetryAvailable     bool                       `json:"telemetryAvailable"`
+	To                     time.Time                  `json:"to"`
+	TotalGateways          int                        `json:"totalGateways"`
+	UploadBytes            int                        `json:"uploadBytes,omitempty"`
+	UploadBytesPerSecond   *float32                   `json:"uploadBytesPerSecond,omitempty"`
+}
+
+// NetworkVPNDashboardEnvelope defines model for NetworkVPNDashboardEnvelope.
+type NetworkVPNDashboardEnvelope struct {
+	Data NetworkVPNDashboard `json:"data"`
+}
+
+// NetworkVPNDecision defines model for NetworkVPNDecision.
+type NetworkVPNDecision struct {
+	Candidates              []NetworkVPNCandidateDecision `json:"candidates"`
+	CreatedAt               time.Time                     `json:"createdAt"`
+	DeviceID                string                        `json:"deviceId"`
+	EffectiveGatewayID      string                        `json:"effectiveGatewayId,omitempty"`
+	ID                      string                        `json:"id"`
+	ProfileID               string                        `json:"profileId"`
+	ProfileRevision         int                           `json:"profileRevision"`
+	ReasonCode              string                        `json:"reasonCode"`
+	RequestedGatewayID      string                        `json:"requestedGatewayId,omitempty"`
+	Selection               NetworkVPNSelectionMode       `json:"selection"`
+	SelectionPolicyID       string                        `json:"selectionPolicyId"`
+	SelectionPolicyRevision int                           `json:"selectionPolicyRevision"`
+	SessionID               string                        `json:"sessionId,omitempty"`
+	State                   NetworkVPNDecisionState       `json:"state"`
+	Strategy                NetworkVPNSelectionStrategy   `json:"strategy"`
+	SubjectID               string                        `json:"subjectId"`
+	UpdatedAt               time.Time                     `json:"updatedAt"`
+}
+
+// NetworkVPNDecisionState defines model for NetworkVPNDecision.State.
+type NetworkVPNDecisionState string
+
+// NetworkVPNDecisionEnvelope defines model for NetworkVPNDecisionEnvelope.
+type NetworkVPNDecisionEnvelope struct {
+	Data NetworkVPNDecision `json:"data"`
+}
+
+// NetworkVPNGatewayMetrics defines model for NetworkVPNGatewayMetrics.
+type NetworkVPNGatewayMetrics struct {
+	AcceptNewConnections   bool       `json:"acceptNewConnections,omitempty"`
+	ActiveSessions         int        `json:"activeSessions"`
+	Attempts               int        `json:"attempts"`
+	DownloadBytes          int        `json:"downloadBytes,omitempty"`
+	DownloadBytesPerSecond *float32   `json:"downloadBytesPerSecond,omitempty"`
+	Fallbacks              int        `json:"fallbacks"`
+	GatewayID              string     `json:"gatewayId"`
+	Healthy                bool       `json:"healthy,omitempty"`
+	LatencyP50Ms           *float32   `json:"latencyP50Ms,omitempty"`
+	LatencyP95Ms           *float32   `json:"latencyP95Ms,omitempty"`
+	MaxSessions            int        `json:"maxSessions,omitempty"`
+	MeasuredAt             *time.Time `json:"measuredAt,omitempty"`
+	Name                   string     `json:"name"`
+	ProviderCode           string     `json:"providerCode"`
+	ProviderName           string     `json:"providerName"`
+	Region                 string     `json:"region"`
+	Successes              int        `json:"successes"`
+	UploadBytes            int        `json:"uploadBytes,omitempty"`
+	UploadBytesPerSecond   *float32   `json:"uploadBytesPerSecond,omitempty"`
+}
+
+// NetworkVPNMissingMeasurements defines model for NetworkVPNMissingMeasurements.
+type NetworkVPNMissingMeasurements string
+
+// NetworkVPNPreviewInput defines model for NetworkVPNPreviewInput.
+type NetworkVPNPreviewInput struct {
+	DeviceID     string                  `json:"deviceId"`
+	GatewayID    string                  `json:"gatewayId,omitempty"`
+	ProbeBatchID string                  `json:"probeBatchId,omitempty"`
+	ProfileID    string                  `json:"profileId"`
+	Selection    NetworkVPNSelectionMode `json:"selection"`
+}
+
+// NetworkVPNProfile defines model for NetworkVPNProfile.
+type NetworkVPNProfile struct {
+	Configuration     NetworkVPNProfileConfig `json:"configuration"`
+	CreatedAt         time.Time               `json:"createdAt"`
+	ID                string                  `json:"id"`
+	PublishedRevision int                     `json:"publishedRevision"`
+	Revision          int                     `json:"revision"`
+	UpdatedAt         time.Time               `json:"updatedAt"`
+}
+
+// NetworkVPNProfileAssignment defines model for NetworkVPNProfileAssignment.
+type NetworkVPNProfileAssignment struct {
+	DeviceIDs []string `json:"deviceIds"`
+	TeamIDs   []string `json:"teamIds"`
+	UserIDs   []string `json:"userIds"`
+}
+
+// NetworkVPNProfileConfig defines model for NetworkVPNProfileConfig.
+type NetworkVPNProfileConfig struct {
+	AllowManualSelection bool                        `json:"allowManualSelection"`
+	Assignments          NetworkVPNProfileAssignment `json:"assignments"`
+	Enabled              bool                        `json:"enabled"`
+	GatewayIDs           []string                    `json:"gatewayIds"`
+	Mode                 NetworkVPNAccessMode        `json:"mode"`
+	Name                 string                      `json:"name"`
+	NetworkSpaceID       string                      `json:"networkSpaceId"`
+	ResourceIDs          []string                    `json:"resourceIds"`
+	SelectionPolicyID    string                      `json:"selectionPolicyId"`
+	SiteID               string                      `json:"siteId"`
+}
+
+// NetworkVPNProfileEnvelope defines model for NetworkVPNProfileEnvelope.
+type NetworkVPNProfileEnvelope struct {
+	Data NetworkVPNProfile `json:"data"`
+}
+
+// NetworkVPNProfileInput defines model for NetworkVPNProfileInput.
+type NetworkVPNProfileInput struct {
+	Configuration    NetworkVPNProfileConfig `json:"configuration"`
+	ExpectedRevision int                     `json:"expectedRevision"`
+}
+
+// NetworkVPNProfileListEnvelope defines model for NetworkVPNProfileListEnvelope.
+type NetworkVPNProfileListEnvelope struct {
+	Items []NetworkVPNProfile `json:"items"`
+}
+
+// NetworkVPNProfileRevision defines model for NetworkVPNProfileRevision.
+type NetworkVPNProfileRevision struct {
+	Configuration NetworkVPNProfileConfig `json:"configuration"`
+	CreatedAt     time.Time               `json:"createdAt"`
+	CreatedBy     string                  `json:"createdBy"`
+	Revision      int                     `json:"revision"`
+}
+
+// NetworkVPNProfileRevisionListEnvelope defines model for NetworkVPNProfileRevisionListEnvelope.
+type NetworkVPNProfileRevisionListEnvelope struct {
+	Items []NetworkVPNProfileRevision `json:"items"`
+}
+
+// NetworkVPNProviderPreference defines model for NetworkVPNProviderPreference.
+type NetworkVPNProviderPreference string
+
+// NetworkVPNRevisionInput defines model for NetworkVPNRevisionInput.
+type NetworkVPNRevisionInput struct {
+	ExpectedRevision int `json:"expectedRevision"`
+}
+
+// NetworkVPNRollbackInput defines model for NetworkVPNRollbackInput.
+type NetworkVPNRollbackInput struct {
+	ExpectedRevision int `json:"expectedRevision"`
+	TargetRevision   int `json:"targetRevision"`
+}
+
+// NetworkVPNSelectionMode defines model for NetworkVPNSelectionMode.
+type NetworkVPNSelectionMode string
+
+// NetworkVPNSelectionPolicy defines model for NetworkVPNSelectionPolicy.
+type NetworkVPNSelectionPolicy struct {
+	Configuration     NetworkVPNSelectionPolicyConfig `json:"configuration"`
+	CreatedAt         time.Time                       `json:"createdAt"`
+	ID                string                          `json:"id"`
+	PublishedRevision int                             `json:"publishedRevision"`
+	Revision          int                             `json:"revision"`
+	UpdatedAt         time.Time                       `json:"updatedAt"`
+}
+
+// NetworkVPNSelectionPolicyConfig defines model for NetworkVPNSelectionPolicyConfig.
+type NetworkVPNSelectionPolicyConfig struct {
+	AllowManualFallback  bool                          `json:"allowManualFallback"`
+	FailoverOnDisconnect bool                          `json:"failoverOnDisconnect"`
+	MaxAttempts          int                           `json:"maxAttempts"`
+	MaxLatencyMs         int                           `json:"maxLatencyMs"`
+	MaxSampleAgeSeconds  int                           `json:"maxSampleAgeSeconds"`
+	MaxTimeoutPercent    int                           `json:"maxTimeoutPercent"`
+	MinSamples           int                           `json:"minSamples"`
+	MissingMeasurements  NetworkVPNMissingMeasurements `json:"missingMeasurements"`
+	Name                 string                        `json:"name"`
+	ProviderOrder        []string                      `json:"providerOrder"`
+	ProviderPreference   NetworkVPNProviderPreference  `json:"providerPreference"`
+	RetryCooldownSeconds int                           `json:"retryCooldownSeconds"`
+	Strategy             NetworkVPNSelectionStrategy   `json:"strategy"`
+}
+
+// NetworkVPNSelectionPolicyEnvelope defines model for NetworkVPNSelectionPolicyEnvelope.
+type NetworkVPNSelectionPolicyEnvelope struct {
+	Data NetworkVPNSelectionPolicy `json:"data"`
+}
+
+// NetworkVPNSelectionPolicyInput defines model for NetworkVPNSelectionPolicyInput.
+type NetworkVPNSelectionPolicyInput struct {
+	Configuration    NetworkVPNSelectionPolicyConfig `json:"configuration"`
+	ExpectedRevision int                             `json:"expectedRevision"`
+}
+
+// NetworkVPNSelectionPolicyListEnvelope defines model for NetworkVPNSelectionPolicyListEnvelope.
+type NetworkVPNSelectionPolicyListEnvelope struct {
+	Items []NetworkVPNSelectionPolicy `json:"items"`
+}
+
+// NetworkVPNSelectionPolicyRevision defines model for NetworkVPNSelectionPolicyRevision.
+type NetworkVPNSelectionPolicyRevision struct {
+	Configuration NetworkVPNSelectionPolicyConfig `json:"configuration"`
+	CreatedAt     time.Time                       `json:"createdAt"`
+	CreatedBy     string                          `json:"createdBy"`
+	Revision      int                             `json:"revision"`
+}
+
+// NetworkVPNSelectionPolicyRevisionListEnvelope defines model for NetworkVPNSelectionPolicyRevisionListEnvelope.
+type NetworkVPNSelectionPolicyRevisionListEnvelope struct {
+	Items []NetworkVPNSelectionPolicyRevision `json:"items"`
+}
+
+// NetworkVPNSelectionStrategy defines model for NetworkVPNSelectionStrategy.
+type NetworkVPNSelectionStrategy string
+
+// NetworkVPNSeriesPoint defines model for NetworkVPNSeriesPoint.
+type NetworkVPNSeriesPoint struct {
+	At            time.Time `json:"at"`
+	Attempts      int       `json:"attempts"`
+	DownloadBytes int       `json:"downloadBytes,omitempty"`
+	Fallbacks     int       `json:"fallbacks"`
+	LatencyP50Ms  *float32  `json:"latencyP50Ms,omitempty"`
+	LatencyP95Ms  *float32  `json:"latencyP95Ms,omitempty"`
+	Successes     int       `json:"successes"`
+	UploadBytes   int       `json:"uploadBytes,omitempty"`
+}
+
 // OIDCClient defines model for OIDCClient.
 type OIDCClient struct {
 	AccessTokenTTLSeconds int                           `json:"accessTokenTtlSeconds,omitempty"`
@@ -18997,11 +23622,13 @@ type OIDCClient struct {
 	RedirectURIRegexes []string `json:"redirectUriRegexes,omitempty"`
 
 	// RedirectUris Strict-match absolute HTTP or HTTPS redirect URIs. HTTPS is recommended for production deployments.
-	RedirectUris           []string               `json:"redirectUris"`
-	RefreshTokenTTLSeconds int                    `json:"refreshTokenTtlSeconds,omitempty"`
-	RequirePkce            bool                   `json:"requirePkce,omitempty"`
-	Status                 IdentityResourceStatus `json:"status"`
-	UpdatedAt              time.Time              `json:"updatedAt"`
+	RedirectUris           []string `json:"redirectUris"`
+	RefreshTokenTTLSeconds int      `json:"refreshTokenTtlSeconds,omitempty"`
+	RequirePkce            bool     `json:"requirePkce,omitempty"`
+
+	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
+	Status    IdentityResourceStatus `json:"status"`
+	UpdatedAt time.Time              `json:"updatedAt"`
 }
 
 // OIDCClientAllowedGrantTypes defines model for OIDCClient.AllowedGrantTypes.
@@ -19055,10 +23682,12 @@ type OIDCClientInput struct {
 	RedirectURIRegexes []string `json:"redirectUriRegexes,omitempty"`
 
 	// RedirectUris Strict-match absolute HTTP or HTTPS redirect URIs. At least one redirectUris or redirectUriRegexes entry is required. HTTPS is recommended for production deployments.
-	RedirectUris           []string               `json:"redirectUris,omitempty"`
-	RefreshTokenTTLSeconds int                    `json:"refreshTokenTtlSeconds,omitempty"`
-	RequirePkce            bool                   `json:"requirePkce,omitempty"`
-	Status                 IdentityResourceStatus `json:"status,omitempty"`
+	RedirectUris           []string `json:"redirectUris,omitempty"`
+	RefreshTokenTTLSeconds int      `json:"refreshTokenTtlSeconds,omitempty"`
+	RequirePkce            bool     `json:"requirePkce,omitempty"`
+
+	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
+	Status IdentityResourceStatus `json:"status,omitempty"`
 }
 
 // OIDCClientInputAllowedGrantTypes defines model for OIDCClientInput.AllowedGrantTypes.
@@ -19353,6 +23982,37 @@ type ObservabilityLogQueryBudget struct {
 type ObservabilityLogRedactionPolicy struct {
 	DropAttributeKeys []string `json:"dropAttributeKeys,omitempty"`
 }
+
+// ObservabilityMetricAssessmentInput Evaluate a registered metric condition over every step of an explicit window. Missing, partial, non-finite or stale source samples are inconclusive. For post-release checks, bind notBefore to deployment completion; the full metric lookback must follow that time. This evaluates observed metric conditions, not business correctness or uninstrumented instances.
+type ObservabilityMetricAssessmentInput struct {
+	DataSourceID  string                                      `json:"dataSourceId"`
+	MaxAgeSeconds int                                         `json:"maxAgeSeconds,omitempty"`
+	MetricKey     ObservabilityMetricAssessmentInputMetricKey `json:"metricKey"`
+	NotBefore     *time.Time                                  `json:"notBefore,omitempty"`
+	Scope         struct {
+		ClusterID string `json:"clusterId,omitempty"`
+		Namespace string `json:"namespace,omitempty"`
+		Service   string `json:"service,omitempty"`
+		Workload  string `json:"workload,omitempty"`
+	} `json:"scope"`
+	StepSeconds int `json:"stepSeconds,omitempty"`
+	Threshold   struct {
+		Operator ObservabilityMetricAssessmentInputThresholdOperator `json:"operator"`
+		Value    float64                                             `json:"value"`
+	} `json:"threshold"`
+	Unit        ObservabilityMetricAssessmentInputUnit `json:"unit"`
+	WindowEnd   time.Time                              `json:"windowEnd"`
+	WindowStart time.Time                              `json:"windowStart"`
+}
+
+// ObservabilityMetricAssessmentInputMetricKey defines model for ObservabilityMetricAssessmentInput.MetricKey.
+type ObservabilityMetricAssessmentInputMetricKey string
+
+// ObservabilityMetricAssessmentInputThresholdOperator defines model for ObservabilityMetricAssessmentInput.Threshold.Operator.
+type ObservabilityMetricAssessmentInputThresholdOperator string
+
+// ObservabilityMetricAssessmentInputUnit defines model for ObservabilityMetricAssessmentInput.Unit.
+type ObservabilityMetricAssessmentInputUnit string
 
 // ObservabilityMetricCatalogEnvelope defines model for ObservabilityMetricCatalogEnvelope.
 type ObservabilityMetricCatalogEnvelope struct {
@@ -20453,6 +25113,69 @@ type PrincipalEnvelope struct {
 	Data Principal `json:"data"`
 }
 
+// ProgressiveRolloutControlInput defines model for ProgressiveRolloutControlInput.
+type ProgressiveRolloutControlInput struct {
+	Action          ProgressiveRolloutControlInputAction `json:"action"`
+	ResourceVersion string                               `json:"resourceVersion"`
+	UID             string                               `json:"uid"`
+}
+
+// ProgressiveRolloutControlInputAction defines model for ProgressiveRolloutControlInput.Action.
+type ProgressiveRolloutControlInputAction string
+
+// ProgressiveRolloutMetric defines model for ProgressiveRolloutMetric.
+type ProgressiveRolloutMetric struct {
+	AnalysisRun      string `json:"analysisRun"`
+	Count            int    `json:"count"`
+	Failed           int    `json:"failed"`
+	FinishedAt       string `json:"finishedAt,omitempty"`
+	Interval         string `json:"interval"`
+	Name             string `json:"name"`
+	Phase            string `json:"phase"`
+	StartedAt        string `json:"startedAt,omitempty"`
+	SuccessCondition string `json:"successCondition"`
+	Successful       int    `json:"successful"`
+	TargetCount      int    `json:"targetCount"`
+	UID              string `json:"uid"`
+	Value            string `json:"value,omitempty"`
+}
+
+// ProgressiveRolloutStatus Observed Argo Rollouts state. Traffic weights are read from Traefik, never inferred from replica counts. Promotion clears only a manual pause and does not skip analysis.
+type ProgressiveRolloutStatus struct {
+	Aborted            bool                             `json:"aborted"`
+	ActiveRevision     string                           `json:"activeRevision,omitempty"`
+	ActiveService      string                           `json:"activeService"`
+	CanaryWeight       *int                             `json:"canaryWeight,omitempty"`
+	CurrentRevision    string                           `json:"currentRevision"`
+	CurrentStep        *int                             `json:"currentStep,omitempty"`
+	Generation         int64                            `json:"generation"`
+	Metrics            []ProgressiveRolloutMetric       `json:"metrics"`
+	Name               string                           `json:"name"`
+	Namespace          string                           `json:"namespace"`
+	ObservedGeneration *int64                           `json:"observedGeneration,omitempty"`
+	OperationID        string                           `json:"operationId"`
+	PauseReasons       []string                         `json:"pauseReasons"`
+	Paused             bool                             `json:"paused"`
+	Phase              string                           `json:"phase"`
+	PreviewRevision    string                           `json:"previewRevision,omitempty"`
+	PreviewService     string                           `json:"previewService"`
+	ResourceVersion    string                           `json:"resourceVersion"`
+	StableRevision     string                           `json:"stableRevision"`
+	StableWeight       *int                             `json:"stableWeight,omitempty"`
+	Strategy           ProgressiveRolloutStatusStrategy `json:"strategy"`
+	TotalSteps         *int                             `json:"totalSteps,omitempty"`
+	UID                string                           `json:"uid"`
+}
+
+// ProgressiveRolloutStatusStrategy defines model for ProgressiveRolloutStatus.Strategy.
+type ProgressiveRolloutStatusStrategy string
+
+// ProgressiveRolloutStatusEnvelope defines model for ProgressiveRolloutStatusEnvelope.
+type ProgressiveRolloutStatusEnvelope struct {
+	// Data Observed Argo Rollouts state. Traffic weights are read from Traefik, never inferred from replica counts. Promotion clears only a manual pause and does not skip analysis.
+	Data ProgressiveRolloutStatus `json:"data"`
+}
+
 // PromptCapability defines model for PromptCapability.
 type PromptCapability struct {
 	ArgumentSchema JSONSchema `json:"argumentSchema,omitempty"`
@@ -20521,9 +25244,21 @@ type RegistryConnectionEnvelope struct {
 
 // RegistryConnectionInput defines model for RegistryConnectionInput.
 type RegistryConnectionInput struct {
-	Endpoint     string `json:"endpoint"`
-	ID           string `json:"id,omitempty"`
-	Insecure     bool   `json:"insecure,omitempty"`
+	Endpoint string `json:"endpoint"`
+	ID       string `json:"id,omitempty"`
+	Insecure bool   `json:"insecure,omitempty"`
+
+	// Metadata Explicit network access policy used when verifying build image manifests. Empty private network policy permits only public endpoints.
+	Metadata *struct {
+		// AllowedCIDRs Comma-separated private CIDRs allowed for the registry and its authentication endpoint.
+		AllowedCIDRs string `json:"allowedCIDRs,omitempty"`
+
+		// AuthEndpoint Optional explicit HTTP(S) origin for a separate registry token service; redirects are forbidden.
+		AuthEndpoint string `json:"authEndpoint,omitempty"`
+
+		// CaCertificate Additional PEM CA certificates; TLS verification remains enabled.
+		CaCertificate string `json:"caCertificate,omitempty"`
+	} `json:"metadata,omitempty"`
 	Name         string `json:"name"`
 	Namespace    string `json:"namespace,omitempty"`
 	RegistryType string `json:"registryType"`
@@ -20538,6 +25273,9 @@ type RegistryConnectionListEnvelope struct {
 
 // RegistryConnectionMetadata defines model for RegistryConnectionMetadata.
 type RegistryConnectionMetadata struct {
+	AllowedCIDRs     string `json:"allowedCIDRs,omitempty"`
+	AuthEndpoint     string `json:"authEndpoint,omitempty"`
+	CaCertificate    string `json:"caCertificate,omitempty"`
 	SecretConfigured bool   `json:"secretConfigured"`
 	SecretStorage    string `json:"secretStorage"`
 }
@@ -20593,41 +25331,53 @@ type ReleaseRecord struct {
 
 // ReleaseTarget defines model for ReleaseTarget.
 type ReleaseTarget struct {
-	ApplicationEnvironmentID string         `json:"applicationEnvironmentId"`
-	ClusterID                string         `json:"clusterId"`
-	ConfigRef                string         `json:"configRef,omitempty"`
-	ContainerName            string         `json:"containerName,omitempty"`
-	CreatedAt                *time.Time     `json:"createdAt,omitempty"`
-	Enabled                  bool           `json:"enabled"`
-	ExecutorKind             string         `json:"executorKind,omitempty"`
-	GroupKey                 string         `json:"groupKey,omitempty"`
-	ID                       string         `json:"id"`
-	Metadata                 map[string]any `json:"metadata,omitempty"`
-	Namespace                string         `json:"namespace"`
-	RegionKey                string         `json:"regionKey,omitempty"`
-	TargetKind               string         `json:"targetKind,omitempty"`
-	UpdatedAt                *time.Time     `json:"updatedAt,omitempty"`
-	WaveKey                  string         `json:"waveKey,omitempty"`
-	WorkloadKind             string         `json:"workloadKind"`
-	WorkloadName             string         `json:"workloadName"`
+	ApplicationEnvironmentID string `json:"applicationEnvironmentId"`
+	ClusterID                string `json:"clusterId"`
+
+	// ConfigRef For executorKind manifest_ssa, the ID of the Manifest environment binding owned by this application environment.
+	ConfigRef     string     `json:"configRef,omitempty"`
+	ContainerName string     `json:"containerName,omitempty"`
+	CreatedAt     *time.Time `json:"createdAt,omitempty"`
+
+	// Docker A host_service target with executorKind docker_compose. Uses an existing Docker project for both single-container and Compose deployments. clusterId and namespace must be empty. Images are supplied by a verified release bundle; unmapped services must already use immutable image digests.
+	Docker       *DockerDeliveryConfiguration `json:"docker,omitempty"`
+	Enabled      bool                         `json:"enabled"`
+	ExecutorKind string                       `json:"executorKind,omitempty"`
+	GroupKey     string                       `json:"groupKey,omitempty"`
+	Helm         *HelmDeliveryConfiguration   `json:"helm,omitempty"`
+	ID           string                       `json:"id"`
+	Metadata     map[string]any               `json:"metadata,omitempty"`
+	Namespace    string                       `json:"namespace"`
+	RegionKey    string                       `json:"regionKey,omitempty"`
+	TargetKind   string                       `json:"targetKind,omitempty"`
+	UpdatedAt    *time.Time                   `json:"updatedAt,omitempty"`
+	WaveKey      string                       `json:"waveKey,omitempty"`
+	WorkloadKind string                       `json:"workloadKind"`
+	WorkloadName string                       `json:"workloadName"`
 }
 
 // ReleaseTargetInput defines model for ReleaseTargetInput.
 type ReleaseTargetInput struct {
-	ClusterID     string         `json:"clusterId"`
-	ConfigRef     string         `json:"configRef,omitempty"`
-	ContainerName string         `json:"containerName,omitempty"`
-	Enabled       bool           `json:"enabled"`
-	ExecutorKind  string         `json:"executorKind,omitempty"`
-	GroupKey      string         `json:"groupKey,omitempty"`
-	ID            string         `json:"id,omitempty"`
-	Metadata      map[string]any `json:"metadata,omitempty"`
-	Namespace     string         `json:"namespace"`
-	RegionKey     string         `json:"regionKey,omitempty"`
-	TargetKind    string         `json:"targetKind,omitempty"`
-	WaveKey       string         `json:"waveKey,omitempty"`
-	WorkloadKind  string         `json:"workloadKind"`
-	WorkloadName  string         `json:"workloadName"`
+	ClusterID string `json:"clusterId"`
+
+	// ConfigRef For executorKind manifest_ssa, the ID of the Manifest environment binding owned by this application environment.
+	ConfigRef     string `json:"configRef,omitempty"`
+	ContainerName string `json:"containerName,omitempty"`
+
+	// Docker A host_service target with executorKind docker_compose. Uses an existing Docker project for both single-container and Compose deployments. clusterId and namespace must be empty. Images are supplied by a verified release bundle; unmapped services must already use immutable image digests.
+	Docker       *DockerDeliveryConfiguration `json:"docker,omitempty"`
+	Enabled      bool                         `json:"enabled"`
+	ExecutorKind string                       `json:"executorKind,omitempty"`
+	GroupKey     string                       `json:"groupKey,omitempty"`
+	Helm         *HelmDeliveryConfiguration   `json:"helm,omitempty"`
+	ID           string                       `json:"id,omitempty"`
+	Metadata     map[string]any               `json:"metadata,omitempty"`
+	Namespace    string                       `json:"namespace"`
+	RegionKey    string                       `json:"regionKey,omitempty"`
+	TargetKind   string                       `json:"targetKind,omitempty"`
+	WaveKey      string                       `json:"waveKey,omitempty"`
+	WorkloadKind string                       `json:"workloadKind"`
+	WorkloadName string                       `json:"workloadName"`
 }
 
 // RenderedDeliverySpec defines model for RenderedDeliverySpec.
@@ -20639,6 +25389,11 @@ type RenderedDeliverySpec struct {
 	Files               []DeliveryDraftFileTemplate       `json:"files,omitempty"`
 	PostCreateActions   []string                          `json:"postCreateActions,omitempty"`
 	Services            []DeliveryDraftService            `json:"services,omitempty"`
+}
+
+// RenderedDeliverySpecEnvelope defines model for RenderedDeliverySpecEnvelope.
+type RenderedDeliverySpecEnvelope struct {
+	Data RenderedDeliverySpec `json:"data"`
 }
 
 // Repository defines model for Repository.
@@ -20655,10 +25410,79 @@ type Repository struct {
 	Path            string             `json:"path"`
 	Protocol        RepositoryProtocol `json:"protocol"`
 	Provider        RepositoryProvider `json:"provider"`
-	UpdatedAt       time.Time          `json:"updatedAt"`
+
+	// ProviderRepositoryID Stable repository identifier on the selected source connection. Never inferred from a repository name or arbitrary URL.
+	ProviderRepositoryID string `json:"providerRepositoryId,omitempty"`
+
+	// SourceConnectionID Explicit platform source connection associated by an authorized administrator. Required together with providerRepositoryId for source analysis; legacy repositories remain usable without it.
+	SourceConnectionID string    `json:"sourceConnectionId,omitempty"`
+	UpdatedAt          time.Time `json:"updatedAt"`
 
 	// URL HTTPS or SSH Git URL. Credentials are resolved only through credentialRef.
 	URL string `json:"url"`
+}
+
+// RepositoryAnalysis Static suggestions only. Reads at most 16 candidate files, 256 KiB per file and 1 MiB total, with at most four concurrent reads and a 20-second operation timeout. Results do not prove a successful build or working startup command.
+type RepositoryAnalysis struct {
+	ApplicationID  string                        `json:"applicationId"`
+	Candidates     []RepositoryAnalysisCandidate `json:"candidates"`
+	EvidencePaths  []string                      `json:"evidencePaths"`
+	ProjectPath    string                        `json:"projectPath"`
+	RepositoryID   string                        `json:"repositoryId"`
+	ResolvedCommit string                        `json:"resolvedCommit,omitempty"`
+	RuleVersion    string                        `json:"ruleVersion"`
+	Status         RepositoryAnalysisStatus      `json:"status"`
+	Warnings       []RepositoryAnalysisWarning   `json:"warnings"`
+}
+
+// RepositoryAnalysisStatus defines model for RepositoryAnalysis.Status.
+type RepositoryAnalysisStatus string
+
+// RepositoryAnalysisCandidate defines model for RepositoryAnalysisCandidate.
+type RepositoryAnalysisCandidate struct {
+	BuildMethods  []RepositoryAnalysisCandidateBuildMethods `json:"buildMethods"`
+	EvidencePaths []string                                  `json:"evidencePaths"`
+
+	// Framework Only included when source metadata explicitly identifies the framework.
+	Framework string `json:"framework,omitempty"`
+
+	// Language Detected language, or unknown when only a Dockerfile is available.
+	Language       string `json:"language"`
+	PackageManager string `json:"packageManager,omitempty"`
+	ProjectPath    string `json:"projectPath"`
+
+	// VersionRange Version constraint declared in source metadata; not an installed runtime version.
+	VersionRange string `json:"versionRange,omitempty"`
+}
+
+// RepositoryAnalysisCandidateBuildMethods defines model for RepositoryAnalysisCandidate.BuildMethods.
+type RepositoryAnalysisCandidateBuildMethods string
+
+// RepositoryAnalysisEnvelope defines model for RepositoryAnalysisEnvelope.
+type RepositoryAnalysisEnvelope struct {
+	// Data Static suggestions only. Reads at most 16 candidate files, 256 KiB per file and 1 MiB total, with at most four concurrent reads and a 20-second operation timeout. Results do not prove a successful build or working startup command.
+	Data RepositoryAnalysis `json:"data"`
+}
+
+// RepositoryAnalysisInput defines model for RepositoryAnalysisInput.
+type RepositoryAnalysisInput struct {
+	// ProjectPath Repository-relative directory. Absolute paths, parent traversal, backslashes, and control characters are rejected.
+	ProjectPath  string                         `json:"projectPath,omitempty"`
+	RefName      string                         `json:"refName"`
+	RefType      RepositoryAnalysisInputRefType `json:"refType"`
+	RepositoryID string                         `json:"repositoryId"`
+}
+
+// RepositoryAnalysisInputRefType defines model for RepositoryAnalysisInput.RefType.
+type RepositoryAnalysisInputRefType string
+
+// RepositoryAnalysisWarning defines model for RepositoryAnalysisWarning.
+type RepositoryAnalysisWarning struct {
+	Code string `json:"code"`
+
+	// Message Sanitized explanation without credentials or source file contents.
+	Message string `json:"message"`
+	Path    string `json:"path,omitempty"`
 }
 
 // RepositoryEnvelope defines model for RepositoryEnvelope.
@@ -20678,6 +25502,12 @@ type RepositoryInput struct {
 	Path            string             `json:"path"`
 	Protocol        RepositoryProtocol `json:"protocol"`
 	Provider        RepositoryProvider `json:"provider"`
+
+	// ProviderRepositoryID Stable repository identifier on the selected source connection. Never inferred from a repository name or arbitrary URL.
+	ProviderRepositoryID string `json:"providerRepositoryId,omitempty"`
+
+	// SourceConnectionID Explicit platform source connection associated by an authorized administrator. Required together with providerRepositoryId for source analysis; legacy repositories remain usable without it.
+	SourceConnectionID string `json:"sourceConnectionId,omitempty"`
 
 	// URL HTTPS or SSH Git URL without embedded credentials.
 	URL string `json:"url"`
@@ -21004,6 +25834,8 @@ type SAMLLoginSource struct {
 	NameIDFormat            SAMLNameIDFormat       `json:"nameIdFormat"`
 	SingleSignOnURL         string                 `json:"singleSignOnUrl,omitempty"`
 	SloURL                  string                 `json:"sloUrl,omitempty"`
+
+	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
 	Status                  IdentityResourceStatus `json:"status"`
 	UpdatedAt               time.Time              `json:"updatedAt"`
 	WantAuthnRequestsSigned bool                   `json:"wantAuthnRequestsSigned"`
@@ -21027,6 +25859,8 @@ type SAMLLoginSourceInput struct {
 	SigningPrivateKeyRef    string                 `json:"signingPrivateKeyRef,omitempty"`
 	SingleSignOnURL         string                 `json:"singleSignOnUrl"`
 	SloURL                  string                 `json:"sloUrl,omitempty"`
+
+	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
 	Status                  IdentityResourceStatus `json:"status"`
 	WantAuthnRequestsSigned bool                   `json:"wantAuthnRequestsSigned"`
 }
@@ -21041,7 +25875,9 @@ type SAMLMetadataImportRequest struct {
 	AttributeMappings []SAMLAttributeMapping `json:"attributeMappings,omitempty"`
 	Metadata          SAMLMetadataInput      `json:"metadata"`
 	Name              string                 `json:"name"`
-	Status            IdentityResourceStatus `json:"status"`
+
+	// Status Resource-specific status. online, offline and degraded are retained for the legacy Outpost management response; use its runtimeStatus for health.
+	Status IdentityResourceStatus `json:"status"`
 }
 
 // SAMLMetadataInput defines model for SAMLMetadataInput.
@@ -21337,6 +26173,70 @@ type ServiceAccountTokenInput struct {
 // ServiceAccountTokenListEnvelope defines model for ServiceAccountTokenListEnvelope.
 type ServiceAccountTokenListEnvelope struct {
 	Items []ServiceAccountToken `json:"items"`
+}
+
+// ServiceDeploymentTemplate defines model for ServiceDeploymentTemplate.
+type ServiceDeploymentTemplate struct {
+	Artifacts            map[string]string        `json:"artifacts,omitempty"`
+	ContentDigest        string                   `json:"contentDigest,omitempty"`
+	CreatedAt            time.Time                `json:"createdAt"`
+	Defaults             TemplateParameterValues  `json:"defaults"`
+	Description          string                   `json:"description,omitempty"`
+	Enabled              bool                     `json:"enabled"`
+	EnvironmentOverrides []string                 `json:"environmentOverrides,omitempty"`
+	Health               DeploymentTemplateHealth `json:"health"`
+	ID                   string                   `json:"id"`
+	Key                  string                   `json:"key"`
+	Name                 string                   `json:"name"`
+
+	// ParameterSchema Restricted JSON Schema. Objects reject undeclared keys unless mapValues specifies their schema. secret_reference accepts only a namespaced Secret name/key reference, never a plaintext credential. External references and executable expressions are unsupported.
+	ParameterSchema  TemplateParameterSchema  `json:"parameterSchema"`
+	PublicationState TemplatePublicationState `json:"publicationState"`
+	PublishedVersion int64                    `json:"publishedVersion"`
+	Revision         int64                    `json:"revision"`
+	Source           DeploymentTemplateSource `json:"source"`
+	UpdatedAt        time.Time                `json:"updatedAt"`
+}
+
+// ServiceDeploymentTemplateBinding defines model for ServiceDeploymentTemplateBinding.
+type ServiceDeploymentTemplateBinding struct {
+	Detached          bool                       `json:"detached,omitempty"`
+	DetachedTemplate  *ServiceDeploymentTemplate `json:"detachedTemplate,omitempty"`
+	ManifestPackageID string                     `json:"manifestPackageId,omitempty"`
+	Parameters        TemplateParameterValues    `json:"parameters"`
+	TemplateID        string                     `json:"templateId"`
+	Version           int64                      `json:"version"`
+}
+
+// ServiceDeploymentTemplateEnvelope defines model for ServiceDeploymentTemplateEnvelope.
+type ServiceDeploymentTemplateEnvelope struct {
+	Data ServiceDeploymentTemplate `json:"data"`
+}
+
+// ServiceDeploymentTemplateInput defines model for ServiceDeploymentTemplateInput.
+type ServiceDeploymentTemplateInput struct {
+	// Artifacts Template artifact names mapped to service container names. Values are supplied as verified image digests at deployment time.
+	Artifacts map[string]string `json:"artifacts,omitempty"`
+
+	// CopiedFrom Create-only derivation audit. References a readable template of the same kind. Does not transfer Git management, publication, or execution authority. The server rejects a stale revision; version, when present, selects immutable published content.
+	CopiedFrom           *TemplateCopyOrigin      `json:"copiedFrom,omitempty"`
+	Defaults             TemplateParameterValues  `json:"defaults"`
+	Description          string                   `json:"description,omitempty"`
+	Enabled              bool                     `json:"enabled"`
+	EnvironmentOverrides []string                 `json:"environmentOverrides,omitempty"`
+	ExpectedRevision     int64                    `json:"expectedRevision,omitempty"`
+	Health               DeploymentTemplateHealth `json:"health"`
+	Key                  string                   `json:"key"`
+	Name                 string                   `json:"name"`
+
+	// ParameterSchema Restricted JSON Schema. Objects reject undeclared keys unless mapValues specifies their schema. secret_reference accepts only a namespaced Secret name/key reference, never a plaintext credential. External references and executable expressions are unsupported.
+	ParameterSchema TemplateParameterSchema  `json:"parameterSchema"`
+	Source          DeploymentTemplateSource `json:"source"`
+}
+
+// ServiceDeploymentTemplateListEnvelope defines model for ServiceDeploymentTemplateListEnvelope.
+type ServiceDeploymentTemplateListEnvelope struct {
+	Data []ServiceDeploymentTemplate `json:"data"`
 }
 
 // SkillCapability defines model for SkillCapability.
@@ -21670,6 +26570,65 @@ type SystemIntegrationUpdateRequest struct {
 	Name            string                             `json:"name,omitempty"`
 }
 
+// TemplateCopyOrigin Create-only derivation audit. References a readable template of the same kind. Does not transfer Git management, publication, or execution authority. The server rejects a stale revision; version, when present, selects immutable published content.
+type TemplateCopyOrigin struct {
+	ID       string `json:"id"`
+	Revision int64  `json:"revision"`
+	Version  int64  `json:"version,omitempty"`
+}
+
+// TemplateParameterSchema Restricted JSON Schema. Objects reject undeclared keys unless mapValues specifies their schema. secret_reference accepts only a namespaced Secret name/key reference, never a plaintext credential. External references and executable expressions are unsupported.
+type TemplateParameterSchema struct {
+	Description string                              `json:"description,omitempty"`
+	Enum        []TemplateParameterSchema_Enum_Item `json:"enum,omitempty"`
+
+	// Items Restricted JSON Schema. Objects reject undeclared keys unless mapValues specifies their schema. secret_reference accepts only a namespaced Secret name/key reference, never a plaintext credential. External references and executable expressions are unsupported.
+	Items *TemplateParameterSchema `json:"items,omitempty"`
+
+	// MapValues Restricted JSON Schema. Objects reject undeclared keys unless mapValues specifies their schema. secret_reference accepts only a namespaced Secret name/key reference, never a plaintext credential. External references and executable expressions are unsupported.
+	MapValues  *TemplateParameterSchema           `json:"mapValues,omitempty"`
+	MaxItems   int                                `json:"maxItems,omitempty"`
+	MaxLength  int                                `json:"maxLength,omitempty"`
+	Maximum    float32                            `json:"maximum,omitempty"`
+	MinItems   int                                `json:"minItems,omitempty"`
+	MinLength  int                                `json:"minLength,omitempty"`
+	Minimum    float32                            `json:"minimum,omitempty"`
+	Properties map[string]TemplateParameterSchema `json:"properties,omitempty"`
+	Required   []string                           `json:"required,omitempty"`
+	Type       TemplateParameterType              `json:"type"`
+}
+
+// TemplateParameterSchemaEnum0 defines model for .
+type TemplateParameterSchemaEnum0 = string
+
+// TemplateParameterSchemaEnum1 defines model for .
+type TemplateParameterSchemaEnum1 = float32
+
+// TemplateParameterSchemaEnum2 defines model for .
+type TemplateParameterSchemaEnum2 = bool
+
+// TemplateParameterSchema_Enum_Item defines model for TemplateParameterSchema.enum.Item.
+type TemplateParameterSchema_Enum_Item struct {
+	union json.RawMessage
+}
+
+// TemplateParameterType defines model for TemplateParameterType.
+type TemplateParameterType string
+
+// TemplateParameterValue JSON parameter value. The template schema further constrains each value; depth is limited to 12 and combined inputs to 64 KiB at runtime.
+type TemplateParameterValue = any
+
+// TemplateParameterValues defines model for TemplateParameterValues.
+type TemplateParameterValues map[string]TemplateParameterValue
+
+// TemplatePublicationState defines model for TemplatePublicationState.
+type TemplatePublicationState string
+
+// TemplatePublishInput defines model for TemplatePublishInput.
+type TemplatePublishInput struct {
+	ExpectedRevision int `json:"expectedRevision"`
+}
+
 // TokenRotationInput defines model for TokenRotationInput.
 type TokenRotationInput struct {
 	ExpiresAt *time.Time `json:"expiresAt,omitempty"`
@@ -21686,42 +26645,93 @@ type TokenSet struct {
 
 // ToolCapability defines model for ToolCapability.
 type ToolCapability struct {
-	Action           string     `json:"action"`
-	Description      string     `json:"description"`
-	Domain           string     `json:"domain"`
-	InputSchema      JSONSchema `json:"inputSchema,omitempty"`
-	MCPAdapterID     string     `json:"mcpAdapterId,omitempty"`
-	MCPToolName      string     `json:"mcpToolName,omitempty"`
-	Name             string     `json:"name"`
-	OutputSchema     JSONSchema `json:"outputSchema,omitempty"`
-	PermissionKeys   []string   `json:"permissionKeys"`
-	RequiredScopes   []string   `json:"requiredScopes,omitempty"`
-	RequiresApproval bool       `json:"requiresApproval"`
-	RiskLevel        RiskLevel  `json:"riskLevel"`
-	Title            string     `json:"title"`
+	Action      string `json:"action"`
+	Description string `json:"description"`
+	Domain      string `json:"domain"`
+
+	// Effects Expected business effects, not evidence that execution succeeded.
+	Effects         []string                  `json:"effects,omitempty"`
+	Execution       *ToolExecutionContract    `json:"execution,omitempty"`
+	InputSchema     JSONSchema                `json:"inputSchema,omitempty"`
+	InputSemantics  []CapabilityValueSemantic `json:"inputSemantics,omitempty"`
+	MCPAdapterID    string                    `json:"mcpAdapterId,omitempty"`
+	MCPToolName     string                    `json:"mcpToolName,omitempty"`
+	Name            string                    `json:"name"`
+	OutputSchema    JSONSchema                `json:"outputSchema,omitempty"`
+	OutputSemantics []CapabilityValueSemantic `json:"outputSemantics,omitempty"`
+	PermissionKeys  []string                  `json:"permissionKeys"`
+
+	// ProducesAssessment The owning domain can return a structured assessment; missing evidence still yields inconclusive.
+	ProducesAssessment bool      `json:"producesAssessment,omitempty"`
+	RequiredScopes     []string  `json:"requiredScopes,omitempty"`
+	RequiresApproval   bool      `json:"requiresApproval"`
+	RiskLevel          RiskLevel `json:"riskLevel"`
+	Title              string    `json:"title"`
+
+	// Version Immutable capability contract version. Absent for legacy tools without version guarantees.
+	Version string `json:"version,omitempty"`
 }
+
+// ToolExecutionContract defines model for ToolExecutionContract.
+type ToolExecutionContract struct {
+	// CancelTool Registered domain cancellation capability. Absence means cancellation is not guaranteed.
+	CancelTool string `json:"cancelTool,omitempty"`
+
+	// Checks Optional checks contributed by the owning provider. Discovery includes only currently visible references matching the declared version. Domain admission remains mandatory when a write executes.
+	Checks []CapabilityCheckReference `json:"checks,omitempty"`
+
+	// IdempotencyKeyField Required top-level input field whose value must remain stable across retries of this intent.
+	IdempotencyKeyField string `json:"idempotencyKeyField,omitempty"`
+
+	// Idempotent Whether repeating identical authorized arguments has the same effect. Never inferred from risk level.
+	Idempotent bool                      `json:"idempotent"`
+	Mode       ToolExecutionContractMode `json:"mode"`
+
+	// RecoveryMode The managed goal executor can read the owning domain's receipt using the exact persisted original call and current authorization after a lost reply. This is not rollback, a new intent, or permission to repeat unknown writes. Missing means receipt recovery is not declared.
+	RecoveryMode ToolExecutionContractRecoveryMode `json:"recoveryMode,omitempty"`
+
+	// StatusTool Registered tool for reading the durable task; each read requires current authorization.
+	StatusTool string `json:"statusTool,omitempty"`
+
+	// TaskKind Domain-owned durable task kind returned by asynchronous execution.
+	TaskKind string `json:"taskKind,omitempty"`
+}
+
+// ToolExecutionContractMode defines model for ToolExecutionContract.Mode.
+type ToolExecutionContractMode string
+
+// ToolExecutionContractRecoveryMode The managed goal executor can read the owning domain's receipt using the exact persisted original call and current authorization after a lost reply. This is not rollback, a new intent, or permission to repeat unknown writes. Missing means receipt recovery is not declared.
+type ToolExecutionContractRecoveryMode string
 
 // ToolInvocationRequest defines model for ToolInvocationRequest.
 type ToolInvocationRequest struct {
-	AIClientID   string              `json:"aiClientId,omitempty"`
-	AIClientName string              `json:"aiClientName,omitempty"`
-	Input        map[string]any      `json:"input,omitempty"`
-	RequestID    string              `json:"requestId,omitempty"`
-	SecretRefs   *SecretReferenceMap `json:"secretRefs,omitempty"`
-	SkillID      string              `json:"skillId,omitempty"`
-	ToolName     string              `json:"toolName,omitempty"`
+	AIClientID   string `json:"aiClientId,omitempty"`
+	AIClientName string `json:"aiClientName,omitempty"`
+
+	// CapabilityVersion Execute only this discovered capability version; a missing or changed version fails before execution. Optional for legacy callers.
+	CapabilityVersion string              `json:"capabilityVersion,omitempty"`
+	Input             map[string]any      `json:"input,omitempty"`
+	RequestID         string              `json:"requestId,omitempty"`
+	SecretRefs        *SecretReferenceMap `json:"secretRefs,omitempty"`
+	SkillID           string              `json:"skillId,omitempty"`
+	ToolName          string              `json:"toolName,omitempty"`
 }
 
 // ToolInvocationResult defines model for ToolInvocationResult.
 type ToolInvocationResult struct {
-	Audit                map[string]any `json:"audit,omitempty"`
-	Output               AnyValue       `json:"output,omitempty"`
-	RelatedIDs           map[string]any `json:"relatedIds,omitempty"`
-	RequiresApproval     bool           `json:"requiresApproval"`
-	Result               string         `json:"result"`
-	RiskLevel            RiskLevel      `json:"riskLevel"`
-	ToolName             string         `json:"toolName"`
-	AdditionalProperties map[string]any `json:"-"`
+	Assessment        *CapabilityAssessment `json:"assessment,omitempty"`
+	Audit             map[string]any        `json:"audit,omitempty"`
+	CapabilityVersion *string               `json:"capabilityVersion,omitempty"`
+	Output            AnyValue              `json:"output,omitempty"`
+	RelatedIDs        map[string]any        `json:"relatedIds,omitempty"`
+	RequiresApproval  bool                  `json:"requiresApproval"`
+	Result            string                `json:"result"`
+	RiskLevel         RiskLevel             `json:"riskLevel"`
+
+	// Task Reference to an existing domain execution record, not a second task queue. A terminal record is not proof that the user's business goal is satisfied.
+	Task                 *CapabilityTaskRef `json:"task,omitempty"`
+	ToolName             string             `json:"toolName"`
+	AdditionalProperties map[string]any     `json:"-"`
 }
 
 // ToolInvocationResultEnvelope defines model for ToolInvocationResultEnvelope.
@@ -21892,11 +26902,14 @@ type VirtualMachineCreateInput struct {
 	Node         string                        `json:"node,omitempty"`
 
 	// ProviderParams Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
-	ProviderParams   *NativeProviderObject `json:"providerParams,omitempty"`
-	SourceID         string                `json:"sourceId,omitempty"`
-	SourceMode       string                `json:"sourceMode,omitempty"`
-	StartAfterCreate bool                  `json:"startAfterCreate,omitempty"`
-	TemplateID       string                `json:"templateId,omitempty"`
+	ProviderParams *NativeProviderObject `json:"providerParams,omitempty"`
+
+	// RequireCapacity Require fresh provider capacity and reserve node CPU, memory and storage atomically with this operation. Missing inventory or unsupported placement fails closed. This controls concurrent Soha admission; provider admission and runtime readiness remain authoritative.
+	RequireCapacity  bool   `json:"requireCapacity,omitempty"`
+	SourceID         string `json:"sourceId,omitempty"`
+	SourceMode       string `json:"sourceMode,omitempty"`
+	StartAfterCreate bool   `json:"startAfterCreate,omitempty"`
+	TemplateID       string `json:"templateId,omitempty"`
 }
 
 // VirtualMachineDetail defines model for VirtualMachineDetail.
@@ -22013,6 +27026,50 @@ type VirtualMachinePowerInput struct {
 
 // VirtualMachinePowerInputAction defines model for VirtualMachinePowerInput.Action.
 type VirtualMachinePowerInputAction string
+
+// VirtualizationCapacityEnvelope defines model for VirtualizationCapacityEnvelope.
+type VirtualizationCapacityEnvelope struct {
+	// Data A read-only, expiring placement suggestion for one running VM and root disk. Missing or unsupported inventory remains unknown. Creation must independently require atomic capacity admission; this result is not a reservation or a readiness assessment.
+	Data VirtualizationCapacityResult `json:"data"`
+}
+
+// VirtualizationCapacityInput defines model for VirtualizationCapacityInput.
+type VirtualizationCapacityInput struct {
+	Architecture string `json:"architecture,omitempty"`
+	ConnectionID string `json:"connectionId"`
+
+	// CPU Dedicated CPU cores for a running VM.
+	CPU int `json:"cpu"`
+
+	// DiskGiB Root disk capacity in GiB.
+	DiskGiB int `json:"diskGiB"`
+
+	// MemoryMiB Guest memory in MiB; configured hypervisor overhead is added by the server.
+	MemoryMiB int    `json:"memoryMiB"`
+	Namespace string `json:"namespace,omitempty"`
+
+	// Node Optional exact provider node constraint.
+	Node string `json:"node,omitempty"`
+
+	// Storage Optional exact PVE storage name or KubeVirt StorageClass.
+	Storage string `json:"storage,omitempty"`
+}
+
+// VirtualizationCapacityResult A read-only, expiring placement suggestion for one running VM and root disk. Missing or unsupported inventory remains unknown. Creation must independently require atomic capacity admission; this result is not a reservation or a readiness assessment.
+type VirtualizationCapacityResult struct {
+	ConnectionID string                             `json:"connectionId"`
+	Namespace    string                             `json:"namespace,omitempty"`
+	Node         string                             `json:"node,omitempty"`
+	ObservedAt   *time.Time                         `json:"observedAt,omitempty"`
+	Provider     string                             `json:"provider,omitempty"`
+	Reason       string                             `json:"reason"`
+	Status       VirtualizationCapacityResultStatus `json:"status"`
+	Storage      string                             `json:"storage,omitempty"`
+	ValidUntil   *time.Time                         `json:"validUntil,omitempty"`
+}
+
+// VirtualizationCapacityResultStatus defines model for VirtualizationCapacityResult.Status.
+type VirtualizationCapacityResultStatus string
 
 // VirtualizationConnection defines model for VirtualizationConnection.
 type VirtualizationConnection struct {
@@ -22253,7 +27310,7 @@ type VirtualizationImagePageEnvelope struct {
 	Data VirtualizationImagePage `json:"data"`
 }
 
-// VirtualizationOperation defines model for VirtualizationOperation.
+// VirtualizationOperation Durable virtualization operation. A canceling operation has requested cancellation but provider effects are not yet confirmed; terminal status alone does not prove resource rollback. VM creation preserves its provider identity across retry.
 type VirtualizationOperation struct {
 	Action          string                       `json:"action,omitempty"`
 	Actor           string                       `json:"actor,omitempty"`
@@ -22288,6 +27345,7 @@ type VirtualizationOperation struct {
 
 // VirtualizationOperationEnvelope defines model for VirtualizationOperationEnvelope.
 type VirtualizationOperationEnvelope struct {
+	// Data Durable virtualization operation. A canceling operation has requested cancellation but provider effects are not yet confirmed; terminal status alone does not prove resource rollback. VM creation preserves its provider identity across retry.
 	Data VirtualizationOperation `json:"data"`
 }
 
@@ -22325,6 +27383,81 @@ type VirtualizationOperationPage struct {
 type VirtualizationOperationPageEnvelope struct {
 	Data VirtualizationOperationPage `json:"data"`
 }
+
+// VirtualizationWorkerCreateInput defines model for VirtualizationWorkerCreateInput.
+type VirtualizationWorkerCreateInput struct {
+	IdempotencyKey string `json:"idempotencyKey"`
+	PoolRevision   int    `json:"poolRevision"`
+}
+
+// VirtualizationWorkerDaemonSet defines model for VirtualizationWorkerDaemonSet.
+type VirtualizationWorkerDaemonSet struct {
+	Name      string `json:"name"`
+	Namespace string `json:"namespace"`
+}
+
+// VirtualizationWorkerPool defines model for VirtualizationWorkerPool.
+type VirtualizationWorkerPool struct {
+	CreatedAt time.Time          `json:"createdAt"`
+	ID        openapi_types.UUID `json:"id"`
+	Revision  int                `json:"revision"`
+
+	// Spec Operator-owned single supplier configuration for PVE amd64 VMs cloned from a trusted Ubuntu 24.04 image with cloud-init, containerd, kubeadm and kubelet already installed. Kubernetes binaries must match kubernetesVersion. Soha only joins workers; control-plane, external autoscaler ownership and self-hosted supply cycles are unsupported by this adapter. The provider image and target cluster identities are frozen by the server.
+	Spec      VirtualizationWorkerPoolSpec `json:"spec"`
+	UpdatedAt time.Time                    `json:"updatedAt"`
+}
+
+// VirtualizationWorkerPoolEnvelope defines model for VirtualizationWorkerPoolEnvelope.
+type VirtualizationWorkerPoolEnvelope struct {
+	Data VirtualizationWorkerPool `json:"data"`
+}
+
+// VirtualizationWorkerPoolInput defines model for VirtualizationWorkerPoolInput.
+type VirtualizationWorkerPoolInput struct {
+	ExpectedRevision int `json:"expectedRevision"`
+
+	// Spec Operator-owned single supplier configuration for PVE amd64 VMs cloned from a trusted Ubuntu 24.04 image with cloud-init, containerd, kubeadm and kubelet already installed. Kubernetes binaries must match kubernetesVersion. Soha only joins workers; control-plane, external autoscaler ownership and self-hosted supply cycles are unsupported by this adapter. The provider image and target cluster identities are frozen by the server.
+	Spec VirtualizationWorkerPoolSpec `json:"spec"`
+}
+
+// VirtualizationWorkerPoolListEnvelope defines model for VirtualizationWorkerPoolListEnvelope.
+type VirtualizationWorkerPoolListEnvelope struct {
+	Items []VirtualizationWorkerPool `json:"items"`
+}
+
+// VirtualizationWorkerPoolSpec Operator-owned single supplier configuration for PVE amd64 VMs cloned from a trusted Ubuntu 24.04 image with cloud-init, containerd, kubeadm and kubelet already installed. Kubernetes binaries must match kubernetesVersion. Soha only joins workers; control-plane, external autoscaler ownership and self-hosted supply cycles are unsupported by this adapter. The provider image and target cluster identities are frozen by the server.
+type VirtualizationWorkerPoolSpec struct {
+	Bridge            string `json:"bridge"`
+	ClusterID         string `json:"clusterId"`
+	ConnectionID      string `json:"connectionId"`
+	CPU               int    `json:"cpu"`
+	DiskGiB           int    `json:"diskGiB"`
+	Enabled           bool   `json:"enabled"`
+	ImageID           string `json:"imageId"`
+	KubernetesVersion string `json:"kubernetesVersion"`
+
+	// Labels Labels applied only after the expected worker identity is verified. Kubernetes reserved and control-plane labels are rejected.
+	Labels map[string]string `json:"labels,omitempty"`
+
+	// MaxNodes Upper bound including queued
+	MaxNodes     int                                   `json:"maxNodes"`
+	MemoryMiB    int                                   `json:"memoryMiB"`
+	Name         string                                `json:"name"`
+	OsProfile    VirtualizationWorkerPoolSpecOsProfile `json:"osProfile"`
+	Owner        VirtualizationWorkerPoolSpecOwner     `json:"owner"`
+	ProviderNode string                                `json:"providerNode"`
+
+	// RequiredDaemonSets Explicit network and storage node agents required before readiness. References and UIDs are verified against the target cluster.
+	RequiredDaemonSets []VirtualizationWorkerDaemonSet `json:"requiredDaemonSets"`
+	SnippetStorage     string                          `json:"snippetStorage"`
+	Storage            string                          `json:"storage"`
+}
+
+// VirtualizationWorkerPoolSpecOsProfile defines model for VirtualizationWorkerPoolSpec.OsProfile.
+type VirtualizationWorkerPoolSpecOsProfile string
+
+// VirtualizationWorkerPoolSpecOwner defines model for VirtualizationWorkerPoolSpec.Owner.
+type VirtualizationWorkerPoolSpecOwner string
 
 // WorkbenchAdapter defines model for WorkbenchAdapter.
 type WorkbenchAdapter struct {
@@ -22401,39 +27534,47 @@ type WorkbenchAgentProviderRuntimeStatus struct {
 	Reason          string     `json:"reason,omitempty"`
 	RecentFailures  int        `json:"recentFailures"`
 	RunningRuns     int        `json:"runningRuns"`
-	State           string     `json:"state"`
+
+	// State Readiness summary. ready requires a recent healthy runner acknowledgement; unavailable and stale are not runnable.
+	State string `json:"state"`
 }
 
 // WorkbenchAgentRun defines model for WorkbenchAgentRun.
 type WorkbenchAgentRun struct {
-	AnalysisArtifacts []WorkbenchAnalysisArtifact  `json:"analysisArtifacts,omitempty"`
-	CapabilityID      string                       `json:"capabilityId"`
-	ClaimedByAgentID  string                       `json:"claimedByAgentId,omitempty"`
-	CompletedAt       *time.Time                   `json:"completedAt,omitempty"`
-	CreatedAt         time.Time                    `json:"createdAt"`
-	CreatedBy         string                       `json:"createdBy"`
-	ErrorMessage      string                       `json:"errorMessage,omitempty"`
-	ExternalRunID     string                       `json:"externalRunId,omitempty"`
-	ID                string                       `json:"id"`
-	Input             map[string]any               `json:"input,omitempty"`
-	LastHeartbeatAt   *time.Time                   `json:"lastHeartbeatAt,omitempty"`
-	OperationState    *WorkbenchOperationState     `json:"operationState,omitempty"`
-	Output            map[string]any               `json:"output,omitempty"`
-	ProviderID        string                       `json:"providerId"`
-	ProviderKind      string                       `json:"providerKind"`
-	QueuedAt          time.Time                    `json:"queuedAt"`
-	RootCauseRunID    string                       `json:"rootCauseRunId,omitempty"`
-	Scope             *WorkbenchSessionScope       `json:"scope,omitempty"`
-	SessionID         string                       `json:"sessionId,omitempty"`
-	SkillBindings     []WorkbenchAgentSkillBinding `json:"skillBindings,omitempty"`
-	SkillIDs          []string                     `json:"skillIds,omitempty"`
-	StartedAt         *time.Time                   `json:"startedAt,omitempty"`
-	Status            string                       `json:"status"`
-	TimeoutSeconds    int                          `json:"timeoutSeconds"`
-	ToolBindings      []WorkbenchAgentToolBinding  `json:"toolBindings,omitempty"`
-	ToolExecutions    []WorkbenchToolExecution     `json:"toolExecutions,omitempty"`
-	Toolset           *WorkbenchSessionToolset     `json:"toolset,omitempty"`
-	UpdatedAt         time.Time                    `json:"updatedAt"`
+	AnalysisArtifacts []WorkbenchAnalysisArtifact `json:"analysisArtifacts,omitempty"`
+	CapabilityID      string                      `json:"capabilityId"`
+
+	// Chat Conversation input carried in AgentRun.chat for capabilityId general. History contains prior user and successful assistant messages, oldest first; the current question is separate. The control plane bounds total history and reports omitted messages through historyTruncated. This is conversation data, not an authorization grant or a request to run an analysis workflow.
+	Chat             *AgentChatInput          `json:"chat,omitempty"`
+	ClaimedByAgentID string                   `json:"claimedByAgentId,omitempty"`
+	CompletedAt      *time.Time               `json:"completedAt,omitempty"`
+	CreatedAt        time.Time                `json:"createdAt"`
+	CreatedBy        string                   `json:"createdBy"`
+	ErrorMessage     string                   `json:"errorMessage,omitempty"`
+	ExternalRunID    string                   `json:"externalRunId,omitempty"`
+	ID               string                   `json:"id"`
+	Input            map[string]any           `json:"input,omitempty"`
+	LastHeartbeatAt  *time.Time               `json:"lastHeartbeatAt,omitempty"`
+	OperationState   *WorkbenchOperationState `json:"operationState,omitempty"`
+	Output           map[string]any           `json:"output,omitempty"`
+
+	// ParentRunID Parent run for a single read-only specialist delegation; absent on root runs.
+	ParentRunID    string                       `json:"parentRunId,omitempty"`
+	ProviderID     string                       `json:"providerId"`
+	ProviderKind   string                       `json:"providerKind"`
+	QueuedAt       time.Time                    `json:"queuedAt"`
+	RootCauseRunID string                       `json:"rootCauseRunId,omitempty"`
+	Scope          *WorkbenchSessionScope       `json:"scope,omitempty"`
+	SessionID      string                       `json:"sessionId,omitempty"`
+	SkillBindings  []WorkbenchAgentSkillBinding `json:"skillBindings,omitempty"`
+	SkillIDs       []string                     `json:"skillIds,omitempty"`
+	StartedAt      *time.Time                   `json:"startedAt,omitempty"`
+	Status         string                       `json:"status"`
+	TimeoutSeconds int                          `json:"timeoutSeconds"`
+	ToolBindings   []WorkbenchAgentToolBinding  `json:"toolBindings,omitempty"`
+	ToolExecutions []WorkbenchToolExecution     `json:"toolExecutions,omitempty"`
+	Toolset        *WorkbenchSessionToolset     `json:"toolset,omitempty"`
+	UpdatedAt      time.Time                    `json:"updatedAt"`
 }
 
 // WorkbenchAgentRunEnvelope defines model for WorkbenchAgentRunEnvelope.
@@ -22633,14 +27774,17 @@ type WorkbenchCardCommandEventType string
 
 // WorkbenchCatalog defines model for WorkbenchCatalog.
 type WorkbenchCatalog struct {
-	Adapters         []WorkbenchAdapter                `json:"adapters"`
-	AgentProviders   []WorkbenchAgentProvider          `json:"agentProviders,omitempty"`
-	AnalysisProfiles []WorkbenchCatalogAnalysisProfile `json:"analysisProfiles"`
-	Capabilities     []WorkbenchAgentCapability        `json:"capabilities,omitempty"`
-	DataSources      []WorkbenchCatalogDataSource      `json:"dataSources"`
-	SkillBindings    []WorkbenchAgentSkillBinding      `json:"skillBindings,omitempty"`
-	SkillsRegistry   []WorkbenchSkill                  `json:"skillsRegistry,omitempty"`
-	ToolBindings     []WorkbenchAgentToolBinding       `json:"toolBindings,omitempty"`
+	Adapters           []WorkbenchAdapter                `json:"adapters"`
+	AgentProviders     []WorkbenchAgentProvider          `json:"agentProviders,omitempty"`
+	AnalysisProfiles   []WorkbenchCatalogAnalysisProfile `json:"analysisProfiles"`
+	Capabilities       []WorkbenchAgentCapability        `json:"capabilities,omitempty"`
+	DataSources        []WorkbenchCatalogDataSource      `json:"dataSources"`
+	DefaultPublicModel string                            `json:"defaultPublicModel,omitempty"`
+	ModelOptions       []WorkbenchModelOption            `json:"modelOptions,omitempty"`
+	ModelOptionsError  string                            `json:"modelOptionsError,omitempty"`
+	SkillBindings      []WorkbenchAgentSkillBinding      `json:"skillBindings,omitempty"`
+	SkillsRegistry     []WorkbenchSkill                  `json:"skillsRegistry,omitempty"`
+	ToolBindings       []WorkbenchAgentToolBinding       `json:"toolBindings,omitempty"`
 }
 
 // WorkbenchCatalogAnalysisProfile defines model for WorkbenchCatalogAnalysisProfile.
@@ -22668,17 +27812,41 @@ type WorkbenchCatalogEnvelope struct {
 	Data WorkbenchCatalog `json:"data"`
 }
 
+// WorkbenchContextReference defines model for WorkbenchContextReference.
+type WorkbenchContextReference struct {
+	ClusterID  string                        `json:"clusterId,omitempty"`
+	Kind       WorkbenchContextReferenceKind `json:"kind"`
+	MessageIDs []string                      `json:"messageIds,omitempty"`
+	Name       string                        `json:"name"`
+	Namespace  string                        `json:"namespace,omitempty"`
+	SessionID  string                        `json:"sessionId,omitempty"`
+}
+
+// WorkbenchContextReferenceKind defines model for WorkbenchContextReference.Kind.
+type WorkbenchContextReferenceKind string
+
+// WorkbenchContextSelection Explicit references and UTF-8 text attachments for this request only. The server rechecks source access and records used content hashes and truncations. Not inherited by subsequent requests.
+type WorkbenchContextSelection struct {
+	Attachments []WorkbenchTextAttachment `json:"attachments,omitempty"`
+
+	// MemoryIDs Explicit personal memory references; current owner, active policy and expiry are checked on every request.
+	MemoryIDs  []string                    `json:"memoryIds,omitempty"`
+	References []WorkbenchContextReference `json:"references,omitempty"`
+}
+
 // WorkbenchCreateSessionRequest defines model for WorkbenchCreateSessionRequest.
 type WorkbenchCreateSessionRequest struct {
 	AgentProviderID string                            `json:"agentProviderId,omitempty"`
 	AlertID         string                            `json:"alertId,omitempty"`
 	Mode            WorkbenchCreateSessionRequestMode `json:"mode,omitempty"`
-	PinnedContext   map[string]any                    `json:"pinnedContext,omitempty"`
-	Scope           *WorkbenchSessionScope            `json:"scope,omitempty"`
-	Source          string                            `json:"source,omitempty"`
-	Tags            []string                          `json:"tags,omitempty"`
-	Title           string                            `json:"title,omitempty"`
-	Workload        string                            `json:"workload,omitempty"`
+
+	// PinnedContext May contain branchReference with kind session, sessionId and fixed messageIds; source ownership and availability are rechecked on every use.
+	PinnedContext map[string]any         `json:"pinnedContext,omitempty"`
+	Scope         *WorkbenchSessionScope `json:"scope,omitempty"`
+	Source        string                 `json:"source,omitempty"`
+	Tags          []string               `json:"tags,omitempty"`
+	Title         string                 `json:"title,omitempty"`
+	Workload      string                 `json:"workload,omitempty"`
 }
 
 // WorkbenchCreateSessionRequestMode defines model for WorkbenchCreateSessionRequest.Mode.
@@ -22868,19 +28036,28 @@ type WorkbenchInspectionRunListEnvelope struct {
 
 // WorkbenchInspectionTask defines model for WorkbenchInspectionTask.
 type WorkbenchInspectionTask struct {
-	Checks          []string       `json:"checks,omitempty"`
-	ClusterID       string         `json:"clusterId,omitempty"`
-	CreatedAt       time.Time      `json:"createdAt"`
-	CreatedBy       string         `json:"createdBy"`
-	Enabled         bool           `json:"enabled"`
-	ID              string         `json:"id"`
-	IntervalMinutes int            `json:"intervalMinutes"`
-	LastRunAt       *time.Time     `json:"lastRunAt,omitempty"`
-	Metadata        map[string]any `json:"metadata,omitempty"`
-	Namespace       string         `json:"namespace,omitempty"`
-	ScopeType       string         `json:"scopeType"`
-	Title           string         `json:"title"`
-	UpdatedAt       time.Time      `json:"updatedAt"`
+	AIClientID string `json:"aiClientId,omitempty"`
+
+	// CapabilityPlan Version-pinned capability calls compiled into the existing Workflow engine. No scripts, expressions, or arbitrary endpoints are accepted.
+	CapabilityPlan  *CapabilityPlan `json:"capabilityPlan,omitempty"`
+	Checks          []string        `json:"checks,omitempty"`
+	ClusterID       string          `json:"clusterId,omitempty"`
+	CreatedAt       time.Time       `json:"createdAt"`
+	CreatedBy       string          `json:"createdBy"`
+	Enabled         bool            `json:"enabled"`
+	ID              string          `json:"id"`
+	IntervalMinutes int             `json:"intervalMinutes"`
+	LastRunAt       *time.Time      `json:"lastRunAt,omitempty"`
+	Metadata        map[string]any  `json:"metadata,omitempty"`
+	Namespace       string          `json:"namespace,omitempty"`
+	Revision        int             `json:"revision,omitempty"`
+	ScopeType       string          `json:"scopeType"`
+	SkillID         string          `json:"skillId,omitempty"`
+	Title           string          `json:"title"`
+
+	// Trigger Explicit registration for a frozen capability plan. Schedule uses intervalMinutes; alert uses one registered rule and the same interval as cooldown. Only new firing occurrences after registration are eligible. Each occurrence is durably recorded before execution.
+	Trigger   *WorkbenchInspectionTrigger `json:"trigger,omitempty"`
+	UpdatedAt time.Time                   `json:"updatedAt"`
 }
 
 // WorkbenchInspectionTaskEnvelope defines model for WorkbenchInspectionTaskEnvelope.
@@ -22890,21 +28067,42 @@ type WorkbenchInspectionTaskEnvelope struct {
 
 // WorkbenchInspectionTaskInput defines model for WorkbenchInspectionTaskInput.
 type WorkbenchInspectionTaskInput struct {
-	Checks          []string       `json:"checks,omitempty"`
-	ClusterID       string         `json:"clusterId,omitempty"`
-	Enabled         bool           `json:"enabled"`
-	ID              string         `json:"id"`
-	IntervalMinutes int            `json:"intervalMinutes"`
-	Metadata        map[string]any `json:"metadata,omitempty"`
-	Namespace       string         `json:"namespace,omitempty"`
-	ScopeType       string         `json:"scopeType"`
-	Title           string         `json:"title"`
+	AIClientID string `json:"aiClientId,omitempty"`
+
+	// CapabilityPlan Version-pinned capability calls compiled into the existing Workflow engine. No scripts, expressions, or arbitrary endpoints are accepted.
+	CapabilityPlan *CapabilityPlan `json:"capabilityPlan,omitempty"`
+	Checks         []string        `json:"checks,omitempty"`
+	ClusterID      string          `json:"clusterId,omitempty"`
+	Enabled        bool            `json:"enabled"`
+
+	// ExpectedRevision Required when updating a capability registration.
+	ExpectedRevision int            `json:"expectedRevision,omitempty"`
+	ID               string         `json:"id"`
+	IntervalMinutes  int            `json:"intervalMinutes"`
+	Metadata         map[string]any `json:"metadata,omitempty"`
+	Namespace        string         `json:"namespace,omitempty"`
+	ScopeType        string         `json:"scopeType"`
+	SkillID          string         `json:"skillId,omitempty"`
+	Title            string         `json:"title"`
+
+	// Trigger Explicit registration for a frozen capability plan. Schedule uses intervalMinutes; alert uses one registered rule and the same interval as cooldown. Only new firing occurrences after registration are eligible. Each occurrence is durably recorded before execution.
+	Trigger *WorkbenchInspectionTrigger `json:"trigger,omitempty"`
 }
 
 // WorkbenchInspectionTaskListEnvelope defines model for WorkbenchInspectionTaskListEnvelope.
 type WorkbenchInspectionTaskListEnvelope struct {
 	Items []WorkbenchInspectionTask `json:"items"`
 }
+
+// WorkbenchInspectionTrigger Explicit registration for a frozen capability plan. Schedule uses intervalMinutes; alert uses one registered rule and the same interval as cooldown. Only new firing occurrences after registration are eligible. Each occurrence is durably recorded before execution.
+type WorkbenchInspectionTrigger struct {
+	AlertRuleID        string                         `json:"alertRuleId,omitempty"`
+	Kind               WorkbenchInspectionTriggerKind `json:"kind"`
+	MaxEventAgeSeconds int                            `json:"maxEventAgeSeconds,omitempty"`
+}
+
+// WorkbenchInspectionTriggerKind defines model for WorkbenchInspectionTrigger.Kind.
+type WorkbenchInspectionTriggerKind string
 
 // WorkbenchLaunchContext defines model for WorkbenchLaunchContext.
 type WorkbenchLaunchContext struct {
@@ -22990,6 +28188,24 @@ type WorkbenchMessageDoneEventType string
 type WorkbenchMessageListEnvelope struct {
 	Items []WorkbenchMessage `json:"items"`
 }
+
+// WorkbenchModelOption defines model for WorkbenchModelOption.
+type WorkbenchModelOption struct {
+	PublicModel      string                                 `json:"publicModel"`
+	ReasoningEfforts []WorkbenchModelOptionReasoningEfforts `json:"reasoningEfforts"`
+}
+
+// WorkbenchModelOptionReasoningEfforts defines model for WorkbenchModelOption.ReasoningEfforts.
+type WorkbenchModelOptionReasoningEfforts string
+
+// WorkbenchModelPreferences defines model for WorkbenchModelPreferences.
+type WorkbenchModelPreferences struct {
+	PublicModel     string                                   `json:"publicModel,omitempty"`
+	ReasoningEffort WorkbenchModelPreferencesReasoningEffort `json:"reasoningEffort,omitempty"`
+}
+
+// WorkbenchModelPreferencesReasoningEffort defines model for WorkbenchModelPreferences.ReasoningEffort.
+type WorkbenchModelPreferencesReasoningEffort string
 
 // WorkbenchOperationState defines model for WorkbenchOperationState.
 type WorkbenchOperationState struct {
@@ -23100,10 +28316,21 @@ type WorkbenchSendMessageRequest struct {
 
 // WorkbenchSendMessageStreamRequest defines model for WorkbenchSendMessageStreamRequest.
 type WorkbenchSendMessageStreamRequest struct {
-	AgentProviderID  string                     `json:"agentProviderId,omitempty"`
-	Content          string                     `json:"content"`
+	AgentProviderID string `json:"agentProviderId,omitempty"`
+	Content         string `json:"content"`
+
+	// ContextSelection Explicit references and UTF-8 text attachments for this request only. The server rechecks source access and records used content hashes and truncations. Not inherited by subsequent requests.
+	ContextSelection *WorkbenchContextSelection `json:"contextSelection,omitempty"`
+	KnowledgeContext *struct {
+		Enabled          bool     `json:"enabled"`
+		KnowledgeBaseIDs []string `json:"knowledgeBaseIds"`
+		TopK             int      `json:"topK,omitempty"`
+	} `json:"knowledgeContext,omitempty"`
 	LaunchContext    *WorkbenchLaunchContext    `json:"launchContext,omitempty"`
 	Mode             string                     `json:"mode,omitempty"`
+	ModelPreferences *WorkbenchModelPreferences `json:"modelPreferences,omitempty"`
+
+	// PinnedContext May contain branchReference with kind session, sessionId and fixed messageIds; source ownership and availability are rechecked on every use.
 	PinnedContext    map[string]any             `json:"pinnedContext,omitempty"`
 	ScopeOverrides   AnyValue                   `json:"scopeOverrides,omitempty"`
 	SelectionContext *WorkbenchSelectionContext `json:"selectionContext,omitempty"`
@@ -23113,6 +28340,7 @@ type WorkbenchSendMessageStreamRequest struct {
 
 // WorkbenchSession defines model for WorkbenchSession.
 type WorkbenchSession struct {
+	Activity  WorkbenchSessionActivity  `json:"activity,omitempty"`
 	CreatedAt time.Time                 `json:"createdAt"`
 	CreatedBy string                    `json:"createdBy"`
 	ID        string                    `json:"id"`
@@ -23120,6 +28348,9 @@ type WorkbenchSession struct {
 	Title     string                    `json:"title"`
 	UpdatedAt time.Time                 `json:"updatedAt"`
 }
+
+// WorkbenchSessionActivity defines model for WorkbenchSession.Activity.
+type WorkbenchSessionActivity string
 
 // WorkbenchSessionEnvelope defines model for WorkbenchSessionEnvelope.
 type WorkbenchSessionEnvelope struct {
@@ -23151,13 +28382,16 @@ type WorkbenchSessionMetadata struct {
 	ArchivedAt       *time.Time                   `json:"archivedAt,omitempty"`
 	KnowledgeContext map[string]any               `json:"knowledgeContext,omitempty"`
 	Mode             WorkbenchSessionMetadataMode `json:"mode,omitempty"`
-	PinnedContext    map[string]any               `json:"pinnedContext,omitempty"`
-	Scope            *WorkbenchSessionScope       `json:"scope,omitempty"`
-	Source           string                       `json:"source,omitempty"`
-	Status           string                       `json:"status,omitempty"`
-	Summary          string                       `json:"summary,omitempty"`
-	Tags             []string                     `json:"tags,omitempty"`
-	Toolset          *WorkbenchSessionToolset     `json:"toolset,omitempty"`
+	ModelPreferences *WorkbenchModelPreferences   `json:"modelPreferences,omitempty"`
+
+	// PinnedContext May contain branchReference with kind session, sessionId and fixed messageIds; source ownership and availability are rechecked on every use.
+	PinnedContext map[string]any           `json:"pinnedContext,omitempty"`
+	Scope         *WorkbenchSessionScope   `json:"scope,omitempty"`
+	Source        string                   `json:"source,omitempty"`
+	Status        string                   `json:"status,omitempty"`
+	Summary       string                   `json:"summary,omitempty"`
+	Tags          []string                 `json:"tags,omitempty"`
+	Toolset       *WorkbenchSessionToolset `json:"toolset,omitempty"`
 }
 
 // WorkbenchSessionMetadataMode defines model for WorkbenchSessionMetadata.Mode.
@@ -23238,6 +28472,13 @@ type WorkbenchStreamEventBase struct {
 	RunID     string    `json:"runId,omitempty"`
 	Sequence  int       `json:"sequence"`
 	SessionID string    `json:"sessionId"`
+}
+
+// WorkbenchTextAttachment A UTF-8 text/log/config file, at most 64 KiB per file and 512 KiB per request; binary or unsupported formats are rejected. Parsing is synchronous and successful submission means parsed. Evidence may be clipped to the request budget.
+type WorkbenchTextAttachment struct {
+	Content string `json:"content"`
+	ID      string `json:"id"`
+	Name    string `json:"name"`
 }
 
 // WorkbenchThinkingDeltaEvent defines model for WorkbenchThinkingDeltaEvent.
@@ -23358,45 +28599,113 @@ type WorkbenchUpdateSessionRequest struct {
 	AgentProviderID string                            `json:"agentProviderId,omitempty"`
 	Archived        bool                              `json:"archived,omitempty"`
 	Mode            WorkbenchUpdateSessionRequestMode `json:"mode,omitempty"`
-	PinnedContext   map[string]any                    `json:"pinnedContext,omitempty"`
-	Scope           *WorkbenchSessionScope            `json:"scope,omitempty"`
-	Source          string                            `json:"source,omitempty"`
-	Status          string                            `json:"status,omitempty"`
-	Summary         string                            `json:"summary,omitempty"`
-	Tags            []string                          `json:"tags,omitempty"`
-	Title           string                            `json:"title,omitempty"`
-	Toolset         *WorkbenchSessionToolset          `json:"toolset,omitempty"`
+
+	// PinnedContext May contain branchReference with kind session, sessionId and fixed messageIds; source ownership and availability are rechecked on every use.
+	PinnedContext map[string]any           `json:"pinnedContext,omitempty"`
+	Scope         *WorkbenchSessionScope   `json:"scope,omitempty"`
+	Source        string                   `json:"source,omitempty"`
+	Status        string                   `json:"status,omitempty"`
+	Summary       string                   `json:"summary,omitempty"`
+	Tags          []string                 `json:"tags,omitempty"`
+	Title         string                   `json:"title,omitempty"`
+	Toolset       *WorkbenchSessionToolset `json:"toolset,omitempty"`
 }
 
 // WorkbenchUpdateSessionRequestMode defines model for WorkbenchUpdateSessionRequest.Mode.
 type WorkbenchUpdateSessionRequestMode string
 
+// WorkflowCatalogEntry defines model for WorkflowCatalogEntry.
+type WorkflowCatalogEntry struct {
+	Context string `json:"context"`
+	Enabled bool   `json:"enabled"`
+
+	// ID Source-qualified stable identity
+	ID         string                         `json:"id"`
+	Name       string                         `json:"name"`
+	Scopes     []WorkflowCatalogScope         `json:"scopes"`
+	SourceID   string                         `json:"sourceId"`
+	SourceKind WorkflowCatalogEntrySourceKind `json:"sourceKind"`
+}
+
+// WorkflowCatalogEntrySourceKind defines model for WorkflowCatalogEntry.SourceKind.
+type WorkflowCatalogEntrySourceKind string
+
+// WorkflowCatalogEnvelope defines model for WorkflowCatalogEnvelope.
+type WorkflowCatalogEnvelope struct {
+	Data      WorkflowCatalogPage `json:"data"`
+	RequestID string              `json:"requestId,omitempty"`
+}
+
+// WorkflowCatalogOption defines model for WorkflowCatalogOption.
+type WorkflowCatalogOption struct {
+	Label string `json:"label"`
+	Value string `json:"value"`
+}
+
+// WorkflowCatalogPage defines model for WorkflowCatalogPage.
+type WorkflowCatalogPage struct {
+	Applications []WorkflowCatalogOption `json:"applications"`
+	Environments []WorkflowCatalogOption `json:"environments"`
+	Items        []WorkflowCatalogEntry  `json:"items"`
+	Total        int                     `json:"total"`
+}
+
+// WorkflowCatalogScope defines model for WorkflowCatalogScope.
+type WorkflowCatalogScope struct {
+	ApplicationEnvironmentID string `json:"applicationEnvironmentId,omitempty"`
+	ApplicationID            string `json:"applicationId"`
+	ApplicationName          string `json:"applicationName"`
+	EnvironmentID            string `json:"environmentId,omitempty"`
+	EnvironmentName          string `json:"environmentName,omitempty"`
+	ServiceID                string `json:"serviceId,omitempty"`
+}
+
 // WorkflowNodeRun defines model for WorkflowNodeRun.
 type WorkflowNodeRun struct {
-	FinishedAt string `json:"finishedAt,omitempty"`
-	Name       string `json:"name"`
-	NodeID     string `json:"nodeId"`
-	StartedAt  string `json:"startedAt,omitempty"`
-	Status     string `json:"status"`
-	Summary    string `json:"summary,omitempty"`
-	Type       string `json:"type"`
+	BuildRecordID        string                 `json:"buildRecordId,omitempty"`
+	ControlCall          *ToolInvocationRequest `json:"controlCall,omitempty"`
+	DeliveryPlanID       string                 `json:"deliveryPlanId,omitempty"`
+	DispatchAttempted    bool                   `json:"dispatchAttempted,omitempty"`
+	DockerOperationID    string                 `json:"dockerOperationId,omitempty"`
+	ExecutionTaskID      string                 `json:"executionTaskId,omitempty"`
+	FinishedAt           string                 `json:"finishedAt,omitempty"`
+	Invocation           *ToolInvocationResult  `json:"invocation,omitempty"`
+	ManifestDeploymentID string                 `json:"manifestDeploymentId,omitempty"`
+	Name                 string                 `json:"name"`
+	NodeID               string                 `json:"nodeId"`
+	PreparedCall         *ToolInvocationRequest `json:"preparedCall,omitempty"`
+	ReleaseBundleID      string                 `json:"releaseBundleId,omitempty"`
+	Stage                WorkflowNodeRunStage   `json:"stage,omitempty"`
+	StartedAt            string                 `json:"startedAt,omitempty"`
+	Status               string                 `json:"status"`
+	Summary              string                 `json:"summary,omitempty"`
+	TargetID             string                 `json:"targetId,omitempty"`
+	Type                 string                 `json:"type"`
 }
+
+// WorkflowNodeRunStage defines model for WorkflowNodeRun.Stage.
+type WorkflowNodeRunStage string
 
 // WorkflowRun defines model for WorkflowRun.
 type WorkflowRun struct {
-	ApplicationID  string            `json:"applicationId"`
-	ClusterID      string            `json:"clusterId,omitempty"`
-	CreatedAt      string            `json:"createdAt"`
-	DeploymentName string            `json:"deploymentName,omitempty"`
-	ID             string            `json:"id"`
-	Metadata       map[string]any    `json:"metadata,omitempty"`
-	Namespace      string            `json:"namespace,omitempty"`
-	NodeRuns       []WorkflowNodeRun `json:"nodeRuns,omitempty"`
-	Status         string            `json:"status"`
-	Steps          []WorkflowStep    `json:"steps"`
-	UpdatedAt      string            `json:"updatedAt"`
-	WorkflowName   string            `json:"workflowName"`
+	ApplicationID   string            `json:"applicationId"`
+	ClusterID       string            `json:"clusterId,omitempty"`
+	CreatedAt       string            `json:"createdAt"`
+	DeliveryBatchID string            `json:"deliveryBatchId,omitempty"`
+	DeploymentName  string            `json:"deploymentName,omitempty"`
+	ID              string            `json:"id"`
+	Metadata        map[string]any    `json:"metadata,omitempty"`
+	Namespace       string            `json:"namespace,omitempty"`
+	NodeRuns        []WorkflowNodeRun `json:"nodeRuns,omitempty"`
+	Scope           WorkflowRunScope  `json:"scope,omitempty"`
+	Status          string            `json:"status"`
+	Steps           []WorkflowStep    `json:"steps"`
+	UpdatedAt       string            `json:"updatedAt"`
+	WorkflowName    string            `json:"workflowName"`
 }
+
+// WorkflowRunScope defines model for WorkflowRun.Scope.
+type WorkflowRunScope string
 
 // WorkflowStep defines model for WorkflowStep.
 type WorkflowStep struct {
@@ -23407,15 +28716,27 @@ type WorkflowStep struct {
 
 // WorkflowTemplate defines model for WorkflowTemplate.
 type WorkflowTemplate struct {
-	Category    string         `json:"category,omitempty"`
-	CreatedAt   time.Time      `json:"createdAt"`
-	Definition  map[string]any `json:"definition,omitempty"`
-	Description string         `json:"description,omitempty"`
-	Enabled     bool           `json:"enabled"`
-	ID          string         `json:"id"`
-	Key         string         `json:"key"`
-	Name        string         `json:"name"`
-	UpdatedAt   time.Time      `json:"updatedAt"`
+	Category string `json:"category,omitempty"`
+
+	// ContentDigest Digest of the immutable published content, absent for drafts.
+	ContentDigest string    `json:"contentDigest,omitempty"`
+	CreatedAt     time.Time `json:"createdAt"`
+
+	// Definition A legacy application DAG, or a DeliveryBatchTemplateDefinition with mode delivery_batch. Batch recipes supply defaults; explicitly supplied workflow settings override them.
+	Definition       map[string]any           `json:"definition,omitempty"`
+	Description      string                   `json:"description,omitempty"`
+	Enabled          bool                     `json:"enabled"`
+	ID               string                   `json:"id"`
+	Key              string                   `json:"key"`
+	Name             string                   `json:"name"`
+	PublicationState TemplatePublicationState `json:"publicationState,omitempty"`
+
+	// PublishedVersion Latest immutable published version; zero means unpublished.
+	PublishedVersion int `json:"publishedVersion,omitempty"`
+
+	// Revision Current editable revision used for conditional saves.
+	Revision  int       `json:"revision,omitempty"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 // WorkflowTemplateEnvelope defines model for WorkflowTemplateEnvelope.
@@ -23425,13 +28746,24 @@ type WorkflowTemplateEnvelope struct {
 
 // WorkflowTemplateInput defines model for WorkflowTemplateInput.
 type WorkflowTemplateInput struct {
-	Category    string         `json:"category,omitempty"`
+	Category string `json:"category,omitempty"`
+
+	// CopiedFrom Create-only derivation audit. References a readable template of the same kind. Does not transfer Git management, publication, or execution authority. The server rejects a stale revision; version, when present, selects immutable published content.
+	CopiedFrom *TemplateCopyOrigin `json:"copiedFrom,omitempty"`
+
+	// Definition A legacy application DAG, or a DeliveryBatchTemplateDefinition with mode delivery_batch. Batch recipes supply defaults; explicitly supplied workflow settings override them.
 	Definition  map[string]any `json:"definition,omitempty"`
 	Description string         `json:"description,omitempty"`
 	Enabled     bool           `json:"enabled"`
-	ID          string         `json:"id,omitempty"`
-	Key         string         `json:"key"`
-	Name        string         `json:"name"`
+
+	// ExpectedRevision Reject an update if the stored revision differs.
+	ExpectedRevision int    `json:"expectedRevision,omitempty"`
+	ID               string `json:"id,omitempty"`
+	Key              string `json:"key"`
+	Name             string `json:"name"`
+
+	// Publish Publish an immutable version when saving. False saves a draft; omission preserves legacy save-and-publish behavior.
+	Publish bool `json:"publish,omitempty"`
 }
 
 // WorkflowTemplateListEnvelope defines model for WorkflowTemplateListEnvelope.
@@ -23916,6 +29248,12 @@ type GetAIGatewayCapabilitiesParams struct {
 	AIClientName AIClientName `form:"aiClientName,omitempty" json:"aiClientName,omitempty"`
 	SkillID      SkillID      `form:"skillId,omitempty" json:"skillId,omitempty"`
 	Source       Source       `form:"source,omitempty" json:"source,omitempty"`
+	Query        string       `form:"query,omitempty" json:"query,omitempty"`
+	ToolDomain   string       `form:"toolDomain,omitempty" json:"toolDomain,omitempty"`
+	Action       string       `form:"action,omitempty" json:"action,omitempty"`
+	ResourceKind string       `form:"resourceKind,omitempty" json:"resourceKind,omitempty"`
+	Limit        int          `form:"limit,omitempty" json:"limit,omitempty"`
+	Cursor       string       `form:"cursor,omitempty" json:"cursor,omitempty"`
 }
 
 // GetAIGatewayGovernanceStatusParams defines parameters for GetAIGatewayGovernanceStatus.
@@ -24379,6 +29717,17 @@ type ListAIGatewayRelayUpstreamsParamsProviderKind string
 // ListAIGatewayRelayUpstreamsParamsStatus defines parameters for ListAIGatewayRelayUpstreams.
 type ListAIGatewayRelayUpstreamsParamsStatus string
 
+// ListCapabilityTasksParams defines parameters for ListCapabilityTasks.
+type ListCapabilityTasksParams struct {
+	Limit int `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// GetCapabilityTaskParams defines parameters for GetCapabilityTask.
+type GetCapabilityTaskParams struct {
+	// PlanVersion Read an archived plan and its execution evidence. Omit for the current plan.
+	PlanVersion int `form:"planVersion,omitempty" json:"planVersion,omitempty"`
+}
+
 // GetAgentProviderRegistrySnapshotParams defines parameters for GetAgentProviderRegistrySnapshot.
 type GetAgentProviderRegistrySnapshotParams struct {
 	RunnerID string `form:"runnerId" json:"runnerId"`
@@ -24503,6 +29852,13 @@ type HandleProviderCallbackParams struct {
 type HandleOIDCCallbackParams struct {
 	Code  OIDCCode  `form:"code,omitempty" json:"code,omitempty"`
 	State OIDCState `form:"state,omitempty" json:"state,omitempty"`
+}
+
+// ListBuildRecordsParams defines parameters for ListBuildRecords.
+type ListBuildRecordsParams struct {
+	ApplicationID string `form:"applicationId,omitempty" json:"applicationId,omitempty"`
+	BuildSourceID string `form:"buildSourceId,omitempty" json:"buildSourceId,omitempty"`
+	Limit         int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
 // ListKubernetesClusterRoleBindingsParams defines parameters for ListKubernetesClusterRoleBindings.
@@ -24649,6 +30005,15 @@ type ListKubernetesClusterEventsParams struct {
 type ListKubernetesCustomResourcesParams struct {
 	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// DeleteKubernetesCustomResourceParams defines parameters for DeleteKubernetesCustomResource.
+type DeleteKubernetesCustomResourceParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+
+	// ExpectedUID UID observed by the caller. A replacement resource is rejected; when omitted the runtime still fences its read and delete with UID and resourceVersion.
+	ExpectedUID string `form:"expectedUid,omitempty" json:"expectedUid,omitempty"`
 }
 
 // ListKubernetesHelmChartsParams defines parameters for ListKubernetesHelmCharts.
@@ -25185,11 +30550,28 @@ type ListWorkbenchInspectionRunsParams struct {
 	Latest    bool   `form:"latest,omitempty" json:"latest,omitempty"`
 }
 
+// ExecuteWorkbenchInspectionTaskParams defines parameters for ExecuteWorkbenchInspectionTask.
+type ExecuteWorkbenchInspectionTaskParams struct {
+	// IdempotencyKey Required with expectedRevision for capability registrations. Replays return the original inspection receipt.
+	IdempotencyKey   string `form:"idempotencyKey,omitempty" json:"idempotencyKey,omitempty"`
+	ExpectedRevision int    `form:"expectedRevision,omitempty" json:"expectedRevision,omitempty"`
+}
+
 // ListWorkbenchRootCauseRunsParams defines parameters for ListWorkbenchRootCauseRuns.
 type ListWorkbenchRootCauseRunsParams struct {
 	ClusterID string `form:"clusterId,omitempty" json:"clusterId,omitempty"`
 	AlertID   string `form:"alertId,omitempty" json:"alertId,omitempty"`
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListDeliveryBatchesParams defines parameters for ListDeliveryBatches.
+type ListDeliveryBatchesParams struct {
+	ApplicationID string `form:"applicationId,omitempty" json:"applicationId,omitempty"`
+	ServiceID     string `form:"serviceId,omitempty" json:"serviceId,omitempty"`
+	Limit         int    `form:"limit,omitempty" json:"limit,omitempty"`
+
+	// WorkflowID Exact workflow definition ID, applied before the limit.
+	WorkflowID string `form:"workflowId,omitempty" json:"workflowId,omitempty"`
 }
 
 // ListDeliveryArtifactsParams defines parameters for ListDeliveryArtifacts.
@@ -25204,6 +30586,37 @@ type ListDeliveryArtifactsParams struct {
 	Status                   string `form:"status,omitempty" json:"status,omitempty"`
 	Limit                    int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
+
+// ExportDeliveryDocumentParams defines parameters for ExportDeliveryDocument.
+type ExportDeliveryDocumentParams struct {
+	Version int                                `form:"version,omitempty" json:"version,omitempty"`
+	Format  ExportDeliveryDocumentParamsFormat `form:"format,omitempty" json:"format,omitempty"`
+}
+
+// ExportDeliveryDocumentParamsFormat defines parameters for ExportDeliveryDocument.
+type ExportDeliveryDocumentParamsFormat string
+
+// GetDeliveryDocumentSourceParams defines parameters for GetDeliveryDocumentSource.
+type GetDeliveryDocumentSourceParams struct {
+	// Version Optional immutable published template version or saved Workflow version. Omission returns current management association.
+	Version int `form:"version,omitempty" json:"version,omitempty"`
+}
+
+// ListDeliveryExecutionHistoryParams defines parameters for ListDeliveryExecutionHistory.
+type ListDeliveryExecutionHistoryParams struct {
+	ApplicationID            string                                   `form:"applicationId,omitempty" json:"applicationId,omitempty"`
+	ServiceID                string                                   `form:"serviceId,omitempty" json:"serviceId,omitempty"`
+	ApplicationEnvironmentID string                                   `form:"applicationEnvironmentId,omitempty" json:"applicationEnvironmentId,omitempty"`
+	WorkflowID               string                                   `form:"workflowId,omitempty" json:"workflowId,omitempty"`
+	BuildSourceID            string                                   `form:"buildSourceId,omitempty" json:"buildSourceId,omitempty"`
+	Status                   ListDeliveryExecutionHistoryParamsStatus `form:"status,omitempty" json:"status,omitempty"`
+	Search                   string                                   `form:"search,omitempty" json:"search,omitempty"`
+	Cursor                   string                                   `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit                    int                                      `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListDeliveryExecutionHistoryParamsStatus defines parameters for ListDeliveryExecutionHistory.
+type ListDeliveryExecutionHistoryParamsStatus string
 
 // ListDeliveryExecutionTasksParams defines parameters for ListDeliveryExecutionTasks.
 type ListDeliveryExecutionTasksParams struct {
@@ -25262,6 +30675,61 @@ type ListReleaseBundlesParams struct {
 	Limit                    int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
+// ListDeliveryTemplateSourcesParams defines parameters for ListDeliveryTemplateSources.
+type ListDeliveryTemplateSourcesParams struct {
+	Offset int `form:"offset,omitempty" json:"offset,omitempty"`
+	Limit  int `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListDeliveryTemplateSourceObjectsParams defines parameters for ListDeliveryTemplateSourceObjects.
+type ListDeliveryTemplateSourceObjectsParams struct {
+	Offset int `form:"offset,omitempty" json:"offset,omitempty"`
+	Limit  int `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListDeliveryTemplateSyncRunsParams defines parameters for ListDeliveryTemplateSyncRuns.
+type ListDeliveryTemplateSyncRunsParams struct {
+	Offset int `form:"offset,omitempty" json:"offset,omitempty"`
+	Limit  int `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListDeliveryTriggersParams defines parameters for ListDeliveryTriggers.
+type ListDeliveryTriggersParams struct {
+	TargetKind ListDeliveryTriggersParamsTargetKind `form:"targetKind,omitempty" json:"targetKind,omitempty"`
+	TargetID   string                               `form:"targetId,omitempty" json:"targetId,omitempty"`
+	Offset     int                                  `form:"offset,omitempty" json:"offset,omitempty"`
+	Limit      int                                  `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListDeliveryTriggersParamsTargetKind defines parameters for ListDeliveryTriggers.
+type ListDeliveryTriggersParamsTargetKind string
+
+// ListDeliveryTriggerEventsParams defines parameters for ListDeliveryTriggerEvents.
+type ListDeliveryTriggerEventsParams struct {
+	Offset int `form:"offset,omitempty" json:"offset,omitempty"`
+	Limit  int `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ReceiveDeliveryTriggerWebhookParams defines parameters for ReceiveDeliveryTriggerWebhook.
+type ReceiveDeliveryTriggerWebhookParams struct {
+	WebhookID        string `json:"webhook-id"`
+	WebhookTimestamp string `json:"webhook-timestamp"`
+	WebhookSignature string `json:"webhook-signature"`
+}
+
+// ListWorkflowCatalogParams defines parameters for ListWorkflowCatalog.
+type ListWorkflowCatalogParams struct {
+	Kind          ListWorkflowCatalogParamsKind `form:"kind,omitempty" json:"kind,omitempty"`
+	ApplicationID string                        `form:"applicationId,omitempty" json:"applicationId,omitempty"`
+	EnvironmentID string                        `form:"environmentId,omitempty" json:"environmentId,omitempty"`
+	Search        string                        `form:"search,omitempty" json:"search,omitempty"`
+	Offset        int                           `form:"offset,omitempty" json:"offset,omitempty"`
+	Limit         int                           `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListWorkflowCatalogParamsKind defines parameters for ListWorkflowCatalog.
+type ListWorkflowCatalogParamsKind string
+
 // QuickCreateDockerHostParams defines parameters for QuickCreateDockerHost.
 type QuickCreateDockerHostParams struct {
 	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
@@ -25270,6 +30738,12 @@ type QuickCreateDockerHostParams struct {
 // DeployDockerProjectParams defines parameters for DeployDockerProject.
 type DeployDockerProjectParams struct {
 	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
+// GetIdentityProviderUserMetadataParams defines parameters for GetIdentityProviderUserMetadata.
+type GetIdentityProviderUserMetadataParams struct {
+	// ClientID OIDC client record ID. Required for OIDC; the client must belong to this provider.
+	ClientID string `form:"clientId,omitempty" json:"clientId,omitempty"`
 }
 
 // ListGitLabBranchesParams defines parameters for ListGitLabBranches.
@@ -25407,6 +30881,51 @@ type GetNetworkTelemetrySummaryParams struct {
 	To         time.Time `form:"to,omitempty" json:"to,omitempty"`
 	ProducerID string    `form:"producerId,omitempty" json:"producerId,omitempty"`
 	Limit      int       `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListCurrentNetworkVPNConnectionOptionsParams defines parameters for ListCurrentNetworkVPNConnectionOptions.
+type ListCurrentNetworkVPNConnectionOptionsParams struct {
+	DeviceID string `form:"deviceId" json:"deviceId"`
+}
+
+// GetCurrentNetworkVPNConnectionParams defines parameters for GetCurrentNetworkVPNConnection.
+type GetCurrentNetworkVPNConnectionParams struct {
+	DeviceID string `form:"deviceId" json:"deviceId"`
+}
+
+// GetNetworkVPNDashboardParams defines parameters for GetNetworkVPNDashboard.
+type GetNetworkVPNDashboardParams struct {
+	From         time.Time `form:"from" json:"from"`
+	To           time.Time `form:"to" json:"to"`
+	ProfileID    string    `form:"profileId,omitempty" json:"profileId,omitempty"`
+	SiteID       string    `form:"siteId,omitempty" json:"siteId,omitempty"`
+	GatewayID    string    `form:"gatewayId,omitempty" json:"gatewayId,omitempty"`
+	SubjectID    string    `form:"subjectId,omitempty" json:"subjectId,omitempty"`
+	TeamID       string    `form:"teamId,omitempty" json:"teamId,omitempty"`
+	ProviderCode string    `form:"providerCode,omitempty" json:"providerCode,omitempty"`
+	Limit        int       `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListNetworkVPNProfilesParams defines parameters for ListNetworkVPNProfiles.
+type ListNetworkVPNProfilesParams struct {
+	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Search string `form:"search,omitempty" json:"search,omitempty"`
+}
+
+// DeleteNetworkVPNProfileParams defines parameters for DeleteNetworkVPNProfile.
+type DeleteNetworkVPNProfileParams struct {
+	ExpectedRevision int `form:"expectedRevision" json:"expectedRevision"`
+}
+
+// ListNetworkVPNSelectionPoliciesParams defines parameters for ListNetworkVPNSelectionPolicies.
+type ListNetworkVPNSelectionPoliciesParams struct {
+	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
+	Search string `form:"search,omitempty" json:"search,omitempty"`
+}
+
+// DeleteNetworkVPNSelectionPolicyParams defines parameters for DeleteNetworkVPNSelectionPolicy.
+type DeleteNetworkVPNSelectionPolicyParams struct {
+	ExpectedRevision int `form:"expectedRevision" json:"expectedRevision"`
 }
 
 // ListObservabilityMetricCatalogParams defines parameters for ListObservabilityMetricCatalog.
@@ -25718,6 +31237,23 @@ type PowerVirtualMachineParams struct {
 	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
 }
 
+// ListVirtualizationWorkerPoolsParams defines parameters for ListVirtualizationWorkerPools.
+type ListVirtualizationWorkerPoolsParams struct {
+	ConnectionID string `form:"connectionId" json:"connectionId"`
+}
+
+// DeleteVirtualizationWorkerPoolParams defines parameters for DeleteVirtualizationWorkerPool.
+type DeleteVirtualizationWorkerPoolParams struct {
+	ExpectedRevision int `form:"expectedRevision" json:"expectedRevision"`
+}
+
+// ListWorkflowRunsParams defines parameters for ListWorkflowRuns.
+type ListWorkflowRunsParams struct {
+	ApplicationID            string `form:"applicationId,omitempty" json:"applicationId,omitempty"`
+	ApplicationEnvironmentID string `form:"applicationEnvironmentId,omitempty" json:"applicationEnvironmentId,omitempty"`
+	Limit                    int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
 // CreateAccessRoleJSONRequestBody defines body for CreateAccessRole for application/json ContentType.
 type CreateAccessRoleJSONRequestBody = AccessRoleInput
 
@@ -25820,6 +31356,9 @@ type CreatePersonalAccessTokenJSONRequestBody = PersonalAccessTokenInput
 // RotatePersonalAccessTokenJSONRequestBody defines body for RotatePersonalAccessToken for application/json ContentType.
 type RotatePersonalAccessTokenJSONRequestBody = TokenRotationInput
 
+// ValidateCapabilityPlanJSONRequestBody defines body for ValidateCapabilityPlan for application/json ContentType.
+type ValidateCapabilityPlanJSONRequestBody = CapabilityTaskInput
+
 // GetAIGatewayPromptJSONRequestBody defines body for GetAIGatewayPrompt for application/json ContentType.
 type GetAIGatewayPromptJSONRequestBody = PromptGetRequest
 
@@ -25855,6 +31394,12 @@ type CreateServiceAccountJSONRequestBody = ServiceAccountInput
 
 // CreateServiceAccountTokenJSONRequestBody defines body for CreateServiceAccountToken for application/json ContentType.
 type CreateServiceAccountTokenJSONRequestBody = ServiceAccountTokenInput
+
+// CreateCapabilityTaskJSONRequestBody defines body for CreateCapabilityTask for application/json ContentType.
+type CreateCapabilityTaskJSONRequestBody = CapabilityTaskInput
+
+// ResumeCapabilityTaskJSONRequestBody defines body for ResumeCapabilityTask for application/json ContentType.
+type ResumeCapabilityTaskJSONRequestBody = CapabilityTaskRevisionInput
 
 // InvokeAIGatewayToolJSONRequestBody defines body for InvokeAIGatewayTool for application/json ContentType.
 type InvokeAIGatewayToolJSONRequestBody = ToolInvocationRequest
@@ -25976,6 +31521,15 @@ type SaveApplicationEnvironmentWorkflowJSONRequestBody = ApplicationWorkflowInpu
 // TriggerApplicationDeliveryActionJSONRequestBody defines body for TriggerApplicationDeliveryAction for application/json ContentType.
 type TriggerApplicationDeliveryActionJSONRequestBody = ApplicationDeliveryActionRequest
 
+// PreviewServiceDeploymentTemplateJSONRequestBody defines body for PreviewServiceDeploymentTemplate for application/json ContentType.
+type PreviewServiceDeploymentTemplateJSONRequestBody = DeploymentTemplatePreviewInput
+
+// InspectApplicationHelmChartJSONRequestBody defines body for InspectApplicationHelmChart for application/json ContentType.
+type InspectApplicationHelmChartJSONRequestBody = HelmChartInspectionInput
+
+// AnalyzeApplicationRepositoryJSONRequestBody defines body for AnalyzeApplicationRepository for application/json ContentType.
+type AnalyzeApplicationRepositoryJSONRequestBody = RepositoryAnalysisInput
+
 // CreateApplicationServiceJSONRequestBody defines body for CreateApplicationService for application/json ContentType.
 type CreateApplicationServiceJSONRequestBody = ApplicationServiceInput
 
@@ -26017,6 +31571,12 @@ type CreateBuildTemplateJSONRequestBody = BuildTemplateInput
 
 // UpdateBuildTemplateJSONRequestBody defines body for UpdateBuildTemplate for application/json ContentType.
 type UpdateBuildTemplateJSONRequestBody = BuildTemplateInput
+
+// PublishBuildTemplateJSONRequestBody defines body for PublishBuildTemplate for application/json ContentType.
+type PublishBuildTemplateJSONRequestBody = TemplatePublishInput
+
+// TriggerBuildJSONRequestBody defines body for TriggerBuild for application/json ContentType.
+type TriggerBuildJSONRequestBody = BuildTriggerRequest
 
 // ReviewKubernetesSubjectAccessJSONRequestBody defines body for ReviewKubernetesSubjectAccess for application/json ContentType.
 type ReviewKubernetesSubjectAccessJSONRequestBody = KubernetesSubjectAccessReviewInput
@@ -26135,11 +31695,35 @@ type SendWorkbenchSessionMessageJSONRequestBody = WorkbenchSendMessageRequest
 // StreamWorkbenchSessionMessageJSONRequestBody defines body for StreamWorkbenchSessionMessage for application/json ContentType.
 type StreamWorkbenchSessionMessageJSONRequestBody = WorkbenchSendMessageStreamRequest
 
+// CreateDeliveryBatchJSONRequestBody defines body for CreateDeliveryBatch for application/json ContentType.
+type CreateDeliveryBatchJSONRequestBody = DeliveryBatchInput
+
+// CancelDeliveryBatchJSONRequestBody defines body for CancelDeliveryBatch for application/json ContentType.
+type CancelDeliveryBatchJSONRequestBody = DeliveryBatchActionInput
+
+// CreateDeliveryWorkflowJSONRequestBody defines body for CreateDeliveryWorkflow for application/json ContentType.
+type CreateDeliveryWorkflowJSONRequestBody = DeliveryWorkflowInput
+
+// UpdateDeliveryWorkflowJSONRequestBody defines body for UpdateDeliveryWorkflow for application/json ContentType.
+type UpdateDeliveryWorkflowJSONRequestBody = DeliveryWorkflowInput
+
 // QueryDeliveryEnvironmentLogsJSONRequestBody defines body for QueryDeliveryEnvironmentLogs for application/json ContentType.
 type QueryDeliveryEnvironmentLogsJSONRequestBody = LogQuery
 
 // IssueDeliveryEnvironmentLogStreamTicketJSONRequestBody defines body for IssueDeliveryEnvironmentLogStreamTicket for application/json ContentType.
 type IssueDeliveryEnvironmentLogStreamTicketJSONRequestBody = LogQuery
+
+// CreateDeliveryBlueprintJSONRequestBody defines body for CreateDeliveryBlueprint for application/json ContentType.
+type CreateDeliveryBlueprintJSONRequestBody = DeliveryBlueprintInput
+
+// UpdateDeliveryBlueprintJSONRequestBody defines body for UpdateDeliveryBlueprint for application/json ContentType.
+type UpdateDeliveryBlueprintJSONRequestBody = DeliveryBlueprintInput
+
+// ApplyDeliveryDocumentImportJSONRequestBody defines body for ApplyDeliveryDocumentImport for application/json ContentType.
+type ApplyDeliveryDocumentImportJSONRequestBody = DeliveryDocumentApplyInput
+
+// PreviewDeliveryDocumentsJSONRequestBody defines body for PreviewDeliveryDocuments for application/json ContentType.
+type PreviewDeliveryDocumentsJSONRequestBody = DeliveryDocumentPreviewInput
 
 // CreateDeliveryDraftJSONRequestBody defines body for CreateDeliveryDraft for application/json ContentType.
 type CreateDeliveryDraftJSONRequestBody = DeliveryDraftInput
@@ -26149,6 +31733,9 @@ type RecordExecutionCallbackJSONRequestBody = ExecutionCallbackRequest
 
 // ClaimExecutionTaskJSONRequestBody defines body for ClaimExecutionTask for application/json ContentType.
 type ClaimExecutionTaskJSONRequestBody = ExecutionTaskClaimRequest
+
+// ControlExecutionTaskRolloutJSONRequestBody defines body for ControlExecutionTaskRollout for application/json ContentType.
+type ControlExecutionTaskRolloutJSONRequestBody = ProgressiveRolloutControlInput
 
 // UpdateManifestBindingJSONRequestBody defines body for UpdateManifestBinding for application/json ContentType.
 type UpdateManifestBindingJSONRequestBody = ManifestBindingUpdateInput
@@ -26192,6 +31779,9 @@ type PreflightManifestPackageJSONRequestBody = ManifestPreflightInput
 // RenderManifestPackageJSONRequestBody defines body for RenderManifestPackage for application/json ContentType.
 type RenderManifestPackageJSONRequestBody = ManifestRenderInput
 
+// SaveManifestRevisionJSONRequestBody defines body for SaveManifestRevision for application/json ContentType.
+type SaveManifestRevisionJSONRequestBody = ManifestRevisionInput
+
 // UpdateManifestSourceJSONRequestBody defines body for UpdateManifestSource for application/json ContentType.
 type UpdateManifestSourceJSONRequestBody = ManifestSourceUpdateInput
 
@@ -26203,6 +31793,45 @@ type TriggerManifestSourceWebhookJSONRequestBody = ManifestSyncWebhookInput
 
 // CreateDeliveryPlanJSONRequestBody defines body for CreateDeliveryPlan for application/json ContentType.
 type CreateDeliveryPlanJSONRequestBody = DeliveryPlanInput
+
+// DecideDeliveryPlanApprovalJSONRequestBody defines body for DecideDeliveryPlanApproval for application/json ContentType.
+type DecideDeliveryPlanApprovalJSONRequestBody = DeliveryPlanApprovalInput
+
+// CreateDeliveryTemplateSourceJSONRequestBody defines body for CreateDeliveryTemplateSource for application/json ContentType.
+type CreateDeliveryTemplateSourceJSONRequestBody = DeliveryTemplateSourceInput
+
+// RemoveDeliveryTemplateSourceJSONRequestBody defines body for RemoveDeliveryTemplateSource for application/json ContentType.
+type RemoveDeliveryTemplateSourceJSONRequestBody = DeliveryTemplateSourceRemoveInput
+
+// UpdateDeliveryTemplateSourceJSONRequestBody defines body for UpdateDeliveryTemplateSource for application/json ContentType.
+type UpdateDeliveryTemplateSourceJSONRequestBody = DeliveryTemplateSourceInput
+
+// DetachDeliveryTemplateSourceObjectJSONRequestBody defines body for DetachDeliveryTemplateSourceObject for application/json ContentType.
+type DetachDeliveryTemplateSourceObjectJSONRequestBody = DeliveryTemplateSourceRemoveInput
+
+// SyncDeliveryTemplateSourceJSONRequestBody defines body for SyncDeliveryTemplateSource for application/json ContentType.
+type SyncDeliveryTemplateSourceJSONRequestBody = DeliveryTemplateSyncInput
+
+// ApplyDeliveryTemplateSyncJSONRequestBody defines body for ApplyDeliveryTemplateSync for application/json ContentType.
+type ApplyDeliveryTemplateSyncJSONRequestBody = DeliveryTemplateSyncApplyInput
+
+// CreateDeliveryTriggerJSONRequestBody defines body for CreateDeliveryTrigger for application/json ContentType.
+type CreateDeliveryTriggerJSONRequestBody = DeliveryTriggerInput
+
+// UpdateDeliveryTriggerJSONRequestBody defines body for UpdateDeliveryTrigger for application/json ContentType.
+type UpdateDeliveryTriggerJSONRequestBody = DeliveryTriggerInput
+
+// ReceiveDeliveryTriggerWebhookJSONRequestBody defines body for ReceiveDeliveryTriggerWebhook for application/json ContentType.
+type ReceiveDeliveryTriggerWebhookJSONRequestBody = DeliveryGitLabPushEvent
+
+// CreateServiceDeploymentTemplateJSONRequestBody defines body for CreateServiceDeploymentTemplate for application/json ContentType.
+type CreateServiceDeploymentTemplateJSONRequestBody = ServiceDeploymentTemplateInput
+
+// UpdateServiceDeploymentTemplateJSONRequestBody defines body for UpdateServiceDeploymentTemplate for application/json ContentType.
+type UpdateServiceDeploymentTemplateJSONRequestBody = ServiceDeploymentTemplateInput
+
+// PublishServiceDeploymentTemplateJSONRequestBody defines body for PublishServiceDeploymentTemplate for application/json ContentType.
+type PublishServiceDeploymentTemplateJSONRequestBody = TemplatePublishInput
 
 // ExchangeDockerHostAgentEnrollmentJSONRequestBody defines body for ExchangeDockerHostAgentEnrollment for application/json ContentType.
 type ExchangeDockerHostAgentEnrollmentJSONRequestBody = DockerHostAgentEnrollmentRequest
@@ -26222,6 +31851,9 @@ type RecordDockerOperationCallbackJSONRequestBody = DockerOperationCallbackReque
 // ClaimDockerOperationJSONRequestBody defines body for ClaimDockerOperation for application/json ContentType.
 type ClaimDockerOperationJSONRequestBody = DockerOperationClaimRequest
 
+// CreateDockerProjectJSONRequestBody defines body for CreateDockerProject for application/json ContentType.
+type CreateDockerProjectJSONRequestBody = DockerProjectInput
+
 // DeployDockerProjectJSONRequestBody defines body for DeployDockerProject for application/json ContentType.
 type DeployDockerProjectJSONRequestBody = DockerProjectDeployInput
 
@@ -26236,6 +31868,9 @@ type IssueDockerProjectLogStreamTicketJSONRequestBody = LogQuery
 
 // CreateIdentityApplicationJSONRequestBody defines body for CreateIdentityApplication for application/json ContentType.
 type CreateIdentityApplicationJSONRequestBody = IdentityApplicationInput
+
+// OnboardIdentityApplicationJSONRequestBody defines body for OnboardIdentityApplication for application/json ContentType.
+type OnboardIdentityApplicationJSONRequestBody = IdentityApplicationOnboardingInput
 
 // UpdateIdentityApplicationJSONRequestBody defines body for UpdateIdentityApplication for application/json ContentType.
 type UpdateIdentityApplicationJSONRequestBody = IdentityApplicationInput
@@ -26387,6 +32022,36 @@ type CreateNetworkSpaceJSONRequestBody = NetworkSpaceInput
 // UpdateNetworkSpaceJSONRequestBody defines body for UpdateNetworkSpace for application/json ContentType.
 type UpdateNetworkSpaceJSONRequestBody = NetworkSpaceInput
 
+// CreateCurrentNetworkVPNConnectionIntentJSONRequestBody defines body for CreateCurrentNetworkVPNConnectionIntent for application/json ContentType.
+type CreateCurrentNetworkVPNConnectionIntentJSONRequestBody = NetworkVPNConnectionIntentInput
+
+// CreateNetworkVPNProfileJSONRequestBody defines body for CreateNetworkVPNProfile for application/json ContentType.
+type CreateNetworkVPNProfileJSONRequestBody = NetworkVPNProfileInput
+
+// UpdateNetworkVPNProfileJSONRequestBody defines body for UpdateNetworkVPNProfile for application/json ContentType.
+type UpdateNetworkVPNProfileJSONRequestBody = NetworkVPNProfileInput
+
+// PublishNetworkVPNProfileJSONRequestBody defines body for PublishNetworkVPNProfile for application/json ContentType.
+type PublishNetworkVPNProfileJSONRequestBody = NetworkVPNRevisionInput
+
+// RollbackNetworkVPNProfileJSONRequestBody defines body for RollbackNetworkVPNProfile for application/json ContentType.
+type RollbackNetworkVPNProfileJSONRequestBody = NetworkVPNRollbackInput
+
+// CreateNetworkVPNSelectionPolicyJSONRequestBody defines body for CreateNetworkVPNSelectionPolicy for application/json ContentType.
+type CreateNetworkVPNSelectionPolicyJSONRequestBody = NetworkVPNSelectionPolicyInput
+
+// UpdateNetworkVPNSelectionPolicyJSONRequestBody defines body for UpdateNetworkVPNSelectionPolicy for application/json ContentType.
+type UpdateNetworkVPNSelectionPolicyJSONRequestBody = NetworkVPNSelectionPolicyInput
+
+// PublishNetworkVPNSelectionPolicyJSONRequestBody defines body for PublishNetworkVPNSelectionPolicy for application/json ContentType.
+type PublishNetworkVPNSelectionPolicyJSONRequestBody = NetworkVPNRevisionInput
+
+// RollbackNetworkVPNSelectionPolicyJSONRequestBody defines body for RollbackNetworkVPNSelectionPolicy for application/json ContentType.
+type RollbackNetworkVPNSelectionPolicyJSONRequestBody = NetworkVPNRollbackInput
+
+// PreviewNetworkVPNSelectionJSONRequestBody defines body for PreviewNetworkVPNSelection for application/json ContentType.
+type PreviewNetworkVPNSelectionJSONRequestBody = NetworkVPNPreviewInput
+
 // ImportGrafanaDashboardJSONRequestBody defines body for ImportGrafanaDashboard for application/json ContentType.
 type ImportGrafanaDashboardJSONRequestBody = ObservabilityGrafanaDashboardImportInput
 
@@ -26434,6 +32099,9 @@ type CreateRepositoryJSONRequestBody = RepositoryInput
 
 // UpdateRepositoryJSONRequestBody defines body for UpdateRepository for application/json ContentType.
 type UpdateRepositoryJSONRequestBody = RepositoryInput
+
+// CallAgentRunnerToolJSONRequestBody defines body for CallAgentRunnerTool for application/json ContentType.
+type CallAgentRunnerToolJSONRequestBody = AgentRunnerToolCallRequest
 
 // PostSAMLIdentityProviderSSOFormdataRequestBody defines body for PostSAMLIdentityProviderSSO for application/x-www-form-urlencoded ContentType.
 type PostSAMLIdentityProviderSSOFormdataRequestBody = SAMLRequestForm
@@ -26483,6 +32151,9 @@ type CreateSystemIntegrationJSONRequestBody = SystemIntegrationCreateRequest
 // UpdateSystemIntegrationJSONRequestBody defines body for UpdateSystemIntegration for application/json ContentType.
 type UpdateSystemIntegrationJSONRequestBody = SystemIntegrationUpdateRequest
 
+// CheckVirtualizationCapacityJSONRequestBody defines body for CheckVirtualizationCapacity for application/json ContentType.
+type CheckVirtualizationCapacityJSONRequestBody = VirtualizationCapacityInput
+
 // CreateVirtualizationClusterJSONRequestBody defines body for CreateVirtualizationCluster for application/json ContentType.
 type CreateVirtualizationClusterJSONRequestBody = VirtualizationConnectionInput
 
@@ -26513,11 +32184,20 @@ type PerformVirtualMachineActionJSONRequestBody = VirtualMachineActionInput
 // PowerVirtualMachineJSONRequestBody defines body for PowerVirtualMachine for application/json ContentType.
 type PowerVirtualMachineJSONRequestBody = VirtualMachinePowerInput
 
+// SaveVirtualizationWorkerPoolJSONRequestBody defines body for SaveVirtualizationWorkerPool for application/json ContentType.
+type SaveVirtualizationWorkerPoolJSONRequestBody = VirtualizationWorkerPoolInput
+
+// CreateVirtualizationWorkerJSONRequestBody defines body for CreateVirtualizationWorker for application/json ContentType.
+type CreateVirtualizationWorkerJSONRequestBody = VirtualizationWorkerCreateInput
+
 // CreateWorkflowTemplateJSONRequestBody defines body for CreateWorkflowTemplate for application/json ContentType.
 type CreateWorkflowTemplateJSONRequestBody = WorkflowTemplateInput
 
 // UpdateWorkflowTemplateJSONRequestBody defines body for UpdateWorkflowTemplate for application/json ContentType.
 type UpdateWorkflowTemplateJSONRequestBody = WorkflowTemplateInput
+
+// PublishWorkflowTemplateJSONRequestBody defines body for PublishWorkflowTemplate for application/json ContentType.
+type PublishWorkflowTemplateJSONRequestBody = TemplatePublishInput
 
 // Getter for additional properties for AgentRun. Returns the specified
 // element and whether it was found
@@ -26568,6 +32248,14 @@ func (a *AgentRun) UnmarshalJSON(b []byte) error {
 		delete(object, "capabilityId")
 	}
 
+	if raw, found := object["chat"]; found {
+		err = json.Unmarshal(raw, &a.Chat)
+		if err != nil {
+			return fmt.Errorf("error reading 'chat': %w", err)
+		}
+		delete(object, "chat")
+	}
+
 	if raw, found := object["id"]; found {
 		err = json.Unmarshal(raw, &a.ID)
 		if err != nil {
@@ -26590,6 +32278,14 @@ func (a *AgentRun) UnmarshalJSON(b []byte) error {
 			return fmt.Errorf("error reading 'output': %w", err)
 		}
 		delete(object, "output")
+	}
+
+	if raw, found := object["parentRunId"]; found {
+		err = json.Unmarshal(raw, &a.ParentRunID)
+		if err != nil {
+			return fmt.Errorf("error reading 'parentRunId': %w", err)
+		}
+		delete(object, "parentRunId")
 	}
 
 	if raw, found := object["providerId"]; found {
@@ -26716,6 +32412,13 @@ func (a AgentRun) MarshalJSON() ([]byte, error) {
 		return nil, fmt.Errorf("error marshaling 'capabilityId': %w", err)
 	}
 
+	if a.Chat != nil {
+		object["chat"], err = json.Marshal(a.Chat)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'chat': %w", err)
+		}
+	}
+
 	object["id"], err = json.Marshal(a.ID)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling 'id': %w", err)
@@ -26733,6 +32436,11 @@ func (a AgentRun) MarshalJSON() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("error marshaling 'output': %w", err)
 		}
+	}
+
+	object["parentRunId"], err = json.Marshal(a.ParentRunID)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'parentRunId': %w", err)
 	}
 
 	object["providerId"], err = json.Marshal(a.ProviderID)
@@ -27472,6 +33180,177 @@ func (a CohereRerankRequest) MarshalJSON() ([]byte, error) {
 	object["top_n"], err = json.Marshal(a.TopN)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling 'top_n': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for DeliveryGitLabPushEvent. Returns the specified
+// element and whether it was found
+func (a DeliveryGitLabPushEvent) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for DeliveryGitLabPushEvent
+func (a *DeliveryGitLabPushEvent) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for DeliveryGitLabPushEvent to handle AdditionalProperties
+func (a *DeliveryGitLabPushEvent) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["after"]; found {
+		err = json.Unmarshal(raw, &a.After)
+		if err != nil {
+			return fmt.Errorf("error reading 'after': %w", err)
+		}
+		delete(object, "after")
+	}
+
+	if raw, found := object["object_kind"]; found {
+		err = json.Unmarshal(raw, &a.ObjectKind)
+		if err != nil {
+			return fmt.Errorf("error reading 'object_kind': %w", err)
+		}
+		delete(object, "object_kind")
+	}
+
+	if raw, found := object["project"]; found {
+		err = json.Unmarshal(raw, &a.Project)
+		if err != nil {
+			return fmt.Errorf("error reading 'project': %w", err)
+		}
+		delete(object, "project")
+	}
+
+	if raw, found := object["ref"]; found {
+		err = json.Unmarshal(raw, &a.Ref)
+		if err != nil {
+			return fmt.Errorf("error reading 'ref': %w", err)
+		}
+		delete(object, "ref")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for DeliveryGitLabPushEvent to handle AdditionalProperties
+func (a DeliveryGitLabPushEvent) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	object["after"], err = json.Marshal(a.After)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'after': %w", err)
+	}
+
+	object["object_kind"], err = json.Marshal(a.ObjectKind)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'object_kind': %w", err)
+	}
+
+	object["project"], err = json.Marshal(a.Project)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'project': %w", err)
+	}
+
+	object["ref"], err = json.Marshal(a.Ref)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'ref': %w", err)
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for DeliveryGitLabPushEvent_Project. Returns the specified
+// element and whether it was found
+func (a DeliveryGitLabPushEvent_Project) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for DeliveryGitLabPushEvent_Project
+func (a *DeliveryGitLabPushEvent_Project) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]any)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for DeliveryGitLabPushEvent_Project to handle AdditionalProperties
+func (a *DeliveryGitLabPushEvent_Project) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["id"]; found {
+		err = json.Unmarshal(raw, &a.ID)
+		if err != nil {
+			return fmt.Errorf("error reading 'id': %w", err)
+		}
+		delete(object, "id")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]any)
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for DeliveryGitLabPushEvent_Project to handle AdditionalProperties
+func (a DeliveryGitLabPushEvent_Project) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	object["id"], err = json.Marshal(a.ID)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'id': %w", err)
 	}
 
 	for fieldName, field := range a.AdditionalProperties {
@@ -30918,12 +36797,28 @@ func (a *ToolInvocationResult) UnmarshalJSON(b []byte) error {
 		return err
 	}
 
+	if raw, found := object["assessment"]; found {
+		err = json.Unmarshal(raw, &a.Assessment)
+		if err != nil {
+			return fmt.Errorf("error reading 'assessment': %w", err)
+		}
+		delete(object, "assessment")
+	}
+
 	if raw, found := object["audit"]; found {
 		err = json.Unmarshal(raw, &a.Audit)
 		if err != nil {
 			return fmt.Errorf("error reading 'audit': %w", err)
 		}
 		delete(object, "audit")
+	}
+
+	if raw, found := object["capabilityVersion"]; found {
+		err = json.Unmarshal(raw, &a.CapabilityVersion)
+		if err != nil {
+			return fmt.Errorf("error reading 'capabilityVersion': %w", err)
+		}
+		delete(object, "capabilityVersion")
 	}
 
 	if raw, found := object["output"]; found {
@@ -30966,6 +36861,14 @@ func (a *ToolInvocationResult) UnmarshalJSON(b []byte) error {
 		delete(object, "riskLevel")
 	}
 
+	if raw, found := object["task"]; found {
+		err = json.Unmarshal(raw, &a.Task)
+		if err != nil {
+			return fmt.Errorf("error reading 'task': %w", err)
+		}
+		delete(object, "task")
+	}
+
 	if raw, found := object["toolName"]; found {
 		err = json.Unmarshal(raw, &a.ToolName)
 		if err != nil {
@@ -30993,10 +36896,24 @@ func (a ToolInvocationResult) MarshalJSON() ([]byte, error) {
 	var err error
 	object := make(map[string]json.RawMessage)
 
+	if a.Assessment != nil {
+		object["assessment"], err = json.Marshal(a.Assessment)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'assessment': %w", err)
+		}
+	}
+
 	if a.Audit != nil {
 		object["audit"], err = json.Marshal(a.Audit)
 		if err != nil {
 			return nil, fmt.Errorf("error marshaling 'audit': %w", err)
+		}
+	}
+
+	if a.CapabilityVersion != nil {
+		object["capabilityVersion"], err = json.Marshal(a.CapabilityVersion)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'capabilityVersion': %w", err)
 		}
 	}
 
@@ -31025,6 +36942,13 @@ func (a ToolInvocationResult) MarshalJSON() ([]byte, error) {
 	object["riskLevel"], err = json.Marshal(a.RiskLevel)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling 'riskLevel': %w", err)
+	}
+
+	if a.Task != nil {
+		object["task"], err = json.Marshal(a.Task)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'task': %w", err)
+		}
 	}
 
 	object["toolName"], err = json.Marshal(a.ToolName)
@@ -31863,6 +37787,1195 @@ func (t *CohereRerankRequest_Documents_Item) UnmarshalJSON(b []byte) error {
 	return err
 }
 
+// AsDeliveryBuildTemplateSpec0 returns the union data inside the DeliveryBuildTemplateSpec as a DeliveryBuildTemplateSpec0
+func (t DeliveryBuildTemplateSpec) AsDeliveryBuildTemplateSpec0() (DeliveryBuildTemplateSpec0, error) {
+	var body DeliveryBuildTemplateSpec0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryBuildTemplateSpec0 overwrites any union data inside the DeliveryBuildTemplateSpec as the provided DeliveryBuildTemplateSpec0
+func (t *DeliveryBuildTemplateSpec) FromDeliveryBuildTemplateSpec0(v DeliveryBuildTemplateSpec0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryBuildTemplateSpec0 performs a merge with any union data inside the DeliveryBuildTemplateSpec, using the provided DeliveryBuildTemplateSpec0
+func (t *DeliveryBuildTemplateSpec) MergeDeliveryBuildTemplateSpec0(v DeliveryBuildTemplateSpec0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDeliveryBuildTemplateSpec1 returns the union data inside the DeliveryBuildTemplateSpec as a DeliveryBuildTemplateSpec1
+func (t DeliveryBuildTemplateSpec) AsDeliveryBuildTemplateSpec1() (DeliveryBuildTemplateSpec1, error) {
+	var body DeliveryBuildTemplateSpec1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryBuildTemplateSpec1 overwrites any union data inside the DeliveryBuildTemplateSpec as the provided DeliveryBuildTemplateSpec1
+func (t *DeliveryBuildTemplateSpec) FromDeliveryBuildTemplateSpec1(v DeliveryBuildTemplateSpec1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryBuildTemplateSpec1 performs a merge with any union data inside the DeliveryBuildTemplateSpec, using the provided DeliveryBuildTemplateSpec1
+func (t *DeliveryBuildTemplateSpec) MergeDeliveryBuildTemplateSpec1(v DeliveryBuildTemplateSpec1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t DeliveryBuildTemplateSpec) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *DeliveryBuildTemplateSpec) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsDeliveryBuildVariableSchemaEnum0 returns the union data inside the DeliveryBuildVariableSchema_Enum_Item as a DeliveryBuildVariableSchemaEnum0
+func (t DeliveryBuildVariableSchema_Enum_Item) AsDeliveryBuildVariableSchemaEnum0() (DeliveryBuildVariableSchemaEnum0, error) {
+	var body DeliveryBuildVariableSchemaEnum0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryBuildVariableSchemaEnum0 overwrites any union data inside the DeliveryBuildVariableSchema_Enum_Item as the provided DeliveryBuildVariableSchemaEnum0
+func (t *DeliveryBuildVariableSchema_Enum_Item) FromDeliveryBuildVariableSchemaEnum0(v DeliveryBuildVariableSchemaEnum0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryBuildVariableSchemaEnum0 performs a merge with any union data inside the DeliveryBuildVariableSchema_Enum_Item, using the provided DeliveryBuildVariableSchemaEnum0
+func (t *DeliveryBuildVariableSchema_Enum_Item) MergeDeliveryBuildVariableSchemaEnum0(v DeliveryBuildVariableSchemaEnum0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDeliveryBuildVariableSchemaEnum1 returns the union data inside the DeliveryBuildVariableSchema_Enum_Item as a DeliveryBuildVariableSchemaEnum1
+func (t DeliveryBuildVariableSchema_Enum_Item) AsDeliveryBuildVariableSchemaEnum1() (DeliveryBuildVariableSchemaEnum1, error) {
+	var body DeliveryBuildVariableSchemaEnum1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryBuildVariableSchemaEnum1 overwrites any union data inside the DeliveryBuildVariableSchema_Enum_Item as the provided DeliveryBuildVariableSchemaEnum1
+func (t *DeliveryBuildVariableSchema_Enum_Item) FromDeliveryBuildVariableSchemaEnum1(v DeliveryBuildVariableSchemaEnum1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryBuildVariableSchemaEnum1 performs a merge with any union data inside the DeliveryBuildVariableSchema_Enum_Item, using the provided DeliveryBuildVariableSchemaEnum1
+func (t *DeliveryBuildVariableSchema_Enum_Item) MergeDeliveryBuildVariableSchemaEnum1(v DeliveryBuildVariableSchemaEnum1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDeliveryBuildVariableSchemaEnum2 returns the union data inside the DeliveryBuildVariableSchema_Enum_Item as a DeliveryBuildVariableSchemaEnum2
+func (t DeliveryBuildVariableSchema_Enum_Item) AsDeliveryBuildVariableSchemaEnum2() (DeliveryBuildVariableSchemaEnum2, error) {
+	var body DeliveryBuildVariableSchemaEnum2
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryBuildVariableSchemaEnum2 overwrites any union data inside the DeliveryBuildVariableSchema_Enum_Item as the provided DeliveryBuildVariableSchemaEnum2
+func (t *DeliveryBuildVariableSchema_Enum_Item) FromDeliveryBuildVariableSchemaEnum2(v DeliveryBuildVariableSchemaEnum2) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryBuildVariableSchemaEnum2 performs a merge with any union data inside the DeliveryBuildVariableSchema_Enum_Item, using the provided DeliveryBuildVariableSchemaEnum2
+func (t *DeliveryBuildVariableSchema_Enum_Item) MergeDeliveryBuildVariableSchemaEnum2(v DeliveryBuildVariableSchemaEnum2) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t DeliveryBuildVariableSchema_Enum_Item) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *DeliveryBuildVariableSchema_Enum_Item) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsDeliveryBuildTemplateDocument returns the union data inside the DeliveryDocument as a DeliveryBuildTemplateDocument
+func (t DeliveryDocument) AsDeliveryBuildTemplateDocument() (DeliveryBuildTemplateDocument, error) {
+	var body DeliveryBuildTemplateDocument
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryBuildTemplateDocument overwrites any union data inside the DeliveryDocument as the provided DeliveryBuildTemplateDocument
+func (t *DeliveryDocument) FromDeliveryBuildTemplateDocument(v DeliveryBuildTemplateDocument) error {
+	v.Kind = "BuildTemplate"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryBuildTemplateDocument performs a merge with any union data inside the DeliveryDocument, using the provided DeliveryBuildTemplateDocument
+func (t *DeliveryDocument) MergeDeliveryBuildTemplateDocument(v DeliveryBuildTemplateDocument) error {
+	v.Kind = "BuildTemplate"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDeliveryDeploymentTemplateDocument returns the union data inside the DeliveryDocument as a DeliveryDeploymentTemplateDocument
+func (t DeliveryDocument) AsDeliveryDeploymentTemplateDocument() (DeliveryDeploymentTemplateDocument, error) {
+	var body DeliveryDeploymentTemplateDocument
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryDeploymentTemplateDocument overwrites any union data inside the DeliveryDocument as the provided DeliveryDeploymentTemplateDocument
+func (t *DeliveryDocument) FromDeliveryDeploymentTemplateDocument(v DeliveryDeploymentTemplateDocument) error {
+	v.Kind = "DeploymentTemplate"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryDeploymentTemplateDocument performs a merge with any union data inside the DeliveryDocument, using the provided DeliveryDeploymentTemplateDocument
+func (t *DeliveryDocument) MergeDeliveryDeploymentTemplateDocument(v DeliveryDeploymentTemplateDocument) error {
+	v.Kind = "DeploymentTemplate"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDeliveryWorkflowTemplateDocument returns the union data inside the DeliveryDocument as a DeliveryWorkflowTemplateDocument
+func (t DeliveryDocument) AsDeliveryWorkflowTemplateDocument() (DeliveryWorkflowTemplateDocument, error) {
+	var body DeliveryWorkflowTemplateDocument
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryWorkflowTemplateDocument overwrites any union data inside the DeliveryDocument as the provided DeliveryWorkflowTemplateDocument
+func (t *DeliveryDocument) FromDeliveryWorkflowTemplateDocument(v DeliveryWorkflowTemplateDocument) error {
+	v.Kind = "WorkflowTemplate"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryWorkflowTemplateDocument performs a merge with any union data inside the DeliveryDocument, using the provided DeliveryWorkflowTemplateDocument
+func (t *DeliveryDocument) MergeDeliveryWorkflowTemplateDocument(v DeliveryWorkflowTemplateDocument) error {
+	v.Kind = "WorkflowTemplate"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDeliveryWorkflowDocument returns the union data inside the DeliveryDocument as a DeliveryWorkflowDocument
+func (t DeliveryDocument) AsDeliveryWorkflowDocument() (DeliveryWorkflowDocument, error) {
+	var body DeliveryWorkflowDocument
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryWorkflowDocument overwrites any union data inside the DeliveryDocument as the provided DeliveryWorkflowDocument
+func (t *DeliveryDocument) FromDeliveryWorkflowDocument(v DeliveryWorkflowDocument) error {
+	v.Kind = "Workflow"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryWorkflowDocument performs a merge with any union data inside the DeliveryDocument, using the provided DeliveryWorkflowDocument
+func (t *DeliveryDocument) MergeDeliveryWorkflowDocument(v DeliveryWorkflowDocument) error {
+	v.Kind = "Workflow"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t DeliveryDocument) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"kind"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t DeliveryDocument) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "BuildTemplate":
+		return t.AsDeliveryBuildTemplateDocument()
+	case "DeploymentTemplate":
+		return t.AsDeliveryDeploymentTemplateDocument()
+	case "Workflow":
+		return t.AsDeliveryWorkflowDocument()
+	case "WorkflowTemplate":
+		return t.AsDeliveryWorkflowTemplateDocument()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t DeliveryDocument) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *DeliveryDocument) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsDeliveryDocumentDAG0 returns the union data inside the DeliveryDocumentDAG as a DeliveryDocumentDAG0
+func (t DeliveryDocumentDAG) AsDeliveryDocumentDAG0() (DeliveryDocumentDAG0, error) {
+	var body DeliveryDocumentDAG0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryDocumentDAG0 overwrites any union data inside the DeliveryDocumentDAG as the provided DeliveryDocumentDAG0
+func (t *DeliveryDocumentDAG) FromDeliveryDocumentDAG0(v DeliveryDocumentDAG0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryDocumentDAG0 performs a merge with any union data inside the DeliveryDocumentDAG, using the provided DeliveryDocumentDAG0
+func (t *DeliveryDocumentDAG) MergeDeliveryDocumentDAG0(v DeliveryDocumentDAG0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDeliveryDocumentDAG1 returns the union data inside the DeliveryDocumentDAG as a DeliveryDocumentDAG1
+func (t DeliveryDocumentDAG) AsDeliveryDocumentDAG1() (DeliveryDocumentDAG1, error) {
+	var body DeliveryDocumentDAG1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryDocumentDAG1 overwrites any union data inside the DeliveryDocumentDAG as the provided DeliveryDocumentDAG1
+func (t *DeliveryDocumentDAG) FromDeliveryDocumentDAG1(v DeliveryDocumentDAG1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryDocumentDAG1 performs a merge with any union data inside the DeliveryDocumentDAG, using the provided DeliveryDocumentDAG1
+func (t *DeliveryDocumentDAG) MergeDeliveryDocumentDAG1(v DeliveryDocumentDAG1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDeliveryDocumentDAG2 returns the union data inside the DeliveryDocumentDAG as a DeliveryDocumentDAG2
+func (t DeliveryDocumentDAG) AsDeliveryDocumentDAG2() (DeliveryDocumentDAG2, error) {
+	var body DeliveryDocumentDAG2
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryDocumentDAG2 overwrites any union data inside the DeliveryDocumentDAG as the provided DeliveryDocumentDAG2
+func (t *DeliveryDocumentDAG) FromDeliveryDocumentDAG2(v DeliveryDocumentDAG2) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryDocumentDAG2 performs a merge with any union data inside the DeliveryDocumentDAG, using the provided DeliveryDocumentDAG2
+func (t *DeliveryDocumentDAG) MergeDeliveryDocumentDAG2(v DeliveryDocumentDAG2) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t DeliveryDocumentDAG) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	object := make(map[string]json.RawMessage)
+	if t.union != nil {
+		err = json.Unmarshal(b, &object)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if t.Edges != nil {
+		object["edges"], err = json.Marshal(t.Edges)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'edges': %w", err)
+		}
+	}
+
+	object["mode"], err = json.Marshal(t.Mode)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'mode': %w", err)
+	}
+
+	if t.Nodes != nil {
+		object["nodes"], err = json.Marshal(t.Nodes)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'nodes': %w", err)
+		}
+	}
+
+	if t.OnFailure != nil {
+		object["onFailure"], err = json.Marshal(t.OnFailure)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'onFailure': %w", err)
+		}
+	}
+
+	object["schemaVersion"], err = json.Marshal(t.SchemaVersion)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'schemaVersion': %w", err)
+	}
+
+	if t.Stages != nil {
+		object["stages"], err = json.Marshal(t.Stages)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'stages': %w", err)
+		}
+	}
+
+	if t.Steps != nil {
+		object["steps"], err = json.Marshal(t.Steps)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'steps': %w", err)
+		}
+	}
+	b, err = json.Marshal(object)
+	return b, err
+}
+
+func (t *DeliveryDocumentDAG) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	if err != nil {
+		return err
+	}
+	object := make(map[string]json.RawMessage)
+	err = json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["edges"]; found {
+		err = json.Unmarshal(raw, &t.Edges)
+		if err != nil {
+			return fmt.Errorf("error reading 'edges': %w", err)
+		}
+	}
+
+	if raw, found := object["mode"]; found {
+		err = json.Unmarshal(raw, &t.Mode)
+		if err != nil {
+			return fmt.Errorf("error reading 'mode': %w", err)
+		}
+	}
+
+	if raw, found := object["nodes"]; found {
+		err = json.Unmarshal(raw, &t.Nodes)
+		if err != nil {
+			return fmt.Errorf("error reading 'nodes': %w", err)
+		}
+	}
+
+	if raw, found := object["onFailure"]; found {
+		err = json.Unmarshal(raw, &t.OnFailure)
+		if err != nil {
+			return fmt.Errorf("error reading 'onFailure': %w", err)
+		}
+	}
+
+	if raw, found := object["schemaVersion"]; found {
+		err = json.Unmarshal(raw, &t.SchemaVersion)
+		if err != nil {
+			return fmt.Errorf("error reading 'schemaVersion': %w", err)
+		}
+	}
+
+	if raw, found := object["stages"]; found {
+		err = json.Unmarshal(raw, &t.Stages)
+		if err != nil {
+			return fmt.Errorf("error reading 'stages': %w", err)
+		}
+	}
+
+	if raw, found := object["steps"]; found {
+		err = json.Unmarshal(raw, &t.Steps)
+		if err != nil {
+			return fmt.Errorf("error reading 'steps': %w", err)
+		}
+	}
+
+	return err
+}
+
+// AsDeliveryTriggerInput0 returns the union data inside the DeliveryTriggerInput as a DeliveryTriggerInput0
+func (t DeliveryTriggerInput) AsDeliveryTriggerInput0() (DeliveryTriggerInput0, error) {
+	var body DeliveryTriggerInput0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryTriggerInput0 overwrites any union data inside the DeliveryTriggerInput as the provided DeliveryTriggerInput0
+func (t *DeliveryTriggerInput) FromDeliveryTriggerInput0(v DeliveryTriggerInput0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryTriggerInput0 performs a merge with any union data inside the DeliveryTriggerInput, using the provided DeliveryTriggerInput0
+func (t *DeliveryTriggerInput) MergeDeliveryTriggerInput0(v DeliveryTriggerInput0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDeliveryTriggerInput1 returns the union data inside the DeliveryTriggerInput as a DeliveryTriggerInput1
+func (t DeliveryTriggerInput) AsDeliveryTriggerInput1() (DeliveryTriggerInput1, error) {
+	var body DeliveryTriggerInput1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryTriggerInput1 overwrites any union data inside the DeliveryTriggerInput as the provided DeliveryTriggerInput1
+func (t *DeliveryTriggerInput) FromDeliveryTriggerInput1(v DeliveryTriggerInput1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryTriggerInput1 performs a merge with any union data inside the DeliveryTriggerInput, using the provided DeliveryTriggerInput1
+func (t *DeliveryTriggerInput) MergeDeliveryTriggerInput1(v DeliveryTriggerInput1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t DeliveryTriggerInput) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	object := make(map[string]json.RawMessage)
+	if t.union != nil {
+		err = json.Unmarshal(b, &object)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	object["enabled"], err = json.Marshal(t.Enabled)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'enabled': %w", err)
+	}
+
+	object["expectedRevision"], err = json.Marshal(t.ExpectedRevision)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'expectedRevision': %w", err)
+	}
+
+	object["name"], err = json.Marshal(t.Name)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'name': %w", err)
+	}
+
+	if t.Schedule != nil {
+		object["schedule"], err = json.Marshal(t.Schedule)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'schedule': %w", err)
+		}
+	}
+
+	object["serviceAccountToken"], err = json.Marshal(t.ServiceAccountToken)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'serviceAccountToken': %w", err)
+	}
+
+	object["targetId"], err = json.Marshal(t.TargetID)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'targetId': %w", err)
+	}
+
+	object["targetKind"], err = json.Marshal(t.TargetKind)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'targetKind': %w", err)
+	}
+
+	object["type"], err = json.Marshal(t.Type)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'type': %w", err)
+	}
+
+	if t.Webhook != nil {
+		object["webhook"], err = json.Marshal(t.Webhook)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'webhook': %w", err)
+		}
+	}
+
+	object["webhookSigningSecret"], err = json.Marshal(t.WebhookSigningSecret)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'webhookSigningSecret': %w", err)
+	}
+
+	object["workflowVersion"], err = json.Marshal(t.WorkflowVersion)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'workflowVersion': %w", err)
+	}
+
+	b, err = json.Marshal(object)
+	return b, err
+}
+
+func (t *DeliveryTriggerInput) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	if err != nil {
+		return err
+	}
+	object := make(map[string]json.RawMessage)
+	err = json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["enabled"]; found {
+		err = json.Unmarshal(raw, &t.Enabled)
+		if err != nil {
+			return fmt.Errorf("error reading 'enabled': %w", err)
+		}
+	}
+
+	if raw, found := object["expectedRevision"]; found {
+		err = json.Unmarshal(raw, &t.ExpectedRevision)
+		if err != nil {
+			return fmt.Errorf("error reading 'expectedRevision': %w", err)
+		}
+	}
+
+	if raw, found := object["name"]; found {
+		err = json.Unmarshal(raw, &t.Name)
+		if err != nil {
+			return fmt.Errorf("error reading 'name': %w", err)
+		}
+	}
+
+	if raw, found := object["schedule"]; found {
+		err = json.Unmarshal(raw, &t.Schedule)
+		if err != nil {
+			return fmt.Errorf("error reading 'schedule': %w", err)
+		}
+	}
+
+	if raw, found := object["serviceAccountToken"]; found {
+		err = json.Unmarshal(raw, &t.ServiceAccountToken)
+		if err != nil {
+			return fmt.Errorf("error reading 'serviceAccountToken': %w", err)
+		}
+	}
+
+	if raw, found := object["targetId"]; found {
+		err = json.Unmarshal(raw, &t.TargetID)
+		if err != nil {
+			return fmt.Errorf("error reading 'targetId': %w", err)
+		}
+	}
+
+	if raw, found := object["targetKind"]; found {
+		err = json.Unmarshal(raw, &t.TargetKind)
+		if err != nil {
+			return fmt.Errorf("error reading 'targetKind': %w", err)
+		}
+	}
+
+	if raw, found := object["type"]; found {
+		err = json.Unmarshal(raw, &t.Type)
+		if err != nil {
+			return fmt.Errorf("error reading 'type': %w", err)
+		}
+	}
+
+	if raw, found := object["webhook"]; found {
+		err = json.Unmarshal(raw, &t.Webhook)
+		if err != nil {
+			return fmt.Errorf("error reading 'webhook': %w", err)
+		}
+	}
+
+	if raw, found := object["webhookSigningSecret"]; found {
+		err = json.Unmarshal(raw, &t.WebhookSigningSecret)
+		if err != nil {
+			return fmt.Errorf("error reading 'webhookSigningSecret': %w", err)
+		}
+	}
+
+	if raw, found := object["workflowVersion"]; found {
+		err = json.Unmarshal(raw, &t.WorkflowVersion)
+		if err != nil {
+			return fmt.Errorf("error reading 'workflowVersion': %w", err)
+		}
+	}
+
+	return err
+}
+
+// AsDeliveryTriggerSchedule0 returns the union data inside the DeliveryTriggerSchedule as a DeliveryTriggerSchedule0
+func (t DeliveryTriggerSchedule) AsDeliveryTriggerSchedule0() (DeliveryTriggerSchedule0, error) {
+	var body DeliveryTriggerSchedule0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryTriggerSchedule0 overwrites any union data inside the DeliveryTriggerSchedule as the provided DeliveryTriggerSchedule0
+func (t *DeliveryTriggerSchedule) FromDeliveryTriggerSchedule0(v DeliveryTriggerSchedule0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryTriggerSchedule0 performs a merge with any union data inside the DeliveryTriggerSchedule, using the provided DeliveryTriggerSchedule0
+func (t *DeliveryTriggerSchedule) MergeDeliveryTriggerSchedule0(v DeliveryTriggerSchedule0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDeliveryTriggerSchedule1 returns the union data inside the DeliveryTriggerSchedule as a DeliveryTriggerSchedule1
+func (t DeliveryTriggerSchedule) AsDeliveryTriggerSchedule1() (DeliveryTriggerSchedule1, error) {
+	var body DeliveryTriggerSchedule1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryTriggerSchedule1 overwrites any union data inside the DeliveryTriggerSchedule as the provided DeliveryTriggerSchedule1
+func (t *DeliveryTriggerSchedule) FromDeliveryTriggerSchedule1(v DeliveryTriggerSchedule1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryTriggerSchedule1 performs a merge with any union data inside the DeliveryTriggerSchedule, using the provided DeliveryTriggerSchedule1
+func (t *DeliveryTriggerSchedule) MergeDeliveryTriggerSchedule1(v DeliveryTriggerSchedule1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t DeliveryTriggerSchedule) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	object := make(map[string]json.RawMessage)
+	if t.union != nil {
+		err = json.Unmarshal(b, &object)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	object["cron"], err = json.Marshal(t.Cron)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'cron': %w", err)
+	}
+
+	if t.ExcludedDates != nil {
+		object["excludedDates"], err = json.Marshal(t.ExcludedDates)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'excludedDates': %w", err)
+		}
+	}
+
+	if t.RunAt != nil {
+		object["runAt"], err = json.Marshal(t.RunAt)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'runAt': %w", err)
+		}
+	}
+
+	object["timeZone"], err = json.Marshal(t.TimeZone)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'timeZone': %w", err)
+	}
+
+	b, err = json.Marshal(object)
+	return b, err
+}
+
+func (t *DeliveryTriggerSchedule) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	if err != nil {
+		return err
+	}
+	object := make(map[string]json.RawMessage)
+	err = json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["cron"]; found {
+		err = json.Unmarshal(raw, &t.Cron)
+		if err != nil {
+			return fmt.Errorf("error reading 'cron': %w", err)
+		}
+	}
+
+	if raw, found := object["excludedDates"]; found {
+		err = json.Unmarshal(raw, &t.ExcludedDates)
+		if err != nil {
+			return fmt.Errorf("error reading 'excludedDates': %w", err)
+		}
+	}
+
+	if raw, found := object["runAt"]; found {
+		err = json.Unmarshal(raw, &t.RunAt)
+		if err != nil {
+			return fmt.Errorf("error reading 'runAt': %w", err)
+		}
+	}
+
+	if raw, found := object["timeZone"]; found {
+		err = json.Unmarshal(raw, &t.TimeZone)
+		if err != nil {
+			return fmt.Errorf("error reading 'timeZone': %w", err)
+		}
+	}
+
+	return err
+}
+
+// AsDeliveryBatchTemplateDefinition returns the union data inside the DeliveryWorkflowTemplateSpec_Definition as a DeliveryBatchTemplateDefinition
+func (t DeliveryWorkflowTemplateSpec_Definition) AsDeliveryBatchTemplateDefinition() (DeliveryBatchTemplateDefinition, error) {
+	var body DeliveryBatchTemplateDefinition
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryBatchTemplateDefinition overwrites any union data inside the DeliveryWorkflowTemplateSpec_Definition as the provided DeliveryBatchTemplateDefinition
+func (t *DeliveryWorkflowTemplateSpec_Definition) FromDeliveryBatchTemplateDefinition(v DeliveryBatchTemplateDefinition) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryBatchTemplateDefinition performs a merge with any union data inside the DeliveryWorkflowTemplateSpec_Definition, using the provided DeliveryBatchTemplateDefinition
+func (t *DeliveryWorkflowTemplateSpec_Definition) MergeDeliveryBatchTemplateDefinition(v DeliveryBatchTemplateDefinition) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDeliveryDocumentDAG returns the union data inside the DeliveryWorkflowTemplateSpec_Definition as a DeliveryDocumentDAG
+func (t DeliveryWorkflowTemplateSpec_Definition) AsDeliveryDocumentDAG() (DeliveryDocumentDAG, error) {
+	var body DeliveryDocumentDAG
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeliveryDocumentDAG overwrites any union data inside the DeliveryWorkflowTemplateSpec_Definition as the provided DeliveryDocumentDAG
+func (t *DeliveryWorkflowTemplateSpec_Definition) FromDeliveryDocumentDAG(v DeliveryDocumentDAG) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeliveryDocumentDAG performs a merge with any union data inside the DeliveryWorkflowTemplateSpec_Definition, using the provided DeliveryDocumentDAG
+func (t *DeliveryWorkflowTemplateSpec_Definition) MergeDeliveryDocumentDAG(v DeliveryDocumentDAG) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t DeliveryWorkflowTemplateSpec_Definition) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *DeliveryWorkflowTemplateSpec_Definition) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsDeploymentTemplateSource0 returns the union data inside the DeploymentTemplateSource as a DeploymentTemplateSource0
+func (t DeploymentTemplateSource) AsDeploymentTemplateSource0() (DeploymentTemplateSource0, error) {
+	var body DeploymentTemplateSource0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeploymentTemplateSource0 overwrites any union data inside the DeploymentTemplateSource as the provided DeploymentTemplateSource0
+func (t *DeploymentTemplateSource) FromDeploymentTemplateSource0(v DeploymentTemplateSource0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeploymentTemplateSource0 performs a merge with any union data inside the DeploymentTemplateSource, using the provided DeploymentTemplateSource0
+func (t *DeploymentTemplateSource) MergeDeploymentTemplateSource0(v DeploymentTemplateSource0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDeploymentTemplateSource1 returns the union data inside the DeploymentTemplateSource as a DeploymentTemplateSource1
+func (t DeploymentTemplateSource) AsDeploymentTemplateSource1() (DeploymentTemplateSource1, error) {
+	var body DeploymentTemplateSource1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeploymentTemplateSource1 overwrites any union data inside the DeploymentTemplateSource as the provided DeploymentTemplateSource1
+func (t *DeploymentTemplateSource) FromDeploymentTemplateSource1(v DeploymentTemplateSource1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeploymentTemplateSource1 performs a merge with any union data inside the DeploymentTemplateSource, using the provided DeploymentTemplateSource1
+func (t *DeploymentTemplateSource) MergeDeploymentTemplateSource1(v DeploymentTemplateSource1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDeploymentTemplateSource2 returns the union data inside the DeploymentTemplateSource as a DeploymentTemplateSource2
+func (t DeploymentTemplateSource) AsDeploymentTemplateSource2() (DeploymentTemplateSource2, error) {
+	var body DeploymentTemplateSource2
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeploymentTemplateSource2 overwrites any union data inside the DeploymentTemplateSource as the provided DeploymentTemplateSource2
+func (t *DeploymentTemplateSource) FromDeploymentTemplateSource2(v DeploymentTemplateSource2) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeploymentTemplateSource2 performs a merge with any union data inside the DeploymentTemplateSource, using the provided DeploymentTemplateSource2
+func (t *DeploymentTemplateSource) MergeDeploymentTemplateSource2(v DeploymentTemplateSource2) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t DeploymentTemplateSource) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	object := make(map[string]json.RawMessage)
+	if t.union != nil {
+		err = json.Unmarshal(b, &object)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if t.Files != nil {
+		object["files"], err = json.Marshal(t.Files)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'files': %w", err)
+		}
+	}
+
+	if t.Git != nil {
+		object["git"], err = json.Marshal(t.Git)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'git': %w", err)
+		}
+	}
+
+	if t.Helm != nil {
+		object["helm"], err = json.Marshal(t.Helm)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'helm': %w", err)
+		}
+	}
+
+	if t.Kustomize != nil {
+		object["kustomize"], err = json.Marshal(t.Kustomize)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'kustomize': %w", err)
+		}
+	}
+
+	object["renderer"], err = json.Marshal(t.Renderer)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'renderer': %w", err)
+	}
+
+	b, err = json.Marshal(object)
+	return b, err
+}
+
+func (t *DeploymentTemplateSource) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	if err != nil {
+		return err
+	}
+	object := make(map[string]json.RawMessage)
+	err = json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["files"]; found {
+		err = json.Unmarshal(raw, &t.Files)
+		if err != nil {
+			return fmt.Errorf("error reading 'files': %w", err)
+		}
+	}
+
+	if raw, found := object["git"]; found {
+		err = json.Unmarshal(raw, &t.Git)
+		if err != nil {
+			return fmt.Errorf("error reading 'git': %w", err)
+		}
+	}
+
+	if raw, found := object["helm"]; found {
+		err = json.Unmarshal(raw, &t.Helm)
+		if err != nil {
+			return fmt.Errorf("error reading 'helm': %w", err)
+		}
+	}
+
+	if raw, found := object["kustomize"]; found {
+		err = json.Unmarshal(raw, &t.Kustomize)
+		if err != nil {
+			return fmt.Errorf("error reading 'kustomize': %w", err)
+		}
+	}
+
+	if raw, found := object["renderer"]; found {
+		err = json.Unmarshal(raw, &t.Renderer)
+		if err != nil {
+			return fmt.Errorf("error reading 'renderer': %w", err)
+		}
+	}
+
+	return err
+}
+
+// AsDeploymentTemplateSource10 returns the union data inside the DeploymentTemplateSource1 as a DeploymentTemplateSource10
+func (t DeploymentTemplateSource1) AsDeploymentTemplateSource10() (DeploymentTemplateSource10, error) {
+	var body DeploymentTemplateSource10
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeploymentTemplateSource10 overwrites any union data inside the DeploymentTemplateSource1 as the provided DeploymentTemplateSource10
+func (t *DeploymentTemplateSource1) FromDeploymentTemplateSource10(v DeploymentTemplateSource10) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeploymentTemplateSource10 performs a merge with any union data inside the DeploymentTemplateSource1, using the provided DeploymentTemplateSource10
+func (t *DeploymentTemplateSource1) MergeDeploymentTemplateSource10(v DeploymentTemplateSource10) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDeploymentTemplateSource11 returns the union data inside the DeploymentTemplateSource1 as a DeploymentTemplateSource11
+func (t DeploymentTemplateSource1) AsDeploymentTemplateSource11() (DeploymentTemplateSource11, error) {
+	var body DeploymentTemplateSource11
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDeploymentTemplateSource11 overwrites any union data inside the DeploymentTemplateSource1 as the provided DeploymentTemplateSource11
+func (t *DeploymentTemplateSource1) FromDeploymentTemplateSource11(v DeploymentTemplateSource11) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDeploymentTemplateSource11 performs a merge with any union data inside the DeploymentTemplateSource1, using the provided DeploymentTemplateSource11
+func (t *DeploymentTemplateSource1) MergeDeploymentTemplateSource11(v DeploymentTemplateSource11) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t DeploymentTemplateSource1) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	object := make(map[string]json.RawMessage)
+	if t.union != nil {
+		err = json.Unmarshal(b, &object)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	object["renderer"], err = json.Marshal(t.Renderer)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'renderer': %w", err)
+	}
+
+	b, err = json.Marshal(object)
+	return b, err
+}
+
+func (t *DeploymentTemplateSource1) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	if err != nil {
+		return err
+	}
+	object := make(map[string]json.RawMessage)
+	err = json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["renderer"]; found {
+		err = json.Unmarshal(raw, &t.Renderer)
+		if err != nil {
+			return fmt.Errorf("error reading 'renderer': %w", err)
+		}
+	}
+
+	return err
+}
+
 // AsDockerPayloadScalarValue0 returns the union data inside the DockerPayloadScalarValue as a DockerPayloadScalarValue0
 func (t DockerPayloadScalarValue) AsDockerPayloadScalarValue0() (DockerPayloadScalarValue0, error) {
 	var body DockerPayloadScalarValue0
@@ -32061,6 +39174,94 @@ func (t DockerPayloadValue) MarshalJSON() ([]byte, error) {
 }
 
 func (t *DockerPayloadValue) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsTemplateParameterSchemaEnum0 returns the union data inside the TemplateParameterSchema_Enum_Item as a TemplateParameterSchemaEnum0
+func (t TemplateParameterSchema_Enum_Item) AsTemplateParameterSchemaEnum0() (TemplateParameterSchemaEnum0, error) {
+	var body TemplateParameterSchemaEnum0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromTemplateParameterSchemaEnum0 overwrites any union data inside the TemplateParameterSchema_Enum_Item as the provided TemplateParameterSchemaEnum0
+func (t *TemplateParameterSchema_Enum_Item) FromTemplateParameterSchemaEnum0(v TemplateParameterSchemaEnum0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeTemplateParameterSchemaEnum0 performs a merge with any union data inside the TemplateParameterSchema_Enum_Item, using the provided TemplateParameterSchemaEnum0
+func (t *TemplateParameterSchema_Enum_Item) MergeTemplateParameterSchemaEnum0(v TemplateParameterSchemaEnum0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsTemplateParameterSchemaEnum1 returns the union data inside the TemplateParameterSchema_Enum_Item as a TemplateParameterSchemaEnum1
+func (t TemplateParameterSchema_Enum_Item) AsTemplateParameterSchemaEnum1() (TemplateParameterSchemaEnum1, error) {
+	var body TemplateParameterSchemaEnum1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromTemplateParameterSchemaEnum1 overwrites any union data inside the TemplateParameterSchema_Enum_Item as the provided TemplateParameterSchemaEnum1
+func (t *TemplateParameterSchema_Enum_Item) FromTemplateParameterSchemaEnum1(v TemplateParameterSchemaEnum1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeTemplateParameterSchemaEnum1 performs a merge with any union data inside the TemplateParameterSchema_Enum_Item, using the provided TemplateParameterSchemaEnum1
+func (t *TemplateParameterSchema_Enum_Item) MergeTemplateParameterSchemaEnum1(v TemplateParameterSchemaEnum1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsTemplateParameterSchemaEnum2 returns the union data inside the TemplateParameterSchema_Enum_Item as a TemplateParameterSchemaEnum2
+func (t TemplateParameterSchema_Enum_Item) AsTemplateParameterSchemaEnum2() (TemplateParameterSchemaEnum2, error) {
+	var body TemplateParameterSchemaEnum2
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromTemplateParameterSchemaEnum2 overwrites any union data inside the TemplateParameterSchema_Enum_Item as the provided TemplateParameterSchemaEnum2
+func (t *TemplateParameterSchema_Enum_Item) FromTemplateParameterSchemaEnum2(v TemplateParameterSchemaEnum2) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeTemplateParameterSchemaEnum2 performs a merge with any union data inside the TemplateParameterSchema_Enum_Item, using the provided TemplateParameterSchemaEnum2
+func (t *TemplateParameterSchema_Enum_Item) MergeTemplateParameterSchemaEnum2(v TemplateParameterSchemaEnum2) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t TemplateParameterSchema_Enum_Item) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *TemplateParameterSchema_Enum_Item) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -32662,13 +39863,6 @@ const (
 	Deny  ScopeGrantEffect = ScopeGrantEffectDeny
 )
 
-// Deprecated: use Active, Degraded, and Disabled in new code.
-const (
-	ListAIGatewayRelayUpstreamsParamsStatusActive   ListAIGatewayRelayUpstreamsParamsStatus = Active
-	ListAIGatewayRelayUpstreamsParamsStatusDegraded ListAIGatewayRelayUpstreamsParamsStatus = Degraded
-	ListAIGatewayRelayUpstreamsParamsStatusDisabled ListAIGatewayRelayUpstreamsParamsStatus = Disabled
-)
-
 // Deprecated: use the MarketplaceAdvisorySeverity-prefixed constants in new code.
 const (
 	Critical MarketplaceAdvisorySeverity = MarketplaceAdvisorySeverityCritical
@@ -32676,3 +39870,12 @@ const (
 	Medium   MarketplaceAdvisorySeverity = MarketplaceAdvisorySeverityMedium
 	Low      MarketplaceAdvisorySeverity = MarketplaceAdvisorySeverityLow
 )
+
+// Deprecated: retained for Go SDK source compatibility.
+const ListAIGatewayRelayUpstreamsParamsStatusActive ListAIGatewayRelayUpstreamsParamsStatus = "active"
+
+// Deprecated: retained for Go SDK source compatibility.
+const ListAIGatewayRelayUpstreamsParamsStatusDegraded ListAIGatewayRelayUpstreamsParamsStatus = "degraded"
+
+// Deprecated: retained for Go SDK source compatibility.
+const ListAIGatewayRelayUpstreamsParamsStatusDisabled ListAIGatewayRelayUpstreamsParamsStatus = "disabled"

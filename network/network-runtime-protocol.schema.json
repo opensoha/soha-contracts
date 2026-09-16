@@ -21,6 +21,10 @@
     "messageId": { "$ref": "#/$defs/Identifier" },
     "messageType": {
       "enum": [
+        "vpn.managed.prepare.request",
+        "vpn.managed.prepare.result",
+        "vpn.managed.connect.request",
+        "vpn.managed.connect.result",
         "runtime.enroll.request",
         "runtime.enroll.result",
         "configuration.desired",
@@ -43,6 +47,9 @@
     "expiresAt": { "type": "string", "format": "date-time" },
     "payload": {
       "oneOf": [
+        { "$ref": "#/$defs/VPNManagedPrepareResult" },
+        { "$ref": "#/$defs/VPNManagedConnectRequest" },
+        { "$ref": "#/$defs/VPNManagedConnectResult" },
         { "$ref": "#/$defs/EnrollmentRequest" },
         { "$ref": "#/$defs/EnrollmentResult" },
         { "$ref": "#/$defs/ConfigurationDesired" },
@@ -60,6 +67,94 @@
     }
   },
   "allOf": [
+    {
+      "if": {
+        "properties": {
+          "messageType": {
+            "const": "vpn.managed.prepare.request"
+          }
+        },
+        "required": [
+          "messageType"
+        ]
+      },
+      "then": {
+        "properties": {
+          "runtimeKind": {
+            "const": "endpoint"
+          },
+          "payload": {
+            "$ref": "#/$defs/VPNManagedConnectRequest"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "messageType": {
+            "const": "vpn.managed.prepare.result"
+          }
+        },
+        "required": [
+          "messageType"
+        ]
+      },
+      "then": {
+        "properties": {
+          "runtimeKind": {
+            "const": "endpoint"
+          },
+          "payload": {
+            "$ref": "#/$defs/VPNManagedPrepareResult"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "messageType": {
+            "const": "vpn.managed.connect.request"
+          }
+        },
+        "required": [
+          "messageType"
+        ]
+      },
+      "then": {
+        "properties": {
+          "runtimeKind": {
+            "const": "endpoint"
+          },
+          "payload": {
+            "$ref": "#/$defs/VPNManagedConnectRequest"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "messageType": {
+            "const": "vpn.managed.connect.result"
+          }
+        },
+        "required": [
+          "messageType"
+        ]
+      },
+      "then": {
+        "properties": {
+          "runtimeKind": {
+            "const": "endpoint"
+          },
+          "payload": {
+            "$ref": "#/$defs/VPNManagedConnectResult"
+          }
+        }
+      }
+    },
     {
       "if": { "properties": { "messageType": { "const": "runtime.enroll.request" } }, "required": ["messageType"] },
       "then": { "properties": { "payload": { "$ref": "#/$defs/EnrollmentRequest" } } }
@@ -144,6 +239,358 @@
     }
   ],
   "$defs": {
+    "VPNManagedPrepareRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requestId",
+        "intentId",
+        "intentToken"
+      ],
+      "properties": {
+        "requestId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "intentId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "intentToken": {
+          "type": "string",
+          "minLength": 43,
+          "maxLength": 43,
+          "pattern": "^[A-Za-z0-9_-]{43}$"
+        }
+      }
+    },
+    "VPNProbeDescriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gatewayId",
+        "runtimeId",
+        "name",
+        "providerCode"
+      ],
+      "properties": {
+        "gatewayId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "runtimeId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1
+        },
+        "providerCode": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "url": {
+          "type": "string",
+          "maxLength": 2048,
+          "pattern": "^https://[^?#]+/vpn/probe$"
+        },
+        "token": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 4096
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "VPNManagedPrepareResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requestId",
+        "intentId",
+        "profileId",
+        "profileRevision",
+        "selectionPolicyRevision",
+        "expiresAt",
+        "samplesPerGateway",
+        "timeoutMillis",
+        "maxConcurrency",
+        "descriptors"
+      ],
+      "properties": {
+        "requestId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "intentId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "profileId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "profileRevision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "selectionPolicyRevision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "samplesPerGateway": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "timeoutMillis": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 3000
+        },
+        "maxConcurrency": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "descriptors": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 32,
+          "items": {
+            "$ref": "#/$defs/VPNProbeDescriptor"
+          }
+        }
+      }
+    },
+    "VPNManagedConnectRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requestId",
+        "intentId",
+        "intentToken"
+      ],
+      "properties": {
+        "requestId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "intentId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "intentToken": {
+          "type": "string",
+          "minLength": 43,
+          "maxLength": 43,
+          "pattern": "^[A-Za-z0-9_-]{43}$"
+        },
+        "probeBatchId": {
+          "$ref": "#/$defs/Identifier"
+        }
+      }
+    },
+    "VPNManagedConnectResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requestId",
+        "decision",
+        "reasonCode",
+        "policyVersion",
+        "validUntil",
+        "networkLeases",
+        "resourceLeases",
+        "profileId",
+        "profileRevision",
+        "selectionPolicyRevision",
+        "selection",
+        "selectionReason",
+        "siteId",
+        "networkSpaceId",
+        "mode",
+        "resourceIds",
+        "decisionId",
+        "failoverOnDisconnect",
+        "retryCooldownSeconds",
+        "maxAttempts"
+      ],
+      "properties": {
+        "requestId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "decision": {
+          "enum": [
+            "allow",
+            "deny"
+          ]
+        },
+        "reasonCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "sessionId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "gatewayId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "configurationVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "policyVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "validUntil": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "networkLeases": {
+          "type": "array",
+          "maxItems": 256,
+          "items": {
+            "$ref": "#/$defs/NetworkLease"
+          }
+        },
+        "resourceLeases": {
+          "type": "array",
+          "maxItems": 512,
+          "items": {
+            "$ref": "#/$defs/ResourceLease"
+          }
+        },
+        "profileId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "profileRevision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "selectionPolicyRevision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "selection": {
+          "enum": [
+            "auto",
+            "manual"
+          ]
+        },
+        "selectionReason": {
+          "type": "string",
+          "maxLength": 128,
+          "minLength": 1
+        },
+        "siteId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "networkSpaceId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "mode": {
+          "enum": [
+            "internal_ztna",
+            "external_vpn",
+            "external_vpn_ztna",
+            "external_direct_ztna"
+          ]
+        },
+        "resourceIds": {
+          "type": "array",
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/Identifier"
+          }
+        },
+        "decisionId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "failoverOnDisconnect": {
+          "type": "boolean"
+        },
+        "retryCooldownSeconds": {
+          "type": "integer",
+          "minimum": 5,
+          "maximum": 300
+        },
+        "maxAttempts": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "decision": {
+                "const": "allow"
+              }
+            },
+            "required": [
+              "decision"
+            ]
+          },
+          "then": {
+            "required": [
+              "sessionId",
+              "gatewayId",
+              "configurationVersion"
+            ],
+            "anyOf": [
+              {
+                "properties": {
+                  "networkLeases": {
+                    "minItems": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "resourceLeases": {
+                    "minItems": 1
+                  }
+                }
+              }
+            ]
+          },
+          "else": {
+            "properties": {
+              "networkLeases": {
+                "maxItems": 0
+              },
+              "resourceLeases": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "VPNProbeConfiguration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gatewayId",
+        "verificationKey"
+      ],
+      "properties": {
+        "gatewayId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "verificationKey": {
+          "type": "string",
+          "minLength": 44,
+          "maxLength": 44,
+          "pattern": "^[A-Za-z0-9+/]{43}=$"
+        }
+      }
+    },
     "Identifier": {
       "type": "string",
       "minLength": 1,
@@ -265,7 +712,7 @@
           "minItems": 1,
           "maxItems": 32,
           "uniqueItems": true,
-          "items": { "enum": ["wireguard", "mihomo", "route-coordinator", "dns-coordinator"] }
+          "items": { "enum": ["wireguard", "mihomo", "route-coordinator", "dns-coordinator", "managed-vpn-v1", "vpn-probe-v1", "vpn-metrics-v1"] }
         }
       },
       "allOf": [{
@@ -316,6 +763,9 @@
         "resourceLeases"
       ],
       "properties": {
+        "vpnProbe": {
+          "$ref": "#/$defs/VPNProbeConfiguration"
+        },
         "configurationVersion": { "type": "integer", "minimum": 1 },
         "policyVersion": { "type": "integer", "minimum": 1 },
         "validUntil": { "type": "string", "format": "date-time" },
@@ -418,6 +868,12 @@
       "additionalProperties": false,
       "required": ["runtimeId", "publicKey", "allowedIPs", "persistentKeepaliveSeconds"],
       "properties": {
+        "sessionId": {
+          "$ref": "#/$defs/Identifier"
+        },
+        "vpnProfileId": {
+          "$ref": "#/$defs/Identifier"
+        },
         "runtimeId": { "$ref": "#/$defs/Identifier" },
         "deviceId": { "$ref": "#/$defs/Identifier" },
         "publicKey": { "$ref": "#/$defs/WireGuardPublicKey" },

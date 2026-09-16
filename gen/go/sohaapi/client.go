@@ -16,7 +16,7 @@ import (
 	"time"
 )
 
-const defaultUserAgent = "opensoha-contracts/0.1.17"
+const defaultUserAgent = "opensoha-contracts/0.1.18"
 
 type Client struct {
 	BaseURL    string

@@ -237,3 +237,40 @@ import paths.
 
 This repository is licensed under the Apache License 2.0. See
 [LICENSE](./LICENSE) for the full license text.
+
+### Workbench model preferences
+
+`WorkbenchSendMessageStreamRequest.modelPreferences` selects a public model and
+an optional `auto`, `low`, `medium`, or `high` reasoning effort for internal general
+chat. Preferences persist in session metadata when a message is sent; an empty
+public model follows the global default. External agents and analysis modes manage
+their own models. The workbench catalog exposes only permitted public model names.
+
+Gateway routes may declare `metadata.reasoningEfforts: ["low", "medium", "high"]`
+(or a supported subset). Only OpenAI-wire routes without protocol conversion expose
+these levels; every eligible fallback must support a level for it to be offered.
+Unknown capabilities offer automatic reasoning only. Explicit supported efforts map
+to `reasoning_effort` for chat completions and `reasoning.effort` for Responses.
+
+### Shared native Helm task adapter
+
+`helmrelease/runtime` applies the versioned Helm execution contract through Helm 4.
+Both core Direct and the standalone Agent supply their own authorized action configuration;
+queueing, approvals, secret resolution and chart downloads remain outside this package.
+SDK-only consumers need not import this optional package. Its native revision and recovery
+checks are tested once for both execution modes.
+
+Agent-local authenticated POST endpoints `/api/v1/platform/helm/delivery/prepare`,
+`/api/v1/platform/helm/delivery/preflight` and `/api/v1/platform/helm/delivery/observe` accept `HelmExecutionTaskPayload` and return a
+`data` envelope with the prepared payload or `HelmExecutionTaskResult`, respectively.
+They enforce the configured cluster identity and are read-only; `apply` is accepted
+only by the claimed-task runner. Confidential requests are bounded to 8 MiB,
+rendered manifests plus hooks to 2 MiB and values to 1 MiB, and are never logged.
+
+### Controller-aware Agent execution
+
+Manifest tasks emitted by the controller-aware Core use `manifest_agent_v3.<clusterId>` and require the Agent summary capability `manifest.execution.v3`. New Agents also accept legacy `manifest_agent.<clusterId>` and `manifest_agent_v2.<clusterId>` tasks using the protected executor. Old Agents cannot claim the new provider kind; capability checks alone are not a substitute for this claim boundary during rolling upgrades.
+
+Native YAML/CR writes and workload restart, scale, rollback and image changes use the existing request/response bodies under `/api/v1/platform/ownership-v2`, with the original route suffix. This endpoint family guarantees live external-owner checks for Operator, Argo CD, and Argo Rollouts resources and optimistic identity fencing; ownership conflicts return HTTP 409. Core must not fall back to older mutations after 404/405. Reads retain their existing routes.
+
+`resource/runtime` implements bounded WorkloadCronJob, Argo CD, and Argo Rollouts adapters shared by Direct and Agent. The frozen inventory, operation identity, current generation, resource UID/version, and child-resource evidence determine completion. Blue-green and Traefik canary delivery observe native Service revisions, weights, and complete AnalysisRun metric windows. Promotion only releases manual pauses; analysis failure and cancellation require confirmed stable traffic. Restoring desired configuration uses a new governed operation. Other CRs and traffic plugins are not inferred as supported from a generic Ready condition.

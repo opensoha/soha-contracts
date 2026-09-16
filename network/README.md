@@ -94,6 +94,33 @@ for authorization, routing, firewall configuration or accounting.
 - Validate ProtectedSet before NetworkLease coverage. A broad network lease
   cannot authorize a protected resource without a valid ResourceLease.
 
+## Managed VPN selection
+
+- Endpoint capability `managed-vpn-v1` enables the additive
+  `vpn.managed.prepare.*` and `vpn.managed.connect.*` messages. Legacy explicit
+  scope requests retain their existing contract; absent managed capability
+  never means implicit permission to use `external_vpn`.
+- Managed requests carry a short-lived intent ID/token bound to the enrolled
+  endpoint, authenticated user, published profile and selection-policy revisions.
+  The server resolves mode, site, space and resources; a caller cannot override
+  them. Prepare validates but does not consume the intent. A successful connection
+  consumes it atomically with the session and leases; replays cannot create a
+  second session. Tokens never enter audit logs or telemetry.
+- Manual selection stays on the requested gateway unless the published policy
+  explicitly permits manual-to-auto fallback. Auto only ranks gateways that
+  reach the same authorized target scope. Final admission rechecks topology,
+  live credentials, policy and capacity under the connection transaction.
+- Probe descriptors are authoritative control responses, bounded to 32 gateways,
+  10 samples, four concurrent requests and three seconds per request. Only fixed
+  HTTPS `/vpn/probe` targets are permitted; redirects and arbitrary caller URLs
+  are rejected. Gateway capability `vpn-probe-v1` enables `vpnProbe` verification
+  configuration. Probe tokens are endpoint- and gateway-bound and expire quickly.
+- HTTPS RTT is entrance-probe latency, not WireGuard or application RTT. A failed
+  HTTPS sample is a failed probe, not evidence of packet loss. Missing or expired
+  samples are unknown, never zero latency.
+- Gateway capability `vpn-metrics-v1` enables endpoint-peer `sessionId` and
+  `vpnProfileId` metadata. Site-link peers do not carry VPN user-session statistics.
+
 ## Ingest batches
 
 - Authenticate `producerId` from the transport credential; do not trust the
@@ -110,6 +137,19 @@ for authorization, routing, firewall configuration or accounting.
   limits before persistence.
 - Accounting and flow events are observability input only. They cannot create,
   renew, broaden or revoke a NetworkLease or ResourceLease.
+- `vpn.probe.batch` is endpoint-only and binds the intent, profile revision,
+  selection-policy revision, network epoch and measurement window. A successful
+  RTT sample count cannot exceed the number sent. Selection accepts only samples
+  from the intent's enrolled endpoint and approved candidate set.
+- `vpn.tunnel.stats` is gateway-only. Upload is the ingress gateway's endpoint-peer
+  received-byte delta; download is its transmitted-byte delta. Session, endpoint,
+  profile, ingress gateway and counter epoch identify the sample. Exclude transit
+  site-link peers and never sum endpoint copies into gateway-authoritative totals.
+- `vpn.gateway.health` is gateway-only, carries observed runtime readiness and
+  endpoint-peer count, and is not an administrator-supplied health override.
+- VPN aggregate queries enforce trusted session/gateway bindings and authorized
+  scope before aggregation. Counters reset with a new epoch; absent data stays
+  absent. Quantiles must come from samples, not averages of per-gateway quantiles.
 
 Consumers must cover these rules with deterministic tests. Failure is
 fail-closed for control messages and bounded reject/drop-with-counter behavior

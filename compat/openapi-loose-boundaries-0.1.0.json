@@ -1,7 +1,35 @@
 {
-  "version": "0.1.17",
+  "version": "0.1.18",
   "generatedFrom": "openapi/soha-api.yaml",
   "entries": [
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/AIEnvironmentTemplate/properties/networkPolicy/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/AIEnvironmentTemplate/properties/resourcePolicy/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/AIEnvironmentTemplateInput/properties/networkPolicy/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/AIEnvironmentTemplateInput/properties/resourcePolicy/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/AISkillSettings/properties/inputSchema/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/AISkillSettings/properties/outputSchema/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/AgentProviderConformanceRun/properties/results/items/additionalProperties"
+    },
     {
       "kind": "additionalPropertiesTrue",
       "path": "components/schemas/AgentRun/additionalProperties"
@@ -65,38 +93,6 @@
     {
       "kind": "additionalPropertiesTrue",
       "path": "components/schemas/AgentToolCallResult/properties/toolExecution/additionalProperties"
-    },
-    {
-      "kind": "additionalPropertiesTrue",
-      "path": "components/schemas/AgentProviderConformanceRun/properties/results/items/additionalProperties"
-    },
-    {
-      "kind": "additionalPropertiesTrue",
-      "path": "components/schemas/AIEnvironmentTemplate/properties/networkPolicy/additionalProperties"
-    },
-    {
-      "kind": "additionalPropertiesTrue",
-      "path": "components/schemas/AIEnvironmentTemplate/properties/resourcePolicy/additionalProperties"
-    },
-    {
-      "kind": "additionalPropertiesTrue",
-      "path": "components/schemas/AIEnvironmentTemplateInput/properties/networkPolicy/additionalProperties"
-    },
-    {
-      "kind": "additionalPropertiesTrue",
-      "path": "components/schemas/AIEnvironmentTemplateInput/properties/resourcePolicy/additionalProperties"
-    },
-    {
-      "kind": "additionalPropertiesTrue",
-      "path": "components/schemas/KnowledgeConnectorInput/properties/config/additionalProperties"
-    },
-    {
-      "kind": "additionalPropertiesTrue",
-      "path": "components/schemas/AISkillSettings/properties/inputSchema/additionalProperties"
-    },
-    {
-      "kind": "additionalPropertiesTrue",
-      "path": "components/schemas/AISkillSettings/properties/outputSchema/additionalProperties"
     },
     {
       "kind": "additionalPropertiesTrue",
@@ -212,14 +208,6 @@
     },
     {
       "kind": "additionalPropertiesTrue",
-      "path": "components/schemas/IdentityApplication/properties/metadata/additionalProperties"
-    },
-    {
-      "kind": "additionalPropertiesTrue",
-      "path": "components/schemas/IdentityApplicationInput/properties/metadata/additionalProperties"
-    },
-    {
-      "kind": "additionalPropertiesTrue",
       "path": "components/schemas/BuildPolicy/properties/buildArgs/additionalProperties"
     },
     {
@@ -248,11 +236,23 @@
     },
     {
       "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/CapabilityCall/properties/input/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
       "path": "components/schemas/CohereRerankRequest/additionalProperties"
     },
     {
       "kind": "additionalPropertiesTrue",
       "path": "components/schemas/CohereRerankRequest/properties/documents/items/oneOf/1/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/DeliveryGitLabPushEvent/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/DeliveryGitLabPushEvent/properties/project/additionalProperties"
     },
     {
       "kind": "additionalPropertiesTrue",
@@ -356,6 +356,14 @@
     },
     {
       "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/IdentityApplication/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/IdentityApplicationInput/properties/metadata/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
       "path": "components/schemas/IdentityProvider/properties/config/additionalProperties"
     },
     {
@@ -373,6 +381,10 @@
     {
       "kind": "additionalPropertiesTrue",
       "path": "components/schemas/JSONSchema/additionalProperties"
+    },
+    {
+      "kind": "additionalPropertiesTrue",
+      "path": "components/schemas/KnowledgeConnectorInput/properties/config/additionalProperties"
     },
     {
       "kind": "additionalPropertiesTrue",
@@ -670,16 +682,6 @@
     },
     {
       "kind": "schemaRef",
-      "path": "components/schemas/AnthropicMessagesRequest/properties/system",
-      "target": "#/components/schemas/AnyValue"
-    },
-    {
-      "kind": "schemaRef",
-      "path": "components/schemas/ApprovalRequest/properties/output",
-      "target": "#/components/schemas/AnyValue"
-    },
-    {
-      "kind": "schemaRef",
       "path": "components/schemas/AlertRule/properties/datasourceSelector",
       "target": "#/components/schemas/GenericObject"
     },
@@ -725,6 +727,26 @@
     },
     {
       "kind": "schemaRef",
+      "path": "components/schemas/AnthropicMessagesRequest/properties/system",
+      "target": "#/components/schemas/AnyValue"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/ApprovalRequest/properties/output",
+      "target": "#/components/schemas/AnyValue"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/DeliveryBlueprint/properties/executionHints",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/DeliveryBlueprintInput/properties/executionHints",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
       "path": "components/schemas/DeliveryDraft/properties/executionHints",
       "target": "#/components/schemas/GenericObject"
     },
@@ -752,6 +774,16 @@
       "kind": "schemaRef",
       "path": "components/schemas/GenericItemsEnvelope/properties/items/items",
       "target": "#/components/schemas/AnyValue"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/IdentityOutpost/properties/metadata",
+      "target": "#/components/schemas/GenericObject"
+    },
+    {
+      "kind": "schemaRef",
+      "path": "components/schemas/IdentityOutpostInput/properties/metadata",
+      "target": "#/components/schemas/GenericObject"
     },
     {
       "kind": "schemaRef",
