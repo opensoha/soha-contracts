@@ -1085,6 +1085,7 @@ export interface paths {
         get: operations["getApplication"];
         put: operations["updateApplication"];
         post?: never;
+        /** @description Deletes the application and its owned configuration and history. Does not uninstall cluster workloads. Unfinished delivery tasks or external references prevent deletion. */
         delete: operations["deleteApplication"];
         options?: never;
         head?: never;
@@ -30247,6 +30248,7 @@ export interface operations {
             };
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
         };
     };
     getApplicationDeliveryDetail: {

@@ -68992,6 +68992,7 @@
     },
     "/applications/{applicationID}": {
       "delete": {
+        "description": "Deletes the application and its owned configuration and history. Does not uninstall cluster workloads. Unfinished delivery tasks or external references prevent deletion.",
         "operationId": "deleteApplication",
         "parameters": [
           {
@@ -69013,6 +69014,9 @@
             "$ref": "#/components/responses/Error"
           },
           "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
             "$ref": "#/components/responses/Error"
           }
         },
