@@ -5,6 +5,14 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      consumer_mode:
+        description: 'Pinned compatibility baseline or explicit latest-branch integration'
+        type: choice
+        options: [pinned, latest]
+        default: pinned
+        required: true
 
 jobs:
   verify:
@@ -19,6 +27,8 @@ jobs:
         with:
           go-version: "1.26.6"
           cache: true
+      - name: Consumer revision selector tests
+        run: node --test scripts/select-consumer-revision.checks.mjs
       - run: npm ci
       - run: npm test
       - name: Go vet
@@ -47,21 +57,29 @@ jobs:
       - uses: actions/checkout@v7
         with:
           path: soha-contracts
-      - name: Select reviewed consumer revision
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+      - name: Select consumer revision without implicit fallback
         id: consumer-ref
         working-directory: soha-contracts
         env:
           CONSUMER: ${{ matrix.consumer }}
-        run: |
-          node -e 'const fs = require("node:fs"); const refs = require("./compat/consumer-revisions.json"); fs.appendFileSync(process.env.GITHUB_OUTPUT, "ref=" + (refs[process.env.CONSUMER] || "main") + "\n")'
+          CONSUMER_REVISION_MODE: ${{ inputs.consumer_mode || 'pinned' }}
+        run: node scripts/select-consumer-revision.mjs
       - uses: actions/checkout@v7
         with:
           repository: opensoha/${{ matrix.consumer }}
           path: ${{ matrix.consumer }}
           ref: ${{ steps.consumer-ref.outputs.ref }}
-      - uses: actions/setup-node@v6
-        with:
-          node-version: "22"
+      - name: Record actual revision combination
+        env:
+          CONSUMER: ${{ matrix.consumer }}
+          MODE: ${{ inputs.consumer_mode || 'pinned' }}
+        run: |
+          printf '### Consumer validation (%s)\n' "$MODE" >> "$GITHUB_STEP_SUMMARY"
+          printf 'Contracts: `%s`\n' "$(git -C soha-contracts rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
+          printf '%s: `%s`\n' "$CONSUMER" "$(git -C "$CONSUMER" rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/setup-go@v6
         with:
           go-version: "1.26.6"

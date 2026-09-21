@@ -50,21 +50,20 @@ jobs:
         with:
           path: soha-contracts
           ref: ${{ inputs.tag || github.ref }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
       - name: Select reviewed consumer revision
         id: consumer-ref
         working-directory: soha-contracts
         env:
           CONSUMER: ${{ matrix.consumer }}
-        run: |
-          node -e 'const fs = require("node:fs"); const refs = require("./compat/consumer-revisions.json"); fs.appendFileSync(process.env.GITHUB_OUTPUT, "ref=" + (refs[process.env.CONSUMER] || "main") + "\n")'
+        run: node scripts/select-consumer-revision.mjs
       - uses: actions/checkout@v7
         with:
           repository: opensoha/${{ matrix.consumer }}
           path: ${{ matrix.consumer }}
           ref: ${{ steps.consumer-ref.outputs.ref }}
-      - uses: actions/setup-node@v6
-        with:
-          node-version: "22"
       - uses: actions/setup-go@v6
         with:
           go-version: "1.26.6"

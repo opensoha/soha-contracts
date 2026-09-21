@@ -169,6 +169,7 @@ npm run check:consumers -- --consumer soha --require-all
 npm run check:consumers -- --consumer soha-web --require-all
 npm run check:consumers -- --consumer soha-cli --require-all
 npm run check:consumers -- --consumer soha-agent --require-all
+npm run check:consumers -- --consumer soha-skills --require-all
 ```
 
 Go consumers run in a temporary `go.work` that replaces the contracts module

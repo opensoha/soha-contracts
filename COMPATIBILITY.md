@@ -402,9 +402,11 @@ behavior.
 
 ## Contracts-first consumer revisions
 
-`compat/consumer-revisions.json` pins a reviewed consumer commit when a contracts
-release introduces APIs implemented by that consumer's pending change. Both CI
-and release use the same commit and run the complete existing consumer checks.
-Unlisted consumers use `main`. Replace the pin with `main` (or remove it) once the
-matching consumer changes reach its default branch; do not skip failed checks to
-resolve a release-order dependency.
+`compat/consumer-revisions.json` pins a reviewed full commit SHA for every consumer
+in the executable matrix. CI and release use `scripts/select-consumer-revision.mjs`;
+missing or invalid revisions fail instead of falling back to `main`. Update a pin
+only with an explicit compatibility reason and successful matrix evidence.
+
+Manual CI may select `consumer_mode=latest` for separate integration evidence.
+This does not rewrite the fixed manifest or replace fixed-combination acceptance.
+Record the actual contracts and consumer commits, not only the selected mode.
