@@ -1,3 +1,7 @@
 {
-  "soha": "d675a708806072a2fee42e3c2c00309091a8cfb9"
+  "soha": "d675a708806072a2fee42e3c2c00309091a8cfb9",
+  "soha-web": "816ec0fb82e6e804f0f66d47d3446a7b5baeabc1",
+  "soha-cli": "1c9b760c986a9c1a5148db55b72ab99d23edd7a3",
+  "soha-agent": "af1efc0b0cd6bb544153429fa28244dd6cc81ac7",
+  "soha-skills": "0345171ee1c9f23ab5d4350767395d0919dfb21c"
 }
