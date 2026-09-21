@@ -13,8 +13,9 @@ import paths.
 
 ## Workflow
 
-1. Read `README.md`, `COMPATIBILITY.md`, the affected schema, its fixtures,
-   and the generator or compatibility check before editing.
+1. Read `AGENTS.md`, `README.md`, `COMPATIBILITY.md`, the affected schema, its
+   fixtures and the generator or compatibility check before implementation.
+   Documentation-only work reads the relevant text and source; reuse unchanged context.
 2. Decide whether the source is `openapi/soha-api.yaml`, a focused JSON
    Schema, or a small hand-maintained Go helper package. Do not model private
    implementation details as public contracts.
@@ -22,7 +23,7 @@ import paths.
    representative and free of secrets. Identify permission/scope, lifecycle,
    side effects, errors, pagination/count semantics and affected consumers;
    structural compatibility alone does not establish behavioral compatibility.
-4. Run `npm run generate` when OpenAPI DTOs change. Review generated diffs;
+4. Run `npm run generate` when OpenAPI source changes affect generated artifacts. Review generated diffs;
    never patch generated DTOs to bypass the source schema.
 5. Update consumers one repository at a time after the contract gate passes.
 6. For public contract changes, run focused compatibility checks, `npm test`, and
