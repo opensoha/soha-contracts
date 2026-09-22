@@ -12775,11 +12775,17 @@ type BrandingAssetUploadEnvelope struct {
 type BrandingSettings struct {
 	AppTitle         string `json:"appTitle"`
 	CollapsedLogoURL string `json:"collapsedLogoUrl"`
-	ExpandedLogoURL  string `json:"expandedLogoUrl"`
-	FaviconURL       string `json:"faviconUrl"`
-	LoginLogoURL     string `json:"loginLogoUrl"`
-	SidebarTitle     string `json:"sidebarTitle"`
-	Slogan           string `json:"slogan,omitempty"`
+
+	// DarkCollapsedLogoURL Optional dark-theme compact logo. Empty or absent uses collapsedLogoUrl.
+	DarkCollapsedLogoURL string `json:"darkCollapsedLogoUrl,omitempty"`
+
+	// DarkExpandedLogoURL Optional dark-theme expanded logo. Empty or absent uses expandedLogoUrl.
+	DarkExpandedLogoURL string `json:"darkExpandedLogoUrl,omitempty"`
+	ExpandedLogoURL     string `json:"expandedLogoUrl"`
+	FaviconURL          string `json:"faviconUrl"`
+	LoginLogoURL        string `json:"loginLogoUrl"`
+	SidebarTitle        string `json:"sidebarTitle"`
+	Slogan              string `json:"slogan,omitempty"`
 }
 
 // BrandingSettingsEnvelope defines model for BrandingSettingsEnvelope.
@@ -14024,6 +14030,23 @@ type ComputeWarning struct {
 
 	// Message Redacted user-facing warning. Internal errors and credentials are excluded.
 	Message string `json:"message,omitempty"`
+}
+
+// ConnectionCheckResult Current connection health from a synchronous probe. This result is not a task and has no task identifier or lifecycle actions.
+type ConnectionCheckResult struct {
+	CheckedAt  time.Time `json:"checkedAt"`
+	Healthy    bool      `json:"healthy"`
+	HTTPStatus int       `json:"httpStatus,omitempty"`
+	Message    string    `json:"message,omitempty"`
+	NextAction string    `json:"nextAction,omitempty"`
+	Reason     string    `json:"reason,omitempty"`
+	Status     string    `json:"status"`
+}
+
+// ConnectionCheckResultEnvelope defines model for ConnectionCheckResultEnvelope.
+type ConnectionCheckResultEnvelope struct {
+	// Data Current connection health from a synchronous probe. This result is not a task and has no task identifier or lifecycle actions.
+	Data ConnectionCheckResult `json:"data"`
 }
 
 // CreatedPersonalAccessToken defines model for CreatedPersonalAccessToken.
@@ -26761,11 +26784,17 @@ type UpdateAIWorkbenchModelRequest struct {
 type UpdateBrandingSettingsRequest struct {
 	AppTitle         string `json:"appTitle"`
 	CollapsedLogoURL string `json:"collapsedLogoUrl"`
-	ExpandedLogoURL  string `json:"expandedLogoUrl"`
-	FaviconURL       string `json:"faviconUrl"`
-	LoginLogoURL     string `json:"loginLogoUrl"`
-	SidebarTitle     string `json:"sidebarTitle"`
-	Slogan           string `json:"slogan,omitempty"`
+
+	// DarkCollapsedLogoURL Optional dark-theme compact logo. Empty or absent clears the override.
+	DarkCollapsedLogoURL string `json:"darkCollapsedLogoUrl,omitempty"`
+
+	// DarkExpandedLogoURL Optional dark-theme expanded logo. Empty or absent clears the override.
+	DarkExpandedLogoURL string `json:"darkExpandedLogoUrl,omitempty"`
+	ExpandedLogoURL     string `json:"expandedLogoUrl"`
+	FaviconURL          string `json:"faviconUrl"`
+	LoginLogoURL        string `json:"loginLogoUrl"`
+	SidebarTitle        string `json:"sidebarTitle"`
+	Slogan              string `json:"slogan,omitempty"`
 }
 
 // UpdateLoginProvidersSettingsRequest defines model for UpdateLoginProvidersSettingsRequest.

@@ -6981,6 +6981,14 @@
           "collapsedLogoUrl": {
             "type": "string"
           },
+          "darkCollapsedLogoUrl": {
+            "description": "Optional dark-theme compact logo. Empty or absent uses collapsedLogoUrl.",
+            "type": "string"
+          },
+          "darkExpandedLogoUrl": {
+            "description": "Optional dark-theme expanded logo. Empty or absent uses expandedLogoUrl.",
+            "type": "string"
+          },
           "expandedLogoUrl": {
             "type": "string"
           },
@@ -10964,6 +10972,52 @@
         },
         "required": [
           "code"
+        ],
+        "type": "object"
+      },
+      "ConnectionCheckResult": {
+        "additionalProperties": false,
+        "description": "Current connection health from a synchronous probe. This result is not a task and has no task identifier or lifecycle actions.",
+        "properties": {
+          "checkedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "healthy": {
+            "type": "boolean"
+          },
+          "httpStatus": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          },
+          "nextAction": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "healthy",
+          "status",
+          "checkedAt"
+        ],
+        "type": "object"
+      },
+      "ConnectionCheckResultEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ConnectionCheckResult"
+          }
+        },
+        "required": [
+          "data"
         ],
         "type": "object"
       },
@@ -54718,6 +54772,14 @@
           "collapsedLogoUrl": {
             "type": "string"
           },
+          "darkCollapsedLogoUrl": {
+            "description": "Optional dark-theme compact logo. Empty or absent clears the override.",
+            "type": "string"
+          },
+          "darkExpandedLogoUrl": {
+            "description": "Optional dark-theme expanded logo. Empty or absent clears the override.",
+            "type": "string"
+          },
           "expandedLogoUrl": {
             "type": "string"
           },
@@ -60734,7 +60796,7 @@
   "info": {
     "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery.\n",
     "title": "Soha API",
-    "version": "0.1.18"
+    "version": "0.1.19"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -77570,6 +77632,16 @@
           "required": true
         },
         "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConnectionCheckResultEnvelope"
+                }
+              }
+            },
+            "description": "Completed synchronous health check. Each request probes the connection and returns its current health; no task or task log is created. Idempotency-Key is accepted for request compatibility but does not replay an earlier check."
+          },
           "202": {
             "content": {
               "application/json": {
@@ -77578,7 +77650,7 @@
                 }
               }
             },
-            "description": "Health check accepted as a source-domain task. The request never returns the Provider raw response."
+            "description": "Legacy health-check response retained for older servers. The task contains the completed result, never the Provider raw response."
           },
           "400": {
             "$ref": "#/components/responses/ComputeError"
@@ -77687,6 +77759,7 @@
     },
     "/compute/resources/{domain}/{kind}/{id}/actions/{action}": {
       "post": {
+        "description": "Enqueue a supported resource mutation. Container service actions are start, stop and restart. Log reads use the direct project log query API; action logs is rejected without creating a task.",
         "operationId": "executeComputeResourceAction",
         "parameters": [
           {
@@ -78017,6 +78090,7 @@
     },
     "/compute/tasks/{domain}/{id}/retry": {
       "post": {
+        "description": "Retry an asynchronous operation when its returned state permits it. Historical connection_test, port_reserve and service_action logs records remain readable but cannot be requeued; use their direct check, metadata or log query APIs instead.",
         "operationId": "retryComputeTask",
         "parameters": [
           {
@@ -78049,6 +78123,9 @@
               }
             },
             "description": "Retry delegated to the source domain and returned as a new task with a new immutable Provider snapshot."
+          },
+          "400": {
+            "$ref": "#/components/responses/ComputeError"
           },
           "403": {
             "$ref": "#/components/responses/ComputeError"
@@ -84743,6 +84820,7 @@
     },
     "/docker/projects/{dockerProjectID}/logs/query": {
       "post": {
+        "description": "Requires docker.services.logs. Reads bounded logs directly from the runtime without submitting an operation.",
         "operationId": "queryDockerProjectLogs",
         "parameters": [
           {
@@ -84793,6 +84871,7 @@
     },
     "/docker/projects/{dockerProjectID}/logs/stream-ticket": {
       "post": {
+        "description": "Requires docker.services.logs. The same permission is rechecked when opening the stream.",
         "operationId": "issueDockerProjectLogStreamTicket",
         "parameters": [
           {
@@ -96189,6 +96268,16 @@
           }
         ],
         "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConnectionCheckResultEnvelope"
+                }
+              }
+            },
+            "description": "Completed synchronous connection check. Each request probes the connection and returns its current health; no task or task log is created."
+          },
           "202": {
             "content": {
               "application/json": {
@@ -96197,7 +96286,7 @@
                 }
               }
             },
-            "description": "Completed connection-test operation."
+            "description": "Legacy response for a completed connection check, retained for older servers. Read the operation result directly."
           },
           "403": {
             "$ref": "#/components/responses/Error"

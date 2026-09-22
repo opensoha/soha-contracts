@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Soha API
-  version: 0.1.18
+  version: 0.1.19
   description: >
     Public OpenSoha core API contract. This first contract focuses on stable
     cross-repository boundaries: auth, health, runner-facing control-plane
@@ -5459,8 +5459,13 @@ paths:
       parameters:
         - { name: connectionID, in: path, required: true, schema: { type: string } }
       responses:
+        "200":
+          description: Completed synchronous connection check. Each request probes the connection and returns its current health; no task or task log is created.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ConnectionCheckResultEnvelope" }
         "202":
-          description: Completed connection-test operation.
+          description: Legacy response for a completed connection check, retained for older servers. Read the operation result directly.
           content:
             application/json:
               schema: { $ref: "#/components/schemas/VirtualizationOperationEnvelope" }
@@ -10299,6 +10304,7 @@ paths:
     post:
       tags: [Docker]
       operationId: queryDockerProjectLogs
+      description: Requires docker.services.logs. Reads bounded logs directly from the runtime without submitting an operation.
       parameters:
         - $ref: "#/components/parameters/DockerProjectID"
       requestBody:
@@ -10328,6 +10334,7 @@ paths:
     post:
       tags: [Docker]
       operationId: issueDockerProjectLogStreamTicket
+      description: Requires docker.services.logs. The same permission is rechecked when opening the stream.
       parameters:
         - $ref: "#/components/parameters/DockerProjectID"
       requestBody:
@@ -13684,8 +13691,14 @@ paths:
             schema:
               $ref: "#/components/schemas/ComputeProviderReadRequest"
       responses:
+        "200":
+          description: Completed synchronous health check. Each request probes the connection and returns its current health; no task or task log is created. Idempotency-Key is accepted for request compatibility but does not replay an earlier check.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConnectionCheckResultEnvelope"
         "202":
-          description: Health check accepted as a source-domain task. The request never returns the Provider raw response.
+          description: Legacy health-check response retained for older servers. The task contains the completed result, never the Provider raw response.
           content:
             application/json:
               schema:
@@ -13776,6 +13789,10 @@ paths:
     post:
       tags: [Compute]
       operationId: executeComputeResourceAction
+      description: >-
+        Enqueue a supported resource mutation. Container service actions are start,
+        stop and restart. Log reads use the direct project log query API; action
+        logs is rejected without creating a task.
       parameters:
         - $ref: "#/components/parameters/ComputeDomain"
         - $ref: "#/components/parameters/ComputeResourceKind"
@@ -13955,6 +13972,11 @@ paths:
     post:
       tags: [Compute]
       operationId: retryComputeTask
+      description: >-
+        Retry an asynchronous operation when its returned state permits it.
+        Historical connection_test, port_reserve and service_action logs records
+        remain readable but cannot be requeued; use their direct check, metadata
+        or log query APIs instead.
       parameters:
         - $ref: "#/components/parameters/ComputeTaskDomain"
         - $ref: "#/components/parameters/ComputeTaskID"
@@ -13972,6 +13994,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ComputeTaskEnvelope"
+        "400":
+          $ref: "#/components/responses/ComputeError"
         "403":
           $ref: "#/components/responses/ComputeError"
         "404":
@@ -23382,6 +23406,25 @@ components:
           type: array
           items: { $ref: "#/components/schemas/ComputeResourceRef" }
       additionalProperties: false
+    ConnectionCheckResult:
+      type: object
+      description: Current connection health from a synchronous probe. This result is not a task and has no task identifier or lifecycle actions.
+      required: [healthy, status, checkedAt]
+      properties:
+        healthy: { type: boolean }
+        status: { type: string }
+        message: { type: string }
+        reason: { type: string }
+        nextAction: { type: string }
+        httpStatus: { type: integer }
+        checkedAt: { type: string, format: date-time }
+      additionalProperties: false
+    ConnectionCheckResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ConnectionCheckResult" }
+      additionalProperties: false
     ComputeTaskView:
       type: object
       required: [id, domain, sourceType, sourceId, kind, category, normalizedStatus, rawStatus, resources, attemptCount, cancelable, retryable, availableActions, createdAt]
@@ -25312,6 +25355,12 @@ components:
         loginLogoUrl: { type: string }
         expandedLogoUrl: { type: string }
         collapsedLogoUrl: { type: string }
+        darkExpandedLogoUrl:
+          type: string
+          description: Optional dark-theme expanded logo. Empty or absent uses expandedLogoUrl.
+        darkCollapsedLogoUrl:
+          type: string
+          description: Optional dark-theme compact logo. Empty or absent uses collapsedLogoUrl.
         faviconUrl: { type: string }
       additionalProperties: false
     BrandingSettingsEnvelope:
@@ -25331,6 +25380,12 @@ components:
         loginLogoUrl: { type: string }
         expandedLogoUrl: { type: string }
         collapsedLogoUrl: { type: string }
+        darkExpandedLogoUrl:
+          type: string
+          description: Optional dark-theme expanded logo. Empty or absent clears the override.
+        darkCollapsedLogoUrl:
+          type: string
+          description: Optional dark-theme compact logo. Empty or absent clears the override.
         faviconUrl: { type: string }
       additionalProperties: false
     BrandingAssetUpload:

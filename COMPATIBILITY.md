@@ -364,6 +364,31 @@ role migration and consumer conformance prove no active dependency.
 
 ## Consumer Adoption
 
+Connection tests and Compute provider health checks return HTTP 200 with
+`ConnectionCheckResultEnvelope` after each fresh probe. Consumers read `healthy`
+and the diagnostic fields directly; no task or task log is created. The Compute
+endpoint still accepts `Idempotency-Key` for request compatibility, but it no
+longer replays stored checks. Operation/audit logs and existing task history are
+preserved. HTTP 202 task envelopes remain documented for older servers. Core,
+Web and CLI must adopt the new HTTP 200 result together. Discovery and asset
+synchronization remain asynchronous. The Go SDK
+`CheckComputeProviderInstanceHealth` method now returns `ConnectionCheckResult`
+instead of `ComputeTaskView`; callers consuming its fields must update with Core
+to preserve the immediate health result and diagnostic details. Upgrade Core
+before these clients. The SDK rejects legacy task responses with a server-upgrade
+error instead of reporting an empty health result; the 202 schema documents older
+server wire behavior and does not promise task polling in the new check method.
+
+Docker port mapping creation reserves control-plane metadata synchronously; it
+does not enqueue `port_reserve` or bind a host port. Existing operation kinds and
+historical records remain compatible. Service log readers use the existing
+project runtime logs API. The service-action API accepts start, stop and restart;
+`logs` returns an invalid-argument error directing callers to the direct project
+log query instead of creating a task. Compute resource actions expose only these
+mutations. Historical `connection_test`, `port_reserve`, and `service_action`
+with action `logs` remain readable, but their operation state is not retryable
+and retry requests are rejected without requeueing or appending task logs.
+
 Recommended adoption flow:
 
 1. Change contracts and fixtures here first.
