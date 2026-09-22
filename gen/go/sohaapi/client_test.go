@@ -414,7 +414,7 @@ func TestComputeInventoryClientSurface(t *testing.T) {
 			if key := r.Header.Get("Idempotency-Key"); key != "health-key-1" {
 				t.Fatalf("health Idempotency-Key = %q", key)
 			}
-			writeJSON(t, w, computeTaskEnvelopeFixture("health-task"))
+			writeJSON(t, w, map[string]any{"data": map[string]any{"healthy": true, "status": "healthy", "checkedAt": "2026-09-22T00:00:00Z"}})
 		case 8:
 			assertCommonRequest(t, r, http.MethodPost, "/api/v1/compute/provider-instances/virtualization/pve/connection%2Fone/discoveries")
 			if key := r.Header.Get("Idempotency-Key"); key != "discover-key-1" {
@@ -458,8 +458,8 @@ func TestComputeInventoryClientSurface(t *testing.T) {
 	if _, err := client.GetComputeProviderInstance(ctx, ComputeProviderDomainVirtualization, "pve", "connection/one"); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := client.CheckComputeProviderInstanceHealth(ctx, ComputeProviderDomainVirtualization, "pve", "connection/one", "health-key-1", ComputeProviderReadRequest{ExpectedGeneration: 1}); err != nil {
-		t.Fatal(err)
+	if result, err := client.CheckComputeProviderInstanceHealth(ctx, ComputeProviderDomainVirtualization, "pve", "connection/one", "health-key-1", ComputeProviderReadRequest{ExpectedGeneration: 1}); err != nil || !result.Healthy || result.Status != "healthy" || result.CheckedAt.IsZero() {
+		t.Fatalf("CheckComputeProviderInstanceHealth = %#v, %v", result, err)
 	}
 	if _, err := client.DiscoverComputeProviderInstance(ctx, ComputeProviderDomainVirtualization, "pve", "connection/one", "discover-key-1", ComputeProviderDiscoverRequest{ExpectedGeneration: 1}); err != nil {
 		t.Fatal(err)
@@ -472,6 +472,19 @@ func TestComputeInventoryClientSurface(t *testing.T) {
 	}
 	if _, err := client.ExecuteComputeResourceAction(ctx, ComputeDomainVirtualization, ComputeResourceKindVM, "vm/one", "start", "action-key-1", ComputeResourceActionRequest{}); err != nil {
 		t.Fatal(err)
+	}
+}
+
+func TestComputeProviderHealthPreservesDiagnostics(t *testing.T) {
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		writeJSON(t, w, map[string]any{"data": map[string]any{
+			"healthy": false, "status": "degraded", "checkedAt": "2026-09-22T00:00:00Z",
+			"httpStatus": 401, "reason": "authentication_failed", "message": "Credentials rejected", "nextAction": "Update credentials",
+		}})
+	})
+	result, err := client.CheckComputeProviderInstanceHealth(context.Background(), ComputeProviderDomainVirtualization, "pve", "connection-1", "", ComputeProviderReadRequest{})
+	if err != nil || result.Healthy || result.Status != "degraded" || result.HTTPStatus != 401 || result.Reason != "authentication_failed" || result.Message != "Credentials rejected" || result.NextAction != "Update credentials" || result.CheckedAt.IsZero() {
+		t.Fatalf("CheckComputeProviderInstanceHealth = %#v, %v", result, err)
 	}
 }
 

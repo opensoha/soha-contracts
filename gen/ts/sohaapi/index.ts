@@ -6224,6 +6224,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** @description Requires docker.services.logs. Reads bounded logs directly from the runtime without submitting an operation. */
         post: operations["queryDockerProjectLogs"];
         delete?: never;
         options?: never;
@@ -6240,6 +6241,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** @description Requires docker.services.logs. The same permission is rechecked when opening the stream. */
         post: operations["issueDockerProjectLogStreamTicket"];
         delete?: never;
         options?: never;
@@ -7878,6 +7880,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** @description Enqueue a supported resource mutation. Container service actions are start, stop and restart. Log reads use the direct project log query API; action logs is rejected without creating a task. */
         post: operations["executeComputeResourceAction"];
         delete?: never;
         options?: never;
@@ -7975,6 +7978,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** @description Retry an asynchronous operation when its returned state permits it. Historical connection_test, port_reserve and service_action logs records remain readable but cannot be requeued; use their direct check, metadata or log query APIs instead. */
         post: operations["retryComputeTask"];
         delete?: never;
         options?: never;
@@ -12926,6 +12930,20 @@ export interface components {
             summary?: string;
             resources?: components["schemas"]["ComputeResourceRef"][];
         };
+        /** @description Current connection health from a synchronous probe. This result is not a task and has no task identifier or lifecycle actions. */
+        ConnectionCheckResult: {
+            healthy: boolean;
+            status: string;
+            message?: string;
+            reason?: string;
+            nextAction?: string;
+            httpStatus?: number;
+            /** Format: date-time */
+            checkedAt: string;
+        };
+        ConnectionCheckResultEnvelope: {
+            data: components["schemas"]["ConnectionCheckResult"];
+        };
         ComputeTaskView: {
             id: string;
             domain: components["schemas"]["ComputeTaskDomain"];
@@ -14174,6 +14192,10 @@ export interface components {
             loginLogoUrl: string;
             expandedLogoUrl: string;
             collapsedLogoUrl: string;
+            /** @description Optional dark-theme expanded logo. Empty or absent uses expandedLogoUrl. */
+            darkExpandedLogoUrl?: string;
+            /** @description Optional dark-theme compact logo. Empty or absent uses collapsedLogoUrl. */
+            darkCollapsedLogoUrl?: string;
             faviconUrl: string;
         };
         BrandingSettingsEnvelope: {
@@ -14186,6 +14208,10 @@ export interface components {
             loginLogoUrl: string;
             expandedLogoUrl: string;
             collapsedLogoUrl: string;
+            /** @description Optional dark-theme expanded logo. Empty or absent clears the override. */
+            darkExpandedLogoUrl?: string;
+            /** @description Optional dark-theme compact logo. Empty or absent clears the override. */
+            darkCollapsedLogoUrl?: string;
             faviconUrl: string;
         };
         BrandingAssetUpload: {
@@ -26365,6 +26391,8 @@ export type ComputeTaskResultStatus = components['schemas']['ComputeTaskResultSt
 export type ComputeTaskResult = components['schemas']['ComputeTaskResult'];
 export type ComputeTaskVerificationStatus = components['schemas']['ComputeTaskVerificationStatus'];
 export type ComputeTaskVerification = components['schemas']['ComputeTaskVerification'];
+export type ConnectionCheckResult = components['schemas']['ConnectionCheckResult'];
+export type ConnectionCheckResultEnvelope = components['schemas']['ConnectionCheckResultEnvelope'];
 export type ComputeTaskView = components['schemas']['ComputeTaskView'];
 export type ComputeTaskListEnvelope = components['schemas']['ComputeTaskListEnvelope'];
 export type ComputeTaskEnvelope = components['schemas']['ComputeTaskEnvelope'];
@@ -34267,7 +34295,16 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Completed connection-test operation. */
+            /** @description Completed synchronous connection check. Each request probes the connection and returns its current health; no task or task log is created. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConnectionCheckResultEnvelope"];
+                };
+            };
+            /** @description Legacy response for a completed connection check, retained for older servers. Read the operation result directly. */
             202: {
                 headers: {
                     [name: string]: unknown;
@@ -43867,7 +43904,16 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Health check accepted as a source-domain task. The request never returns the Provider raw response. */
+            /** @description Completed synchronous health check. Each request probes the connection and returns its current health; no task or task log is created. Idempotency-Key is accepted for request compatibility but does not replay an earlier check. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConnectionCheckResultEnvelope"];
+                };
+            };
+            /** @description Legacy health-check response retained for older servers. The task contains the completed result, never the Provider raw response. */
             202: {
                 headers: {
                     [name: string]: unknown;
@@ -44179,6 +44225,7 @@ export interface operations {
                     "application/json": components["schemas"]["ComputeTaskEnvelope"];
                 };
             };
+            400: components["responses"]["ComputeError"];
             403: components["responses"]["ComputeError"];
             404: components["responses"]["ComputeError"];
             409: components["responses"]["ComputeError"];

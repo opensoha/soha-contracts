@@ -16,7 +16,7 @@ import (
 	"time"
 )
 
-const defaultUserAgent = "opensoha-contracts/0.1.18"
+const defaultUserAgent = "opensoha-contracts/0.1.19"
 
 type Client struct {
 	BaseURL    string
@@ -594,8 +594,13 @@ func (c *Client) GetComputeProviderInstance(ctx context.Context, domain ComputeP
 	return out.Data, nil
 }
 
-func (c *Client) CheckComputeProviderInstanceHealth(ctx context.Context, domain ComputeProviderDomain, providerKey, instanceRef, idempotencyKey string, req ComputeProviderReadRequest) (ComputeTaskView, error) {
-	return c.mutateComputeProviderInstance(ctx, domain, providerKey, instanceRef, "health-checks", idempotencyKey, req)
+func (c *Client) CheckComputeProviderInstanceHealth(ctx context.Context, domain ComputeProviderDomain, providerKey, instanceRef, idempotencyKey string, req ComputeProviderReadRequest) (ConnectionCheckResult, error) {
+	var out ConnectionCheckResultEnvelope
+	path := computeProviderInstancePath(domain, providerKey, instanceRef) + "/health-checks"
+	if err := c.doJSONWithHeaders(ctx, http.MethodPost, path, true, req, &out, idempotencyHeader(idempotencyKey)); err != nil {
+		return ConnectionCheckResult{}, err
+	}
+	return out.Data, nil
 }
 
 func (c *Client) DiscoverComputeProviderInstance(ctx context.Context, domain ComputeProviderDomain, providerKey, instanceRef, idempotencyKey string, req ComputeProviderDiscoverRequest) (ComputeTaskView, error) {
