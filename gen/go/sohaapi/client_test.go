@@ -488,6 +488,16 @@ func TestComputeProviderHealthPreservesDiagnostics(t *testing.T) {
 	}
 }
 
+func TestComputeProviderHealthRejectsLegacyTask(t *testing.T) {
+	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusAccepted)
+		writeJSON(t, w, computeTaskEnvelopeFixture("health-task"))
+	})
+	if _, err := client.CheckComputeProviderInstanceHealth(context.Background(), ComputeProviderDomainVirtualization, "pve", "connection-1", "", ComputeProviderReadRequest{}); err == nil || !strings.Contains(err.Error(), "upgrade the server") {
+		t.Fatalf("legacy task response should require a server upgrade, got %v", err)
+	}
+}
+
 func TestStreamComputeTask(t *testing.T) {
 	client := newTestClient(t, func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet || r.URL.EscapedPath() != "/api/v1/compute/tasks/virtualization/task%2Fone/stream" {

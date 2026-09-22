@@ -600,6 +600,9 @@ func (c *Client) CheckComputeProviderInstanceHealth(ctx context.Context, domain 
 	if err := c.doJSONWithHeaders(ctx, http.MethodPost, path, true, req, &out, idempotencyHeader(idempotencyKey)); err != nil {
 		return ConnectionCheckResult{}, err
 	}
+	if out.Data.CheckedAt.IsZero() || strings.TrimSpace(out.Data.Status) == "" {
+		return ConnectionCheckResult{}, fmt.Errorf("connection health check returned no synchronous result; upgrade the server before using this client")
+	}
 	return out.Data, nil
 }
 

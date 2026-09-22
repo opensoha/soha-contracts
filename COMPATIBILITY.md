@@ -374,7 +374,10 @@ Web and CLI must adopt the new HTTP 200 result together. Discovery and asset
 synchronization remain asynchronous. The Go SDK
 `CheckComputeProviderInstanceHealth` method now returns `ConnectionCheckResult`
 instead of `ComputeTaskView`; callers consuming its fields must update with Core
-to preserve the immediate health result and diagnostic details.
+to preserve the immediate health result and diagnostic details. Upgrade Core
+before these clients. The SDK rejects legacy task responses with a server-upgrade
+error instead of reporting an empty health result; the 202 schema documents older
+server wire behavior and does not promise task polling in the new check method.
 
 Docker port mapping creation reserves control-plane metadata synchronously; it
 does not enqueue `port_reserve` or bind a host port. Existing operation kinds and
