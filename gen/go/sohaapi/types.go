@@ -4340,6 +4340,39 @@ func (e KubernetesAccessReviewSubjectKind) Valid() bool {
 	}
 }
 
+// Defines values for KubernetesAgentCustomResourceRuleVerbs.
+const (
+	KubernetesAgentCustomResourceRuleVerbsCreate KubernetesAgentCustomResourceRuleVerbs = "create"
+	KubernetesAgentCustomResourceRuleVerbsDelete KubernetesAgentCustomResourceRuleVerbs = "delete"
+	KubernetesAgentCustomResourceRuleVerbsGet    KubernetesAgentCustomResourceRuleVerbs = "get"
+	KubernetesAgentCustomResourceRuleVerbsList   KubernetesAgentCustomResourceRuleVerbs = "list"
+	KubernetesAgentCustomResourceRuleVerbsPatch  KubernetesAgentCustomResourceRuleVerbs = "patch"
+	KubernetesAgentCustomResourceRuleVerbsUpdate KubernetesAgentCustomResourceRuleVerbs = "update"
+	KubernetesAgentCustomResourceRuleVerbsWatch  KubernetesAgentCustomResourceRuleVerbs = "watch"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesAgentCustomResourceRuleVerbs enum.
+func (e KubernetesAgentCustomResourceRuleVerbs) Valid() bool {
+	switch e {
+	case KubernetesAgentCustomResourceRuleVerbsCreate:
+		return true
+	case KubernetesAgentCustomResourceRuleVerbsDelete:
+		return true
+	case KubernetesAgentCustomResourceRuleVerbsGet:
+		return true
+	case KubernetesAgentCustomResourceRuleVerbsList:
+		return true
+	case KubernetesAgentCustomResourceRuleVerbsPatch:
+		return true
+	case KubernetesAgentCustomResourceRuleVerbsUpdate:
+		return true
+	case KubernetesAgentCustomResourceRuleVerbsWatch:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for KubernetesConnectionMode.
 const (
 	KubernetesConnectionModeAgent            KubernetesConnectionMode = "agent"
@@ -4415,6 +4448,24 @@ func (e KubernetesImportedTargetWorkloadKind) Valid() bool {
 	case KubernetesImportedTargetWorkloadKindDeployment:
 		return true
 	case KubernetesImportedTargetWorkloadKindStatefulSet:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesPrometheusTransport.
+const (
+	Agent  KubernetesPrometheusTransport = "agent"
+	Direct KubernetesPrometheusTransport = "direct"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesPrometheusTransport enum.
+func (e KubernetesPrometheusTransport) Valid() bool {
+	switch e {
+	case Agent:
+		return true
+	case Direct:
 		return true
 	default:
 		return false
@@ -17945,6 +17996,19 @@ type KubernetesAdmissionWebhookRule struct {
 	Scope       string   `json:"scope,omitempty"`
 }
 
+// KubernetesAgentCustomResourceRule defines model for KubernetesAgentCustomResourceRule.
+type KubernetesAgentCustomResourceRule struct {
+	APIGroup string `json:"apiGroup"`
+
+	// Namespaces Explicit namespaces; omitted or empty grants cluster-wide access to the named resources only.
+	Namespaces []string                                 `json:"namespaces,omitempty"`
+	Resources  []string                                 `json:"resources"`
+	Verbs      []KubernetesAgentCustomResourceRuleVerbs `json:"verbs"`
+}
+
+// KubernetesAgentCustomResourceRuleVerbs defines model for KubernetesAgentCustomResourceRule.Verbs.
+type KubernetesAgentCustomResourceRuleVerbs string
+
 // KubernetesBackendTLSPolicy defines model for KubernetesBackendTLSPolicy.
 type KubernetesBackendTLSPolicy struct {
 	AgeSeconds              int64    `json:"ageSeconds"`
@@ -17993,15 +18057,16 @@ type KubernetesCacheResourceDiagnostic struct {
 
 // KubernetesClusterConnectionDetail defines model for KubernetesClusterConnectionDetail.
 type KubernetesClusterConnectionDetail struct {
-	Context             string                   `json:"context,omitempty"`
-	CredentialType      string                   `json:"credentialType"`
-	Endpoint            string                   `json:"endpoint,omitempty"`
-	HasInlineKubeconfig bool                     `json:"hasInlineKubeconfig"`
-	HasToken            bool                     `json:"hasToken"`
-	Mode                KubernetesConnectionMode `json:"mode"`
-	SourceRef           string                   `json:"sourceRef,omitempty"`
-	SourceType          string                   `json:"sourceType"`
-	UsesInformerCache   bool                     `json:"usesInformerCache"`
+	Context             string                              `json:"context,omitempty"`
+	CredentialType      string                              `json:"credentialType"`
+	CustomResourceRules []KubernetesAgentCustomResourceRule `json:"customResourceRules,omitempty"`
+	Endpoint            string                              `json:"endpoint,omitempty"`
+	HasInlineKubeconfig bool                                `json:"hasInlineKubeconfig"`
+	HasToken            bool                                `json:"hasToken"`
+	Mode                KubernetesConnectionMode            `json:"mode"`
+	SourceRef           string                              `json:"sourceRef,omitempty"`
+	SourceType          string                              `json:"sourceType"`
+	UsesInformerCache   bool                                `json:"usesInformerCache"`
 }
 
 // KubernetesClusterDetail defines model for KubernetesClusterDetail.
@@ -19642,11 +19707,15 @@ type KubernetesPriorityClassListEnvelope struct {
 
 // KubernetesPrometheusDetail defines model for KubernetesPrometheusDetail.
 type KubernetesPrometheusDetail struct {
-	BaseURL        string `json:"baseUrl,omitempty"`
-	ClusterLabel   string `json:"clusterLabel,omitempty"`
-	GrafanaBaseURL string `json:"grafanaBaseUrl,omitempty"`
-	HasBearerToken bool   `json:"hasBearerToken"`
+	BaseURL        string                        `json:"baseUrl,omitempty"`
+	ClusterLabel   string                        `json:"clusterLabel,omitempty"`
+	GrafanaBaseURL string                        `json:"grafanaBaseUrl,omitempty"`
+	HasBearerToken bool                          `json:"hasBearerToken"`
+	Transport      KubernetesPrometheusTransport `json:"transport,omitempty"`
 }
+
+// KubernetesPrometheusTransport defines model for KubernetesPrometheusTransport.
+type KubernetesPrometheusTransport string
 
 // KubernetesReferenceGrant defines model for KubernetesReferenceGrant.
 type KubernetesReferenceGrant struct {

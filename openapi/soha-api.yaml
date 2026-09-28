@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Soha API
-  version: 0.1.19
+  version: 0.1.20
   description: >
     Public OpenSoha core API contract. This first contract focuses on stable
     cross-repository boundaries: auth, health, runner-facing control-plane
@@ -34594,6 +34594,11 @@ components:
           type: boolean
         usesInformerCache:
           type: boolean
+        customResourceRules:
+          type: array
+          maxItems: 50
+          items:
+            $ref: "#/components/schemas/KubernetesAgentCustomResourceRule"
       additionalProperties: false
     KubernetesPrometheusDetail:
       type: object
@@ -34607,6 +34612,8 @@ components:
           type: string
         hasBearerToken:
           type: boolean
+        transport:
+          $ref: "#/components/schemas/KubernetesPrometheusTransport"
       additionalProperties: false
     KubernetesMonitoringDetail:
       type: object
@@ -40744,6 +40751,7 @@ components:
         action:
           type: string
           enum: [create]
+          x-enum-varnames: [Create]
       additionalProperties: false
     KubernetesResourceCreateScopeDecision:
       type: object
@@ -46922,3 +46930,251 @@ components:
       properties:
         data: { $ref: "#/components/schemas/NetworkPolicyPreviewResult" }
       additionalProperties: false
+    KubernetesCustomResourceAccess:
+      type: object
+      required: [allowedActions]
+      properties:
+        allowedActions:
+          type: array
+          items: { type: string, enum: [list, view, create, update, delete] }
+      additionalProperties: false
+    KubernetesCustomResourceAccessEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/KubernetesCustomResourceAccess" }
+      additionalProperties: false
+    KubernetesClusterRegistrationRequest:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        region: { type: string }
+        environment: { type: string }
+        labels: { type: object, additionalProperties: { type: string } }
+        connectionMode: { $ref: "#/components/schemas/KubernetesConnectionMode" }
+        kubeconfig: { type: string }
+        context: { type: string }
+        agentEndpoint: { type: string }
+        agentToken: { type: string, writeOnly: true }
+        prometheusBaseUrl: { type: string }
+        prometheusBearerToken: { type: string, writeOnly: true }
+        prometheusClusterLabel: { type: string }
+        grafanaBaseUrl: { type: string }
+        prometheusTransport: { $ref: "#/components/schemas/KubernetesPrometheusTransport" }
+        agentCustomResourceRules:
+          type: array
+          maxItems: 50
+          items: { $ref: "#/components/schemas/KubernetesAgentCustomResourceRule" }
+      additionalProperties: false
+    KubernetesAgentCustomResourceRule:
+      type: object
+      required: [apiGroup, resources, verbs]
+      properties:
+        apiGroup: { type: string, pattern: '^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$', maxLength: 253 }
+        resources:
+          type: array
+          minItems: 1
+          maxItems: 50
+          uniqueItems: true
+          items: { type: string, pattern: '^[a-z]([a-z0-9-]*[a-z0-9])?$', maxLength: 63 }
+        verbs:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items:
+            type: string
+            enum: [get, list, watch, create, update, patch, delete]
+            x-enum-varnames: [KubernetesAgentCustomResourceRuleVerbsGet, KubernetesAgentCustomResourceRuleVerbsList, KubernetesAgentCustomResourceRuleVerbsWatch, KubernetesAgentCustomResourceRuleVerbsCreate, KubernetesAgentCustomResourceRuleVerbsUpdate, KubernetesAgentCustomResourceRuleVerbsPatch, KubernetesAgentCustomResourceRuleVerbsDelete]
+        namespaces:
+          description: Explicit namespaces; omitted or empty grants cluster-wide access to the named resources only.
+          type: array
+          maxItems: 50
+          uniqueItems: true
+          items: { type: string, pattern: '^[a-z0-9]([a-z0-9-]*[a-z0-9])?$', maxLength: 63 }
+      additionalProperties: false
+    KubernetesPrometheusTransport:
+      type: string
+      enum: [direct, agent]
+      default: direct
+    AgentPrometheusQueryRequest:
+      type: object
+      required: [endpoint, query, kind]
+      properties:
+        endpoint: { type: string, maxLength: 2048 }
+        query: { type: string, minLength: 1, maxLength: 16384 }
+        kind: { type: string, enum: [instant, range] }
+        start: { type: integer, format: int64, minimum: 1 }
+        end: { type: integer, format: int64, minimum: 1 }
+        step: { type: integer, minimum: 1 }
+      if:
+        properties:
+          kind: { const: range }
+        required: [kind]
+      then:
+        required: [start, end, step]
+      description: Range queries require start, end and step. The runtime also enforces end greater than start, a maximum 24-hour range and at most 11000 intervals.
+      additionalProperties: false
+    KubernetesNamespaceInput:
+      type: object
+      properties:
+        name: &a2
+          type: string
+        labels: &a1
+          $ref: "#/components/schemas/KubernetesStringMap"
+        annotations: *a1
+      additionalProperties: false
+    KubernetesNamespaceCreateInput:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          pattern: "\\S"
+        labels: *a1
+        annotations: *a1
+      additionalProperties: false
+    KubernetesNamespaceEnvelope:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/KubernetesNamespace"
+      additionalProperties: false
+    KubernetesNodeUpdateInput:
+      type: object
+      properties:
+        labels: *a1
+        taints:
+          type: array
+          items:
+            $ref: "#/components/schemas/KubernetesNodeTaint"
+      additionalProperties: false
+    KubernetesNodeSchedulabilityInput:
+      type: object
+      required:
+        - unschedulable
+      properties:
+        unschedulable:
+          type: boolean
+      additionalProperties: false
+    KubernetesNodeDrainInput:
+      type: object
+      properties:
+        force:
+          type: boolean
+        deleteEmptyDirData:
+          type: boolean
+        timeoutSeconds:
+          type: integer
+          minimum: 30
+          maximum: 1800
+          default: 300
+      additionalProperties: false
+    KubernetesResourceYamlInput:
+      type: object
+      required: [content]
+      properties:
+        content: {type: string, minLength: 1}
+      additionalProperties: false
+    KubernetesConfigMapDataInput:
+      type: object
+      properties:
+        data: *a1
+        binaryData: *a1
+      additionalProperties: false
+    KubernetesSecretDataInput:
+      description: Data values are plain text. The response detail returns Kubernetes Base64-encoded values.
+      type: object
+      properties:
+        data: *a1
+      additionalProperties: false
+    KubernetesCronJobSuspendInput:
+      type: object
+      required:
+        - suspend
+      properties:
+        suspend:
+          type: boolean
+      additionalProperties: false
+    KubernetesSecretDetail:
+      type: object
+      required:
+        - name
+        - namespace
+        - immutable
+        - ageSeconds
+        - type
+      properties:
+        name:
+          type: string
+        namespace:
+          type: string
+        labels:
+          $ref: "#/components/schemas/KubernetesStringMap"
+        annotations:
+          $ref: "#/components/schemas/KubernetesStringMap"
+        data:
+          $ref: "#/components/schemas/KubernetesStringMap"
+          description: Secret data values encoded with standard Base64. Requires secret-data.view.
+        immutable:
+          type: boolean
+        createdAt:
+          type: string
+        ageSeconds:
+          type: integer
+          format: int64
+          minimum: 0
+        type: *a2
+      additionalProperties: false
+    KubernetesSecretDetailEnvelope:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/KubernetesSecretDetail"
+      additionalProperties: false
+    ClusterAgentUpgradeInput:
+      type: object
+      additionalProperties: false
+      required: [version]
+      properties:
+        version:
+          type: string
+          maxLength: 64
+          pattern: '^v?(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'
+          description: Explicit stable official Agent version, such as v0.1.7. Registry and container identity cannot be overridden.
+    ClusterAgentUpgradeStatus:
+      type: object
+      additionalProperties: false
+      required: [version, image, recommendedVersion, rolloutStatus, message, canUpgrade]
+      properties:
+        version: {type: string, description: Version reported by the currently connected Agent process.}
+        image: {type: string, description: Desired image of the standard Agent Deployment.}
+        recommendedVersion: {type: string, description: Agent version bundled with this Core release.}
+        rolloutStatus: {type: string}
+        message: {type: string}
+        canUpgrade: {type: boolean}
+        upgradeDisabledReason: {type: string}
+    ClusterAgentUpgradeStatusEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ClusterAgentUpgradeStatus"
+    ClusterAgentUpgradeResult:
+      type: object
+      additionalProperties: false
+      required: [previousImage, targetImage]
+      properties:
+        previousImage: {type: string}
+        targetImage: {type: string}
+    ClusterAgentUpgradeResultEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/ClusterAgentUpgradeResult"
