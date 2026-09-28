@@ -1614,6 +1614,65 @@
         ],
         "type": "object"
       },
+      "AgentPrometheusQueryRequest": {
+        "additionalProperties": false,
+        "description": "Range queries require start, end and step. The runtime also enforces end greater than start, a maximum 24-hour range and at most 11000 intervals.",
+        "if": {
+          "properties": {
+            "kind": {
+              "const": "range"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        "properties": {
+          "end": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "endpoint": {
+            "maxLength": 2048,
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "instant",
+              "range"
+            ],
+            "type": "string"
+          },
+          "query": {
+            "maxLength": 16384,
+            "minLength": 1,
+            "type": "string"
+          },
+          "start": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "step": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "endpoint",
+          "query",
+          "kind"
+        ],
+        "then": {
+          "required": [
+            "start",
+            "end",
+            "step"
+          ]
+        },
+        "type": "object"
+      },
       "AgentProviderCatalog": {
         "additionalProperties": false,
         "properties": {
@@ -8586,6 +8645,97 @@
           "saas-iam"
         ],
         "type": "string"
+      },
+      "ClusterAgentUpgradeInput": {
+        "additionalProperties": false,
+        "properties": {
+          "version": {
+            "description": "Explicit stable official Agent version, such as v0.1.7. Registry and container identity cannot be overridden.",
+            "maxLength": 64,
+            "pattern": "^v?(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "version"
+        ],
+        "type": "object"
+      },
+      "ClusterAgentUpgradeResult": {
+        "additionalProperties": false,
+        "properties": {
+          "previousImage": {
+            "type": "string"
+          },
+          "targetImage": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "previousImage",
+          "targetImage"
+        ],
+        "type": "object"
+      },
+      "ClusterAgentUpgradeResultEnvelope": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ClusterAgentUpgradeResult"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "ClusterAgentUpgradeStatus": {
+        "additionalProperties": false,
+        "properties": {
+          "canUpgrade": {
+            "type": "boolean"
+          },
+          "image": {
+            "description": "Desired image of the standard Agent Deployment.",
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "recommendedVersion": {
+            "description": "Agent version bundled with this Core release.",
+            "type": "string"
+          },
+          "rolloutStatus": {
+            "type": "string"
+          },
+          "upgradeDisabledReason": {
+            "type": "string"
+          },
+          "version": {
+            "description": "Version reported by the currently connected Agent process.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "version",
+          "image",
+          "recommendedVersion",
+          "rolloutStatus",
+          "message",
+          "canUpgrade"
+        ],
+        "type": "object"
+      },
+      "ClusterAgentUpgradeStatusEnvelope": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ClusterAgentUpgradeStatus"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
       },
       "ClusterCapabilityMatrixEntry": {
         "additionalProperties": false,
@@ -23647,6 +23797,70 @@
         },
         "type": "object"
       },
+      "KubernetesAgentCustomResourceRule": {
+        "additionalProperties": false,
+        "properties": {
+          "apiGroup": {
+            "maxLength": 253,
+            "pattern": "^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$",
+            "type": "string"
+          },
+          "namespaces": {
+            "description": "Explicit namespaces; omitted or empty grants cluster-wide access to the named resources only.",
+            "items": {
+              "maxLength": 63,
+              "pattern": "^[a-z0-9]([a-z0-9-]*[a-z0-9])?$",
+              "type": "string"
+            },
+            "maxItems": 50,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "resources": {
+            "items": {
+              "maxLength": 63,
+              "pattern": "^[a-z]([a-z0-9-]*[a-z0-9])?$",
+              "type": "string"
+            },
+            "maxItems": 50,
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "verbs": {
+            "items": {
+              "enum": [
+                "get",
+                "list",
+                "watch",
+                "create",
+                "update",
+                "patch",
+                "delete"
+              ],
+              "type": "string",
+              "x-enum-varnames": [
+                "KubernetesAgentCustomResourceRuleVerbsGet",
+                "KubernetesAgentCustomResourceRuleVerbsList",
+                "KubernetesAgentCustomResourceRuleVerbsWatch",
+                "KubernetesAgentCustomResourceRuleVerbsCreate",
+                "KubernetesAgentCustomResourceRuleVerbsUpdate",
+                "KubernetesAgentCustomResourceRuleVerbsPatch",
+                "KubernetesAgentCustomResourceRuleVerbsDelete"
+              ]
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "apiGroup",
+          "resources",
+          "verbs"
+        ],
+        "type": "object"
+      },
       "KubernetesBackendTLSPolicy": {
         "additionalProperties": false,
         "properties": {
@@ -23813,6 +24027,13 @@
           },
           "credentialType": {
             "type": "string"
+          },
+          "customResourceRules": {
+            "items": {
+              "$ref": "#/components/schemas/KubernetesAgentCustomResourceRule"
+            },
+            "maxItems": 50,
+            "type": "array"
           },
           "endpoint": {
             "type": "string"
@@ -24025,6 +24246,69 @@
         "required": [
           "items"
         ],
+        "type": "object"
+      },
+      "KubernetesClusterRegistrationRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "agentCustomResourceRules": {
+            "items": {
+              "$ref": "#/components/schemas/KubernetesAgentCustomResourceRule"
+            },
+            "maxItems": 50,
+            "type": "array"
+          },
+          "agentEndpoint": {
+            "type": "string"
+          },
+          "agentToken": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "connectionMode": {
+            "$ref": "#/components/schemas/KubernetesConnectionMode"
+          },
+          "context": {
+            "type": "string"
+          },
+          "environment": {
+            "type": "string"
+          },
+          "grafanaBaseUrl": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "kubeconfig": {
+            "type": "string"
+          },
+          "labels": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "name": {
+            "type": "string"
+          },
+          "prometheusBaseUrl": {
+            "type": "string"
+          },
+          "prometheusBearerToken": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "prometheusClusterLabel": {
+            "type": "string"
+          },
+          "prometheusTransport": {
+            "$ref": "#/components/schemas/KubernetesPrometheusTransport"
+          },
+          "region": {
+            "type": "string"
+          }
+        },
         "type": "object"
       },
       "KubernetesClusterRole": {
@@ -24303,6 +24587,18 @@
         ],
         "type": "object"
       },
+      "KubernetesConfigMapDataInput": {
+        "additionalProperties": false,
+        "properties": {
+          "binaryData": {
+            "$ref": "#/components/schemas/KubernetesStringMap"
+          },
+          "data": {
+            "$ref": "#/components/schemas/KubernetesStringMap"
+          }
+        },
+        "type": "object"
+      },
       "KubernetesConfigMapDetail": {
         "additionalProperties": false,
         "properties": {
@@ -24555,6 +24851,18 @@
         ],
         "type": "object"
       },
+      "KubernetesCronJobSuspendInput": {
+        "additionalProperties": false,
+        "properties": {
+          "suspend": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "suspend"
+        ],
+        "type": "object"
+      },
       "KubernetesCustomResource": {
         "additionalProperties": false,
         "properties": {
@@ -24610,6 +24918,40 @@
           "kind",
           "name",
           "ageSeconds"
+        ],
+        "type": "object"
+      },
+      "KubernetesCustomResourceAccess": {
+        "additionalProperties": false,
+        "properties": {
+          "allowedActions": {
+            "items": {
+              "enum": [
+                "list",
+                "view",
+                "create",
+                "update",
+                "delete"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "allowedActions"
+        ],
+        "type": "object"
+      },
+      "KubernetesCustomResourceAccessEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/KubernetesCustomResourceAccess"
+          }
+        },
+        "required": [
+          "data"
         ],
         "type": "object"
       },
@@ -27879,6 +28221,53 @@
         ],
         "type": "object"
       },
+      "KubernetesNamespaceCreateInput": {
+        "additionalProperties": false,
+        "properties": {
+          "annotations": {
+            "$ref": "#/components/schemas/KubernetesStringMap"
+          },
+          "labels": {
+            "$ref": "#/components/schemas/KubernetesStringMap"
+          },
+          "name": {
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "KubernetesNamespaceEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/KubernetesNamespace"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "KubernetesNamespaceInput": {
+        "additionalProperties": false,
+        "properties": {
+          "annotations": {
+            "$ref": "#/components/schemas/KubernetesStringMap"
+          },
+          "labels": {
+            "$ref": "#/components/schemas/KubernetesStringMap"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "KubernetesNamespaceListEnvelope": {
         "additionalProperties": false,
         "properties": {
@@ -28466,6 +28855,24 @@
         ],
         "type": "object"
       },
+      "KubernetesNodeDrainInput": {
+        "additionalProperties": false,
+        "properties": {
+          "deleteEmptyDirData": {
+            "type": "boolean"
+          },
+          "force": {
+            "type": "boolean"
+          },
+          "timeoutSeconds": {
+            "default": 300,
+            "maximum": 1800,
+            "minimum": 30,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
       "KubernetesNodeListEnvelope": {
         "additionalProperties": false,
         "properties": {
@@ -28565,6 +28972,18 @@
         },
         "type": "object"
       },
+      "KubernetesNodeSchedulabilityInput": {
+        "additionalProperties": false,
+        "properties": {
+          "unschedulable": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "unschedulable"
+        ],
+        "type": "object"
+      },
       "KubernetesNodeTaint": {
         "additionalProperties": false,
         "properties": {
@@ -28582,6 +29001,21 @@
           "key",
           "effect"
         ],
+        "type": "object"
+      },
+      "KubernetesNodeUpdateInput": {
+        "additionalProperties": false,
+        "properties": {
+          "labels": {
+            "$ref": "#/components/schemas/KubernetesStringMap"
+          },
+          "taints": {
+            "items": {
+              "$ref": "#/components/schemas/KubernetesNodeTaint"
+            },
+            "type": "array"
+          }
+        },
         "type": "object"
       },
       "KubernetesPersistentVolume": {
@@ -29445,12 +29879,23 @@
           },
           "hasBearerToken": {
             "type": "boolean"
+          },
+          "transport": {
+            "$ref": "#/components/schemas/KubernetesPrometheusTransport"
           }
         },
         "required": [
           "hasBearerToken"
         ],
         "type": "object"
+      },
+      "KubernetesPrometheusTransport": {
+        "default": "direct",
+        "enum": [
+          "direct",
+          "agent"
+        ],
+        "type": "string"
       },
       "KubernetesReferenceGrant": {
         "additionalProperties": false,
@@ -30378,7 +30823,10 @@
             "enum": [
               "create"
             ],
-            "type": "string"
+            "type": "string",
+            "x-enum-varnames": [
+              "Create"
+            ]
           },
           "apiVersion": {
             "minLength": 1,
@@ -31362,6 +31810,19 @@
         ],
         "type": "object"
       },
+      "KubernetesResourceYamlInput": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "content"
+        ],
+        "type": "object"
+      },
       "KubernetesRole": {
         "additionalProperties": false,
         "properties": {
@@ -31611,6 +32072,71 @@
         },
         "required": [
           "items"
+        ],
+        "type": "object"
+      },
+      "KubernetesSecretDataInput": {
+        "additionalProperties": false,
+        "description": "Data values are plain text. The response detail returns Kubernetes Base64-encoded values.",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/KubernetesStringMap"
+          }
+        },
+        "type": "object"
+      },
+      "KubernetesSecretDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "ageSeconds": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "annotations": {
+            "$ref": "#/components/schemas/KubernetesStringMap"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/KubernetesStringMap",
+            "description": "Secret data values encoded with standard Base64. Requires secret-data.view."
+          },
+          "immutable": {
+            "type": "boolean"
+          },
+          "labels": {
+            "$ref": "#/components/schemas/KubernetesStringMap"
+          },
+          "name": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "namespace",
+          "immutable",
+          "ageSeconds",
+          "type"
+        ],
+        "type": "object"
+      },
+      "KubernetesSecretDetailEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/KubernetesSecretDetail"
+          }
+        },
+        "required": [
+          "data"
         ],
         "type": "object"
       },
@@ -60796,7 +61322,7 @@
   "info": {
     "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery.\n",
     "title": "Soha API",
-    "version": "0.1.19"
+    "version": "0.1.20"
   },
   "openapi": "3.1.0",
   "paths": {
