@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Soha API
-  version: 0.1.22
+  version: 0.1.23
   description: >
     Public OpenSoha core API contract. This first contract focuses on stable
     cross-repository boundaries: auth, health, runner-facing control-plane
@@ -7544,6 +7544,40 @@ paths:
           $ref: "#/components/responses/Error"
         "503":
           $ref: "#/components/responses/Error"
+    post:
+      tags:
+        - Platform
+      operationId: createKubernetesNamespace
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.namespaces.create
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesNamespaceCreateInput"
+      responses:
+        "201":
+          description: Kubernetes operation result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesNamespaceEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
   /clusters/{clusterID}/infrastructure/nodes:
     get:
       tags: [Platform]
@@ -9548,6 +9582,39 @@ paths:
         "403": { $ref: "#/components/responses/Error" }
         "404": { $ref: "#/components/responses/Error" }
         "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/extensions/crds/{crdName}:
+    delete:
+      tags: [Platform]
+      operationId: deleteKubernetesCustomResourceDefinition
+      x-soha-permissions: { mode: all, keys: [platform.extensions.crds.delete] }
+      x-soha-implementation-status: implemented
+      description: Delete one cluster-scoped CRD definition and all of its custom resource instances. This does not uninstall its operator or Helm release. UID and resourceVersion preconditions protect against replacement; finalizers may delay removal.
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesCRDName"
+        - name: expectedUid
+          in: query
+          required: true
+          description: UID observed in the CRD catalog. A same-name replacement is rejected.
+          schema: { type: string, minLength: 1, maxLength: 128 }
+      responses:
+        "204": { description: Deletion requested. Refresh the catalog to confirm disappearance; finalizers may still be pending. }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/extensions/crds/{crdName}/access:
+    get:
+      tags: [Platform]
+      operationId: getKubernetesCustomResourceAccess
+      x-soha-permissions: { mode: all, keys: [platform.extensions.view] }
+      parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesCRDName" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
+      responses:
+        "200": { description: Soha and runtime permissions for this custom resource collection., content: { application/json: { schema: { $ref: "#/components/schemas/KubernetesCustomResourceAccessEnvelope" } } } }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
   /clusters/{clusterID}/extensions/crds/{crdName}/resources:
     get:
       tags: [Platform]
@@ -10192,6 +10259,65 @@ paths:
         "404":
           $ref: "#/components/responses/Error"
         "409":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/agent-upgrade:
+    get:
+      tags: [Platform]
+      operationId: getClusterAgentUpgradeStatus
+      description: Read the running Agent version and standard Agent Deployment rollout through the existing cluster connection.
+      x-soha-permissions:
+        mode: all
+        keys: [platform.clusters.view]
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+      responses:
+        "200":
+          description: Agent version, recommended version bundled with this server, and rollout status. The recommendation is not a live latest-release lookup.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClusterAgentUpgradeStatusEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+    post:
+      tags: [Platform]
+      operationId: upgradeClusterAgent
+      description: Update only the standard Agent container to an explicit official release version using the Agent connection. Kubernetes owns the rollout; HTTP 202 means the image update was accepted, not that rollout completed. Non-direct resource owners must use their owning delivery tool.
+      x-soha-permissions:
+        mode: all
+        keys: [platform.clusters.update]
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClusterAgentUpgradeInput"
+      responses:
+        "202":
+          description: Image update accepted. Read upgrade status until the target version reconnects and rollout is healthy.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClusterAgentUpgradeResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
           $ref: "#/components/responses/Error"
   /kubernetes/agent-installations/{installTicket}/manifest.yaml:
     get:
@@ -17740,6 +17866,141 @@ paths:
               schema: { $ref: "#/components/schemas/OperationStatus" }
         "403": { $ref: "#/components/responses/Error" }
         "404": { $ref: "#/components/responses/Error" }
+  /network-access/proxy-instances:
+    get:
+      tags: [Network Access]
+      operationId: listNetworkProxyInstances
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.proxy_instances.view]
+      parameters:
+        - { name: search, in: query, schema: { type: string, maxLength: 200 } }
+        - { name: engine, in: query, schema: { $ref: "#/components/schemas/NetworkProxyEngine" } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 200, default: 100 } }
+      responses:
+        "200":
+          description: Registered server proxy instances and observed state.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkProxyInstanceListEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Network Access]
+      operationId: createNetworkProxyInstance
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.proxy_instances.create]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkProxyInstanceInput" }
+      responses:
+        "201":
+          description: Created proxy instance. A separate one-time proxy runtime enrollment is required before it can report state.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkProxyInstanceEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/proxy-instances/{instanceID}:
+    get:
+      tags: [Network Access]
+      operationId: getNetworkProxyInstance
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.proxy_instances.view]
+      parameters:
+        - { name: instanceID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Proxy instance metadata. Configuration contents and controller credentials are excluded.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkProxyInstanceEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /network-access/proxy-instances/{instanceID}/configuration:
+    put:
+      tags: [Network Access]
+      operationId: updateNetworkProxyConfiguration
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.proxy_instances.update]
+      parameters:
+        - { name: instanceID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkProxyConfigurationInput" }
+      responses:
+        "200":
+          description: Desired revision saved; runtime application is asynchronous. Configuration contents are not returned.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkProxyInstanceEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/proxy-instances/{instanceID}/traffic:
+    get:
+      tags: [Network Access]
+      operationId: getNetworkProxyTraffic
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.proxy_instances.view]
+      parameters:
+        - { name: instanceID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+        - { name: from, in: query, schema: { type: string, format: date-time } }
+        - { name: to, in: query, schema: { type: string, format: date-time } }
+      responses:
+        "200":
+          description: Bounded samples; speed is derived from adjacent cumulative counters within one runtime uptime epoch.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkProxyTrafficEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /network-access/proxy-instances/{instanceID}/connections:
+    get:
+      tags: [Network Access]
+      operationId: getNetworkProxyConnections
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.proxy_connections.view]
+      parameters:
+        - { name: instanceID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Latest short-lived connection snapshot, or an explicit unsupported/unavailable state.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkProxyConnectionsEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /network-access/proxy-instances/{instanceID}/connections/{connectionID}/close:
+    post:
+      tags: [Network Access]
+      operationId: closeNetworkProxyConnection
+      x-soha-permissions:
+        mode: all
+        keys: [network_access.proxy_connections.close]
+      parameters:
+        - { name: instanceID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+        - { name: connectionID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "202":
+          description: Expiring close command queued for the enrolled runtime. The action is audited.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkProxyCloseCommandEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
   /network-access/connection-options:
     get:
       tags: [Network Access]
@@ -18458,6 +18719,434 @@ paths:
         "400": { $ref: "#/components/responses/Error" }
         "403": { $ref: "#/components/responses/Error" }
         "404": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/namespaces/{namespaceName}:
+    put:
+      tags:
+        - Platform
+      operationId: updateKubernetesNamespace
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.namespaces.update
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - &a1
+          name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesNamespaceInput"
+      responses:
+        "200":
+          description: Kubernetes operation result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesNamespaceEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags:
+        - Platform
+      operationId: deleteKubernetesNamespace
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.namespaces.delete
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - *a1
+      responses:
+        "204":
+          description: Operation completed.
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/infrastructure/nodes/{nodeName}:
+    put:
+      tags:
+        - Platform
+      operationId: updateKubernetesNode
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.nodes.update
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesNodeName"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesNodeUpdateInput"
+      responses:
+        "200":
+          description: Kubernetes operation result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesNodeDetailEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+    delete:
+      tags:
+        - Platform
+      operationId: deleteKubernetesNode
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.nodes.delete
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesNodeName"
+      responses:
+        "204":
+          description: Operation completed.
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/infrastructure/nodes/{nodeName}/schedulability:
+    put:
+      tags:
+        - Platform
+      operationId: setKubernetesNodeSchedulability
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.nodes.update
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesNodeName"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesNodeSchedulabilityInput"
+      responses:
+        "204":
+          description: Operation completed.
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/infrastructure/nodes/{nodeName}/drain:
+    post:
+      tags:
+        - Platform
+      operationId: drainKubernetesNode
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.nodes.drain
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesNodeName"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesNodeDrainInput"
+      responses:
+        "204":
+          description: Operation completed.
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/infrastructure/nodes/{nodeName}/yaml:
+    get:
+      tags:
+        - Platform
+      operationId: getKubernetesNodeYaml
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.nodes.view
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesNodeName"
+      responses:
+        "200":
+          description: Kubernetes operation result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceYamlEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+    put:
+      tags:
+        - Platform
+      operationId: applyKubernetesNodeYaml
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.nodes.update
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesNodeName"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesResourceYamlInput"
+      responses:
+        "200":
+          description: Kubernetes operation result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceYamlEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/configuration/configmaps/{name}/data:
+    put:
+      tags:
+        - Platform
+      operationId: updateKubernetesConfigMapData
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.config-maps.update
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesConfigMapDataInput"
+      responses:
+        "200":
+          description: Kubernetes operation result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesConfigMapDetailEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/configuration/secrets/{name}/detail:
+    get:
+      tags:
+        - Platform
+      operationId: getKubernetesSecretDetail
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.secret-data.view
+          - platform.configuration.secrets.view
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      responses:
+        "200":
+          description: Kubernetes operation result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesSecretDetailEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/configuration/secrets/{name}/data:
+    put:
+      tags:
+        - Platform
+      operationId: updateKubernetesSecretData
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.configuration.secret-data.view
+          - platform.configuration.secrets.update
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesSecretDataInput"
+      responses:
+        "200":
+          description: Kubernetes operation result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesSecretDetailEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/workloads/pods/{podName}:
+    delete:
+      tags:
+        - Platform
+      operationId: deleteKubernetesPod
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.pods.delete
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesPodName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      responses:
+        "204":
+          description: Operation completed.
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/workloads/cronjobs/{cronJobName}/suspend:
+    post:
+      tags:
+        - Platform
+      operationId: setKubernetesCronJobSuspend
+      x-soha-permissions:
+        mode: all
+        keys:
+          - platform.workloads.cron-jobs.suspend
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesCronJobName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesCronJobSuspendInput"
+      responses:
+        "200":
+          description: Kubernetes operation result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesCronJobDetailEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
 components:
   securitySchemes:
     bearerAuth:

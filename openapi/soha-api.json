@@ -61730,7 +61730,7 @@
   "info": {
     "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery.\n",
     "title": "Soha API",
-    "version": "0.1.22"
+    "version": "0.1.23"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -72612,6 +72612,108 @@
         }
       }
     },
+    "/clusters/{clusterID}/agent-upgrade": {
+      "get": {
+        "description": "Read the running Agent version and standard Agent Deployment rollout through the existing cluster connection.",
+        "operationId": "getClusterAgentUpgradeStatus",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClusterAgentUpgradeStatusEnvelope"
+                }
+              }
+            },
+            "description": "Agent version, recommended version bundled with this server, and rollout status. The recommendation is not a live latest-release lookup."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "platform.clusters.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "post": {
+        "description": "Update only the standard Agent container to an explicit official release version using the Agent connection. Kubernetes owns the rollout; HTTP 202 means the image update was accepted, not that rollout completed. Non-direct resource owners must use their owning delivery tool.",
+        "operationId": "upgradeClusterAgent",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClusterAgentUpgradeInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClusterAgentUpgradeResultEnvelope"
+                }
+              }
+            },
+            "description": "Image update accepted. Read upgrade status until the target version reconnects and rollout is healthy."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "platform.clusters.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
     "/clusters/{clusterID}/configuration/configmaps": {
       "get": {
         "operationId": "listKubernetesConfigMaps",
@@ -72651,6 +72753,69 @@
         "x-soha-permissions": {
           "keys": [
             "platform.configuration.config-maps.view"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/clusters/{clusterID}/configuration/configmaps/{name}/data": {
+      "put": {
+        "operationId": "updateKubernetesConfigMapData",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesResourceName"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNamespaceQuery"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KubernetesConfigMapDataInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesConfigMapDetailEnvelope"
+                }
+              }
+            },
+            "description": "Kubernetes operation result."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.config-maps.update"
           ],
           "mode": "all"
         }
@@ -73369,6 +73534,124 @@
         }
       }
     },
+    "/clusters/{clusterID}/configuration/secrets/{name}/data": {
+      "put": {
+        "operationId": "updateKubernetesSecretData",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesResourceName"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNamespaceQuery"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KubernetesSecretDataInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesSecretDetailEnvelope"
+                }
+              }
+            },
+            "description": "Kubernetes operation result."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.secret-data.view",
+            "platform.configuration.secrets.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/clusters/{clusterID}/configuration/secrets/{name}/detail": {
+      "get": {
+        "operationId": "getKubernetesSecretDetail",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesResourceName"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNamespaceQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesSecretDetailEnvelope"
+                }
+              }
+            },
+            "description": "Kubernetes operation result."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.configuration.secret-data.view",
+            "platform.configuration.secrets.view"
+          ],
+          "mode": "all"
+        }
+      }
+    },
     "/clusters/{clusterID}/configuration/secrets/{name}/references": {
       "get": {
         "operationId": "listKubernetesSecretReferences",
@@ -73630,6 +73913,107 @@
           "Platform"
         ],
         "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.extensions.view"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/clusters/{clusterID}/extensions/crds/{crdName}": {
+      "delete": {
+        "description": "Delete one cluster-scoped CRD definition and all of its custom resource instances. This does not uninstall its operator or Helm release. UID and resourceVersion preconditions protect against replacement; finalizers may delay removal.",
+        "operationId": "deleteKubernetesCustomResourceDefinition",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesCRDName"
+          },
+          {
+            "description": "UID observed in the CRD catalog. A same-name replacement is rejected.",
+            "in": "query",
+            "name": "expectedUid",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deletion requested. Refresh the catalog to confirm disappearance; finalizers may still be pending."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.extensions.crds.delete"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/clusters/{clusterID}/extensions/crds/{crdName}/access": {
+      "get": {
+        "operationId": "getKubernetesCustomResourceAccess",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesCRDName"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNamespaceQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesCustomResourceAccessEnvelope"
+                }
+              }
+            },
+            "description": "Soha and runtime permissions for this custom resource collection."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
         "x-soha-permissions": {
           "keys": [
             "platform.extensions.view"
@@ -74206,6 +74590,107 @@
         }
       }
     },
+    "/clusters/{clusterID}/infrastructure/nodes/{nodeName}": {
+      "delete": {
+        "operationId": "deleteKubernetesNode",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNodeName"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Operation completed."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.nodes.delete"
+          ],
+          "mode": "all"
+        }
+      },
+      "put": {
+        "operationId": "updateKubernetesNode",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNodeName"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KubernetesNodeUpdateInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesNodeDetailEnvelope"
+                }
+              }
+            },
+            "description": "Kubernetes operation result."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.nodes.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
     "/clusters/{clusterID}/infrastructure/nodes/{nodeName}/detail": {
       "get": {
         "operationId": "getKubernetesNodeDetail",
@@ -74255,6 +74740,220 @@
         "x-soha-permissions": {
           "keys": [
             "platform.nodes.view"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/clusters/{clusterID}/infrastructure/nodes/{nodeName}/drain": {
+      "post": {
+        "operationId": "drainKubernetesNode",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNodeName"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KubernetesNodeDrainInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Operation completed."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.nodes.drain"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/clusters/{clusterID}/infrastructure/nodes/{nodeName}/schedulability": {
+      "put": {
+        "operationId": "setKubernetesNodeSchedulability",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNodeName"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KubernetesNodeSchedulabilityInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Operation completed."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.nodes.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/clusters/{clusterID}/infrastructure/nodes/{nodeName}/yaml": {
+      "get": {
+        "operationId": "getKubernetesNodeYaml",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNodeName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesResourceYamlEnvelope"
+                }
+              }
+            },
+            "description": "Kubernetes operation result."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.nodes.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "put": {
+        "operationId": "applyKubernetesNodeYaml",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNodeName"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KubernetesResourceYamlInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesResourceYamlEnvelope"
+                }
+              }
+            },
+            "description": "Kubernetes operation result."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.nodes.update"
           ],
           "mode": "all"
         }
@@ -74408,6 +75107,174 @@
         "x-soha-permissions": {
           "keys": [
             "platform.namespaces.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "post": {
+        "operationId": "createKubernetesNamespace",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KubernetesNamespaceCreateInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesNamespaceEnvelope"
+                }
+              }
+            },
+            "description": "Kubernetes operation result."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.namespaces.create"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/clusters/{clusterID}/namespaces/{namespaceName}": {
+      "delete": {
+        "operationId": "deleteKubernetesNamespace",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "in": "path",
+            "name": "namespaceName",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Operation completed."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.namespaces.delete"
+          ],
+          "mode": "all"
+        }
+      },
+      "put": {
+        "operationId": "updateKubernetesNamespace",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "in": "path",
+            "name": "namespaceName",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KubernetesNamespaceInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesNamespaceEnvelope"
+                }
+              }
+            },
+            "description": "Kubernetes operation result."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.namespaces.update"
           ],
           "mode": "all"
         }
@@ -76598,6 +77465,69 @@
         }
       }
     },
+    "/clusters/{clusterID}/workloads/cronjobs/{cronJobName}/suspend": {
+      "post": {
+        "operationId": "setKubernetesCronJobSuspend",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesCronJobName"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNamespaceQuery"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KubernetesCronJobSuspendInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesCronJobDetailEnvelope"
+                }
+              }
+            },
+            "description": "Kubernetes operation result."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.workloads.cron-jobs.suspend"
+          ],
+          "mode": "all"
+        }
+      }
+    },
     "/clusters/{clusterID}/workloads/cronjobs/{cronJobName}/yaml": {
       "get": {
         "operationId": "getKubernetesCronJobYaml",
@@ -77378,6 +78308,52 @@
         "x-soha-permissions": {
           "keys": [
             "platform.pods.view"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/clusters/{clusterID}/workloads/pods/{podName}": {
+      "delete": {
+        "operationId": "deleteKubernetesPod",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesPodName"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNamespaceQuery"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Operation completed."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.pods.delete"
           ],
           "mode": "all"
         }
@@ -89961,6 +90937,373 @@
         "x-soha-permissions": {
           "keys": [
             "network_access.policy.view"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/proxy-instances": {
+      "get": {
+        "operationId": "listNetworkProxyInstances",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "maxLength": 200,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "engine",
+            "schema": {
+              "$ref": "#/components/schemas/NetworkProxyEngine"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkProxyInstanceListEnvelope"
+                }
+              }
+            },
+            "description": "Registered server proxy instances and observed state."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.proxy_instances.view"
+          ],
+          "mode": "all"
+        }
+      },
+      "post": {
+        "operationId": "createNetworkProxyInstance",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkProxyInstanceInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkProxyInstanceEnvelope"
+                }
+              }
+            },
+            "description": "Created proxy instance. A separate one-time proxy runtime enrollment is required before it can report state."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.proxy_instances.create"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/proxy-instances/{instanceID}": {
+      "get": {
+        "operationId": "getNetworkProxyInstance",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "instanceID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkProxyInstanceEnvelope"
+                }
+              }
+            },
+            "description": "Proxy instance metadata. Configuration contents and controller credentials are excluded."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.proxy_instances.view"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/proxy-instances/{instanceID}/configuration": {
+      "put": {
+        "operationId": "updateNetworkProxyConfiguration",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "instanceID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkProxyConfigurationInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkProxyInstanceEnvelope"
+                }
+              }
+            },
+            "description": "Desired revision saved; runtime application is asynchronous. Configuration contents are not returned."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.proxy_instances.update"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/proxy-instances/{instanceID}/connections": {
+      "get": {
+        "operationId": "getNetworkProxyConnections",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "instanceID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkProxyConnectionsEnvelope"
+                }
+              }
+            },
+            "description": "Latest short-lived connection snapshot, or an explicit unsupported/unavailable state."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.proxy_connections.view"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/proxy-instances/{instanceID}/connections/{connectionID}/close": {
+      "post": {
+        "operationId": "closeNetworkProxyConnection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "instanceID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "connectionID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkProxyCloseCommandEnvelope"
+                }
+              }
+            },
+            "description": "Expiring close command queued for the enrolled runtime. The action is audited."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.proxy_connections.close"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/network-access/proxy-instances/{instanceID}/traffic": {
+      "get": {
+        "operationId": "getNetworkProxyTraffic",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "instanceID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetworkProxyTrafficEnvelope"
+                }
+              }
+            },
+            "description": "Bounded samples; speed is derived from adjacent cumulative counters within one runtime uptime epoch."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Network Access"
+        ],
+        "x-soha-permissions": {
+          "keys": [
+            "network_access.proxy_instances.view"
           ],
           "mode": "all"
         }

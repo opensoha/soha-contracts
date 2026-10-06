@@ -4219,7 +4219,7 @@ export interface paths {
         };
         get: operations["listKubernetesNamespaces"];
         put?: never;
-        post?: never;
+        post: operations["createKubernetesNamespace"];
         delete?: never;
         options?: never;
         head?: never;
@@ -5730,6 +5730,39 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/clusters/{clusterID}/extensions/crds/{crdName}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** @description Delete one cluster-scoped CRD definition and all of its custom resource instances. This does not uninstall its operator or Helm release. UID and resourceVersion preconditions protect against replacement; finalizers may delay removal. */
+        delete: operations["deleteKubernetesCustomResourceDefinition"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/extensions/crds/{crdName}/access": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesCustomResourceAccess"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/clusters/{clusterID}/extensions/crds/{crdName}/resources": {
         parameters: {
             query?: never;
@@ -6144,6 +6177,24 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["createClusterAgentInstallation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/agent-upgrade": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read the running Agent version and standard Agent Deployment rollout through the existing cluster connection. */
+        get: operations["getClusterAgentUpgradeStatus"];
+        put?: never;
+        /** @description Update only the standard Agent container to an explicit official release version using the Agent connection. Kubernetes owns the rollout; HTTP 202 means the image update was accepted, not that rollout completed. Non-direct resource owners must use their owning delivery tool. */
+        post: operations["upgradeClusterAgent"];
         delete?: never;
         options?: never;
         head?: never;
@@ -10489,6 +10540,102 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/network-access/proxy-instances": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkProxyInstances"];
+        put?: never;
+        post: operations["createNetworkProxyInstance"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/proxy-instances/{instanceID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkProxyInstance"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/proxy-instances/{instanceID}/configuration": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateNetworkProxyConfiguration"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/proxy-instances/{instanceID}/traffic": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkProxyTraffic"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/proxy-instances/{instanceID}/connections": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkProxyConnections"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/proxy-instances/{instanceID}/connections/{connectionID}/close": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["closeNetworkProxyConnection"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/network-access/connection-options": {
         parameters: {
             query?: never;
@@ -10835,6 +10982,166 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["previewNetworkAccessPolicy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/namespaces/{namespaceName}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateKubernetesNamespace"];
+        post?: never;
+        delete: operations["deleteKubernetesNamespace"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/infrastructure/nodes/{nodeName}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateKubernetesNode"];
+        post?: never;
+        delete: operations["deleteKubernetesNode"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/infrastructure/nodes/{nodeName}/schedulability": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["setKubernetesNodeSchedulability"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/infrastructure/nodes/{nodeName}/drain": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["drainKubernetesNode"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/infrastructure/nodes/{nodeName}/yaml": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesNodeYaml"];
+        put: operations["applyKubernetesNodeYaml"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/configmaps/{name}/data": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateKubernetesConfigMapData"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/secrets/{name}/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesSecretDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/secrets/{name}/data": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateKubernetesSecretData"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/pods/{podName}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["deleteKubernetesPod"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/cronjobs/{cronJobName}/suspend": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["setKubernetesCronJobSuspend"];
         delete?: never;
         options?: never;
         head?: never;
@@ -37255,6 +37562,37 @@ export interface operations {
             503: components["responses"]["Error"];
         };
     };
+    createKubernetesNamespace: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesNamespaceCreateInput"];
+            };
+        };
+        responses: {
+            /** @description Kubernetes operation result. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesNamespaceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
     listKubernetesNodes: {
         parameters: {
             query?: never;
@@ -39895,6 +40233,64 @@ export interface operations {
             503: components["responses"]["Error"];
         };
     };
+    deleteKubernetesCustomResourceDefinition: {
+        parameters: {
+            query: {
+                /** @description UID observed in the CRD catalog. A same-name replacement is rejected. */
+                expectedUid: string;
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                crdName: components["parameters"]["KubernetesCRDName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deletion requested. Refresh the catalog to confirm disappearance; finalizers may still be pending. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesCustomResourceAccess: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                crdName: components["parameters"]["KubernetesCRDName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Soha and runtime permissions for this custom resource collection. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesCustomResourceAccessEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
     listKubernetesCustomResources: {
         parameters: {
             query?: {
@@ -40691,6 +41087,64 @@ export interface operations {
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
             409: components["responses"]["Error"];
+        };
+    };
+    getClusterAgentUpgradeStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Agent version, recommended version bundled with this server, and rollout status. The recommendation is not a live latest-release lookup. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClusterAgentUpgradeStatusEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    upgradeClusterAgent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ClusterAgentUpgradeInput"];
+            };
+        };
+        responses: {
+            /** @description Image update accepted. Read upgrade status until the target version reconnects and rollout is healthy. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClusterAgentUpgradeResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
         };
     };
     downloadKubernetesAgentInstallationManifest: {
@@ -50141,6 +50595,190 @@ export interface operations {
             404: components["responses"]["Error"];
         };
     };
+    listNetworkProxyInstances: {
+        parameters: {
+            query?: {
+                search?: string;
+                engine?: components["schemas"]["NetworkProxyEngine"];
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Registered server proxy instances and observed state. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkProxyInstanceListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    createNetworkProxyInstance: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkProxyInstanceInput"];
+            };
+        };
+        responses: {
+            /** @description Created proxy instance. A separate one-time proxy runtime enrollment is required before it can report state. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkProxyInstanceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getNetworkProxyInstance: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                instanceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Proxy instance metadata. Configuration contents and controller credentials are excluded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkProxyInstanceEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    updateNetworkProxyConfiguration: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                instanceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkProxyConfigurationInput"];
+            };
+        };
+        responses: {
+            /** @description Desired revision saved; runtime application is asynchronous. Configuration contents are not returned. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkProxyInstanceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getNetworkProxyTraffic: {
+        parameters: {
+            query?: {
+                from?: string;
+                to?: string;
+            };
+            header?: never;
+            path: {
+                instanceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded samples; speed is derived from adjacent cumulative counters within one runtime uptime epoch. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkProxyTrafficEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    getNetworkProxyConnections: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                instanceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Latest short-lived connection snapshot, or an explicit unsupported/unavailable state. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkProxyConnectionsEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    closeNetworkProxyConnection: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                instanceID: string;
+                connectionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Expiring close command queued for the enrolled runtime. The action is audited. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkProxyCloseCommandEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
     listCurrentNetworkConnectionOptions: {
         parameters: {
             query: {
@@ -51000,6 +51638,407 @@ export interface operations {
             400: components["responses"]["Error"];
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
+        };
+    };
+    updateKubernetesNamespace: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                namespaceName: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesNamespaceInput"];
+            };
+        };
+        responses: {
+            /** @description Kubernetes operation result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesNamespaceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    deleteKubernetesNamespace: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                namespaceName: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Operation completed. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    updateKubernetesNode: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                nodeName: components["parameters"]["KubernetesNodeName"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesNodeUpdateInput"];
+            };
+        };
+        responses: {
+            /** @description Kubernetes operation result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesNodeDetailEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    deleteKubernetesNode: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                nodeName: components["parameters"]["KubernetesNodeName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Operation completed. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    setKubernetesNodeSchedulability: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                nodeName: components["parameters"]["KubernetesNodeName"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesNodeSchedulabilityInput"];
+            };
+        };
+        responses: {
+            /** @description Operation completed. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    drainKubernetesNode: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                nodeName: components["parameters"]["KubernetesNodeName"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesNodeDrainInput"];
+            };
+        };
+        responses: {
+            /** @description Operation completed. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesNodeYaml: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                nodeName: components["parameters"]["KubernetesNodeName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes operation result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    applyKubernetesNodeYaml: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                nodeName: components["parameters"]["KubernetesNodeName"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesResourceYamlInput"];
+            };
+        };
+        responses: {
+            /** @description Kubernetes operation result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    updateKubernetesConfigMapData: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesConfigMapDataInput"];
+            };
+        };
+        responses: {
+            /** @description Kubernetes operation result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesConfigMapDetailEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesSecretDetail: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Kubernetes operation result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesSecretDetailEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    updateKubernetesSecretData: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesSecretDataInput"];
+            };
+        };
+        responses: {
+            /** @description Kubernetes operation result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesSecretDetailEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    deleteKubernetesPod: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                podName: components["parameters"]["KubernetesPodName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Operation completed. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    setKubernetesCronJobSuspend: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                cronJobName: components["parameters"]["KubernetesCronJobName"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesCronJobSuspendInput"];
+            };
+        };
+        responses: {
+            /** @description Kubernetes operation result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesCronJobDetailEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
         };
     };
 }

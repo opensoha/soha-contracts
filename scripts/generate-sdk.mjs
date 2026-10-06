@@ -243,7 +243,7 @@ const (
     for (const [suffix, value] of values) {
       for (const name of [suffix, `${typeName}${suffix}`]) {
         if (!new RegExp(`\\b${name}\\s+${typeName}\\s*=`).test(generated)) {
-          generated += `\n// Deprecated: retained for Go SDK source compatibility.\nconst ${name} ${typeName} = "${value}"\n`;
+          generated += `\n// Retained for Go SDK source compatibility.\nconst ${name} ${typeName} = "${value}"\n`;
         }
       }
     }
