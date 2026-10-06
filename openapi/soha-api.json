@@ -24933,7 +24933,14 @@
                 "update",
                 "delete"
               ],
-              "type": "string"
+              "type": "string",
+              "x-enum-varnames": [
+                "CustomResourceAccessList",
+                "CustomResourceAccessView",
+                "CustomResourceAccessCreate",
+                "CustomResourceAccessUpdate",
+                "CustomResourceAccessDelete"
+              ]
             },
             "type": "array"
           }
@@ -24972,6 +24979,10 @@
           "createdAt": {
             "type": "string"
           },
+          "deletingAt": {
+            "format": "date-time",
+            "type": "string"
+          },
           "group": {
             "type": "string"
           },
@@ -24985,6 +24996,11 @@
             "type": "string"
           },
           "scope": {
+            "type": "string"
+          },
+          "uid": {
+            "maxLength": 128,
+            "minLength": 1,
             "type": "string"
           },
           "version": {
@@ -41707,6 +41723,173 @@
         ],
         "type": "object"
       },
+      "NetworkProxyCapability": {
+        "enum": [
+          "traffic",
+          "connections",
+          "close_connection"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkProxyCapabilityTraffic",
+          "NetworkProxyCapabilityConnections",
+          "NetworkProxyCapabilityCloseConnection"
+        ]
+      },
+      "NetworkProxyCloseCommandEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "commandId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "pending",
+              "closed",
+              "not-found",
+              "failed",
+              "expired"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "commandId",
+          "status",
+          "expiresAt"
+        ],
+        "type": "object"
+      },
+      "NetworkProxyConfigurationInput": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "format": "password",
+            "maxLength": 1048576,
+            "minLength": 1,
+            "type": "string",
+            "writeOnly": true
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "expectedRevision": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "expectedRevision",
+          "enabled",
+          "content"
+        ],
+        "type": "object"
+      },
+      "NetworkProxyConnection": {
+        "additionalProperties": false,
+        "properties": {
+          "destination": {
+            "maxLength": 253,
+            "minLength": 1,
+            "type": "string"
+          },
+          "downloadBytes": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "network": {
+            "enum": [
+              "tcp",
+              "udp",
+              "other"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "NetworkProxyConnectionNetworkTCP",
+              "NetworkProxyConnectionNetworkUDP",
+              "NetworkProxyConnectionNetworkOther"
+            ]
+          },
+          "startedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "uploadBytes": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "destination",
+          "network",
+          "uploadBytes",
+          "downloadBytes"
+        ],
+        "type": "object"
+      },
+      "NetworkProxyConnectionsEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "connections": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkProxyConnection"
+            },
+            "maxItems": 200,
+            "type": "array"
+          },
+          "instanceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "observedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "available",
+              "unsupported",
+              "unavailable"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "instanceId",
+          "state",
+          "connections"
+        ],
+        "type": "object"
+      },
+      "NetworkProxyEngine": {
+        "enum": [
+          "mihomo",
+          "sing-box",
+          "v2ray"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkProxyEngineMihomo",
+          "NetworkProxyEngineSingBox",
+          "NetworkProxyEngineV2Ray"
+        ]
+      },
       "NetworkProxyFlowSummary": {
         "additionalProperties": false,
         "properties": {
@@ -41767,6 +41950,228 @@
           "downloadBytes",
           "activeConnections",
           "lastOccurredAt"
+        ],
+        "type": "object"
+      },
+      "NetworkProxyInstance": {
+        "additionalProperties": false,
+        "properties": {
+          "capabilities": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkProxyCapability"
+            },
+            "maxItems": 3,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "desiredRevision": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "engine": {
+            "$ref": "#/components/schemas/NetworkProxyEngine"
+          },
+          "engineVersion": {
+            "maxLength": 64,
+            "type": "string"
+          },
+          "host": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "lastSampleAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "lastSeenAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "observedRevision": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "reasonCode": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/NetworkProxyInstanceStatus"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "engine",
+          "enabled",
+          "status",
+          "capabilities",
+          "desiredRevision",
+          "observedRevision",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "NetworkProxyInstanceEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NetworkProxyInstance"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "NetworkProxyInstanceInput": {
+        "additionalProperties": false,
+        "properties": {
+          "engine": {
+            "$ref": "#/components/schemas/NetworkProxyEngine"
+          },
+          "host": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "engine"
+        ],
+        "type": "object"
+      },
+      "NetworkProxyInstanceListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkProxyInstance"
+            },
+            "maxItems": 200,
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "NetworkProxyInstanceStatus": {
+        "enum": [
+          "unregistered",
+          "online",
+          "degraded",
+          "offline",
+          "disabled"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "NetworkProxyInstanceStatusUnregistered",
+          "NetworkProxyInstanceStatusOnline",
+          "NetworkProxyInstanceStatusDegraded",
+          "NetworkProxyInstanceStatusOffline",
+          "NetworkProxyInstanceStatusDisabled"
+        ]
+      },
+      "NetworkProxyTrafficEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "instanceId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "samples": {
+            "items": {
+              "$ref": "#/components/schemas/NetworkProxyTrafficSample"
+            },
+            "maxItems": 1440,
+            "type": "array"
+          },
+          "supported": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "instanceId",
+          "supported",
+          "samples"
+        ],
+        "type": "object"
+      },
+      "NetworkProxyTrafficSample": {
+        "additionalProperties": false,
+        "properties": {
+          "activeConnections": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "downloadBytesPerSecond": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "downloadTotal": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "observedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "uploadBytesPerSecond": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "uploadTotal": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "observedAt",
+          "uploadTotal",
+          "downloadTotal",
+          "uploadBytesPerSecond",
+          "downloadBytesPerSecond"
         ],
         "type": "object"
       },
@@ -42030,6 +42435,7 @@
       },
       "NetworkRuntimeEnrollmentInput": {
         "additionalProperties": false,
+        "description": "For proxy runtimes, runtimeId identifies an existing proxy instance and deviceId and subjectId must equal runtimeId.",
         "properties": {
           "deviceId": {
             "maxLength": 128,
@@ -42129,13 +42535,15 @@
         "enum": [
           "endpoint",
           "gateway",
-          "nas"
+          "nas",
+          "proxy"
         ],
         "type": "string",
         "x-enum-varnames": [
           "NetworkRuntimeKindEndpoint",
           "NetworkRuntimeKindGateway",
-          "NetworkRuntimeKindNAS"
+          "NetworkRuntimeKindNAS",
+          "NetworkRuntimeKindProxy"
         ]
       },
       "NetworkSession": {
@@ -61322,7 +61730,7 @@
   "info": {
     "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery.\n",
     "title": "Soha API",
-    "version": "0.1.20"
+    "version": "0.1.21"
   },
   "openapi": "3.1.0",
   "paths": {

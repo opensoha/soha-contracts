@@ -1,7 +1,7 @@
 {
   "schemaVersion": "authorization.opensoha.io/v1",
   "catalogVersion": "2.0.0",
-  "contentHash": "sha256:5b4c9eed71c549d61a6fd538db542681cb2932619d66ab031c74fcbaaa0c9867",
+  "contentHash": "sha256:be2c1caf05e680f75b40e6ce017e55f1c35f7977cf045ca3ec562adbd6cb37dc",
   "permissions": [
     {
       "key": "access.directory.create",
@@ -4988,6 +4988,86 @@
       "resource": "policy",
       "action": "view",
       "displayName": "查看和预演网络访问策略",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.proxy_connections.close",
+      "domain": "network_access",
+      "resource": "proxy_connections",
+      "action": "close",
+      "displayName": "断开代理连接",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.proxy_connections.view",
+      "domain": "network_access",
+      "resource": "proxy_connections",
+      "action": "view",
+      "displayName": "查看代理连接详情",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.proxy_instances.create",
+      "domain": "network_access",
+      "resource": "proxy_instances",
+      "action": "create",
+      "displayName": "创建代理实例",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.proxy_instances.update",
+      "domain": "network_access",
+      "resource": "proxy_instances",
+      "action": "update",
+      "displayName": "更新代理实例配置",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.proxy_instances.view",
+      "domain": "network_access",
+      "resource": "proxy_instances",
+      "action": "view",
+      "displayName": "查看代理实例",
       "riskLevel": "read",
       "scopeKinds": [
         "tenant",

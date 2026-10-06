@@ -98,6 +98,7 @@ const requiredJsonSchemas = [
 ];
 
 const requiredOpenapiFixtureSchemas = [
+  "ClusterAgentUpgradeInput",
   "ToolCapability",
   "ToolInvocationRequest",
   "ToolInvocationResult",

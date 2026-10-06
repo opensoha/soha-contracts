@@ -19569,6 +19569,56 @@ export interface components {
             usesInformerCache: boolean;
             customResourceRules?: components["schemas"]["KubernetesAgentCustomResourceRule"][];
         };
+        KubernetesCustomResourceAccess: {
+            allowedActions: ("list" | "view" | "create" | "update" | "delete")[];
+        };
+        KubernetesCustomResourceAccessEnvelope: {
+            data: components["schemas"]["KubernetesCustomResourceAccess"];
+        };
+        KubernetesClusterRegistrationRequest: {
+            id?: string;
+            name?: string;
+            region?: string;
+            environment?: string;
+            labels?: {
+                [key: string]: string;
+            };
+            connectionMode?: components["schemas"]["KubernetesConnectionMode"];
+            kubeconfig?: string;
+            context?: string;
+            agentEndpoint?: string;
+            agentToken?: string;
+            prometheusBaseUrl?: string;
+            prometheusBearerToken?: string;
+            prometheusClusterLabel?: string;
+            grafanaBaseUrl?: string;
+            prometheusTransport?: components["schemas"]["KubernetesPrometheusTransport"];
+            agentCustomResourceRules?: components["schemas"]["KubernetesAgentCustomResourceRule"][];
+        };
+        KubernetesAgentCustomResourceRule: {
+            apiGroup: string;
+            resources: string[];
+            verbs: ("get" | "list" | "watch" | "create" | "update" | "patch" | "delete")[];
+            /** @description Explicit namespaces; omitted or empty grants cluster-wide access to the named resources only. */
+            namespaces?: string[];
+        };
+        /**
+         * @default direct
+         * @enum {string}
+         */
+        KubernetesPrometheusTransport: "direct" | "agent";
+        /** @description Range queries require start, end and step. The runtime also enforces end greater than start, a maximum 24-hour range and at most 11000 intervals. */
+        AgentPrometheusQueryRequest: {
+            endpoint: string;
+            query: string;
+            /** @enum {string} */
+            kind: "instant" | "range";
+            /** Format: int64 */
+            start?: number;
+            /** Format: int64 */
+            end?: number;
+            step?: number;
+        };
         KubernetesPrometheusDetail: {
             baseUrl?: string;
             clusterLabel?: string;
@@ -20257,6 +20307,62 @@ export interface components {
         };
         KubernetesConfigMapListEnvelope: {
             items: components["schemas"]["KubernetesConfigMap"][];
+        };
+        KubernetesNamespaceInput: {
+            name?: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+        };
+        KubernetesNamespaceCreateInput: {
+            name: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+        };
+        KubernetesNamespaceEnvelope: {
+            data: components["schemas"]["KubernetesNamespace"];
+        };
+        KubernetesNodeUpdateInput: {
+            labels?: components["schemas"]["KubernetesStringMap"];
+            taints?: components["schemas"]["KubernetesNodeTaint"][];
+        };
+        KubernetesNodeSchedulabilityInput: {
+            unschedulable: boolean;
+        };
+        KubernetesNodeDrainInput: {
+            force?: boolean;
+            deleteEmptyDirData?: boolean;
+            /** @default 300 */
+            timeoutSeconds?: number;
+        };
+        KubernetesResourceYamlInput: {
+            content: string;
+        };
+        KubernetesConfigMapDataInput: {
+            data?: components["schemas"]["KubernetesStringMap"];
+            binaryData?: components["schemas"]["KubernetesStringMap"];
+        };
+        /** @description Data values are plain text. The response detail returns Kubernetes Base64-encoded values. */
+        KubernetesSecretDataInput: {
+            data?: components["schemas"]["KubernetesStringMap"];
+        };
+        KubernetesCronJobSuspendInput: {
+            suspend: boolean;
+        };
+        KubernetesSecretDetail: {
+            name: string;
+            namespace: string;
+            labels?: components["schemas"]["KubernetesStringMap"];
+            annotations?: components["schemas"]["KubernetesStringMap"];
+            /** @description Secret data values encoded with standard Base64. Requires secret-data.view. */
+            data?: components["schemas"]["KubernetesStringMap"];
+            immutable: boolean;
+            createdAt?: string;
+            /** Format: int64 */
+            ageSeconds: number;
+            type: string;
+        };
+        KubernetesSecretDetailEnvelope: {
+            data: components["schemas"]["KubernetesSecretDetail"];
         };
         KubernetesConfigMapDetail: {
             name: string;
@@ -21277,6 +21383,9 @@ export interface components {
             data: components["schemas"]["KubernetesIngressClassDetail"];
         };
         KubernetesCustomResourceDefinition: {
+            uid?: string;
+            /** Format: date-time */
+            deletingAt?: string;
             name: string;
             group: string;
             scope: string;
@@ -21663,6 +21772,32 @@ export interface components {
         };
         PlatformOperationSummaryEnvelope: {
             data: components["schemas"]["PlatformOperationSummary"];
+        };
+        ClusterAgentUpgradeInput: {
+            /** @description Explicit stable official Agent version, such as v0.1.7. Registry and container identity cannot be overridden. */
+            version: string;
+        };
+        ClusterAgentUpgradeStatus: {
+            /** @description Version reported by the currently connected Agent process. */
+            version: string;
+            /** @description Desired image of the standard Agent Deployment. */
+            image: string;
+            /** @description Agent version bundled with this Core release. */
+            recommendedVersion: string;
+            rolloutStatus: string;
+            message: string;
+            canUpgrade: boolean;
+            upgradeDisabledReason?: string;
+        };
+        ClusterAgentUpgradeStatusEnvelope: {
+            data: components["schemas"]["ClusterAgentUpgradeStatus"];
+        };
+        ClusterAgentUpgradeResult: {
+            previousImage: string;
+            targetImage: string;
+        };
+        ClusterAgentUpgradeResultEnvelope: {
+            data: components["schemas"]["ClusterAgentUpgradeResult"];
         };
         AgentInstallation: {
             clusterId: string;
@@ -25557,9 +25692,101 @@ export interface components {
             items: components["schemas"]["NetworkSiteProfileBinding"][];
         };
         /** @enum {string} */
-        NetworkRuntimeKind: "endpoint" | "gateway" | "nas";
+        NetworkProxyEngine: "mihomo" | "sing-box" | "v2ray";
+        NetworkProxyInstanceInput: {
+            id: string;
+            name: string;
+            engine: components["schemas"]["NetworkProxyEngine"];
+            host?: string;
+        };
+        /** @enum {string} */
+        NetworkProxyInstanceStatus: "unregistered" | "online" | "degraded" | "offline" | "disabled";
+        /** @enum {string} */
+        NetworkProxyCapability: "traffic" | "connections" | "close_connection";
+        NetworkProxyInstance: {
+            id: string;
+            name: string;
+            engine: components["schemas"]["NetworkProxyEngine"];
+            enabled: boolean;
+            host?: string;
+            engineVersion?: string;
+            status: components["schemas"]["NetworkProxyInstanceStatus"];
+            capabilities: components["schemas"]["NetworkProxyCapability"][];
+            /** Format: int64 */
+            desiredRevision: number;
+            /** Format: int64 */
+            observedRevision: number;
+            /** Format: date-time */
+            lastSeenAt?: string;
+            /** Format: date-time */
+            lastSampleAt?: string;
+            reasonCode?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        NetworkProxyInstanceEnvelope: {
+            data: components["schemas"]["NetworkProxyInstance"];
+        };
+        NetworkProxyInstanceListEnvelope: {
+            items: components["schemas"]["NetworkProxyInstance"][];
+        };
+        NetworkProxyConfigurationInput: {
+            /** Format: int64 */
+            expectedRevision: number;
+            enabled: boolean;
+            /** Format: password */
+            content: string;
+        };
+        NetworkProxyTrafficSample: {
+            /** Format: date-time */
+            observedAt: string;
+            /** Format: int64 */
+            uploadTotal: number;
+            /** Format: int64 */
+            downloadTotal: number;
+            uploadBytesPerSecond: number;
+            downloadBytesPerSecond: number;
+            activeConnections?: number;
+        };
+        NetworkProxyTrafficEnvelope: {
+            instanceId: string;
+            supported: boolean;
+            samples: components["schemas"]["NetworkProxyTrafficSample"][];
+        };
+        NetworkProxyConnection: {
+            id: string;
+            destination: string;
+            /** @enum {string} */
+            network: "tcp" | "udp" | "other";
+            /** Format: int64 */
+            uploadBytes: number;
+            /** Format: int64 */
+            downloadBytes: number;
+            /** Format: date-time */
+            startedAt?: string;
+        };
+        NetworkProxyConnectionsEnvelope: {
+            instanceId: string;
+            /** @enum {string} */
+            state: "available" | "unsupported" | "unavailable";
+            /** Format: date-time */
+            observedAt?: string;
+            connections: components["schemas"]["NetworkProxyConnection"][];
+        };
+        NetworkProxyCloseCommandEnvelope: {
+            commandId: string;
+            /** @enum {string} */
+            status: "pending" | "closed" | "not-found" | "failed" | "expired";
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        /** @enum {string} */
+        NetworkRuntimeKind: "endpoint" | "gateway" | "nas" | "proxy";
         /** @enum {string} */
         NetworkRuntimeEnrollmentStatus: "pending" | "consumed" | "revoked";
+        /** @description For proxy runtimes, runtimeId identifies an existing proxy instance and deviceId and subjectId must equal runtimeId. */
         NetworkRuntimeEnrollmentInput: {
             runtimeId: string;
             runtimeKind: components["schemas"]["NetworkRuntimeKind"];
@@ -25876,138 +26103,6 @@ export interface components {
         };
         NetworkPolicyPreviewEnvelope: {
             data: components["schemas"]["NetworkPolicyPreviewResult"];
-        };
-        KubernetesCustomResourceAccess: {
-            allowedActions: ("list" | "view" | "create" | "update" | "delete")[];
-        };
-        KubernetesCustomResourceAccessEnvelope: {
-            data: components["schemas"]["KubernetesCustomResourceAccess"];
-        };
-        KubernetesClusterRegistrationRequest: {
-            id?: string;
-            name?: string;
-            region?: string;
-            environment?: string;
-            labels?: {
-                [key: string]: string;
-            };
-            connectionMode?: components["schemas"]["KubernetesConnectionMode"];
-            kubeconfig?: string;
-            context?: string;
-            agentEndpoint?: string;
-            agentToken?: string;
-            prometheusBaseUrl?: string;
-            prometheusBearerToken?: string;
-            prometheusClusterLabel?: string;
-            grafanaBaseUrl?: string;
-            prometheusTransport?: components["schemas"]["KubernetesPrometheusTransport"];
-            agentCustomResourceRules?: components["schemas"]["KubernetesAgentCustomResourceRule"][];
-        };
-        KubernetesAgentCustomResourceRule: {
-            apiGroup: string;
-            resources: string[];
-            verbs: ("get" | "list" | "watch" | "create" | "update" | "patch" | "delete")[];
-            /** @description Explicit namespaces; omitted or empty grants cluster-wide access to the named resources only. */
-            namespaces?: string[];
-        };
-        /**
-         * @default direct
-         * @enum {string}
-         */
-        KubernetesPrometheusTransport: "direct" | "agent";
-        /** @description Range queries require start, end and step. The runtime also enforces end greater than start, a maximum 24-hour range and at most 11000 intervals. */
-        AgentPrometheusQueryRequest: {
-            endpoint: string;
-            query: string;
-            /** @enum {string} */
-            kind: "instant" | "range";
-            /** Format: int64 */
-            start?: number;
-            /** Format: int64 */
-            end?: number;
-            step?: number;
-        };
-        KubernetesNamespaceInput: {
-            name?: string;
-            labels?: components["schemas"]["KubernetesStringMap"];
-            annotations?: components["schemas"]["KubernetesStringMap"];
-        };
-        KubernetesNamespaceCreateInput: {
-            name: string;
-            labels?: components["schemas"]["KubernetesStringMap"];
-            annotations?: components["schemas"]["KubernetesStringMap"];
-        };
-        KubernetesNamespaceEnvelope: {
-            data: components["schemas"]["KubernetesNamespace"];
-        };
-        KubernetesNodeUpdateInput: {
-            labels?: components["schemas"]["KubernetesStringMap"];
-            taints?: components["schemas"]["KubernetesNodeTaint"][];
-        };
-        KubernetesNodeSchedulabilityInput: {
-            unschedulable: boolean;
-        };
-        KubernetesNodeDrainInput: {
-            force?: boolean;
-            deleteEmptyDirData?: boolean;
-            /** @default 300 */
-            timeoutSeconds?: number;
-        };
-        KubernetesResourceYamlInput: {
-            content: string;
-        };
-        KubernetesConfigMapDataInput: {
-            data?: components["schemas"]["KubernetesStringMap"];
-            binaryData?: components["schemas"]["KubernetesStringMap"];
-        };
-        /** @description Data values are plain text. The response detail returns Kubernetes Base64-encoded values. */
-        KubernetesSecretDataInput: {
-            data?: components["schemas"]["KubernetesStringMap"];
-        };
-        KubernetesCronJobSuspendInput: {
-            suspend: boolean;
-        };
-        KubernetesSecretDetail: {
-            name: string;
-            namespace: string;
-            labels?: components["schemas"]["KubernetesStringMap"];
-            annotations?: components["schemas"]["KubernetesStringMap"];
-            /** @description Secret data values encoded with standard Base64. Requires secret-data.view. */
-            data?: components["schemas"]["KubernetesStringMap"];
-            immutable: boolean;
-            createdAt?: string;
-            /** Format: int64 */
-            ageSeconds: number;
-            type: string;
-        };
-        KubernetesSecretDetailEnvelope: {
-            data: components["schemas"]["KubernetesSecretDetail"];
-        };
-        ClusterAgentUpgradeInput: {
-            /** @description Explicit stable official Agent version, such as v0.1.7. Registry and container identity cannot be overridden. */
-            version: string;
-        };
-        ClusterAgentUpgradeStatus: {
-            /** @description Version reported by the currently connected Agent process. */
-            version: string;
-            /** @description Desired image of the standard Agent Deployment. */
-            image: string;
-            /** @description Agent version bundled with this Core release. */
-            recommendedVersion: string;
-            rolloutStatus: string;
-            message: string;
-            canUpgrade: boolean;
-            upgradeDisabledReason?: string;
-        };
-        ClusterAgentUpgradeStatusEnvelope: {
-            data: components["schemas"]["ClusterAgentUpgradeStatus"];
-        };
-        ClusterAgentUpgradeResult: {
-            previousImage: string;
-            targetImage: string;
-        };
-        ClusterAgentUpgradeResultEnvelope: {
-            data: components["schemas"]["ClusterAgentUpgradeResult"];
         };
     };
     responses: {
@@ -27251,6 +27346,12 @@ export type KubernetesClusterListEnvelope = components['schemas']['KubernetesClu
 export type KubernetesCacheResourceDiagnostic = components['schemas']['KubernetesCacheResourceDiagnostic'];
 export type KubernetesClusterDiagnostics = components['schemas']['KubernetesClusterDiagnostics'];
 export type KubernetesClusterConnectionDetail = components['schemas']['KubernetesClusterConnectionDetail'];
+export type KubernetesCustomResourceAccess = components['schemas']['KubernetesCustomResourceAccess'];
+export type KubernetesCustomResourceAccessEnvelope = components['schemas']['KubernetesCustomResourceAccessEnvelope'];
+export type KubernetesClusterRegistrationRequest = components['schemas']['KubernetesClusterRegistrationRequest'];
+export type KubernetesAgentCustomResourceRule = components['schemas']['KubernetesAgentCustomResourceRule'];
+export type KubernetesPrometheusTransport = components['schemas']['KubernetesPrometheusTransport'];
+export type AgentPrometheusQueryRequest = components['schemas']['AgentPrometheusQueryRequest'];
 export type KubernetesPrometheusDetail = components['schemas']['KubernetesPrometheusDetail'];
 export type KubernetesMonitoringDetail = components['schemas']['KubernetesMonitoringDetail'];
 export type KubernetesClusterDetail = components['schemas']['KubernetesClusterDetail'];
@@ -27331,6 +27432,18 @@ export type KubernetesReplicationControllerDetail = components['schemas']['Kuber
 export type KubernetesReplicationControllerDetailEnvelope = components['schemas']['KubernetesReplicationControllerDetailEnvelope'];
 export type KubernetesConfigMap = components['schemas']['KubernetesConfigMap'];
 export type KubernetesConfigMapListEnvelope = components['schemas']['KubernetesConfigMapListEnvelope'];
+export type KubernetesNamespaceInput = components['schemas']['KubernetesNamespaceInput'];
+export type KubernetesNamespaceCreateInput = components['schemas']['KubernetesNamespaceCreateInput'];
+export type KubernetesNamespaceEnvelope = components['schemas']['KubernetesNamespaceEnvelope'];
+export type KubernetesNodeUpdateInput = components['schemas']['KubernetesNodeUpdateInput'];
+export type KubernetesNodeSchedulabilityInput = components['schemas']['KubernetesNodeSchedulabilityInput'];
+export type KubernetesNodeDrainInput = components['schemas']['KubernetesNodeDrainInput'];
+export type KubernetesResourceYamlInput = components['schemas']['KubernetesResourceYamlInput'];
+export type KubernetesConfigMapDataInput = components['schemas']['KubernetesConfigMapDataInput'];
+export type KubernetesSecretDataInput = components['schemas']['KubernetesSecretDataInput'];
+export type KubernetesCronJobSuspendInput = components['schemas']['KubernetesCronJobSuspendInput'];
+export type KubernetesSecretDetail = components['schemas']['KubernetesSecretDetail'];
+export type KubernetesSecretDetailEnvelope = components['schemas']['KubernetesSecretDetailEnvelope'];
 export type KubernetesConfigMapDetail = components['schemas']['KubernetesConfigMapDetail'];
 export type KubernetesConfigMapDetailEnvelope = components['schemas']['KubernetesConfigMapDetailEnvelope'];
 export type KubernetesSecretMetadata = components['schemas']['KubernetesSecretMetadata'];
@@ -27503,6 +27616,11 @@ export type PlatformOperationLog = components['schemas']['PlatformOperationLog']
 export type PlatformOperationLogListEnvelope = components['schemas']['PlatformOperationLogListEnvelope'];
 export type PlatformOperationSummary = components['schemas']['PlatformOperationSummary'];
 export type PlatformOperationSummaryEnvelope = components['schemas']['PlatformOperationSummaryEnvelope'];
+export type ClusterAgentUpgradeInput = components['schemas']['ClusterAgentUpgradeInput'];
+export type ClusterAgentUpgradeStatus = components['schemas']['ClusterAgentUpgradeStatus'];
+export type ClusterAgentUpgradeStatusEnvelope = components['schemas']['ClusterAgentUpgradeStatusEnvelope'];
+export type ClusterAgentUpgradeResult = components['schemas']['ClusterAgentUpgradeResult'];
+export type ClusterAgentUpgradeResultEnvelope = components['schemas']['ClusterAgentUpgradeResultEnvelope'];
 export type AgentInstallation = components['schemas']['AgentInstallation'];
 export type AgentInstallationEnvelope = components['schemas']['AgentInstallationEnvelope'];
 export type DockerHostAgentInstallation = components['schemas']['DockerHostAgentInstallation'];
@@ -27980,6 +28098,19 @@ export type NetworkSiteProfileBindingInput = components['schemas']['NetworkSiteP
 export type NetworkSiteProfileBinding = components['schemas']['NetworkSiteProfileBinding'];
 export type NetworkSiteProfileBindingEnvelope = components['schemas']['NetworkSiteProfileBindingEnvelope'];
 export type NetworkSiteProfileBindingListEnvelope = components['schemas']['NetworkSiteProfileBindingListEnvelope'];
+export type NetworkProxyEngine = components['schemas']['NetworkProxyEngine'];
+export type NetworkProxyInstanceInput = components['schemas']['NetworkProxyInstanceInput'];
+export type NetworkProxyInstanceStatus = components['schemas']['NetworkProxyInstanceStatus'];
+export type NetworkProxyCapability = components['schemas']['NetworkProxyCapability'];
+export type NetworkProxyInstance = components['schemas']['NetworkProxyInstance'];
+export type NetworkProxyInstanceEnvelope = components['schemas']['NetworkProxyInstanceEnvelope'];
+export type NetworkProxyInstanceListEnvelope = components['schemas']['NetworkProxyInstanceListEnvelope'];
+export type NetworkProxyConfigurationInput = components['schemas']['NetworkProxyConfigurationInput'];
+export type NetworkProxyTrafficSample = components['schemas']['NetworkProxyTrafficSample'];
+export type NetworkProxyTrafficEnvelope = components['schemas']['NetworkProxyTrafficEnvelope'];
+export type NetworkProxyConnection = components['schemas']['NetworkProxyConnection'];
+export type NetworkProxyConnectionsEnvelope = components['schemas']['NetworkProxyConnectionsEnvelope'];
+export type NetworkProxyCloseCommandEnvelope = components['schemas']['NetworkProxyCloseCommandEnvelope'];
 export type NetworkRuntimeKind = components['schemas']['NetworkRuntimeKind'];
 export type NetworkRuntimeEnrollmentStatus = components['schemas']['NetworkRuntimeEnrollmentStatus'];
 export type NetworkRuntimeEnrollmentInput = components['schemas']['NetworkRuntimeEnrollmentInput'];
@@ -28031,29 +28162,6 @@ export type NetworkSessionCommandEnvelope = components['schemas']['NetworkSessio
 export type NetworkPolicyPreviewRequest = components['schemas']['NetworkPolicyPreviewRequest'];
 export type NetworkPolicyPreviewResult = components['schemas']['NetworkPolicyPreviewResult'];
 export type NetworkPolicyPreviewEnvelope = components['schemas']['NetworkPolicyPreviewEnvelope'];
-export type KubernetesCustomResourceAccess = components['schemas']['KubernetesCustomResourceAccess'];
-export type KubernetesCustomResourceAccessEnvelope = components['schemas']['KubernetesCustomResourceAccessEnvelope'];
-export type KubernetesClusterRegistrationRequest = components['schemas']['KubernetesClusterRegistrationRequest'];
-export type KubernetesAgentCustomResourceRule = components['schemas']['KubernetesAgentCustomResourceRule'];
-export type KubernetesPrometheusTransport = components['schemas']['KubernetesPrometheusTransport'];
-export type AgentPrometheusQueryRequest = components['schemas']['AgentPrometheusQueryRequest'];
-export type KubernetesNamespaceInput = components['schemas']['KubernetesNamespaceInput'];
-export type KubernetesNamespaceCreateInput = components['schemas']['KubernetesNamespaceCreateInput'];
-export type KubernetesNamespaceEnvelope = components['schemas']['KubernetesNamespaceEnvelope'];
-export type KubernetesNodeUpdateInput = components['schemas']['KubernetesNodeUpdateInput'];
-export type KubernetesNodeSchedulabilityInput = components['schemas']['KubernetesNodeSchedulabilityInput'];
-export type KubernetesNodeDrainInput = components['schemas']['KubernetesNodeDrainInput'];
-export type KubernetesResourceYamlInput = components['schemas']['KubernetesResourceYamlInput'];
-export type KubernetesConfigMapDataInput = components['schemas']['KubernetesConfigMapDataInput'];
-export type KubernetesSecretDataInput = components['schemas']['KubernetesSecretDataInput'];
-export type KubernetesCronJobSuspendInput = components['schemas']['KubernetesCronJobSuspendInput'];
-export type KubernetesSecretDetail = components['schemas']['KubernetesSecretDetail'];
-export type KubernetesSecretDetailEnvelope = components['schemas']['KubernetesSecretDetailEnvelope'];
-export type ClusterAgentUpgradeInput = components['schemas']['ClusterAgentUpgradeInput'];
-export type ClusterAgentUpgradeStatus = components['schemas']['ClusterAgentUpgradeStatus'];
-export type ClusterAgentUpgradeStatusEnvelope = components['schemas']['ClusterAgentUpgradeStatusEnvelope'];
-export type ClusterAgentUpgradeResult = components['schemas']['ClusterAgentUpgradeResult'];
-export type ClusterAgentUpgradeResultEnvelope = components['schemas']['ClusterAgentUpgradeResultEnvelope'];
 export type ResponseIdentityError = components['responses']['IdentityError'];
 export type ResponseError = components['responses']['Error'];
 export type ResponseComputeError = components['responses']['ComputeError'];
