@@ -2,13 +2,7 @@
   "version": "0.1.23",
   "schemas": {
     "plugins/plugin-manifest.schema.json": {
-      "rootRequired": [
-        "id",
-        "name",
-        "publisher",
-        "type",
-        "version"
-      ],
+      "rootRequired": ["id", "name", "publisher", "type", "version"],
       "rootProperties": [
         "assets",
         "capabilities",
@@ -41,11 +35,7 @@
       ]
     },
     "skills/skill-manifest.schema.json": {
-      "rootRequired": [
-        "category",
-        "id",
-        "name"
-      ],
+      "rootRequired": ["category", "id", "name"],
       "rootProperties": [
         "capabilityRefs",
         "category",
@@ -61,14 +51,8 @@
       "enums": []
     },
     "connectors/connector-event-envelope.schema.json": {
-      "rootRequired": [
-        "connectorId",
-        "events"
-      ],
-      "rootProperties": [
-        "connectorId",
-        "events"
-      ],
+      "rootRequired": ["connectorId", "events"],
+      "rootProperties": ["connectorId", "events"],
       "enums": []
     }
   }
