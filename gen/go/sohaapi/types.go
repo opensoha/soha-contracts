@@ -40470,35 +40470,35 @@ const (
 	Low      MarketplaceAdvisorySeverity = MarketplaceAdvisorySeverityLow
 )
 
-// Deprecated: retained for Go SDK source compatibility.
+// Retained for Go SDK source compatibility.
 const ListAIGatewayRelayUpstreamsParamsStatusActive ListAIGatewayRelayUpstreamsParamsStatus = "active"
 
-// Deprecated: retained for Go SDK source compatibility.
+// Retained for Go SDK source compatibility.
 const ListAIGatewayRelayUpstreamsParamsStatusDegraded ListAIGatewayRelayUpstreamsParamsStatus = "degraded"
 
-// Deprecated: retained for Go SDK source compatibility.
+// Retained for Go SDK source compatibility.
 const ListAIGatewayRelayUpstreamsParamsStatusDisabled ListAIGatewayRelayUpstreamsParamsStatus = "disabled"
 
-// Deprecated: retained for Go SDK source compatibility.
+// Retained for Go SDK source compatibility.
 const NetworkNamespace RuntimeNetworkUsageScope = "network_namespace"
 
-// Deprecated: retained for Go SDK source compatibility.
+// Retained for Go SDK source compatibility.
 const Process RuntimeNetworkUsageScope = "process"
 
-// Deprecated: retained for Go SDK source compatibility.
+// Retained for Go SDK source compatibility.
 const Unavailable RuntimeNetworkUsageScope = "unavailable"
 
-// Deprecated: retained for Go SDK source compatibility.
+// Retained for Go SDK source compatibility.
 const Cancelled WorkbenchAgentStatusEventStatus = "cancelled"
 
-// Deprecated: retained for Go SDK source compatibility.
+// Retained for Go SDK source compatibility.
 const Failed WorkbenchAgentStatusEventStatus = "failed"
 
-// Deprecated: retained for Go SDK source compatibility.
+// Retained for Go SDK source compatibility.
 const Queued WorkbenchAgentStatusEventStatus = "queued"
 
-// Deprecated: retained for Go SDK source compatibility.
+// Retained for Go SDK source compatibility.
 const Running WorkbenchAgentStatusEventStatus = "running"
 
-// Deprecated: retained for Go SDK source compatibility.
+// Retained for Go SDK source compatibility.
 const Succeeded WorkbenchAgentStatusEventStatus = "succeeded"
