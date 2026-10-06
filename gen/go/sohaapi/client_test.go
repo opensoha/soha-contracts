@@ -25,6 +25,31 @@ func TestDeliveryPlanStatusLegacyConstants(t *testing.T) {
 	}
 }
 
+func TestRuntimeAndWorkbenchLegacyEnumConstants(t *testing.T) {
+	scopes := map[RuntimeNetworkUsageScope]string{
+		NetworkNamespace: "network_namespace",
+		Process:          "process",
+		Unavailable:      "unavailable",
+	}
+	for scope, want := range scopes {
+		if string(scope) != want || !scope.Valid() {
+			t.Fatalf("RuntimeNetworkUsageScope %q is not the compatible value %q", scope, want)
+		}
+	}
+	statuses := map[WorkbenchAgentStatusEventStatus]string{
+		Cancelled: "cancelled",
+		Failed:    "failed",
+		Queued:    "queued",
+		Running:   "running",
+		Succeeded: "succeeded",
+	}
+	for status, want := range statuses {
+		if string(status) != want || !status.Valid() {
+			t.Fatalf("WorkbenchAgentStatusEventStatus %q is not the compatible value %q", status, want)
+		}
+	}
+}
+
 func TestObservabilityCredentialKeyLegacyTypes(t *testing.T) {
 	dataSource := ObservabilityDataSource{
 		CredentialKeys: []ObservabilityDataSourceCredentialKeys{

@@ -20,3 +20,5 @@
 - 缺少 consumer、工具或发布依赖时报告验证缺口，不用临时替换掩盖缺失。区分通过、失败、跳过、未运行；生成成功、编译成功、运行行为及发布验收不是同一结论。
 - 协作说明修改仅检查元数据、引用、内容一致性和差异，不无故重新生成 SDK 或运行 consumer。工作流/脚本修改执行相关正反例与适用 CI；相关代码、依赖和环境不变时复用成功证据。
 - 保留用户未提交改动，仅提交任务所属变更；不自动合并 PR、发布包或移动公开标签。
+
+- 测试与审查的证据边界见 [testing reference](.agents/skills/soha-contracts/references/testing.md)；多仓安全/OCR专项可读取 Core 的 soha-security，独立 clone 保留原有门禁，不自动获取公共 Skill。

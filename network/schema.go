@@ -11,6 +11,9 @@ var (
 
 	//go:embed network-radius-accounting.schema.json
 	radiusAccountingSchema []byte
+
+	//go:embed proxy-runtime.schema.json
+	proxyRuntimeSchema []byte
 )
 
 func RuntimeProtocolSchema() []byte {
@@ -23,4 +26,8 @@ func IngestEventSchema() []byte {
 
 func RadiusAccountingSchema() []byte {
 	return append([]byte(nil), radiusAccountingSchema...)
+}
+
+func ProxyRuntimeSchema() []byte {
+	return append([]byte(nil), proxyRuntimeSchema...)
 }

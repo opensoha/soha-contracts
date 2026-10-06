@@ -4,6 +4,18 @@ The JSON Schemas in this directory define strict serialized shapes. Every
 consumer must also enforce the cross-field rules below before using a message
 for authorization, routing, firewall configuration or accounting.
 
+## Server proxy telemetry
+
+- A Linux proxy runtime uses a separate `network-ingest/proxy/{instanceId}`
+  certificate to submit `proxy.runtime.sample`; its control certificate cannot
+  be used for ingest. The authenticated producer ID is the managed instance ID.
+- Each event records sampled cumulative bytes and process uptime at
+  `occurredAt`. Readers derive rates only between samples from the same process
+  lifetime with nondecreasing counters. A process restart starts a new series.
+- The existing `proxy.flow.aggregate` remains an endpoint Mihomo profile
+  window and is not a server instance sample. Neither event authorizes access
+  or exposes individual connections.
+
 ## Runtime messages
 
 - Runtime mTLS certificates carry exactly one Soha URI SAN:

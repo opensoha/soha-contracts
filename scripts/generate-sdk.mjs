@@ -235,10 +235,16 @@ const (
 `;
   // oapi-codegen changes enum prefixes when another schema introduces the same
   // value. Preserve both published spellings without redeclaring generated ones.
-  for (const [suffix, value] of [["Active", "active"], ["Degraded", "degraded"], ["Disabled", "disabled"]]) {
-    for (const name of [suffix, `ListAIGatewayRelayUpstreamsParamsStatus${suffix}`]) {
-      if (!new RegExp(`\\b${name}\\s+ListAIGatewayRelayUpstreamsParamsStatus\\s*=`).test(generated)) {
-        generated += `\n// Deprecated: retained for Go SDK source compatibility.\nconst ${name} ListAIGatewayRelayUpstreamsParamsStatus = "${value}"\n`;
+  for (const [typeName, values] of [
+    ["ListAIGatewayRelayUpstreamsParamsStatus", [["Active", "active"], ["Degraded", "degraded"], ["Disabled", "disabled"]]],
+    ["RuntimeNetworkUsageScope", [["NetworkNamespace", "network_namespace"], ["Process", "process"], ["Unavailable", "unavailable"]]],
+    ["WorkbenchAgentStatusEventStatus", [["Cancelled", "cancelled"], ["Failed", "failed"], ["Queued", "queued"], ["Running", "running"], ["Succeeded", "succeeded"]]],
+  ]) {
+    for (const [suffix, value] of values) {
+      for (const name of [suffix, `${typeName}${suffix}`]) {
+        if (!new RegExp(`\\b${name}\\s+${typeName}\\s*=`).test(generated)) {
+          generated += `\n// Retained for Go SDK source compatibility.\nconst ${name} ${typeName} = "${value}"\n`;
+        }
       }
     }
   }
@@ -284,6 +290,8 @@ function applyGoCompatibility(spec) {
     "DeliveryBatchAssessmentInput",
     "DeliveryBatchAssessment",
     "ObservabilityMetricAssessmentInput",
+    "NetworkProxyInstanceInput",
+    "NetworkProxyConfigurationInput",
   ]);
 
   const riskLevel = schemas.RiskLevel;

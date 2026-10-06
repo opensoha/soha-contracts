@@ -4340,6 +4340,39 @@ func (e KubernetesAccessReviewSubjectKind) Valid() bool {
 	}
 }
 
+// Defines values for KubernetesAgentCustomResourceRuleVerbs.
+const (
+	KubernetesAgentCustomResourceRuleVerbsCreate KubernetesAgentCustomResourceRuleVerbs = "create"
+	KubernetesAgentCustomResourceRuleVerbsDelete KubernetesAgentCustomResourceRuleVerbs = "delete"
+	KubernetesAgentCustomResourceRuleVerbsGet    KubernetesAgentCustomResourceRuleVerbs = "get"
+	KubernetesAgentCustomResourceRuleVerbsList   KubernetesAgentCustomResourceRuleVerbs = "list"
+	KubernetesAgentCustomResourceRuleVerbsPatch  KubernetesAgentCustomResourceRuleVerbs = "patch"
+	KubernetesAgentCustomResourceRuleVerbsUpdate KubernetesAgentCustomResourceRuleVerbs = "update"
+	KubernetesAgentCustomResourceRuleVerbsWatch  KubernetesAgentCustomResourceRuleVerbs = "watch"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesAgentCustomResourceRuleVerbs enum.
+func (e KubernetesAgentCustomResourceRuleVerbs) Valid() bool {
+	switch e {
+	case KubernetesAgentCustomResourceRuleVerbsCreate:
+		return true
+	case KubernetesAgentCustomResourceRuleVerbsDelete:
+		return true
+	case KubernetesAgentCustomResourceRuleVerbsGet:
+		return true
+	case KubernetesAgentCustomResourceRuleVerbsList:
+		return true
+	case KubernetesAgentCustomResourceRuleVerbsPatch:
+		return true
+	case KubernetesAgentCustomResourceRuleVerbsUpdate:
+		return true
+	case KubernetesAgentCustomResourceRuleVerbsWatch:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for KubernetesConnectionMode.
 const (
 	KubernetesConnectionModeAgent            KubernetesConnectionMode = "agent"
@@ -4352,6 +4385,33 @@ func (e KubernetesConnectionMode) Valid() bool {
 	case KubernetesConnectionModeAgent:
 		return true
 	case KubernetesConnectionModeDirectKubeconfig:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesCustomResourceAccessAllowedActions.
+const (
+	CustomResourceAccessCreate KubernetesCustomResourceAccessAllowedActions = "create"
+	CustomResourceAccessDelete KubernetesCustomResourceAccessAllowedActions = "delete"
+	CustomResourceAccessList   KubernetesCustomResourceAccessAllowedActions = "list"
+	CustomResourceAccessUpdate KubernetesCustomResourceAccessAllowedActions = "update"
+	CustomResourceAccessView   KubernetesCustomResourceAccessAllowedActions = "view"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesCustomResourceAccessAllowedActions enum.
+func (e KubernetesCustomResourceAccessAllowedActions) Valid() bool {
+	switch e {
+	case CustomResourceAccessCreate:
+		return true
+	case CustomResourceAccessDelete:
+		return true
+	case CustomResourceAccessList:
+		return true
+	case CustomResourceAccessUpdate:
+		return true
+	case CustomResourceAccessView:
 		return true
 	default:
 		return false
@@ -4415,6 +4475,24 @@ func (e KubernetesImportedTargetWorkloadKind) Valid() bool {
 	case KubernetesImportedTargetWorkloadKindDeployment:
 		return true
 	case KubernetesImportedTargetWorkloadKindStatefulSet:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesPrometheusTransport.
+const (
+	Agent  KubernetesPrometheusTransport = "agent"
+	Direct KubernetesPrometheusTransport = "direct"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesPrometheusTransport enum.
+func (e KubernetesPrometheusTransport) Valid() bool {
+	switch e {
+	case Agent:
+		return true
+	case Direct:
 		return true
 	default:
 		return false
@@ -6698,6 +6776,144 @@ func (e NetworkPolicyPath) Valid() bool {
 	}
 }
 
+// Defines values for NetworkProxyCapability.
+const (
+	NetworkProxyCapabilityCloseConnection NetworkProxyCapability = "close_connection"
+	NetworkProxyCapabilityConnections     NetworkProxyCapability = "connections"
+	NetworkProxyCapabilityTraffic         NetworkProxyCapability = "traffic"
+)
+
+// Valid indicates whether the value is a known member of the NetworkProxyCapability enum.
+func (e NetworkProxyCapability) Valid() bool {
+	switch e {
+	case NetworkProxyCapabilityCloseConnection:
+		return true
+	case NetworkProxyCapabilityConnections:
+		return true
+	case NetworkProxyCapabilityTraffic:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkProxyCloseCommandEnvelopeStatus.
+const (
+	NetworkProxyCloseCommandEnvelopeStatusClosed   NetworkProxyCloseCommandEnvelopeStatus = "closed"
+	NetworkProxyCloseCommandEnvelopeStatusExpired  NetworkProxyCloseCommandEnvelopeStatus = "expired"
+	NetworkProxyCloseCommandEnvelopeStatusFailed   NetworkProxyCloseCommandEnvelopeStatus = "failed"
+	NetworkProxyCloseCommandEnvelopeStatusNotFound NetworkProxyCloseCommandEnvelopeStatus = "not-found"
+	NetworkProxyCloseCommandEnvelopeStatusPending  NetworkProxyCloseCommandEnvelopeStatus = "pending"
+)
+
+// Valid indicates whether the value is a known member of the NetworkProxyCloseCommandEnvelopeStatus enum.
+func (e NetworkProxyCloseCommandEnvelopeStatus) Valid() bool {
+	switch e {
+	case NetworkProxyCloseCommandEnvelopeStatusClosed:
+		return true
+	case NetworkProxyCloseCommandEnvelopeStatusExpired:
+		return true
+	case NetworkProxyCloseCommandEnvelopeStatusFailed:
+		return true
+	case NetworkProxyCloseCommandEnvelopeStatusNotFound:
+		return true
+	case NetworkProxyCloseCommandEnvelopeStatusPending:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkProxyConnectionNetwork.
+const (
+	NetworkProxyConnectionNetworkOther NetworkProxyConnectionNetwork = "other"
+	NetworkProxyConnectionNetworkTCP   NetworkProxyConnectionNetwork = "tcp"
+	NetworkProxyConnectionNetworkUDP   NetworkProxyConnectionNetwork = "udp"
+)
+
+// Valid indicates whether the value is a known member of the NetworkProxyConnectionNetwork enum.
+func (e NetworkProxyConnectionNetwork) Valid() bool {
+	switch e {
+	case NetworkProxyConnectionNetworkOther:
+		return true
+	case NetworkProxyConnectionNetworkTCP:
+		return true
+	case NetworkProxyConnectionNetworkUDP:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkProxyConnectionsEnvelopeState.
+const (
+	NetworkProxyConnectionsEnvelopeStateAvailable   NetworkProxyConnectionsEnvelopeState = "available"
+	NetworkProxyConnectionsEnvelopeStateUnavailable NetworkProxyConnectionsEnvelopeState = "unavailable"
+	NetworkProxyConnectionsEnvelopeStateUnsupported NetworkProxyConnectionsEnvelopeState = "unsupported"
+)
+
+// Valid indicates whether the value is a known member of the NetworkProxyConnectionsEnvelopeState enum.
+func (e NetworkProxyConnectionsEnvelopeState) Valid() bool {
+	switch e {
+	case NetworkProxyConnectionsEnvelopeStateAvailable:
+		return true
+	case NetworkProxyConnectionsEnvelopeStateUnavailable:
+		return true
+	case NetworkProxyConnectionsEnvelopeStateUnsupported:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkProxyEngine.
+const (
+	NetworkProxyEngineMihomo  NetworkProxyEngine = "mihomo"
+	NetworkProxyEngineSingBox NetworkProxyEngine = "sing-box"
+	NetworkProxyEngineV2Ray   NetworkProxyEngine = "v2ray"
+)
+
+// Valid indicates whether the value is a known member of the NetworkProxyEngine enum.
+func (e NetworkProxyEngine) Valid() bool {
+	switch e {
+	case NetworkProxyEngineMihomo:
+		return true
+	case NetworkProxyEngineSingBox:
+		return true
+	case NetworkProxyEngineV2Ray:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NetworkProxyInstanceStatus.
+const (
+	NetworkProxyInstanceStatusDegraded     NetworkProxyInstanceStatus = "degraded"
+	NetworkProxyInstanceStatusDisabled     NetworkProxyInstanceStatus = "disabled"
+	NetworkProxyInstanceStatusOffline      NetworkProxyInstanceStatus = "offline"
+	NetworkProxyInstanceStatusOnline       NetworkProxyInstanceStatus = "online"
+	NetworkProxyInstanceStatusUnregistered NetworkProxyInstanceStatus = "unregistered"
+)
+
+// Valid indicates whether the value is a known member of the NetworkProxyInstanceStatus enum.
+func (e NetworkProxyInstanceStatus) Valid() bool {
+	switch e {
+	case NetworkProxyInstanceStatusDegraded:
+		return true
+	case NetworkProxyInstanceStatusDisabled:
+		return true
+	case NetworkProxyInstanceStatusOffline:
+		return true
+	case NetworkProxyInstanceStatusOnline:
+		return true
+	case NetworkProxyInstanceStatusUnregistered:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for NetworkResourceKind.
 const (
 	NetworkResourceKindCIDR NetworkResourceKind = "cidr"
@@ -6769,6 +6985,7 @@ const (
 	NetworkRuntimeKindEndpoint NetworkRuntimeKind = "endpoint"
 	NetworkRuntimeKindGateway  NetworkRuntimeKind = "gateway"
 	NetworkRuntimeKindNAS      NetworkRuntimeKind = "nas"
+	NetworkRuntimeKindProxy    NetworkRuntimeKind = "proxy"
 )
 
 // Valid indicates whether the value is a known member of the NetworkRuntimeKind enum.
@@ -6779,6 +6996,8 @@ func (e NetworkRuntimeKind) Valid() bool {
 	case NetworkRuntimeKindGateway:
 		return true
 	case NetworkRuntimeKindNAS:
+		return true
+	case NetworkRuntimeKindProxy:
 		return true
 	default:
 		return false
@@ -8434,19 +8653,19 @@ func (e RuntimeConfigValueType) Valid() bool {
 
 // Defines values for RuntimeNetworkUsageScope.
 const (
-	NetworkNamespace RuntimeNetworkUsageScope = "network_namespace"
-	Process          RuntimeNetworkUsageScope = "process"
-	Unavailable      RuntimeNetworkUsageScope = "unavailable"
+	RuntimeNetworkUsageScopeNetworkNamespace RuntimeNetworkUsageScope = "network_namespace"
+	RuntimeNetworkUsageScopeProcess          RuntimeNetworkUsageScope = "process"
+	RuntimeNetworkUsageScopeUnavailable      RuntimeNetworkUsageScope = "unavailable"
 )
 
 // Valid indicates whether the value is a known member of the RuntimeNetworkUsageScope enum.
 func (e RuntimeNetworkUsageScope) Valid() bool {
 	switch e {
-	case NetworkNamespace:
+	case RuntimeNetworkUsageScopeNetworkNamespace:
 		return true
-	case Process:
+	case RuntimeNetworkUsageScopeProcess:
 		return true
-	case Unavailable:
+	case RuntimeNetworkUsageScopeUnavailable:
 		return true
 	default:
 		return false
@@ -9163,25 +9382,25 @@ func (e WorkbenchAgentStatusEventProviderKind) Valid() bool {
 
 // Defines values for WorkbenchAgentStatusEventStatus.
 const (
-	Cancelled WorkbenchAgentStatusEventStatus = "cancelled"
-	Failed    WorkbenchAgentStatusEventStatus = "failed"
-	Queued    WorkbenchAgentStatusEventStatus = "queued"
-	Running   WorkbenchAgentStatusEventStatus = "running"
-	Succeeded WorkbenchAgentStatusEventStatus = "succeeded"
+	WorkbenchAgentStatusEventStatusCancelled WorkbenchAgentStatusEventStatus = "cancelled"
+	WorkbenchAgentStatusEventStatusFailed    WorkbenchAgentStatusEventStatus = "failed"
+	WorkbenchAgentStatusEventStatusQueued    WorkbenchAgentStatusEventStatus = "queued"
+	WorkbenchAgentStatusEventStatusRunning   WorkbenchAgentStatusEventStatus = "running"
+	WorkbenchAgentStatusEventStatusSucceeded WorkbenchAgentStatusEventStatus = "succeeded"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchAgentStatusEventStatus enum.
 func (e WorkbenchAgentStatusEventStatus) Valid() bool {
 	switch e {
-	case Cancelled:
+	case WorkbenchAgentStatusEventStatusCancelled:
 		return true
-	case Failed:
+	case WorkbenchAgentStatusEventStatusFailed:
 		return true
-	case Queued:
+	case WorkbenchAgentStatusEventStatusQueued:
 		return true
-	case Running:
+	case WorkbenchAgentStatusEventStatusRunning:
 		return true
-	case Succeeded:
+	case WorkbenchAgentStatusEventStatusSucceeded:
 		return true
 	default:
 		return false
@@ -13321,6 +13540,45 @@ type CertificateSummaryStatus string
 type ChangePasswordRequest struct {
 	CurrentPassword string `json:"currentPassword"`
 	NewPassword     string `json:"newPassword"`
+}
+
+// ClusterAgentUpgradeInput defines model for ClusterAgentUpgradeInput.
+type ClusterAgentUpgradeInput struct {
+	// Version Explicit stable official Agent version, such as v0.1.7. Registry and container identity cannot be overridden.
+	Version string `json:"version"`
+}
+
+// ClusterAgentUpgradeResult defines model for ClusterAgentUpgradeResult.
+type ClusterAgentUpgradeResult struct {
+	PreviousImage string `json:"previousImage"`
+	TargetImage   string `json:"targetImage"`
+}
+
+// ClusterAgentUpgradeResultEnvelope defines model for ClusterAgentUpgradeResultEnvelope.
+type ClusterAgentUpgradeResultEnvelope struct {
+	Data ClusterAgentUpgradeResult `json:"data"`
+}
+
+// ClusterAgentUpgradeStatus defines model for ClusterAgentUpgradeStatus.
+type ClusterAgentUpgradeStatus struct {
+	CanUpgrade bool `json:"canUpgrade"`
+
+	// Image Desired image of the standard Agent Deployment.
+	Image   string `json:"image"`
+	Message string `json:"message"`
+
+	// RecommendedVersion Agent version bundled with this Core release.
+	RecommendedVersion    string `json:"recommendedVersion"`
+	RolloutStatus         string `json:"rolloutStatus"`
+	UpgradeDisabledReason string `json:"upgradeDisabledReason,omitempty"`
+
+	// Version Version reported by the currently connected Agent process.
+	Version string `json:"version"`
+}
+
+// ClusterAgentUpgradeStatusEnvelope defines model for ClusterAgentUpgradeStatusEnvelope.
+type ClusterAgentUpgradeStatusEnvelope struct {
+	Data ClusterAgentUpgradeStatus `json:"data"`
 }
 
 // ClusterCapabilityMatrixEntry defines model for ClusterCapabilityMatrixEntry.
@@ -17945,6 +18203,19 @@ type KubernetesAdmissionWebhookRule struct {
 	Scope       string   `json:"scope,omitempty"`
 }
 
+// KubernetesAgentCustomResourceRule defines model for KubernetesAgentCustomResourceRule.
+type KubernetesAgentCustomResourceRule struct {
+	APIGroup string `json:"apiGroup"`
+
+	// Namespaces Explicit namespaces; omitted or empty grants cluster-wide access to the named resources only.
+	Namespaces []string                                 `json:"namespaces,omitempty"`
+	Resources  []string                                 `json:"resources"`
+	Verbs      []KubernetesAgentCustomResourceRuleVerbs `json:"verbs"`
+}
+
+// KubernetesAgentCustomResourceRuleVerbs defines model for KubernetesAgentCustomResourceRule.Verbs.
+type KubernetesAgentCustomResourceRuleVerbs string
+
 // KubernetesBackendTLSPolicy defines model for KubernetesBackendTLSPolicy.
 type KubernetesBackendTLSPolicy struct {
 	AgeSeconds              int64    `json:"ageSeconds"`
@@ -17993,15 +18264,16 @@ type KubernetesCacheResourceDiagnostic struct {
 
 // KubernetesClusterConnectionDetail defines model for KubernetesClusterConnectionDetail.
 type KubernetesClusterConnectionDetail struct {
-	Context             string                   `json:"context,omitempty"`
-	CredentialType      string                   `json:"credentialType"`
-	Endpoint            string                   `json:"endpoint,omitempty"`
-	HasInlineKubeconfig bool                     `json:"hasInlineKubeconfig"`
-	HasToken            bool                     `json:"hasToken"`
-	Mode                KubernetesConnectionMode `json:"mode"`
-	SourceRef           string                   `json:"sourceRef,omitempty"`
-	SourceType          string                   `json:"sourceType"`
-	UsesInformerCache   bool                     `json:"usesInformerCache"`
+	Context             string                              `json:"context,omitempty"`
+	CredentialType      string                              `json:"credentialType"`
+	CustomResourceRules []KubernetesAgentCustomResourceRule `json:"customResourceRules,omitempty"`
+	Endpoint            string                              `json:"endpoint,omitempty"`
+	HasInlineKubeconfig bool                                `json:"hasInlineKubeconfig"`
+	HasToken            bool                                `json:"hasToken"`
+	Mode                KubernetesConnectionMode            `json:"mode"`
+	SourceRef           string                              `json:"sourceRef,omitempty"`
+	SourceType          string                              `json:"sourceType"`
+	UsesInformerCache   bool                                `json:"usesInformerCache"`
 }
 
 // KubernetesClusterDetail defines model for KubernetesClusterDetail.
@@ -18143,6 +18415,12 @@ type KubernetesConfigMap struct {
 	Namespace      string   `json:"namespace"`
 }
 
+// KubernetesConfigMapDataInput defines model for KubernetesConfigMapDataInput.
+type KubernetesConfigMapDataInput struct {
+	BinaryData *KubernetesStringMap `json:"binaryData,omitempty"`
+	Data       *KubernetesStringMap `json:"data,omitempty"`
+}
+
 // KubernetesConfigMapDetail defines model for KubernetesConfigMapDetail.
 type KubernetesConfigMapDetail struct {
 	AgeSeconds  int64                `json:"ageSeconds"`
@@ -18222,6 +18500,11 @@ type KubernetesCronJobListEnvelope struct {
 	Items []KubernetesCronJob `json:"items"`
 }
 
+// KubernetesCronJobSuspendInput defines model for KubernetesCronJobSuspendInput.
+type KubernetesCronJobSuspendInput struct {
+	Suspend bool `json:"suspend"`
+}
+
 // KubernetesCustomResource defines model for KubernetesCustomResource.
 type KubernetesCustomResource struct {
 	AgeSeconds     int64                `json:"ageSeconds"`
@@ -18238,18 +18521,33 @@ type KubernetesCustomResource struct {
 	UID            string               `json:"uid,omitempty"`
 }
 
+// KubernetesCustomResourceAccess defines model for KubernetesCustomResourceAccess.
+type KubernetesCustomResourceAccess struct {
+	AllowedActions []KubernetesCustomResourceAccessAllowedActions `json:"allowedActions"`
+}
+
+// KubernetesCustomResourceAccessAllowedActions defines model for KubernetesCustomResourceAccess.AllowedActions.
+type KubernetesCustomResourceAccessAllowedActions string
+
+// KubernetesCustomResourceAccessEnvelope defines model for KubernetesCustomResourceAccessEnvelope.
+type KubernetesCustomResourceAccessEnvelope struct {
+	Data KubernetesCustomResourceAccess `json:"data"`
+}
+
 // KubernetesCustomResourceDefinition defines model for KubernetesCustomResourceDefinition.
 type KubernetesCustomResourceDefinition struct {
-	AgeSeconds     int64    `json:"ageSeconds"`
-	AllowedActions []string `json:"allowedActions,omitempty"`
-	CreatedAt      string   `json:"createdAt,omitempty"`
-	Group          string   `json:"group"`
-	Kind           string   `json:"kind"`
-	Name           string   `json:"name"`
-	Plural         string   `json:"plural"`
-	Scope          string   `json:"scope"`
-	Version        string   `json:"version,omitempty"`
-	Versions       []string `json:"versions,omitempty"`
+	AgeSeconds     int64      `json:"ageSeconds"`
+	AllowedActions []string   `json:"allowedActions,omitempty"`
+	CreatedAt      string     `json:"createdAt,omitempty"`
+	DeletingAt     *time.Time `json:"deletingAt,omitempty"`
+	Group          string     `json:"group"`
+	Kind           string     `json:"kind"`
+	Name           string     `json:"name"`
+	Plural         string     `json:"plural"`
+	Scope          string     `json:"scope"`
+	UID            string     `json:"uid,omitempty"`
+	Version        string     `json:"version,omitempty"`
+	Versions       []string   `json:"versions,omitempty"`
 }
 
 // KubernetesCustomResourceDefinitionListEnvelope defines model for KubernetesCustomResourceDefinitionListEnvelope.
@@ -19179,6 +19477,25 @@ type KubernetesNamespace struct {
 	Status         string               `json:"status"`
 }
 
+// KubernetesNamespaceCreateInput defines model for KubernetesNamespaceCreateInput.
+type KubernetesNamespaceCreateInput struct {
+	Annotations *KubernetesStringMap `json:"annotations,omitempty"`
+	Labels      *KubernetesStringMap `json:"labels,omitempty"`
+	Name        string               `json:"name"`
+}
+
+// KubernetesNamespaceEnvelope defines model for KubernetesNamespaceEnvelope.
+type KubernetesNamespaceEnvelope struct {
+	Data KubernetesNamespace `json:"data"`
+}
+
+// KubernetesNamespaceInput defines model for KubernetesNamespaceInput.
+type KubernetesNamespaceInput struct {
+	Annotations *KubernetesStringMap `json:"annotations,omitempty"`
+	Labels      *KubernetesStringMap `json:"labels,omitempty"`
+	Name        string               `json:"name,omitempty"`
+}
+
 // KubernetesNamespaceListEnvelope defines model for KubernetesNamespaceListEnvelope.
 type KubernetesNamespaceListEnvelope struct {
 	Items []KubernetesNamespace `json:"items"`
@@ -19351,6 +19668,13 @@ type KubernetesNodeDetailEnvelope struct {
 	Data KubernetesNodeDetail `json:"data"`
 }
 
+// KubernetesNodeDrainInput defines model for KubernetesNodeDrainInput.
+type KubernetesNodeDrainInput struct {
+	DeleteEmptyDirData bool `json:"deleteEmptyDirData,omitempty"`
+	Force              bool `json:"force,omitempty"`
+	TimeoutSeconds     int  `json:"timeoutSeconds,omitempty"`
+}
+
 // KubernetesNodeListEnvelope defines model for KubernetesNodeListEnvelope.
 type KubernetesNodeListEnvelope struct {
 	Items []KubernetesNode `json:"items"`
@@ -19384,11 +19708,22 @@ type KubernetesNodeResourceSummary struct {
 	UsagePercentages   *KubernetesResourcePercentage `json:"usagePercentages,omitempty"`
 }
 
+// KubernetesNodeSchedulabilityInput defines model for KubernetesNodeSchedulabilityInput.
+type KubernetesNodeSchedulabilityInput struct {
+	Unschedulable bool `json:"unschedulable"`
+}
+
 // KubernetesNodeTaint defines model for KubernetesNodeTaint.
 type KubernetesNodeTaint struct {
 	Effect string `json:"effect"`
 	Key    string `json:"key"`
 	Value  string `json:"value,omitempty"`
+}
+
+// KubernetesNodeUpdateInput defines model for KubernetesNodeUpdateInput.
+type KubernetesNodeUpdateInput struct {
+	Labels *KubernetesStringMap  `json:"labels,omitempty"`
+	Taints []KubernetesNodeTaint `json:"taints,omitempty"`
 }
 
 // KubernetesPersistentVolume defines model for KubernetesPersistentVolume.
@@ -19642,11 +19977,15 @@ type KubernetesPriorityClassListEnvelope struct {
 
 // KubernetesPrometheusDetail defines model for KubernetesPrometheusDetail.
 type KubernetesPrometheusDetail struct {
-	BaseURL        string `json:"baseUrl,omitempty"`
-	ClusterLabel   string `json:"clusterLabel,omitempty"`
-	GrafanaBaseURL string `json:"grafanaBaseUrl,omitempty"`
-	HasBearerToken bool   `json:"hasBearerToken"`
+	BaseURL        string                        `json:"baseUrl,omitempty"`
+	ClusterLabel   string                        `json:"clusterLabel,omitempty"`
+	GrafanaBaseURL string                        `json:"grafanaBaseUrl,omitempty"`
+	HasBearerToken bool                          `json:"hasBearerToken"`
+	Transport      KubernetesPrometheusTransport `json:"transport,omitempty"`
 }
+
+// KubernetesPrometheusTransport defines model for KubernetesPrometheusTransport.
+type KubernetesPrometheusTransport string
 
 // KubernetesReferenceGrant defines model for KubernetesReferenceGrant.
 type KubernetesReferenceGrant struct {
@@ -20208,6 +20547,11 @@ type KubernetesResourceYamlEnvelope struct {
 	Data KubernetesResourceYaml `json:"data"`
 }
 
+// KubernetesResourceYamlInput defines model for KubernetesResourceYamlInput.
+type KubernetesResourceYamlInput struct {
+	Content string `json:"content"`
+}
+
 // KubernetesRole defines model for KubernetesRole.
 type KubernetesRole struct {
 	AgeSeconds     int64    `json:"ageSeconds"`
@@ -20282,6 +20626,29 @@ type KubernetesRuntimeClass struct {
 // KubernetesRuntimeClassListEnvelope defines model for KubernetesRuntimeClassListEnvelope.
 type KubernetesRuntimeClassListEnvelope struct {
 	Items []KubernetesRuntimeClass `json:"items"`
+}
+
+// KubernetesSecretDataInput Data values are plain text. The response detail returns Kubernetes Base64-encoded values.
+type KubernetesSecretDataInput struct {
+	Data *KubernetesStringMap `json:"data,omitempty"`
+}
+
+// KubernetesSecretDetail defines model for KubernetesSecretDetail.
+type KubernetesSecretDetail struct {
+	AgeSeconds  int64                `json:"ageSeconds"`
+	Annotations *KubernetesStringMap `json:"annotations,omitempty"`
+	CreatedAt   string               `json:"createdAt,omitempty"`
+	Data        *KubernetesStringMap `json:"data,omitempty"`
+	Immutable   bool                 `json:"immutable"`
+	Labels      *KubernetesStringMap `json:"labels,omitempty"`
+	Name        string               `json:"name"`
+	Namespace   string               `json:"namespace"`
+	Type        string               `json:"type"`
+}
+
+// KubernetesSecretDetailEnvelope defines model for KubernetesSecretDetailEnvelope.
+type KubernetesSecretDetailEnvelope struct {
+	Data KubernetesSecretDetail `json:"data"`
 }
 
 // KubernetesSecretMetadata defines model for KubernetesSecretMetadata.
@@ -22953,6 +23320,53 @@ type NetworkPolicySubjects struct {
 	Users []string `json:"users"`
 }
 
+// NetworkProxyCapability defines model for NetworkProxyCapability.
+type NetworkProxyCapability string
+
+// NetworkProxyCloseCommandEnvelope defines model for NetworkProxyCloseCommandEnvelope.
+type NetworkProxyCloseCommandEnvelope struct {
+	CommandID string                                 `json:"commandId"`
+	ExpiresAt time.Time                              `json:"expiresAt"`
+	Status    NetworkProxyCloseCommandEnvelopeStatus `json:"status"`
+}
+
+// NetworkProxyCloseCommandEnvelopeStatus defines model for NetworkProxyCloseCommandEnvelope.Status.
+type NetworkProxyCloseCommandEnvelopeStatus string
+
+// NetworkProxyConfigurationInput defines model for NetworkProxyConfigurationInput.
+type NetworkProxyConfigurationInput struct {
+	Content          string `json:"content,omitempty"`
+	Enabled          bool   `json:"enabled"`
+	ExpectedRevision int64  `json:"expectedRevision"`
+}
+
+// NetworkProxyConnection defines model for NetworkProxyConnection.
+type NetworkProxyConnection struct {
+	Destination   string                        `json:"destination"`
+	DownloadBytes int64                         `json:"downloadBytes"`
+	ID            string                        `json:"id"`
+	Network       NetworkProxyConnectionNetwork `json:"network"`
+	StartedAt     *time.Time                    `json:"startedAt,omitempty"`
+	UploadBytes   int64                         `json:"uploadBytes"`
+}
+
+// NetworkProxyConnectionNetwork defines model for NetworkProxyConnection.Network.
+type NetworkProxyConnectionNetwork string
+
+// NetworkProxyConnectionsEnvelope defines model for NetworkProxyConnectionsEnvelope.
+type NetworkProxyConnectionsEnvelope struct {
+	Connections []NetworkProxyConnection             `json:"connections"`
+	InstanceID  string                               `json:"instanceId"`
+	ObservedAt  *time.Time                           `json:"observedAt,omitempty"`
+	State       NetworkProxyConnectionsEnvelopeState `json:"state"`
+}
+
+// NetworkProxyConnectionsEnvelopeState defines model for NetworkProxyConnectionsEnvelope.State.
+type NetworkProxyConnectionsEnvelopeState string
+
+// NetworkProxyEngine defines model for NetworkProxyEngine.
+type NetworkProxyEngine string
+
 // NetworkProxyFlowSummary defines model for NetworkProxyFlowSummary.
 type NetworkProxyFlowSummary struct {
 	ActiveConnections int64             `json:"activeConnections"`
@@ -22965,6 +23379,63 @@ type NetworkProxyFlowSummary struct {
 	ProfileRevision   int               `json:"profileRevision"`
 	SelectedProxy     string            `json:"selectedProxy"`
 	UploadBytes       int64             `json:"uploadBytes"`
+}
+
+// NetworkProxyInstance defines model for NetworkProxyInstance.
+type NetworkProxyInstance struct {
+	Capabilities     []NetworkProxyCapability   `json:"capabilities"`
+	CreatedAt        time.Time                  `json:"createdAt"`
+	DesiredRevision  int64                      `json:"desiredRevision"`
+	Enabled          bool                       `json:"enabled"`
+	Engine           NetworkProxyEngine         `json:"engine"`
+	EngineVersion    string                     `json:"engineVersion,omitempty"`
+	Host             string                     `json:"host,omitempty"`
+	ID               string                     `json:"id"`
+	LastSampleAt     *time.Time                 `json:"lastSampleAt,omitempty"`
+	LastSeenAt       *time.Time                 `json:"lastSeenAt,omitempty"`
+	Name             string                     `json:"name"`
+	ObservedRevision int64                      `json:"observedRevision"`
+	ReasonCode       string                     `json:"reasonCode,omitempty"`
+	Status           NetworkProxyInstanceStatus `json:"status"`
+	UpdatedAt        time.Time                  `json:"updatedAt"`
+}
+
+// NetworkProxyInstanceEnvelope defines model for NetworkProxyInstanceEnvelope.
+type NetworkProxyInstanceEnvelope struct {
+	Data NetworkProxyInstance `json:"data"`
+}
+
+// NetworkProxyInstanceInput defines model for NetworkProxyInstanceInput.
+type NetworkProxyInstanceInput struct {
+	Engine NetworkProxyEngine `json:"engine"`
+	Host   string             `json:"host,omitempty"`
+	ID     string             `json:"id"`
+	Name   string             `json:"name"`
+}
+
+// NetworkProxyInstanceListEnvelope defines model for NetworkProxyInstanceListEnvelope.
+type NetworkProxyInstanceListEnvelope struct {
+	Items []NetworkProxyInstance `json:"items"`
+}
+
+// NetworkProxyInstanceStatus defines model for NetworkProxyInstanceStatus.
+type NetworkProxyInstanceStatus string
+
+// NetworkProxyTrafficEnvelope defines model for NetworkProxyTrafficEnvelope.
+type NetworkProxyTrafficEnvelope struct {
+	InstanceID string                      `json:"instanceId"`
+	Samples    []NetworkProxyTrafficSample `json:"samples"`
+	Supported  bool                        `json:"supported"`
+}
+
+// NetworkProxyTrafficSample defines model for NetworkProxyTrafficSample.
+type NetworkProxyTrafficSample struct {
+	ActiveConnections      int       `json:"activeConnections,omitempty"`
+	DownloadBytesPerSecond float32   `json:"downloadBytesPerSecond"`
+	DownloadTotal          int64     `json:"downloadTotal"`
+	ObservedAt             time.Time `json:"observedAt"`
+	UploadBytesPerSecond   float32   `json:"uploadBytesPerSecond"`
+	UploadTotal            int64     `json:"uploadTotal"`
 }
 
 // NetworkResource defines model for NetworkResource.
@@ -23031,7 +23502,7 @@ type NetworkRuntimeEnrollmentEnvelope struct {
 	Data NetworkRuntimeEnrollment `json:"data"`
 }
 
-// NetworkRuntimeEnrollmentInput defines model for NetworkRuntimeEnrollmentInput.
+// NetworkRuntimeEnrollmentInput For proxy runtimes, runtimeId identifies an existing proxy instance and deviceId and subjectId must equal runtimeId.
 type NetworkRuntimeEnrollmentInput struct {
 	DeviceID    string             `json:"deviceId"`
 	RuntimeID   string             `json:"runtimeId"`
@@ -29953,6 +30424,12 @@ type ListKubernetesConfigMapsParams struct {
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
 
+// UpdateKubernetesConfigMapDataParams defines parameters for UpdateKubernetesConfigMapData.
+type UpdateKubernetesConfigMapDataParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
 // GetKubernetesConfigMapDetailParams defines parameters for GetKubernetesConfigMapDetail.
 type GetKubernetesConfigMapDetailParams struct {
 	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
@@ -30025,6 +30502,18 @@ type ListKubernetesSecretMetadataParams struct {
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
 
+// UpdateKubernetesSecretDataParams defines parameters for UpdateKubernetesSecretData.
+type UpdateKubernetesSecretDataParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesSecretDetailParams defines parameters for GetKubernetesSecretDetail.
+type GetKubernetesSecretDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
 // ListKubernetesSecretReferencesParams defines parameters for ListKubernetesSecretReferences.
 type ListKubernetesSecretReferencesParams struct {
 	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
@@ -30036,6 +30525,18 @@ type ListKubernetesClusterEventsParams struct {
 	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
 	Namespace KubernetesNamespaceQuery  `form:"namespace,omitempty" json:"namespace,omitempty"`
 	Limit     KubernetesEventLimitQuery `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// DeleteKubernetesCustomResourceDefinitionParams defines parameters for DeleteKubernetesCustomResourceDefinition.
+type DeleteKubernetesCustomResourceDefinitionParams struct {
+	// ExpectedUID UID observed in the CRD catalog. A same-name replacement is rejected.
+	ExpectedUID string `form:"expectedUid" json:"expectedUid"`
+}
+
+// GetKubernetesCustomResourceAccessParams defines parameters for GetKubernetesCustomResourceAccess.
+type GetKubernetesCustomResourceAccessParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
 
 // ListKubernetesCustomResourcesParams defines parameters for ListKubernetesCustomResources.
@@ -30288,6 +30789,12 @@ type GetKubernetesCronJobDetailParams struct {
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
 
+// SetKubernetesCronJobSuspendParams defines parameters for SetKubernetesCronJobSuspend.
+type SetKubernetesCronJobSuspendParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
 // GetKubernetesCronJobYamlParams defines parameters for GetKubernetesCronJobYaml.
 type GetKubernetesCronJobYamlParams struct {
 	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
@@ -30382,6 +30889,12 @@ type GetKubernetesWorkloadOverviewParams struct {
 
 // ListKubernetesPodsParams defines parameters for ListKubernetesPods.
 type ListKubernetesPodsParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// DeleteKubernetesPodParams defines parameters for DeleteKubernetesPod.
+type DeleteKubernetesPodParams struct {
 	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
@@ -30869,6 +31382,19 @@ type ListNetworkAccessPoliciesParams struct {
 	Enabled bool                `form:"enabled,omitempty" json:"enabled,omitempty"`
 	Effect  NetworkPolicyEffect `form:"effect,omitempty" json:"effect,omitempty"`
 	Limit   int                 `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListNetworkProxyInstancesParams defines parameters for ListNetworkProxyInstances.
+type ListNetworkProxyInstancesParams struct {
+	Search string             `form:"search,omitempty" json:"search,omitempty"`
+	Engine NetworkProxyEngine `form:"engine,omitempty" json:"engine,omitempty"`
+	Limit  int                `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// GetNetworkProxyTrafficParams defines parameters for GetNetworkProxyTraffic.
+type GetNetworkProxyTrafficParams struct {
+	From time.Time `form:"from,omitempty" json:"from,omitempty"`
+	To   time.Time `form:"to,omitempty" json:"to,omitempty"`
 }
 
 // ListNetworkResourcesParams defines parameters for ListNetworkResources.
@@ -31618,17 +32144,44 @@ type TriggerBuildJSONRequestBody = BuildTriggerRequest
 // ReviewKubernetesSubjectAccessJSONRequestBody defines body for ReviewKubernetesSubjectAccess for application/json ContentType.
 type ReviewKubernetesSubjectAccessJSONRequestBody = KubernetesSubjectAccessReviewInput
 
+// UpgradeClusterAgentJSONRequestBody defines body for UpgradeClusterAgent for application/json ContentType.
+type UpgradeClusterAgentJSONRequestBody = ClusterAgentUpgradeInput
+
+// UpdateKubernetesConfigMapDataJSONRequestBody defines body for UpdateKubernetesConfigMapData for application/json ContentType.
+type UpdateKubernetesConfigMapDataJSONRequestBody = KubernetesConfigMapDataInput
+
+// UpdateKubernetesSecretDataJSONRequestBody defines body for UpdateKubernetesSecretData for application/json ContentType.
+type UpdateKubernetesSecretDataJSONRequestBody = KubernetesSecretDataInput
+
 // RollbackKubernetesHelmReleaseJSONRequestBody defines body for RollbackKubernetesHelmRelease for application/json ContentType.
 type RollbackKubernetesHelmReleaseJSONRequestBody = KubernetesHelmReleaseRollbackInput
 
 // PlanKubernetesHelmReleaseRollbackJSONRequestBody defines body for PlanKubernetesHelmReleaseRollback for application/json ContentType.
 type PlanKubernetesHelmReleaseRollbackJSONRequestBody = KubernetesHelmReleaseRollbackInput
 
+// UpdateKubernetesNodeJSONRequestBody defines body for UpdateKubernetesNode for application/json ContentType.
+type UpdateKubernetesNodeJSONRequestBody = KubernetesNodeUpdateInput
+
+// DrainKubernetesNodeJSONRequestBody defines body for DrainKubernetesNode for application/json ContentType.
+type DrainKubernetesNodeJSONRequestBody = KubernetesNodeDrainInput
+
+// SetKubernetesNodeSchedulabilityJSONRequestBody defines body for SetKubernetesNodeSchedulability for application/json ContentType.
+type SetKubernetesNodeSchedulabilityJSONRequestBody = KubernetesNodeSchedulabilityInput
+
+// ApplyKubernetesNodeYamlJSONRequestBody defines body for ApplyKubernetesNodeYaml for application/json ContentType.
+type ApplyKubernetesNodeYamlJSONRequestBody = KubernetesResourceYamlInput
+
 // QueryClusterLogsJSONRequestBody defines body for QueryClusterLogs for application/json ContentType.
 type QueryClusterLogsJSONRequestBody = LogQuery
 
 // IssueClusterLogStreamTicketJSONRequestBody defines body for IssueClusterLogStreamTicket for application/json ContentType.
 type IssueClusterLogStreamTicketJSONRequestBody = LogQuery
+
+// CreateKubernetesNamespaceJSONRequestBody defines body for CreateKubernetesNamespace for application/json ContentType.
+type CreateKubernetesNamespaceJSONRequestBody = KubernetesNamespaceCreateInput
+
+// UpdateKubernetesNamespaceJSONRequestBody defines body for UpdateKubernetesNamespace for application/json ContentType.
+type UpdateKubernetesNamespaceJSONRequestBody = KubernetesNamespaceInput
 
 // DisableClusterLogCollectionJSONRequestBody defines body for DisableClusterLogCollection for application/json ContentType.
 type DisableClusterLogCollectionJSONRequestBody = LogCollectionDisableInput
@@ -31653,6 +32206,9 @@ type GenerateKubernetesWorkloadSnapshotJSONRequestBody = KubernetesWorkloadSnaps
 
 // PlanKubernetesResourceUpdateJSONRequestBody defines body for PlanKubernetesResourceUpdate for application/json ContentType.
 type PlanKubernetesResourceUpdateJSONRequestBody = KubernetesResourceUpdatePlanRequest
+
+// SetKubernetesCronJobSuspendJSONRequestBody defines body for SetKubernetesCronJobSuspend for application/json ContentType.
+type SetKubernetesCronJobSuspendJSONRequestBody = KubernetesCronJobSuspendInput
 
 // RecordCompanionInteractionJSONRequestBody defines body for RecordCompanionInteraction for application/json ContentType.
 type RecordCompanionInteractionJSONRequestBody = CompanionInteractionRequest
@@ -32028,6 +32584,12 @@ type UpdateNetworkAccessPolicyJSONRequestBody = NetworkAccessPolicyInput
 
 // PreviewNetworkAccessPolicyJSONRequestBody defines body for PreviewNetworkAccessPolicy for application/json ContentType.
 type PreviewNetworkAccessPolicyJSONRequestBody = NetworkPolicyPreviewRequest
+
+// CreateNetworkProxyInstanceJSONRequestBody defines body for CreateNetworkProxyInstance for application/json ContentType.
+type CreateNetworkProxyInstanceJSONRequestBody = NetworkProxyInstanceInput
+
+// UpdateNetworkProxyConfigurationJSONRequestBody defines body for UpdateNetworkProxyConfiguration for application/json ContentType.
+type UpdateNetworkProxyConfigurationJSONRequestBody = NetworkProxyConfigurationInput
 
 // CreateNetworkResourceJSONRequestBody defines body for CreateNetworkResource for application/json ContentType.
 type CreateNetworkResourceJSONRequestBody = NetworkResourceInput
@@ -39916,3 +40478,27 @@ const ListAIGatewayRelayUpstreamsParamsStatusDegraded ListAIGatewayRelayUpstream
 
 // Deprecated: retained for Go SDK source compatibility.
 const ListAIGatewayRelayUpstreamsParamsStatusDisabled ListAIGatewayRelayUpstreamsParamsStatus = "disabled"
+
+// Deprecated: retained for Go SDK source compatibility.
+const NetworkNamespace RuntimeNetworkUsageScope = "network_namespace"
+
+// Deprecated: retained for Go SDK source compatibility.
+const Process RuntimeNetworkUsageScope = "process"
+
+// Deprecated: retained for Go SDK source compatibility.
+const Unavailable RuntimeNetworkUsageScope = "unavailable"
+
+// Deprecated: retained for Go SDK source compatibility.
+const Cancelled WorkbenchAgentStatusEventStatus = "cancelled"
+
+// Deprecated: retained for Go SDK source compatibility.
+const Failed WorkbenchAgentStatusEventStatus = "failed"
+
+// Deprecated: retained for Go SDK source compatibility.
+const Queued WorkbenchAgentStatusEventStatus = "queued"
+
+// Deprecated: retained for Go SDK source compatibility.
+const Running WorkbenchAgentStatusEventStatus = "running"
+
+// Deprecated: retained for Go SDK source compatibility.
+const Succeeded WorkbenchAgentStatusEventStatus = "succeeded"

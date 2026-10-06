@@ -10,7 +10,7 @@
     "schemaVersion": { "const": "network-ingest/v1alpha1" },
     "batchId": { "$ref": "#/$defs/Identifier" },
     "producerId": { "$ref": "#/$defs/Identifier" },
-    "producerKind": { "enum": ["endpoint", "gateway", "freeradius", "network-control"] },
+    "producerKind": { "enum": ["endpoint", "gateway", "freeradius", "network-control", "proxy"] },
     "sentAt": { "type": "string", "format": "date-time" },
     "events": {
       "type": "array",
@@ -207,7 +207,8 @@
             "radius.accounting",
             "network.flow.aggregate",
             "network.connection.summary",
-            "proxy.flow.aggregate"
+            "proxy.flow.aggregate",
+            "proxy.runtime.sample"
           ]
         },
         "sequence": { "type": "integer", "minimum": 0 },
@@ -221,7 +222,8 @@
             { "$ref": "#/$defs/RadiusAccounting" },
             { "$ref": "#/$defs/FlowAggregate" },
             { "$ref": "#/$defs/ConnectionSummary" },
-            { "$ref": "#/$defs/ProxyFlowAggregate" }
+            { "$ref": "#/$defs/ProxyFlowAggregate" },
+            { "$ref": "#/$defs/ProxyRuntimeSample" }
           ]
         }
       },
@@ -302,6 +304,10 @@
         {
           "if": { "properties": { "type": { "const": "proxy.flow.aggregate" } }, "required": ["type"] },
           "then": { "properties": { "payload": { "$ref": "#/$defs/ProxyFlowAggregate" } } }
+        },
+        {
+          "if": { "properties": { "type": { "const": "proxy.runtime.sample" } }, "required": ["type"] },
+          "then": { "properties": { "payload": { "$ref": "#/$defs/ProxyRuntimeSample" } } }
         }
       ]
     },
@@ -408,6 +414,18 @@
         "selectedProxy": { "type": "string", "minLength": 1, "maxLength": 128 },
         "uploadBytes": { "type": "integer", "minimum": 0, "maximum": 9223372036854775807 },
         "downloadBytes": { "type": "integer", "minimum": 0, "maximum": 9223372036854775807 },
+        "activeConnections": { "type": "integer", "minimum": 0, "maximum": 1000000 }
+      }
+    },
+    "ProxyRuntimeSample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["engine", "uptimeSeconds", "uploadTotal", "downloadTotal"],
+      "properties": {
+        "engine": { "enum": ["mihomo", "sing-box", "v2ray"] },
+        "uptimeSeconds": { "type": "integer", "minimum": 0 },
+        "uploadTotal": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "downloadTotal": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
         "activeConnections": { "type": "integer", "minimum": 0, "maximum": 1000000 }
       }
     }

@@ -42,7 +42,7 @@
     },
     "producerId": { "$ref": "#/$defs/Identifier" },
     "runtimeId": { "$ref": "#/$defs/Identifier" },
-    "runtimeKind": { "enum": ["endpoint", "gateway", "nas"] },
+    "runtimeKind": { "enum": ["endpoint", "gateway", "nas", "proxy"] },
     "occurredAt": { "type": "string", "format": "date-time" },
     "expiresAt": { "type": "string", "format": "date-time" },
     "payload": {
@@ -712,7 +712,7 @@
           "minItems": 1,
           "maxItems": 32,
           "uniqueItems": true,
-          "items": { "enum": ["wireguard", "mihomo", "route-coordinator", "dns-coordinator", "managed-vpn-v1", "vpn-probe-v1", "vpn-metrics-v1"] }
+          "items": { "enum": ["wireguard", "mihomo", "route-coordinator", "dns-coordinator", "managed-vpn-v1", "vpn-probe-v1", "vpn-metrics-v1", "proxy-runtime-v1"] }
         }
       },
       "allOf": [{
