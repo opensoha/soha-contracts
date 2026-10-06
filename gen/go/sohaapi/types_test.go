@@ -5,6 +5,36 @@ import (
 	"testing"
 )
 
+func TestNetworkProxyInputsRemainInGoSDK(t *testing.T) {
+	for _, input := range []struct {
+		raw   string
+		value any
+	}{
+		{`{"id":"proxy-a","name":"Proxy A","engine":"mihomo","host":"host-a"}`, &NetworkProxyInstanceInput{}},
+		{`{"expectedRevision":3,"enabled":false,"content":"mode: rule"}`, &NetworkProxyConfigurationInput{}},
+	} {
+		if err := json.Unmarshal([]byte(input.raw), input.value); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(input.value)
+		if err != nil {
+			t.Fatal(err)
+		}
+		var before, after map[string]any
+		if err := json.Unmarshal([]byte(input.raw), &before); err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &after); err != nil {
+			t.Fatal(err)
+		}
+		for name, value := range before {
+			if after[name] != value {
+				t.Fatalf("%s changed during round trip: %s", name, encoded)
+			}
+		}
+	}
+}
+
 func TestToolInvocationResultPreservesAbsentVersion(t *testing.T) {
 	for _, input := range []string{
 		`{"toolName":"legacy","riskLevel":"read","requiresApproval":false,"result":"success"}`,
