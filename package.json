@@ -1,6 +1,6 @@
 {
   "name": "@opensoha/contracts",
-  "version": "0.1.20",
+  "version": "0.1.21",
   "private": false,
   "description": "Shared OpenSoha API, agent, MCP, skill, event, and auth contracts.",
   "license": "Apache-2.0",
@@ -65,6 +65,7 @@
     "./network/network-runtime-protocol.schema.json": "./network/network-runtime-protocol.schema.json",
     "./network/network-ingest-event.schema.json": "./network/network-ingest-event.schema.json",
     "./network/network-radius-accounting.schema.json": "./network/network-radius-accounting.schema.json",
+    "./network/proxy-runtime.schema.json": "./network/proxy-runtime.schema.json",
     "./knowledge/knowledge-base.schema.json": "./knowledge/knowledge-base.schema.json",
     "./knowledge/knowledge-source.schema.json": "./knowledge/knowledge-source.schema.json",
     "./knowledge/knowledge-search.schema.json": "./knowledge/knowledge-search.schema.json",

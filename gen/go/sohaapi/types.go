@@ -6820,6 +6820,7 @@ const (
 	NetworkRuntimeKindEndpoint NetworkRuntimeKind = "endpoint"
 	NetworkRuntimeKindGateway  NetworkRuntimeKind = "gateway"
 	NetworkRuntimeKindNAS      NetworkRuntimeKind = "nas"
+	NetworkRuntimeKindProxy    NetworkRuntimeKind = "proxy"
 )
 
 // Valid indicates whether the value is a known member of the NetworkRuntimeKind enum.
@@ -6830,6 +6831,8 @@ func (e NetworkRuntimeKind) Valid() bool {
 	case NetworkRuntimeKindGateway:
 		return true
 	case NetworkRuntimeKindNAS:
+		return true
+	case NetworkRuntimeKindProxy:
 		return true
 	default:
 		return false
@@ -18305,16 +18308,18 @@ type KubernetesCustomResource struct {
 
 // KubernetesCustomResourceDefinition defines model for KubernetesCustomResourceDefinition.
 type KubernetesCustomResourceDefinition struct {
-	AgeSeconds     int64    `json:"ageSeconds"`
-	AllowedActions []string `json:"allowedActions,omitempty"`
-	CreatedAt      string   `json:"createdAt,omitempty"`
-	Group          string   `json:"group"`
-	Kind           string   `json:"kind"`
-	Name           string   `json:"name"`
-	Plural         string   `json:"plural"`
-	Scope          string   `json:"scope"`
-	Version        string   `json:"version,omitempty"`
-	Versions       []string `json:"versions,omitempty"`
+	AgeSeconds     int64      `json:"ageSeconds"`
+	AllowedActions []string   `json:"allowedActions,omitempty"`
+	CreatedAt      string     `json:"createdAt,omitempty"`
+	DeletingAt     *time.Time `json:"deletingAt,omitempty"`
+	Group          string     `json:"group"`
+	Kind           string     `json:"kind"`
+	Name           string     `json:"name"`
+	Plural         string     `json:"plural"`
+	Scope          string     `json:"scope"`
+	UID            string     `json:"uid,omitempty"`
+	Version        string     `json:"version,omitempty"`
+	Versions       []string   `json:"versions,omitempty"`
 }
 
 // KubernetesCustomResourceDefinitionListEnvelope defines model for KubernetesCustomResourceDefinitionListEnvelope.
@@ -23100,7 +23105,7 @@ type NetworkRuntimeEnrollmentEnvelope struct {
 	Data NetworkRuntimeEnrollment `json:"data"`
 }
 
-// NetworkRuntimeEnrollmentInput defines model for NetworkRuntimeEnrollmentInput.
+// NetworkRuntimeEnrollmentInput For proxy runtimes, runtimeId identifies an existing proxy instance and deviceId and subjectId must equal runtimeId.
 type NetworkRuntimeEnrollmentInput struct {
 	DeviceID    string             `json:"deviceId"`
 	RuntimeID   string             `json:"runtimeId"`
@@ -39985,3 +39990,27 @@ const ListAIGatewayRelayUpstreamsParamsStatusDegraded ListAIGatewayRelayUpstream
 
 // Deprecated: retained for Go SDK source compatibility.
 const ListAIGatewayRelayUpstreamsParamsStatusDisabled ListAIGatewayRelayUpstreamsParamsStatus = "disabled"
+
+// Deprecated: retained for Go SDK source compatibility.
+const RuntimeNetworkUsageScopeNetworkNamespace RuntimeNetworkUsageScope = "network_namespace"
+
+// Deprecated: retained for Go SDK source compatibility.
+const RuntimeNetworkUsageScopeProcess RuntimeNetworkUsageScope = "process"
+
+// Deprecated: retained for Go SDK source compatibility.
+const RuntimeNetworkUsageScopeUnavailable RuntimeNetworkUsageScope = "unavailable"
+
+// Deprecated: retained for Go SDK source compatibility.
+const WorkbenchAgentStatusEventStatusCancelled WorkbenchAgentStatusEventStatus = "cancelled"
+
+// Deprecated: retained for Go SDK source compatibility.
+const WorkbenchAgentStatusEventStatusFailed WorkbenchAgentStatusEventStatus = "failed"
+
+// Deprecated: retained for Go SDK source compatibility.
+const WorkbenchAgentStatusEventStatusQueued WorkbenchAgentStatusEventStatus = "queued"
+
+// Deprecated: retained for Go SDK source compatibility.
+const WorkbenchAgentStatusEventStatusRunning WorkbenchAgentStatusEventStatus = "running"
+
+// Deprecated: retained for Go SDK source compatibility.
+const WorkbenchAgentStatusEventStatusSucceeded WorkbenchAgentStatusEventStatus = "succeeded"

@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.opensoha.dev/network/proxy-runtime.schema.json",
+  "title": "OpenSoha Proxy Runtime Message",
+  "description": "Messages on the authenticated proxy runtime channel. Configuration content is delivered only to the enrolled runtime and is never returned by management reads.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "runtimeId", "messageType", "occurredAt", "payload"],
+  "properties": {
+    "schemaVersion": { "const": "proxy-runtime/v1alpha1" },
+    "runtimeId": { "$ref": "#/$defs/Identifier" },
+    "messageType": { "enum": ["configuration.desired", "configuration.applied", "observation", "connections.snapshot", "connection.close.request", "connection.close.result"] },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "payload": {
+      "oneOf": [
+        { "$ref": "#/$defs/ConfigurationDesired" },
+        { "$ref": "#/$defs/ConfigurationApplied" },
+        { "$ref": "#/$defs/Observation" },
+        { "$ref": "#/$defs/ConnectionsSnapshot" },
+        { "$ref": "#/$defs/ConnectionCloseRequest" },
+        { "$ref": "#/$defs/ConnectionCloseResult" }
+      ]
+    }
+  },
+  "allOf": [
+    { "if": { "properties": { "messageType": { "const": "configuration.desired" } }, "required": ["messageType"] }, "then": { "properties": { "payload": { "$ref": "#/$defs/ConfigurationDesired" } } } },
+    { "if": { "properties": { "messageType": { "const": "configuration.applied" } }, "required": ["messageType"] }, "then": { "properties": { "payload": { "$ref": "#/$defs/ConfigurationApplied" } } } },
+    { "if": { "properties": { "messageType": { "const": "observation" } }, "required": ["messageType"] }, "then": { "properties": { "payload": { "$ref": "#/$defs/Observation" } } } },
+    { "if": { "properties": { "messageType": { "const": "connections.snapshot" } }, "required": ["messageType"] }, "then": { "properties": { "payload": { "$ref": "#/$defs/ConnectionsSnapshot" } } } },
+    { "if": { "properties": { "messageType": { "const": "connection.close.request" } }, "required": ["messageType"] }, "then": { "properties": { "payload": { "$ref": "#/$defs/ConnectionCloseRequest" } } } },
+    { "if": { "properties": { "messageType": { "const": "connection.close.result" } }, "required": ["messageType"] }, "then": { "properties": { "payload": { "$ref": "#/$defs/ConnectionCloseResult" } } } }
+  ],
+  "$defs": {
+    "Identifier": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$" },
+    "Engine": { "enum": ["mihomo", "sing-box", "v2ray"] },
+    "Hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "ConfigurationDesired": {
+      "type": "object", "additionalProperties": false,
+      "required": ["revision", "engine", "enabled", "contentHash", "content", "validUntil"],
+      "properties": {
+        "revision": { "type": "integer", "minimum": 1 },
+        "engine": { "$ref": "#/$defs/Engine" },
+        "enabled": { "type": "boolean" },
+        "contentHash": { "$ref": "#/$defs/Hash" },
+        "content": { "type": "string", "minLength": 1, "maxLength": 1048576, "writeOnly": true },
+        "validUntil": { "type": "string", "format": "date-time" }
+      }
+    },
+    "ConfigurationApplied": {
+      "type": "object", "additionalProperties": false,
+      "required": ["revision", "status", "readbackHash"],
+      "properties": {
+        "revision": { "type": "integer", "minimum": 1 },
+        "status": { "enum": ["applied", "rejected", "rolled-back"] },
+        "readbackHash": { "$ref": "#/$defs/Hash" },
+        "reasonCode": { "type": "string", "minLength": 1, "maxLength": 128 }
+      }
+    },
+    "Observation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["engine", "engineVersion", "health", "capabilities", "uptimeSeconds", "uploadTotal", "downloadTotal"],
+      "properties": {
+        "engine": { "$ref": "#/$defs/Engine" },
+        "engineVersion": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "health": { "enum": ["healthy", "degraded", "unhealthy"] },
+        "capabilities": { "type": "array", "maxItems": 3, "uniqueItems": true, "items": { "enum": ["traffic", "connections", "close_connection"] } },
+        "reasonCode": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "uptimeSeconds": { "type": "integer", "minimum": 0 },
+        "uploadTotal": { "type": "integer", "minimum": 0, "maximum": 9223372036854775807 },
+        "downloadTotal": { "type": "integer", "minimum": 0, "maximum": 9223372036854775807 },
+        "activeConnections": { "type": "integer", "minimum": 0, "maximum": 1000000 }
+      }
+    },
+    "Connection": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "destination", "network", "uploadBytes", "downloadBytes"],
+      "properties": {
+        "id": { "$ref": "#/$defs/Identifier" },
+        "destination": { "type": "string", "minLength": 1, "maxLength": 253 },
+        "network": { "enum": ["tcp", "udp", "other"] },
+        "uploadBytes": { "type": "integer", "minimum": 0 },
+        "downloadBytes": { "type": "integer", "minimum": 0 },
+        "startedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "ConnectionsSnapshot": {
+      "type": "object", "additionalProperties": false,
+      "required": ["engine", "connections"],
+      "properties": {
+        "engine": { "enum": ["mihomo", "sing-box"] },
+        "connections": { "type": "array", "maxItems": 200, "items": { "$ref": "#/$defs/Connection" } }
+      }
+    },
+    "ConnectionCloseRequest": {
+      "type": "object", "additionalProperties": false,
+      "required": ["commandId", "connectionId", "expiresAt"],
+      "properties": {
+        "commandId": { "$ref": "#/$defs/Identifier" },
+        "connectionId": { "$ref": "#/$defs/Identifier" },
+        "expiresAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "ConnectionCloseResult": {
+      "type": "object", "additionalProperties": false,
+      "required": ["commandId", "status"],
+      "properties": {
+        "commandId": { "$ref": "#/$defs/Identifier" },
+        "status": { "enum": ["closed", "not-found", "failed"] },
+        "reasonCode": { "type": "string", "minLength": 1, "maxLength": 128 }
+      }
+    }
+  }
+}

@@ -1084,6 +1084,8 @@ type StorageClassDetailView struct {
 }
 
 type CRDView struct {
+	UID            string   `json:"uid,omitempty"`
+	DeletingAt     string   `json:"deletingAt,omitempty"`
 	Name           string   `json:"name"`
 	Group          string   `json:"group"`
 	Scope          string   `json:"scope"`
