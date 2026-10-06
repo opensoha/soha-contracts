@@ -6749,6 +6749,27 @@ func (e NetworkPolicyPath) Valid() bool {
 	}
 }
 
+// Defines values for NetworkProxyEngine.
+const (
+	NetworkProxyEngineMihomo  NetworkProxyEngine = "mihomo"
+	NetworkProxyEngineSingBox NetworkProxyEngine = "sing-box"
+	NetworkProxyEngineV2Ray   NetworkProxyEngine = "v2ray"
+)
+
+// Valid indicates whether the value is a known member of the NetworkProxyEngine enum.
+func (e NetworkProxyEngine) Valid() bool {
+	switch e {
+	case NetworkProxyEngineMihomo:
+		return true
+	case NetworkProxyEngineSingBox:
+		return true
+	case NetworkProxyEngineV2Ray:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for NetworkResourceKind.
 const (
 	NetworkResourceKindCIDR NetworkResourceKind = "cidr"
@@ -23027,6 +23048,16 @@ type NetworkPolicySubjects struct {
 	Users []string `json:"users"`
 }
 
+// NetworkProxyConfigurationInput defines model for NetworkProxyConfigurationInput.
+type NetworkProxyConfigurationInput struct {
+	Content          string `json:"content,omitempty"`
+	Enabled          bool   `json:"enabled"`
+	ExpectedRevision int64  `json:"expectedRevision"`
+}
+
+// NetworkProxyEngine defines model for NetworkProxyEngine.
+type NetworkProxyEngine string
+
 // NetworkProxyFlowSummary defines model for NetworkProxyFlowSummary.
 type NetworkProxyFlowSummary struct {
 	ActiveConnections int64             `json:"activeConnections"`
@@ -23039,6 +23070,14 @@ type NetworkProxyFlowSummary struct {
 	ProfileRevision   int               `json:"profileRevision"`
 	SelectedProxy     string            `json:"selectedProxy"`
 	UploadBytes       int64             `json:"uploadBytes"`
+}
+
+// NetworkProxyInstanceInput defines model for NetworkProxyInstanceInput.
+type NetworkProxyInstanceInput struct {
+	Engine NetworkProxyEngine `json:"engine"`
+	Host   string             `json:"host,omitempty"`
+	ID     string             `json:"id"`
+	Name   string             `json:"name"`
 }
 
 // NetworkResource defines model for NetworkResource.

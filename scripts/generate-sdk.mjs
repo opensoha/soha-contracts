@@ -290,6 +290,8 @@ function applyGoCompatibility(spec) {
     "DeliveryBatchAssessmentInput",
     "DeliveryBatchAssessment",
     "ObservabilityMetricAssessmentInput",
+    "NetworkProxyInstanceInput",
+    "NetworkProxyConfigurationInput",
   ]);
 
   const riskLevel = schemas.RiskLevel;
