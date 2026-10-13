@@ -2439,6 +2439,17 @@
           "chat": {
             "$ref": "#/components/schemas/AgentChatInput"
           },
+          "eventSequence": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "executionOwner": {
+            "enum": [
+              "native",
+              "external"
+            ],
+            "type": "string"
+          },
           "id": {
             "type": "string"
           },
@@ -2452,6 +2463,9 @@
           },
           "parentRunId": {
             "description": "Parent run for a single read-only specialist delegation; absent on root runs.",
+            "type": "string"
+          },
+          "phase": {
             "type": "string"
           },
           "providerId": {
@@ -2486,6 +2500,9 @@
           "status": {
             "type": "string"
           },
+          "stopReason": {
+            "type": "string"
+          },
           "timeoutSeconds": {
             "type": "integer"
           },
@@ -2499,6 +2516,9 @@
           "toolset": {
             "additionalProperties": true,
             "type": "object"
+          },
+          "usageKnown": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -2723,7 +2743,10 @@
                 "enum": [
                   "assistant"
                 ],
-                "type": "string"
+                "type": "string",
+                "x-enum-varnames": [
+                  "AgentRunCallbackWorkbenchMessageDeltaEventRoleAssistant"
+                ]
               },
               "type": {
                 "enum": [
@@ -2760,7 +2783,10 @@
                 "enum": [
                   "assistant"
                 ],
-                "type": "string"
+                "type": "string",
+                "x-enum-varnames": [
+                  "AgentRunCallbackWorkbenchMessageDeltaEventRoleAssistant"
+                ]
               },
               "type": {
                 "enum": [
@@ -3047,6 +3073,46 @@
         ],
         "type": "object"
       },
+      "AgentRunEventListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AgentRunEventPage"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "AgentRunEventPage": {
+        "additionalProperties": false,
+        "properties": {
+          "hasMore": {
+            "type": "boolean"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchStreamEvent"
+            },
+            "type": "array"
+          },
+          "nextSequence": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "resyncRequired": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "nextSequence",
+          "hasMore",
+          "resyncRequired"
+        ],
+        "type": "object"
+      },
       "AgentRunnerChangeArguments": {
         "additionalProperties": false,
         "properties": {
@@ -3174,6 +3240,16 @@
         },
         "type": "object"
       },
+      "AgentRunResumeRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "input": {
+            "maxLength": 16384,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "AgentRunToolCallRequest": {
         "additionalProperties": false,
         "properties": {
@@ -3204,6 +3280,183 @@
           "runId",
           "callbackToken",
           "agentId"
+        ],
+        "type": "object"
+      },
+      "AgentSSHCapability": {
+        "additionalProperties": false,
+        "properties": {
+          "agentId": {
+            "type": "string"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "commandsAvailable": {
+            "type": "boolean"
+          },
+          "protocolVersion": {
+            "const": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "agentId",
+          "protocolVersion",
+          "available"
+        ],
+        "type": "object"
+      },
+      "AgentSSHCommandRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "command": {
+            "maxLength": 16384,
+            "minLength": 1,
+            "type": "string",
+            "x-soha-sensitive": true
+          },
+          "session": {
+            "$ref": "#/components/schemas/AgentSSHSessionRequest"
+          },
+          "timeoutSeconds": {
+            "maximum": 300,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "session",
+          "command",
+          "timeoutSeconds"
+        ],
+        "type": "object"
+      },
+      "AgentSSHCommandResult": {
+        "additionalProperties": false,
+        "properties": {
+          "agentId": {
+            "type": "string"
+          },
+          "commandDigest": {
+            "type": "string"
+          },
+          "effect": {
+            "enum": [
+              "not_started",
+              "exited",
+              "unknown"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "AgentSSHCommandResultEffectNotStarted",
+              "AgentSSHCommandResultEffectExited",
+              "AgentSSHCommandResultEffectUnknown"
+            ]
+          },
+          "exitCode": {
+            "maximum": 255,
+            "minimum": 0,
+            "type": "integer",
+            "x-go-type-skip-optional-pointer": false
+          },
+          "outputDigest": {
+            "type": "string"
+          },
+          "outputTruncated": {
+            "type": "boolean"
+          },
+          "sessionId": {
+            "type": "string"
+          },
+          "stderr": {
+            "maxLength": 1048576,
+            "type": "string"
+          },
+          "stdout": {
+            "maxLength": 1048576,
+            "type": "string"
+          },
+          "stopped": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "sessionId",
+          "agentId",
+          "commandDigest",
+          "effect",
+          "stopped"
+        ],
+        "type": "object"
+      },
+      "AgentSSHSessionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "agentId": {
+            "type": "string"
+          },
+          "cols": {
+            "maximum": 512,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "controlPlaneEndpoint": {
+            "format": "uri",
+            "type": "string"
+          },
+          "credentialKind": {
+            "$ref": "#/components/schemas/SecretKind"
+          },
+          "executionClusterId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "lease": {
+            "$ref": "#/components/schemas/SecretLeaseGrant"
+          },
+          "port": {
+            "maximum": 65535,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "rows": {
+            "maximum": 512,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "sessionId": {
+            "type": "string"
+          },
+          "trustedHostKey": {
+            "maxLength": 16384,
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "sessionId",
+          "agentId",
+          "executionClusterId",
+          "address",
+          "port",
+          "username",
+          "trustedHostKey",
+          "credentialKind",
+          "lease",
+          "controlPlaneEndpoint",
+          "expiresAt",
+          "cols",
+          "rows"
         ],
         "type": "object"
       },
@@ -3674,11 +3927,13 @@
       },
       "AIEnvironmentTemplate": {
         "additionalProperties": false,
+        "description": "Personal policies are mutually exclusive and require matching container or vm backend, an ID of at most 128 characters, and empty legacy resourcePolicy/networkPolicy maps. VM backend requires personalVM; its quota cannot exceed the independent disk size. The server checks current resource scope and explicit owner assignment; saving configuration is not an environment readiness receipt.",
         "properties": {
           "backend": {
             "enum": [
               "container",
-              "kubernetes"
+              "kubernetes",
+              "vm"
             ],
             "type": "string"
           },
@@ -3704,6 +3959,12 @@
           "networkPolicy": {
             "additionalProperties": true,
             "type": "object"
+          },
+          "personalDocker": {
+            "$ref": "#/components/schemas/PersonalDockerEnvironmentPolicy"
+          },
+          "personalVM": {
+            "$ref": "#/components/schemas/PersonalVMEnvironmentPolicy"
           },
           "resourcePolicy": {
             "additionalProperties": true,
@@ -3742,11 +4003,13 @@
       },
       "AIEnvironmentTemplateInput": {
         "additionalProperties": false,
+        "description": "Personal policies are mutually exclusive and require matching container or vm backend, an ID of at most 128 characters, and empty legacy resourcePolicy/networkPolicy maps. VM backend requires personalVM; its quota cannot exceed the independent disk size. The server checks current resource scope and explicit owner assignment; saving configuration is not an environment readiness receipt.",
         "properties": {
           "backend": {
             "enum": [
               "container",
-              "kubernetes"
+              "kubernetes",
+              "vm"
             ],
             "type": "string"
           },
@@ -3768,6 +4031,12 @@
           "networkPolicy": {
             "additionalProperties": true,
             "type": "object"
+          },
+          "personalDocker": {
+            "$ref": "#/components/schemas/PersonalDockerEnvironmentPolicy"
+          },
+          "personalVM": {
+            "$ref": "#/components/schemas/PersonalVMEnvironmentPolicy"
           },
           "resourcePolicy": {
             "additionalProperties": true,
@@ -4065,6 +4334,7 @@
             "type": "string"
           },
           "sourceRefs": {
+            "description": "Source receipts. Workbench model context supports soha://session/<sessionId>/message/<messageId> and rechecks current ownership and source access. Unsupported historical references remain stored but are withheld from model context.",
             "items": {
               "type": "string"
             },
@@ -8241,6 +8511,27 @@
         ],
         "type": "object"
       },
+      "CapabilityScopeConstraint": {
+        "additionalProperties": false,
+        "properties": {
+          "dimension": {
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Za-z][A-Za-z0-9_]{0,63}$",
+            "type": "string"
+          },
+          "value": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "dimension",
+          "value"
+        ],
+        "type": "object"
+      },
       "CapabilityTask": {
         "additionalProperties": false,
         "description": "A governed goal and its existing Workflow run. Domain tasks retain ownership of effects and cancellation.",
@@ -8270,6 +8561,13 @@
           "planVersion": {
             "minimum": 1,
             "type": "integer"
+          },
+          "scopeConstraints": {
+            "items": {
+              "$ref": "#/components/schemas/CapabilityScopeConstraint"
+            },
+            "maxItems": 20,
+            "type": "array"
           },
           "status": {
             "type": "string"
@@ -8320,6 +8618,15 @@
           },
           "plan": {
             "$ref": "#/components/schemas/CapabilityPlan"
+          },
+          "scopeConstraints": {
+            "description": "Immutable exact target constraints for every resolved invocation, approval replay, status read and cancellation. These narrow scope and never grant permission.",
+            "items": {
+              "$ref": "#/components/schemas/CapabilityScopeConstraint"
+            },
+            "maxItems": 20,
+            "type": "array",
+            "uniqueItems": true
           },
           "skillId": {
             "type": "string"
@@ -16879,6 +17186,9 @@
           "flavorId": {
             "type": "string"
           },
+          "guestAccess": {
+            "$ref": "#/components/schemas/VirtualMachineGuestAccessInput"
+          },
           "imageId": {
             "type": "string"
           },
@@ -18450,6 +18760,9 @@
             "properties": {
               "helm": {
                 "$ref": "#/components/schemas/HelmExecutionTaskPayload"
+              },
+              "sshCommand": {
+                "$ref": "#/components/schemas/AgentSSHCommandRequest"
               }
             },
             "type": "object",
@@ -18469,6 +18782,9 @@
             "properties": {
               "helm": {
                 "$ref": "#/components/schemas/HelmExecutionTaskResult"
+              },
+              "sshCommand": {
+                "$ref": "#/components/schemas/AgentSSHCommandResult"
               }
             },
             "type": "object",
@@ -22262,7 +22578,13 @@
           "documentTitle": {
             "type": "string"
           },
+          "documentVersionId": {
+            "type": "string"
+          },
           "id": {
+            "type": "string"
+          },
+          "indexRevisionId": {
             "type": "string"
           },
           "knowledgeBaseId": {
@@ -22270,6 +22592,10 @@
           },
           "location": {
             "$ref": "#/components/schemas/KnowledgeSourceLocation"
+          },
+          "retrievedAt": {
+            "format": "date-time",
+            "type": "string"
           },
           "score": {
             "type": "number"
@@ -22341,6 +22667,7 @@
         "properties": {
           "config": {
             "additionalProperties": true,
+            "description": "External connector config may include importPolicy conforming to knowledge/source-import-policy.schema.json. Core uses this trusted ceiling; fetched ACLs cannot expand it. Omission defaults to the knowledge-base owner. Credentials use secretRef and Gateway authorization, never config values.",
             "type": "object"
           },
           "kind": {
@@ -22363,6 +22690,7 @@
             "type": "string"
           },
           "secretRef": {
+            "description": "Gateway execution uses soha://secrets/<id> with an optional /versions/<n>. Legacy secret: references remain readable but require explicit configuration migration before execution.",
             "maxLength": 512,
             "type": "string"
           },
@@ -23189,6 +23517,9 @@
             },
             "type": "array"
           },
+          "degradationReason": {
+            "type": "string"
+          },
           "hits": {
             "items": {
               "$ref": "#/components/schemas/KnowledgeSearchHit"
@@ -23199,6 +23530,13 @@
             "type": "boolean"
           },
           "query": {
+            "type": "string"
+          },
+          "retrievalMode": {
+            "enum": [
+              "lexical",
+              "hybrid"
+            ],
             "type": "string"
           },
           "timingMs": {
@@ -23314,12 +23652,37 @@
       },
       "KnowledgeSourceDocument": {
         "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "deleted": {
+                  "const": true
+                }
+              },
+              "required": [
+                "deleted"
+              ]
+            },
+            "then": {
+              "properties": {
+                "content": {
+                  "maxLength": 0
+                }
+              }
+            }
+          }
+        ],
         "properties": {
           "acl": {
             "$ref": "#/components/schemas/KnowledgeAccessScope"
           },
           "content": {
             "type": "string"
+          },
+          "deleted": {
+            "description": "Explicit source tombstone for this externalId. Missing documents in a partial fetch do not imply deletion. A tombstone has empty content.",
+            "type": "boolean"
           },
           "externalId": {
             "minLength": 1,
@@ -33929,6 +34292,7 @@
           },
           "metadata": {
             "additionalProperties": true,
+            "description": "Optional contextWindowTokens declares this route model window as a positive integer token count. Missing or invalid values mean unknown capacity; model names are never used to guess it.",
             "type": "object"
           },
           "priority": {
@@ -34024,6 +34388,7 @@
           },
           "metadata": {
             "additionalProperties": true,
+            "description": "Optional contextWindowTokens declares this route model window as a positive integer token count. Missing or invalid values mean unknown capacity; model names are never used to guess it.",
             "type": "object"
           },
           "priority": {
@@ -48325,6 +48690,1326 @@
         ],
         "type": "object"
       },
+      "PersonalAgentAccess": {
+        "additionalProperties": false,
+        "properties": {
+          "decidedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "decidedBy": {
+            "type": "string"
+          },
+          "requestedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "not_requested",
+              "pending",
+              "approved",
+              "rejected",
+              "revoked"
+            ],
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "version": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "userId",
+          "status",
+          "version"
+        ],
+        "type": "object"
+      },
+      "PersonalAgentAccessDecision": {
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "enum": [
+              "approved",
+              "rejected",
+              "revoked"
+            ],
+            "type": "string"
+          },
+          "version": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "status",
+          "version"
+        ],
+        "type": "object"
+      },
+      "PersonalAgentAccessEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PersonalAgentAccess"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "PersonalAgentAccessListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/PersonalAgentAccess"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "PersonalAssistant": {
+        "additionalProperties": false,
+        "properties": {
+          "avatarMotion": {
+            "enum": [
+              "auto",
+              "off"
+            ],
+            "type": "string"
+          },
+          "avatarPosterUrl": {
+            "description": "Static PNG/JPEG data URL used when motion is disabled or reduced.",
+            "maxLength": 150000,
+            "type": "string"
+          },
+          "avatarUrl": {
+            "description": "Bounded raster data URL belonging to this assistant, not the login account. Empty or absent uses the default image.",
+            "maxLength": 700000,
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "id": {
+            "readOnly": true,
+            "type": "string"
+          },
+          "mainSessionId": {
+            "readOnly": true,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 60,
+            "minLength": 1,
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "mainSessionId",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "PersonalAssistantArtifact": {
+        "additionalProperties": false,
+        "properties": {
+          "artifact": {
+            "$ref": "#/components/schemas/WorkbenchAnalysisArtifact"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "id": {
+            "readOnly": true,
+            "type": "string"
+          },
+          "messageId": {
+            "readOnly": true,
+            "type": "string"
+          },
+          "sessionId": {
+            "readOnly": true,
+            "type": "string"
+          },
+          "taskId": {
+            "readOnly": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "artifact",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "PersonalAssistantArtifactListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/PersonalAssistantArtifact"
+            },
+            "maxItems": 50,
+            "type": "array"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "PersonalAssistantAvatarRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "avatarMotion": {
+            "default": "auto",
+            "enum": [
+              "auto",
+              "off"
+            ],
+            "type": "string"
+          },
+          "avatarPosterUrl": {
+            "maxLength": 150000,
+            "pattern": "^(data:image/(png|jpeg);base64,[A-Za-z0-9+/]+={0,2})?$",
+            "type": "string"
+          },
+          "avatarUrl": {
+            "maxLength": 700000,
+            "pattern": "^(data:image/(png|jpeg|gif|webp);base64,[A-Za-z0-9+/]+={0,2})?$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "avatarUrl"
+        ],
+        "type": "object"
+      },
+      "PersonalAssistantEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PersonalAssistant"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "PersonalAssistantUpdateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "maxLength": 60,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "PersonalDockerEnvironmentPolicy": {
+        "additionalProperties": false,
+        "description": "Administrator-selected registered Agent connection and hard personal-data quota. No user-entered URL, Docker handle, image or credential. Only container templates can use this policy; existing bindings freeze it and cannot silently move or resize their data. Runtime readiness still requires real Agent receipts.",
+        "properties": {
+          "agentClusterId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "leaseSeconds": {
+            "maximum": 3600,
+            "minimum": 60,
+            "type": "integer"
+          },
+          "quota": {
+            "$ref": "#/components/schemas/PersonalEnvironmentQuota"
+          }
+        },
+        "required": [
+          "agentClusterId",
+          "quota",
+          "leaseSeconds"
+        ],
+        "type": "object"
+      },
+      "PersonalEnvironment": {
+        "additionalProperties": false,
+        "properties": {
+          "assistantId": {
+            "minLength": 1,
+            "readOnly": true,
+            "type": "string"
+          },
+          "backend": {
+            "description": "Frozen execution backend of this binding; never inferred from the current template.",
+            "enum": [
+              "container",
+              "vm"
+            ],
+            "readOnly": true,
+            "type": "string"
+          },
+          "computeGeneration": {
+            "description": "Reserved execution generation; zero means no execution has been reserved.",
+            "format": "int64",
+            "minimum": 0,
+            "readOnly": true,
+            "type": "integer"
+          },
+          "computeRef": {
+            "description": "Opaque execution reference; not a physical handle or readiness proof.",
+            "maxLength": 128,
+            "minLength": 1,
+            "readOnly": true,
+            "type": "string"
+          },
+          "dataInitialized": {
+            "description": "A successful past data receipt; does not prove that data currently exists or that the environment is ready.",
+            "readOnly": true,
+            "type": "boolean"
+          },
+          "dataRef": {
+            "description": "Stable logical personal-data identity. Existence requires a fresh authorized receipt.",
+            "maxLength": 128,
+            "minLength": 1,
+            "readOnly": true,
+            "type": "string"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "observedAt": {
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "policyRevision": {
+            "description": "Frozen policy identity. legacy-docker-v1 preserves the original stored lease and quota.",
+            "maxLength": 128,
+            "minLength": 1,
+            "readOnly": true,
+            "type": "string"
+          },
+          "provider": {
+            "enum": [
+              "docker",
+              "pve",
+              "kubevirt"
+            ],
+            "readOnly": true,
+            "type": "string"
+          },
+          "quota": {
+            "$ref": "#/components/schemas/PersonalEnvironmentQuota"
+          },
+          "state": {
+            "enum": [
+              "unprovisioned",
+              "pending",
+              "ready",
+              "sleeping",
+              "missing",
+              "expired",
+              "unknown",
+              "quota_exceeded",
+              "deleting",
+              "deletion_unknown",
+              "deleted"
+            ],
+            "readOnly": true,
+            "type": "string"
+          },
+          "templateId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "readOnly": true,
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "readOnly": true,
+            "type": "string"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/PersonalEnvironmentUsage"
+          },
+          "version": {
+            "format": "int64",
+            "minimum": 0,
+            "readOnly": true,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "assistantId",
+          "state",
+          "version",
+          "dataInitialized"
+        ],
+        "type": "object"
+      },
+      "PersonalEnvironmentActionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "enum": [
+              "wake",
+              "sleep",
+              "reconcile"
+            ],
+            "type": "string"
+          },
+          "templateId": {
+            "description": "Required on first wake; may only select the already bound template afterward. Only wake accepts this field.",
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "action"
+        ],
+        "type": "object"
+      },
+      "PersonalEnvironmentDataDeletionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "assistantId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "confirmationName": {
+            "maxLength": 60,
+            "minLength": 1,
+            "type": "string"
+          },
+          "environmentVersion": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "assistantId",
+          "environmentVersion",
+          "confirmationName"
+        ],
+        "type": "object"
+      },
+      "PersonalEnvironmentDataExportRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "assistantId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "environmentVersion": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "assistantId",
+          "environmentVersion"
+        ],
+        "type": "object"
+      },
+      "PersonalEnvironmentEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PersonalEnvironment"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "PersonalEnvironmentQuota": {
+        "additionalProperties": false,
+        "properties": {
+          "cpuUnits": {
+            "description": "CPU millicores; 1000 is one CPU.",
+            "format": "int64",
+            "maximum": 8000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "diskBytes": {
+            "description": "Hard charged persistent-data bytes; temporary mounts charge memory instead.",
+            "format": "int64",
+            "maximum": 1099511627776,
+            "minimum": 16777216,
+            "type": "integer"
+          },
+          "maxProcesses": {
+            "maximum": 256,
+            "minimum": 4,
+            "type": "integer"
+          },
+          "memoryBytes": {
+            "format": "int64",
+            "maximum": 17179869184,
+            "minimum": 33554432,
+            "type": "integer"
+          },
+          "networkEgress": {
+            "const": false,
+            "description": "Direct network access is not supported by this personal environment policy.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "diskBytes",
+          "memoryBytes",
+          "cpuUnits",
+          "maxProcesses",
+          "networkEgress"
+        ],
+        "type": "object"
+      },
+      "PersonalEnvironmentTemplate": {
+        "additionalProperties": false,
+        "properties": {
+          "backend": {
+            "enum": [
+              "container",
+              "vm"
+            ],
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "leaseSeconds": {
+            "maximum": 3600,
+            "minimum": 60,
+            "type": "integer"
+          },
+          "mode": {
+            "enum": [
+              "observe-only",
+              "restricted-write"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "policyRevision": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "provider": {
+            "enum": [
+              "docker",
+              "pve",
+              "kubevirt"
+            ],
+            "type": "string"
+          },
+          "quota": {
+            "$ref": "#/components/schemas/PersonalEnvironmentQuota"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "mode",
+          "leaseSeconds",
+          "quota"
+        ],
+        "type": "object"
+      },
+      "PersonalEnvironmentTemplateListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/PersonalEnvironmentTemplate"
+            },
+            "maxItems": 100,
+            "type": "array"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "PersonalEnvironmentUsage": {
+        "additionalProperties": false,
+        "properties": {
+          "cpuTimeNanos": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "diskBytes": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "memoryBytes": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "processes": {
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "diskBytes",
+          "memoryBytes",
+          "cpuTimeNanos",
+          "processes"
+        ],
+        "type": "object"
+      },
+      "PersonalFeedEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PersonalFeedPage"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "PersonalFeedFeedback": {
+        "additionalProperties": false,
+        "properties": {
+          "hidden": {
+            "type": "boolean"
+          },
+          "liked": {
+            "type": "boolean"
+          }
+        },
+        "required": [],
+        "type": "object"
+      },
+      "PersonalFeedItem": {
+        "additionalProperties": false,
+        "properties": {
+          "body": {
+            "maxLength": 4000,
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "liked": {
+            "type": "boolean"
+          },
+          "reason": {
+            "maxLength": 1000,
+            "type": "string"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/PersonalFeedSource"
+            },
+            "maxItems": 5,
+            "minItems": 1,
+            "type": "array"
+          },
+          "title": {
+            "maxLength": 200,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "body",
+          "reason",
+          "sources",
+          "liked",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "PersonalFeedItemEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PersonalFeedItem"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "PersonalFeedPage": {
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "maxLength": 1000,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/PersonalFeedItem"
+            },
+            "type": "array"
+          },
+          "lastUpdatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "nextCursor": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "searchTools": {
+            "items": {
+              "$ref": "#/components/schemas/PersonalFeedSearchTool"
+            },
+            "type": "array"
+          },
+          "settings": {
+            "$ref": "#/components/schemas/PersonalFeedSettings"
+          },
+          "state": {
+            "enum": [
+              "idle",
+              "queued",
+              "running",
+              "failed"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "items",
+          "settings",
+          "state",
+          "searchTools"
+        ],
+        "type": "object"
+      },
+      "PersonalFeedSearchTool": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "title": {
+            "maxLength": 256,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "title"
+        ],
+        "type": "object"
+      },
+      "PersonalFeedSettings": {
+        "additionalProperties": false,
+        "properties": {
+          "autoUpdate": {
+            "type": "boolean"
+          },
+          "instructions": {
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "searchTool": {
+            "maxLength": 256,
+            "type": "string"
+          }
+        },
+        "required": [
+          "instructions",
+          "searchTool",
+          "autoUpdate"
+        ],
+        "type": "object"
+      },
+      "PersonalFeedSource": {
+        "additionalProperties": false,
+        "properties": {
+          "excerpt": {
+            "maxLength": 4000,
+            "type": "string"
+          },
+          "title": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "url": {
+            "format": "uri",
+            "maxLength": 2048,
+            "pattern": "^https://",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url",
+          "title",
+          "excerpt"
+        ],
+        "type": "object"
+      },
+      "PersonalGuestPreparation": {
+        "additionalProperties": false,
+        "properties": {
+          "bindingId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "certificatePEM": {
+            "maxLength": 8192,
+            "minLength": 1,
+            "type": "string"
+          },
+          "challenge": {
+            "audits": null,
+            "description": "One-time 32-byte unpadded base64url token. Must not enter logs",
+            "events or command receipts.": null,
+            "pattern": "^[A-Za-z0-9_-]{43}$",
+            "type": "string",
+            "x-soha-sensitive": true
+          },
+          "clientCAPEM": {
+            "maxLength": 8192,
+            "minLength": 1,
+            "type": "string"
+          },
+          "endpoint": {
+            "description": "Core-configured HTTPS guest endpoint; never a caller-selected destination.",
+            "format": "uri",
+            "maxLength": 512,
+            "type": "string"
+          },
+          "enrollmentId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "expiresAt": {
+            "description": "The bootstrap challenge expiry",
+            "format": "date-time",
+            "not an environment readiness or execution lease.": null,
+            "type": "string"
+          }
+        },
+        "required": [
+          "bindingId",
+          "enrollmentId",
+          "challenge",
+          "endpoint",
+          "certificatePEM",
+          "clientCAPEM",
+          "expiresAt"
+        ],
+        "type": "object"
+      },
+      "PersonalGuestPreparationEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PersonalGuestPreparation"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "PersonalGuestPreparationInput": {
+        "additionalProperties": false,
+        "properties": {
+          "csrPEM": {
+            "description": "Signed Ed25519 CSR containing only a public key. Requested subject and identity never grant authority.",
+            "maxLength": 4096,
+            "minLength": 1,
+            "type": "string"
+          },
+          "environmentVersion": {
+            "format": "int64",
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "environmentVersion",
+          "csrPEM"
+        ],
+        "type": "object"
+      },
+      "PersonalGuestRuntime": {
+        "additionalProperties": false,
+        "properties": {
+          "assistantId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "browser": {
+            "additionalProperties": false,
+            "properties": {
+              "controlId": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "generation": {
+                "format": "int64",
+                "maximum": 9007199254740991,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "height": {
+                "const": 600,
+                "type": "integer"
+              },
+              "instanceId": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "jpegBase64": {
+                "maxLength": 49152,
+                "type": "string"
+              },
+              "text": {
+                "maxLength": 4096,
+                "type": "string"
+              },
+              "title": {
+                "maxLength": 512,
+                "type": "string"
+              },
+              "url": {
+                "maxLength": 4096,
+                "type": "string"
+              },
+              "width": {
+                "const": 800,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "controlId",
+              "generation",
+              "instanceId",
+              "width",
+              "height"
+            ],
+            "type": "object"
+          },
+          "environmentVersion": {
+            "format": "int64",
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "exitCode": {
+            "maximum": 255,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "file": {
+            "additionalProperties": false,
+            "properties": {
+              "contentBase64": {
+                "maxLength": 60076,
+                "type": "string"
+              },
+              "path": {
+                "maxLength": 1024,
+                "type": "string"
+              },
+              "sha256": {
+                "pattern": "^[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "size": {
+                "format": "int64",
+                "maximum": 45056,
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "path",
+              "sha256",
+              "size"
+            ],
+            "type": "object"
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "execute",
+              "file_read",
+              "file_write",
+              "docker",
+              "browser"
+            ],
+            "type": "string"
+          },
+          "output": {
+            "maxLength": 65536,
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "queued",
+              "running",
+              "succeeded",
+              "failed",
+              "canceled",
+              "unknown"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "status",
+          "assistantId",
+          "environmentVersion"
+        ],
+        "type": "object"
+      },
+      "PersonalGuestRuntimeEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PersonalGuestRuntime"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "PersonalGuestRuntimeInput": {
+        "additionalProperties": false,
+        "properties": {
+          "argv": {
+            "items": {
+              "maxLength": 4096,
+              "type": "string"
+            },
+            "maxItems": 64,
+            "minItems": 1,
+            "type": "array"
+          },
+          "browser": {
+            "additionalProperties": false,
+            "properties": {
+              "action": {
+                "enum": [
+                  "acquire",
+                  "snapshot",
+                  "navigate",
+                  "click",
+                  "type",
+                  "pointer",
+                  "takeover",
+                  "return",
+                  "release"
+                ],
+                "type": "string"
+              },
+              "controlId": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "generation": {
+                "format": "int64",
+                "maximum": 9007199254740991,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "selector": {
+                "maxLength": 2048,
+                "type": "string"
+              },
+              "text": {
+                "maxLength": 4096,
+                "type": "string"
+              },
+              "url": {
+                "maxLength": 4096,
+                "type": "string"
+              },
+              "x": {
+                "maximum": 799,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "y": {
+                "maximum": 599,
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "action"
+            ],
+            "type": "object"
+          },
+          "environmentVersion": {
+            "format": "int64",
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "file": {
+            "additionalProperties": false,
+            "properties": {
+              "contentBase64": {
+                "maxLength": 60076,
+                "type": "string"
+              },
+              "expectedSHA256": {
+                "pattern": "^[a-f0-9]{64}$",
+                "type": "string"
+              },
+              "path": {
+                "maxLength": 1024,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "type": "object"
+          },
+          "idempotencyKey": {
+            "maxLength": 128,
+            "minLength": 8,
+            "pattern": "^[a-zA-Z0-9_-]+$",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "execute",
+              "file_read",
+              "file_write",
+              "docker",
+              "browser"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "environmentVersion",
+          "idempotencyKey",
+          "kind"
+        ],
+        "type": "object"
+      },
+      "PersonalGuestToolsInput": {
+        "additionalProperties": false,
+        "properties": {
+          "environmentVersion": {
+            "format": "int64",
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "idempotencyKey": {
+            "maxLength": 128,
+            "minLength": 8,
+            "pattern": "^[a-zA-Z0-9_-]+$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "environmentVersion",
+          "idempotencyKey"
+        ],
+        "type": "object"
+      },
+      "PersonalVMEnvironmentPolicy": {
+        "additionalProperties": false,
+        "description": "Administrator assignment of an existing Soha-managed PVE VM and independent data disk to one user. The server checks administrator VM access update scope and the current approved owner's VM view scope. Binding freezes fresh provider and disk identity; saving or binding does not initialize data or grant runtime readiness. No provider URL, credential, root disk or arbitrary device path is accepted.",
+        "properties": {
+          "computeRef": {
+            "description": "Soha VM ID",
+            "format": "uuid",
+            "not a provider VM number.": null,
+            "type": "string"
+          },
+          "dataDiskBytes": {
+            "description": "Exact independent disk size in whole GiB.",
+            "format": "int64",
+            "maximum": 1099511627776,
+            "minimum": 1073741824,
+            "multipleOf": 1073741824,
+            "type": "integer"
+          },
+          "dataDiskSerial": {
+            "pattern": "^[A-Za-z0-9_-]{1,20}$",
+            "type": "string"
+          },
+          "leaseSeconds": {
+            "maximum": 3600,
+            "minimum": 60,
+            "type": "integer"
+          },
+          "ownerId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "provider": {
+            "enum": [
+              "pve"
+            ],
+            "type": "string"
+          },
+          "quota": {
+            "$ref": "#/components/schemas/PersonalEnvironmentQuota"
+          }
+        },
+        "required": [
+          "ownerId",
+          "computeRef",
+          "provider",
+          "dataDiskSerial",
+          "dataDiskBytes",
+          "quota",
+          "leaseSeconds"
+        ],
+        "type": "object"
+      },
+      "PersonalWorkspaceRuntime": {
+        "additionalProperties": false,
+        "properties": {
+          "assistantId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "browserControl": {
+            "additionalProperties": false,
+            "properties": {
+              "controlId": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "expiresAt": {
+                "format": "date-time",
+                "type": "string"
+              },
+              "generation": {
+                "format": "int64",
+                "maximum": 9007199254740991,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "instanceId": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "owner": {
+                "enum": [
+                  "user",
+                  "agent",
+                  "released"
+                ],
+                "type": "string"
+              },
+              "taskId": {
+                "format": "uuid",
+                "type": "string"
+              }
+            },
+            "required": [
+              "controlId",
+              "generation",
+              "owner",
+              "expiresAt"
+            ],
+            "type": "object"
+          },
+          "environmentVersion": {
+            "format": "int64",
+            "maximum": 9007199254740991,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "latest": {
+            "$ref": "#/components/schemas/PersonalGuestRuntime"
+          }
+        },
+        "required": [
+          "assistantId",
+          "environmentVersion"
+        ],
+        "type": "object"
+      },
+      "PersonalWorkspaceRuntimeEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PersonalWorkspaceRuntime"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
       "PlatformAuditLog": {
         "additionalProperties": false,
         "properties": {
@@ -53108,6 +54793,9 @@
       "SecretBinding": {
         "additionalProperties": false,
         "properties": {
+          "purpose": {
+            "$ref": "#/components/schemas/SecretPurpose"
+          },
           "targetRef": {
             "maxLength": 256,
             "minLength": 1,
@@ -53117,13 +54805,17 @@
             "enum": [
               "capability",
               "project",
-              "connection"
+              "connection",
+              "vm",
+              "vm_create"
             ],
             "type": "string",
             "x-enum-varnames": [
               "SecretBindingCapability",
               "SecretBindingProject",
-              "SecretBindingConnection"
+              "SecretBindingConnection",
+              "SecretBindingVM",
+              "SecretBindingVMCreate"
             ]
           }
         },
@@ -53158,6 +54850,9 @@
             "maxLength": 1024,
             "type": "string"
           },
+          "kind": {
+            "$ref": "#/components/schemas/SecretKind"
+          },
           "name": {
             "maxLength": 128,
             "minLength": 1,
@@ -53170,6 +54865,12 @@
           },
           "scopeType": {
             "$ref": "#/components/schemas/SecretScopeType"
+          },
+          "sshPassphrase": {
+            "maxLength": 4096,
+            "type": "string",
+            "writeOnly": true,
+            "x-soha-sensitive": true
           },
           "value": {
             "maxLength": 1048576,
@@ -53194,6 +54895,58 @@
           }
         },
         "type": "object"
+      },
+      "SecretGenerateSSHKeyRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "bindings": {
+            "items": {
+              "$ref": "#/components/schemas/SecretBinding"
+            },
+            "maxItems": 100,
+            "minItems": 1,
+            "type": "array"
+          },
+          "description": {
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "scopeId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "scopeType": {
+            "$ref": "#/components/schemas/SecretScopeType"
+          }
+        },
+        "required": [
+          "name",
+          "scopeType",
+          "scopeId",
+          "bindings"
+        ],
+        "type": "object"
+      },
+      "SecretKind": {
+        "enum": [
+          "opaque",
+          "ssh_keypair",
+          "ssh_public_key",
+          "ssh_password"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "SecretKindOpaque",
+          "SecretKindSSHKeypair",
+          "SecretKindSSHPublicKey",
+          "SecretKindSSHPassword"
+        ]
       },
       "SecretLeaseGrant": {
         "additionalProperties": false,
@@ -53284,8 +55037,14 @@
           "id": {
             "type": "string"
           },
+          "kind": {
+            "$ref": "#/components/schemas/SecretKind"
+          },
           "name": {
             "type": "string"
+          },
+          "publicKey": {
+            "$ref": "#/components/schemas/SecretSSHPublicKey"
           },
           "scopeId": {
             "type": "string"
@@ -53342,6 +55101,19 @@
         ],
         "type": "object"
       },
+      "SecretPurpose": {
+        "enum": [
+          "vm_cloud_init",
+          "vm_auth",
+          "vm_exec"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "SecretPurposeVMCloudInit",
+          "SecretPurposeVMAuth",
+          "SecretPurposeVMExec"
+        ]
+      },
       "SecretReferenceMap": {
         "additionalProperties": {
           "pattern": "^soha://secrets/[A-Za-z0-9._-]+(?:/versions/[1-9][0-9]*)?$",
@@ -53350,6 +55122,54 @@
         "propertyNames": {
           "pattern": "^[A-Z_][A-Z0-9_]*$"
         },
+        "type": "object"
+      },
+      "SecretReferenceUsage": {
+        "additionalProperties": false,
+        "properties": {
+          "bindingRevision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
+          },
+          "targetId": {
+            "type": "string"
+          },
+          "usage": {
+            "description": "login_binding, ssh_session or cloud_init_operation. Historical initialization does not assert that the guest still trusts this key.",
+            "type": "string"
+          },
+          "version": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "vmId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "targetId",
+          "usage",
+          "version",
+          "status"
+        ],
+        "type": "object"
+      },
+      "SecretReferenceUsageListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SecretReferenceUsage"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
         "type": "object"
       },
       "SecretRotateRequest": {
@@ -53366,6 +55186,12 @@
           ]
         },
         "properties": {
+          "sshPassphrase": {
+            "maxLength": 4096,
+            "type": "string",
+            "writeOnly": true,
+            "x-soha-sensitive": true
+          },
           "value": {
             "maxLength": 1048576,
             "minLength": 1,
@@ -53397,6 +55223,27 @@
           "SecretScopeProject",
           "SecretScopeEnvironment"
         ]
+      },
+      "SecretSSHPublicKey": {
+        "additionalProperties": false,
+        "properties": {
+          "algorithm": {
+            "type": "string"
+          },
+          "authorizedKey": {
+            "maxLength": 16384,
+            "type": "string"
+          },
+          "fingerprint": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "authorizedKey",
+          "algorithm",
+          "fingerprint"
+        ],
+        "type": "object"
       },
       "SecretStatus": {
         "enum": [
@@ -53478,6 +55325,12 @@
           },
           "createdBy": {
             "type": "string"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/SecretKind"
+          },
+          "publicKey": {
+            "$ref": "#/components/schemas/SecretSSHPublicKey"
           },
           "revokedAt": {
             "format": "date-time",
@@ -55907,6 +57760,85 @@
         ],
         "type": "object"
       },
+      "VirtualizationCapacityCheckDiagnostic": {
+        "additionalProperties": false,
+        "properties": {
+          "available": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "check": {
+            "enum": [
+              "budget",
+              "runtime",
+              "storage"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "VirtualizationCapacityCheckDiagnosticCheckBudget",
+              "VirtualizationCapacityCheckDiagnosticCheckRuntime",
+              "VirtualizationCapacityCheckDiagnosticCheckStorage"
+            ]
+          },
+          "committed": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "demand": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "dimension": {
+            "enum": [
+              "cpu",
+              "memory",
+              "disk"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "VirtualizationCapacityCheckDiagnosticDimensionCpu",
+              "VirtualizationCapacityCheckDiagnosticDimensionMemory",
+              "VirtualizationCapacityCheckDiagnosticDimensionDisk"
+            ]
+          },
+          "limit": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "pending": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "available",
+              "unavailable",
+              "unknown"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "VirtualizationCapacityCheckDiagnosticStatusAvailable",
+              "VirtualizationCapacityCheckDiagnosticStatusUnavailable",
+              "VirtualizationCapacityCheckDiagnosticStatusUnknown"
+            ]
+          }
+        },
+        "required": [
+          "check",
+          "dimension",
+          "status",
+          "limit",
+          "committed",
+          "pending",
+          "demand",
+          "available",
+          "reason"
+        ],
+        "type": "object"
+      },
       "VirtualizationCapacityEnvelope": {
         "additionalProperties": false,
         "properties": {
@@ -55954,6 +57886,11 @@
             "description": "Optional exact provider node constraint.",
             "type": "string"
           },
+          "startAfterCreate": {
+            "default": true,
+            "type": "boolean",
+            "x-go-type-skip-optional-pointer": false
+          },
           "storage": {
             "description": "Optional exact PVE storage name or KubeVirt StorageClass.",
             "type": "string"
@@ -55967,12 +57904,145 @@
         ],
         "type": "object"
       },
+      "VirtualizationCapacityNodeDiagnostic": {
+        "additionalProperties": false,
+        "properties": {
+          "checks": {
+            "items": {
+              "$ref": "#/components/schemas/VirtualizationCapacityCheckDiagnostic"
+            },
+            "type": "array"
+          },
+          "node": {
+            "type": "string"
+          },
+          "storage": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "node",
+          "checks"
+        ],
+        "type": "object"
+      },
+      "VirtualizationCapacityPolicy": {
+        "additionalProperties": false,
+        "properties": {
+          "cpu": {
+            "$ref": "#/components/schemas/VirtualizationOvercommitPolicy"
+          },
+          "memory": {
+            "$ref": "#/components/schemas/VirtualizationMemoryOvercommitPolicy"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/VirtualizationCapacityPolicyMode"
+          },
+          "revision": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "sourceConfirmed": {
+            "description": "New PVE sources use a strict 100 percent policy and cannot admit until an administrator confirms their physical source identity.",
+            "type": "boolean"
+          },
+          "sourceId": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedBy": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "sourceId",
+          "revision",
+          "mode",
+          "cpu",
+          "memory"
+        ],
+        "type": "object"
+      },
+      "VirtualizationCapacityPolicyEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/VirtualizationCapacityPolicy"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "VirtualizationCapacityPolicyInput": {
+        "additionalProperties": false,
+        "properties": {
+          "cpu": {
+            "$ref": "#/components/schemas/VirtualizationOvercommitPolicy"
+          },
+          "expectedRevision": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "memory": {
+            "$ref": "#/components/schemas/VirtualizationMemoryOvercommitPolicy"
+          },
+          "mode": {
+            "enum": [
+              "observing",
+              "enforced"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "CapacityPolicyInputObserving",
+              "CapacityPolicyInputEnforced"
+            ]
+          },
+          "physicalSourceId": {
+            "description": "Administrator-confirmed identity of one physical PVE source. All aliases must join this identity before admission. Ordinary VM callers cannot choose a source.",
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expectedRevision",
+          "mode",
+          "cpu",
+          "memory"
+        ],
+        "type": "object"
+      },
+      "VirtualizationCapacityPolicyMode": {
+        "enum": [
+          "unconfigured",
+          "observing",
+          "enforced"
+        ],
+        "type": "string",
+        "x-enum-varnames": [
+          "CapacityPolicyUnconfigured",
+          "CapacityPolicyObserving",
+          "CapacityPolicyEnforced"
+        ]
+      },
       "VirtualizationCapacityResult": {
         "additionalProperties": false,
         "description": "A read-only, expiring placement suggestion for one running VM and root disk. Missing or unsupported inventory remains unknown. Creation must independently require atomic capacity admission; this result is not a reservation or a readiness assessment.",
         "properties": {
           "connectionId": {
             "type": "string"
+          },
+          "diagnostics": {
+            "items": {
+              "$ref": "#/components/schemas/VirtualizationCapacityNodeDiagnostic"
+            },
+            "type": "array"
           },
           "namespace": {
             "type": "string"
@@ -55984,10 +58054,20 @@
             "format": "date-time",
             "type": "string"
           },
+          "policyMode": {
+            "$ref": "#/components/schemas/VirtualizationCapacityPolicyMode"
+          },
+          "policyRevision": {
+            "minimum": 0,
+            "type": "integer"
+          },
           "provider": {
             "type": "string"
           },
           "reason": {
+            "type": "string"
+          },
+          "sourceId": {
             "type": "string"
           },
           "status": {
@@ -56671,9 +58751,11 @@
             "type": "integer"
           },
           "sourceKind": {
+            "description": "PVE cloud_image declares an already staged QCOW2 import volume. cloudInitSupported must be explicitly true for managed guest initialization.",
             "type": "string"
           },
           "sourceRef": {
+            "description": "For PVE cloud_image use storage:import/<SHA256>.qcow2 sealed with the filesystem immutable flag. The provider verifies immutability, format, digest, absence of backing files and requested root size before dispatch. Catalog creation registers metadata and does not itself upload a file.",
             "type": "string"
           },
           "status": {
@@ -56747,6 +58829,24 @@
         },
         "required": [
           "data"
+        ],
+        "type": "object"
+      },
+      "VirtualizationMemoryOvercommitPolicy": {
+        "additionalProperties": false,
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "percent": {
+            "maximum": 150,
+            "minimum": 100,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "enabled",
+          "percent"
         ],
         "type": "object"
       },
@@ -56956,6 +59056,24 @@
         },
         "required": [
           "data"
+        ],
+        "type": "object"
+      },
+      "VirtualizationOvercommitPolicy": {
+        "additionalProperties": false,
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "percent": {
+            "maximum": 800,
+            "minimum": 100,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "enabled",
+          "percent"
         ],
         "type": "object"
       },
@@ -57307,6 +59425,148 @@
         ],
         "type": "object"
       },
+      "VirtualMachineAccessBinding": {
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "credentialRef": {
+            "type": "string"
+          },
+          "executionAgentId": {
+            "type": "string"
+          },
+          "executionClusterId": {
+            "type": "string"
+          },
+          "generation": {
+            "type": "string"
+          },
+          "hostKeyFingerprint": {
+            "type": "string"
+          },
+          "port": {
+            "type": "integer"
+          },
+          "providerVmId": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "sourceId": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "ready",
+              "unavailable",
+              "stale"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "VirtualMachineAccessBindingStatusReady",
+              "VirtualMachineAccessBindingStatusUnavailable",
+              "VirtualMachineAccessBindingStatusStale"
+            ]
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "vmId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "vmId",
+          "revision",
+          "providerVmId",
+          "sourceId",
+          "generation",
+          "username",
+          "port",
+          "address",
+          "credentialRef",
+          "executionClusterId",
+          "executionAgentId",
+          "hostKeyFingerprint",
+          "status"
+        ],
+        "type": "object"
+      },
+      "VirtualMachineAccessBindingEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/VirtualMachineAccessBinding"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "VirtualMachineAccessBindingInput": {
+        "additionalProperties": false,
+        "description": "Metadata binding only; it does not install guest keys or alter VM configuration. Host keys must be independently verified by an authorized human before binding.",
+        "properties": {
+          "address": {
+            "maxLength": 253,
+            "minLength": 1,
+            "type": "string"
+          },
+          "credentialRef": {
+            "pattern": "^soha://secrets/[A-Za-z0-9._-]+(?:/versions/[1-9][0-9]*)?$",
+            "type": "string"
+          },
+          "executionAgentId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "executionClusterId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "expectedRevision": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "port": {
+            "maximum": 65535,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "trustedHostKey": {
+            "maxLength": 16384,
+            "minLength": 1,
+            "type": "string"
+          },
+          "username": {
+            "pattern": "^[a-z_][a-z0-9_-]{0,31}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expectedRevision",
+          "username",
+          "port",
+          "address",
+          "credentialRef",
+          "executionClusterId",
+          "executionAgentId",
+          "trustedHostKey"
+        ],
+        "type": "object"
+      },
       "VirtualMachineActionInput": {
         "additionalProperties": false,
         "properties": {
@@ -57348,6 +59608,10 @@
             },
             "maxItems": 64,
             "type": "array"
+          },
+          "requireCapacity": {
+            "description": "Require fresh atomic capacity admission for start, reboot or resize even when cluster policy is unconfigured. False never bypasses an enforced policy. New disks require fixed slots, storage and serial identity; multiple storage pools require separate operations.",
+            "type": "boolean"
           }
         },
         "required": [
@@ -57440,6 +59704,9 @@
           "flavorId": {
             "type": "string"
           },
+          "guestAccess": {
+            "$ref": "#/components/schemas/VirtualMachineGuestAccessInput"
+          },
           "imageId": {
             "type": "string"
           },
@@ -57472,13 +59739,14 @@
           },
           "requireCapacity": {
             "default": false,
-            "description": "Require fresh provider capacity and reserve node CPU, memory and storage atomically with this operation. Missing inventory or unsupported placement fails closed. This controls concurrent Soha admission; provider admission and runtime readiness remain authoritative.",
+            "description": "Require fresh provider capacity and reserve node CPU, memory and storage atomically with this operation. Missing inventory or unsupported placement fails closed. An enforced source policy always requires admission, including when this field is false. Unconfigured legacy sources retain the explicit opt-in behavior. Provider admission and runtime readiness remain authoritative.",
             "type": "boolean"
           },
           "sourceId": {
             "type": "string"
           },
           "sourceMode": {
+            "description": "PVE supports template_clone, vm_clone, iso_install and cloud_image. cloud_image imports a verified catalog QCOW2 volume into this new VM; it does not create or modify a source VM.",
             "type": "string"
           },
           "startAfterCreate": {
@@ -57598,6 +59866,11 @@
       },
       "VirtualMachineDiskChange": {
         "additionalProperties": false,
+        "if": {
+          "required": [
+            "serial"
+          ]
+        },
         "properties": {
           "add": {
             "type": "boolean"
@@ -57611,6 +59884,13 @@
           "name": {
             "type": "string"
           },
+          "serial": {
+            "description": "Immutable guest-visible identity for a newly added PVE disk. Only accepted with add=true; resizing an existing disk preserves its identity. Providers without disk-identity support reject the request before modifying resources.",
+            "maxLength": 20,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "type": "string"
+          },
           "sizeGiB": {
             "minimum": 1,
             "type": "integer"
@@ -57618,6 +59898,16 @@
           "storage": {
             "type": "string"
           }
+        },
+        "then": {
+          "properties": {
+            "add": {
+              "const": true
+            }
+          },
+          "required": [
+            "add"
+          ]
         },
         "type": "object"
       },
@@ -57630,6 +59920,31 @@
         },
         "required": [
           "data"
+        ],
+        "type": "object"
+      },
+      "VirtualMachineGuestAccessInput": {
+        "additionalProperties": false,
+        "description": "Managed first-boot public-key initialization. Requires a verified cloud-init image and excludes raw cloudInit and native sshkeys/cicustom fields. The server freezes each Secret version; private keys are never sent to the guest.",
+        "properties": {
+          "publicKeyRefs": {
+            "items": {
+              "pattern": "^soha://secrets/[A-Za-z0-9._-]+(?:/versions/[1-9][0-9]*)?$",
+              "type": "string"
+            },
+            "maxItems": 16,
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "username": {
+            "pattern": "^[a-z_][a-z0-9_-]{0,31}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "publicKeyRefs"
         ],
         "type": "object"
       },
@@ -57815,6 +60130,295 @@
         },
         "required": [
           "action"
+        ],
+        "type": "object"
+      },
+      "VirtualMachineSSHCommand": {
+        "additionalProperties": false,
+        "properties": {
+          "bindingRevision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "exitCode": {
+            "maximum": 255,
+            "minimum": 0,
+            "type": "integer",
+            "x-go-type-skip-optional-pointer": false
+          },
+          "finishedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "outcome": {
+            "enum": [
+              "unknown",
+              "succeeded",
+              "failed",
+              "canceled"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "VirtualMachineSSHCommandOutcomeUnknown",
+              "VirtualMachineSSHCommandOutcomeSucceeded",
+              "VirtualMachineSSHCommandOutcomeFailed",
+              "VirtualMachineSSHCommandOutcomeCanceled"
+            ]
+          },
+          "outputDigest": {
+            "type": "string"
+          },
+          "outputTruncated": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string"
+          },
+          "stderr": {
+            "maxLength": 1048576,
+            "type": "string"
+          },
+          "stdout": {
+            "maxLength": 1048576,
+            "type": "string"
+          },
+          "terminal": {
+            "type": "boolean"
+          },
+          "vmId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "vmId",
+          "bindingRevision",
+          "status",
+          "outcome",
+          "terminal"
+        ],
+        "type": "object"
+      },
+      "VirtualMachineSSHCommandEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/VirtualMachineSSHCommand"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "VirtualMachineSSHCommandInput": {
+        "additionalProperties": false,
+        "properties": {
+          "bindingRevision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "command": {
+            "maxLength": 16384,
+            "minLength": 1,
+            "type": "string",
+            "x-soha-sensitive": true
+          },
+          "idempotencyKey": {
+            "maxLength": 128,
+            "minLength": 8,
+            "type": "string"
+          },
+          "timeoutSeconds": {
+            "default": 60,
+            "maximum": 300,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "bindingRevision",
+          "command",
+          "idempotencyKey"
+        ],
+        "type": "object"
+      },
+      "VirtualMachineSSHFrame": {
+        "additionalProperties": false,
+        "properties": {
+          "cols": {
+            "maximum": 512,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "data": {
+            "maxLength": 87384,
+            "type": "string"
+          },
+          "dataEncoding": {
+            "description": "Base64 carries exact terminal bytes including split UTF-8 sequences. Omitted means utf8 for legacy inputs.",
+            "enum": [
+              "utf8",
+              "base64"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "VirtualMachineSSHFrameDataEncodingUTF8",
+              "VirtualMachineSSHFrameDataEncodingBase64"
+            ]
+          },
+          "exitCode": {
+            "maximum": 255,
+            "minimum": 0,
+            "type": "integer",
+            "x-go-type-skip-optional-pointer": false
+          },
+          "message": {
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "rows": {
+            "maximum": 512,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "type": {
+            "enum": [
+              "input",
+              "resize",
+              "output",
+              "error",
+              "close"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "VirtualMachineSSHFrameTypeInput",
+              "VirtualMachineSSHFrameTypeResize",
+              "VirtualMachineSSHFrameTypeOutput",
+              "VirtualMachineSSHFrameTypeError",
+              "VirtualMachineSSHFrameTypeClose"
+            ]
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
+      "VirtualMachineSSHSession": {
+        "additionalProperties": false,
+        "properties": {
+          "bindingRevision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "pending",
+              "active",
+              "closed",
+              "revoked",
+              "unknown"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "VirtualMachineSSHSessionStatusPending",
+              "VirtualMachineSSHSessionStatusActive",
+              "VirtualMachineSSHSessionStatusClosed",
+              "VirtualMachineSSHSessionStatusRevoked",
+              "VirtualMachineSSHSessionStatusUnknown"
+            ]
+          },
+          "vmId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "vmId",
+          "bindingRevision",
+          "status",
+          "expiresAt"
+        ],
+        "type": "object"
+      },
+      "VirtualMachineSSHSessionEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/VirtualMachineSSHSession"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "VirtualMachineSSHSessionInput": {
+        "additionalProperties": false,
+        "properties": {
+          "bindingRevision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "cols": {
+            "default": 80,
+            "maximum": 512,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "rows": {
+            "default": 24,
+            "maximum": 512,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "bindingRevision"
+        ],
+        "type": "object"
+      },
+      "VMSSHCredentialRedemptionInput": {
+        "additionalProperties": false,
+        "properties": {
+          "agentId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "clusterId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "leaseId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "token": {
+            "maxLength": 256,
+            "minLength": 16,
+            "type": "string",
+            "writeOnly": true
+          }
+        },
+        "required": [
+          "clusterId",
+          "agentId",
+          "leaseId",
+          "token"
         ],
         "type": "object"
       },
@@ -58129,6 +60733,17 @@
           "errorMessage": {
             "type": "string"
           },
+          "eventSequence": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "executionOwner": {
+            "enum": [
+              "native",
+              "external"
+            ],
+            "type": "string"
+          },
           "externalRunId": {
             "type": "string"
           },
@@ -58152,6 +60767,9 @@
           },
           "parentRunId": {
             "description": "Parent run for a single read-only specialist delegation; absent on root runs.",
+            "type": "string"
+          },
+          "phase": {
             "type": "string"
           },
           "providerId": {
@@ -58192,6 +60810,9 @@
           "status": {
             "type": "string"
           },
+          "stopReason": {
+            "type": "string"
+          },
           "timeoutSeconds": {
             "type": "integer"
           },
@@ -58213,6 +60834,9 @@
           "updatedAt": {
             "format": "date-time",
             "type": "string"
+          },
+          "usageKnown": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -58307,6 +60931,7 @@
               "providerKind": {
                 "enum": [
                   "internal",
+                  "native",
                   "hermes",
                   "openclaw",
                   "general",
@@ -58605,6 +61230,39 @@
           }
         ],
         "unevaluatedProperties": false
+      },
+      "WorkbenchAssistantTask": {
+        "additionalProperties": false,
+        "description": "An explicit, owner-scoped assistant appearance task executed through chat. Images are bounded inline avatar assets, never arbitrary remote URLs. The instruction remains in content. No account identity or resource permissions change. Undo references a successful profile reply in the same owned session and rejects stale replacements.",
+        "properties": {
+          "image": {
+            "$ref": "#/components/schemas/PersonalAssistantAvatarRequest"
+          },
+          "kind": {
+            "enum": [
+              "avatar",
+              "undo"
+            ],
+            "type": "string"
+          },
+          "messageId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "publicModel": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "useCurrentAvatar": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "kind"
+        ],
+        "type": "object"
       },
       "WorkbenchAutomationPolicy": {
         "allOf": [
@@ -58940,13 +61598,27 @@
       },
       "WorkbenchContextSelection": {
         "additionalProperties": false,
-        "description": "Explicit references and UTF-8 text attachments for this request only. The server rechecks source access and records used content hashes and truncations. Not inherited by subsequent requests.",
+        "description": "Explicit references, UTF-8 text attachments and a bounded inline chat image for this request. Images are ordinary message content and never imply an assistant appearance change. Images are retained with the owned message; references are rechecked on use.",
         "properties": {
           "attachments": {
             "items": {
               "$ref": "#/components/schemas/WorkbenchTextAttachment"
             },
             "maxItems": 8,
+            "type": "array"
+          },
+          "feedItemId": {
+            "description": "Owned personal feed post",
+            "maxLength": 128,
+            "minLength": 1,
+            "reloaded and checked by the server before discussion.": null,
+            "type": "string"
+          },
+          "images": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchImageAttachment"
+            },
+            "maxItems": 1,
             "type": "array"
           },
           "memoryIds": {
@@ -58968,6 +61640,47 @@
             "type": "array"
           }
         },
+        "type": "object"
+      },
+      "WorkbenchContextUsage": {
+        "additionalProperties": false,
+        "description": "Latest single model invocation, not cumulative Agent task consumption or selected evidence size. Missing counts and capacity are unknown, not zero. Capacity is snapshotted from the actual resolved route.",
+        "properties": {
+          "contextWindowTokens": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "inputTokens": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "measurement": {
+            "enum": [
+              "reported",
+              "estimated",
+              "unavailable"
+            ],
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "outputTokens": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "totalTokens": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "measurement"
+        ],
         "type": "object"
       },
       "WorkbenchCreateSessionRequest": {
@@ -59419,6 +62132,33 @@
           "title",
           "summary",
           "confidence"
+        ],
+        "type": "object"
+      },
+      "WorkbenchImageAttachment": {
+        "additionalProperties": false,
+        "description": "Ordinary chat image, preserved without square cropping. Inline PNG/JPEG only, at most 700000 data URL characters and 1024 pixels on each edge. The server verifies MIME, decoded bytes and dimensions before storage or model invocation. No remote URL fetch. Message metadata.images retains the attachment for history and retry.",
+        "properties": {
+          "dataUrl": {
+            "maxLength": 700000,
+            "pattern": "^data:image/(png|jpeg);base64,[A-Za-z0-9+/]+={0,2}$",
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "dataUrl"
         ],
         "type": "object"
       },
@@ -59916,6 +62656,16 @@
         ],
         "type": "object"
       },
+      "WorkbenchMainSessionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "agentProviderId": {
+            "maxLength": 200,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "WorkbenchMessage": {
         "additionalProperties": false,
         "properties": {
@@ -59931,6 +62681,7 @@
           },
           "metadata": {
             "additionalProperties": {},
+            "description": "Background provenance is stored in contextSnapshot (legacy contextEnvelope is readable). contextUsage describes the latest single model call; Native usage is cumulative task consumption. User metadata.images contains WorkbenchImageAttachment items. Completed assistant metadata may contain assistantReaction (one of 👋 👍 ❤️ 😊 🎉 💡 👀 🤔 ✅ 🙏) and server-bound requestMessageId for that reaction. Reactions are social acknowledgements, never approval or execution evidence.",
             "type": "object"
           },
           "role": {
@@ -59939,7 +62690,12 @@
               "assistant",
               "system"
             ],
-            "type": "string"
+            "type": "string",
+            "x-enum-varnames": [
+              "WorkbenchMessageRoleUser",
+              "WorkbenchMessageRoleAssistant",
+              "WorkbenchMessageRoleSystem"
+            ]
           },
           "sessionId": {
             "type": "string"
@@ -60045,9 +62801,126 @@
         ],
         "type": "object"
       },
+      "WorkbenchMessageSearchEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/WorkbenchMessageSearchPage"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "WorkbenchMessageSearchHit": {
+        "additionalProperties": false,
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "messageId": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "user",
+              "assistant"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "WorkbenchMessageSearchHitRoleUser",
+              "WorkbenchMessageSearchHitRoleAssistant"
+            ]
+          },
+          "sessionId": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "sessionTitle": {
+            "maxLength": 200,
+            "type": "string"
+          },
+          "snippet": {
+            "maxLength": 400,
+            "type": "string"
+          }
+        },
+        "required": [
+          "sessionId",
+          "sessionTitle",
+          "messageId",
+          "role",
+          "snippet",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "WorkbenchMessageSearchPage": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchMessageSearchHit"
+            },
+            "type": "array"
+          },
+          "nextCursor": {
+            "maxLength": 512,
+            "type": "string"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "WorkbenchMessageWindow": {
+        "additionalProperties": false,
+        "properties": {
+          "afterCursor": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "beforeCursor": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "messages": {
+            "items": {
+              "$ref": "#/components/schemas/WorkbenchMessage"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "messages"
+        ],
+        "type": "object"
+      },
+      "WorkbenchMessageWindowEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/WorkbenchMessageWindow"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
       "WorkbenchModelOption": {
         "additionalProperties": false,
         "properties": {
+          "contextWindowTokens": {
+            "description": "Configured model window in tokens. Omitted when any eligible route has no valid capacity; otherwise the smallest eligible route capacity. Never inferred from the model name.",
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
           "publicModel": {
             "type": "string"
           },
@@ -60177,6 +63050,41 @@
           "timeoutSeconds",
           "timeoutStale",
           "heartbeatStale"
+        ],
+        "type": "object"
+      },
+      "WorkbenchProfessionalCapabilityInput": {
+        "additionalProperties": false,
+        "properties": {
+          "intent": {
+            "$ref": "#/components/schemas/WorkbenchTaskIntent"
+          },
+          "locale": {
+            "maxLength": 35,
+            "type": "string"
+          },
+          "question": {
+            "maxLength": 16384,
+            "minLength": 1,
+            "type": "string"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/WorkbenchSessionScope"
+          },
+          "sessionId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "toolset": {
+            "$ref": "#/components/schemas/WorkbenchSessionToolset"
+          }
+        },
+        "required": [
+          "sessionId",
+          "question",
+          "scope",
+          "intent"
         ],
         "type": "object"
       },
@@ -60437,6 +63345,9 @@
           "agentProviderId": {
             "type": "string"
           },
+          "assistantTask": {
+            "$ref": "#/components/schemas/WorkbenchAssistantTask"
+          },
           "content": {
             "type": "string"
           },
@@ -60483,6 +63394,12 @@
             "description": "May contain branchReference with kind session, sessionId and fixed messageIds; source ownership and availability are rechecked on every use.",
             "type": "object"
           },
+          "requestId": {
+            "description": "A stable per-turn idempotency key. Reusing it with different content or selections is rejected.",
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
           "scopeOverrides": {
             "$ref": "#/components/schemas/AnyValue"
           },
@@ -60491,6 +63408,9 @@
           },
           "source": {
             "type": "string"
+          },
+          "taskIntent": {
+            "$ref": "#/components/schemas/WorkbenchTaskIntent"
           },
           "toolset": {
             "$ref": "#/components/schemas/AnyValue"
@@ -60632,6 +63552,17 @@
           },
           "archivedAt": {
             "format": "date-time",
+            "type": "string"
+          },
+          "conversationKind": {
+            "description": "Server-owned chat role. Older sessions without a role remain side chats. Main chats cannot be archived or deleted through the ordinary session operations.",
+            "enum": [
+              "main",
+              "side",
+              "personal_main",
+              "personal_side"
+            ],
+            "readOnly": true,
             "type": "string"
           },
           "knowledgeContext": {
@@ -60925,6 +63856,68 @@
           "sequence",
           "createdAt"
         ],
+        "type": "object"
+      },
+      "WorkbenchTaskIntent": {
+        "additionalProperties": false,
+        "description": "Capability preferences and explicit query parameters for this turn only. Does not change session mode, grant permission, or create scheduled inspections.",
+        "properties": {
+          "capabilities": {
+            "items": {
+              "enum": [
+                "root_cause",
+                "performance",
+                "trace",
+                "inspection_review"
+              ],
+              "type": "string"
+            },
+            "maxItems": 4,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "dataSourceId": {
+            "description": "Legacy shared selection. A capability-specific data source takes precedence for that capability.",
+            "maxLength": 256,
+            "type": "string"
+          },
+          "inspectionRunIds": {
+            "items": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 20,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "metricKey": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "minDurationMs": {
+            "maximum": 86400000,
+            "minimum": 0,
+            "type": "integer",
+            "x-go-type-skip-optional-pointer": false
+          },
+          "performanceDataSourceId": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "rootCauseProfileId": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "traceDataSourceId": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "traceId": {
+            "maxLength": 256,
+            "type": "string"
+          }
+        },
         "type": "object"
       },
       "WorkbenchTextAttachment": {
@@ -80196,6 +83189,104 @@
         ]
       }
     },
+    "/copilot/agent-runs/{runID}/events": {
+      "get": {
+        "description": "Read durable Native events owned by the current user. Reconnection only reads; it never resubmits a run or action.",
+        "operationId": "listAgentRunEvents",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "runID",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "afterSequence",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentRunEventListEnvelope"
+                }
+              }
+            },
+            "description": "Ordered events and the next cursor."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/agent-runs/{runID}/resume": {
+      "post": {
+        "description": "Resume the same paused Native run after current authorization and waiting-object checks. Unknown write outcomes cannot be replayed by this operation.",
+        "operationId": "resumeAgentRun",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "runID",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentRunResumeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchAgentRunEnvelope"
+                }
+              }
+            },
+            "description": "Current run after an idempotent resume."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
     "/copilot/agent-runs/callback": {
       "post": {
         "operationId": "recordAgentRunCallback",
@@ -80471,6 +83562,1102 @@
               }
             },
             "description": "Analysis runs visible to the current user."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant": {
+      "patch": {
+        "operationId": "updatePersonalAssistant",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalAssistantUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalAssistantEnvelope"
+                }
+              }
+            },
+            "description": "Updated personal assistant."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "post": {
+        "description": "Idempotently returns the authenticated user's persistent assistant identity and dedicated Heya main chat after approved activation. Existing ordinary chat history is retained separately. No owner, workspace or runtime identity is accepted from the client.",
+        "operationId": "ensurePersonalAssistant",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalAssistantEnvelope"
+                }
+              }
+            },
+            "description": "Personal assistant."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant/access": {
+      "get": {
+        "description": "Current user's activation state. Ordinary chat permission allows viewing and requesting activation, never approves it.",
+        "operationId": "getPersonalAgentAccess",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalAgentAccessEnvelope"
+                }
+              }
+            },
+            "description": "Operation result."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "post": {
+        "description": "Idempotently requests activation. Rejected or revoked requests may be submitted again. Does not create or wake compute.",
+        "operationId": "requestPersonalAgentAccess",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalAgentAccessEnvelope"
+                }
+              }
+            },
+            "description": "Operation result."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant/access/requests": {
+      "get": {
+        "description": "Activation applications, restricted to ai.environments.update.",
+        "operationId": "listPersonalAgentAccessRequests",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalAgentAccessListEnvelope"
+                }
+              }
+            },
+            "description": "Operation result."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant/access/requests/{userId}": {
+      "patch": {
+        "description": "Approve or reject a pending request, or revoke approved access. Requires ai.environments.update and the current revision. No self-service approval.",
+        "operationId": "decidePersonalAgentAccess",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalAgentAccessDecision"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalAgentAccessEnvelope"
+                }
+              }
+            },
+            "description": "Operation result."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant/artifacts": {
+      "get": {
+        "description": "Returns at most 50 recent saved artifacts owned by the authenticated user across chats and background tasks. A task result mirrored into a message appears once. Requires chat access.",
+        "operationId": "listPersonalAssistantArtifacts",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalAssistantArtifactListEnvelope"
+                }
+              }
+            },
+            "description": "Recent personal artifacts."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant/avatar": {
+      "patch": {
+        "description": "Updates only the authenticated user's assistant image and motion preference; never changes account profile or assistant name. Empty image values restore the default image. Animated formats require a static PNG/JPEG poster. Requires observe.ai.chat permission.",
+        "operationId": "updatePersonalAssistantAvatar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalAssistantAvatarRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalAssistantEnvelope"
+                }
+              }
+            },
+            "description": "Updated personal assistant."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant/environment": {
+      "delete": {
+        "description": "Requires the current assistant ID, exact full name and environment version, a stopped environment and no active task or operation. Deletion retains a private non-recreation marker. Unknown deletion remains unconfirmed; reconciliation never implies that files were deleted. No automatic recreation or request retry.",
+        "operationId": "deletePersonalEnvironmentData",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalEnvironmentDataDeletionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalEnvironmentEnvelope"
+                }
+              }
+            },
+            "description": "Actual deletion receipt"
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "Explicitly delete the authenticated assistant's personal files",
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "get": {
+        "description": "Does not contact the provider or dispatch work. Expired or unconfirmed receipts are unknown. Node credentials and Docker handles remain private.",
+        "operationId": "getPersonalEnvironment",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalEnvironmentEnvelope"
+                }
+              }
+            },
+            "description": "Personal environment state"
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "Read the authenticated assistant's latest environment receipt",
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "post": {
+        "description": "Select an administrator-configured template on first wake. Owner, node, quota and original lease are server-derived and immutable. Lost receipts become unknown; reconciliation inspects the original lease without replaying commands. Sleeping retains persistent data. This operation does not delete data.",
+        "operationId": "changePersonalEnvironment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalEnvironmentActionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalEnvironmentEnvelope"
+                }
+              }
+            },
+            "description": "Actual environment receipt"
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "Wake, sleep or reconcile the authenticated assistant's environment",
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant/environment/export": {
+      "post": {
+        "description": "Requires the current assistant ID and environment version, a sleeping environment and no active task. Returns a verified TAR archive up to 256 MiB after the Agent stream and SHA-256 receipt are complete. Symlinks are stored as links and never followed. Does not wake, delete, extract or publish data. Temporary server files are removed when the response ends; no server export history is retained. No automatic retry.",
+        "operationId": "exportPersonalEnvironmentData",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalEnvironmentDataExportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/x-tar": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Complete verified personal data archive",
+            "headers": {
+              "X-Assistant-ID": {
+                "schema": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "X-Content-SHA256": {
+                "schema": {
+                  "pattern": "^[a-f0-9]{64}$",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "Download the authenticated assistant's retained personal files",
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant/environment/guest-enrollment": {
+      "post": {
+        "description": "Requires an approved current personal Agent owner and the frozen personal VM, provider and independent disk proof. Core derives the binding identity and revision and signs only the submitted Ed25519 public key for dedicated guest mTLS. Returns a short single-use challenge without granting readiness or task execution. Private keys remain in the VM. Do not automatically retry an uncertain response; explicit preparation supersedes the previous guest revision while retaining its audit history.",
+        "operationId": "preparePersonalGuestEnrollment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalGuestPreparationInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalGuestPreparationEnvelope"
+                }
+              }
+            },
+            "description": "Owner-bound public certificate and private one-time bootstrap challenge; response must not be cached or logged.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "Prepare the current owner's dedicated personal VM guest identity",
+        "tags": [
+          "AI Workbench"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/copilot/assistant/environment/guest-provisioning": {
+      "post": {
+        "description": "Requires approved personal Agent access, VM connect and resize permissions and resource scope for the frozen owned VM. An Ed25519 public CSR is the only key input; the matching private key remains in the VM at the fixed bootstrap path. Core atomically reserves the environment CAS, certificate and encrypted durable task. The provider executes a fixed privileged installer with a Core-pinned artifact; no arbitrary command, path, resource deletion or other VM configuration change is accepted. Initialization is dispatched once; uncertain outcomes retain the original operation and cannot be automatically retried or canceled. A verified data receipt does not grant task/tool execution readiness. Recover a lost response by reading the current environment and operations rather than repeating the POST.",
+        "operationId": "provisionPersonalGuest",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalGuestPreparationInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualizationOperationEnvelope"
+                }
+              }
+            },
+            "description": "Owner-bound durable provisioning operation; no private key or bootstrap challenge is returned.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "Initialize the current owner's personal VM data and managed guest service",
+        "tags": [
+          "AI Workbench"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/copilot/assistant/environment/guest-provisioning/{operationId}/reconcile": {
+      "post": {
+        "description": "Requires the current approved owner, VM connect/resize permission, resource scope, exact environment CAS and the original failed/timed-out owned operation. At most three total dispatch attempts are permitted. Core retains operation and frozen data identity, prepares a fresh guest identity and encrypted bootstrap, and records explicit reconciliation. A root bootstrap lock prevents concurrent installers. The protected original format receipt remains authoritative; a dispatched format never repeats, even if the disk still looks blank. A matching filesystem UUID permits completion; mismatched/absent evidence fails closed. No resource is deleted and no generic root command is accepted.",
+        "operationId": "reconcilePersonalGuestProvisioning",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "operationId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalGuestPreparationInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualizationOperationEnvelope"
+                }
+              }
+            },
+            "description": "The same retained operation queued for explicit reconciliation.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "Explicitly reconcile the original retained personal guest operation",
+        "tags": [
+          "AI Workbench"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/copilot/assistant/environment/guest-tools": {
+      "post": {
+        "description": "Requires the current approved owner, VM connect/resize permissions and resource scope, initialized data, the exact environment revision and no active task. Core freezes signed Debian package versions, a digest-pinned Docker image, artifact and quota; the durable provider task executes only the fixed installer on this VM. No commands, paths, format, delete or other VM configuration are accepted. The same idempotency key reads the original operation; uncertain effects never trigger automatic redispatch. Installation leaves execution readiness pending until a current isolated runtime probe is verified.",
+        "operationId": "installPersonalGuestTools",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalGuestToolsInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualizationOperationEnvelope"
+                }
+              }
+            },
+            "description": "Original owner-bound retained tools operation.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "Install the owned VM's fixed execution tools without initializing data",
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant/environment/runtime": {
+      "get": {
+        "description": "Reloads approved owner authorization, VM connect scope and current guest identity. Returns the latest retained human operation and authoritative browser control generation, without dispatching work. Browser frames are historical observations; only the current unexpired control can authorize a new action.",
+        "operationId": "getPersonalWorkspaceRuntime",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalWorkspaceRuntimeEnvelope"
+                }
+              }
+            },
+            "description": "Current workspace identity, latest receipt and browser control."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "Read shared workspace runtime state across Web and App",
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "post": {
+        "description": "Requires approved personal Agent access, current owned VM connect permission and resource scope, verified runtime readiness and an exact environment revision. Core freezes owner, data, quota, argv and control identity; a durable managed SSH operation only launches the fixed mTLS broker. Client input cannot select a VM, host path, image or credential. Commands and Docker containers have no host credentials, socket or network; files use bounded UTF-8 content and content CAS. Lost receipts are recovered by GET, never by replaying work. A human browser action uses current user control; Agent writes use the separate Gateway approval path.",
+        "operationId": "startPersonalGuestRuntime",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalGuestRuntimeInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalGuestRuntimeEnvelope"
+                }
+              }
+            },
+            "description": "Original durable runtime operation."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "Start one bounded owner-authorized VM workspace operation",
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant/environment/runtime/{operationId}": {
+      "get": {
+        "description": "Reloads current authorization and scope and correlates the original frozen operation; never dispatches a command, navigates or recreates files. Stale or unconfirmed outcomes remain unknown. A receipt for an older browser control generation cannot mutate the current control.",
+        "operationId": "getPersonalGuestRuntime",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "operationId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalGuestRuntimeEnvelope"
+                }
+              }
+            },
+            "description": "Original runtime state and bounded owner result."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "Read the original owner's retained workspace receipt",
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant/environment/templates": {
+      "get": {
+        "description": "Returns active supported administrator templates without node IDs, credentials or internal policies. A choice describes configuration only; acquisition must obtain a fresh Agent receipt before readiness is claimed.",
+        "operationId": "listPersonalEnvironmentTemplates",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalEnvironmentTemplateListEnvelope"
+                }
+              }
+            },
+            "description": "Authorized template choices"
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "List personal Docker template choices within the current user's node scope",
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant/feed": {
+      "get": {
+        "description": "Read owned content feed, settings, refresh state and eligible search sources. Does not enqueue work on read.",
+        "operationId": "listPersonalFeed",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "before",
+            "required": false,
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 50,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalFeedEnvelope"
+                }
+              }
+            },
+            "description": "Read owned content feed, settings, refresh state and eligible search sources. Does not enqueue work on read."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant/feed/items/{itemID}": {
+      "get": {
+        "description": "Read an owned post for discussion context.",
+        "operationId": "getPersonalFeedItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "itemID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalFeedItemEnvelope"
+                }
+              }
+            },
+            "description": "Read an owned post for discussion context."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "patch": {
+        "description": "Save liked/hidden feedback for an owned post. Hidden posts remain stored and can be referenced by their owner.",
+        "operationId": "updatePersonalFeedFeedback",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "itemID",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalFeedFeedback"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalFeedItemEnvelope"
+                }
+              }
+            },
+            "description": "Save liked/hidden feedback for an owned post. Hidden posts remain stored and can be referenced by their owner."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant/feed/refresh": {
+      "post": {
+        "description": "Queue one bounded refresh; duplicate active refreshes coalesce. User scoped cooldown prevents repeated paid calls. A valid read-only synchronous search source is required.",
+        "operationId": "refreshPersonalFeed",
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalFeedEnvelope"
+                }
+              }
+            },
+            "description": "Queue one bounded refresh; duplicate active refreshes coalesce. User scoped cooldown prevents repeated paid calls. A valid read-only synchronous search source is required."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant/feed/settings": {
+      "put": {
+        "description": "Update owned content instructions/source and optional daily updates. Automatic updates are disabled by default; changes invalidate unfinished refreshes.",
+        "operationId": "updatePersonalFeedSettings",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalFeedSettings"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalFeedEnvelope"
+                }
+              }
+            },
+            "description": "Update owned content instructions/source and optional daily updates. Automatic updates are disabled by default; changes invalidate unfinished refreshes."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant/sessions": {
+      "get": {
+        "description": "Only the authenticated activated user's Heya sessions.",
+        "operationId": "listPersonalAgentSessions",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchSessionListEnvelope"
+                }
+              }
+            },
+            "description": "Operation result."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      },
+      "post": {
+        "description": "Creates a Heya side chat after activation. Ownership and conversation kind are assigned by the server.",
+        "operationId": "createPersonalAgentSession",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbenchCreateSessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchSessionEnvelope"
+                }
+              }
+            },
+            "description": "Operation result."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/assistant/tasks": {
+      "get": {
+        "description": "Returns at most 50 recent tasks belonging to the authenticated user across their conversations. Requires chat access; does not grant access to other users or platform-wide AI administration.",
+        "operationId": "listPersonalAssistantTasks",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchAgentRunListEnvelope"
+                }
+              }
+            },
+            "description": "Recent personal tasks."
           },
           "403": {
             "$ref": "#/components/responses/Error"
@@ -81120,6 +85307,87 @@
         ]
       }
     },
+    "/copilot/messages/search": {
+      "get": {
+        "description": "Search owned, unarchived user and assistant messages. Current source ACL applies before matching and snippets; opaque cursor follows stable descending message time and ID.",
+        "operationId": "searchWorkbenchMessages",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "required": true,
+            "schema": {
+              "maxLength": 120,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "maxLength": 512,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 50,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "workspace",
+            "required": false,
+            "schema": {
+              "default": "chat",
+              "enum": [
+                "chat",
+                "heya"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchMessageSearchEnvelope"
+                }
+              }
+            },
+            "description": "Search owned, unarchived user and assistant messages. Current source ACL applies before matching and snippets; opaque cursor follows stable descending message time and ID."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
     "/copilot/root-cause/runs": {
       "get": {
         "operationId": "listWorkbenchRootCauseRuns",
@@ -81308,6 +85576,9 @@
           },
           "404": {
             "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
           }
         },
         "tags": [
@@ -81378,6 +85649,9 @@
             "$ref": "#/components/responses/Error"
           },
           "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
             "$ref": "#/components/responses/Error"
           }
         },
@@ -81575,6 +85849,167 @@
               }
             },
             "description": "Server-sent Workbench stream events. Each SSE data frame is one WorkbenchStreamEvent JSON object."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/sessions/{sessionID}/messages/window": {
+      "get": {
+        "description": "Read a chronological message window, latest by default. around, before and after are mutually exclusive owned message IDs; cursors allow stable adjacent windows. Does not change the legacy message list.",
+        "operationId": "getWorkbenchMessageWindow",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SessionID"
+          },
+          {
+            "in": "query",
+            "name": "around",
+            "required": false,
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "before",
+            "required": false,
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "after",
+            "required": false,
+            "schema": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 40,
+              "maximum": 100,
+              "minimum": 3,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchMessageWindowEnvelope"
+                }
+              }
+            },
+            "description": "Read a chronological message window, latest by default. around, before and after are mutually exclusive owned message IDs; cursors allow stable adjacent windows. Does not change the legacy message list."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/sessions/{sessionID}/native-request": {
+      "get": {
+        "description": "Read the original Native run by the current user's session and client request ID after a lost creation response. This never creates or resumes a run. A 404 is only absence at the time of the read and does not prove that an in-flight submission cannot commit later.",
+        "operationId": "findNativeRequest",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SessionID"
+          },
+          {
+            "in": "query",
+            "name": "requestId",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchAgentRunEnvelope"
+                }
+              }
+            },
+            "description": "The original authorized Native run, including its current state."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "AI Workbench"
+        ]
+      }
+    },
+    "/copilot/sessions/main": {
+      "post": {
+        "description": "Returns the current user's persistent main chat, creating it only once. Concurrent requests return the same session. Existing sessions remain separate. The initial provider is applied only when creating the main chat.",
+        "operationId": "ensureWorkbenchMainSession",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbenchMainSessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkbenchSessionEnvelope"
+                }
+              }
+            },
+            "description": "The current user's main chat."
           },
           "400": {
             "$ref": "#/components/responses/Error"
@@ -96647,6 +101082,51 @@
         ]
       }
     },
+    "/secrets/{secretID}/references": {
+      "get": {
+        "operationId": "listSecretReferences",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "secretID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecretReferenceUsageListEnvelope"
+                }
+              }
+            },
+            "description": "Visible VM login bindings and initialization operations using fixed secret versions; no secret values."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Secrets"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
     "/secrets/{secretID}/versions": {
       "get": {
         "operationId": "listSecretVersions",
@@ -96758,6 +101238,49 @@
         "tags": [
           "Secrets"
         ]
+      }
+    },
+    "/secrets/generate-ssh-key": {
+      "post": {
+        "operationId": "generateSecretSSHKey",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SecretGenerateSSHKeyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecretMetadataEnvelope"
+                }
+              }
+            },
+            "description": "Successful operation."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Secrets"
+        ],
+        "x-soha-implementation-status": "implemented"
       }
     },
     "/settings/ai": {
@@ -97892,6 +102415,97 @@
         ]
       }
     },
+    "/ssh/capability": {
+      "get": {
+        "description": "Standalone Agent route /api/v1/ssh/capability; requires its configured bearer token.",
+        "operationId": "getAgentSSHCapability",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentSSHCapability"
+                }
+              }
+            },
+            "description": "SSH execution capability."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Agent"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/ssh/sessions": {
+      "post": {
+        "description": "Standalone Agent route /api/v1/ssh/sessions; stages a one-use request for its session WebSocket.",
+        "operationId": "prepareAgentSSHSession",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentSSHSessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Session staged."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Agent"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/ssh/sessions/{sessionID}/stream": {
+      "get": {
+        "description": "Agent bearer authentication. Each staged session can be claimed once.",
+        "operationId": "streamAgentSSHSession",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sessionID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "101": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualMachineSSHFrame"
+                }
+              }
+            },
+            "description": "Authorized SSH PTY byte stream."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Agent"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
     "/system-integrations": {
       "get": {
         "operationId": "listSystemIntegrations",
@@ -98448,6 +103062,100 @@
             "$ref": "#/components/responses/Error"
           },
           "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Virtualization"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/virtualization/clusters/{connectionID}/capacity-policy": {
+      "get": {
+        "operationId": "getVirtualizationCapacityPolicy",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualizationCapacityPolicyEnvelope"
+                }
+              }
+            },
+            "description": "Successful operation."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Virtualization"
+        ],
+        "x-soha-implementation-status": "implemented"
+      },
+      "put": {
+        "operationId": "updateVirtualizationCapacityPolicy",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VirtualizationCapacityPolicyInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualizationCapacityPolicyEnvelope"
+                }
+              }
+            },
+            "description": "Successful operation."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
             "$ref": "#/components/responses/Error"
           }
         },
@@ -99382,6 +104090,292 @@
         }
       ]
     },
+    "/virtualization/ssh-commands/{commandID}": {
+      "delete": {
+        "operationId": "cancelVMSSHCommand",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualMachineSSHCommandEnvelope"
+                }
+              }
+            },
+            "description": "Cancellation fences the original task. Dispatched effects remain unknown until independently verified."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Virtualization"
+        ],
+        "x-soha-implementation-status": "implemented"
+      },
+      "get": {
+        "operationId": "getVMSSHCommand",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualMachineSSHCommandEnvelope"
+                }
+              }
+            },
+            "description": "Original owner's bounded command receipt under current VM permission."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Virtualization"
+        ],
+        "x-soha-implementation-status": "implemented"
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "commandID",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/virtualization/ssh-sessions/{sessionID}": {
+      "delete": {
+        "operationId": "closeVirtualMachineSSHSession",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sessionID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualMachineSSHSessionEnvelope"
+                }
+              }
+            },
+            "description": "Successful operation."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Virtualization"
+        ],
+        "x-soha-implementation-status": "implemented"
+      },
+      "get": {
+        "operationId": "getVirtualMachineSSHSession",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sessionID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualMachineSSHSessionEnvelope"
+                }
+              }
+            },
+            "description": "Successful operation."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Virtualization"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/virtualization/ssh-sessions/{sessionID}/credentials": {
+      "post": {
+        "description": "Execution Agent bearer authentication plus one-use lease, session and Agent identity checks. No human or model credential read endpoint.",
+        "operationId": "redeemVMSSHCredentials",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sessionID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMSSHCredentialRedemptionInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecretLeaseRedemptionEnvelope"
+                }
+              }
+            },
+            "description": "In-memory Agent credential material."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Virtualization"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/virtualization/ssh-sessions/{sessionID}/execution-status": {
+      "post": {
+        "description": "Bound execution Agent rechecks current owner, approval, VM identity and lease before and during a command. Returns no command or credential material.",
+        "operationId": "checkVMSSHCommandAuthorization",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sessionID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMSSHCredentialRedemptionInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualMachineSSHCommandEnvelope"
+                }
+              }
+            },
+            "description": "Authorization and original task remain active."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Agent"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/virtualization/ssh-sessions/{sessionID}/stream": {
+      "get": {
+        "description": "Origin-bound, one-use authenticated WebSocket stream of VirtualMachineSSHFrame messages. Maximum lifetime is 30 minutes; idle timeout is 5 minutes. Private keys remain on the execution Agent.",
+        "operationId": "streamVirtualMachineSSHSession",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sessionID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "One-use browser stream ticket scoped to this session. CLI clients use bearer authentication.",
+            "in": "query",
+            "name": "stream_ticket",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "101": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualMachineSSHFrame"
+                }
+              }
+            },
+            "description": "WebSocket upgraded; JSON messages use this schema."
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Virtualization"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
     "/virtualization/sync": {
       "post": {
         "operationId": "syncAllVirtualizationClusters",
@@ -99582,6 +104576,100 @@
             "$ref": "#/components/responses/Error"
           },
           "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Virtualization"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/virtualization/vms/{vmID}/access-binding": {
+      "get": {
+        "operationId": "getVirtualMachineAccessBinding",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vmID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualMachineAccessBindingEnvelope"
+                }
+              }
+            },
+            "description": "Successful operation."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Virtualization"
+        ],
+        "x-soha-implementation-status": "implemented"
+      },
+      "put": {
+        "operationId": "updateVirtualMachineAccessBinding",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vmID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VirtualMachineAccessBindingInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualMachineAccessBindingEnvelope"
+                }
+              }
+            },
+            "description": "Successful operation."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
             "$ref": "#/components/responses/Error"
           }
         },
@@ -99917,6 +105005,112 @@
               }
             },
             "description": "Virtual machine power action accepted."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Virtualization"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/virtualization/vms/{vmID}/ssh-commands": {
+      "post": {
+        "operationId": "createVirtualMachineSSHCommand",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vmID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VirtualMachineSSHCommandInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualMachineSSHCommandEnvelope"
+                }
+              }
+            },
+            "description": "Successful operation."
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Virtualization"
+        ],
+        "x-soha-implementation-status": "implemented"
+      }
+    },
+    "/virtualization/vms/{vmID}/ssh-sessions": {
+      "post": {
+        "operationId": "createVirtualMachineSSHSession",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vmID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VirtualMachineSSHSessionInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VirtualMachineSSHSessionEnvelope"
+                }
+              }
+            },
+            "description": "Successful operation."
           },
           "400": {
             "$ref": "#/components/responses/Error"

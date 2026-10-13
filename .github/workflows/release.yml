@@ -24,14 +24,14 @@ jobs:
           cache: npm
       - uses: actions/setup-go@v6
         with:
-          go-version: "1.26.6"
+          go-version: "1.27.2"
           cache: true
       - run: npm ci
       - run: npm test
       - name: Go vet
         run: GOWORK=off go vet ./...
       - name: Govulncheck
-        run: GOWORK=off go run golang.org/x/vuln/cmd/govulncheck@v1.3.0 ./...
+        run: GOWORK=off go run golang.org/x/vuln/cmd/govulncheck@v1.8.0 ./...
       - run: npm pack --dry-run
 
   consumers:
@@ -42,6 +42,7 @@ jobs:
         consumer:
           - soha
           - soha-web
+          - soha-app
           - soha-cli
           - soha-agent
           - soha-skills
@@ -66,7 +67,7 @@ jobs:
           ref: ${{ steps.consumer-ref.outputs.ref }}
       - uses: actions/setup-go@v6
         with:
-          go-version: "1.26.6"
+          go-version: "1.27.2"
           cache: true
           cache-dependency-path: soha-contracts/go.sum
       - run: npm ci
@@ -100,7 +101,7 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - uses: actions/setup-go@v6
         with:
-          go-version: "1.26.6"
+          go-version: "1.27.2"
           cache: true
       - run: npm ci
       - name: Validate release tag

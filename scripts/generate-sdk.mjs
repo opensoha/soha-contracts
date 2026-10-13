@@ -29,7 +29,7 @@ try {
   }
 } finally {
   if (checkOnly) {
-    await rm(outputRootPath, { recursive: true, force: true });
+    if (process.env.OPENSOHA_KEEP_VERIFY_ARTIFACTS !== "1") await rm(outputRootPath, { recursive: true, force: true });
   }
 }
 
@@ -66,7 +66,7 @@ async function generateSdk(outputRoot) {
       goSpec.path,
     ]);
   } finally {
-    await rm(goSpec.dir, { recursive: true, force: true });
+    if (process.env.OPENSOHA_KEEP_VERIFY_ARTIFACTS !== "1") await rm(goSpec.dir, { recursive: true, force: true });
   }
   await patchGoEntrypoint(goOutput);
   run("gofmt", ["-w", goOutput]);
@@ -290,6 +290,7 @@ function applyGoCompatibility(spec) {
     "DeliveryBatchAssessmentInput",
     "DeliveryBatchAssessment",
     "ObservabilityMetricAssessmentInput",
+    "WorkbenchProfessionalCapabilityInput",
     "NetworkProxyInstanceInput",
     "NetworkProxyConfigurationInput",
   ]);

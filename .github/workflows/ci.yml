@@ -25,7 +25,7 @@ jobs:
           cache: npm
       - uses: actions/setup-go@v6
         with:
-          go-version: "1.26.6"
+          go-version: "1.27.2"
           cache: true
       - name: Consumer revision selector tests
         run: node --test scripts/select-consumer-revision.checks.mjs
@@ -34,11 +34,11 @@ jobs:
       - name: Go vet
         run: GOWORK=off go vet ./...
       - name: Govulncheck
-        run: GOWORK=off go run golang.org/x/vuln/cmd/govulncheck@v1.3.0 ./...
+        run: GOWORK=off go run golang.org/x/vuln/cmd/govulncheck@v1.8.0 ./...
       - name: Golangci-lint
         uses: golangci/golangci-lint-action@v9
         with:
-          version: v2.9.0
+          version: v2.14.0
           only-new-issues: true
           args: --timeout=5m
 
@@ -50,6 +50,7 @@ jobs:
         consumer:
           - soha
           - soha-web
+          - soha-app
           - soha-cli
           - soha-agent
           - soha-skills
@@ -82,7 +83,7 @@ jobs:
           printf '%s: `%s`\n' "$CONSUMER" "$(git -C "$CONSUMER" rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/setup-go@v6
         with:
-          go-version: "1.26.6"
+          go-version: "1.27.2"
           cache: true
           cache-dependency-path: soha-contracts/go.sum
       - run: npm ci

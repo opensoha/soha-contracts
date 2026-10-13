@@ -1,7 +1,7 @@
 {
   "schemaVersion": "authorization.opensoha.io/v1",
   "catalogVersion": "2.0.0",
-  "contentHash": "sha256:be2c1caf05e680f75b40e6ce017e55f1c35f7977cf045ca3ec562adbd6cb37dc",
+  "contentHash": "sha256:b1a07eef4c26f91735b65ec18799e530271a47d0eed1de60f9a955d11208f9a2",
   "permissions": [
     {
       "key": "access.directory.create",
@@ -11878,6 +11878,37 @@
       "action": "view",
       "displayName": "查看虚拟化同步任务",
       "riskLevel": "read",
+      "scopeKinds": [
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "virtualization.vm_access.update",
+      "domain": "virtualization",
+      "resource": "vm_access",
+      "action": "update",
+      "displayName": "管理虚拟机登录绑定",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true,
+      "legacyAliases": []
+    },
+    {
+      "key": "virtualization.vms.connect",
+      "domain": "virtualization",
+      "resource": "vms",
+      "action": "connect",
+      "displayName": "连接虚拟机 SSH",
+      "riskLevel": "execute",
       "scopeKinds": [
         "workspace",
         "resource"

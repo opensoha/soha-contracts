@@ -44,6 +44,16 @@ const consumers = [
     commands: [["go", ["test", "./..."]]],
   },
   {
+    name: "soha-app",
+    path: "soha-app/frontend",
+    kind: "npm",
+    commands: [
+      ["npm", ["ci"]],
+      ["npm", ["install", "--no-save", "--ignore-scripts", "--no-audit", "--no-fund", "--prefer-offline", contractsTarballPlaceholder]],
+      ["npm", ["run", "build"]],
+    ],
+  },
+  {
     name: "soha-agent",
     path: "soha-agent",
     kind: "go",
@@ -123,10 +133,10 @@ for (const consumer of targets) {
       run(command, resolvedArgs, dir, env);
     }
   } finally {
-    if (env !== process.env && env.GOWORK) {
+    if (process.env.OPENSOHA_KEEP_VERIFY_ARTIFACTS !== "1" && env !== process.env && env.GOWORK) {
       await rm(dirname(env.GOWORK), { recursive: true, force: true });
     }
-    if (packageDir) {
+    if (process.env.OPENSOHA_KEEP_VERIFY_ARTIFACTS !== "1" && packageDir) {
       await rm(packageDir, { recursive: true, force: true });
     }
   }
@@ -203,7 +213,7 @@ async function packContracts() {
     run("npm", ["pack", "--silent", "--pack-destination", packageDir], contractsRoot, process.env);
     return packageDir;
   } catch (error) {
-    await rm(packageDir, { recursive: true, force: true });
+    if (process.env.OPENSOHA_KEEP_VERIFY_ARTIFACTS !== "1") await rm(packageDir, { recursive: true, force: true });
     throw error;
   }
 }

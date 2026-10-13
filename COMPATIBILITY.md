@@ -364,6 +364,14 @@ role migration and consumer conformance prove no active dependency.
 
 ## Consumer Adoption
 
+Session access tokens may add the optional positive `authzVersion` claim. Core
+binds versioned tokens to the current user authorization version; refreshing a
+session cannot revive a token issued before a membership change. During migration,
+tokens without the claim must resolve current roles, teams, projects and tags from
+the authoritative identity store rather than trusting their embedded membership.
+Refresh tokens and existing client login/refresh response fields are unchanged.
+This does not replace session revocation, account-state or per-resource authorization.
+
 Connection tests and Compute provider health checks return HTTP 200 with
 `ConnectionCheckResultEnvelope` after each fresh probe. Consumers read `healthy`
 and the diagnostic fields directly; no task or task log is created. The Compute
@@ -435,3 +443,63 @@ only with an explicit compatibility reason and successful matrix evidence.
 Manual CI may select `consumer_mode=latest` for separate integration evidence.
 This does not rewrite the fixed manifest or replace fixed-combination acceptance.
 Record the actual contracts and consumer commits, not only the selected mode.
+
+The matrix includes the independent App frontend. Its initial pin
+`0c3c76c373246f7d2218b48f68b89bf3097f777b` was built from isolated committed source
+against the packed Contracts 0.1.23 working tree to establish backward compatibility.
+That commit predates the uncommitted Native client adaptation; current-worktree
+checks are separate, and release of that adaptation requires a reviewed new App
+pin and verification with the published SDK rather than the local package overlay.
+
+## External knowledge source import ceilings
+
+`knowledge/source-import-policy.schema.json` defines optional trusted
+`config.importPolicy` for external HTTP/Git/Object connectors. Core intersects
+fetched document grants with this ceiling before persisting documents and chunks.
+Omission defaults to the stable knowledge-base owner; an explicitly empty private
+scope grants nobody. Public returned ACLs cannot exceed a finite ceiling. Finite
+grants intersect within the same identity category, without inferring membership
+across users, roles, teams or projects. Inline source behavior is unchanged.
+
+Older external configurations that relied on returned public/shared ACLs must
+be reviewed and given an explicit trusted policy before reingestion. Existing
+indexed documents are not retroactively rewritten by this change; source-policy
+editing, revocation of existing indexed data and a migration/backfill remain
+separate acceptance work. Upgrade every Core replica before relying on the new
+ceiling. No independent SDK release or deployment is established by a sibling
+consumer matrix.
+
+Connector credential references use the existing Gateway `secretRefs` channel
+with alias `SOURCE`, instead of ordinary fetch input. Executable references use
+`soha://secrets/<id>` with an optional `/versions/<n>`, matching the existing
+secret service. Legacy `secret:` references remain valid stored configuration,
+but fetching rejects them until an authorized source edit selects a canonical
+reference; names and paths are not automatically mapped to a secret identity.
+A runtime without a
+versioned per-call credential delivery protocol must reject a nonempty resolved
+secret context before sending an action. Static runtime credentials do not
+substitute for the caller-selected source credential.
+
+`connectors/connector-action.schema.json` adds credential-bearing action v1.
+Only actions explicitly declaring `credentialProtocol=opensoha.dev/connector-action/v1`
+and bounded `credentialAliases` may receive it. The caller sends the same action
+in the path and envelope, invocation-local values with exact pinned references,
+and a bounded expiry. The runtime authenticates Core, validates declarations,
+rejects unknown/expired frames, signals cooperative cancellation and rejects late
+responses on expiry or disconnect. This does not prove an external effect stopped. Core remains
+the authority for identity, reference versions and scope; wire metadata does not
+authorize a caller. Credentials require authenticated HTTPS or loopback transport,
+and must not follow redirects, enter persistent retry queues, logs, events or results.
+Unversioned requests without credentials remain compatible; old runtimes continue
+to be rejected before credential-bearing actions are sent. New runtimes must not
+silently substitute globally configured credentials. Connectors SDK and Core
+receive dedicated HTTP boundary tests in addition to the existing consumer matrix.
+
+The v1 runtime also bounds canonical UTF-8 JSON frames to 1 MiB, each value to
+64 KiB, and structured material to depth 16 and 64 distinct nonempty strings,
+including keys and the opaque value. The declaration advertises support; calls
+without credentials retain the legacy envelope. An action requiring credentials
+must explicitly reject their absence. Known raw and structured string material
+is masked in SDK results/errors and Core outputs; conservative masking may also
+mask matching business keys. A trusted connector must honor cancellation and
+never persist credentials; masking is not a universal encoded-exfiltration guard.

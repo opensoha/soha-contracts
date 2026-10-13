@@ -41,6 +41,11 @@
       ]
     },
     "sessionId": { "type": "string" },
+    "authzVersion": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Authorization version at session access-token issuance. A version mismatch invalidates this token even after its session refreshes. Legacy tokens without this field require an authoritative current-identity lookup; their embedded roles must not restore revoked grants."
+    },
     "subjectType": {
       "type": "string",
       "enum": ["user", "service_account", "runner", "anonymous"]

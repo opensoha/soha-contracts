@@ -17,9 +17,9 @@
       "type": "object", "additionalProperties": false,
       "required": ["diskBytes", "memoryBytes", "cpuUnits", "maxProcesses", "networkEgress"],
       "properties": {
-        "diskBytes": { "type": "integer", "minimum": 1 },
+        "diskBytes": { "type": "integer", "minimum": 1, "description": "Maximum charged persistent storage bytes. The Docker personal backend uses a verified Btrfs subvolume quota; temporary task files use separately bounded memory-backed mounts and count against memoryBytes. Unsupported hard enforcement must fail acquisition." },
         "memoryBytes": { "type": "integer", "minimum": 1 },
-        "cpuUnits": { "type": "integer", "minimum": 1 },
+        "cpuUnits": { "type": "integer", "minimum": 1, "description": "CPU millicores: 1000 is one CPU. Docker personal leases must hard-enforce this ceiling." },
         "maxProcesses": { "type": "integer", "minimum": 1 },
         "networkEgress": { "type": "boolean" }
       }

@@ -24,6 +24,7 @@ const (
 const (
 	AIEnvironmentTemplateBackendContainer  AIEnvironmentTemplateBackend = "container"
 	AIEnvironmentTemplateBackendKubernetes AIEnvironmentTemplateBackend = "kubernetes"
+	AIEnvironmentTemplateBackendVM         AIEnvironmentTemplateBackend = "vm"
 )
 
 // Valid indicates whether the value is a known member of the AIEnvironmentTemplateBackend enum.
@@ -32,6 +33,8 @@ func (e AIEnvironmentTemplateBackend) Valid() bool {
 	case AIEnvironmentTemplateBackendContainer:
 		return true
 	case AIEnvironmentTemplateBackendKubernetes:
+		return true
+	case AIEnvironmentTemplateBackendVM:
 		return true
 	default:
 		return false
@@ -60,6 +63,7 @@ func (e AIEnvironmentTemplateIsolationMode) Valid() bool {
 const (
 	AIEnvironmentTemplateInputBackendContainer  AIEnvironmentTemplateInputBackend = "container"
 	AIEnvironmentTemplateInputBackendKubernetes AIEnvironmentTemplateInputBackend = "kubernetes"
+	AIEnvironmentTemplateInputBackendVM         AIEnvironmentTemplateInputBackend = "vm"
 )
 
 // Valid indicates whether the value is a known member of the AIEnvironmentTemplateInputBackend enum.
@@ -68,6 +72,8 @@ func (e AIEnvironmentTemplateInputBackend) Valid() bool {
 	case AIEnvironmentTemplateInputBackendContainer:
 		return true
 	case AIEnvironmentTemplateInputBackendKubernetes:
+		return true
+	case AIEnvironmentTemplateInputBackendVM:
 		return true
 	default:
 		return false
@@ -220,19 +226,37 @@ func (e AgentProviderRunnerStatusHealth) Valid() bool {
 
 // Defines values for AgentProviderRuntimeDefinitionKind.
 const (
-	Cli       AgentProviderRuntimeDefinitionKind = "cli"
-	Container AgentProviderRuntimeDefinitionKind = "container"
-	Remote    AgentProviderRuntimeDefinitionKind = "remote"
+	AgentProviderRuntimeDefinitionKindCli       AgentProviderRuntimeDefinitionKind = "cli"
+	AgentProviderRuntimeDefinitionKindContainer AgentProviderRuntimeDefinitionKind = "container"
+	AgentProviderRuntimeDefinitionKindRemote    AgentProviderRuntimeDefinitionKind = "remote"
 )
 
 // Valid indicates whether the value is a known member of the AgentProviderRuntimeDefinitionKind enum.
 func (e AgentProviderRuntimeDefinitionKind) Valid() bool {
 	switch e {
-	case Cli:
+	case AgentProviderRuntimeDefinitionKindCli:
 		return true
-	case Container:
+	case AgentProviderRuntimeDefinitionKindContainer:
 		return true
-	case Remote:
+	case AgentProviderRuntimeDefinitionKindRemote:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentRunExecutionOwner.
+const (
+	AgentRunExecutionOwnerExternal AgentRunExecutionOwner = "external"
+	AgentRunExecutionOwnerNative   AgentRunExecutionOwner = "native"
+)
+
+// Valid indicates whether the value is a known member of the AgentRunExecutionOwner enum.
+func (e AgentRunExecutionOwner) Valid() bool {
+	switch e {
+	case AgentRunExecutionOwnerExternal:
+		return true
+	case AgentRunExecutionOwnerNative:
 		return true
 	default:
 		return false
@@ -379,13 +403,13 @@ func (e AgentRunCallbackWorkbenchErrorEventType) Valid() bool {
 
 // Defines values for AgentRunCallbackWorkbenchMessageDeltaEventRole.
 const (
-	AgentRunCallbackWorkbenchMessageDeltaEventRoleAssistant AgentRunCallbackWorkbenchMessageDeltaEventRole = "assistant"
+	AgentRunCallbackWorkbenchMessageDeltaEventRoleAgentRunCallbackWorkbenchMessageDeltaEventRoleAssistant AgentRunCallbackWorkbenchMessageDeltaEventRole = "assistant"
 )
 
 // Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchMessageDeltaEventRole enum.
 func (e AgentRunCallbackWorkbenchMessageDeltaEventRole) Valid() bool {
 	switch e {
-	case AgentRunCallbackWorkbenchMessageDeltaEventRoleAssistant:
+	case AgentRunCallbackWorkbenchMessageDeltaEventRoleAgentRunCallbackWorkbenchMessageDeltaEventRoleAssistant:
 		return true
 	default:
 		return false
@@ -409,13 +433,13 @@ func (e AgentRunCallbackWorkbenchMessageDeltaEventType) Valid() bool {
 
 // Defines values for AgentRunCallbackWorkbenchMessageDoneEventRole.
 const (
-	AgentRunCallbackWorkbenchMessageDoneEventRoleAssistant AgentRunCallbackWorkbenchMessageDoneEventRole = "assistant"
+	AgentRunCallbackWorkbenchMessageDoneEventRoleAgentRunCallbackWorkbenchMessageDeltaEventRoleAssistant AgentRunCallbackWorkbenchMessageDoneEventRole = "assistant"
 )
 
 // Valid indicates whether the value is a known member of the AgentRunCallbackWorkbenchMessageDoneEventRole enum.
 func (e AgentRunCallbackWorkbenchMessageDoneEventRole) Valid() bool {
 	switch e {
-	case AgentRunCallbackWorkbenchMessageDoneEventRoleAssistant:
+	case AgentRunCallbackWorkbenchMessageDoneEventRoleAgentRunCallbackWorkbenchMessageDeltaEventRoleAssistant:
 		return true
 	default:
 		return false
@@ -605,6 +629,27 @@ func (e AgentRunnerToolInputToolName) Valid() bool {
 	case DeliveryActionsTrigger:
 		return true
 	case DeliveryApplicationsCreate:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AgentSSHCommandResultEffect.
+const (
+	AgentSSHCommandResultEffectExited     AgentSSHCommandResultEffect = "exited"
+	AgentSSHCommandResultEffectNotStarted AgentSSHCommandResultEffect = "not_started"
+	AgentSSHCommandResultEffectUnknown    AgentSSHCommandResultEffect = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the AgentSSHCommandResultEffect enum.
+func (e AgentSSHCommandResultEffect) Valid() bool {
+	switch e {
+	case AgentSSHCommandResultEffectExited:
+		return true
+	case AgentSSHCommandResultEffectNotStarted:
+		return true
+	case AgentSSHCommandResultEffectUnknown:
 		return true
 	default:
 		return false
@@ -2668,16 +2713,16 @@ func (e DeliveryPlanApprovalInputAction) Valid() bool {
 
 // Defines values for DeliveryPlanInputSource.
 const (
-	AI     DeliveryPlanInputSource = "ai"
-	Manual DeliveryPlanInputSource = "manual"
+	DeliveryPlanInputSourceAI     DeliveryPlanInputSource = "ai"
+	DeliveryPlanInputSourceManual DeliveryPlanInputSource = "manual"
 )
 
 // Valid indicates whether the value is a known member of the DeliveryPlanInputSource enum.
 func (e DeliveryPlanInputSource) Valid() bool {
 	switch e {
-	case AI:
+	case DeliveryPlanInputSourceAI:
 		return true
-	case Manual:
+	case DeliveryPlanInputSourceManual:
 		return true
 	default:
 		return false
@@ -4223,6 +4268,24 @@ func (e KnowledgeIngestionStage) Valid() bool {
 	}
 }
 
+// Defines values for KnowledgeSearchResultRetrievalMode.
+const (
+	Hybrid  KnowledgeSearchResultRetrievalMode = "hybrid"
+	Lexical KnowledgeSearchResultRetrievalMode = "lexical"
+)
+
+// Valid indicates whether the value is a known member of the KnowledgeSearchResultRetrievalMode enum.
+func (e KnowledgeSearchResultRetrievalMode) Valid() bool {
+	switch e {
+	case Hybrid:
+		return true
+	case Lexical:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for KnowledgeSourceKind.
 const (
 	KnowledgeSourceKindGit    KnowledgeSourceKind = "git"
@@ -4483,16 +4546,16 @@ func (e KubernetesImportedTargetWorkloadKind) Valid() bool {
 
 // Defines values for KubernetesPrometheusTransport.
 const (
-	Agent  KubernetesPrometheusTransport = "agent"
-	Direct KubernetesPrometheusTransport = "direct"
+	KubernetesPrometheusTransportAgent  KubernetesPrometheusTransport = "agent"
+	KubernetesPrometheusTransportDirect KubernetesPrometheusTransport = "direct"
 )
 
 // Valid indicates whether the value is a known member of the KubernetesPrometheusTransport enum.
 func (e KubernetesPrometheusTransport) Valid() bool {
 	switch e {
-	case Agent:
+	case KubernetesPrometheusTransportAgent:
 		return true
-	case Direct:
+	case KubernetesPrometheusTransportDirect:
 		return true
 	default:
 		return false
@@ -8084,6 +8147,435 @@ func (e PermissionStatus) Valid() bool {
 	}
 }
 
+// Defines values for PersonalAgentAccessStatus.
+const (
+	PersonalAgentAccessStatusApproved     PersonalAgentAccessStatus = "approved"
+	PersonalAgentAccessStatusNotRequested PersonalAgentAccessStatus = "not_requested"
+	PersonalAgentAccessStatusPending      PersonalAgentAccessStatus = "pending"
+	PersonalAgentAccessStatusRejected     PersonalAgentAccessStatus = "rejected"
+	PersonalAgentAccessStatusRevoked      PersonalAgentAccessStatus = "revoked"
+)
+
+// Valid indicates whether the value is a known member of the PersonalAgentAccessStatus enum.
+func (e PersonalAgentAccessStatus) Valid() bool {
+	switch e {
+	case PersonalAgentAccessStatusApproved:
+		return true
+	case PersonalAgentAccessStatusNotRequested:
+		return true
+	case PersonalAgentAccessStatusPending:
+		return true
+	case PersonalAgentAccessStatusRejected:
+		return true
+	case PersonalAgentAccessStatusRevoked:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PersonalAgentAccessDecisionStatus.
+const (
+	Approved PersonalAgentAccessDecisionStatus = "approved"
+	Rejected PersonalAgentAccessDecisionStatus = "rejected"
+	Revoked  PersonalAgentAccessDecisionStatus = "revoked"
+)
+
+// Valid indicates whether the value is a known member of the PersonalAgentAccessDecisionStatus enum.
+func (e PersonalAgentAccessDecisionStatus) Valid() bool {
+	switch e {
+	case Approved:
+		return true
+	case Rejected:
+		return true
+	case Revoked:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PersonalAssistantAvatarMotion.
+const (
+	PersonalAssistantAvatarMotionAuto PersonalAssistantAvatarMotion = "auto"
+	PersonalAssistantAvatarMotionOff  PersonalAssistantAvatarMotion = "off"
+)
+
+// Valid indicates whether the value is a known member of the PersonalAssistantAvatarMotion enum.
+func (e PersonalAssistantAvatarMotion) Valid() bool {
+	switch e {
+	case PersonalAssistantAvatarMotionAuto:
+		return true
+	case PersonalAssistantAvatarMotionOff:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PersonalAssistantAvatarRequestAvatarMotion.
+const (
+	PersonalAssistantAvatarRequestAvatarMotionAuto PersonalAssistantAvatarRequestAvatarMotion = "auto"
+	PersonalAssistantAvatarRequestAvatarMotionOff  PersonalAssistantAvatarRequestAvatarMotion = "off"
+)
+
+// Valid indicates whether the value is a known member of the PersonalAssistantAvatarRequestAvatarMotion enum.
+func (e PersonalAssistantAvatarRequestAvatarMotion) Valid() bool {
+	switch e {
+	case PersonalAssistantAvatarRequestAvatarMotionAuto:
+		return true
+	case PersonalAssistantAvatarRequestAvatarMotionOff:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PersonalEnvironmentBackend.
+const (
+	PersonalEnvironmentBackendContainer PersonalEnvironmentBackend = "container"
+	PersonalEnvironmentBackendVM        PersonalEnvironmentBackend = "vm"
+)
+
+// Valid indicates whether the value is a known member of the PersonalEnvironmentBackend enum.
+func (e PersonalEnvironmentBackend) Valid() bool {
+	switch e {
+	case PersonalEnvironmentBackendContainer:
+		return true
+	case PersonalEnvironmentBackendVM:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PersonalEnvironmentProvider.
+const (
+	PersonalEnvironmentProviderDocker   PersonalEnvironmentProvider = "docker"
+	PersonalEnvironmentProviderKubevirt PersonalEnvironmentProvider = "kubevirt"
+	PersonalEnvironmentProviderPve      PersonalEnvironmentProvider = "pve"
+)
+
+// Valid indicates whether the value is a known member of the PersonalEnvironmentProvider enum.
+func (e PersonalEnvironmentProvider) Valid() bool {
+	switch e {
+	case PersonalEnvironmentProviderDocker:
+		return true
+	case PersonalEnvironmentProviderKubevirt:
+		return true
+	case PersonalEnvironmentProviderPve:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PersonalEnvironmentState.
+const (
+	PersonalEnvironmentStateDeleted         PersonalEnvironmentState = "deleted"
+	PersonalEnvironmentStateDeleting        PersonalEnvironmentState = "deleting"
+	PersonalEnvironmentStateDeletionUnknown PersonalEnvironmentState = "deletion_unknown"
+	PersonalEnvironmentStateExpired         PersonalEnvironmentState = "expired"
+	PersonalEnvironmentStateMissing         PersonalEnvironmentState = "missing"
+	PersonalEnvironmentStatePending         PersonalEnvironmentState = "pending"
+	PersonalEnvironmentStateQuotaExceeded   PersonalEnvironmentState = "quota_exceeded"
+	PersonalEnvironmentStateReady           PersonalEnvironmentState = "ready"
+	PersonalEnvironmentStateSleeping        PersonalEnvironmentState = "sleeping"
+	PersonalEnvironmentStateUnknown         PersonalEnvironmentState = "unknown"
+	PersonalEnvironmentStateUnprovisioned   PersonalEnvironmentState = "unprovisioned"
+)
+
+// Valid indicates whether the value is a known member of the PersonalEnvironmentState enum.
+func (e PersonalEnvironmentState) Valid() bool {
+	switch e {
+	case PersonalEnvironmentStateDeleted:
+		return true
+	case PersonalEnvironmentStateDeleting:
+		return true
+	case PersonalEnvironmentStateDeletionUnknown:
+		return true
+	case PersonalEnvironmentStateExpired:
+		return true
+	case PersonalEnvironmentStateMissing:
+		return true
+	case PersonalEnvironmentStatePending:
+		return true
+	case PersonalEnvironmentStateQuotaExceeded:
+		return true
+	case PersonalEnvironmentStateReady:
+		return true
+	case PersonalEnvironmentStateSleeping:
+		return true
+	case PersonalEnvironmentStateUnknown:
+		return true
+	case PersonalEnvironmentStateUnprovisioned:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PersonalEnvironmentActionRequestAction.
+const (
+	Reconcile PersonalEnvironmentActionRequestAction = "reconcile"
+	Sleep     PersonalEnvironmentActionRequestAction = "sleep"
+	Wake      PersonalEnvironmentActionRequestAction = "wake"
+)
+
+// Valid indicates whether the value is a known member of the PersonalEnvironmentActionRequestAction enum.
+func (e PersonalEnvironmentActionRequestAction) Valid() bool {
+	switch e {
+	case Reconcile:
+		return true
+	case Sleep:
+		return true
+	case Wake:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PersonalEnvironmentTemplateBackend.
+const (
+	Container PersonalEnvironmentTemplateBackend = "container"
+	VM        PersonalEnvironmentTemplateBackend = "vm"
+)
+
+// Valid indicates whether the value is a known member of the PersonalEnvironmentTemplateBackend enum.
+func (e PersonalEnvironmentTemplateBackend) Valid() bool {
+	switch e {
+	case Container:
+		return true
+	case VM:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PersonalEnvironmentTemplateMode.
+const (
+	ObserveOnly     PersonalEnvironmentTemplateMode = "observe-only"
+	RestrictedWrite PersonalEnvironmentTemplateMode = "restricted-write"
+)
+
+// Valid indicates whether the value is a known member of the PersonalEnvironmentTemplateMode enum.
+func (e PersonalEnvironmentTemplateMode) Valid() bool {
+	switch e {
+	case ObserveOnly:
+		return true
+	case RestrictedWrite:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PersonalEnvironmentTemplateProvider.
+const (
+	PersonalEnvironmentTemplateProviderDocker   PersonalEnvironmentTemplateProvider = "docker"
+	PersonalEnvironmentTemplateProviderKubevirt PersonalEnvironmentTemplateProvider = "kubevirt"
+	PersonalEnvironmentTemplateProviderPve      PersonalEnvironmentTemplateProvider = "pve"
+)
+
+// Valid indicates whether the value is a known member of the PersonalEnvironmentTemplateProvider enum.
+func (e PersonalEnvironmentTemplateProvider) Valid() bool {
+	switch e {
+	case PersonalEnvironmentTemplateProviderDocker:
+		return true
+	case PersonalEnvironmentTemplateProviderKubevirt:
+		return true
+	case PersonalEnvironmentTemplateProviderPve:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PersonalFeedPageState.
+const (
+	PersonalFeedPageStateFailed  PersonalFeedPageState = "failed"
+	PersonalFeedPageStateIdle    PersonalFeedPageState = "idle"
+	PersonalFeedPageStateQueued  PersonalFeedPageState = "queued"
+	PersonalFeedPageStateRunning PersonalFeedPageState = "running"
+)
+
+// Valid indicates whether the value is a known member of the PersonalFeedPageState enum.
+func (e PersonalFeedPageState) Valid() bool {
+	switch e {
+	case PersonalFeedPageStateFailed:
+		return true
+	case PersonalFeedPageStateIdle:
+		return true
+	case PersonalFeedPageStateQueued:
+		return true
+	case PersonalFeedPageStateRunning:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PersonalGuestRuntimeKind.
+const (
+	PersonalGuestRuntimeKindBrowser   PersonalGuestRuntimeKind = "browser"
+	PersonalGuestRuntimeKindDocker    PersonalGuestRuntimeKind = "docker"
+	PersonalGuestRuntimeKindExecute   PersonalGuestRuntimeKind = "execute"
+	PersonalGuestRuntimeKindFileRead  PersonalGuestRuntimeKind = "file_read"
+	PersonalGuestRuntimeKindFileWrite PersonalGuestRuntimeKind = "file_write"
+)
+
+// Valid indicates whether the value is a known member of the PersonalGuestRuntimeKind enum.
+func (e PersonalGuestRuntimeKind) Valid() bool {
+	switch e {
+	case PersonalGuestRuntimeKindBrowser:
+		return true
+	case PersonalGuestRuntimeKindDocker:
+		return true
+	case PersonalGuestRuntimeKindExecute:
+		return true
+	case PersonalGuestRuntimeKindFileRead:
+		return true
+	case PersonalGuestRuntimeKindFileWrite:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PersonalGuestRuntimeStatus.
+const (
+	PersonalGuestRuntimeStatusCanceled  PersonalGuestRuntimeStatus = "canceled"
+	PersonalGuestRuntimeStatusFailed    PersonalGuestRuntimeStatus = "failed"
+	PersonalGuestRuntimeStatusQueued    PersonalGuestRuntimeStatus = "queued"
+	PersonalGuestRuntimeStatusRunning   PersonalGuestRuntimeStatus = "running"
+	PersonalGuestRuntimeStatusSucceeded PersonalGuestRuntimeStatus = "succeeded"
+	PersonalGuestRuntimeStatusUnknown   PersonalGuestRuntimeStatus = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the PersonalGuestRuntimeStatus enum.
+func (e PersonalGuestRuntimeStatus) Valid() bool {
+	switch e {
+	case PersonalGuestRuntimeStatusCanceled:
+		return true
+	case PersonalGuestRuntimeStatusFailed:
+		return true
+	case PersonalGuestRuntimeStatusQueued:
+		return true
+	case PersonalGuestRuntimeStatusRunning:
+		return true
+	case PersonalGuestRuntimeStatusSucceeded:
+		return true
+	case PersonalGuestRuntimeStatusUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PersonalGuestRuntimeInputBrowserAction.
+const (
+	Acquire  PersonalGuestRuntimeInputBrowserAction = "acquire"
+	Click    PersonalGuestRuntimeInputBrowserAction = "click"
+	Navigate PersonalGuestRuntimeInputBrowserAction = "navigate"
+	Pointer  PersonalGuestRuntimeInputBrowserAction = "pointer"
+	Release  PersonalGuestRuntimeInputBrowserAction = "release"
+	Return   PersonalGuestRuntimeInputBrowserAction = "return"
+	Snapshot PersonalGuestRuntimeInputBrowserAction = "snapshot"
+	Takeover PersonalGuestRuntimeInputBrowserAction = "takeover"
+	Type     PersonalGuestRuntimeInputBrowserAction = "type"
+)
+
+// Valid indicates whether the value is a known member of the PersonalGuestRuntimeInputBrowserAction enum.
+func (e PersonalGuestRuntimeInputBrowserAction) Valid() bool {
+	switch e {
+	case Acquire:
+		return true
+	case Click:
+		return true
+	case Navigate:
+		return true
+	case Pointer:
+		return true
+	case Release:
+		return true
+	case Return:
+		return true
+	case Snapshot:
+		return true
+	case Takeover:
+		return true
+	case Type:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PersonalGuestRuntimeInputKind.
+const (
+	Browser   PersonalGuestRuntimeInputKind = "browser"
+	Docker    PersonalGuestRuntimeInputKind = "docker"
+	Execute   PersonalGuestRuntimeInputKind = "execute"
+	FileRead  PersonalGuestRuntimeInputKind = "file_read"
+	FileWrite PersonalGuestRuntimeInputKind = "file_write"
+)
+
+// Valid indicates whether the value is a known member of the PersonalGuestRuntimeInputKind enum.
+func (e PersonalGuestRuntimeInputKind) Valid() bool {
+	switch e {
+	case Browser:
+		return true
+	case Docker:
+		return true
+	case Execute:
+		return true
+	case FileRead:
+		return true
+	case FileWrite:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PersonalVMEnvironmentPolicyProvider.
+const (
+	PersonalVMEnvironmentPolicyProviderPve PersonalVMEnvironmentPolicyProvider = "pve"
+)
+
+// Valid indicates whether the value is a known member of the PersonalVMEnvironmentPolicyProvider enum.
+func (e PersonalVMEnvironmentPolicyProvider) Valid() bool {
+	switch e {
+	case PersonalVMEnvironmentPolicyProviderPve:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PersonalWorkspaceRuntimeBrowserControlOwner.
+const (
+	PersonalWorkspaceRuntimeBrowserControlOwnerAgent    PersonalWorkspaceRuntimeBrowserControlOwner = "agent"
+	PersonalWorkspaceRuntimeBrowserControlOwnerReleased PersonalWorkspaceRuntimeBrowserControlOwner = "released"
+	PersonalWorkspaceRuntimeBrowserControlOwnerUser     PersonalWorkspaceRuntimeBrowserControlOwner = "user"
+)
+
+// Valid indicates whether the value is a known member of the PersonalWorkspaceRuntimeBrowserControlOwner enum.
+func (e PersonalWorkspaceRuntimeBrowserControlOwner) Valid() bool {
+	switch e {
+	case PersonalWorkspaceRuntimeBrowserControlOwnerAgent:
+		return true
+	case PersonalWorkspaceRuntimeBrowserControlOwnerReleased:
+		return true
+	case PersonalWorkspaceRuntimeBrowserControlOwnerUser:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for PlatformAuditLogResult.
 const (
 	PlatformAuditLogResultDeny    PlatformAuditLogResult = "deny"
@@ -8812,6 +9304,8 @@ const (
 	SecretBindingCapability SecretBindingTargetType = "capability"
 	SecretBindingConnection SecretBindingTargetType = "connection"
 	SecretBindingProject    SecretBindingTargetType = "project"
+	SecretBindingVM         SecretBindingTargetType = "vm"
+	SecretBindingVMCreate   SecretBindingTargetType = "vm_create"
 )
 
 // Valid indicates whether the value is a known member of the SecretBindingTargetType enum.
@@ -8822,6 +9316,55 @@ func (e SecretBindingTargetType) Valid() bool {
 	case SecretBindingConnection:
 		return true
 	case SecretBindingProject:
+		return true
+	case SecretBindingVM:
+		return true
+	case SecretBindingVMCreate:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SecretKind.
+const (
+	SecretKindOpaque       SecretKind = "opaque"
+	SecretKindSSHKeypair   SecretKind = "ssh_keypair"
+	SecretKindSSHPassword  SecretKind = "ssh_password"
+	SecretKindSSHPublicKey SecretKind = "ssh_public_key"
+)
+
+// Valid indicates whether the value is a known member of the SecretKind enum.
+func (e SecretKind) Valid() bool {
+	switch e {
+	case SecretKindOpaque:
+		return true
+	case SecretKindSSHKeypair:
+		return true
+	case SecretKindSSHPassword:
+		return true
+	case SecretKindSSHPublicKey:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SecretPurpose.
+const (
+	SecretPurposeVMAuth      SecretPurpose = "vm_auth"
+	SecretPurposeVMCloudInit SecretPurpose = "vm_cloud_init"
+	SecretPurposeVMExec      SecretPurpose = "vm_exec"
+)
+
+// Valid indicates whether the value is a known member of the SecretPurpose enum.
+func (e SecretPurpose) Valid() bool {
+	switch e {
+	case SecretPurposeVMAuth:
+		return true
+	case SecretPurposeVMCloudInit:
+		return true
+	case SecretPurposeVMExec:
 		return true
 	default:
 		return false
@@ -9191,6 +9734,27 @@ func (e UserProfileAvatarFit) Valid() bool {
 	}
 }
 
+// Defines values for VirtualMachineAccessBindingStatus.
+const (
+	VirtualMachineAccessBindingStatusReady       VirtualMachineAccessBindingStatus = "ready"
+	VirtualMachineAccessBindingStatusStale       VirtualMachineAccessBindingStatus = "stale"
+	VirtualMachineAccessBindingStatusUnavailable VirtualMachineAccessBindingStatus = "unavailable"
+)
+
+// Valid indicates whether the value is a known member of the VirtualMachineAccessBindingStatus enum.
+func (e VirtualMachineAccessBindingStatus) Valid() bool {
+	switch e {
+	case VirtualMachineAccessBindingStatusReady:
+		return true
+	case VirtualMachineAccessBindingStatusStale:
+		return true
+	case VirtualMachineAccessBindingStatusUnavailable:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for VirtualMachineActionInputAction.
 const (
 	VirtualMachineActionInputActionDelete VirtualMachineActionInputAction = "delete"
@@ -9242,6 +9806,204 @@ func (e VirtualMachinePowerInputAction) Valid() bool {
 	}
 }
 
+// Defines values for VirtualMachineSSHCommandOutcome.
+const (
+	VirtualMachineSSHCommandOutcomeCanceled  VirtualMachineSSHCommandOutcome = "canceled"
+	VirtualMachineSSHCommandOutcomeFailed    VirtualMachineSSHCommandOutcome = "failed"
+	VirtualMachineSSHCommandOutcomeSucceeded VirtualMachineSSHCommandOutcome = "succeeded"
+	VirtualMachineSSHCommandOutcomeUnknown   VirtualMachineSSHCommandOutcome = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the VirtualMachineSSHCommandOutcome enum.
+func (e VirtualMachineSSHCommandOutcome) Valid() bool {
+	switch e {
+	case VirtualMachineSSHCommandOutcomeCanceled:
+		return true
+	case VirtualMachineSSHCommandOutcomeFailed:
+		return true
+	case VirtualMachineSSHCommandOutcomeSucceeded:
+		return true
+	case VirtualMachineSSHCommandOutcomeUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VirtualMachineSSHFrameDataEncoding.
+const (
+	VirtualMachineSSHFrameDataEncodingBase64 VirtualMachineSSHFrameDataEncoding = "base64"
+	VirtualMachineSSHFrameDataEncodingUTF8   VirtualMachineSSHFrameDataEncoding = "utf8"
+)
+
+// Valid indicates whether the value is a known member of the VirtualMachineSSHFrameDataEncoding enum.
+func (e VirtualMachineSSHFrameDataEncoding) Valid() bool {
+	switch e {
+	case VirtualMachineSSHFrameDataEncodingBase64:
+		return true
+	case VirtualMachineSSHFrameDataEncodingUTF8:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VirtualMachineSSHFrameType.
+const (
+	VirtualMachineSSHFrameTypeClose  VirtualMachineSSHFrameType = "close"
+	VirtualMachineSSHFrameTypeError  VirtualMachineSSHFrameType = "error"
+	VirtualMachineSSHFrameTypeInput  VirtualMachineSSHFrameType = "input"
+	VirtualMachineSSHFrameTypeOutput VirtualMachineSSHFrameType = "output"
+	VirtualMachineSSHFrameTypeResize VirtualMachineSSHFrameType = "resize"
+)
+
+// Valid indicates whether the value is a known member of the VirtualMachineSSHFrameType enum.
+func (e VirtualMachineSSHFrameType) Valid() bool {
+	switch e {
+	case VirtualMachineSSHFrameTypeClose:
+		return true
+	case VirtualMachineSSHFrameTypeError:
+		return true
+	case VirtualMachineSSHFrameTypeInput:
+		return true
+	case VirtualMachineSSHFrameTypeOutput:
+		return true
+	case VirtualMachineSSHFrameTypeResize:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VirtualMachineSSHSessionStatus.
+const (
+	VirtualMachineSSHSessionStatusActive  VirtualMachineSSHSessionStatus = "active"
+	VirtualMachineSSHSessionStatusClosed  VirtualMachineSSHSessionStatus = "closed"
+	VirtualMachineSSHSessionStatusPending VirtualMachineSSHSessionStatus = "pending"
+	VirtualMachineSSHSessionStatusRevoked VirtualMachineSSHSessionStatus = "revoked"
+	VirtualMachineSSHSessionStatusUnknown VirtualMachineSSHSessionStatus = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the VirtualMachineSSHSessionStatus enum.
+func (e VirtualMachineSSHSessionStatus) Valid() bool {
+	switch e {
+	case VirtualMachineSSHSessionStatusActive:
+		return true
+	case VirtualMachineSSHSessionStatusClosed:
+		return true
+	case VirtualMachineSSHSessionStatusPending:
+		return true
+	case VirtualMachineSSHSessionStatusRevoked:
+		return true
+	case VirtualMachineSSHSessionStatusUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VirtualizationCapacityCheckDiagnosticCheck.
+const (
+	VirtualizationCapacityCheckDiagnosticCheckBudget  VirtualizationCapacityCheckDiagnosticCheck = "budget"
+	VirtualizationCapacityCheckDiagnosticCheckRuntime VirtualizationCapacityCheckDiagnosticCheck = "runtime"
+	VirtualizationCapacityCheckDiagnosticCheckStorage VirtualizationCapacityCheckDiagnosticCheck = "storage"
+)
+
+// Valid indicates whether the value is a known member of the VirtualizationCapacityCheckDiagnosticCheck enum.
+func (e VirtualizationCapacityCheckDiagnosticCheck) Valid() bool {
+	switch e {
+	case VirtualizationCapacityCheckDiagnosticCheckBudget:
+		return true
+	case VirtualizationCapacityCheckDiagnosticCheckRuntime:
+		return true
+	case VirtualizationCapacityCheckDiagnosticCheckStorage:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VirtualizationCapacityCheckDiagnosticDimension.
+const (
+	VirtualizationCapacityCheckDiagnosticDimensionCPU    VirtualizationCapacityCheckDiagnosticDimension = "cpu"
+	VirtualizationCapacityCheckDiagnosticDimensionDisk   VirtualizationCapacityCheckDiagnosticDimension = "disk"
+	VirtualizationCapacityCheckDiagnosticDimensionMemory VirtualizationCapacityCheckDiagnosticDimension = "memory"
+)
+
+// Valid indicates whether the value is a known member of the VirtualizationCapacityCheckDiagnosticDimension enum.
+func (e VirtualizationCapacityCheckDiagnosticDimension) Valid() bool {
+	switch e {
+	case VirtualizationCapacityCheckDiagnosticDimensionCPU:
+		return true
+	case VirtualizationCapacityCheckDiagnosticDimensionDisk:
+		return true
+	case VirtualizationCapacityCheckDiagnosticDimensionMemory:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VirtualizationCapacityCheckDiagnosticStatus.
+const (
+	VirtualizationCapacityCheckDiagnosticStatusAvailable   VirtualizationCapacityCheckDiagnosticStatus = "available"
+	VirtualizationCapacityCheckDiagnosticStatusUnavailable VirtualizationCapacityCheckDiagnosticStatus = "unavailable"
+	VirtualizationCapacityCheckDiagnosticStatusUnknown     VirtualizationCapacityCheckDiagnosticStatus = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the VirtualizationCapacityCheckDiagnosticStatus enum.
+func (e VirtualizationCapacityCheckDiagnosticStatus) Valid() bool {
+	switch e {
+	case VirtualizationCapacityCheckDiagnosticStatusAvailable:
+		return true
+	case VirtualizationCapacityCheckDiagnosticStatusUnavailable:
+		return true
+	case VirtualizationCapacityCheckDiagnosticStatusUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VirtualizationCapacityPolicyInputMode.
+const (
+	CapacityPolicyInputEnforced  VirtualizationCapacityPolicyInputMode = "enforced"
+	CapacityPolicyInputObserving VirtualizationCapacityPolicyInputMode = "observing"
+)
+
+// Valid indicates whether the value is a known member of the VirtualizationCapacityPolicyInputMode enum.
+func (e VirtualizationCapacityPolicyInputMode) Valid() bool {
+	switch e {
+	case CapacityPolicyInputEnforced:
+		return true
+	case CapacityPolicyInputObserving:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VirtualizationCapacityPolicyMode.
+const (
+	CapacityPolicyEnforced     VirtualizationCapacityPolicyMode = "enforced"
+	CapacityPolicyObserving    VirtualizationCapacityPolicyMode = "observing"
+	CapacityPolicyUnconfigured VirtualizationCapacityPolicyMode = "unconfigured"
+)
+
+// Valid indicates whether the value is a known member of the VirtualizationCapacityPolicyMode enum.
+func (e VirtualizationCapacityPolicyMode) Valid() bool {
+	switch e {
+	case CapacityPolicyEnforced:
+		return true
+	case CapacityPolicyObserving:
+		return true
+	case CapacityPolicyUnconfigured:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for VirtualizationCapacityResultStatus.
 const (
 	VirtualizationCapacityResultStatusAvailable   VirtualizationCapacityResultStatus = "available"
@@ -9283,16 +10045,16 @@ func (e VirtualizationConnectionProvider) Valid() bool {
 
 // Defines values for VirtualizationConnectionInputProvider.
 const (
-	VirtualizationConnectionInputProviderKubevirt VirtualizationConnectionInputProvider = "kubevirt"
-	VirtualizationConnectionInputProviderPve      VirtualizationConnectionInputProvider = "pve"
+	Kubevirt VirtualizationConnectionInputProvider = "kubevirt"
+	Pve      VirtualizationConnectionInputProvider = "pve"
 )
 
 // Valid indicates whether the value is a known member of the VirtualizationConnectionInputProvider enum.
 func (e VirtualizationConnectionInputProvider) Valid() bool {
 	switch e {
-	case VirtualizationConnectionInputProviderKubevirt:
+	case Kubevirt:
 		return true
-	case VirtualizationConnectionInputProviderPve:
+	case Pve:
 		return true
 	default:
 		return false
@@ -9329,6 +10091,24 @@ func (e VirtualizationWorkerPoolSpecOwner) Valid() bool {
 	}
 }
 
+// Defines values for WorkbenchAgentRunExecutionOwner.
+const (
+	External WorkbenchAgentRunExecutionOwner = "external"
+	Native   WorkbenchAgentRunExecutionOwner = "native"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchAgentRunExecutionOwner enum.
+func (e WorkbenchAgentRunExecutionOwner) Valid() bool {
+	switch e {
+	case External:
+		return true
+	case Native:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for WorkbenchAgentStatusEventProviderKind.
 const (
 	WorkbenchAgentStatusEventProviderKindAnthropic        WorkbenchAgentStatusEventProviderKind = "anthropic"
@@ -9339,6 +10119,7 @@ const (
 	WorkbenchAgentStatusEventProviderKindGeneral          WorkbenchAgentStatusEventProviderKind = "general"
 	WorkbenchAgentStatusEventProviderKindHermes           WorkbenchAgentStatusEventProviderKind = "hermes"
 	WorkbenchAgentStatusEventProviderKindInternal         WorkbenchAgentStatusEventProviderKind = "internal"
+	WorkbenchAgentStatusEventProviderKindNative           WorkbenchAgentStatusEventProviderKind = "native"
 	WorkbenchAgentStatusEventProviderKindOpenai           WorkbenchAgentStatusEventProviderKind = "openai"
 	WorkbenchAgentStatusEventProviderKindOpenaiCompatible WorkbenchAgentStatusEventProviderKind = "openai-compatible"
 	WorkbenchAgentStatusEventProviderKindOpenclaw         WorkbenchAgentStatusEventProviderKind = "openclaw"
@@ -9364,6 +10145,8 @@ func (e WorkbenchAgentStatusEventProviderKind) Valid() bool {
 	case WorkbenchAgentStatusEventProviderKindHermes:
 		return true
 	case WorkbenchAgentStatusEventProviderKindInternal:
+		return true
+	case WorkbenchAgentStatusEventProviderKindNative:
 		return true
 	case WorkbenchAgentStatusEventProviderKindOpenai:
 		return true
@@ -9431,6 +10214,24 @@ const (
 func (e WorkbenchArtifactUpdatedEventType) Valid() bool {
 	switch e {
 	case WorkbenchArtifactUpdatedEventTypeArtifactUpdated:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchAssistantTaskKind.
+const (
+	Avatar WorkbenchAssistantTaskKind = "avatar"
+	Undo   WorkbenchAssistantTaskKind = "undo"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchAssistantTaskKind enum.
+func (e WorkbenchAssistantTaskKind) Valid() bool {
+	switch e {
+	case Avatar:
+		return true
+	case Undo:
 		return true
 	default:
 		return false
@@ -9680,6 +10481,24 @@ func (e WorkbenchMessageDoneEventType) Valid() bool {
 	}
 }
 
+// Defines values for WorkbenchMessageSearchHitRole.
+const (
+	WorkbenchMessageSearchHitRoleAssistant WorkbenchMessageSearchHitRole = "assistant"
+	WorkbenchMessageSearchHitRoleUser      WorkbenchMessageSearchHitRole = "user"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchMessageSearchHitRole enum.
+func (e WorkbenchMessageSearchHitRole) Valid() bool {
+	switch e {
+	case WorkbenchMessageSearchHitRoleAssistant:
+		return true
+	case WorkbenchMessageSearchHitRoleUser:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for WorkbenchModelOptionReasoningEfforts.
 const (
 	WorkbenchModelOptionReasoningEffortsHigh   WorkbenchModelOptionReasoningEfforts = "high"
@@ -9776,6 +10595,30 @@ func (e WorkbenchSessionActivity) Valid() bool {
 	}
 }
 
+// Defines values for WorkbenchSessionMetadataConversationKind.
+const (
+	Main         WorkbenchSessionMetadataConversationKind = "main"
+	PersonalMain WorkbenchSessionMetadataConversationKind = "personal_main"
+	PersonalSide WorkbenchSessionMetadataConversationKind = "personal_side"
+	Side         WorkbenchSessionMetadataConversationKind = "side"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchSessionMetadataConversationKind enum.
+func (e WorkbenchSessionMetadataConversationKind) Valid() bool {
+	switch e {
+	case Main:
+		return true
+	case PersonalMain:
+		return true
+	case PersonalSide:
+		return true
+	case Side:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for WorkbenchSessionMetadataMode.
 const (
 	WorkbenchSessionMetadataModeGeneral          WorkbenchSessionMetadataMode = "general"
@@ -9845,6 +10688,30 @@ const (
 func (e WorkbenchSourceUpdatedEventType) Valid() bool {
 	switch e {
 	case WorkbenchSourceUpdatedEventTypeSourceUpdated:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkbenchTaskIntentCapabilities.
+const (
+	WorkbenchTaskIntentCapabilitiesInspectionReview WorkbenchTaskIntentCapabilities = "inspection_review"
+	WorkbenchTaskIntentCapabilitiesPerformance      WorkbenchTaskIntentCapabilities = "performance"
+	WorkbenchTaskIntentCapabilitiesRootCause        WorkbenchTaskIntentCapabilities = "root_cause"
+	WorkbenchTaskIntentCapabilitiesTrace            WorkbenchTaskIntentCapabilities = "trace"
+)
+
+// Valid indicates whether the value is a known member of the WorkbenchTaskIntentCapabilities enum.
+func (e WorkbenchTaskIntentCapabilities) Valid() bool {
+	switch e {
+	case WorkbenchTaskIntentCapabilitiesInspectionReview:
+		return true
+	case WorkbenchTaskIntentCapabilitiesPerformance:
+		return true
+	case WorkbenchTaskIntentCapabilitiesRootCause:
+		return true
+	case WorkbenchTaskIntentCapabilitiesTrace:
 		return true
 	default:
 		return false
@@ -9955,25 +10822,25 @@ func (e WorkbenchToolStartedEventType) Valid() bool {
 
 // Defines values for WorkbenchUpdateSessionRequestMode.
 const (
-	General          WorkbenchUpdateSessionRequestMode = "general"
-	InspectionReview WorkbenchUpdateSessionRequestMode = "inspection_review"
-	Performance      WorkbenchUpdateSessionRequestMode = "performance"
-	RootCause        WorkbenchUpdateSessionRequestMode = "root_cause"
-	Trace            WorkbenchUpdateSessionRequestMode = "trace"
+	WorkbenchUpdateSessionRequestModeGeneral          WorkbenchUpdateSessionRequestMode = "general"
+	WorkbenchUpdateSessionRequestModeInspectionReview WorkbenchUpdateSessionRequestMode = "inspection_review"
+	WorkbenchUpdateSessionRequestModePerformance      WorkbenchUpdateSessionRequestMode = "performance"
+	WorkbenchUpdateSessionRequestModeRootCause        WorkbenchUpdateSessionRequestMode = "root_cause"
+	WorkbenchUpdateSessionRequestModeTrace            WorkbenchUpdateSessionRequestMode = "trace"
 )
 
 // Valid indicates whether the value is a known member of the WorkbenchUpdateSessionRequestMode enum.
 func (e WorkbenchUpdateSessionRequestMode) Valid() bool {
 	switch e {
-	case General:
+	case WorkbenchUpdateSessionRequestModeGeneral:
 		return true
-	case InspectionReview:
+	case WorkbenchUpdateSessionRequestModeInspectionReview:
 		return true
-	case Performance:
+	case WorkbenchUpdateSessionRequestModePerformance:
 		return true
-	case RootCause:
+	case WorkbenchUpdateSessionRequestModeRootCause:
 		return true
-	case Trace:
+	case WorkbenchUpdateSessionRequestModeTrace:
 		return true
 	default:
 		return false
@@ -11135,6 +12002,24 @@ func (e ListComputeTasksParamsSortOrder) Valid() bool {
 	}
 }
 
+// Defines values for SearchWorkbenchMessagesParamsWorkspace.
+const (
+	Chat SearchWorkbenchMessagesParamsWorkspace = "chat"
+	Heya SearchWorkbenchMessagesParamsWorkspace = "heya"
+)
+
+// Valid indicates whether the value is a known member of the SearchWorkbenchMessagesParamsWorkspace enum.
+func (e SearchWorkbenchMessagesParamsWorkspace) Valid() bool {
+	switch e {
+	case Chat:
+		return true
+	case Heya:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ExportDeliveryDocumentParamsFormat.
 const (
 	JSON ExportDeliveryDocumentParamsFormat = "json"
@@ -11364,17 +12249,23 @@ type AIEnvironmentLeaseListEnvelope struct {
 	Items []AIEnvironmentLease `json:"items"`
 }
 
-// AIEnvironmentTemplate defines model for AIEnvironmentTemplate.
+// AIEnvironmentTemplate Personal policies are mutually exclusive and require matching container or vm backend, an ID of at most 128 characters, and empty legacy resourcePolicy/networkPolicy maps. VM backend requires personalVM; its quota cannot exceed the independent disk size. The server checks current resource scope and explicit owner assignment; saving configuration is not an environment readiness receipt.
 type AIEnvironmentTemplate struct {
-	Backend        AIEnvironmentTemplateBackend       `json:"backend"`
-	CreatedAt      time.Time                          `json:"createdAt"`
-	ID             string                             `json:"id"`
-	IsolationMode  AIEnvironmentTemplateIsolationMode `json:"isolationMode"`
-	Name           string                             `json:"name"`
-	NetworkPolicy  map[string]any                     `json:"networkPolicy,omitempty"`
-	ResourcePolicy map[string]any                     `json:"resourcePolicy,omitempty"`
-	Status         string                             `json:"status"`
-	UpdatedAt      time.Time                          `json:"updatedAt"`
+	Backend       AIEnvironmentTemplateBackend       `json:"backend"`
+	CreatedAt     time.Time                          `json:"createdAt"`
+	ID            string                             `json:"id"`
+	IsolationMode AIEnvironmentTemplateIsolationMode `json:"isolationMode"`
+	Name          string                             `json:"name"`
+	NetworkPolicy map[string]any                     `json:"networkPolicy,omitempty"`
+
+	// PersonalDocker Administrator-selected registered Agent connection and hard personal-data quota. No user-entered URL, Docker handle, image or credential. Only container templates can use this policy; existing bindings freeze it and cannot silently move or resize their data. Runtime readiness still requires real Agent receipts.
+	PersonalDocker *PersonalDockerEnvironmentPolicy `json:"personalDocker,omitempty"`
+
+	// PersonalVM Administrator assignment of an existing Soha-managed PVE VM and independent data disk to one user. The server checks administrator VM access update scope and the current approved owner's VM view scope. Binding freezes fresh provider and disk identity; saving or binding does not initialize data or grant runtime readiness. No provider URL, credential, root disk or arbitrary device path is accepted.
+	PersonalVM     *PersonalVMEnvironmentPolicy `json:"personalVM,omitempty"`
+	ResourcePolicy map[string]any               `json:"resourcePolicy,omitempty"`
+	Status         string                       `json:"status"`
+	UpdatedAt      time.Time                    `json:"updatedAt"`
 }
 
 // AIEnvironmentTemplateBackend defines model for AIEnvironmentTemplate.Backend.
@@ -11385,17 +12276,24 @@ type AIEnvironmentTemplateIsolationMode string
 
 // AIEnvironmentTemplateEnvelope defines model for AIEnvironmentTemplateEnvelope.
 type AIEnvironmentTemplateEnvelope struct {
+	// Data Personal policies are mutually exclusive and require matching container or vm backend, an ID of at most 128 characters, and empty legacy resourcePolicy/networkPolicy maps. VM backend requires personalVM; its quota cannot exceed the independent disk size. The server checks current resource scope and explicit owner assignment; saving configuration is not an environment readiness receipt.
 	Data AIEnvironmentTemplate `json:"data"`
 }
 
-// AIEnvironmentTemplateInput defines model for AIEnvironmentTemplateInput.
+// AIEnvironmentTemplateInput Personal policies are mutually exclusive and require matching container or vm backend, an ID of at most 128 characters, and empty legacy resourcePolicy/networkPolicy maps. VM backend requires personalVM; its quota cannot exceed the independent disk size. The server checks current resource scope and explicit owner assignment; saving configuration is not an environment readiness receipt.
 type AIEnvironmentTemplateInput struct {
-	Backend        AIEnvironmentTemplateInputBackend       `json:"backend"`
-	ID             string                                  `json:"id"`
-	IsolationMode  AIEnvironmentTemplateInputIsolationMode `json:"isolationMode"`
-	Name           string                                  `json:"name"`
-	NetworkPolicy  map[string]any                          `json:"networkPolicy,omitempty"`
-	ResourcePolicy map[string]any                          `json:"resourcePolicy,omitempty"`
+	Backend       AIEnvironmentTemplateInputBackend       `json:"backend"`
+	ID            string                                  `json:"id"`
+	IsolationMode AIEnvironmentTemplateInputIsolationMode `json:"isolationMode"`
+	Name          string                                  `json:"name"`
+	NetworkPolicy map[string]any                          `json:"networkPolicy,omitempty"`
+
+	// PersonalDocker Administrator-selected registered Agent connection and hard personal-data quota. No user-entered URL, Docker handle, image or credential. Only container templates can use this policy; existing bindings freeze it and cannot silently move or resize their data. Runtime readiness still requires real Agent receipts.
+	PersonalDocker *PersonalDockerEnvironmentPolicy `json:"personalDocker,omitempty"`
+
+	// PersonalVM Administrator assignment of an existing Soha-managed PVE VM and independent data disk to one user. The server checks administrator VM access update scope and the current approved owner's VM view scope. Binding freezes fresh provider and disk identity; saving or binding does not initialize data or grant runtime readiness. No provider URL, credential, root disk or arbitrary device path is accepted.
+	PersonalVM     *PersonalVMEnvironmentPolicy `json:"personalVM,omitempty"`
+	ResourcePolicy map[string]any               `json:"resourcePolicy,omitempty"`
 }
 
 // AIEnvironmentTemplateInputBackend defines model for AIEnvironmentTemplateInput.Backend.
@@ -11477,21 +12375,23 @@ type AIMemoryPolicyListEnvelope struct {
 
 // AIMemoryRecord defines model for AIMemoryRecord.
 type AIMemoryRecord struct {
-	Confidence    float32                  `json:"confidence"`
-	CreatedAt     time.Time                `json:"createdAt"`
-	DeletedAt     *time.Time               `json:"deletedAt,omitempty"`
-	ExpiresAt     *time.Time               `json:"expiresAt,omitempty"`
-	Fact          string                   `json:"fact"`
-	ID            string                   `json:"id"`
-	OwnerID       string                   `json:"ownerId"`
-	OwnerType     string                   `json:"ownerType"`
-	PolicyID      string                   `json:"policyId,omitempty"`
-	PolicyVersion string                   `json:"policyVersion"`
-	ScopeHash     string                   `json:"scopeHash"`
-	SourceRefs    []string                 `json:"sourceRefs"`
-	SourceType    AIMemoryRecordSourceType `json:"sourceType"`
-	Status        string                   `json:"status"`
-	ValidFrom     time.Time                `json:"validFrom"`
+	Confidence    float32    `json:"confidence"`
+	CreatedAt     time.Time  `json:"createdAt"`
+	DeletedAt     *time.Time `json:"deletedAt,omitempty"`
+	ExpiresAt     *time.Time `json:"expiresAt,omitempty"`
+	Fact          string     `json:"fact"`
+	ID            string     `json:"id"`
+	OwnerID       string     `json:"ownerId"`
+	OwnerType     string     `json:"ownerType"`
+	PolicyID      string     `json:"policyId,omitempty"`
+	PolicyVersion string     `json:"policyVersion"`
+	ScopeHash     string     `json:"scopeHash"`
+
+	// SourceRefs Source receipts. Workbench model context supports soha://session/<sessionId>/message/<messageId> and rechecks current ownership and source access. Unsupported historical references remain stored but are withheld from model context.
+	SourceRefs []string                 `json:"sourceRefs"`
+	SourceType AIMemoryRecordSourceType `json:"sourceType"`
+	Status     string                   `json:"status"`
+	ValidFrom  time.Time                `json:"validFrom"`
 }
 
 // AIMemoryRecordSourceType defines model for AIMemoryRecord.SourceType.
@@ -11890,13 +12790,16 @@ type AgentRun struct {
 	CapabilityID      string           `json:"capabilityId"`
 
 	// Chat Conversation input carried in AgentRun.chat for capabilityId general. History contains prior user and successful assistant messages, oldest first; the current question is separate. The control plane bounds total history and reports omitted messages through historyTruncated. This is conversation data, not an authorization grant or a request to run an analysis workflow.
-	Chat   *AgentChatInput `json:"chat,omitempty"`
-	ID     string          `json:"id"`
-	Input  map[string]any  `json:"input,omitempty"`
-	Output map[string]any  `json:"output,omitempty"`
+	Chat           *AgentChatInput        `json:"chat,omitempty"`
+	EventSequence  int                    `json:"eventSequence,omitempty"`
+	ExecutionOwner AgentRunExecutionOwner `json:"executionOwner,omitempty"`
+	ID             string                 `json:"id"`
+	Input          map[string]any         `json:"input,omitempty"`
+	Output         map[string]any         `json:"output,omitempty"`
 
 	// ParentRunID Parent run for a single read-only specialist delegation; absent on root runs.
 	ParentRunID          string            `json:"parentRunId,omitempty"`
+	Phase                string            `json:"phase,omitempty"`
 	ProviderID           string            `json:"providerId"`
 	ProviderKind         string            `json:"providerKind"`
 	Scope                map[string]any    `json:"scope,omitempty"`
@@ -11905,11 +12808,16 @@ type AgentRun struct {
 	SkillBindings        []map[string]any  `json:"skillBindings,omitempty"`
 	SkillIDs             []string          `json:"skillIds,omitempty"`
 	Status               string            `json:"status"`
+	StopReason           string            `json:"stopReason,omitempty"`
 	TimeoutSeconds       int               `json:"timeoutSeconds"`
 	ToolBindings         []map[string]any  `json:"toolBindings,omitempty"`
 	Toolset              map[string]any    `json:"toolset,omitempty"`
+	UsageKnown           bool              `json:"usageKnown,omitempty"`
 	AdditionalProperties map[string]any    `json:"-"`
 }
+
+// AgentRunExecutionOwner defines model for AgentRun.ExecutionOwner.
+type AgentRunExecutionOwner string
 
 // AgentRunCallbackRequest defines model for AgentRunCallbackRequest.
 type AgentRunCallbackRequest struct {
@@ -12155,6 +13063,24 @@ type AgentRunEnvelope struct {
 	Data AgentRun `json:"data"`
 }
 
+// AgentRunEventListEnvelope defines model for AgentRunEventListEnvelope.
+type AgentRunEventListEnvelope struct {
+	Data AgentRunEventPage `json:"data"`
+}
+
+// AgentRunEventPage defines model for AgentRunEventPage.
+type AgentRunEventPage struct {
+	HasMore        bool                   `json:"hasMore"`
+	Items          []WorkbenchStreamEvent `json:"items"`
+	NextSequence   int                    `json:"nextSequence"`
+	ResyncRequired bool                   `json:"resyncRequired"`
+}
+
+// AgentRunResumeRequest defines model for AgentRunResumeRequest.
+type AgentRunResumeRequest struct {
+	Input string `json:"input,omitempty"`
+}
+
 // AgentRunToolCallRequest defines model for AgentRunToolCallRequest.
 type AgentRunToolCallRequest struct {
 	AdapterID     string         `json:"adapterId,omitempty"`
@@ -12213,6 +13139,55 @@ type AgentRunnerToolInputFormat string
 
 // AgentRunnerToolInputToolName Change target for change.request; this only creates a pending approval and never executes the change.
 type AgentRunnerToolInputToolName string
+
+// AgentSSHCapability defines model for AgentSSHCapability.
+type AgentSSHCapability struct {
+	AgentID           string `json:"agentId"`
+	Available         bool   `json:"available"`
+	CommandsAvailable bool   `json:"commandsAvailable,omitempty"`
+	ProtocolVersion   int    `json:"protocolVersion"`
+}
+
+// AgentSSHCommandRequest defines model for AgentSSHCommandRequest.
+type AgentSSHCommandRequest struct {
+	Command        string                 `json:"command"`
+	Session        AgentSSHSessionRequest `json:"session"`
+	TimeoutSeconds int                    `json:"timeoutSeconds"`
+}
+
+// AgentSSHCommandResult defines model for AgentSSHCommandResult.
+type AgentSSHCommandResult struct {
+	AgentID         string                      `json:"agentId"`
+	CommandDigest   string                      `json:"commandDigest"`
+	Effect          AgentSSHCommandResultEffect `json:"effect"`
+	ExitCode        *int                        `json:"exitCode,omitempty"`
+	OutputDigest    string                      `json:"outputDigest,omitempty"`
+	OutputTruncated bool                        `json:"outputTruncated,omitempty"`
+	SessionID       string                      `json:"sessionId"`
+	Stderr          string                      `json:"stderr,omitempty"`
+	Stdout          string                      `json:"stdout,omitempty"`
+	Stopped         bool                        `json:"stopped"`
+}
+
+// AgentSSHCommandResultEffect defines model for AgentSSHCommandResult.Effect.
+type AgentSSHCommandResultEffect string
+
+// AgentSSHSessionRequest defines model for AgentSSHSessionRequest.
+type AgentSSHSessionRequest struct {
+	Address              string           `json:"address"`
+	AgentID              string           `json:"agentId"`
+	Cols                 int              `json:"cols"`
+	ControlPlaneEndpoint string           `json:"controlPlaneEndpoint"`
+	CredentialKind       SecretKind       `json:"credentialKind"`
+	ExecutionClusterID   string           `json:"executionClusterId"`
+	ExpiresAt            time.Time        `json:"expiresAt"`
+	Lease                SecretLeaseGrant `json:"lease"`
+	Port                 int              `json:"port"`
+	Rows                 int              `json:"rows"`
+	SessionID            string           `json:"sessionId"`
+	TrustedHostKey       string           `json:"trustedHostKey"`
+	Username             string           `json:"username"`
+}
 
 // AgentToolCallResult defines model for AgentToolCallResult.
 type AgentToolCallResult struct {
@@ -13440,6 +14415,12 @@ type CapabilityResourceRef struct {
 	Version string            `json:"version,omitempty"`
 }
 
+// CapabilityScopeConstraint defines model for CapabilityScopeConstraint.
+type CapabilityScopeConstraint struct {
+	Dimension string `json:"dimension"`
+	Value     string `json:"value"`
+}
+
 // CapabilityTask A governed goal and its existing Workflow run. Domain tasks retain ownership of effects and cancellation.
 type CapabilityTask struct {
 	Assessment *CapabilityAssessment `json:"assessment,omitempty"`
@@ -13449,11 +14430,12 @@ type CapabilityTask struct {
 	Nodes      []CapabilityTaskNode  `json:"nodes"`
 
 	// Plan Version-pinned capability calls compiled into the existing Workflow engine. No scripts, expressions, or arbitrary endpoints are accepted.
-	Plan        CapabilityPlan `json:"plan"`
-	PlanVersion int            `json:"planVersion,omitempty"`
-	Status      string         `json:"status"`
-	UpdatedAt   time.Time      `json:"updatedAt"`
-	Version     int64          `json:"version"`
+	Plan             CapabilityPlan              `json:"plan"`
+	PlanVersion      int                         `json:"planVersion,omitempty"`
+	ScopeConstraints []CapabilityScopeConstraint `json:"scopeConstraints,omitempty"`
+	Status           string                      `json:"status"`
+	UpdatedAt        time.Time                   `json:"updatedAt"`
+	Version          int64                       `json:"version"`
 }
 
 // CapabilityTaskEnvelope defines model for CapabilityTaskEnvelope.
@@ -13468,8 +14450,11 @@ type CapabilityTaskInput struct {
 	IdempotencyKey string `json:"idempotencyKey"`
 
 	// Plan Version-pinned capability calls compiled into the existing Workflow engine. No scripts, expressions, or arbitrary endpoints are accepted.
-	Plan    CapabilityPlan `json:"plan"`
-	SkillID string         `json:"skillId,omitempty"`
+	Plan CapabilityPlan `json:"plan"`
+
+	// ScopeConstraints Immutable exact target constraints for every resolved invocation, approval replay, status read and cancellation. These narrow scope and never grant permission.
+	ScopeConstraints []CapabilityScopeConstraint `json:"scopeConstraints,omitempty"`
+	SkillID          string                      `json:"skillId,omitempty"`
 }
 
 // CapabilityTaskListEnvelope defines model for CapabilityTaskListEnvelope.
@@ -16101,12 +17086,15 @@ type DockerQuickCreateHostInput struct {
 	DiskBytes    int                           `json:"diskBytes,omitempty"`
 	Environment  string                        `json:"environment,omitempty"`
 	FlavorID     string                        `json:"flavorId,omitempty"`
-	ImageID      string                        `json:"imageId,omitempty"`
-	Labels       map[string]DockerPayloadValue `json:"labels,omitempty"`
-	MemoryBytes  int                           `json:"memoryBytes,omitempty"`
-	Name         string                        `json:"name"`
-	Network      string                        `json:"network,omitempty"`
-	Owner        string                        `json:"owner,omitempty"`
+
+	// GuestAccess Managed first-boot public-key initialization. Requires a verified cloud-init image and excludes raw cloudInit and native sshkeys/cicustom fields. The server freezes each Secret version; private keys are never sent to the guest.
+	GuestAccess *VirtualMachineGuestAccessInput `json:"guestAccess,omitempty"`
+	ImageID     string                          `json:"imageId,omitempty"`
+	Labels      map[string]DockerPayloadValue   `json:"labels,omitempty"`
+	MemoryBytes int                             `json:"memoryBytes,omitempty"`
+	Name        string                          `json:"name"`
+	Network     string                          `json:"network,omitempty"`
+	Owner       string                          `json:"owner,omitempty"`
 
 	// RequireCapacity Require atomic provider capacity admission for the backing VM.
 	RequireCapacity            bool   `json:"requireCapacity,omitempty"`
@@ -17727,30 +18715,36 @@ type KnowledgeBaseListEnvelope struct {
 
 // KnowledgeCitation defines model for KnowledgeCitation.
 type KnowledgeCitation struct {
-	ChunkID         string                  `json:"chunkId"`
-	ContentHash     string                  `json:"contentHash"`
-	DocumentID      string                  `json:"documentId"`
-	DocumentTitle   string                  `json:"documentTitle"`
-	ID              string                  `json:"id"`
-	KnowledgeBaseID string                  `json:"knowledgeBaseId"`
-	Location        KnowledgeSourceLocation `json:"location"`
-	Score           float32                 `json:"score"`
-	URI             string                  `json:"uri,omitempty"`
+	ChunkID           string                  `json:"chunkId"`
+	ContentHash       string                  `json:"contentHash"`
+	DocumentID        string                  `json:"documentId"`
+	DocumentTitle     string                  `json:"documentTitle"`
+	DocumentVersionID string                  `json:"documentVersionId,omitempty"`
+	ID                string                  `json:"id"`
+	IndexRevisionID   string                  `json:"indexRevisionId,omitempty"`
+	KnowledgeBaseID   string                  `json:"knowledgeBaseId"`
+	Location          KnowledgeSourceLocation `json:"location"`
+	RetrievedAt       *time.Time              `json:"retrievedAt,omitempty"`
+	Score             float32                 `json:"score"`
+	URI               string                  `json:"uri,omitempty"`
 }
 
 // KnowledgeConnector defines model for KnowledgeConnector.
 type KnowledgeConnector struct {
+	// Config External connector config may include importPolicy conforming to knowledge/source-import-policy.schema.json. Core uses this trusted ceiling; fetched ACLs cannot expand it. Omission defaults to the knowledge-base owner. Credentials use secretRef and Gateway authorization, never config values.
 	Config          map[string]any         `json:"config"`
 	CreatedAt       time.Time              `json:"createdAt"`
 	ID              string                 `json:"id"`
 	Kind            KnowledgeConnectorKind `json:"kind"`
 	KnowledgeBaseID string                 `json:"knowledgeBaseId"`
 	Name            string                 `json:"name"`
-	SecretRef       string                 `json:"secretRef"`
-	Status          string                 `json:"status"`
-	SyncPolicy      KnowledgeSyncPolicy    `json:"syncPolicy"`
-	UpdatedAt       time.Time              `json:"updatedAt"`
-	Version         string                 `json:"version,omitempty"`
+
+	// SecretRef Gateway execution uses soha://secrets/<id> with an optional /versions/<n>. Legacy secret: references remain readable but require explicit configuration migration before execution.
+	SecretRef  string              `json:"secretRef"`
+	Status     string              `json:"status"`
+	SyncPolicy KnowledgeSyncPolicy `json:"syncPolicy"`
+	UpdatedAt  time.Time           `json:"updatedAt"`
+	Version    string              `json:"version,omitempty"`
 }
 
 // KnowledgeConnectorKind defines model for KnowledgeConnector.Kind.
@@ -17763,13 +18757,16 @@ type KnowledgeConnectorEnvelope struct {
 
 // KnowledgeConnectorInput defines model for KnowledgeConnectorInput.
 type KnowledgeConnectorInput struct {
+	// Config External connector config may include importPolicy conforming to knowledge/source-import-policy.schema.json. Core uses this trusted ceiling; fetched ACLs cannot expand it. Omission defaults to the knowledge-base owner. Credentials use secretRef and Gateway authorization, never config values.
 	Config          map[string]any              `json:"config"`
 	Kind            KnowledgeConnectorInputKind `json:"kind"`
 	KnowledgeBaseID string                      `json:"knowledgeBaseId"`
 	Name            string                      `json:"name"`
-	SecretRef       string                      `json:"secretRef"`
-	SyncPolicy      KnowledgeSyncPolicy         `json:"syncPolicy"`
-	Version         string                      `json:"version,omitempty"`
+
+	// SecretRef Gateway execution uses soha://secrets/<id> with an optional /versions/<n>. Legacy secret: references remain readable but require explicit configuration migration before execution.
+	SecretRef  string              `json:"secretRef"`
+	SyncPolicy KnowledgeSyncPolicy `json:"syncPolicy"`
+	Version    string              `json:"version,omitempty"`
 }
 
 // KnowledgeConnectorInputKind defines model for KnowledgeConnectorInput.Kind.
@@ -18005,14 +19002,19 @@ type KnowledgeSearchRequest struct {
 
 // KnowledgeSearchResult defines model for KnowledgeSearchResult.
 type KnowledgeSearchResult struct {
-	CandidateCount int                  `json:"candidateCount"`
-	Citations      []KnowledgeCitation  `json:"citations"`
-	Hits           []KnowledgeSearchHit `json:"hits"`
-	NoAnswer       bool                 `json:"noAnswer"`
-	Query          string               `json:"query"`
-	TimingMs       int64                `json:"timingMs"`
-	TraceID        string               `json:"traceId"`
+	CandidateCount    int                                `json:"candidateCount"`
+	Citations         []KnowledgeCitation                `json:"citations"`
+	DegradationReason string                             `json:"degradationReason,omitempty"`
+	Hits              []KnowledgeSearchHit               `json:"hits"`
+	NoAnswer          bool                               `json:"noAnswer"`
+	Query             string                             `json:"query"`
+	RetrievalMode     KnowledgeSearchResultRetrievalMode `json:"retrievalMode,omitempty"`
+	TimingMs          int64                              `json:"timingMs"`
+	TraceID           string                             `json:"traceId"`
 }
+
+// KnowledgeSearchResultRetrievalMode defines model for KnowledgeSearchResult.RetrievalMode.
+type KnowledgeSearchResultRetrievalMode string
 
 // KnowledgeSearchResultEnvelope defines model for KnowledgeSearchResultEnvelope.
 type KnowledgeSearchResultEnvelope struct {
@@ -18047,14 +19049,7 @@ type KnowledgeSourceConfig struct {
 }
 
 // KnowledgeSourceDocument defines model for KnowledgeSourceDocument.
-type KnowledgeSourceDocument struct {
-	ACL        KnowledgeAccessScope `json:"acl"`
-	Content    string               `json:"content"`
-	ExternalID string               `json:"externalId"`
-	Title      string               `json:"title"`
-	URI        string               `json:"uri,omitempty"`
-	Version    string               `json:"version,omitempty"`
-}
+type KnowledgeSourceDocument = interface{}
 
 // KnowledgeSourceEnvelope defines model for KnowledgeSourceEnvelope.
 type KnowledgeSourceEnvelope struct {
@@ -21182,11 +22177,13 @@ type LLMCallLogListEnvelope struct {
 
 // LLMModelRoute defines model for LLMModelRoute.
 type LLMModelRoute struct {
-	CachePolicy        map[string]any            `json:"cachePolicy,omitempty"`
-	CreatedAt          time.Time                 `json:"createdAt"`
-	Enabled            bool                      `json:"enabled"`
-	FallbackPolicy     map[string]any            `json:"fallbackPolicy,omitempty"`
-	ID                 string                    `json:"id"`
+	CachePolicy    map[string]any `json:"cachePolicy,omitempty"`
+	CreatedAt      time.Time      `json:"createdAt"`
+	Enabled        bool           `json:"enabled"`
+	FallbackPolicy map[string]any `json:"fallbackPolicy,omitempty"`
+	ID             string         `json:"id"`
+
+	// Metadata Optional contextWindowTokens declares this route model window as a positive integer token count. Missing or invalid values mean unknown capacity; model names are never used to guess it.
 	Metadata           map[string]any            `json:"metadata,omitempty"`
 	Priority           int                       `json:"priority"`
 	ProviderKind       LLMModelRouteProviderKind `json:"providerKind,omitempty"`
@@ -21212,10 +22209,12 @@ type LLMModelRouteEnvelope struct {
 
 // LLMModelRouteInput defines model for LLMModelRouteInput.
 type LLMModelRouteInput struct {
-	CachePolicy        map[string]any                 `json:"cachePolicy,omitempty"`
-	Enabled            bool                           `json:"enabled,omitempty"`
-	FallbackPolicy     map[string]any                 `json:"fallbackPolicy,omitempty"`
-	ID                 string                         `json:"id,omitempty"`
+	CachePolicy    map[string]any `json:"cachePolicy,omitempty"`
+	Enabled        bool           `json:"enabled,omitempty"`
+	FallbackPolicy map[string]any `json:"fallbackPolicy,omitempty"`
+	ID             string         `json:"id,omitempty"`
+
+	// Metadata Optional contextWindowTokens declares this route model window as a positive integer token count. Missing or invalid values mean unknown capacity; model names are never used to guess it.
 	Metadata           map[string]any                 `json:"metadata,omitempty"`
 	Priority           int                            `json:"priority,omitempty"`
 	ProviderKind       LLMModelRouteInputProviderKind `json:"providerKind,omitempty"`
@@ -25106,6 +26105,421 @@ type PersonalAccessTokenListEnvelope struct {
 	Items []PersonalAccessToken `json:"items"`
 }
 
+// PersonalAgentAccess defines model for PersonalAgentAccess.
+type PersonalAgentAccess struct {
+	DecidedAt   *time.Time                `json:"decidedAt,omitempty"`
+	DecidedBy   string                    `json:"decidedBy,omitempty"`
+	RequestedAt *time.Time                `json:"requestedAt,omitempty"`
+	Status      PersonalAgentAccessStatus `json:"status"`
+	UserID      string                    `json:"userId"`
+	Version     int64                     `json:"version"`
+}
+
+// PersonalAgentAccessStatus defines model for PersonalAgentAccess.Status.
+type PersonalAgentAccessStatus string
+
+// PersonalAgentAccessDecision defines model for PersonalAgentAccessDecision.
+type PersonalAgentAccessDecision struct {
+	Status  PersonalAgentAccessDecisionStatus `json:"status"`
+	Version int64                             `json:"version"`
+}
+
+// PersonalAgentAccessDecisionStatus defines model for PersonalAgentAccessDecision.Status.
+type PersonalAgentAccessDecisionStatus string
+
+// PersonalAgentAccessEnvelope defines model for PersonalAgentAccessEnvelope.
+type PersonalAgentAccessEnvelope struct {
+	Data PersonalAgentAccess `json:"data"`
+}
+
+// PersonalAgentAccessListEnvelope defines model for PersonalAgentAccessListEnvelope.
+type PersonalAgentAccessListEnvelope struct {
+	Data []PersonalAgentAccess `json:"data"`
+}
+
+// PersonalAssistant defines model for PersonalAssistant.
+type PersonalAssistant struct {
+	AvatarMotion PersonalAssistantAvatarMotion `json:"avatarMotion,omitempty"`
+
+	// AvatarPosterURL Static PNG/JPEG data URL used when motion is disabled or reduced.
+	AvatarPosterURL string `json:"avatarPosterUrl,omitempty"`
+
+	// AvatarURL Bounded raster data URL belonging to this assistant, not the login account. Empty or absent uses the default image.
+	AvatarURL     string    `json:"avatarUrl,omitempty"`
+	CreatedAt     time.Time `json:"createdAt,omitempty"`
+	ID            string    `json:"id,omitempty"`
+	MainSessionID string    `json:"mainSessionId,omitempty"`
+	Name          string    `json:"name"`
+	UpdatedAt     time.Time `json:"updatedAt,omitempty"`
+}
+
+// PersonalAssistantAvatarMotion defines model for PersonalAssistant.AvatarMotion.
+type PersonalAssistantAvatarMotion string
+
+// PersonalAssistantArtifact defines model for PersonalAssistantArtifact.
+type PersonalAssistantArtifact struct {
+	Artifact  WorkbenchAnalysisArtifact `json:"artifact"`
+	CreatedAt time.Time                 `json:"createdAt,omitempty"`
+	ID        string                    `json:"id,omitempty"`
+	MessageID string                    `json:"messageId,omitempty"`
+	SessionID string                    `json:"sessionId,omitempty"`
+	TaskID    string                    `json:"taskId,omitempty"`
+}
+
+// PersonalAssistantArtifactListEnvelope defines model for PersonalAssistantArtifactListEnvelope.
+type PersonalAssistantArtifactListEnvelope struct {
+	Data []PersonalAssistantArtifact `json:"data"`
+}
+
+// PersonalAssistantAvatarRequest defines model for PersonalAssistantAvatarRequest.
+type PersonalAssistantAvatarRequest struct {
+	AvatarMotion    PersonalAssistantAvatarRequestAvatarMotion `json:"avatarMotion,omitempty"`
+	AvatarPosterURL string                                     `json:"avatarPosterUrl,omitempty"`
+	AvatarURL       string                                     `json:"avatarUrl"`
+}
+
+// PersonalAssistantAvatarRequestAvatarMotion defines model for PersonalAssistantAvatarRequest.AvatarMotion.
+type PersonalAssistantAvatarRequestAvatarMotion string
+
+// PersonalAssistantEnvelope defines model for PersonalAssistantEnvelope.
+type PersonalAssistantEnvelope struct {
+	Data PersonalAssistant `json:"data"`
+}
+
+// PersonalAssistantUpdateRequest defines model for PersonalAssistantUpdateRequest.
+type PersonalAssistantUpdateRequest struct {
+	Name string `json:"name"`
+}
+
+// PersonalDockerEnvironmentPolicy Administrator-selected registered Agent connection and hard personal-data quota. No user-entered URL, Docker handle, image or credential. Only container templates can use this policy; existing bindings freeze it and cannot silently move or resize their data. Runtime readiness still requires real Agent receipts.
+type PersonalDockerEnvironmentPolicy struct {
+	AgentClusterID openapi_types.UUID       `json:"agentClusterId"`
+	LeaseSeconds   int                      `json:"leaseSeconds"`
+	Quota          PersonalEnvironmentQuota `json:"quota"`
+}
+
+// PersonalEnvironment defines model for PersonalEnvironment.
+type PersonalEnvironment struct {
+	AssistantID string `json:"assistantId,omitempty"`
+
+	// Backend Frozen execution backend of this binding; never inferred from the current template.
+	Backend PersonalEnvironmentBackend `json:"backend,omitempty"`
+
+	// ComputeGeneration Reserved execution generation; zero means no execution has been reserved.
+	ComputeGeneration int64 `json:"computeGeneration,omitempty"`
+
+	// ComputeRef Opaque execution reference; not a physical handle or readiness proof.
+	ComputeRef string `json:"computeRef,omitempty"`
+
+	// DataInitialized A successful past data receipt; does not prove that data currently exists or that the environment is ready.
+	DataInitialized bool `json:"dataInitialized,omitempty"`
+
+	// DataRef Stable logical personal-data identity. Existence requires a fresh authorized receipt.
+	DataRef    string     `json:"dataRef,omitempty"`
+	ExpiresAt  *time.Time `json:"expiresAt,omitempty"`
+	ObservedAt *time.Time `json:"observedAt,omitempty"`
+
+	// PolicyRevision Frozen policy identity. legacy-docker-v1 preserves the original stored lease and quota.
+	PolicyRevision string                      `json:"policyRevision,omitempty"`
+	Provider       PersonalEnvironmentProvider `json:"provider,omitempty"`
+	Quota          *PersonalEnvironmentQuota   `json:"quota,omitempty"`
+	State          PersonalEnvironmentState    `json:"state,omitempty"`
+	TemplateID     string                      `json:"templateId,omitempty"`
+	UpdatedAt      *time.Time                  `json:"updatedAt,omitempty"`
+	Usage          *PersonalEnvironmentUsage   `json:"usage,omitempty"`
+	Version        int64                       `json:"version,omitempty"`
+}
+
+// PersonalEnvironmentBackend Frozen execution backend of this binding; never inferred from the current template.
+type PersonalEnvironmentBackend string
+
+// PersonalEnvironmentProvider defines model for PersonalEnvironment.Provider.
+type PersonalEnvironmentProvider string
+
+// PersonalEnvironmentState defines model for PersonalEnvironment.State.
+type PersonalEnvironmentState string
+
+// PersonalEnvironmentActionRequest defines model for PersonalEnvironmentActionRequest.
+type PersonalEnvironmentActionRequest struct {
+	Action PersonalEnvironmentActionRequestAction `json:"action"`
+
+	// TemplateID Required on first wake; may only select the already bound template afterward. Only wake accepts this field.
+	TemplateID string `json:"templateId,omitempty"`
+}
+
+// PersonalEnvironmentActionRequestAction defines model for PersonalEnvironmentActionRequest.Action.
+type PersonalEnvironmentActionRequestAction string
+
+// PersonalEnvironmentDataDeletionRequest defines model for PersonalEnvironmentDataDeletionRequest.
+type PersonalEnvironmentDataDeletionRequest struct {
+	AssistantID        string `json:"assistantId"`
+	ConfirmationName   string `json:"confirmationName"`
+	EnvironmentVersion int64  `json:"environmentVersion"`
+}
+
+// PersonalEnvironmentDataExportRequest defines model for PersonalEnvironmentDataExportRequest.
+type PersonalEnvironmentDataExportRequest struct {
+	AssistantID        string `json:"assistantId"`
+	EnvironmentVersion int64  `json:"environmentVersion"`
+}
+
+// PersonalEnvironmentEnvelope defines model for PersonalEnvironmentEnvelope.
+type PersonalEnvironmentEnvelope struct {
+	Data PersonalEnvironment `json:"data"`
+}
+
+// PersonalEnvironmentQuota defines model for PersonalEnvironmentQuota.
+type PersonalEnvironmentQuota struct {
+	// CPUUnits CPU millicores; 1000 is one CPU.
+	CPUUnits int64 `json:"cpuUnits"`
+
+	// DiskBytes Hard charged persistent-data bytes; temporary mounts charge memory instead.
+	DiskBytes    int64 `json:"diskBytes"`
+	MaxProcesses int   `json:"maxProcesses"`
+	MemoryBytes  int64 `json:"memoryBytes"`
+
+	// NetworkEgress Direct network access is not supported by this personal environment policy.
+	NetworkEgress bool `json:"networkEgress"`
+}
+
+// PersonalEnvironmentTemplate defines model for PersonalEnvironmentTemplate.
+type PersonalEnvironmentTemplate struct {
+	Backend        PersonalEnvironmentTemplateBackend  `json:"backend,omitempty"`
+	ID             string                              `json:"id"`
+	LeaseSeconds   int                                 `json:"leaseSeconds"`
+	Mode           PersonalEnvironmentTemplateMode     `json:"mode"`
+	Name           string                              `json:"name"`
+	PolicyRevision string                              `json:"policyRevision,omitempty"`
+	Provider       PersonalEnvironmentTemplateProvider `json:"provider,omitempty"`
+	Quota          PersonalEnvironmentQuota            `json:"quota"`
+}
+
+// PersonalEnvironmentTemplateBackend defines model for PersonalEnvironmentTemplate.Backend.
+type PersonalEnvironmentTemplateBackend string
+
+// PersonalEnvironmentTemplateMode defines model for PersonalEnvironmentTemplate.Mode.
+type PersonalEnvironmentTemplateMode string
+
+// PersonalEnvironmentTemplateProvider defines model for PersonalEnvironmentTemplate.Provider.
+type PersonalEnvironmentTemplateProvider string
+
+// PersonalEnvironmentTemplateListEnvelope defines model for PersonalEnvironmentTemplateListEnvelope.
+type PersonalEnvironmentTemplateListEnvelope struct {
+	Data []PersonalEnvironmentTemplate `json:"data"`
+}
+
+// PersonalEnvironmentUsage defines model for PersonalEnvironmentUsage.
+type PersonalEnvironmentUsage struct {
+	CPUTimeNanos int64 `json:"cpuTimeNanos"`
+	DiskBytes    int64 `json:"diskBytes"`
+	MemoryBytes  int64 `json:"memoryBytes"`
+	Processes    int   `json:"processes"`
+}
+
+// PersonalFeedEnvelope defines model for PersonalFeedEnvelope.
+type PersonalFeedEnvelope struct {
+	Data PersonalFeedPage `json:"data"`
+}
+
+// PersonalFeedFeedback defines model for PersonalFeedFeedback.
+type PersonalFeedFeedback struct {
+	Hidden bool `json:"hidden,omitempty"`
+	Liked  bool `json:"liked,omitempty"`
+}
+
+// PersonalFeedItem defines model for PersonalFeedItem.
+type PersonalFeedItem struct {
+	Body      string               `json:"body"`
+	CreatedAt time.Time            `json:"createdAt"`
+	ID        string               `json:"id"`
+	Liked     bool                 `json:"liked"`
+	Reason    string               `json:"reason"`
+	Sources   []PersonalFeedSource `json:"sources"`
+	Title     string               `json:"title"`
+}
+
+// PersonalFeedItemEnvelope defines model for PersonalFeedItemEnvelope.
+type PersonalFeedItemEnvelope struct {
+	Data PersonalFeedItem `json:"data"`
+}
+
+// PersonalFeedPage defines model for PersonalFeedPage.
+type PersonalFeedPage struct {
+	Error         string                   `json:"error,omitempty"`
+	Items         []PersonalFeedItem       `json:"items"`
+	LastUpdatedAt *time.Time               `json:"lastUpdatedAt,omitempty"`
+	NextCursor    string                   `json:"nextCursor,omitempty"`
+	SearchTools   []PersonalFeedSearchTool `json:"searchTools"`
+	Settings      PersonalFeedSettings     `json:"settings"`
+	State         PersonalFeedPageState    `json:"state"`
+}
+
+// PersonalFeedPageState defines model for PersonalFeedPage.State.
+type PersonalFeedPageState string
+
+// PersonalFeedSearchTool defines model for PersonalFeedSearchTool.
+type PersonalFeedSearchTool struct {
+	Name  string `json:"name"`
+	Title string `json:"title"`
+}
+
+// PersonalFeedSettings defines model for PersonalFeedSettings.
+type PersonalFeedSettings struct {
+	AutoUpdate   bool   `json:"autoUpdate"`
+	Instructions string `json:"instructions"`
+	SearchTool   string `json:"searchTool"`
+}
+
+// PersonalFeedSource defines model for PersonalFeedSource.
+type PersonalFeedSource struct {
+	Excerpt string `json:"excerpt"`
+	Title   string `json:"title"`
+	URL     string `json:"url"`
+}
+
+// PersonalGuestPreparation defines model for PersonalGuestPreparation.
+type PersonalGuestPreparation struct {
+	BindingID      openapi_types.UUID `json:"bindingId"`
+	CertificatePEM string             `json:"certificatePEM"`
+
+	// Challenge One-time 32-byte unpadded base64url token. Must not enter logs
+	Challenge   string `json:"challenge"`
+	ClientCAPEM string `json:"clientCAPEM"`
+
+	// Endpoint Core-configured HTTPS guest endpoint; never a caller-selected destination.
+	Endpoint     string             `json:"endpoint"`
+	EnrollmentID openapi_types.UUID `json:"enrollmentId"`
+
+	// ExpiresAt The bootstrap challenge expiry
+	ExpiresAt time.Time `json:"expiresAt"`
+}
+
+// PersonalGuestPreparationEnvelope defines model for PersonalGuestPreparationEnvelope.
+type PersonalGuestPreparationEnvelope struct {
+	Data PersonalGuestPreparation `json:"data"`
+}
+
+// PersonalGuestPreparationInput defines model for PersonalGuestPreparationInput.
+type PersonalGuestPreparationInput struct {
+	// CsrPEM Signed Ed25519 CSR containing only a public key. Requested subject and identity never grant authority.
+	CsrPEM             string `json:"csrPEM"`
+	EnvironmentVersion int64  `json:"environmentVersion"`
+}
+
+// PersonalGuestRuntime defines model for PersonalGuestRuntime.
+type PersonalGuestRuntime struct {
+	AssistantID openapi_types.UUID `json:"assistantId"`
+	Browser     *struct {
+		ControlID  openapi_types.UUID `json:"controlId"`
+		Generation int64              `json:"generation"`
+		Height     int                `json:"height"`
+		InstanceID openapi_types.UUID `json:"instanceId"`
+		JpegBase64 string             `json:"jpegBase64,omitempty"`
+		Text       string             `json:"text,omitempty"`
+		Title      string             `json:"title,omitempty"`
+		URL        string             `json:"url,omitempty"`
+		Width      int                `json:"width"`
+	} `json:"browser,omitempty"`
+	EnvironmentVersion int64 `json:"environmentVersion"`
+	ExitCode           int   `json:"exitCode,omitempty"`
+	File               *struct {
+		ContentBase64 string `json:"contentBase64,omitempty"`
+		Path          string `json:"path"`
+		Sha256        string `json:"sha256"`
+		Size          int64  `json:"size"`
+	} `json:"file,omitempty"`
+	ID     openapi_types.UUID         `json:"id"`
+	Kind   PersonalGuestRuntimeKind   `json:"kind"`
+	Output string                     `json:"output,omitempty"`
+	Status PersonalGuestRuntimeStatus `json:"status"`
+}
+
+// PersonalGuestRuntimeKind defines model for PersonalGuestRuntime.Kind.
+type PersonalGuestRuntimeKind string
+
+// PersonalGuestRuntimeStatus defines model for PersonalGuestRuntime.Status.
+type PersonalGuestRuntimeStatus string
+
+// PersonalGuestRuntimeEnvelope defines model for PersonalGuestRuntimeEnvelope.
+type PersonalGuestRuntimeEnvelope struct {
+	Data PersonalGuestRuntime `json:"data"`
+}
+
+// PersonalGuestRuntimeInput defines model for PersonalGuestRuntimeInput.
+type PersonalGuestRuntimeInput struct {
+	Argv    []string `json:"argv,omitempty"`
+	Browser *struct {
+		Action     PersonalGuestRuntimeInputBrowserAction `json:"action"`
+		ControlID  openapi_types.UUID                     `json:"controlId,omitempty"`
+		Generation int64                                  `json:"generation,omitempty"`
+		Selector   string                                 `json:"selector,omitempty"`
+		Text       string                                 `json:"text,omitempty"`
+		URL        string                                 `json:"url,omitempty"`
+		X          int                                    `json:"x,omitempty"`
+		Y          int                                    `json:"y,omitempty"`
+	} `json:"browser,omitempty"`
+	EnvironmentVersion int64 `json:"environmentVersion"`
+	File               *struct {
+		ContentBase64  string `json:"contentBase64,omitempty"`
+		ExpectedSHA256 string `json:"expectedSHA256,omitempty"`
+		Path           string `json:"path"`
+	} `json:"file,omitempty"`
+	IdempotencyKey string                        `json:"idempotencyKey"`
+	Kind           PersonalGuestRuntimeInputKind `json:"kind"`
+}
+
+// PersonalGuestRuntimeInputBrowserAction defines model for PersonalGuestRuntimeInput.Browser.Action.
+type PersonalGuestRuntimeInputBrowserAction string
+
+// PersonalGuestRuntimeInputKind defines model for PersonalGuestRuntimeInput.Kind.
+type PersonalGuestRuntimeInputKind string
+
+// PersonalGuestToolsInput defines model for PersonalGuestToolsInput.
+type PersonalGuestToolsInput struct {
+	EnvironmentVersion int64  `json:"environmentVersion"`
+	IdempotencyKey     string `json:"idempotencyKey"`
+}
+
+// PersonalVMEnvironmentPolicy Administrator assignment of an existing Soha-managed PVE VM and independent data disk to one user. The server checks administrator VM access update scope and the current approved owner's VM view scope. Binding freezes fresh provider and disk identity; saving or binding does not initialize data or grant runtime readiness. No provider URL, credential, root disk or arbitrary device path is accepted.
+type PersonalVMEnvironmentPolicy struct {
+	// ComputeRef Soha VM ID
+	ComputeRef openapi_types.UUID `json:"computeRef"`
+
+	// DataDiskBytes Exact independent disk size in whole GiB.
+	DataDiskBytes  int64                               `json:"dataDiskBytes"`
+	DataDiskSerial string                              `json:"dataDiskSerial"`
+	LeaseSeconds   int                                 `json:"leaseSeconds"`
+	OwnerID        openapi_types.UUID                  `json:"ownerId"`
+	Provider       PersonalVMEnvironmentPolicyProvider `json:"provider"`
+	Quota          PersonalEnvironmentQuota            `json:"quota"`
+}
+
+// PersonalVMEnvironmentPolicyProvider defines model for PersonalVMEnvironmentPolicy.Provider.
+type PersonalVMEnvironmentPolicyProvider string
+
+// PersonalWorkspaceRuntime defines model for PersonalWorkspaceRuntime.
+type PersonalWorkspaceRuntime struct {
+	AssistantID    openapi_types.UUID `json:"assistantId"`
+	BrowserControl *struct {
+		ControlID  openapi_types.UUID                          `json:"controlId"`
+		ExpiresAt  time.Time                                   `json:"expiresAt"`
+		Generation int64                                       `json:"generation"`
+		InstanceID openapi_types.UUID                          `json:"instanceId,omitempty"`
+		Owner      PersonalWorkspaceRuntimeBrowserControlOwner `json:"owner"`
+		TaskID     openapi_types.UUID                          `json:"taskId,omitempty"`
+	} `json:"browserControl,omitempty"`
+	EnvironmentVersion int64                 `json:"environmentVersion"`
+	Latest             *PersonalGuestRuntime `json:"latest,omitempty"`
+}
+
+// PersonalWorkspaceRuntimeBrowserControlOwner defines model for PersonalWorkspaceRuntime.BrowserControl.Owner.
+type PersonalWorkspaceRuntimeBrowserControlOwner string
+
+// PersonalWorkspaceRuntimeEnvelope defines model for PersonalWorkspaceRuntimeEnvelope.
+type PersonalWorkspaceRuntimeEnvelope struct {
+	Data PersonalWorkspaceRuntime `json:"data"`
+}
+
 // PlatformAuditLog defines model for PlatformAuditLog.
 type PlatformAuditLog struct {
 	Action        string                 `json:"action"`
@@ -26489,6 +27903,7 @@ type ScopeGrantType string
 
 // SecretBinding defines model for SecretBinding.
 type SecretBinding struct {
+	Purpose    SecretPurpose           `json:"purpose,omitempty"`
 	TargetRef  string                  `json:"targetRef"`
 	TargetType SecretBindingTargetType `json:"targetType"`
 }
@@ -26498,14 +27913,28 @@ type SecretBindingTargetType string
 
 // SecretCreateRequest Exactly one of value or vaultKv2 must be provided.
 type SecretCreateRequest struct {
-	Bindings    []SecretBinding          `json:"bindings,omitempty"`
-	Description string                   `json:"description,omitempty"`
-	Name        string                   `json:"name"`
-	ScopeID     string                   `json:"scopeId"`
-	ScopeType   SecretScopeType          `json:"scopeType"`
-	Value       string                   `json:"value,omitempty"`
-	VaultKv2    *SecretVaultKV2Reference `json:"vaultKv2,omitempty"`
+	Bindings      []SecretBinding          `json:"bindings,omitempty"`
+	Description   string                   `json:"description,omitempty"`
+	Kind          SecretKind               `json:"kind,omitempty"`
+	Name          string                   `json:"name"`
+	ScopeID       string                   `json:"scopeId"`
+	ScopeType     SecretScopeType          `json:"scopeType"`
+	SSHPassphrase string                   `json:"sshPassphrase,omitempty"`
+	Value         string                   `json:"value,omitempty"`
+	VaultKv2      *SecretVaultKV2Reference `json:"vaultKv2,omitempty"`
 }
+
+// SecretGenerateSSHKeyRequest defines model for SecretGenerateSSHKeyRequest.
+type SecretGenerateSSHKeyRequest struct {
+	Bindings    []SecretBinding `json:"bindings"`
+	Description string          `json:"description,omitempty"`
+	Name        string          `json:"name"`
+	ScopeID     string          `json:"scopeId"`
+	ScopeType   SecretScopeType `json:"scopeType"`
+}
+
+// SecretKind defines model for SecretKind.
+type SecretKind string
 
 // SecretLeaseGrant defines model for SecretLeaseGrant.
 type SecretLeaseGrant struct {
@@ -26530,17 +27959,19 @@ type SecretLeaseRedemptionEnvelope struct {
 
 // SecretMetadata defines model for SecretMetadata.
 type SecretMetadata struct {
-	Bindings       []SecretBinding `json:"bindings"`
-	CreatedAt      time.Time       `json:"createdAt"`
-	CreatedBy      string          `json:"createdBy"`
-	CurrentVersion int             `json:"currentVersion"`
-	Description    string          `json:"description,omitempty"`
-	ID             string          `json:"id"`
-	Name           string          `json:"name"`
-	ScopeID        string          `json:"scopeId"`
-	ScopeType      SecretScopeType `json:"scopeType"`
-	Status         SecretStatus    `json:"status"`
-	UpdatedAt      time.Time       `json:"updatedAt"`
+	Bindings       []SecretBinding     `json:"bindings"`
+	CreatedAt      time.Time           `json:"createdAt"`
+	CreatedBy      string              `json:"createdBy"`
+	CurrentVersion int                 `json:"currentVersion"`
+	Description    string              `json:"description,omitempty"`
+	ID             string              `json:"id"`
+	Kind           SecretKind          `json:"kind,omitempty"`
+	Name           string              `json:"name"`
+	PublicKey      *SecretSSHPublicKey `json:"publicKey,omitempty"`
+	ScopeID        string              `json:"scopeId"`
+	ScopeType      SecretScopeType     `json:"scopeType"`
+	Status         SecretStatus        `json:"status"`
+	UpdatedAt      time.Time           `json:"updatedAt"`
 }
 
 // SecretMetadataEnvelope defines model for SecretMetadataEnvelope.
@@ -26553,13 +27984,41 @@ type SecretMetadataListEnvelope struct {
 	Items []SecretMetadata `json:"items"`
 }
 
+// SecretPurpose defines model for SecretPurpose.
+type SecretPurpose string
+
 // SecretReferenceMap defines model for SecretReferenceMap.
 type SecretReferenceMap map[string]string
 
+// SecretReferenceUsage defines model for SecretReferenceUsage.
+type SecretReferenceUsage struct {
+	BindingRevision int    `json:"bindingRevision,omitempty"`
+	Status          string `json:"status"`
+	TargetID        string `json:"targetId"`
+
+	// Usage login_binding, ssh_session or cloud_init_operation. Historical initialization does not assert that the guest still trusts this key.
+	Usage   string `json:"usage"`
+	Version int    `json:"version"`
+	VMID    string `json:"vmId,omitempty"`
+}
+
+// SecretReferenceUsageListEnvelope defines model for SecretReferenceUsageListEnvelope.
+type SecretReferenceUsageListEnvelope struct {
+	Items []SecretReferenceUsage `json:"items"`
+}
+
 // SecretRotateRequest Exactly one of value or vaultKv2 must be provided.
 type SecretRotateRequest struct {
-	Value    string                   `json:"value,omitempty"`
-	VaultKv2 *SecretVaultKV2Reference `json:"vaultKv2,omitempty"`
+	SSHPassphrase string                   `json:"sshPassphrase,omitempty"`
+	Value         string                   `json:"value,omitempty"`
+	VaultKv2      *SecretVaultKV2Reference `json:"vaultKv2,omitempty"`
+}
+
+// SecretSSHPublicKey defines model for SecretSSHPublicKey.
+type SecretSSHPublicKey struct {
+	Algorithm     string `json:"algorithm"`
+	AuthorizedKey string `json:"authorizedKey"`
+	Fingerprint   string `json:"fingerprint"`
 }
 
 // SecretScopeType defines model for SecretScopeType.
@@ -26588,6 +28047,8 @@ type SecretVaultKV2Reference struct {
 type SecretVersionMetadata struct {
 	CreatedAt time.Time           `json:"createdAt"`
 	CreatedBy string              `json:"createdBy"`
+	Kind      SecretKind          `json:"kind,omitempty"`
+	PublicKey *SecretSSHPublicKey `json:"publicKey,omitempty"`
 	RevokedAt *time.Time          `json:"revokedAt,omitempty"`
 	SecretID  string              `json:"secretId"`
 	Status    SecretVersionStatus `json:"status"`
@@ -27320,6 +28781,14 @@ type UserProfileEnvelope struct {
 	Data UserProfile `json:"data"`
 }
 
+// VMSSHCredentialRedemptionInput defines model for VMSSHCredentialRedemptionInput.
+type VMSSHCredentialRedemptionInput struct {
+	AgentID   string `json:"agentId"`
+	ClusterID string `json:"clusterId"`
+	LeaseID   string `json:"leaseId"`
+	Token     string `json:"token,omitempty"`
+}
+
 // VirtualMachine defines model for VirtualMachine.
 type VirtualMachine struct {
 	AllowedActions []string `json:"allowedActions,omitempty"`
@@ -27356,6 +28825,45 @@ type VirtualMachine struct {
 	UpdatedAt  *time.Time            `json:"updatedAt,omitempty"`
 }
 
+// VirtualMachineAccessBinding defines model for VirtualMachineAccessBinding.
+type VirtualMachineAccessBinding struct {
+	Address            string                            `json:"address"`
+	CredentialRef      string                            `json:"credentialRef"`
+	ExecutionAgentID   string                            `json:"executionAgentId"`
+	ExecutionClusterID string                            `json:"executionClusterId"`
+	Generation         string                            `json:"generation"`
+	HostKeyFingerprint string                            `json:"hostKeyFingerprint"`
+	Port               int                               `json:"port"`
+	ProviderVMID       string                            `json:"providerVmId"`
+	Reason             string                            `json:"reason,omitempty"`
+	Revision           int                               `json:"revision"`
+	SourceID           string                            `json:"sourceId"`
+	Status             VirtualMachineAccessBindingStatus `json:"status"`
+	UpdatedAt          *time.Time                        `json:"updatedAt,omitempty"`
+	Username           string                            `json:"username"`
+	VMID               string                            `json:"vmId"`
+}
+
+// VirtualMachineAccessBindingStatus defines model for VirtualMachineAccessBinding.Status.
+type VirtualMachineAccessBindingStatus string
+
+// VirtualMachineAccessBindingEnvelope defines model for VirtualMachineAccessBindingEnvelope.
+type VirtualMachineAccessBindingEnvelope struct {
+	Data VirtualMachineAccessBinding `json:"data"`
+}
+
+// VirtualMachineAccessBindingInput Metadata binding only; it does not install guest keys or alter VM configuration. Host keys must be independently verified by an authorized human before binding.
+type VirtualMachineAccessBindingInput struct {
+	Address            string `json:"address"`
+	CredentialRef      string `json:"credentialRef"`
+	ExecutionAgentID   string `json:"executionAgentId"`
+	ExecutionClusterID string `json:"executionClusterId"`
+	ExpectedRevision   int    `json:"expectedRevision"`
+	Port               int    `json:"port"`
+	TrustedHostKey     string `json:"trustedHostKey"`
+	Username           string `json:"username"`
+}
+
 // VirtualMachineActionInput defines model for VirtualMachineActionInput.
 type VirtualMachineActionInput struct {
 	Action VirtualMachineActionInputAction `json:"action"`
@@ -27367,6 +28875,9 @@ type VirtualMachineActionInput struct {
 	Disks     []VirtualMachineDiskChange    `json:"disks,omitempty"`
 	MemoryMiB int                           `json:"memoryMiB,omitempty"`
 	Networks  []VirtualMachineNetworkChange `json:"networks,omitempty"`
+
+	// RequireCapacity Require fresh atomic capacity admission for start, reboot or resize even when cluster policy is unconfigured. False never bypasses an enforced policy. New disks require fixed slots, storage and serial identity; multiple storage pools require separate operations.
+	RequireCapacity bool `json:"requireCapacity,omitempty"`
 }
 
 // VirtualMachineActionInputAction defines model for VirtualMachineActionInput.Action.
@@ -27395,26 +28906,31 @@ type VirtualMachineCreateInput struct {
 	BootImageID  string `json:"bootImageId,omitempty"`
 
 	// CloudInit Sensitive bootstrap content. It is accepted for backward compatibility and never returned by plan or audit responses.
-	CloudInit    string                        `json:"cloudInit,omitempty"`
-	ConnectionID string                        `json:"connectionId"`
-	CPU          int                           `json:"cpu,omitempty"`
-	DiskGiB      int                           `json:"diskGiB,omitempty"`
-	Disks        []VirtualMachineDiskChange    `json:"disks,omitempty"`
-	FlavorID     string                        `json:"flavorId,omitempty"`
-	ImageID      string                        `json:"imageId,omitempty"`
-	MemoryMiB    int                           `json:"memoryMiB,omitempty"`
-	Name         string                        `json:"name"`
-	Namespace    string                        `json:"namespace,omitempty"`
-	Network      string                        `json:"network,omitempty"`
-	Networks     []VirtualMachineNetworkChange `json:"networks,omitempty"`
-	Node         string                        `json:"node,omitempty"`
+	CloudInit    string                     `json:"cloudInit,omitempty"`
+	ConnectionID string                     `json:"connectionId"`
+	CPU          int                        `json:"cpu,omitempty"`
+	DiskGiB      int                        `json:"diskGiB,omitempty"`
+	Disks        []VirtualMachineDiskChange `json:"disks,omitempty"`
+	FlavorID     string                     `json:"flavorId,omitempty"`
+
+	// GuestAccess Managed first-boot public-key initialization. Requires a verified cloud-init image and excludes raw cloudInit and native sshkeys/cicustom fields. The server freezes each Secret version; private keys are never sent to the guest.
+	GuestAccess *VirtualMachineGuestAccessInput `json:"guestAccess,omitempty"`
+	ImageID     string                          `json:"imageId,omitempty"`
+	MemoryMiB   int                             `json:"memoryMiB,omitempty"`
+	Name        string                          `json:"name"`
+	Namespace   string                          `json:"namespace,omitempty"`
+	Network     string                          `json:"network,omitempty"`
+	Networks    []VirtualMachineNetworkChange   `json:"networks,omitempty"`
+	Node        string                          `json:"node,omitempty"`
 
 	// ProviderParams Native provider-compatible JSON. Unknown fields are preserved and responses are not wrapped in an OpenSoha envelope.
 	ProviderParams *NativeProviderObject `json:"providerParams,omitempty"`
 
-	// RequireCapacity Require fresh provider capacity and reserve node CPU, memory and storage atomically with this operation. Missing inventory or unsupported placement fails closed. This controls concurrent Soha admission; provider admission and runtime readiness remain authoritative.
-	RequireCapacity  bool   `json:"requireCapacity,omitempty"`
-	SourceID         string `json:"sourceId,omitempty"`
+	// RequireCapacity Require fresh provider capacity and reserve node CPU, memory and storage atomically with this operation. Missing inventory or unsupported placement fails closed. An enforced source policy always requires admission, including when this field is false. Unconfigured legacy sources retain the explicit opt-in behavior. Provider admission and runtime readiness remain authoritative.
+	RequireCapacity bool   `json:"requireCapacity,omitempty"`
+	SourceID        string `json:"sourceId,omitempty"`
+
+	// SourceMode PVE supports template_clone, vm_clone, iso_install and cloud_image. cloud_image imports a verified catalog QCOW2 volume into this new VM; it does not create or modify a source VM.
 	SourceMode       string `json:"sourceMode,omitempty"`
 	StartAfterCreate bool   `json:"startAfterCreate,omitempty"`
 	TemplateID       string `json:"templateId,omitempty"`
@@ -27458,10 +28974,13 @@ type VirtualMachineDeviceListEnvelope struct {
 
 // VirtualMachineDiskChange defines model for VirtualMachineDiskChange.
 type VirtualMachineDiskChange struct {
-	Add     bool   `json:"add,omitempty"`
-	Bus     string `json:"bus,omitempty"`
-	ID      string `json:"id,omitempty"`
-	Name    string `json:"name,omitempty"`
+	Add  bool   `json:"add,omitempty"`
+	Bus  string `json:"bus,omitempty"`
+	ID   string `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
+
+	// Serial Immutable guest-visible identity for a newly added PVE disk. Only accepted with add=true; resizing an existing disk preserves its identity. Providers without disk-identity support reject the request before modifying resources.
+	Serial  string `json:"serial,omitempty"`
 	SizeGiB int    `json:"sizeGiB,omitempty"`
 	Storage string `json:"storage,omitempty"`
 }
@@ -27469,6 +28988,12 @@ type VirtualMachineDiskChange struct {
 // VirtualMachineEnvelope defines model for VirtualMachineEnvelope.
 type VirtualMachineEnvelope struct {
 	Data VirtualMachine `json:"data"`
+}
+
+// VirtualMachineGuestAccessInput Managed first-boot public-key initialization. Requires a verified cloud-init image and excludes raw cloudInit and native sshkeys/cicustom fields. The server freezes each Secret version; private keys are never sent to the guest.
+type VirtualMachineGuestAccessInput struct {
+	PublicKeyRefs []string `json:"publicKeyRefs"`
+	Username      string   `json:"username"`
 }
 
 // VirtualMachineListEnvelope defines model for VirtualMachineListEnvelope.
@@ -27535,6 +29060,104 @@ type VirtualMachinePowerInput struct {
 // VirtualMachinePowerInputAction defines model for VirtualMachinePowerInput.Action.
 type VirtualMachinePowerInputAction string
 
+// VirtualMachineSSHCommand defines model for VirtualMachineSSHCommand.
+type VirtualMachineSSHCommand struct {
+	BindingRevision int                             `json:"bindingRevision"`
+	ExitCode        *int                            `json:"exitCode,omitempty"`
+	FinishedAt      *time.Time                      `json:"finishedAt,omitempty"`
+	ID              string                          `json:"id"`
+	Outcome         VirtualMachineSSHCommandOutcome `json:"outcome"`
+	OutputDigest    string                          `json:"outputDigest,omitempty"`
+	OutputTruncated bool                            `json:"outputTruncated,omitempty"`
+	Status          string                          `json:"status"`
+	Stderr          string                          `json:"stderr,omitempty"`
+	Stdout          string                          `json:"stdout,omitempty"`
+	Terminal        bool                            `json:"terminal"`
+	VMID            string                          `json:"vmId"`
+}
+
+// VirtualMachineSSHCommandOutcome defines model for VirtualMachineSSHCommand.Outcome.
+type VirtualMachineSSHCommandOutcome string
+
+// VirtualMachineSSHCommandEnvelope defines model for VirtualMachineSSHCommandEnvelope.
+type VirtualMachineSSHCommandEnvelope struct {
+	Data VirtualMachineSSHCommand `json:"data"`
+}
+
+// VirtualMachineSSHCommandInput defines model for VirtualMachineSSHCommandInput.
+type VirtualMachineSSHCommandInput struct {
+	BindingRevision int    `json:"bindingRevision"`
+	Command         string `json:"command"`
+	IdempotencyKey  string `json:"idempotencyKey"`
+	TimeoutSeconds  int    `json:"timeoutSeconds,omitempty"`
+}
+
+// VirtualMachineSSHFrame defines model for VirtualMachineSSHFrame.
+type VirtualMachineSSHFrame struct {
+	Cols int    `json:"cols,omitempty"`
+	Data string `json:"data,omitempty"`
+
+	// DataEncoding Base64 carries exact terminal bytes including split UTF-8 sequences. Omitted means utf8 for legacy inputs.
+	DataEncoding VirtualMachineSSHFrameDataEncoding `json:"dataEncoding,omitempty"`
+	ExitCode     *int                               `json:"exitCode,omitempty"`
+	Message      string                             `json:"message,omitempty"`
+	Rows         int                                `json:"rows,omitempty"`
+	Type         VirtualMachineSSHFrameType         `json:"type"`
+}
+
+// VirtualMachineSSHFrameDataEncoding Base64 carries exact terminal bytes including split UTF-8 sequences. Omitted means utf8 for legacy inputs.
+type VirtualMachineSSHFrameDataEncoding string
+
+// VirtualMachineSSHFrameType defines model for VirtualMachineSSHFrame.Type.
+type VirtualMachineSSHFrameType string
+
+// VirtualMachineSSHSession defines model for VirtualMachineSSHSession.
+type VirtualMachineSSHSession struct {
+	BindingRevision int                            `json:"bindingRevision"`
+	ExpiresAt       time.Time                      `json:"expiresAt"`
+	ID              string                         `json:"id"`
+	Reason          string                         `json:"reason,omitempty"`
+	Status          VirtualMachineSSHSessionStatus `json:"status"`
+	VMID            string                         `json:"vmId"`
+}
+
+// VirtualMachineSSHSessionStatus defines model for VirtualMachineSSHSession.Status.
+type VirtualMachineSSHSessionStatus string
+
+// VirtualMachineSSHSessionEnvelope defines model for VirtualMachineSSHSessionEnvelope.
+type VirtualMachineSSHSessionEnvelope struct {
+	Data VirtualMachineSSHSession `json:"data"`
+}
+
+// VirtualMachineSSHSessionInput defines model for VirtualMachineSSHSessionInput.
+type VirtualMachineSSHSessionInput struct {
+	BindingRevision int `json:"bindingRevision"`
+	Cols            int `json:"cols,omitempty"`
+	Rows            int `json:"rows,omitempty"`
+}
+
+// VirtualizationCapacityCheckDiagnostic defines model for VirtualizationCapacityCheckDiagnostic.
+type VirtualizationCapacityCheckDiagnostic struct {
+	Available int                                            `json:"available"`
+	Check     VirtualizationCapacityCheckDiagnosticCheck     `json:"check"`
+	Committed int                                            `json:"committed"`
+	Demand    int                                            `json:"demand"`
+	Dimension VirtualizationCapacityCheckDiagnosticDimension `json:"dimension"`
+	Limit     int                                            `json:"limit"`
+	Pending   int                                            `json:"pending"`
+	Reason    string                                         `json:"reason"`
+	Status    VirtualizationCapacityCheckDiagnosticStatus    `json:"status"`
+}
+
+// VirtualizationCapacityCheckDiagnosticCheck defines model for VirtualizationCapacityCheckDiagnostic.Check.
+type VirtualizationCapacityCheckDiagnosticCheck string
+
+// VirtualizationCapacityCheckDiagnosticDimension defines model for VirtualizationCapacityCheckDiagnostic.Dimension.
+type VirtualizationCapacityCheckDiagnosticDimension string
+
+// VirtualizationCapacityCheckDiagnosticStatus defines model for VirtualizationCapacityCheckDiagnostic.Status.
+type VirtualizationCapacityCheckDiagnosticStatus string
+
 // VirtualizationCapacityEnvelope defines model for VirtualizationCapacityEnvelope.
 type VirtualizationCapacityEnvelope struct {
 	// Data A read-only, expiring placement suggestion for one running VM and root disk. Missing or unsupported inventory remains unknown. Creation must independently require atomic capacity admission; this result is not a reservation or a readiness assessment.
@@ -27557,23 +29180,71 @@ type VirtualizationCapacityInput struct {
 	Namespace string `json:"namespace,omitempty"`
 
 	// Node Optional exact provider node constraint.
-	Node string `json:"node,omitempty"`
+	Node             string `json:"node,omitempty"`
+	StartAfterCreate *bool  `json:"startAfterCreate,omitempty"`
 
 	// Storage Optional exact PVE storage name or KubeVirt StorageClass.
 	Storage string `json:"storage,omitempty"`
 }
 
+// VirtualizationCapacityNodeDiagnostic defines model for VirtualizationCapacityNodeDiagnostic.
+type VirtualizationCapacityNodeDiagnostic struct {
+	Checks  []VirtualizationCapacityCheckDiagnostic `json:"checks"`
+	Node    string                                  `json:"node"`
+	Storage string                                  `json:"storage,omitempty"`
+}
+
+// VirtualizationCapacityPolicy defines model for VirtualizationCapacityPolicy.
+type VirtualizationCapacityPolicy struct {
+	CPU      VirtualizationOvercommitPolicy       `json:"cpu"`
+	Memory   VirtualizationMemoryOvercommitPolicy `json:"memory"`
+	Mode     VirtualizationCapacityPolicyMode     `json:"mode"`
+	Revision int                                  `json:"revision"`
+
+	// SourceConfirmed New PVE sources use a strict 100 percent policy and cannot admit until an administrator confirms their physical source identity.
+	SourceConfirmed bool       `json:"sourceConfirmed,omitempty"`
+	SourceID        string     `json:"sourceId"`
+	UpdatedAt       *time.Time `json:"updatedAt,omitempty"`
+	UpdatedBy       string     `json:"updatedBy,omitempty"`
+}
+
+// VirtualizationCapacityPolicyEnvelope defines model for VirtualizationCapacityPolicyEnvelope.
+type VirtualizationCapacityPolicyEnvelope struct {
+	Data VirtualizationCapacityPolicy `json:"data"`
+}
+
+// VirtualizationCapacityPolicyInput defines model for VirtualizationCapacityPolicyInput.
+type VirtualizationCapacityPolicyInput struct {
+	CPU              VirtualizationOvercommitPolicy        `json:"cpu"`
+	ExpectedRevision int                                   `json:"expectedRevision"`
+	Memory           VirtualizationMemoryOvercommitPolicy  `json:"memory"`
+	Mode             VirtualizationCapacityPolicyInputMode `json:"mode"`
+
+	// PhysicalSourceID Administrator-confirmed identity of one physical PVE source. All aliases must join this identity before admission. Ordinary VM callers cannot choose a source.
+	PhysicalSourceID string `json:"physicalSourceId,omitempty"`
+}
+
+// VirtualizationCapacityPolicyInputMode defines model for VirtualizationCapacityPolicyInput.Mode.
+type VirtualizationCapacityPolicyInputMode string
+
+// VirtualizationCapacityPolicyMode defines model for VirtualizationCapacityPolicyMode.
+type VirtualizationCapacityPolicyMode string
+
 // VirtualizationCapacityResult A read-only, expiring placement suggestion for one running VM and root disk. Missing or unsupported inventory remains unknown. Creation must independently require atomic capacity admission; this result is not a reservation or a readiness assessment.
 type VirtualizationCapacityResult struct {
-	ConnectionID string                             `json:"connectionId"`
-	Namespace    string                             `json:"namespace,omitempty"`
-	Node         string                             `json:"node,omitempty"`
-	ObservedAt   *time.Time                         `json:"observedAt,omitempty"`
-	Provider     string                             `json:"provider,omitempty"`
-	Reason       string                             `json:"reason"`
-	Status       VirtualizationCapacityResultStatus `json:"status"`
-	Storage      string                             `json:"storage,omitempty"`
-	ValidUntil   *time.Time                         `json:"validUntil,omitempty"`
+	ConnectionID   string                                 `json:"connectionId"`
+	Diagnostics    []VirtualizationCapacityNodeDiagnostic `json:"diagnostics,omitempty"`
+	Namespace      string                                 `json:"namespace,omitempty"`
+	Node           string                                 `json:"node,omitempty"`
+	ObservedAt     *time.Time                             `json:"observedAt,omitempty"`
+	PolicyMode     VirtualizationCapacityPolicyMode       `json:"policyMode,omitempty"`
+	PolicyRevision int                                    `json:"policyRevision,omitempty"`
+	Provider       string                                 `json:"provider,omitempty"`
+	Reason         string                                 `json:"reason"`
+	SourceID       string                                 `json:"sourceId,omitempty"`
+	Status         VirtualizationCapacityResultStatus     `json:"status"`
+	Storage        string                                 `json:"storage,omitempty"`
+	ValidUntil     *time.Time                             `json:"validUntil,omitempty"`
 }
 
 // VirtualizationCapacityResultStatus defines model for VirtualizationCapacityResult.Status.
@@ -27793,11 +29464,15 @@ type VirtualizationImageInput struct {
 	Provider     string                `json:"provider,omitempty"`
 	SizeBytes    int64                 `json:"sizeBytes,omitempty"`
 	SizeGiB      int64                 `json:"sizeGiB,omitempty"`
-	SourceKind   string                `json:"sourceKind,omitempty"`
-	SourceRef    string                `json:"sourceRef,omitempty"`
-	Status       string                `json:"status,omitempty"`
-	StorageClass string                `json:"storageClass,omitempty"`
-	URL          string                `json:"url,omitempty"`
+
+	// SourceKind PVE cloud_image declares an already staged QCOW2 import volume. cloudInitSupported must be explicitly true for managed guest initialization.
+	SourceKind string `json:"sourceKind,omitempty"`
+
+	// SourceRef For PVE cloud_image use storage:import/<SHA256>.qcow2 sealed with the filesystem immutable flag. The provider verifies immutability, format, digest, absence of backing files and requested root size before dispatch. Catalog creation registers metadata and does not itself upload a file.
+	SourceRef    string `json:"sourceRef,omitempty"`
+	Status       string `json:"status,omitempty"`
+	StorageClass string `json:"storageClass,omitempty"`
+	URL          string `json:"url,omitempty"`
 }
 
 // VirtualizationImageListEnvelope defines model for VirtualizationImageListEnvelope.
@@ -27816,6 +29491,12 @@ type VirtualizationImagePage struct {
 // VirtualizationImagePageEnvelope defines model for VirtualizationImagePageEnvelope.
 type VirtualizationImagePageEnvelope struct {
 	Data VirtualizationImagePage `json:"data"`
+}
+
+// VirtualizationMemoryOvercommitPolicy defines model for VirtualizationMemoryOvercommitPolicy.
+type VirtualizationMemoryOvercommitPolicy struct {
+	Enabled bool `json:"enabled"`
+	Percent int  `json:"percent"`
 }
 
 // VirtualizationOperation Durable virtualization operation. A canceling operation has requested cancellation but provider effects are not yet confirmed; terminal status alone does not prove resource rollback. VM creation preserves its provider identity across retry.
@@ -27890,6 +29571,12 @@ type VirtualizationOperationPage struct {
 // VirtualizationOperationPageEnvelope defines model for VirtualizationOperationPageEnvelope.
 type VirtualizationOperationPageEnvelope struct {
 	Data VirtualizationOperationPage `json:"data"`
+}
+
+// VirtualizationOvercommitPolicy defines model for VirtualizationOvercommitPolicy.
+type VirtualizationOvercommitPolicy struct {
+	Enabled bool `json:"enabled"`
+	Percent int  `json:"percent"`
 }
 
 // VirtualizationWorkerCreateInput defines model for VirtualizationWorkerCreateInput.
@@ -28053,21 +29740,24 @@ type WorkbenchAgentRun struct {
 	CapabilityID      string                      `json:"capabilityId"`
 
 	// Chat Conversation input carried in AgentRun.chat for capabilityId general. History contains prior user and successful assistant messages, oldest first; the current question is separate. The control plane bounds total history and reports omitted messages through historyTruncated. This is conversation data, not an authorization grant or a request to run an analysis workflow.
-	Chat             *AgentChatInput          `json:"chat,omitempty"`
-	ClaimedByAgentID string                   `json:"claimedByAgentId,omitempty"`
-	CompletedAt      *time.Time               `json:"completedAt,omitempty"`
-	CreatedAt        time.Time                `json:"createdAt"`
-	CreatedBy        string                   `json:"createdBy"`
-	ErrorMessage     string                   `json:"errorMessage,omitempty"`
-	ExternalRunID    string                   `json:"externalRunId,omitempty"`
-	ID               string                   `json:"id"`
-	Input            map[string]any           `json:"input,omitempty"`
-	LastHeartbeatAt  *time.Time               `json:"lastHeartbeatAt,omitempty"`
-	OperationState   *WorkbenchOperationState `json:"operationState,omitempty"`
-	Output           map[string]any           `json:"output,omitempty"`
+	Chat             *AgentChatInput                 `json:"chat,omitempty"`
+	ClaimedByAgentID string                          `json:"claimedByAgentId,omitempty"`
+	CompletedAt      *time.Time                      `json:"completedAt,omitempty"`
+	CreatedAt        time.Time                       `json:"createdAt"`
+	CreatedBy        string                          `json:"createdBy"`
+	ErrorMessage     string                          `json:"errorMessage,omitempty"`
+	EventSequence    int                             `json:"eventSequence,omitempty"`
+	ExecutionOwner   WorkbenchAgentRunExecutionOwner `json:"executionOwner,omitempty"`
+	ExternalRunID    string                          `json:"externalRunId,omitempty"`
+	ID               string                          `json:"id"`
+	Input            map[string]any                  `json:"input,omitempty"`
+	LastHeartbeatAt  *time.Time                      `json:"lastHeartbeatAt,omitempty"`
+	OperationState   *WorkbenchOperationState        `json:"operationState,omitempty"`
+	Output           map[string]any                  `json:"output,omitempty"`
 
 	// ParentRunID Parent run for a single read-only specialist delegation; absent on root runs.
 	ParentRunID    string                       `json:"parentRunId,omitempty"`
+	Phase          string                       `json:"phase,omitempty"`
 	ProviderID     string                       `json:"providerId"`
 	ProviderKind   string                       `json:"providerKind"`
 	QueuedAt       time.Time                    `json:"queuedAt"`
@@ -28078,16 +29768,26 @@ type WorkbenchAgentRun struct {
 	SkillIDs       []string                     `json:"skillIds,omitempty"`
 	StartedAt      *time.Time                   `json:"startedAt,omitempty"`
 	Status         string                       `json:"status"`
+	StopReason     string                       `json:"stopReason,omitempty"`
 	TimeoutSeconds int                          `json:"timeoutSeconds"`
 	ToolBindings   []WorkbenchAgentToolBinding  `json:"toolBindings,omitempty"`
 	ToolExecutions []WorkbenchToolExecution     `json:"toolExecutions,omitempty"`
 	Toolset        *WorkbenchSessionToolset     `json:"toolset,omitempty"`
 	UpdatedAt      time.Time                    `json:"updatedAt"`
+	UsageKnown     bool                         `json:"usageKnown,omitempty"`
 }
+
+// WorkbenchAgentRunExecutionOwner defines model for WorkbenchAgentRun.ExecutionOwner.
+type WorkbenchAgentRunExecutionOwner string
 
 // WorkbenchAgentRunEnvelope defines model for WorkbenchAgentRunEnvelope.
 type WorkbenchAgentRunEnvelope struct {
 	Data WorkbenchAgentRun `json:"data"`
+}
+
+// WorkbenchAgentRunListEnvelope defines model for WorkbenchAgentRunListEnvelope.
+type WorkbenchAgentRunListEnvelope struct {
+	Items []WorkbenchAgentRun `json:"items"`
 }
 
 // WorkbenchAgentSkillBinding defines model for WorkbenchAgentSkillBinding.
@@ -28220,6 +29920,18 @@ type WorkbenchArtifactUpdatedEvent struct {
 // WorkbenchArtifactUpdatedEventType defines model for WorkbenchArtifactUpdatedEvent.Type.
 type WorkbenchArtifactUpdatedEventType string
 
+// WorkbenchAssistantTask An explicit, owner-scoped assistant appearance task executed through chat. Images are bounded inline avatar assets, never arbitrary remote URLs. The instruction remains in content. No account identity or resource permissions change. Undo references a successful profile reply in the same owned session and rejects stale replacements.
+type WorkbenchAssistantTask struct {
+	Image            *PersonalAssistantAvatarRequest `json:"image,omitempty"`
+	Kind             WorkbenchAssistantTaskKind      `json:"kind"`
+	MessageID        string                          `json:"messageId,omitempty"`
+	PublicModel      string                          `json:"publicModel,omitempty"`
+	UseCurrentAvatar bool                            `json:"useCurrentAvatar,omitempty"`
+}
+
+// WorkbenchAssistantTaskKind defines model for WorkbenchAssistantTask.Kind.
+type WorkbenchAssistantTaskKind string
+
 // WorkbenchAutomationPolicy defines model for WorkbenchAutomationPolicy.
 type WorkbenchAutomationPolicy struct {
 	AgentProviderID    string         `json:"agentProviderId,omitempty"`
@@ -28333,9 +30045,13 @@ type WorkbenchContextReference struct {
 // WorkbenchContextReferenceKind defines model for WorkbenchContextReference.Kind.
 type WorkbenchContextReferenceKind string
 
-// WorkbenchContextSelection Explicit references and UTF-8 text attachments for this request only. The server rechecks source access and records used content hashes and truncations. Not inherited by subsequent requests.
+// WorkbenchContextSelection Explicit references, UTF-8 text attachments and a bounded inline chat image for this request. Images are ordinary message content and never imply an assistant appearance change. Images are retained with the owned message; references are rechecked on use.
 type WorkbenchContextSelection struct {
 	Attachments []WorkbenchTextAttachment `json:"attachments,omitempty"`
+
+	// FeedItemID Owned personal feed post
+	FeedItemID string                     `json:"feedItemId,omitempty"`
+	Images     []WorkbenchImageAttachment `json:"images,omitempty"`
 
 	// MemoryIDs Explicit personal memory references; current owner, active policy and expiry are checked on every request.
 	MemoryIDs  []string                    `json:"memoryIds,omitempty"`
@@ -28493,6 +30209,13 @@ type WorkbenchHypothesis struct {
 	Title           string   `json:"title"`
 }
 
+// WorkbenchImageAttachment Ordinary chat image, preserved without square cropping. Inline PNG/JPEG only, at most 700000 data URL characters and 1024 pixels on each edge. The server verifies MIME, decoded bytes and dimensions before storage or model invocation. No remote URL fetch. Message metadata.images retains the attachment for history and retry.
+type WorkbenchImageAttachment struct {
+	DataURL string `json:"dataUrl"`
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+}
+
 // WorkbenchInsight defines model for WorkbenchInsight.
 type WorkbenchInsight struct {
 	Actions     []string `json:"actions,omitempty"`
@@ -28640,11 +30363,18 @@ type WorkbenchLaunchContext struct {
 // WorkbenchLaunchContextSourceWorkbench defines model for WorkbenchLaunchContext.SourceWorkbench.
 type WorkbenchLaunchContextSourceWorkbench string
 
+// WorkbenchMainSessionRequest defines model for WorkbenchMainSessionRequest.
+type WorkbenchMainSessionRequest struct {
+	AgentProviderID string `json:"agentProviderId,omitempty"`
+}
+
 // WorkbenchMessage defines model for WorkbenchMessage.
 type WorkbenchMessage struct {
-	Content   string               `json:"content"`
-	CreatedAt time.Time            `json:"createdAt"`
-	ID        string               `json:"id"`
+	Content   string    `json:"content"`
+	CreatedAt time.Time `json:"createdAt"`
+	ID        string    `json:"id"`
+
+	// Metadata Background provenance is stored in contextSnapshot (legacy contextEnvelope is readable). contextUsage describes the latest single model call; Native usage is cumulative task consumption. User metadata.images contains WorkbenchImageAttachment items. Completed assistant metadata may contain assistantReaction (one of 👋 👍 ❤️ 😊 🎉 💡 👀 🤔 ✅ 🙏) and server-bound requestMessageId for that reaction. Reactions are social acknowledgements, never approval or execution evidence.
 	Metadata  map[string]any       `json:"metadata,omitempty"`
 	Role      WorkbenchMessageRole `json:"role"`
 	SessionID string               `json:"sessionId"`
@@ -28697,10 +30427,48 @@ type WorkbenchMessageListEnvelope struct {
 	Items []WorkbenchMessage `json:"items"`
 }
 
+// WorkbenchMessageSearchEnvelope defines model for WorkbenchMessageSearchEnvelope.
+type WorkbenchMessageSearchEnvelope struct {
+	Data WorkbenchMessageSearchPage `json:"data"`
+}
+
+// WorkbenchMessageSearchHit defines model for WorkbenchMessageSearchHit.
+type WorkbenchMessageSearchHit struct {
+	CreatedAt    time.Time                     `json:"createdAt"`
+	MessageID    string                        `json:"messageId"`
+	Role         WorkbenchMessageSearchHitRole `json:"role"`
+	SessionID    string                        `json:"sessionId"`
+	SessionTitle string                        `json:"sessionTitle"`
+	Snippet      string                        `json:"snippet"`
+}
+
+// WorkbenchMessageSearchHitRole defines model for WorkbenchMessageSearchHit.Role.
+type WorkbenchMessageSearchHitRole string
+
+// WorkbenchMessageSearchPage defines model for WorkbenchMessageSearchPage.
+type WorkbenchMessageSearchPage struct {
+	Items      []WorkbenchMessageSearchHit `json:"items"`
+	NextCursor string                      `json:"nextCursor,omitempty"`
+}
+
+// WorkbenchMessageWindow defines model for WorkbenchMessageWindow.
+type WorkbenchMessageWindow struct {
+	AfterCursor  string             `json:"afterCursor,omitempty"`
+	BeforeCursor string             `json:"beforeCursor,omitempty"`
+	Messages     []WorkbenchMessage `json:"messages"`
+}
+
+// WorkbenchMessageWindowEnvelope defines model for WorkbenchMessageWindowEnvelope.
+type WorkbenchMessageWindowEnvelope struct {
+	Data WorkbenchMessageWindow `json:"data"`
+}
+
 // WorkbenchModelOption defines model for WorkbenchModelOption.
 type WorkbenchModelOption struct {
-	PublicModel      string                                 `json:"publicModel"`
-	ReasoningEfforts []WorkbenchModelOptionReasoningEfforts `json:"reasoningEfforts"`
+	// ContextWindowTokens Configured model window in tokens. Omitted when any eligible route has no valid capacity; otherwise the smallest eligible route capacity. Never inferred from the model name.
+	ContextWindowTokens int64                                  `json:"contextWindowTokens,omitempty"`
+	PublicModel         string                                 `json:"publicModel"`
+	ReasoningEfforts    []WorkbenchModelOptionReasoningEfforts `json:"reasoningEfforts"`
 }
 
 // WorkbenchModelOptionReasoningEfforts defines model for WorkbenchModelOption.ReasoningEfforts.
@@ -28739,6 +30507,17 @@ type WorkbenchOperationState struct {
 	TimeoutSeconds        int              `json:"timeoutSeconds"`
 	TimeoutStale          bool             `json:"timeoutStale"`
 	ToolExecutionCount    int              `json:"toolExecutionCount,omitempty"`
+}
+
+// WorkbenchProfessionalCapabilityInput defines model for WorkbenchProfessionalCapabilityInput.
+type WorkbenchProfessionalCapabilityInput struct {
+	// Intent Capability preferences and explicit query parameters for this turn only. Does not change session mode, grant permission, or create scheduled inspections.
+	Intent    WorkbenchTaskIntent      `json:"intent"`
+	Locale    string                   `json:"locale,omitempty"`
+	Question  string                   `json:"question"`
+	Scope     WorkbenchSessionScope    `json:"scope"`
+	SessionID string                   `json:"sessionId"`
+	Toolset   *WorkbenchSessionToolset `json:"toolset,omitempty"`
 }
 
 // WorkbenchRootCauseRun defines model for WorkbenchRootCauseRun.
@@ -28825,9 +30604,12 @@ type WorkbenchSendMessageRequest struct {
 // WorkbenchSendMessageStreamRequest defines model for WorkbenchSendMessageStreamRequest.
 type WorkbenchSendMessageStreamRequest struct {
 	AgentProviderID string `json:"agentProviderId,omitempty"`
-	Content         string `json:"content"`
 
-	// ContextSelection Explicit references and UTF-8 text attachments for this request only. The server rechecks source access and records used content hashes and truncations. Not inherited by subsequent requests.
+	// AssistantTask An explicit, owner-scoped assistant appearance task executed through chat. Images are bounded inline avatar assets, never arbitrary remote URLs. The instruction remains in content. No account identity or resource permissions change. Undo references a successful profile reply in the same owned session and rejects stale replacements.
+	AssistantTask *WorkbenchAssistantTask `json:"assistantTask,omitempty"`
+	Content       string                  `json:"content"`
+
+	// ContextSelection Explicit references, UTF-8 text attachments and a bounded inline chat image for this request. Images are ordinary message content and never imply an assistant appearance change. Images are retained with the owned message; references are rechecked on use.
 	ContextSelection *WorkbenchContextSelection `json:"contextSelection,omitempty"`
 	KnowledgeContext *struct {
 		Enabled          bool     `json:"enabled"`
@@ -28839,11 +30621,17 @@ type WorkbenchSendMessageStreamRequest struct {
 	ModelPreferences *WorkbenchModelPreferences `json:"modelPreferences,omitempty"`
 
 	// PinnedContext May contain branchReference with kind session, sessionId and fixed messageIds; source ownership and availability are rechecked on every use.
-	PinnedContext    map[string]any             `json:"pinnedContext,omitempty"`
+	PinnedContext map[string]any `json:"pinnedContext,omitempty"`
+
+	// RequestID A stable per-turn idempotency key. Reusing it with different content or selections is rejected.
+	RequestID        string                     `json:"requestId,omitempty"`
 	ScopeOverrides   AnyValue                   `json:"scopeOverrides,omitempty"`
 	SelectionContext *WorkbenchSelectionContext `json:"selectionContext,omitempty"`
 	Source           string                     `json:"source,omitempty"`
-	Toolset          AnyValue                   `json:"toolset,omitempty"`
+
+	// TaskIntent Capability preferences and explicit query parameters for this turn only. Does not change session mode, grant permission, or create scheduled inspections.
+	TaskIntent *WorkbenchTaskIntent `json:"taskIntent,omitempty"`
+	Toolset    AnyValue             `json:"toolset,omitempty"`
 }
 
 // WorkbenchSession defines model for WorkbenchSession.
@@ -28885,12 +30673,15 @@ type WorkbenchSessionMessageResultEnvelope struct {
 
 // WorkbenchSessionMetadata defines model for WorkbenchSessionMetadata.
 type WorkbenchSessionMetadata struct {
-	AgentProviderID  string                       `json:"agentProviderId,omitempty"`
-	AnalysisRunRefs  []WorkbenchRunRef            `json:"analysisRunRefs,omitempty"`
-	ArchivedAt       *time.Time                   `json:"archivedAt,omitempty"`
-	KnowledgeContext map[string]any               `json:"knowledgeContext,omitempty"`
-	Mode             WorkbenchSessionMetadataMode `json:"mode,omitempty"`
-	ModelPreferences *WorkbenchModelPreferences   `json:"modelPreferences,omitempty"`
+	AgentProviderID string            `json:"agentProviderId,omitempty"`
+	AnalysisRunRefs []WorkbenchRunRef `json:"analysisRunRefs,omitempty"`
+	ArchivedAt      *time.Time        `json:"archivedAt,omitempty"`
+
+	// ConversationKind Server-owned chat role. Older sessions without a role remain side chats. Main chats cannot be archived or deleted through the ordinary session operations.
+	ConversationKind WorkbenchSessionMetadataConversationKind `json:"conversationKind,omitempty"`
+	KnowledgeContext map[string]any                           `json:"knowledgeContext,omitempty"`
+	Mode             WorkbenchSessionMetadataMode             `json:"mode,omitempty"`
+	ModelPreferences *WorkbenchModelPreferences               `json:"modelPreferences,omitempty"`
 
 	// PinnedContext May contain branchReference with kind session, sessionId and fixed messageIds; source ownership and availability are rechecked on every use.
 	PinnedContext map[string]any           `json:"pinnedContext,omitempty"`
@@ -28901,6 +30692,9 @@ type WorkbenchSessionMetadata struct {
 	Tags          []string                 `json:"tags,omitempty"`
 	Toolset       *WorkbenchSessionToolset `json:"toolset,omitempty"`
 }
+
+// WorkbenchSessionMetadataConversationKind Server-owned chat role. Older sessions without a role remain side chats. Main chats cannot be archived or deleted through the ordinary session operations.
+type WorkbenchSessionMetadataConversationKind string
 
 // WorkbenchSessionMetadataMode defines model for WorkbenchSessionMetadata.Mode.
 type WorkbenchSessionMetadataMode string
@@ -28981,6 +30775,24 @@ type WorkbenchStreamEventBase struct {
 	Sequence  int       `json:"sequence"`
 	SessionID string    `json:"sessionId"`
 }
+
+// WorkbenchTaskIntent Capability preferences and explicit query parameters for this turn only. Does not change session mode, grant permission, or create scheduled inspections.
+type WorkbenchTaskIntent struct {
+	Capabilities []WorkbenchTaskIntentCapabilities `json:"capabilities,omitempty"`
+
+	// DataSourceID Legacy shared selection. A capability-specific data source takes precedence for that capability.
+	DataSourceID            string   `json:"dataSourceId,omitempty"`
+	InspectionRunIDs        []string `json:"inspectionRunIds,omitempty"`
+	MetricKey               string   `json:"metricKey,omitempty"`
+	MinDurationMs           *int     `json:"minDurationMs,omitempty"`
+	PerformanceDataSourceID string   `json:"performanceDataSourceId,omitempty"`
+	RootCauseProfileID      string   `json:"rootCauseProfileId,omitempty"`
+	TraceDataSourceID       string   `json:"traceDataSourceId,omitempty"`
+	TraceID                 string   `json:"traceId,omitempty"`
+}
+
+// WorkbenchTaskIntentCapabilities defines model for WorkbenchTaskIntent.Capabilities.
+type WorkbenchTaskIntentCapabilities string
 
 // WorkbenchTextAttachment A UTF-8 text/log/config file, at most 64 KiB per file and 512 KiB per request; binary or unsupported formats are rejected. Parsing is synchronous and successful submission means parsed. Evidence may be clipped to the request budget.
 type WorkbenchTextAttachment struct {
@@ -31084,11 +32896,22 @@ type ListAgentRunsParams struct {
 	SessionID string `form:"sessionId,omitempty" json:"sessionId,omitempty"`
 }
 
+// ListAgentRunEventsParams defines parameters for ListAgentRunEvents.
+type ListAgentRunEventsParams struct {
+	AfterSequence int `form:"afterSequence,omitempty" json:"afterSequence,omitempty"`
+}
+
 // ListWorkbenchAnalysisRunsParams defines parameters for ListWorkbenchAnalysisRuns.
 type ListWorkbenchAnalysisRunsParams struct {
 	ClusterID string `form:"clusterId,omitempty" json:"clusterId,omitempty"`
 	AlertID   string `form:"alertId,omitempty" json:"alertId,omitempty"`
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListPersonalFeedParams defines parameters for ListPersonalFeed.
+type ListPersonalFeedParams struct {
+	Before string `form:"before,omitempty" json:"before,omitempty"`
+	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
 // ListWorkbenchInspectionRunsParams defines parameters for ListWorkbenchInspectionRuns.
@@ -31107,11 +32930,35 @@ type ExecuteWorkbenchInspectionTaskParams struct {
 	ExpectedRevision int    `form:"expectedRevision,omitempty" json:"expectedRevision,omitempty"`
 }
 
+// SearchWorkbenchMessagesParams defines parameters for SearchWorkbenchMessages.
+type SearchWorkbenchMessagesParams struct {
+	Q         string                                 `form:"q" json:"q"`
+	Cursor    string                                 `form:"cursor,omitempty" json:"cursor,omitempty"`
+	Limit     int                                    `form:"limit,omitempty" json:"limit,omitempty"`
+	Workspace SearchWorkbenchMessagesParamsWorkspace `form:"workspace,omitempty" json:"workspace,omitempty"`
+}
+
+// SearchWorkbenchMessagesParamsWorkspace defines parameters for SearchWorkbenchMessages.
+type SearchWorkbenchMessagesParamsWorkspace string
+
 // ListWorkbenchRootCauseRunsParams defines parameters for ListWorkbenchRootCauseRuns.
 type ListWorkbenchRootCauseRunsParams struct {
 	ClusterID string `form:"clusterId,omitempty" json:"clusterId,omitempty"`
 	AlertID   string `form:"alertId,omitempty" json:"alertId,omitempty"`
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// GetWorkbenchMessageWindowParams defines parameters for GetWorkbenchMessageWindow.
+type GetWorkbenchMessageWindowParams struct {
+	Around string `form:"around,omitempty" json:"around,omitempty"`
+	Before string `form:"before,omitempty" json:"before,omitempty"`
+	After  string `form:"after,omitempty" json:"after,omitempty"`
+	Limit  int    `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// FindNativeRequestParams defines parameters for FindNativeRequest.
+type FindNativeRequestParams struct {
+	RequestID string `form:"requestId" json:"requestId"`
 }
 
 // ListDeliveryBatchesParams defines parameters for ListDeliveryBatches.
@@ -31756,6 +33603,12 @@ type ListVirtualizationOperationLogsParams struct {
 	Limit int `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
+// StreamVirtualMachineSSHSessionParams defines parameters for StreamVirtualMachineSSHSession.
+type StreamVirtualMachineSSHSessionParams struct {
+	// StreamTicket One-use browser stream ticket scoped to this session. CLI clients use bearer authentication.
+	StreamTicket string `form:"stream_ticket,omitempty" json:"stream_ticket,omitempty"`
+}
+
 // ListVirtualMachinesParams defines parameters for ListVirtualMachines.
 type ListVirtualMachinesParams struct {
 	Provider     string `form:"provider,omitempty" json:"provider,omitempty"`
@@ -32240,11 +34093,56 @@ type ClaimAgentRunJSONRequestBody = AgentRunClaimRequest
 // RecordAgentRunToolCallJSONRequestBody defines body for RecordAgentRunToolCall for application/json ContentType.
 type RecordAgentRunToolCallJSONRequestBody = AgentRunToolCallRequest
 
+// ResumeAgentRunJSONRequestBody defines body for ResumeAgentRun for application/json ContentType.
+type ResumeAgentRunJSONRequestBody = AgentRunResumeRequest
+
 // CreateWorkbenchAnalysisProfileJSONRequestBody defines body for CreateWorkbenchAnalysisProfile for application/json ContentType.
 type CreateWorkbenchAnalysisProfileJSONRequestBody = WorkbenchAnalysisProfileInput
 
 // UpdateWorkbenchAnalysisProfileJSONRequestBody defines body for UpdateWorkbenchAnalysisProfile for application/json ContentType.
 type UpdateWorkbenchAnalysisProfileJSONRequestBody = WorkbenchAnalysisProfileInput
+
+// UpdatePersonalAssistantJSONRequestBody defines body for UpdatePersonalAssistant for application/json ContentType.
+type UpdatePersonalAssistantJSONRequestBody = PersonalAssistantUpdateRequest
+
+// DecidePersonalAgentAccessJSONRequestBody defines body for DecidePersonalAgentAccess for application/json ContentType.
+type DecidePersonalAgentAccessJSONRequestBody = PersonalAgentAccessDecision
+
+// UpdatePersonalAssistantAvatarJSONRequestBody defines body for UpdatePersonalAssistantAvatar for application/json ContentType.
+type UpdatePersonalAssistantAvatarJSONRequestBody = PersonalAssistantAvatarRequest
+
+// DeletePersonalEnvironmentDataJSONRequestBody defines body for DeletePersonalEnvironmentData for application/json ContentType.
+type DeletePersonalEnvironmentDataJSONRequestBody = PersonalEnvironmentDataDeletionRequest
+
+// ChangePersonalEnvironmentJSONRequestBody defines body for ChangePersonalEnvironment for application/json ContentType.
+type ChangePersonalEnvironmentJSONRequestBody = PersonalEnvironmentActionRequest
+
+// ExportPersonalEnvironmentDataJSONRequestBody defines body for ExportPersonalEnvironmentData for application/json ContentType.
+type ExportPersonalEnvironmentDataJSONRequestBody = PersonalEnvironmentDataExportRequest
+
+// PreparePersonalGuestEnrollmentJSONRequestBody defines body for PreparePersonalGuestEnrollment for application/json ContentType.
+type PreparePersonalGuestEnrollmentJSONRequestBody = PersonalGuestPreparationInput
+
+// ProvisionPersonalGuestJSONRequestBody defines body for ProvisionPersonalGuest for application/json ContentType.
+type ProvisionPersonalGuestJSONRequestBody = PersonalGuestPreparationInput
+
+// ReconcilePersonalGuestProvisioningJSONRequestBody defines body for ReconcilePersonalGuestProvisioning for application/json ContentType.
+type ReconcilePersonalGuestProvisioningJSONRequestBody = PersonalGuestPreparationInput
+
+// InstallPersonalGuestToolsJSONRequestBody defines body for InstallPersonalGuestTools for application/json ContentType.
+type InstallPersonalGuestToolsJSONRequestBody = PersonalGuestToolsInput
+
+// StartPersonalGuestRuntimeJSONRequestBody defines body for StartPersonalGuestRuntime for application/json ContentType.
+type StartPersonalGuestRuntimeJSONRequestBody = PersonalGuestRuntimeInput
+
+// UpdatePersonalFeedFeedbackJSONRequestBody defines body for UpdatePersonalFeedFeedback for application/json ContentType.
+type UpdatePersonalFeedFeedbackJSONRequestBody = PersonalFeedFeedback
+
+// UpdatePersonalFeedSettingsJSONRequestBody defines body for UpdatePersonalFeedSettings for application/json ContentType.
+type UpdatePersonalFeedSettingsJSONRequestBody = PersonalFeedSettings
+
+// CreatePersonalAgentSessionJSONRequestBody defines body for CreatePersonalAgentSession for application/json ContentType.
+type CreatePersonalAgentSessionJSONRequestBody = WorkbenchCreateSessionRequest
 
 // CreateWorkbenchAutomationPolicyJSONRequestBody defines body for CreateWorkbenchAutomationPolicy for application/json ContentType.
 type CreateWorkbenchAutomationPolicyJSONRequestBody = WorkbenchAutomationPolicyInput
@@ -32272,6 +34170,9 @@ type CreateWorkbenchRootCauseRunJSONRequestBody = WorkbenchRootCauseRunInput
 
 // CreateWorkbenchSessionJSONRequestBody defines body for CreateWorkbenchSession for application/json ContentType.
 type CreateWorkbenchSessionJSONRequestBody = WorkbenchCreateSessionRequest
+
+// EnsureWorkbenchMainSessionJSONRequestBody defines body for EnsureWorkbenchMainSession for application/json ContentType.
+type EnsureWorkbenchMainSessionJSONRequestBody = WorkbenchMainSessionRequest
 
 // UpdateWorkbenchSessionJSONRequestBody defines body for UpdateWorkbenchSession for application/json ContentType.
 type UpdateWorkbenchSessionJSONRequestBody = WorkbenchUpdateSessionRequest
@@ -32708,6 +34609,9 @@ type PostSAMLIdentityProviderSSOFormdataRequestBody = SAMLRequestForm
 // CreateSecretJSONRequestBody defines body for CreateSecret for application/json ContentType.
 type CreateSecretJSONRequestBody = SecretCreateRequest
 
+// GenerateSecretSSHKeyJSONRequestBody defines body for GenerateSecretSSHKey for application/json ContentType.
+type GenerateSecretSSHKeyJSONRequestBody = SecretGenerateSSHKeyRequest
+
 // UpdateSecretJSONRequestBody defines body for UpdateSecret for application/json ContentType.
 type UpdateSecretJSONRequestBody = SecretUpdateRequest
 
@@ -32744,6 +34648,9 @@ type UploadSoftwarePackageMultipartRequestBody = SoftwarePackageUploadRequest
 // ImportSoftwarePackageJSONRequestBody defines body for ImportSoftwarePackage for application/json ContentType.
 type ImportSoftwarePackageJSONRequestBody = SoftwarePackageURLImportRequest
 
+// PrepareAgentSSHSessionJSONRequestBody defines body for PrepareAgentSSHSession for application/json ContentType.
+type PrepareAgentSSHSessionJSONRequestBody = AgentSSHSessionRequest
+
 // CreateSystemIntegrationJSONRequestBody defines body for CreateSystemIntegration for application/json ContentType.
 type CreateSystemIntegrationJSONRequestBody = SystemIntegrationCreateRequest
 
@@ -32759,6 +34666,9 @@ type CreateVirtualizationClusterJSONRequestBody = VirtualizationConnectionInput
 // UpdateVirtualizationClusterJSONRequestBody defines body for UpdateVirtualizationCluster for application/json ContentType.
 type UpdateVirtualizationClusterJSONRequestBody = VirtualizationConnectionInput
 
+// UpdateVirtualizationCapacityPolicyJSONRequestBody defines body for UpdateVirtualizationCapacityPolicy for application/json ContentType.
+type UpdateVirtualizationCapacityPolicyJSONRequestBody = VirtualizationCapacityPolicyInput
+
 // CreateVirtualizationFlavorJSONRequestBody defines body for CreateVirtualizationFlavor for application/json ContentType.
 type CreateVirtualizationFlavorJSONRequestBody = VirtualizationFlavorInput
 
@@ -32771,17 +34681,32 @@ type CreateVirtualizationImageJSONRequestBody = VirtualizationImageInput
 // UpdateVirtualizationImageJSONRequestBody defines body for UpdateVirtualizationImage for application/json ContentType.
 type UpdateVirtualizationImageJSONRequestBody = VirtualizationImageInput
 
+// RedeemVMSSHCredentialsJSONRequestBody defines body for RedeemVMSSHCredentials for application/json ContentType.
+type RedeemVMSSHCredentialsJSONRequestBody = VMSSHCredentialRedemptionInput
+
+// CheckVMSSHCommandAuthorizationJSONRequestBody defines body for CheckVMSSHCommandAuthorization for application/json ContentType.
+type CheckVMSSHCommandAuthorizationJSONRequestBody = VMSSHCredentialRedemptionInput
+
 // CreateVirtualMachineJSONRequestBody defines body for CreateVirtualMachine for application/json ContentType.
 type CreateVirtualMachineJSONRequestBody = VirtualMachineCreateInput
 
 // PlanVirtualMachineCreateJSONRequestBody defines body for PlanVirtualMachineCreate for application/json ContentType.
 type PlanVirtualMachineCreateJSONRequestBody = VirtualMachineCreateInput
 
+// UpdateVirtualMachineAccessBindingJSONRequestBody defines body for UpdateVirtualMachineAccessBinding for application/json ContentType.
+type UpdateVirtualMachineAccessBindingJSONRequestBody = VirtualMachineAccessBindingInput
+
 // PerformVirtualMachineActionJSONRequestBody defines body for PerformVirtualMachineAction for application/json ContentType.
 type PerformVirtualMachineActionJSONRequestBody = VirtualMachineActionInput
 
 // PowerVirtualMachineJSONRequestBody defines body for PowerVirtualMachine for application/json ContentType.
 type PowerVirtualMachineJSONRequestBody = VirtualMachinePowerInput
+
+// CreateVirtualMachineSSHCommandJSONRequestBody defines body for CreateVirtualMachineSSHCommand for application/json ContentType.
+type CreateVirtualMachineSSHCommandJSONRequestBody = VirtualMachineSSHCommandInput
+
+// CreateVirtualMachineSSHSessionJSONRequestBody defines body for CreateVirtualMachineSSHSession for application/json ContentType.
+type CreateVirtualMachineSSHSessionJSONRequestBody = VirtualMachineSSHSessionInput
 
 // SaveVirtualizationWorkerPoolJSONRequestBody defines body for SaveVirtualizationWorkerPool for application/json ContentType.
 type SaveVirtualizationWorkerPoolJSONRequestBody = VirtualizationWorkerPoolInput
@@ -32855,6 +34780,22 @@ func (a *AgentRun) UnmarshalJSON(b []byte) error {
 		delete(object, "chat")
 	}
 
+	if raw, found := object["eventSequence"]; found {
+		err = json.Unmarshal(raw, &a.EventSequence)
+		if err != nil {
+			return fmt.Errorf("error reading 'eventSequence': %w", err)
+		}
+		delete(object, "eventSequence")
+	}
+
+	if raw, found := object["executionOwner"]; found {
+		err = json.Unmarshal(raw, &a.ExecutionOwner)
+		if err != nil {
+			return fmt.Errorf("error reading 'executionOwner': %w", err)
+		}
+		delete(object, "executionOwner")
+	}
+
 	if raw, found := object["id"]; found {
 		err = json.Unmarshal(raw, &a.ID)
 		if err != nil {
@@ -32885,6 +34826,14 @@ func (a *AgentRun) UnmarshalJSON(b []byte) error {
 			return fmt.Errorf("error reading 'parentRunId': %w", err)
 		}
 		delete(object, "parentRunId")
+	}
+
+	if raw, found := object["phase"]; found {
+		err = json.Unmarshal(raw, &a.Phase)
+		if err != nil {
+			return fmt.Errorf("error reading 'phase': %w", err)
+		}
+		delete(object, "phase")
 	}
 
 	if raw, found := object["providerId"]; found {
@@ -32951,6 +34900,14 @@ func (a *AgentRun) UnmarshalJSON(b []byte) error {
 		delete(object, "status")
 	}
 
+	if raw, found := object["stopReason"]; found {
+		err = json.Unmarshal(raw, &a.StopReason)
+		if err != nil {
+			return fmt.Errorf("error reading 'stopReason': %w", err)
+		}
+		delete(object, "stopReason")
+	}
+
 	if raw, found := object["timeoutSeconds"]; found {
 		err = json.Unmarshal(raw, &a.TimeoutSeconds)
 		if err != nil {
@@ -32973,6 +34930,14 @@ func (a *AgentRun) UnmarshalJSON(b []byte) error {
 			return fmt.Errorf("error reading 'toolset': %w", err)
 		}
 		delete(object, "toolset")
+	}
+
+	if raw, found := object["usageKnown"]; found {
+		err = json.Unmarshal(raw, &a.UsageKnown)
+		if err != nil {
+			return fmt.Errorf("error reading 'usageKnown': %w", err)
+		}
+		delete(object, "usageKnown")
 	}
 
 	if len(object) != 0 {
@@ -33018,6 +34983,16 @@ func (a AgentRun) MarshalJSON() ([]byte, error) {
 		}
 	}
 
+	object["eventSequence"], err = json.Marshal(a.EventSequence)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'eventSequence': %w", err)
+	}
+
+	object["executionOwner"], err = json.Marshal(a.ExecutionOwner)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'executionOwner': %w", err)
+	}
+
 	object["id"], err = json.Marshal(a.ID)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling 'id': %w", err)
@@ -33040,6 +35015,11 @@ func (a AgentRun) MarshalJSON() ([]byte, error) {
 	object["parentRunId"], err = json.Marshal(a.ParentRunID)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling 'parentRunId': %w", err)
+	}
+
+	object["phase"], err = json.Marshal(a.Phase)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'phase': %w", err)
 	}
 
 	object["providerId"], err = json.Marshal(a.ProviderID)
@@ -33090,6 +35070,11 @@ func (a AgentRun) MarshalJSON() ([]byte, error) {
 		return nil, fmt.Errorf("error marshaling 'status': %w", err)
 	}
 
+	object["stopReason"], err = json.Marshal(a.StopReason)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'stopReason': %w", err)
+	}
+
 	object["timeoutSeconds"], err = json.Marshal(a.TimeoutSeconds)
 	if err != nil {
 		return nil, fmt.Errorf("error marshaling 'timeoutSeconds': %w", err)
@@ -33107,6 +35092,11 @@ func (a AgentRun) MarshalJSON() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("error marshaling 'toolset': %w", err)
 		}
+	}
+
+	object["usageKnown"], err = json.Marshal(a.UsageKnown)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling 'usageKnown': %w", err)
 	}
 
 	for fieldName, field := range a.AdditionalProperties {

@@ -1,12 +1,10 @@
-import { readdir, readFile } from "node:fs/promises";
-import { join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { readFile } from "node:fs/promises";
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import { parse } from "yaml";
+import { fixtureSchemaNames, validateFixtureDirectory, formatAjvErrors } from "./validate-fixtures.mjs";
 
 const root = new URL("..", import.meta.url);
-const rootPath = fileURLToPath(root);
 const openapiPath = "openapi/soha-api.yaml";
 
 const requiredJsonSchemas = [
@@ -26,6 +24,22 @@ const requiredJsonSchemas = [
   { file: "agent/agent-checkpoint.schema.json", fixtureDir: "fixtures/json-schema/agent-checkpoint" },
   { file: "agent/environment-lease.schema.json", fixtureDir: "fixtures/json-schema/environment-lease" },
   { file: "agent/environment-snapshot.schema.json", fixtureDir: "fixtures/json-schema/environment-snapshot" },
+  { file: "agent/personal-environment-request.schema.json", fixtureDir: "fixtures/json-schema/personal-environment-request" },
+  { file: "agent/personal-environment-result.schema.json", fixtureDir: "fixtures/json-schema/personal-environment-result" },
+  { file: "agent/personal-environment-export.schema.json", fixtureDir: "fixtures/json-schema/personal-environment-export" },
+  { file: "agent/personal-environment-preflight-request.schema.json", fixtureDir: "fixtures/json-schema/personal-environment-preflight-request" },
+  { file: "agent/personal-environment-preflight-result.schema.json", fixtureDir: "fixtures/json-schema/personal-environment-preflight-result" },
+  { file: "agent/personal-guest-binding.schema.json", fixtureDir: "fixtures/json-schema/personal-guest-binding" },
+  { file: "agent/personal-guest-enrollment.schema.json", fixtureDir: "fixtures/json-schema/personal-guest-enrollment" },
+  { file: "agent/personal-guest-heartbeat.schema.json", fixtureDir: "fixtures/json-schema/personal-guest-heartbeat" },
+  { file: "agent/personal-guest-renewal.schema.json", fixtureDir: "fixtures/json-schema/personal-guest-renewal" },
+  { file: "agent/personal-guest-data-plan.schema.json", fixtureDir: "fixtures/json-schema/personal-guest-data-plan" },
+  { file: "agent/personal-guest-provisioning.schema.json", fixtureDir: "fixtures/json-schema/personal-guest-provisioning" },
+  { file: "agent/personal-guest-runtime.schema.json", fixtureDir: "fixtures/json-schema/personal-guest-runtime" },
+  { file: "agent/personal-guest-runtime-result.schema.json", fixtureDir: "fixtures/json-schema/personal-guest-runtime-result" },
+  { file: "agent/personal-guest-tools.schema.json", fixtureDir: "fixtures/json-schema/personal-guest-tools" },
+  { file: "agent/personal-browser-network-response.schema.json", fixtureDir: "fixtures/json-schema/personal-browser-network-response" },
+  { file: "agent/personal-browser-network-request.schema.json", fixtureDir: "fixtures/json-schema/personal-browser-network-request" },
   { file: "agent/agent-provider-runtime-event.schema.json", fixtureDir: "fixtures/json-schema/agent-provider-runtime-event" },
   { file: "evaluation/evaluation-dataset.schema.json", fixtureDir: "fixtures/json-schema/evaluation-dataset" },
   { file: "evaluation/evaluation-run.schema.json", fixtureDir: "fixtures/json-schema/evaluation-run" },
@@ -36,6 +50,7 @@ const requiredJsonSchemas = [
   { file: "knowledge/context-envelope.schema.json", fixtureDir: "fixtures/json-schema/context-envelope" },
   { file: "knowledge/connector-definition.schema.json", fixtureDir: "fixtures/json-schema/connector-definition" },
   { file: "knowledge/connector-checkpoint.schema.json", fixtureDir: "fixtures/json-schema/connector-checkpoint" },
+  { file: "knowledge/source-import-policy.schema.json", fixtureDir: "fixtures/json-schema/source-import-policy" },
   { file: "knowledge/ingestion-job.schema.json", fixtureDir: "fixtures/json-schema/ingestion-job" },
   { file: "knowledge/ingestion-stage.schema.json", fixtureDir: "fixtures/json-schema/ingestion-stage" },
   { file: "knowledge/index-publish.schema.json", fixtureDir: "fixtures/json-schema/index-publish" },
@@ -79,6 +94,7 @@ const requiredJsonSchemas = [
   { file: "events/event-envelope.schema.json", fixtureDir: "fixtures/json-schema/event-envelope" },
   { file: "auth/token-claims.schema.json", fixtureDir: "fixtures/json-schema/token-claims" },
   { file: "auth/permission-catalog.schema.json", fixtureDir: "fixtures/json-schema/permission-catalog" },
+  { file: "connectors/connector-action.schema.json", fixtureDir: "fixtures/json-schema/connector-action" },
   {
     file: "connectors/connector-event-envelope.schema.json",
     fixtureDir: "fixtures/json-schema/connector-event-envelope",
@@ -98,6 +114,25 @@ const requiredJsonSchemas = [
 ];
 
 const requiredOpenapiFixtureSchemas = [
+  "PersonalDockerEnvironmentPolicy",
+  "PersonalVMEnvironmentPolicy",
+  "PersonalEnvironmentQuota",
+  "PersonalAssistantArtifactListEnvelope",
+  "PersonalAssistantUpdateRequest",
+  "PersonalEnvironmentActionRequest",
+  "PersonalEnvironmentDataDeletionRequest",
+  "PersonalEnvironmentDataExportRequest",
+  "PersonalGuestToolsInput",
+  "PersonalGuestRuntimeInput",
+  "PersonalGuestRuntimeEnvelope",
+  "PersonalWorkspaceRuntimeEnvelope",
+  "PersonalWorkspaceRuntime",
+  "PersonalEnvironment",
+  "PersonalEnvironmentEnvelope",
+  "PersonalEnvironmentUsage",
+  "PersonalEnvironmentTemplate",
+  "PersonalEnvironmentTemplateListEnvelope",
+  "WorkbenchMainSessionRequest",
   "ClusterAgentUpgradeInput",
   "ToolCapability",
   "ToolInvocationRequest",
@@ -110,6 +145,19 @@ const requiredOpenapiFixtureSchemas = [
   "DeliveryBatchAssessmentInput",
   "ObservabilityMetricAssessmentInput",
   "VirtualMachineCreateInput",
+  "VirtualizationCapacityPolicyInput",
+  "VirtualMachineGuestAccessInput",
+  "SecretGenerateSSHKeyRequest",
+  "SecretReferenceUsage",
+  "VirtualMachineAccessBindingInput",
+  "VirtualMachineSSHSessionInput",
+  "VirtualMachineSSHCommandInput",
+  "AgentSSHSessionRequest",
+  "AgentSSHCommandRequest",
+  "AgentSSHCommandResult",
+  "VMSSHCredentialRedemptionInput",
+  "VirtualMachineSSHCommand",
+  "VirtualMachineSSHFrame",
   "VirtualizationCapacityInput",
   "VirtualizationCapacityResult",
   "VirtualizationWorkerPoolInput",
@@ -145,6 +193,8 @@ const requiredOpenapiFixtureSchemas = [
 
   "AgentChatInput",
   "WorkbenchModelPreferences",
+  "WorkbenchModelOption",
+  "WorkbenchContextUsage",
   "PasswordLoginRequest",
   "UpdateProfileRequest",
   "ChangePasswordRequest",
@@ -199,6 +249,11 @@ const requiredOpenapiFixtureSchemas = [
   "MCPCapabilityListEnvelope",
   "CloudExtensionPointListEnvelope",
   "WorkbenchStreamEvent",
+  "WorkbenchTaskIntent",
+  "WorkbenchProfessionalCapabilityInput",
+  "AgentRunResumeRequest",
+  "AgentRunEventListEnvelope",
+  "KnowledgeSourceDocument",
   "AgentProviderRegistryAcknowledgement",
   "KnowledgeIngestionJobInput",
   "EvaluationGateRequest",
@@ -386,7 +441,7 @@ for (const contract of requiredJsonSchemas) {
 
   const validate = ajv.compile(parsed);
   jsonSchemaValidators.set(contract.file, validate);
-  jsonSchemaFixtureCount += await validateFixtureDirectory(contract.fixtureDir, validate);
+  jsonSchemaFixtureCount += await validateFixtureDirectory(new URL(contract.fixtureDir + "/", root), validate);
 }
 
 for (const file of requiredSdkEntrypoints) {
@@ -411,9 +466,9 @@ console.log(
 async function validateOpenapiFixtures(openapi) {
   const openapiAjv = buildOpenapiAjv(openapi);
   let fixtureCount = 0;
-  for (const schemaName of requiredOpenapiFixtureSchemas) {
+  for (const schemaName of await fixtureSchemaNames(new URL("fixtures/openapi/", root), requiredOpenapiFixtureSchemas)) {
     const validate = getOpenapiSchemaValidator(openapiAjv, schemaName);
-    fixtureCount += await validateFixtureDirectory(`fixtures/openapi/${schemaName}`, validate);
+    fixtureCount += await validateFixtureDirectory(new URL(`fixtures/openapi/${schemaName}/`, root), validate);
   }
   return fixtureCount;
 }
@@ -482,33 +537,6 @@ function getOpenapiSchemaValidator(openapiAjv, schemaName) {
     throw new Error(`${openapiPath} is missing fixture/example-covered schema ${schemaName}`);
   }
   return validate;
-}
-
-async function validateFixtureDirectory(fixtureDir, validate) {
-  const validDir = join(rootPath, fixtureDir, "valid");
-  const invalidDir = join(rootPath, fixtureDir, "invalid");
-  const validCount = await validateFixtures(validDir, true, validate);
-  const invalidCount = await validateFixtures(invalidDir, false, validate);
-  if (validCount === 0 || invalidCount === 0) {
-    throw new Error(`${fixtureDir} must contain at least one valid and one invalid fixture`);
-  }
-  return validCount + invalidCount;
-}
-
-async function validateFixtures(dir, shouldPass, validate) {
-  const files = (await readdir(dir).catch(() => [])).filter((file) => file.endsWith(".json")).sort();
-  for (const file of files) {
-    const fixturePath = join(dir, file);
-    const payload = JSON.parse(await readFile(fixturePath, "utf8"));
-    const passed = validate(payload);
-    if (shouldPass && !passed) {
-      throw new Error(`${fixturePath} should be valid:\n${formatAjvErrors(validate.errors)}`);
-    }
-    if (!shouldPass && passed) {
-      throw new Error(`${fixturePath} should be invalid`);
-    }
-  }
-  return files.length;
 }
 
 async function validateExampleFile(file, validate) {
@@ -803,10 +831,4 @@ function collectOperationIds(openapi) {
 
 function isHttpMethod(method) {
   return ["get", "post", "put", "patch", "delete"].includes(method);
-}
-
-function formatAjvErrors(errors) {
-  return (errors ?? [])
-    .map((error) => `- ${error.instancePath || "/"} ${error.message}`)
-    .join("\n");
 }

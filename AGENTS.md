@@ -22,3 +22,9 @@
 - 保留用户未提交改动，仅提交任务所属变更；不自动合并 PR、发布包或移动公开标签。
 
 - 测试与审查的证据边界见 [testing reference](.agents/skills/soha-contracts/references/testing.md)；多仓安全/OCR专项可读取 Core 的 soha-security，独立 clone 保留原有门禁，不自动获取公共 Skill。
+
+## Graphify
+
+- 跨模块依赖、共享能力影响、模块迁移或跨仓任务，先查询已有图谱并核对源码；在已确认的多仓工作区按 [Graphify 开发手册](../docs/graphify-development/runbook.md)检查新鲜度、查询和刷新。
+- 结构变更稳定后显式刷新受影响仓库及跨仓图；普通小修改、文案和局部样式不自动建图。刷新失败先诊断，不默认使用 `--force`。
+- 独立克隆时使用本仓 `graphify-out/graph.json` 与原生 Graphify 命令；缺少工具或图谱时直接查源码并说明缺口，不要求补齐相邻仓库。

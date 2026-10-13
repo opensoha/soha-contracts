@@ -2843,6 +2843,222 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/virtualization/clusters/{connectionID}/capacity-policy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getVirtualizationCapacityPolicy"];
+        put: operations["updateVirtualizationCapacityPolicy"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/vms/{vmID}/access-binding": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getVirtualMachineAccessBinding"];
+        put: operations["updateVirtualMachineAccessBinding"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/vms/{vmID}/ssh-sessions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createVirtualMachineSSHSession"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/vms/{vmID}/ssh-commands": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["createVirtualMachineSSHCommand"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/ssh-commands/{commandID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                commandID: string;
+            };
+            cookie?: never;
+        };
+        get: operations["getVMSSHCommand"];
+        put?: never;
+        post?: never;
+        delete: operations["cancelVMSSHCommand"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/ssh-sessions/{sessionID}/execution-status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Bound execution Agent rechecks current owner, approval, VM identity and lease before and during a command. Returns no command or credential material. */
+        post: operations["checkVMSSHCommandAuthorization"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/ssh-sessions/{sessionID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getVirtualMachineSSHSession"];
+        put?: never;
+        post?: never;
+        delete: operations["closeVirtualMachineSSHSession"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/ssh-sessions/{sessionID}/stream": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Origin-bound, one-use authenticated WebSocket stream of VirtualMachineSSHFrame messages. Maximum lifetime is 30 minutes; idle timeout is 5 minutes. Private keys remain on the execution Agent. */
+        get: operations["streamVirtualMachineSSHSession"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ssh/capability": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Standalone Agent route /api/v1/ssh/capability; requires its configured bearer token. */
+        get: operations["getAgentSSHCapability"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ssh/sessions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Standalone Agent route /api/v1/ssh/sessions; stages a one-use request for its session WebSocket. */
+        post: operations["prepareAgentSSHSession"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ssh/sessions/{sessionID}/stream": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Agent bearer authentication. Each staged session can be claimed once. */
+        get: operations["streamAgentSSHSession"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/virtualization/ssh-sessions/{sessionID}/credentials": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Execution Agent bearer authentication plus one-use lease, session and Agent identity checks. No human or model credential read endpoint. */
+        post: operations["redeemVMSSHCredentials"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/secrets/generate-ssh-key": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["generateSecretSSHKey"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/virtualization/clusters": {
         parameters: {
             query?: never;
@@ -3650,6 +3866,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/copilot/sessions/{sessionID}/native-request": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read the original Native run by the current user's session and client request ID after a lost creation response. This never creates or resumes a run. A 404 is only absence at the time of the read and does not prove that an in-flight submission cannot commit later. */
+        get: operations["findNativeRequest"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/agent-runs/{runID}/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read durable Native events owned by the current user. Reconnection only reads; it never resubmits a run or action. */
+        get: operations["listAgentRunEvents"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/agent-runs/{runID}/resume": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Resume the same paused Native run after current authorization and waiting-object checks. Unknown write outcomes cannot be replayed by this operation. */
+        post: operations["resumeAgentRun"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/copilot/global-assistant/events": {
         parameters: {
             query?: never;
@@ -3922,6 +4189,336 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/copilot/assistant/access": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Current user's activation state. Ordinary chat permission allows viewing and requesting activation, never approves it. */
+        get: operations["getPersonalAgentAccess"];
+        put?: never;
+        /** @description Idempotently requests activation. Rejected or revoked requests may be submitted again. Does not create or wake compute. */
+        post: operations["requestPersonalAgentAccess"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/assistant/access/requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Activation applications, restricted to ai.environments.update. */
+        get: operations["listPersonalAgentAccessRequests"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/assistant/access/requests/{userId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** @description Approve or reject a pending request, or revoke approved access. Requires ai.environments.update and the current revision. No self-service approval. */
+        patch: operations["decidePersonalAgentAccess"];
+        trace?: never;
+    };
+    "/copilot/assistant/sessions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Only the authenticated activated user's Heya sessions. */
+        get: operations["listPersonalAgentSessions"];
+        put?: never;
+        /** @description Creates a Heya side chat after activation. Ownership and conversation kind are assigned by the server. */
+        post: operations["createPersonalAgentSession"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/assistant": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Idempotently returns the authenticated user's persistent assistant identity and dedicated Heya main chat after approved activation. Existing ordinary chat history is retained separately. No owner, workspace or runtime identity is accepted from the client. */
+        post: operations["ensurePersonalAssistant"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["updatePersonalAssistant"];
+        trace?: never;
+    };
+    "/copilot/assistant/avatar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** @description Updates only the authenticated user's assistant image and motion preference; never changes account profile or assistant name. Empty image values restore the default image. Animated formats require a static PNG/JPEG poster. Requires observe.ai.chat permission. */
+        patch: operations["updatePersonalAssistantAvatar"];
+        trace?: never;
+    };
+    "/copilot/assistant/environment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Read the authenticated assistant's latest environment receipt
+         * @description Does not contact the provider or dispatch work. Expired or unconfirmed receipts are unknown. Node credentials and Docker handles remain private.
+         */
+        get: operations["getPersonalEnvironment"];
+        put?: never;
+        /**
+         * Wake, sleep or reconcile the authenticated assistant's environment
+         * @description Select an administrator-configured template on first wake. Owner, node, quota and original lease are server-derived and immutable. Lost receipts become unknown; reconciliation inspects the original lease without replaying commands. Sleeping retains persistent data. This operation does not delete data.
+         */
+        post: operations["changePersonalEnvironment"];
+        /**
+         * Explicitly delete the authenticated assistant's personal files
+         * @description Requires the current assistant ID, exact full name and environment version, a stopped environment and no active task or operation. Deletion retains a private non-recreation marker. Unknown deletion remains unconfirmed; reconciliation never implies that files were deleted. No automatic recreation or request retry.
+         */
+        delete: operations["deletePersonalEnvironmentData"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/assistant/environment/runtime": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Read shared workspace runtime state across Web and App
+         * @description Reloads approved owner authorization, VM connect scope and current guest identity. Returns the latest retained human operation and authoritative browser control generation, without dispatching work. Browser frames are historical observations; only the current unexpired control can authorize a new action.
+         */
+        get: operations["getPersonalWorkspaceRuntime"];
+        put?: never;
+        /**
+         * Start one bounded owner-authorized VM workspace operation
+         * @description Requires approved personal Agent access, current owned VM connect permission and resource scope, verified runtime readiness and an exact environment revision. Core freezes owner, data, quota, argv and control identity; a durable managed SSH operation only launches the fixed mTLS broker. Client input cannot select a VM, host path, image or credential. Commands and Docker containers have no host credentials, socket or network; files use bounded UTF-8 content and content CAS. Lost receipts are recovered by GET, never by replaying work. A human browser action uses current user control; Agent writes use the separate Gateway approval path.
+         */
+        post: operations["startPersonalGuestRuntime"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/assistant/environment/runtime/{operationId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Read the original owner's retained workspace receipt
+         * @description Reloads current authorization and scope and correlates the original frozen operation; never dispatches a command, navigates or recreates files. Stale or unconfirmed outcomes remain unknown. A receipt for an older browser control generation cannot mutate the current control.
+         */
+        get: operations["getPersonalGuestRuntime"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/assistant/environment/guest-tools": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Install the owned VM's fixed execution tools without initializing data
+         * @description Requires the current approved owner, VM connect/resize permissions and resource scope, initialized data, the exact environment revision and no active task. Core freezes signed Debian package versions, a digest-pinned Docker image, artifact and quota; the durable provider task executes only the fixed installer on this VM. No commands, paths, format, delete or other VM configuration are accepted. The same idempotency key reads the original operation; uncertain effects never trigger automatic redispatch. Installation leaves execution readiness pending until a current isolated runtime probe is verified.
+         */
+        post: operations["installPersonalGuestTools"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/assistant/environment/guest-provisioning": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Initialize the current owner's personal VM data and managed guest service
+         * @description Requires approved personal Agent access, VM connect and resize permissions and resource scope for the frozen owned VM. An Ed25519 public CSR is the only key input; the matching private key remains in the VM at the fixed bootstrap path. Core atomically reserves the environment CAS, certificate and encrypted durable task. The provider executes a fixed privileged installer with a Core-pinned artifact; no arbitrary command, path, resource deletion or other VM configuration change is accepted. Initialization is dispatched once; uncertain outcomes retain the original operation and cannot be automatically retried or canceled. A verified data receipt does not grant task/tool execution readiness. Recover a lost response by reading the current environment and operations rather than repeating the POST.
+         */
+        post: operations["provisionPersonalGuest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/assistant/environment/guest-provisioning/{operationId}/reconcile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Explicitly reconcile the original retained personal guest operation
+         * @description Requires the current approved owner, VM connect/resize permission, resource scope, exact environment CAS and the original failed/timed-out owned operation. At most three total dispatch attempts are permitted. Core retains operation and frozen data identity, prepares a fresh guest identity and encrypted bootstrap, and records explicit reconciliation. A root bootstrap lock prevents concurrent installers. The protected original format receipt remains authoritative; a dispatched format never repeats, even if the disk still looks blank. A matching filesystem UUID permits completion; mismatched/absent evidence fails closed. No resource is deleted and no generic root command is accepted.
+         */
+        post: operations["reconcilePersonalGuestProvisioning"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/assistant/environment/guest-enrollment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Prepare the current owner's dedicated personal VM guest identity
+         * @description Requires an approved current personal Agent owner and the frozen personal VM, provider and independent disk proof. Core derives the binding identity and revision and signs only the submitted Ed25519 public key for dedicated guest mTLS. Returns a short single-use challenge without granting readiness or task execution. Private keys remain in the VM. Do not automatically retry an uncertain response; explicit preparation supersedes the previous guest revision while retaining its audit history.
+         */
+        post: operations["preparePersonalGuestEnrollment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/assistant/environment/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Download the authenticated assistant's retained personal files
+         * @description Requires the current assistant ID and environment version, a sleeping environment and no active task. Returns a verified TAR archive up to 256 MiB after the Agent stream and SHA-256 receipt are complete. Symlinks are stored as links and never followed. Does not wake, delete, extract or publish data. Temporary server files are removed when the response ends; no server export history is retained. No automatic retry.
+         */
+        post: operations["exportPersonalEnvironmentData"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/assistant/environment/templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List personal Docker template choices within the current user's node scope
+         * @description Returns active supported administrator templates without node IDs, credentials or internal policies. A choice describes configuration only; acquisition must obtain a fresh Agent receipt before readiness is claimed.
+         */
+        get: operations["listPersonalEnvironmentTemplates"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/assistant/tasks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Returns at most 50 recent tasks belonging to the authenticated user across their conversations. Requires chat access; does not grant access to other users or platform-wide AI administration. */
+        get: operations["listPersonalAssistantTasks"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/assistant/artifacts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Returns at most 50 recent saved artifacts owned by the authenticated user across chats and background tasks. A task result mirrored into a message appears once. Requires chat access. */
+        get: operations["listPersonalAssistantArtifacts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/copilot/sessions": {
         parameters: {
             query?: never;
@@ -3932,6 +4529,23 @@ export interface paths {
         get: operations["listWorkbenchSessions"];
         put?: never;
         post: operations["createWorkbenchSession"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/sessions/main": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Returns the current user's persistent main chat, creating it only once. Concurrent requests return the same session. Existing sessions remain separate. The initial provider is applied only when creating the main chat. */
+        post: operations["ensureWorkbenchMainSession"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3952,6 +4566,109 @@ export interface paths {
         options?: never;
         head?: never;
         patch: operations["updateWorkbenchSession"];
+        trace?: never;
+    };
+    "/copilot/messages/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Search owned, unarchived user and assistant messages. Current source ACL applies before matching and snippets; opaque cursor follows stable descending message time and ID. */
+        get: operations["searchWorkbenchMessages"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/sessions/{sessionID}/messages/window": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read a chronological message window, latest by default. around, before and after are mutually exclusive owned message IDs; cursors allow stable adjacent windows. Does not change the legacy message list. */
+        get: operations["getWorkbenchMessageWindow"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/assistant/feed": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read owned content feed, settings, refresh state and eligible search sources. Does not enqueue work on read. */
+        get: operations["listPersonalFeed"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/assistant/feed/settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** @description Update owned content instructions/source and optional daily updates. Automatic updates are disabled by default; changes invalidate unfinished refreshes. */
+        put: operations["updatePersonalFeedSettings"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/assistant/feed/refresh": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Queue one bounded refresh; duplicate active refreshes coalesce. User scoped cooldown prevents repeated paid calls. A valid read-only synchronous search source is required. */
+        post: operations["refreshPersonalFeed"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/copilot/assistant/feed/items/{itemID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read an owned post for discussion context. */
+        get: operations["getPersonalFeedItem"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** @description Save liked/hidden feedback for an owned post. Hidden posts remain stored and can be referenced by their owner. */
+        patch: operations["updatePersonalFeedFeedback"];
         trace?: never;
     };
     "/copilot/sessions/{sessionID}/messages": {
@@ -6730,6 +7447,22 @@ export interface paths {
         options?: never;
         head?: never;
         patch: operations["updateSecret"];
+        trace?: never;
+    };
+    "/secrets/{secretID}/references": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listSecretReferences"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/secrets/{secretID}/versions": {
@@ -13451,7 +14184,9 @@ export interface components {
             /** @enum {string} */
             kind: "inline" | "http" | "git" | "object";
             version?: string;
+            /** @description Gateway execution uses soha://secrets/<id> with an optional /versions/<n>. Legacy secret: references remain readable but require explicit configuration migration before execution. */
             secretRef: string;
+            /** @description External connector config may include importPolicy conforming to knowledge/source-import-policy.schema.json. Core uses this trusted ceiling; fetched ACLs cannot expand it. Omission defaults to the knowledge-base owner. Credentials use secretRef and Gateway authorization, never config values. */
             config: {
                 [key: string]: unknown;
             };
@@ -13716,6 +14451,7 @@ export interface components {
             fact: string;
             /** @enum {string} */
             sourceType: "explicit_user" | "curated_extractor";
+            /** @description Source receipts. Workbench model context supports soha://session/<sessionId>/message/<messageId> and rechecks current ownership and source access. Unsupported historical references remain stored but are withheld from model context. */
             sourceRefs: string[];
             confidence: number;
             /** Format: date-time */
@@ -13892,13 +14628,63 @@ export interface components {
             /** Format: date-time */
             updatedAt: string;
         };
+        /** @description Administrator-selected registered Agent connection and hard personal-data quota. No user-entered URL, Docker handle, image or credential. Only container templates can use this policy; existing bindings freeze it and cannot silently move or resize their data. Runtime readiness still requires real Agent receipts. */
+        PersonalDockerEnvironmentPolicy: {
+            /** Format: uuid */
+            agentClusterId: string;
+            quota: components["schemas"]["PersonalEnvironmentQuota"];
+            leaseSeconds: number;
+        };
+        /** @description Administrator assignment of an existing Soha-managed PVE VM and independent data disk to one user. The server checks administrator VM access update scope and the current approved owner's VM view scope. Binding freezes fresh provider and disk identity; saving or binding does not initialize data or grant runtime readiness. No provider URL, credential, root disk or arbitrary device path is accepted. */
+        PersonalVMEnvironmentPolicy: {
+            /** Format: uuid */
+            ownerId: string;
+            /**
+             * Format: uuid
+             * @description Soha VM ID
+             */
+            computeRef: string;
+            /** @enum {string} */
+            provider: "pve";
+            dataDiskSerial: string;
+            /**
+             * Format: int64
+             * @description Exact independent disk size in whole GiB.
+             */
+            dataDiskBytes: number;
+            quota: components["schemas"]["PersonalEnvironmentQuota"];
+            leaseSeconds: number;
+        };
+        PersonalEnvironmentQuota: {
+            /**
+             * Format: int64
+             * @description Hard charged persistent-data bytes; temporary mounts charge memory instead.
+             */
+            diskBytes: number;
+            /** Format: int64 */
+            memoryBytes: number;
+            /**
+             * Format: int64
+             * @description CPU millicores; 1000 is one CPU.
+             */
+            cpuUnits: number;
+            maxProcesses: number;
+            /**
+             * @description Direct network access is not supported by this personal environment policy.
+             * @constant
+             */
+            networkEgress: false;
+        };
+        /** @description Personal policies are mutually exclusive and require matching container or vm backend, an ID of at most 128 characters, and empty legacy resourcePolicy/networkPolicy maps. VM backend requires personalVM; its quota cannot exceed the independent disk size. The server checks current resource scope and explicit owner assignment; saving configuration is not an environment readiness receipt. */
         AIEnvironmentTemplateInput: {
             id: string;
             name: string;
             /** @enum {string} */
-            backend: "container" | "kubernetes";
+            backend: "container" | "kubernetes" | "vm";
             /** @enum {string} */
             isolationMode: "read-only" | "disposable-write";
+            personalDocker?: components["schemas"]["PersonalDockerEnvironmentPolicy"];
+            personalVM?: components["schemas"]["PersonalVMEnvironmentPolicy"];
             resourcePolicy?: {
                 [key: string]: unknown;
             };
@@ -13906,13 +14692,16 @@ export interface components {
                 [key: string]: unknown;
             };
         };
+        /** @description Personal policies are mutually exclusive and require matching container or vm backend, an ID of at most 128 characters, and empty legacy resourcePolicy/networkPolicy maps. VM backend requires personalVM; its quota cannot exceed the independent disk size. The server checks current resource scope and explicit owner assignment; saving configuration is not an environment readiness receipt. */
         AIEnvironmentTemplate: {
             id: string;
             name: string;
             /** @enum {string} */
-            backend: "container" | "kubernetes";
+            backend: "container" | "kubernetes" | "vm";
             /** @enum {string} */
             isolationMode: "read-only" | "disposable-write";
+            personalDocker?: components["schemas"]["PersonalDockerEnvironmentPolicy"];
+            personalVM?: components["schemas"]["PersonalVMEnvironmentPolicy"];
             resourcePolicy?: {
                 [key: string]: unknown;
             };
@@ -14081,8 +14870,10 @@ export interface components {
             content: string;
             uri?: string;
             version?: string;
+            /** @description Explicit source tombstone for this externalId. Missing documents in a partial fetch do not imply deletion. A tombstone has empty content. */
+            deleted?: boolean;
             acl: components["schemas"]["KnowledgeAccessScope"];
-        };
+        } & unknown;
         KnowledgeDocument: {
             id: string;
             knowledgeBaseId: string;
@@ -14156,6 +14947,10 @@ export interface components {
             uri?: string;
             score: number;
             contentHash: string;
+            documentVersionId?: string;
+            indexRevisionId?: string;
+            /** Format: date-time */
+            retrievedAt?: string;
         };
         KnowledgeSearchHit: {
             chunkId: string;
@@ -14177,6 +14972,9 @@ export interface components {
             timingMs: number;
             noAnswer: boolean;
             traceId: string;
+            /** @enum {string} */
+            retrievalMode?: "lexical" | "hybrid";
+            degradationReason?: string;
         };
         EvaluationDatasetSample: {
             id: string;
@@ -14573,8 +15371,32 @@ export interface components {
         WorkbenchModelOption: {
             publicModel: string;
             reasoningEfforts: ("low" | "medium" | "high")[];
+            /**
+             * Format: int64
+             * @description Configured model window in tokens. Omitted when any eligible route has no valid capacity; otherwise the smallest eligible route capacity. Never inferred from the model name.
+             */
+            contextWindowTokens?: number;
+        };
+        /** @description Latest single model invocation, not cumulative Agent task consumption or selected evidence size. Missing counts and capacity are unknown, not zero. Capacity is snapshotted from the actual resolved route. */
+        WorkbenchContextUsage: {
+            /** @enum {string} */
+            measurement: "reported" | "estimated" | "unavailable";
+            model?: string;
+            /** Format: int64 */
+            inputTokens?: number;
+            /** Format: int64 */
+            outputTokens?: number;
+            /** Format: int64 */
+            totalTokens?: number;
+            /** Format: int64 */
+            contextWindowTokens?: number;
         };
         WorkbenchSessionMetadata: {
+            /**
+             * @description Server-owned chat role. Older sessions without a role remain side chats. Main chats cannot be archived or deleted through the ordinary session operations.
+             * @enum {string}
+             */
+            readonly conversationKind?: "main" | "side" | "personal_main" | "personal_side";
             modelPreferences?: components["schemas"]["WorkbenchModelPreferences"];
             /** @enum {string} */
             mode?: "general" | "root_cause" | "performance" | "trace" | "inspection_review";
@@ -14607,6 +15429,280 @@ export interface components {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+        };
+        PersonalAgentAccess: {
+            userId: string;
+            /** @enum {string} */
+            status: "not_requested" | "pending" | "approved" | "rejected" | "revoked";
+            /** Format: int64 */
+            version: number;
+            /** Format: date-time */
+            requestedAt?: string;
+            /** Format: date-time */
+            decidedAt?: string;
+            decidedBy?: string;
+        };
+        PersonalAgentAccessDecision: {
+            /** @enum {string} */
+            status: "approved" | "rejected" | "revoked";
+            /** Format: int64 */
+            version: number;
+        };
+        PersonalAgentAccessEnvelope: {
+            data: components["schemas"]["PersonalAgentAccess"];
+        };
+        PersonalAgentAccessListEnvelope: {
+            data: components["schemas"]["PersonalAgentAccess"][];
+        };
+        PersonalAssistant: {
+            readonly id: string;
+            name: string;
+            /** @description Bounded raster data URL belonging to this assistant, not the login account. Empty or absent uses the default image. */
+            avatarUrl?: string;
+            /** @description Static PNG/JPEG data URL used when motion is disabled or reduced. */
+            avatarPosterUrl?: string;
+            /** @enum {string} */
+            avatarMotion?: "auto" | "off";
+            readonly mainSessionId: string;
+            /** Format: date-time */
+            readonly createdAt: string;
+            /** Format: date-time */
+            readonly updatedAt: string;
+        };
+        PersonalAssistantAvatarRequest: {
+            avatarUrl: string;
+            avatarPosterUrl?: string;
+            /**
+             * @default auto
+             * @enum {string}
+             */
+            avatarMotion?: "auto" | "off";
+        };
+        PersonalEnvironmentActionRequest: {
+            /** @enum {string} */
+            action: "wake" | "sleep" | "reconcile";
+            /** @description Required on first wake; may only select the already bound template afterward. Only wake accepts this field. */
+            templateId?: string;
+        };
+        PersonalEnvironmentUsage: {
+            /** Format: int64 */
+            diskBytes: number;
+            /** Format: int64 */
+            memoryBytes: number;
+            /** Format: int64 */
+            cpuTimeNanos: number;
+            processes: number;
+        };
+        PersonalEnvironment: {
+            readonly assistantId: string;
+            readonly templateId?: string;
+            /**
+             * @description Frozen execution backend of this binding; never inferred from the current template.
+             * @enum {string}
+             */
+            readonly backend?: "container" | "vm";
+            /** @enum {string} */
+            readonly provider?: "docker" | "pve" | "kubevirt";
+            /** @description Frozen policy identity. legacy-docker-v1 preserves the original stored lease and quota. */
+            readonly policyRevision?: string;
+            /** @description Opaque execution reference; not a physical handle or readiness proof. */
+            readonly computeRef?: string;
+            /**
+             * Format: int64
+             * @description Reserved execution generation; zero means no execution has been reserved.
+             */
+            readonly computeGeneration?: number;
+            /** @description Stable logical personal-data identity. Existence requires a fresh authorized receipt. */
+            readonly dataRef?: string;
+            /** @enum {string} */
+            readonly state: "unprovisioned" | "pending" | "ready" | "sleeping" | "missing" | "expired" | "unknown" | "quota_exceeded" | "deleting" | "deletion_unknown" | "deleted";
+            /** Format: int64 */
+            readonly version: number;
+            /** @description A successful past data receipt; does not prove that data currently exists or that the environment is ready. */
+            readonly dataInitialized: boolean;
+            quota?: components["schemas"]["PersonalEnvironmentQuota"];
+            usage?: components["schemas"]["PersonalEnvironmentUsage"];
+            /** Format: date-time */
+            readonly observedAt?: string;
+            /** Format: date-time */
+            readonly expiresAt?: string;
+            /** Format: date-time */
+            readonly updatedAt?: string;
+        };
+        PersonalEnvironmentTemplate: {
+            id: string;
+            name: string;
+            /** @enum {string} */
+            backend?: "container" | "vm";
+            /** @enum {string} */
+            provider?: "docker" | "pve" | "kubevirt";
+            policyRevision?: string;
+            /** @enum {string} */
+            mode: "observe-only" | "restricted-write";
+            leaseSeconds: number;
+            quota: components["schemas"]["PersonalEnvironmentQuota"];
+        };
+        PersonalEnvironmentTemplateListEnvelope: {
+            data: components["schemas"]["PersonalEnvironmentTemplate"][];
+        };
+        PersonalEnvironmentEnvelope: {
+            data: components["schemas"]["PersonalEnvironment"];
+        };
+        PersonalGuestRuntimeInput: {
+            /** Format: int64 */
+            environmentVersion: number;
+            idempotencyKey: string;
+            /** @enum {string} */
+            kind: "execute" | "file_read" | "file_write" | "docker" | "browser";
+            argv?: string[];
+            file?: {
+                path: string;
+                contentBase64?: string;
+                expectedSHA256?: string;
+            };
+            browser?: {
+                /** @enum {string} */
+                action: "acquire" | "snapshot" | "navigate" | "click" | "type" | "pointer" | "takeover" | "return" | "release";
+                /** Format: uuid */
+                controlId?: string;
+                /** Format: int64 */
+                generation?: number;
+                url?: string;
+                selector?: string;
+                text?: string;
+                x?: number;
+                y?: number;
+            };
+        };
+        PersonalGuestRuntime: {
+            /** Format: uuid */
+            id: string;
+            /** @enum {string} */
+            kind: "execute" | "file_read" | "file_write" | "docker" | "browser";
+            /** @enum {string} */
+            status: "queued" | "running" | "succeeded" | "failed" | "canceled" | "unknown";
+            /** Format: uuid */
+            assistantId: string;
+            /** Format: int64 */
+            environmentVersion: number;
+            output?: string;
+            exitCode?: number;
+            file?: {
+                path: string;
+                contentBase64?: string;
+                sha256: string;
+                /** Format: int64 */
+                size: number;
+            };
+            browser?: {
+                /** Format: uuid */
+                controlId: string;
+                /** Format: int64 */
+                generation: number;
+                /** Format: uuid */
+                instanceId: string;
+                url?: string;
+                title?: string;
+                text?: string;
+                jpegBase64?: string;
+                /** @constant */
+                width: 800;
+                /** @constant */
+                height: 600;
+            };
+        };
+        PersonalWorkspaceRuntime: {
+            /** Format: uuid */
+            assistantId: string;
+            /** Format: int64 */
+            environmentVersion: number;
+            latest?: components["schemas"]["PersonalGuestRuntime"];
+            browserControl?: {
+                /** Format: uuid */
+                controlId: string;
+                /** Format: int64 */
+                generation: number;
+                /** @enum {string} */
+                owner: "user" | "agent" | "released";
+                /** Format: uuid */
+                taskId?: string;
+                /** Format: uuid */
+                instanceId?: string;
+                /** Format: date-time */
+                expiresAt: string;
+            };
+        };
+        PersonalWorkspaceRuntimeEnvelope: {
+            data: components["schemas"]["PersonalWorkspaceRuntime"];
+        };
+        PersonalGuestRuntimeEnvelope: {
+            data: components["schemas"]["PersonalGuestRuntime"];
+        };
+        PersonalGuestToolsInput: {
+            /** Format: int64 */
+            environmentVersion: number;
+            idempotencyKey: string;
+        };
+        PersonalGuestPreparationInput: {
+            /** Format: int64 */
+            environmentVersion: number;
+            /** @description Signed Ed25519 CSR containing only a public key. Requested subject and identity never grant authority. */
+            csrPEM: string;
+        };
+        PersonalGuestPreparation: {
+            /** Format: uuid */
+            bindingId: string;
+            /** Format: uuid */
+            enrollmentId: string;
+            /** @description One-time 32-byte unpadded base64url token. Must not enter logs */
+            challenge: string;
+            /**
+             * Format: uri
+             * @description Core-configured HTTPS guest endpoint; never a caller-selected destination.
+             */
+            endpoint: string;
+            certificatePEM: string;
+            clientCAPEM: string;
+            /**
+             * Format: date-time
+             * @description The bootstrap challenge expiry
+             */
+            expiresAt: string;
+        };
+        PersonalGuestPreparationEnvelope: {
+            data: components["schemas"]["PersonalGuestPreparation"];
+        };
+        PersonalEnvironmentDataExportRequest: {
+            assistantId: string;
+            /** Format: int64 */
+            environmentVersion: number;
+        };
+        PersonalEnvironmentDataDeletionRequest: {
+            assistantId: string;
+            /** Format: int64 */
+            environmentVersion: number;
+            confirmationName: string;
+        };
+        PersonalAssistantUpdateRequest: {
+            name: string;
+        };
+        PersonalAssistantArtifact: {
+            readonly id: string;
+            readonly sessionId?: string;
+            readonly messageId?: string;
+            readonly taskId?: string;
+            artifact: components["schemas"]["WorkbenchAnalysisArtifact"];
+            /** Format: date-time */
+            readonly createdAt: string;
+        };
+        PersonalAssistantArtifactListEnvelope: {
+            data: components["schemas"]["PersonalAssistantArtifact"][];
+        };
+        PersonalAssistantEnvelope: {
+            data: components["schemas"]["PersonalAssistant"];
+        };
+        WorkbenchMainSessionRequest: {
+            agentProviderId?: string;
         };
         WorkbenchCreateSessionRequest: {
             title?: string;
@@ -14646,6 +15742,7 @@ export interface components {
             /** @enum {string} */
             role: "user" | "assistant" | "system";
             content: string;
+            /** @description Background provenance is stored in contextSnapshot (legacy contextEnvelope is readable). contextUsage describes the latest single model call; Native usage is cumulative task consumption. User metadata.images contains WorkbenchImageAttachment items. Completed assistant metadata may contain assistantReaction (one of 👋 👍 ❤️ 😊 🎉 💡 👀 🤔 ✅ 🙏) and server-bound requestMessageId for that reaction. Reactions are social acknowledgements, never approval or execution evidence. */
             metadata?: {
                 [key: string]: unknown;
             };
@@ -15065,6 +16162,12 @@ export interface components {
             rootCauseRunId?: string;
             createdBy: string;
             status: string;
+            /** @enum {string} */
+            executionOwner?: "native" | "external";
+            phase?: string;
+            stopReason?: string;
+            eventSequence?: number;
+            usageKnown?: boolean;
             scope?: components["schemas"]["WorkbenchSessionScope"];
             toolset?: components["schemas"]["WorkbenchSessionToolset"];
             toolBindings?: components["schemas"]["WorkbenchAgentToolBinding"][];
@@ -15308,7 +16411,20 @@ export interface components {
         WorkbenchGlobalAssistantEventEnvelope: {
             ok: boolean;
         };
+        /** @description An explicit, owner-scoped assistant appearance task executed through chat. Images are bounded inline avatar assets, never arbitrary remote URLs. The instruction remains in content. No account identity or resource permissions change. Undo references a successful profile reply in the same owned session and rejects stale replacements. */
+        WorkbenchAssistantTask: {
+            /** @enum {string} */
+            kind: "avatar" | "undo";
+            image?: components["schemas"]["PersonalAssistantAvatarRequest"];
+            useCurrentAvatar?: boolean;
+            publicModel?: string;
+            messageId?: string;
+        };
         WorkbenchSendMessageStreamRequest: {
+            /** @description A stable per-turn idempotency key. Reusing it with different content or selections is rejected. */
+            requestId?: string;
+            taskIntent?: components["schemas"]["WorkbenchTaskIntent"];
+            assistantTask?: components["schemas"]["WorkbenchAssistantTask"];
             contextSelection?: components["schemas"]["WorkbenchContextSelection"];
             knowledgeContext?: {
                 enabled: boolean;
@@ -15329,12 +16445,125 @@ export interface components {
                 [key: string]: unknown;
             };
         };
-        /** @description Explicit references and UTF-8 text attachments for this request only. The server rechecks source access and records used content hashes and truncations. Not inherited by subsequent requests. */
+        /** @description Capability preferences and explicit query parameters for this turn only. Does not change session mode, grant permission, or create scheduled inspections. */
+        WorkbenchTaskIntent: {
+            capabilities?: ("root_cause" | "performance" | "trace" | "inspection_review")[];
+            /** @description Legacy shared selection. A capability-specific data source takes precedence for that capability. */
+            dataSourceId?: string;
+            performanceDataSourceId?: string;
+            traceDataSourceId?: string;
+            rootCauseProfileId?: string;
+            metricKey?: string;
+            traceId?: string;
+            minDurationMs?: number;
+            inspectionRunIds?: string[];
+        };
+        WorkbenchProfessionalCapabilityInput: {
+            sessionId: string;
+            question: string;
+            locale?: string;
+            scope: components["schemas"]["WorkbenchSessionScope"];
+            toolset?: components["schemas"]["WorkbenchSessionToolset"];
+            intent: components["schemas"]["WorkbenchTaskIntent"];
+        };
+        AgentRunResumeRequest: {
+            input?: string;
+        };
+        AgentRunEventListEnvelope: {
+            data: components["schemas"]["AgentRunEventPage"];
+        };
+        AgentRunEventPage: {
+            items: components["schemas"]["WorkbenchStreamEvent"][];
+            nextSequence: number;
+            hasMore: boolean;
+            resyncRequired: boolean;
+        };
+        WorkbenchMessageSearchHit: {
+            sessionId: string;
+            sessionTitle: string;
+            messageId: string;
+            /** @enum {string} */
+            role: "user" | "assistant";
+            snippet: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        WorkbenchMessageSearchPage: {
+            items: components["schemas"]["WorkbenchMessageSearchHit"][];
+            nextCursor?: string;
+        };
+        WorkbenchMessageSearchEnvelope: {
+            data: components["schemas"]["WorkbenchMessageSearchPage"];
+        };
+        WorkbenchMessageWindow: {
+            messages: components["schemas"]["WorkbenchMessage"][];
+            beforeCursor?: string;
+            afterCursor?: string;
+        };
+        WorkbenchMessageWindowEnvelope: {
+            data: components["schemas"]["WorkbenchMessageWindow"];
+        };
+        PersonalFeedSettings: {
+            instructions: string;
+            searchTool: string;
+            autoUpdate: boolean;
+        };
+        PersonalFeedSource: {
+            /** Format: uri */
+            url: string;
+            title: string;
+            excerpt: string;
+        };
+        PersonalFeedItem: {
+            id: string;
+            title: string;
+            body: string;
+            reason: string;
+            sources: components["schemas"]["PersonalFeedSource"][];
+            liked: boolean;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        PersonalFeedSearchTool: {
+            name: string;
+            title: string;
+        };
+        PersonalFeedPage: {
+            items: components["schemas"]["PersonalFeedItem"][];
+            settings: components["schemas"]["PersonalFeedSettings"];
+            /** @enum {string} */
+            state: "idle" | "queued" | "running" | "failed";
+            error?: string;
+            /** Format: date-time */
+            lastUpdatedAt?: string;
+            nextCursor?: string;
+            searchTools: components["schemas"]["PersonalFeedSearchTool"][];
+        };
+        PersonalFeedEnvelope: {
+            data: components["schemas"]["PersonalFeedPage"];
+        };
+        PersonalFeedItemEnvelope: {
+            data: components["schemas"]["PersonalFeedItem"];
+        };
+        PersonalFeedFeedback: {
+            liked?: boolean;
+            hidden?: boolean;
+        };
+        /** @description Explicit references, UTF-8 text attachments and a bounded inline chat image for this request. Images are ordinary message content and never imply an assistant appearance change. Images are retained with the owned message; references are rechecked on use. */
         WorkbenchContextSelection: {
+            /** @description Owned personal feed post */
+            feedItemId?: string;
             /** @description Explicit personal memory references; current owner, active policy and expiry are checked on every request. */
             memoryIds?: string[];
             references?: components["schemas"]["WorkbenchContextReference"][];
             attachments?: components["schemas"]["WorkbenchTextAttachment"][];
+            images?: components["schemas"]["WorkbenchImageAttachment"][];
+        };
+        /** @description Ordinary chat image, preserved without square cropping. Inline PNG/JPEG only, at most 700000 data URL characters and 1024 pixels on each edge. The server verifies MIME, decoded bytes and dimensions before storage or model invocation. No remote URL fetch. Message metadata.images retains the attachment for history and retry. */
+        WorkbenchImageAttachment: {
+            id: string;
+            name: string;
+            dataUrl: string;
         };
         WorkbenchContextReference: {
             /** @enum {string} */
@@ -15421,7 +16650,7 @@ export interface components {
             type: "agent.status";
             providerId: string;
             /** @enum {string} */
-            providerKind: "internal" | "hermes" | "openclaw" | "general" | "openai" | "anthropic" | "openai-compatible" | "deepseek" | "qwen" | "openrouter" | "azure-openai" | "gemini" | "cohere";
+            providerKind: "internal" | "native" | "hermes" | "openclaw" | "general" | "openai" | "anthropic" | "openai-compatible" | "deepseek" | "qwen" | "openrouter" | "azure-openai" | "gemini" | "cohere";
             /** @enum {string} */
             status: "queued" | "running" | "succeeded" | "failed" | "cancelled";
         };
@@ -18873,11 +20102,13 @@ export interface components {
             stopTransport?: string;
             payload: {
                 helm?: components["schemas"]["HelmExecutionTaskPayload"];
+                sshCommand?: components["schemas"]["AgentSSHCommandRequest"];
             } & {
                 [key: string]: unknown;
             };
             result?: {
                 helm?: components["schemas"]["HelmExecutionTaskResult"];
+                sshCommand?: components["schemas"]["AgentSSHCommandResult"];
             } & {
                 [key: string]: unknown;
             };
@@ -18938,6 +20169,8 @@ export interface components {
             name?: string;
             storage?: string;
             bus?: string;
+            /** @description Immutable guest-visible identity for a newly added PVE disk. Only accepted with add=true; resizing an existing disk preserves its identity. Providers without disk-identity support reject the request before modifying resources. */
+            serial?: string;
             sizeGiB?: number;
             add?: boolean;
         };
@@ -19009,7 +20242,224 @@ export interface components {
             poolRevision: number;
             idempotencyKey: string;
         };
+        /** @enum {string} */
+        VirtualizationCapacityPolicyMode: "unconfigured" | "observing" | "enforced";
+        VirtualizationOvercommitPolicy: {
+            enabled: boolean;
+            percent: number;
+        };
+        VirtualizationMemoryOvercommitPolicy: {
+            enabled: boolean;
+            percent: number;
+        };
+        VirtualizationCapacityPolicyInput: {
+            expectedRevision: number;
+            /** @description Administrator-confirmed identity of one physical PVE source. All aliases must join this identity before admission. Ordinary VM callers cannot choose a source. */
+            physicalSourceId?: string;
+            /** @enum {string} */
+            mode: "observing" | "enforced";
+            cpu: components["schemas"]["VirtualizationOvercommitPolicy"];
+            memory: components["schemas"]["VirtualizationMemoryOvercommitPolicy"];
+        };
+        VirtualizationCapacityPolicy: {
+            /** @description New PVE sources use a strict 100 percent policy and cannot admit until an administrator confirms their physical source identity. */
+            sourceConfirmed?: boolean;
+            sourceId: string;
+            revision: number;
+            mode: components["schemas"]["VirtualizationCapacityPolicyMode"];
+            cpu: components["schemas"]["VirtualizationOvercommitPolicy"];
+            memory: components["schemas"]["VirtualizationMemoryOvercommitPolicy"];
+            /** Format: date-time */
+            updatedAt?: string;
+            updatedBy?: string;
+        };
+        VirtualizationCapacityPolicyEnvelope: {
+            data: components["schemas"]["VirtualizationCapacityPolicy"];
+        };
+        VirtualizationCapacityCheckDiagnostic: {
+            /** @enum {string} */
+            check: "budget" | "runtime" | "storage";
+            /** @enum {string} */
+            dimension: "cpu" | "memory" | "disk";
+            /** @enum {string} */
+            status: "available" | "unavailable" | "unknown";
+            limit: number;
+            committed: number;
+            pending: number;
+            demand: number;
+            available: number;
+            reason: string;
+        };
+        VirtualizationCapacityNodeDiagnostic: {
+            node: string;
+            storage?: string;
+            checks: components["schemas"]["VirtualizationCapacityCheckDiagnostic"][];
+        };
+        /** @enum {string} */
+        SecretKind: "opaque" | "ssh_keypair" | "ssh_public_key" | "ssh_password";
+        /** @enum {string} */
+        SecretPurpose: "vm_cloud_init" | "vm_auth" | "vm_exec";
+        SecretSSHPublicKey: {
+            authorizedKey: string;
+            algorithm: string;
+            fingerprint: string;
+        };
+        SecretGenerateSSHKeyRequest: {
+            name: string;
+            description?: string;
+            scopeType: components["schemas"]["SecretScopeType"];
+            scopeId: string;
+            bindings: components["schemas"]["SecretBinding"][];
+        };
+        /** @description Managed first-boot public-key initialization. Requires a verified cloud-init image and excludes raw cloudInit and native sshkeys/cicustom fields. The server freezes each Secret version; private keys are never sent to the guest. */
+        VirtualMachineGuestAccessInput: {
+            username: string;
+            publicKeyRefs: string[];
+        };
+        /** @description Metadata binding only; it does not install guest keys or alter VM configuration. Host keys must be independently verified by an authorized human before binding. */
+        VirtualMachineAccessBindingInput: {
+            expectedRevision: number;
+            username: string;
+            port: number;
+            address: string;
+            credentialRef: string;
+            executionClusterId: string;
+            executionAgentId: string;
+            trustedHostKey: string;
+        };
+        VirtualMachineAccessBinding: {
+            vmId: string;
+            revision: number;
+            providerVmId: string;
+            sourceId: string;
+            generation: string;
+            username: string;
+            port: number;
+            address: string;
+            credentialRef: string;
+            executionClusterId: string;
+            executionAgentId: string;
+            hostKeyFingerprint: string;
+            /** @enum {string} */
+            status: "ready" | "unavailable" | "stale";
+            reason?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        VirtualMachineAccessBindingEnvelope: {
+            data: components["schemas"]["VirtualMachineAccessBinding"];
+        };
+        VirtualMachineSSHSessionInput: {
+            bindingRevision: number;
+            /** @default 80 */
+            cols?: number;
+            /** @default 24 */
+            rows?: number;
+        };
+        VirtualMachineSSHSession: {
+            id: string;
+            vmId: string;
+            bindingRevision: number;
+            /** @enum {string} */
+            status: "pending" | "active" | "closed" | "revoked" | "unknown";
+            /** Format: date-time */
+            expiresAt: string;
+            reason?: string;
+        };
+        VirtualMachineSSHSessionEnvelope: {
+            data: components["schemas"]["VirtualMachineSSHSession"];
+        };
+        VirtualMachineSSHCommandInput: {
+            bindingRevision: number;
+            command: string;
+            idempotencyKey: string;
+            /** @default 60 */
+            timeoutSeconds?: number;
+        };
+        VirtualMachineSSHCommand: {
+            id: string;
+            vmId: string;
+            bindingRevision: number;
+            status: string;
+            /** @enum {string} */
+            outcome: "unknown" | "succeeded" | "failed" | "canceled";
+            terminal: boolean;
+            exitCode?: number;
+            stdout?: string;
+            stderr?: string;
+            outputDigest?: string;
+            outputTruncated?: boolean;
+            /** Format: date-time */
+            finishedAt?: string;
+        };
+        VirtualMachineSSHCommandEnvelope: {
+            data: components["schemas"]["VirtualMachineSSHCommand"];
+        };
+        AgentSSHCommandRequest: {
+            session: components["schemas"]["AgentSSHSessionRequest"];
+            command: string;
+            timeoutSeconds: number;
+        };
+        AgentSSHCommandResult: {
+            sessionId: string;
+            agentId: string;
+            commandDigest: string;
+            /** @enum {string} */
+            effect: "not_started" | "exited" | "unknown";
+            stopped: boolean;
+            exitCode?: number;
+            stdout?: string;
+            stderr?: string;
+            outputTruncated?: boolean;
+            outputDigest?: string;
+        };
+        VirtualMachineSSHFrame: {
+            /** @enum {string} */
+            type: "input" | "resize" | "output" | "error" | "close";
+            data?: string;
+            /**
+             * @description Base64 carries exact terminal bytes including split UTF-8 sequences. Omitted means utf8 for legacy inputs.
+             * @enum {string}
+             */
+            dataEncoding?: "utf8" | "base64";
+            exitCode?: number;
+            cols?: number;
+            rows?: number;
+            message?: string;
+        };
+        AgentSSHSessionRequest: {
+            sessionId: string;
+            agentId: string;
+            executionClusterId: string;
+            address: string;
+            port: number;
+            username: string;
+            trustedHostKey: string;
+            credentialKind: components["schemas"]["SecretKind"];
+            lease: components["schemas"]["SecretLeaseGrant"];
+            /** Format: uri */
+            controlPlaneEndpoint: string;
+            /** Format: date-time */
+            expiresAt: string;
+            cols: number;
+            rows: number;
+        };
+        VMSSHCredentialRedemptionInput: {
+            clusterId: string;
+            agentId: string;
+            leaseId: string;
+            token: string;
+        };
+        AgentSSHCapability: {
+            agentId: string;
+            /** @constant */
+            protocolVersion: 1;
+            available: boolean;
+            commandsAvailable?: boolean;
+        };
         VirtualizationCapacityInput: {
+            /** @default true */
+            startAfterCreate?: boolean;
             connectionId: string;
             /** @description Dedicated CPU cores for a running VM. */
             cpu: number;
@@ -19026,6 +20476,10 @@ export interface components {
         };
         /** @description A read-only, expiring placement suggestion for one running VM and root disk. Missing or unsupported inventory remains unknown. Creation must independently require atomic capacity admission; this result is not a reservation or a readiness assessment. */
         VirtualizationCapacityResult: {
+            sourceId?: string;
+            policyRevision?: number;
+            policyMode?: components["schemas"]["VirtualizationCapacityPolicyMode"];
+            diagnostics?: components["schemas"]["VirtualizationCapacityNodeDiagnostic"][];
             connectionId: string;
             provider?: string;
             /** @enum {string} */
@@ -19043,10 +20497,11 @@ export interface components {
             data: components["schemas"]["VirtualizationCapacityResult"];
         };
         VirtualMachineCreateInput: {
+            guestAccess?: components["schemas"]["VirtualMachineGuestAccessInput"];
             connectionId: string;
             name: string;
             /**
-             * @description Require fresh provider capacity and reserve node CPU, memory and storage atomically with this operation. Missing inventory or unsupported placement fails closed. This controls concurrent Soha admission; provider admission and runtime readiness remain authoritative.
+             * @description Require fresh provider capacity and reserve node CPU, memory and storage atomically with this operation. Missing inventory or unsupported placement fails closed. An enforced source policy always requires admission, including when this field is false. Unconfigured legacy sources retain the explicit opt-in behavior. Provider admission and runtime readiness remain authoritative.
              * @default false
              */
             requireCapacity?: boolean;
@@ -19057,6 +20512,7 @@ export interface components {
             memoryMiB?: number;
             bootImageId?: string;
             imageId?: string;
+            /** @description PVE supports template_clone, vm_clone, iso_install and cloud_image. cloud_image imports a verified catalog QCOW2 volume into this new VM; it does not create or modify a source VM. */
             sourceMode?: string;
             sourceId?: string;
             flavorId?: string;
@@ -19237,6 +20693,8 @@ export interface components {
             cpu?: number;
             memoryMiB?: number;
             diskGiB?: number;
+            /** @description Require fresh atomic capacity admission for start, reboot or resize even when cluster policy is unconfigured. False never bypasses an enforced policy. New disks require fixed slots, storage and serial identity; multiple storage pools require separate operations. */
+            requireCapacity?: boolean;
             disks?: components["schemas"]["VirtualMachineDiskChange"][];
             networks?: components["schemas"]["VirtualMachineNetworkChange"][];
         };
@@ -19318,7 +20776,9 @@ export interface components {
             sizeBytes?: number;
             /** Format: int64 */
             sizeGiB?: number;
+            /** @description PVE cloud_image declares an already staged QCOW2 import volume. cloudInitSupported must be explicitly true for managed guest initialization. */
             sourceKind?: string;
+            /** @description For PVE cloud_image use storage:import/<SHA256>.qcow2 sealed with the filesystem immutable flag. The provider verifies immutability, format, digest, absence of backing files and requested root size before dispatch. Catalog creation registers metadata and does not itself upload a file. */
             sourceRef?: string;
             namespace?: string;
             storageClass?: string;
@@ -19465,6 +20925,7 @@ export interface components {
             architecture?: string;
             /** @description Sensitive bootstrap content. It is never returned by plan or audit responses. */
             cloudInit?: string;
+            guestAccess?: components["schemas"]["VirtualMachineGuestAccessInput"];
             cpuCoreCount?: number;
             memoryBytes?: number;
             diskBytes?: number;
@@ -19700,6 +21161,12 @@ export interface components {
             skillIds?: string[];
             sessionId?: string;
             status: string;
+            /** @enum {string} */
+            executionOwner?: "native" | "external";
+            phase?: string;
+            stopReason?: string;
+            eventSequence?: number;
+            usageKnown?: boolean;
             scope?: {
                 [key: string]: unknown;
             };
@@ -23505,6 +24972,12 @@ export interface components {
             plan: components["schemas"]["CapabilityPlan"];
             aiClientId?: string;
             skillId?: string;
+            /** @description Immutable exact target constraints for every resolved invocation, approval replay, status read and cancellation. These narrow scope and never grant permission. */
+            scopeConstraints?: components["schemas"]["CapabilityScopeConstraint"][];
+        };
+        CapabilityScopeConstraint: {
+            dimension: string;
+            value: string;
         };
         /** @description Retained step IDs inherit their prior SecretRefs when call.secretRefs is omitted; an explicit empty object clears them. All references remain subject to current authorization. */
         CapabilityTaskRevisionInput: {
@@ -23521,6 +24994,7 @@ export interface components {
             status: string;
             createdBy: string;
             plan: components["schemas"]["CapabilityPlan"];
+            scopeConstraints?: components["schemas"]["CapabilityScopeConstraint"][];
             nodes: components["schemas"]["CapabilityTaskNode"][];
             assessment?: components["schemas"]["CapabilityAssessment"];
             /** Format: date-time */
@@ -23615,8 +25089,9 @@ export interface components {
         /** @enum {string} */
         SecretVersionStatus: "active" | "revoked";
         SecretBinding: {
+            purpose?: components["schemas"]["SecretPurpose"];
             /** @enum {string} */
-            targetType: "capability" | "project" | "connection";
+            targetType: "capability" | "project" | "connection" | "vm" | "vm_create";
             targetRef: string;
         };
         SecretReferenceMap: {
@@ -23628,7 +25103,21 @@ export interface components {
             key: string;
             version: number;
         };
+        SecretReferenceUsage: {
+            targetId: string;
+            vmId?: string;
+            /** @description login_binding, ssh_session or cloud_init_operation. Historical initialization does not assert that the guest still trusts this key. */
+            usage: string;
+            version: number;
+            bindingRevision?: number;
+            status: string;
+        };
+        SecretReferenceUsageListEnvelope: {
+            items: components["schemas"]["SecretReferenceUsage"][];
+        };
         SecretMetadata: {
+            kind?: components["schemas"]["SecretKind"];
+            publicKey?: components["schemas"]["SecretSSHPublicKey"];
             id: string;
             name: string;
             description?: string;
@@ -23645,6 +25134,8 @@ export interface components {
         };
         /** @description Exactly one of value or vaultKv2 must be provided. */
         SecretCreateRequest: {
+            kind?: components["schemas"]["SecretKind"];
+            sshPassphrase?: string;
             name: string;
             value?: string;
             vaultKv2?: components["schemas"]["SecretVaultKV2Reference"];
@@ -23661,10 +25152,13 @@ export interface components {
         };
         /** @description Exactly one of value or vaultKv2 must be provided. */
         SecretRotateRequest: {
+            sshPassphrase?: string;
             value?: string;
             vaultKv2?: components["schemas"]["SecretVaultKV2Reference"];
         };
         SecretVersionMetadata: {
+            kind?: components["schemas"]["SecretKind"];
+            publicKey?: components["schemas"]["SecretSSHPublicKey"];
             secretId: string;
             version: number;
             status: components["schemas"]["SecretVersionStatus"];
@@ -23973,6 +25467,7 @@ export interface components {
                 [key: string]: unknown;
             };
             rateLimitProfileId?: string;
+            /** @description Optional contextWindowTokens declares this route model window as a positive integer token count. Missing or invalid values mean unknown capacity; model names are never used to guess it. */
             metadata?: {
                 [key: string]: unknown;
             };
@@ -24009,6 +25504,7 @@ export interface components {
                 [key: string]: unknown;
             };
             rateLimitProfileId?: string;
+            /** @description Optional contextWindowTokens declares this route model window as a positive integer token count. Missing or invalid values mean unknown capacity; model names are never used to guess it. */
             metadata?: {
                 [key: string]: unknown;
             };
@@ -27011,6 +28507,9 @@ export type AgentProviderRolloutInput = components['schemas']['AgentProviderRoll
 export type AgentProviderRollout = components['schemas']['AgentProviderRollout'];
 export type AgentProviderConformanceRunInput = components['schemas']['AgentProviderConformanceRunInput'];
 export type AgentProviderConformanceRun = components['schemas']['AgentProviderConformanceRun'];
+export type PersonalDockerEnvironmentPolicy = components['schemas']['PersonalDockerEnvironmentPolicy'];
+export type PersonalVMEnvironmentPolicy = components['schemas']['PersonalVMEnvironmentPolicy'];
+export type PersonalEnvironmentQuota = components['schemas']['PersonalEnvironmentQuota'];
 export type AIEnvironmentTemplateInput = components['schemas']['AIEnvironmentTemplateInput'];
 export type AIEnvironmentTemplate = components['schemas']['AIEnvironmentTemplate'];
 export type AIEnvironmentLease = components['schemas']['AIEnvironmentLease'];
@@ -27105,8 +28604,37 @@ export type WorkbenchSessionToolset = components['schemas']['WorkbenchSessionToo
 export type WorkbenchRunRef = components['schemas']['WorkbenchRunRef'];
 export type WorkbenchModelPreferences = components['schemas']['WorkbenchModelPreferences'];
 export type WorkbenchModelOption = components['schemas']['WorkbenchModelOption'];
+export type WorkbenchContextUsage = components['schemas']['WorkbenchContextUsage'];
 export type WorkbenchSessionMetadata = components['schemas']['WorkbenchSessionMetadata'];
 export type WorkbenchSession = components['schemas']['WorkbenchSession'];
+export type PersonalAgentAccess = components['schemas']['PersonalAgentAccess'];
+export type PersonalAgentAccessDecision = components['schemas']['PersonalAgentAccessDecision'];
+export type PersonalAgentAccessEnvelope = components['schemas']['PersonalAgentAccessEnvelope'];
+export type PersonalAgentAccessListEnvelope = components['schemas']['PersonalAgentAccessListEnvelope'];
+export type PersonalAssistant = components['schemas']['PersonalAssistant'];
+export type PersonalAssistantAvatarRequest = components['schemas']['PersonalAssistantAvatarRequest'];
+export type PersonalEnvironmentActionRequest = components['schemas']['PersonalEnvironmentActionRequest'];
+export type PersonalEnvironmentUsage = components['schemas']['PersonalEnvironmentUsage'];
+export type PersonalEnvironment = components['schemas']['PersonalEnvironment'];
+export type PersonalEnvironmentTemplate = components['schemas']['PersonalEnvironmentTemplate'];
+export type PersonalEnvironmentTemplateListEnvelope = components['schemas']['PersonalEnvironmentTemplateListEnvelope'];
+export type PersonalEnvironmentEnvelope = components['schemas']['PersonalEnvironmentEnvelope'];
+export type PersonalGuestRuntimeInput = components['schemas']['PersonalGuestRuntimeInput'];
+export type PersonalGuestRuntime = components['schemas']['PersonalGuestRuntime'];
+export type PersonalWorkspaceRuntime = components['schemas']['PersonalWorkspaceRuntime'];
+export type PersonalWorkspaceRuntimeEnvelope = components['schemas']['PersonalWorkspaceRuntimeEnvelope'];
+export type PersonalGuestRuntimeEnvelope = components['schemas']['PersonalGuestRuntimeEnvelope'];
+export type PersonalGuestToolsInput = components['schemas']['PersonalGuestToolsInput'];
+export type PersonalGuestPreparationInput = components['schemas']['PersonalGuestPreparationInput'];
+export type PersonalGuestPreparation = components['schemas']['PersonalGuestPreparation'];
+export type PersonalGuestPreparationEnvelope = components['schemas']['PersonalGuestPreparationEnvelope'];
+export type PersonalEnvironmentDataExportRequest = components['schemas']['PersonalEnvironmentDataExportRequest'];
+export type PersonalEnvironmentDataDeletionRequest = components['schemas']['PersonalEnvironmentDataDeletionRequest'];
+export type PersonalAssistantUpdateRequest = components['schemas']['PersonalAssistantUpdateRequest'];
+export type PersonalAssistantArtifact = components['schemas']['PersonalAssistantArtifact'];
+export type PersonalAssistantArtifactListEnvelope = components['schemas']['PersonalAssistantArtifactListEnvelope'];
+export type PersonalAssistantEnvelope = components['schemas']['PersonalAssistantEnvelope'];
+export type WorkbenchMainSessionRequest = components['schemas']['WorkbenchMainSessionRequest'];
 export type WorkbenchCreateSessionRequest = components['schemas']['WorkbenchCreateSessionRequest'];
 export type WorkbenchUpdateSessionRequest = components['schemas']['WorkbenchUpdateSessionRequest'];
 export type WorkbenchMessage = components['schemas']['WorkbenchMessage'];
@@ -27173,8 +28701,28 @@ export type WorkbenchLaunchContext = components['schemas']['WorkbenchLaunchConte
 export type WorkbenchSelectionContext = components['schemas']['WorkbenchSelectionContext'];
 export type WorkbenchGlobalAssistantOpenRequest = components['schemas']['WorkbenchGlobalAssistantOpenRequest'];
 export type WorkbenchGlobalAssistantEventEnvelope = components['schemas']['WorkbenchGlobalAssistantEventEnvelope'];
+export type WorkbenchAssistantTask = components['schemas']['WorkbenchAssistantTask'];
 export type WorkbenchSendMessageStreamRequest = components['schemas']['WorkbenchSendMessageStreamRequest'];
+export type WorkbenchTaskIntent = components['schemas']['WorkbenchTaskIntent'];
+export type WorkbenchProfessionalCapabilityInput = components['schemas']['WorkbenchProfessionalCapabilityInput'];
+export type AgentRunResumeRequest = components['schemas']['AgentRunResumeRequest'];
+export type AgentRunEventListEnvelope = components['schemas']['AgentRunEventListEnvelope'];
+export type AgentRunEventPage = components['schemas']['AgentRunEventPage'];
+export type WorkbenchMessageSearchHit = components['schemas']['WorkbenchMessageSearchHit'];
+export type WorkbenchMessageSearchPage = components['schemas']['WorkbenchMessageSearchPage'];
+export type WorkbenchMessageSearchEnvelope = components['schemas']['WorkbenchMessageSearchEnvelope'];
+export type WorkbenchMessageWindow = components['schemas']['WorkbenchMessageWindow'];
+export type WorkbenchMessageWindowEnvelope = components['schemas']['WorkbenchMessageWindowEnvelope'];
+export type PersonalFeedSettings = components['schemas']['PersonalFeedSettings'];
+export type PersonalFeedSource = components['schemas']['PersonalFeedSource'];
+export type PersonalFeedItem = components['schemas']['PersonalFeedItem'];
+export type PersonalFeedSearchTool = components['schemas']['PersonalFeedSearchTool'];
+export type PersonalFeedPage = components['schemas']['PersonalFeedPage'];
+export type PersonalFeedEnvelope = components['schemas']['PersonalFeedEnvelope'];
+export type PersonalFeedItemEnvelope = components['schemas']['PersonalFeedItemEnvelope'];
+export type PersonalFeedFeedback = components['schemas']['PersonalFeedFeedback'];
 export type WorkbenchContextSelection = components['schemas']['WorkbenchContextSelection'];
+export type WorkbenchImageAttachment = components['schemas']['WorkbenchImageAttachment'];
 export type WorkbenchContextReference = components['schemas']['WorkbenchContextReference'];
 export type WorkbenchTextAttachment = components['schemas']['WorkbenchTextAttachment'];
 export type WorkbenchStreamEventBase = components['schemas']['WorkbenchStreamEventBase'];
@@ -27568,6 +29116,34 @@ export type VirtualizationWorkerPool = components['schemas']['VirtualizationWork
 export type VirtualizationWorkerPoolEnvelope = components['schemas']['VirtualizationWorkerPoolEnvelope'];
 export type VirtualizationWorkerPoolListEnvelope = components['schemas']['VirtualizationWorkerPoolListEnvelope'];
 export type VirtualizationWorkerCreateInput = components['schemas']['VirtualizationWorkerCreateInput'];
+export type VirtualizationCapacityPolicyMode = components['schemas']['VirtualizationCapacityPolicyMode'];
+export type VirtualizationOvercommitPolicy = components['schemas']['VirtualizationOvercommitPolicy'];
+export type VirtualizationMemoryOvercommitPolicy = components['schemas']['VirtualizationMemoryOvercommitPolicy'];
+export type VirtualizationCapacityPolicyInput = components['schemas']['VirtualizationCapacityPolicyInput'];
+export type VirtualizationCapacityPolicy = components['schemas']['VirtualizationCapacityPolicy'];
+export type VirtualizationCapacityPolicyEnvelope = components['schemas']['VirtualizationCapacityPolicyEnvelope'];
+export type VirtualizationCapacityCheckDiagnostic = components['schemas']['VirtualizationCapacityCheckDiagnostic'];
+export type VirtualizationCapacityNodeDiagnostic = components['schemas']['VirtualizationCapacityNodeDiagnostic'];
+export type SecretKind = components['schemas']['SecretKind'];
+export type SecretPurpose = components['schemas']['SecretPurpose'];
+export type SecretSSHPublicKey = components['schemas']['SecretSSHPublicKey'];
+export type SecretGenerateSSHKeyRequest = components['schemas']['SecretGenerateSSHKeyRequest'];
+export type VirtualMachineGuestAccessInput = components['schemas']['VirtualMachineGuestAccessInput'];
+export type VirtualMachineAccessBindingInput = components['schemas']['VirtualMachineAccessBindingInput'];
+export type VirtualMachineAccessBinding = components['schemas']['VirtualMachineAccessBinding'];
+export type VirtualMachineAccessBindingEnvelope = components['schemas']['VirtualMachineAccessBindingEnvelope'];
+export type VirtualMachineSSHSessionInput = components['schemas']['VirtualMachineSSHSessionInput'];
+export type VirtualMachineSSHSession = components['schemas']['VirtualMachineSSHSession'];
+export type VirtualMachineSSHSessionEnvelope = components['schemas']['VirtualMachineSSHSessionEnvelope'];
+export type VirtualMachineSSHCommandInput = components['schemas']['VirtualMachineSSHCommandInput'];
+export type VirtualMachineSSHCommand = components['schemas']['VirtualMachineSSHCommand'];
+export type VirtualMachineSSHCommandEnvelope = components['schemas']['VirtualMachineSSHCommandEnvelope'];
+export type AgentSSHCommandRequest = components['schemas']['AgentSSHCommandRequest'];
+export type AgentSSHCommandResult = components['schemas']['AgentSSHCommandResult'];
+export type VirtualMachineSSHFrame = components['schemas']['VirtualMachineSSHFrame'];
+export type AgentSSHSessionRequest = components['schemas']['AgentSSHSessionRequest'];
+export type VMSSHCredentialRedemptionInput = components['schemas']['VMSSHCredentialRedemptionInput'];
+export type AgentSSHCapability = components['schemas']['AgentSSHCapability'];
 export type VirtualizationCapacityInput = components['schemas']['VirtualizationCapacityInput'];
 export type VirtualizationCapacityResult = components['schemas']['VirtualizationCapacityResult'];
 export type VirtualizationCapacityEnvelope = components['schemas']['VirtualizationCapacityEnvelope'];
@@ -28124,6 +29700,7 @@ export type DeliveryAccessResult = components['schemas']['DeliveryAccessResult']
 export type DeliveryBatchAssessment = components['schemas']['DeliveryBatchAssessment'];
 export type CapabilityAssessment = components['schemas']['CapabilityAssessment'];
 export type CapabilityTaskInput = components['schemas']['CapabilityTaskInput'];
+export type CapabilityScopeConstraint = components['schemas']['CapabilityScopeConstraint'];
 export type CapabilityTaskRevisionInput = components['schemas']['CapabilityTaskRevisionInput'];
 export type CapabilityTask = components['schemas']['CapabilityTask'];
 export type CapabilityTaskNode = components['schemas']['CapabilityTaskNode'];
@@ -28139,6 +29716,8 @@ export type SecretVersionStatus = components['schemas']['SecretVersionStatus'];
 export type SecretBinding = components['schemas']['SecretBinding'];
 export type SecretReferenceMap = components['schemas']['SecretReferenceMap'];
 export type SecretVaultKV2Reference = components['schemas']['SecretVaultKV2Reference'];
+export type SecretReferenceUsage = components['schemas']['SecretReferenceUsage'];
+export type SecretReferenceUsageListEnvelope = components['schemas']['SecretReferenceUsageListEnvelope'];
 export type SecretMetadata = components['schemas']['SecretMetadata'];
 export type SecretCreateRequest = components['schemas']['SecretCreateRequest'];
 export type SecretUpdateRequest = components['schemas']['SecretUpdateRequest'];
@@ -34725,6 +36304,456 @@ export interface operations {
             };
         };
     };
+    getVirtualizationCapacityPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                connectionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationCapacityPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    updateVirtualizationCapacityPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                connectionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VirtualizationCapacityPolicyInput"];
+            };
+        };
+        responses: {
+            /** @description Successful operation. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationCapacityPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getVirtualMachineAccessBinding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                vmID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualMachineAccessBindingEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    updateVirtualMachineAccessBinding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                vmID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VirtualMachineAccessBindingInput"];
+            };
+        };
+        responses: {
+            /** @description Successful operation. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualMachineAccessBindingEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    createVirtualMachineSSHSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                vmID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VirtualMachineSSHSessionInput"];
+            };
+        };
+        responses: {
+            /** @description Successful operation. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualMachineSSHSessionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    createVirtualMachineSSHCommand: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                vmID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VirtualMachineSSHCommandInput"];
+            };
+        };
+        responses: {
+            /** @description Successful operation. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualMachineSSHCommandEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getVMSSHCommand: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                commandID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Original owner's bounded command receipt under current VM permission. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualMachineSSHCommandEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    cancelVMSSHCommand: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                commandID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Cancellation fences the original task. Dispatched effects remain unknown until independently verified. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualMachineSSHCommandEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    checkVMSSHCommandAuthorization: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VMSSHCredentialRedemptionInput"];
+            };
+        };
+        responses: {
+            /** @description Authorization and original task remain active. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualMachineSSHCommandEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getVirtualMachineSSHSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualMachineSSHSessionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    closeVirtualMachineSSHSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualMachineSSHSessionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    streamVirtualMachineSSHSession: {
+        parameters: {
+            query?: {
+                /** @description One-use browser stream ticket scoped to this session. CLI clients use bearer authentication. */
+                stream_ticket?: string;
+            };
+            header?: never;
+            path: {
+                sessionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description WebSocket upgraded; JSON messages use this schema. */
+            101: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualMachineSSHFrame"];
+                };
+            };
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getAgentSSHCapability: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description SSH execution capability. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentSSHCapability"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    prepareAgentSSHSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AgentSSHSessionRequest"];
+            };
+        };
+        responses: {
+            /** @description Session staged. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    streamAgentSSHSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized SSH PTY byte stream. */
+            101: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualMachineSSHFrame"];
+                };
+            };
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    redeemVMSSHCredentials: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VMSSHCredentialRedemptionInput"];
+            };
+        };
+        responses: {
+            /** @description In-memory Agent credential material. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SecretLeaseRedemptionEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    generateSecretSSHKey: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SecretGenerateSSHKeyRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful operation. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SecretMetadataEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
     listVirtualizationClusters: {
         parameters: {
             query?: {
@@ -36322,6 +38351,88 @@ export interface operations {
             404: components["responses"]["Error"];
         };
     };
+    findNativeRequest: {
+        parameters: {
+            query: {
+                requestId: string;
+            };
+            header?: never;
+            path: {
+                sessionID: components["parameters"]["SessionID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The original authorized Native run, including its current state. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchAgentRunEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    listAgentRunEvents: {
+        parameters: {
+            query?: {
+                afterSequence?: number;
+            };
+            header?: never;
+            path: {
+                runID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ordered events and the next cursor. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentRunEventListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    resumeAgentRun: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                runID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AgentRunResumeRequest"];
+            };
+        };
+        responses: {
+            /** @description Current run after an idempotent resume. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchAgentRunEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
     recordWorkbenchGlobalAssistantEvent: {
         parameters: {
             query?: never;
@@ -36859,6 +38970,582 @@ export interface operations {
             404: components["responses"]["Error"];
         };
     };
+    getPersonalAgentAccess: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Operation result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalAgentAccessEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    requestPersonalAgentAccess: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Operation result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalAgentAccessEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listPersonalAgentAccessRequests: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Operation result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalAgentAccessListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    decidePersonalAgentAccess: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PersonalAgentAccessDecision"];
+            };
+        };
+        responses: {
+            /** @description Operation result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalAgentAccessEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listPersonalAgentSessions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Operation result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchSessionListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    createPersonalAgentSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchCreateSessionRequest"];
+            };
+        };
+        responses: {
+            /** @description Operation result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchSessionEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    ensurePersonalAssistant: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Personal assistant. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalAssistantEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    updatePersonalAssistant: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PersonalAssistantUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description Updated personal assistant. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalAssistantEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    updatePersonalAssistantAvatar: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PersonalAssistantAvatarRequest"];
+            };
+        };
+        responses: {
+            /** @description Updated personal assistant. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalAssistantEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    getPersonalEnvironment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Personal environment state */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalEnvironmentEnvelope"];
+                };
+            };
+            default: components["responses"]["Error"];
+        };
+    };
+    changePersonalEnvironment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PersonalEnvironmentActionRequest"];
+            };
+        };
+        responses: {
+            /** @description Actual environment receipt */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalEnvironmentEnvelope"];
+                };
+            };
+            default: components["responses"]["Error"];
+        };
+    };
+    deletePersonalEnvironmentData: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PersonalEnvironmentDataDeletionRequest"];
+            };
+        };
+        responses: {
+            /** @description Actual deletion receipt */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalEnvironmentEnvelope"];
+                };
+            };
+            default: components["responses"]["Error"];
+        };
+    };
+    getPersonalWorkspaceRuntime: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current workspace identity, latest receipt and browser control. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalWorkspaceRuntimeEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    startPersonalGuestRuntime: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PersonalGuestRuntimeInput"];
+            };
+        };
+        responses: {
+            /** @description Original durable runtime operation. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalGuestRuntimeEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getPersonalGuestRuntime: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                operationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Original runtime state and bounded owner result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalGuestRuntimeEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    installPersonalGuestTools: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PersonalGuestToolsInput"];
+            };
+        };
+        responses: {
+            /** @description Original owner-bound retained tools operation. */
+            202: {
+                headers: {
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationOperationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    provisionPersonalGuest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PersonalGuestPreparationInput"];
+            };
+        };
+        responses: {
+            /** @description Owner-bound durable provisioning operation; no private key or bootstrap challenge is returned. */
+            202: {
+                headers: {
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationOperationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    reconcilePersonalGuestProvisioning: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                operationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PersonalGuestPreparationInput"];
+            };
+        };
+        responses: {
+            /** @description The same retained operation queued for explicit reconciliation. */
+            202: {
+                headers: {
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VirtualizationOperationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    preparePersonalGuestEnrollment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PersonalGuestPreparationInput"];
+            };
+        };
+        responses: {
+            /** @description Owner-bound public certificate and private one-time bootstrap challenge; response must not be cached or logged. */
+            201: {
+                headers: {
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalGuestPreparationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    exportPersonalEnvironmentData: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PersonalEnvironmentDataExportRequest"];
+            };
+        };
+        responses: {
+            /** @description Complete verified personal data archive */
+            200: {
+                headers: {
+                    "X-Content-SHA256"?: string;
+                    "X-Assistant-ID"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/x-tar": string;
+                };
+            };
+            default: components["responses"]["Error"];
+        };
+    };
+    listPersonalEnvironmentTemplates: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized template choices */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalEnvironmentTemplateListEnvelope"];
+                };
+            };
+            default: components["responses"]["Error"];
+        };
+    };
+    listPersonalAssistantTasks: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Recent personal tasks. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchAgentRunListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
+    listPersonalAssistantArtifacts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Recent personal artifacts. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalAssistantArtifactListEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+        };
+    };
     listWorkbenchSessions: {
         parameters: {
             query?: never;
@@ -36895,6 +39582,32 @@ export interface operations {
         responses: {
             /** @description Workbench session created. */
             201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchSessionEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+        };
+    };
+    ensureWorkbenchMainSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkbenchMainSessionRequest"];
+            };
+        };
+        responses: {
+            /** @description The current user's main chat. */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36950,6 +39663,7 @@ export interface operations {
             };
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
         };
     };
     updateWorkbenchSession: {
@@ -36979,6 +39693,209 @@ export interface operations {
             400: components["responses"]["Error"];
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    searchWorkbenchMessages: {
+        parameters: {
+            query: {
+                q: string;
+                cursor?: string;
+                limit?: number;
+                workspace?: "chat" | "heya";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Search owned, unarchived user and assistant messages. Current source ACL applies before matching and snippets; opaque cursor follows stable descending message time and ID. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchMessageSearchEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getWorkbenchMessageWindow: {
+        parameters: {
+            query?: {
+                around?: string;
+                before?: string;
+                after?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                sessionID: components["parameters"]["SessionID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Read a chronological message window, latest by default. around, before and after are mutually exclusive owned message IDs; cursors allow stable adjacent windows. Does not change the legacy message list. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkbenchMessageWindowEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listPersonalFeed: {
+        parameters: {
+            query?: {
+                before?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Read owned content feed, settings, refresh state and eligible search sources. Does not enqueue work on read. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalFeedEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    updatePersonalFeedSettings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PersonalFeedSettings"];
+            };
+        };
+        responses: {
+            /** @description Update owned content instructions/source and optional daily updates. Automatic updates are disabled by default; changes invalidate unfinished refreshes. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalFeedEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    refreshPersonalFeed: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Queue one bounded refresh; duplicate active refreshes coalesce. User scoped cooldown prevents repeated paid calls. A valid read-only synchronous search source is required. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalFeedEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getPersonalFeedItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                itemID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Read an owned post for discussion context. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalFeedItemEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    updatePersonalFeedFeedback: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                itemID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PersonalFeedFeedback"];
+            };
+        };
+        responses: {
+            /** @description Save liked/hidden feedback for an owned post. Hidden posts remain stored and can be referenced by their owner. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalFeedItemEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
         };
     };
     listWorkbenchSessionMessages: {
@@ -42190,6 +45107,31 @@ export interface operations {
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
             409: components["responses"]["Error"];
+        };
+    };
+    listSecretReferences: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                secretID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Visible VM login bindings and initialization operations using fixed secret versions; no secret values. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SecretReferenceUsageListEnvelope"];
+                };
+            };
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
         };
     };
     listSecretVersions: {

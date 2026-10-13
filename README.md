@@ -3,7 +3,7 @@
 Shared public contracts for OpenSoha.
 
 This repository is the source of truth for schemas consumed across Soha core,
-Soha CLI, Soha Agent, Soha Web, official skills, connectors, and Soha
+Soha CLI, Soha Agent, Soha Web, Soha App, official skills, connectors, and Soha
 Cloud services. Product repositories should depend on generated SDKs, HTTP
 APIs, JSON Schemas, or released artifacts from this repository instead of
 copying business logic between repos.
@@ -23,6 +23,8 @@ presets/mcp-preset.schema.json        MCP preset manifest
 governance/approval-request.schema.json  Approval request and trace contract
 governance/audit-log.schema.json      Audit log contract
 agent/agent-protocol.schema.json      Runner and agent control-plane protocol
+agent/personal-guest-*.schema.json   Personal VM guest binding, enrollment and heartbeat
+agent/guest                          Hand-maintained Go guest protocol validators
 runner/operation-lifecycle.schema.json  Long-running operation lifecycle events
 mcp/gateway-manifest.schema.json      AI Gateway / MCP capability manifest
 skills/skill-manifest.schema.json     Official skill front matter contract
@@ -48,6 +50,15 @@ gen/ts/sohaapi                        TypeScript SDK types for stable Web contra
   uses `tenantId = default` and `workspaceId = default`.
 - Public behavior changes should update this repository first, then update
   generated SDKs and consumers.
+
+Personal VM guest messages are an independent protocol. Docker v1 and Network
+Control credentials do not authorize it. Enrollment requires a guest-specific
+mTLS identity and a short one-time challenge; Core must derive the frozen owner,
+assistant, compute generation, data identity and policy. Heartbeats carry no task
+execution or readiness grant. Certificate pinning, current authorization, atomic
+challenge consumption and sequence persistence belong to the consuming service.
+The contracts package alone does not implement guest enrollment or enable VM
+personal environments.
 
 ## SDK Consumers
 
@@ -107,7 +118,7 @@ calling code in the consumer until those APIs are promoted into the supported
 client surface. Redirect-oriented flows such as OIDC provider redirects should
 not use the JSON-only `doJSON` helper until a non-JSON client mode is added.
 
-The Go generator and generated DTO checks run with Go 1.26.6 in CI.
+The Go generator and generated DTO checks run with Go 1.27.2 in CI.
 
 ## Validation
 
@@ -123,6 +134,10 @@ fixtures, request/response and manifest examples, OpenAPI structure and
 operation ID uniqueness, version synchronization, OpenAPI lint rules,
 breaking-change compatibility against the checked-in baseline, TypeScript
 type declarations, and Go compilation for the generated SDK package.
+
+OpenAPI fixture directories are discovered automatically; registered required directories
+must still exist. Put every JSON fixture in `valid/` or `invalid/`, with at least
+one of each. The validation gate rejects misplaced or unrecognized entries.
 
 Useful focused checks:
 
@@ -151,7 +166,7 @@ failure.
 
 Network runtime schemas and network-access DTOs require `0.1.17` or later;
 they are absent from npm `0.1.16` and Go `v0.1.15`. For unpublished changes,
-use the local consumer matrix below: it packs this checkout for Web and
+use the local consumer matrix below: it packs this checkout for Web/App and
 supplies an isolated Go workspace. After publishing, update consumer versions
 and lockfiles and verify them without the local override.
 
@@ -167,15 +182,18 @@ and skips any missing consumer. CI uses the strict form:
 ```sh
 npm run check:consumers -- --consumer soha --require-all
 npm run check:consumers -- --consumer soha-web --require-all
+npm run check:consumers -- --consumer soha-app --require-all
 npm run check:consumers -- --consumer soha-cli --require-all
 npm run check:consumers -- --consumer soha-agent --require-all
 npm run check:consumers -- --consumer soha-skills --require-all
 ```
 
 Go consumers run in a temporary `go.work` that replaces the contracts module
-with this checkout. `soha-web` runs `npm ci`, installs a packed copy of this
-checkout without changing its dependency manifest or lockfile, and builds
-against that package.
+with this checkout. `soha-web` and `soha-app/frontend` run `npm ci`, install a packed copy of this
+checkout without changing their dependency manifests or lockfiles, and build
+against that package. The App pin represents its recorded committed source;
+local uncommitted Native adaptations need separate worktree evidence and a new
+reviewed pin after they are committed.
 
 Use `--dry-run` to inspect the discovered commands without executing consumer
 builds.
