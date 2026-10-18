@@ -503,3 +503,30 @@ must explicitly reject their absence. Known raw and structured string material
 is masked in SDK results/errors and Core outputs; conservative masking may also
 mask matching business keys. A trusted connector must honor cancellation and
 never persist credentials; masking is not a universal encoded-exfiltration guard.
+
+
+## 0.1.24 adoption inputs
+
+The 0.1.24 package publishes the personal-workspace and managed-VM contracts
+already committed after the 0.1.23 tag. The release does not replace the bytes
+of the previously published 0.1.23 package.
+
+The fixed source-consumer matrix intentionally advances two revisions:
+
+- Core: `e022021d9f8da8917c135671f92248ef19f2b5b4` to
+  `c29cc6294dd4b7cb69db1187d728c227475fdf7c`, which implements the newly
+  documented VM access, SSH and capacity routes. The earlier revision fails
+  its live-route conformance test against the new operations.
+- Web: `816ec0fb82e6e804f0f66d47d3446a7b5baeabc1` to
+  `447cbe5358802ef40d86ac67b7b59c5afe9c846a`, which handles the additional
+  `vm` and `vm_create` secret-scope enum members. The earlier exhaustive
+  TypeScript record does not compile against those additive enum members.
+
+The other four fixed revisions and all six checks remain in place. These are
+reviewed adoption inputs, not a claim that the earlier source revisions pass
+against the expanded SDK. The OpenAPI compatibility snapshot and all JSON
+Schema and loose-boundary expectations remain unchanged; the latter two files
+only synchronize their release-version metadata to satisfy their existing
+guards. Candidate matrices use the packed/local contracts source. Consumers
+must still pin the published version and validate the registry/proxy package
+before claiming released-version acceptance.

@@ -1,5 +1,5 @@
 {
-  "version": "0.1.23",
+  "version": "0.1.24",
   "schemas": {
     "plugins/plugin-manifest.schema.json": {
       "rootRequired": ["id", "name", "publisher", "type", "version"],
