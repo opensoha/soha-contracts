@@ -21,3 +21,15 @@ type PrometheusQuery struct {
 	End      int64  `json:"end,omitempty"`
 	Step     int64  `json:"step,omitempty"`
 }
+
+// AgentActionCheck separates binary support, authenticated action policy, and Kubernetes authorization.
+// RBAC scope is cluster-wide; target-specific checks and mutations remain authoritative.
+type AgentActionCheck struct {
+	Action         string `json:"action"`
+	Implementation string `json:"implementation"`
+	Configured     string `json:"configured"`
+	KubernetesRBAC string `json:"kubernetesRBAC"`
+	CheckedAt      string `json:"checkedAt,omitempty"`
+	ReasonCode     string `json:"reasonCode,omitempty"`
+	Scope          string `json:"scope,omitempty"`
+}

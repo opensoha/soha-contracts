@@ -248,6 +248,46 @@ const (
       }
     }
   }
+  // Action profiles introduce read-only as another enum. Keep published cache constants stable.
+  for (const typeName of [
+    "CreateAIGatewayAnthropicMessageParamsXSohaCacheMode",
+    "CreateAIGatewayCohereRerankParamsXSohaCacheMode",
+    "CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode",
+    "CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode",
+    "CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode",
+    "CreateAIGatewayOpenAIResponseParamsXSohaCacheMode",
+    "SohaCacheModeHeader"
+]) {
+    for (const [suffix, value] of [["Bypass", "bypass"], ["Default", "default"], ["ReadOnly", "read-only"], ["Refresh", "refresh"]]) {
+      const name = `${typeName}${suffix}`;
+      if (!new RegExp(`\\b${name}\\s+${typeName}\\s*=`).test(generated)) {
+        generated += `\n// Retained for Go SDK source compatibility.\nconst ${name} ${typeName} = "${value}"\n`;
+      }
+    }
+  }
+  for (const [suffix, value] of [["Bypass", "bypass"], ["Hit", "hit"], ["Miss", "miss"], ["StaleHit", "stale_hit"], ["Write", "write"], ["WriteSkipped", "write_skipped"]]) {
+    const name = `LLMCallLogCacheStatus${suffix}`;
+    if (!new RegExp(`\\b${name}\\s+LLMCallLogCacheStatus\\s*=`).test(generated)) {
+      generated += `\n// Retained for Go SDK source compatibility.\nconst ${name} LLMCallLogCacheStatus = "${value}"\n`;
+    }
+  }
   await writeFile(url, generated);
 }
 
@@ -347,6 +387,17 @@ function applyGoCompatibility(spec) {
   for (const schema of Object.values(schemas)) {
     markOptionalPointerFields(schema, schemas);
   }
+  // A missing monitoring sample is distinct from zero, including required nullable fields.
+  for (const name of ["ResourceMonitoringQuantity", "ResourceMonitoringPoint", "ResourceMonitoringSeries", "ResourceMonitoringNode", "ResourceMonitoringView"]) {
+    for (const property of Object.values(schemas[name]?.properties ?? {})) {
+      if (property.nullable && property.type === "number") property["x-go-type"] = "*float64";
+    }
+  }
+  for (const property of ["weight", "totalWeight", "mirrorPercent"]) {
+    keepOptionalPropertyPointer(schemas, "KubernetesTopologyGraphEdge", property);
+  }
+  keepOptionalPropertyPointer(schemas, "KubernetesTopologyCondition", "observedGeneration");
+  keepOptionalPropertyPointer(schemas, "KubernetesTopologyRule", "priority");
   // Named invocation scopes refine validation without changing the published map DTO.
   schemas.ApprovalRequest.properties.resourceScope["x-go-type-skip-optional-pointer"] = true;
 }

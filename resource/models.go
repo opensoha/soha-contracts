@@ -14,13 +14,14 @@ const (
 )
 
 type ResourceRef struct {
-	ClusterID  string            `json:"clusterId"`
-	APIVersion string            `json:"apiVersion"`
-	Kind       string            `json:"kind"`
-	Name       string            `json:"name"`
-	Namespace  string            `json:"namespace,omitempty"`
-	ScopeMode  ResourceScopeMode `json:"scopeMode"`
-	UID        string            `json:"uid,omitempty"`
+	ClusterID       string            `json:"clusterId"`
+	APIVersion      string            `json:"apiVersion"`
+	Kind            string            `json:"kind"`
+	Name            string            `json:"name"`
+	Namespace       string            `json:"namespace,omitempty"`
+	ScopeMode       ResourceScopeMode `json:"scopeMode"`
+	UID             string            `json:"uid,omitempty"`
+	ResourceVersion string            `json:"resourceVersion,omitempty"`
 }
 
 type ResourceSearchItem struct {
@@ -897,19 +898,27 @@ type NetworkTopologyTraceView struct {
 }
 
 type NetworkTopologyView struct {
-	ClusterID   string                     `json:"clusterId"`
-	Namespace   string                     `json:"namespace,omitempty"`
-	Source      string                     `json:"source"`
-	GeneratedAt string                     `json:"generatedAt"`
-	Summary     NetworkTopologySummaryView `json:"summary"`
-	Traces      []NetworkTopologyTraceView `json:"traces,omitempty"`
-	Warnings    []string                   `json:"warnings,omitempty"`
+	GraphVersion string                     `json:"graphVersion,omitempty"`
+	Nodes        []NetworkTopologyGraphNode `json:"nodes,omitempty"`
+	Edges        []NetworkTopologyGraphEdge `json:"edges,omitempty"`
+	Coverage     []NetworkTopologyCoverage  `json:"coverage,omitempty"`
+	ObservedAt   string                     `json:"observedAt,omitempty"`
+	Truncated    bool                       `json:"truncated,omitempty"`
+	ClusterID    string                     `json:"clusterId"`
+	Namespace    string                     `json:"namespace,omitempty"`
+	Source       string                     `json:"source"`
+	GeneratedAt  string                     `json:"generatedAt"`
+	Summary      NetworkTopologySummaryView `json:"summary"`
+	Traces       []NetworkTopologyTraceView `json:"traces,omitempty"`
+	Warnings     []string                   `json:"warnings,omitempty"`
 }
 
 type NodeView struct {
 	Name           string                  `json:"name"`
 	Status         string                  `json:"status"`
 	Unschedulable  bool                    `json:"unschedulable"`
+	Taints         []NodeTaintView         `json:"taints"`
+	Conditions     []WorkloadConditionView `json:"conditions"`
 	Roles          []string                `json:"roles,omitempty"`
 	Version        string                  `json:"version,omitempty"`
 	InternalIP     string                  `json:"internalIp,omitempty"`

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "authorization.opensoha.io/v1",
   "catalogVersion": "2.0.0",
-  "contentHash": "sha256:b1a07eef4c26f91735b65ec18799e530271a47d0eed1de60f9a955d11208f9a2",
+  "contentHash": "sha256:2d98b53189afa67c09a2917325e3b1b1b70aafe00d370bdabaef7d6b11ef493c",
   "permissions": [
     {
       "key": "access.directory.create",
@@ -8505,6 +8505,54 @@
       "assignable": true
     },
     {
+      "key": "platform.network.backend-tls-policies.create",
+      "domain": "platform",
+      "resource": "network.backend-tls-policies",
+      "action": "create",
+      "displayName": "创建 Kubernetes BackendTLSPolicy",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "cluster",
+        "namespace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "platform.network.backend-tls-policies.delete",
+      "domain": "platform",
+      "resource": "network.backend-tls-policies",
+      "action": "delete",
+      "displayName": "删除 Kubernetes BackendTLSPolicy",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "cluster",
+        "namespace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "platform.network.backend-tls-policies.update",
+      "domain": "platform",
+      "resource": "network.backend-tls-policies",
+      "action": "update",
+      "displayName": "修改 Kubernetes BackendTLSPolicy",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "cluster",
+        "namespace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
       "key": "platform.network.backend-tls-policies.view",
       "domain": "platform",
       "resource": "network.backend-tls-policies",
@@ -8756,6 +8804,54 @@
       ]
     },
     {
+      "key": "platform.network.grpc-routes.create",
+      "domain": "platform",
+      "resource": "network.grpc-routes",
+      "action": "create",
+      "displayName": "创建 Kubernetes GRPCRoute",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "cluster",
+        "namespace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "platform.network.grpc-routes.delete",
+      "domain": "platform",
+      "resource": "network.grpc-routes",
+      "action": "delete",
+      "displayName": "删除 Kubernetes GRPCRoute",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "cluster",
+        "namespace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "platform.network.grpc-routes.update",
+      "domain": "platform",
+      "resource": "network.grpc-routes",
+      "action": "update",
+      "displayName": "修改 Kubernetes GRPCRoute",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "cluster",
+        "namespace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
       "key": "platform.network.grpc-routes.view",
       "domain": "platform",
       "resource": "network.grpc-routes",
@@ -8774,6 +8870,54 @@
       "legacyAliases": [
         "platform.network.view"
       ]
+    },
+    {
+      "key": "platform.network.http-routes.create",
+      "domain": "platform",
+      "resource": "network.http-routes",
+      "action": "create",
+      "displayName": "创建 Kubernetes HTTPRoute",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "cluster",
+        "namespace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "platform.network.http-routes.delete",
+      "domain": "platform",
+      "resource": "network.http-routes",
+      "action": "delete",
+      "displayName": "删除 Kubernetes HTTPRoute",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "cluster",
+        "namespace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "platform.network.http-routes.update",
+      "domain": "platform",
+      "resource": "network.http-routes",
+      "action": "update",
+      "displayName": "修改 Kubernetes HTTPRoute",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "cluster",
+        "namespace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
     },
     {
       "key": "platform.network.http-routes.view",
@@ -9085,6 +9229,54 @@
       ]
     },
     {
+      "key": "platform.network.reference-grants.create",
+      "domain": "platform",
+      "resource": "network.reference-grants",
+      "action": "create",
+      "displayName": "创建 Kubernetes ReferenceGrant",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "cluster",
+        "namespace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "platform.network.reference-grants.delete",
+      "domain": "platform",
+      "resource": "network.reference-grants",
+      "action": "delete",
+      "displayName": "删除 Kubernetes ReferenceGrant",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "cluster",
+        "namespace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "platform.network.reference-grants.update",
+      "domain": "platform",
+      "resource": "network.reference-grants",
+      "action": "update",
+      "displayName": "修改 Kubernetes ReferenceGrant",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "cluster",
+        "namespace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
       "key": "platform.network.reference-grants.view",
       "domain": "platform",
       "resource": "network.reference-grants",
@@ -9359,6 +9551,22 @@
       ]
     },
     {
+      "key": "platform.pods.create",
+      "domain": "platform",
+      "resource": "pods",
+      "action": "create",
+      "displayName": "创建 Kubernetes Pod",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "cluster",
+        "namespace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
       "key": "platform.pods.delete",
       "domain": "platform",
       "resource": "pods",
@@ -9532,6 +9740,81 @@
         "cluster",
         "namespace",
         "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "platform.resource-monitoring.conntrack.view",
+      "domain": "platform",
+      "resource": "resource-monitoring.conntrack",
+      "action": "view",
+      "displayName": "查看资源监控连接跟踪",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "workspace",
+        "cluster"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "platform.resource-monitoring.cpu.view",
+      "domain": "platform",
+      "resource": "resource-monitoring.cpu",
+      "action": "view",
+      "displayName": "查看资源监控CPU",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "workspace",
+        "cluster"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "platform.resource-monitoring.memory.view",
+      "domain": "platform",
+      "resource": "resource-monitoring.memory",
+      "action": "view",
+      "displayName": "查看资源监控内存",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "workspace",
+        "cluster"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "platform.resource-monitoring.overview.view",
+      "domain": "platform",
+      "resource": "resource-monitoring.overview",
+      "action": "view",
+      "displayName": "查看资源监控总览",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "workspace",
+        "cluster"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "platform.resource-monitoring.pods.view",
+      "domain": "platform",
+      "resource": "resource-monitoring.pods",
+      "action": "view",
+      "displayName": "查看资源监控Pod 容量",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "workspace",
+        "cluster"
       ],
       "approvalPolicy": "never",
       "status": "active",
@@ -10182,6 +10465,22 @@
       "legacyCapabilities": [
         "create"
       ]
+    },
+    {
+      "key": "platform.workloads.replication-controllers.delete",
+      "domain": "platform",
+      "resource": "workloads.replication-controllers",
+      "action": "delete",
+      "displayName": "删除 Kubernetes ReplicationController",
+      "riskLevel": "high",
+      "scopeKinds": [
+        "cluster",
+        "namespace",
+        "resource"
+      ],
+      "approvalPolicy": "eligible",
+      "status": "active",
+      "assignable": true
     },
     {
       "key": "platform.workloads.replication-controllers.update",

@@ -6079,6 +6079,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/clusters/{clusterID}/resource-monitoring": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Fixed bounded monitoring templates. The selected view requires its exact permission plus cluster-wide nodes.view. Raw PromQL is never accepted. Current snapshots and historical series have separate observation times. */
+        get: operations["getKubernetesResourceMonitoring"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/clusters/{clusterID}/network/topology": {
         parameters: {
             query?: never;
@@ -11778,6 +11795,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** @description Cordon the node and evict eligible pods. A 409 with node_drain_pdb_blocked, node_drain_eviction_blocked, node_drain_timeout, node_drain_canceled, node_drain_pod_selection or node_drain_failed means this drain did not complete. Inspect current node schedulability and remaining pods before retrying or explicitly restoring scheduling. Transport failure leaves the outcome unknown. */
         post: operations["drainKubernetesNode"];
         delete?: never;
         options?: never;
@@ -11876,6 +11894,214 @@ export interface paths {
         put?: never;
         post: operations["setKubernetesCronJobSuspend"];
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/httproutes/{name}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["deleteKubernetesHTTPRoute"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/httproutes/{name}/yaml": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesHTTPRouteYaml"];
+        put: operations["applyKubernetesHTTPRouteYaml"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/grpcroutes/{name}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["deleteKubernetesGRPCRoute"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/grpcroutes/{name}/yaml": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesGRPCRouteYaml"];
+        put: operations["applyKubernetesGRPCRouteYaml"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/backendtlspolicies/{name}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["deleteKubernetesBackendTLSPolicy"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/backendtlspolicies/{name}/yaml": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesBackendTLSPolicyYaml"];
+        put: operations["applyKubernetesBackendTLSPolicyYaml"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/referencegrants/{name}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["deleteKubernetesReferenceGrant"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/network/referencegrants/{name}/yaml": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesReferenceGrantYaml"];
+        put: operations["applyKubernetesReferenceGrantYaml"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/hpas/{name}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["deleteKubernetesHorizontalPodAutoscaler"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/hpas/{name}/yaml": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesHorizontalPodAutoscalerYaml"];
+        put: operations["applyKubernetesHorizontalPodAutoscalerYaml"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/poddisruptionbudgets/{name}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["deleteKubernetesPodDisruptionBudget"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/configuration/poddisruptionbudgets/{name}/yaml": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getKubernetesPodDisruptionBudgetYaml"];
+        put: operations["applyKubernetesPodDisruptionBudgetYaml"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/clusters/{clusterID}/workloads/replicationcontrollers/{name}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["deleteKubernetesReplicationController"];
         options?: never;
         head?: never;
         patch?: never;
@@ -21321,6 +21547,7 @@ export interface components {
             lastTransition?: string;
         };
         KubernetesClusterDiagnostics: {
+            actionChecks?: components["schemas"]["KubernetesAgentActionCheck"][];
             transport: string;
             syncStrategy: string;
             cacheStatus: string;
@@ -21331,6 +21558,25 @@ export interface components {
             connectionState: string;
             message?: string;
         };
+        KubernetesAgentActionCheck: {
+            action: string;
+            /** @enum {string} */
+            implementation: "supported" | "unsupported" | "unknown";
+            /** @enum {string} */
+            configured: "allowed" | "denied" | "unknown";
+            /** @enum {string} */
+            kubernetesRBAC: "allowed" | "denied" | "unknown" | "not_applicable";
+            /** Format: date-time */
+            checkedAt?: string;
+            reasonCode?: string;
+            /** @enum {string} */
+            scope?: "cluster";
+        };
+        /**
+         * @description Installation preset only. Legacy preserves existing permissions; selecting workbench or read-only requires regenerating and reviewing the installation manifest.
+         * @enum {string}
+         */
+        KubernetesAgentActionProfile: "legacy" | "workbench" | "read-only";
         KubernetesClusterConnectionDetail: {
             mode: components["schemas"]["KubernetesConnectionMode"];
             credentialType: string;
@@ -21341,6 +21587,7 @@ export interface components {
             hasInlineKubeconfig: boolean;
             hasToken: boolean;
             usesInformerCache: boolean;
+            actionProfile?: components["schemas"]["KubernetesAgentActionProfile"];
             customResourceRules?: components["schemas"]["KubernetesAgentCustomResourceRule"][];
         };
         KubernetesCustomResourceAccess: {
@@ -21367,6 +21614,7 @@ export interface components {
             prometheusClusterLabel?: string;
             grafanaBaseUrl?: string;
             prometheusTransport?: components["schemas"]["KubernetesPrometheusTransport"];
+            agentActionProfile?: components["schemas"]["KubernetesAgentActionProfile"];
             agentCustomResourceRules?: components["schemas"]["KubernetesAgentCustomResourceRule"][];
         };
         KubernetesAgentCustomResourceRule: {
@@ -21455,6 +21703,10 @@ export interface components {
             name: string;
             status: string;
             unschedulable: boolean;
+            /** @description Current Node spec taints. Empty means none; null or absent means not reported. */
+            taints?: components["schemas"]["KubernetesNodeTaint"][] | null;
+            /** @description Current Node conditions, independent of scheduling and drain operations. */
+            conditions?: components["schemas"]["KubernetesWorkloadCondition"][] | null;
             roles?: string[];
             version?: string;
             internalIp?: string;
@@ -22852,6 +23104,204 @@ export interface components {
         KubernetesNetworkPolicyDetailEnvelope: {
             data: components["schemas"]["KubernetesNetworkPolicyDetail"];
         };
+        /** @enum {string} */
+        KubernetesTopologyProvider: "kubernetes" | "gateway" | "traefik" | "apisix";
+        /** @enum {string} */
+        KubernetesTopologyResolution: "resolved" | "unresolved" | "not_found" | "not_visible" | "no_ready_endpoints" | "external" | "unsupported_fragment" | "unknown";
+        KubernetesTopologyProperty: {
+            name: string;
+            value: string;
+        };
+        KubernetesTopologyMatch: {
+            type: string;
+            name?: string;
+            operator?: string;
+            value?: string;
+        };
+        KubernetesTopologyRule: {
+            name?: string;
+            index: number;
+            /** @description Groups are ORed; matches inside each group are ANDed. Opaque expressions remain a bounded summary and are marked unsupported_fragment. */
+            matchGroups?: components["schemas"]["KubernetesTopologyMatch"][][];
+            matchSummary?: string;
+            /** Format: int64 */
+            priority?: number;
+            tlsMode?: string;
+        };
+        KubernetesTopologyCondition: {
+            type: string;
+            status: string;
+            reason?: string;
+            /** Format: int64 */
+            observedGeneration?: number;
+            /** Format: date-time */
+            lastTransitionTime?: string;
+        };
+        KubernetesTopologyGraphNode: {
+            id: string;
+            /** @enum {string} */
+            type: "entry" | "rule" | "processor" | "backend-group" | "service" | "endpoint-group" | "pod" | "external";
+            label: string;
+            provider: components["schemas"]["KubernetesTopologyProvider"];
+            protocol?: string;
+            resolutionState: components["schemas"]["KubernetesTopologyResolution"];
+            resource?: components["schemas"]["KubernetesResourceRef"];
+            rule?: components["schemas"]["KubernetesTopologyRule"];
+            /** Format: int64 */
+            generation?: number;
+            properties?: components["schemas"]["KubernetesTopologyProperty"][];
+            conditions?: components["schemas"]["KubernetesTopologyCondition"][];
+        };
+        KubernetesTopologyGraphEdge: {
+            id: string;
+            source: string;
+            target: string;
+            /** @enum {string} */
+            relation: "matches" | "processes" | "forwards" | "weights" | "mirrors" | "resolves" | "selects";
+            resolutionState: components["schemas"]["KubernetesTopologyResolution"];
+            protocol?: string;
+            port?: string;
+            /** Format: int64 */
+            weight?: number;
+            /** Format: int64 */
+            totalWeight?: number;
+            mirrorPercent?: number;
+            ruleRef?: string;
+            sourceRef?: components["schemas"]["KubernetesResourceRef"];
+            note?: string;
+        };
+        KubernetesTopologyCoverage: {
+            provider: components["schemas"]["KubernetesTopologyProvider"];
+            sourceId: string;
+            /** @enum {string} */
+            state: "available" | "not_installed" | "unsupported" | "denied" | "error" | "partial";
+            namespace?: string;
+            supportedKinds?: string[];
+            reasonCode?: string;
+            /** Format: date-time */
+            checkedAt?: string;
+            /** Format: date-time */
+            observedAt?: string;
+            truncated?: boolean;
+        };
+        KubernetesTopologySourceQuery: {
+            /** @enum {string} */
+            sourceId: "kubernetes.services" | "kubernetes.pods" | "kubernetes.endpointslices" | "kubernetes.ingresses" | "kubernetes.ingressclasses" | "gateway.gateways" | "gateway.gatewayclasses" | "gateway.httproutes" | "gateway.grpcroutes" | "gateway.tcproutes" | "gateway.tlsroutes" | "gateway.udproutes" | "gateway.referencegrants" | "traefik.ingressroutes" | "traefik.ingressroutetcps" | "traefik.ingressrouteudps" | "traefik.traefikservices" | "traefik.middlewares" | "traefik.middlewaretcps" | "apisix.apisixroutes" | "apisix.apisixupstreams" | "apisix.apisixtls";
+            namespace?: string;
+        } & unknown;
+        KubernetesTopologySnapshotRequest: {
+            queries: components["schemas"]["KubernetesTopologySourceQuery"][];
+        };
+        KubernetesTopologySourceObject: {
+            resource: components["schemas"]["KubernetesResourceRef"];
+            /** Format: int64 */
+            generation?: number;
+            /** @description Fixed source-schema projection encoded as JSON. Unknown fields, raw annotations, Secret values, plugin configuration and credential material are removed before transport. This is not an original Kubernetes manifest. */
+            content: string;
+        };
+        KubernetesTopologySourceResult: {
+            coverage: components["schemas"]["KubernetesTopologyCoverage"];
+            objects: components["schemas"]["KubernetesTopologySourceObject"][];
+        };
+        KubernetesTopologySnapshot: {
+            version: string;
+            sources: components["schemas"]["KubernetesTopologySourceResult"][];
+        };
+        /** @enum {string} */
+        ResourceMonitoringQuality: "valid" | "partial" | "stale" | "not_configured" | "not_collected" | "unsupported" | "denied" | "error" | "empty";
+        /** @enum {string} */
+        ResourceMonitoringViewName: "overview" | "cpu" | "memory" | "conntrack" | "pods";
+        ResourceMonitoringQuantity: {
+            /** Format: double */
+            cpuCores: number | null;
+            /** Format: double */
+            memoryBytes: number | null;
+            /** Format: double */
+            podSlots: number | null;
+        };
+        ResourceMonitoringNode: {
+            nodeRef: components["schemas"]["KubernetesResourceRef"];
+            internalIP?: string;
+            os?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            ready: string;
+            cordoned: boolean;
+            memoryPressure: string;
+            diskPressure: string;
+            pidPressure: string;
+            capacity: components["schemas"]["ResourceMonitoringQuantity"];
+            allocatable: components["schemas"]["ResourceMonitoringQuantity"];
+            requests: components["schemas"]["ResourceMonitoringQuantity"];
+            limits: components["schemas"]["ResourceMonitoringQuantity"];
+            cpuLimitsComplete: boolean;
+            memoryLimitsComplete: boolean;
+            /** Format: double */
+            boundPods: number | null;
+            /** Format: double */
+            pendingPods: number | null;
+            /** Format: double */
+            remainingPodSlots: number | null;
+            /** Format: double */
+            overflowPodSlots: number | null;
+            quality: components["schemas"]["ResourceMonitoringQuality"];
+            /** Format: date-time */
+            observedAt?: string;
+        };
+        ResourceMonitoringPoint: {
+            /** Format: date-time */
+            timestamp: string;
+            /** Format: double */
+            value: number | null;
+        };
+        ResourceMonitoringSeries: {
+            nodeRef: components["schemas"]["KubernetesResourceRef"];
+            metricKey: string;
+            /** @enum {string} */
+            unit: "cores" | "bytes" | "count" | "events/s" | "events" | "percent";
+            quality: components["schemas"]["ResourceMonitoringQuality"];
+            reasonCode?: string;
+            source: string;
+            /** Format: date-time */
+            sampledAt?: string;
+            /** Format: double */
+            latest: number | null;
+            points: components["schemas"]["ResourceMonitoringPoint"][];
+        };
+        ResourceMonitoringPanel: {
+            key: string;
+            label: string;
+            unit: string;
+            quality: components["schemas"]["ResourceMonitoringQuality"];
+            reasonCode?: string;
+            estimated?: boolean;
+            windowSeconds?: number;
+            series: components["schemas"]["ResourceMonitoringSeries"][];
+        };
+        ResourceMonitoringView: {
+            clusterId: string;
+            view: components["schemas"]["ResourceMonitoringViewName"];
+            node?: string;
+            /** Format: date-time */
+            from: string;
+            /** Format: date-time */
+            to: string;
+            stepSeconds: number;
+            /** Format: date-time */
+            generatedAt: string;
+            /** Format: date-time */
+            snapshotObservedAt?: string;
+            snapshotQuality: components["schemas"]["ResourceMonitoringQuality"];
+            /** Format: double */
+            unscheduledPendingPods: number | null;
+            nodes: components["schemas"]["ResourceMonitoringNode"][];
+            panels: components["schemas"]["ResourceMonitoringPanel"][];
+            truncated?: boolean;
+            nodeOptions?: components["schemas"]["KubernetesResourceRef"][];
+        };
+        ResourceMonitoringEnvelope: {
+            data: components["schemas"]["ResourceMonitoringView"];
+        };
         KubernetesNetworkTopologySummary: {
             entryCount: number;
             routeCount: number;
@@ -22886,6 +23336,13 @@ export interface components {
             source: string;
             generatedAt: string;
             summary: components["schemas"]["KubernetesNetworkTopologySummary"];
+            graphVersion?: string;
+            nodes?: components["schemas"]["KubernetesTopologyGraphNode"][];
+            edges?: components["schemas"]["KubernetesTopologyGraphEdge"][];
+            coverage?: components["schemas"]["KubernetesTopologyCoverage"][];
+            /** Format: date-time */
+            observedAt?: string;
+            truncated?: boolean;
             traces?: components["schemas"]["KubernetesNetworkTopologyTrace"][];
             warnings?: string[];
         };
@@ -24484,6 +24941,7 @@ export interface components {
             namespace?: string;
             scopeMode: components["schemas"]["KubernetesResourceScopeMode"];
             uid?: string;
+            resourceVersion?: string;
         };
         /** @enum {string} */
         KubernetesResourceStreamEventType: "status" | "added" | "modified" | "deleted" | "reset" | "error";
@@ -29228,6 +29686,8 @@ export type KubernetesClusterSummary = components['schemas']['KubernetesClusterS
 export type KubernetesClusterListEnvelope = components['schemas']['KubernetesClusterListEnvelope'];
 export type KubernetesCacheResourceDiagnostic = components['schemas']['KubernetesCacheResourceDiagnostic'];
 export type KubernetesClusterDiagnostics = components['schemas']['KubernetesClusterDiagnostics'];
+export type KubernetesAgentActionCheck = components['schemas']['KubernetesAgentActionCheck'];
+export type KubernetesAgentActionProfile = components['schemas']['KubernetesAgentActionProfile'];
 export type KubernetesClusterConnectionDetail = components['schemas']['KubernetesClusterConnectionDetail'];
 export type KubernetesCustomResourceAccess = components['schemas']['KubernetesCustomResourceAccess'];
 export type KubernetesCustomResourceAccessEnvelope = components['schemas']['KubernetesCustomResourceAccessEnvelope'];
@@ -29420,6 +29880,29 @@ export type KubernetesNetworkPolicyPort = components['schemas']['KubernetesNetwo
 export type KubernetesNetworkPolicyRule = components['schemas']['KubernetesNetworkPolicyRule'];
 export type KubernetesNetworkPolicyDetail = components['schemas']['KubernetesNetworkPolicyDetail'];
 export type KubernetesNetworkPolicyDetailEnvelope = components['schemas']['KubernetesNetworkPolicyDetailEnvelope'];
+export type KubernetesTopologyProvider = components['schemas']['KubernetesTopologyProvider'];
+export type KubernetesTopologyResolution = components['schemas']['KubernetesTopologyResolution'];
+export type KubernetesTopologyProperty = components['schemas']['KubernetesTopologyProperty'];
+export type KubernetesTopologyMatch = components['schemas']['KubernetesTopologyMatch'];
+export type KubernetesTopologyRule = components['schemas']['KubernetesTopologyRule'];
+export type KubernetesTopologyCondition = components['schemas']['KubernetesTopologyCondition'];
+export type KubernetesTopologyGraphNode = components['schemas']['KubernetesTopologyGraphNode'];
+export type KubernetesTopologyGraphEdge = components['schemas']['KubernetesTopologyGraphEdge'];
+export type KubernetesTopologyCoverage = components['schemas']['KubernetesTopologyCoverage'];
+export type KubernetesTopologySourceQuery = components['schemas']['KubernetesTopologySourceQuery'];
+export type KubernetesTopologySnapshotRequest = components['schemas']['KubernetesTopologySnapshotRequest'];
+export type KubernetesTopologySourceObject = components['schemas']['KubernetesTopologySourceObject'];
+export type KubernetesTopologySourceResult = components['schemas']['KubernetesTopologySourceResult'];
+export type KubernetesTopologySnapshot = components['schemas']['KubernetesTopologySnapshot'];
+export type ResourceMonitoringQuality = components['schemas']['ResourceMonitoringQuality'];
+export type ResourceMonitoringViewName = components['schemas']['ResourceMonitoringViewName'];
+export type ResourceMonitoringQuantity = components['schemas']['ResourceMonitoringQuantity'];
+export type ResourceMonitoringNode = components['schemas']['ResourceMonitoringNode'];
+export type ResourceMonitoringPoint = components['schemas']['ResourceMonitoringPoint'];
+export type ResourceMonitoringSeries = components['schemas']['ResourceMonitoringSeries'];
+export type ResourceMonitoringPanel = components['schemas']['ResourceMonitoringPanel'];
+export type ResourceMonitoringView = components['schemas']['ResourceMonitoringView'];
+export type ResourceMonitoringEnvelope = components['schemas']['ResourceMonitoringEnvelope'];
 export type KubernetesNetworkTopologySummary = components['schemas']['KubernetesNetworkTopologySummary'];
 export type KubernetesNetworkTopologyNode = components['schemas']['KubernetesNetworkTopologyNode'];
 export type KubernetesNetworkTopologyTrace = components['schemas']['KubernetesNetworkTopologyTrace'];
@@ -42508,6 +42991,39 @@ export interface operations {
             503: components["responses"]["Error"];
         };
     };
+    getKubernetesResourceMonitoring: {
+        parameters: {
+            query: {
+                view: components["schemas"]["ResourceMonitoringViewName"];
+                node?: string;
+                from?: string;
+                to?: string;
+                rangeMinutes?: number;
+                stepSeconds?: number;
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Per-panel quality and bounded node series. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResourceMonitoringEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
     getKubernetesNetworkTopology: {
         parameters: {
             query?: {
@@ -42522,7 +43038,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Resolved ingress and Gateway API topology for the selected scope. */
+            /** @description Bounded permission-filtered Kubernetes, Gateway API, Traefik and APISIX topology, with per-source coverage and explicit unresolved relationships. */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -54975,6 +55491,605 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["KubernetesCronJobDetailEnvelope"];
                 };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    deleteKubernetesHTTPRoute: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Resource deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesHTTPRouteYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized Kubernetes resource YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    applyKubernetesHTTPRouteYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesResourceYamlInput"];
+            };
+        };
+        responses: {
+            /** @description Authorized Kubernetes resource YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    deleteKubernetesGRPCRoute: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Resource deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesGRPCRouteYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized Kubernetes resource YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    applyKubernetesGRPCRouteYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesResourceYamlInput"];
+            };
+        };
+        responses: {
+            /** @description Authorized Kubernetes resource YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    deleteKubernetesBackendTLSPolicy: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Resource deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesBackendTLSPolicyYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized Kubernetes resource YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    applyKubernetesBackendTLSPolicyYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesResourceYamlInput"];
+            };
+        };
+        responses: {
+            /** @description Authorized Kubernetes resource YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    deleteKubernetesReferenceGrant: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Resource deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesReferenceGrantYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized Kubernetes resource YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    applyKubernetesReferenceGrantYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesResourceYamlInput"];
+            };
+        };
+        responses: {
+            /** @description Authorized Kubernetes resource YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    deleteKubernetesHorizontalPodAutoscaler: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Resource deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesHorizontalPodAutoscalerYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized Kubernetes resource YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    applyKubernetesHorizontalPodAutoscalerYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesResourceYamlInput"];
+            };
+        };
+        responses: {
+            /** @description Authorized Kubernetes resource YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    deleteKubernetesPodDisruptionBudget: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Resource deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getKubernetesPodDisruptionBudgetYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized Kubernetes resource YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    applyKubernetesPodDisruptionBudgetYaml: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KubernetesResourceYamlInput"];
+            };
+        };
+        responses: {
+            /** @description Authorized Kubernetes resource YAML. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    deleteKubernetesReplicationController: {
+        parameters: {
+            query?: {
+                /** @description Omit to aggregate across namespaces when the operation supports cluster-wide reads. */
+                namespace?: components["parameters"]["KubernetesNamespaceQuery"];
+            };
+            header?: never;
+            path: {
+                clusterID: components["parameters"]["ClusterID"];
+                name: components["parameters"]["KubernetesResourceName"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Resource deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             400: components["responses"]["Error"];
             403: components["responses"]["Error"];
