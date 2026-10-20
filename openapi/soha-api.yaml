@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Soha API
-  version: 0.1.24
+  version: 0.1.25
   description: >
     Public OpenSoha core API contract. This first contract focuses on stable
     cross-repository boundaries: auth, health, runner-facing control-plane
@@ -10086,6 +10086,36 @@ paths:
         "403": { $ref: "#/components/responses/Error" }
         "404": { $ref: "#/components/responses/Error" }
         "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/resource-monitoring:
+    get:
+      tags: [Platform]
+      operationId: getKubernetesResourceMonitoring
+      description: Fixed bounded monitoring templates. The selected view requires its exact permission plus cluster-wide nodes.view. Raw PromQL is never accepted. Current snapshots and historical series have separate observation times.
+      x-soha-permissions:
+        mode: all
+        keys: [platform.nodes.view]
+        byQuery:
+          view:
+            overview: platform.resource-monitoring.overview.view
+            cpu: platform.resource-monitoring.cpu.view
+            memory: platform.resource-monitoring.memory.view
+            conntrack: platform.resource-monitoring.conntrack.view
+            pods: platform.resource-monitoring.pods.view
+      x-soha-implementation-status: implemented
+      parameters:
+        - { $ref: "#/components/parameters/ClusterID" }
+        - { name: view, in: query, required: true, schema: { $ref: "#/components/schemas/ResourceMonitoringViewName" } }
+        - { name: node, in: query, schema: { type: string, maxLength: 253 } }
+        - { name: from, in: query, schema: { type: string, format: date-time } }
+        - { name: to, in: query, schema: { type: string, format: date-time } }
+        - { name: rangeMinutes, in: query, schema: { type: integer, minimum: 1, maximum: 1440, default: 60 } }
+        - { name: stepSeconds, in: query, schema: { type: integer, minimum: 15, maximum: 3600, default: 60 } }
+      responses:
+        "200": { description: Per-panel quality and bounded node series., content: { application/json: { schema: { $ref: "#/components/schemas/ResourceMonitoringEnvelope" } } } }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
   /clusters/{clusterID}/network/topology:
     get:
       tags: [Platform]
@@ -10097,7 +10127,7 @@ paths:
       x-soha-implementation-status: implemented
       parameters: [{ $ref: "#/components/parameters/ClusterID" }, { $ref: "#/components/parameters/KubernetesNamespaceQuery" }]
       responses:
-        "200": { description: Resolved ingress and Gateway API topology for the selected scope., content: { application/json: { schema: { $ref: "#/components/schemas/KubernetesNetworkTopologyEnvelope" } } } }
+        "200": { description: "Bounded permission-filtered Kubernetes, Gateway API, Traefik and APISIX topology, with per-source coverage and explicit unresolved relationships.", content: { application/json: { schema: { $ref: "#/components/schemas/KubernetesNetworkTopologyEnvelope" } } } }
         "403": { $ref: "#/components/responses/Error" }
         "404": { $ref: "#/components/responses/Error" }
         "503": { $ref: "#/components/responses/Error" }
@@ -19764,6 +19794,12 @@ paths:
       tags:
         - Platform
       operationId: drainKubernetesNode
+      description: >-
+        Cordon the node and evict eligible pods. A 409 with node_drain_pdb_blocked,
+        node_drain_eviction_blocked, node_drain_timeout, node_drain_canceled,
+        node_drain_pod_selection or node_drain_failed means this drain did not complete.
+        Inspect current node schedulability and remaining pods before retrying or
+        explicitly restoring scheduling. Transport failure leaves the outcome unknown.
       x-soha-permissions:
         mode: all
         keys:
@@ -20027,6 +20063,458 @@ paths:
           $ref: "#/components/responses/Error"
         "503":
           $ref: "#/components/responses/Error"
+  /clusters/{clusterID}/network/httproutes/{name}:
+    delete:
+      tags: [Platform]
+      operationId: deleteKubernetesHTTPRoute
+      x-soha-permissions:
+        mode: all
+        keys: [platform.network.http-routes.delete]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      responses:
+        "204": { description: Resource deleted. }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/network/httproutes/{name}/yaml:
+    get:
+      tags: [Platform]
+      operationId: getKubernetesHTTPRouteYaml
+      x-soha-permissions:
+        mode: all
+        keys: [platform.network.http-routes.view]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      responses:
+        "200":
+          description: Authorized Kubernetes resource YAML.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceYamlEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [Platform]
+      operationId: applyKubernetesHTTPRouteYaml
+      x-soha-permissions:
+        mode: all
+        keys: [platform.network.http-routes.update]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesResourceYamlInput"
+      responses:
+        "200":
+          description: Authorized Kubernetes resource YAML.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceYamlEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/network/grpcroutes/{name}:
+    delete:
+      tags: [Platform]
+      operationId: deleteKubernetesGRPCRoute
+      x-soha-permissions:
+        mode: all
+        keys: [platform.network.grpc-routes.delete]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      responses:
+        "204": { description: Resource deleted. }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/network/grpcroutes/{name}/yaml:
+    get:
+      tags: [Platform]
+      operationId: getKubernetesGRPCRouteYaml
+      x-soha-permissions:
+        mode: all
+        keys: [platform.network.grpc-routes.view]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      responses:
+        "200":
+          description: Authorized Kubernetes resource YAML.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceYamlEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [Platform]
+      operationId: applyKubernetesGRPCRouteYaml
+      x-soha-permissions:
+        mode: all
+        keys: [platform.network.grpc-routes.update]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesResourceYamlInput"
+      responses:
+        "200":
+          description: Authorized Kubernetes resource YAML.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceYamlEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/network/backendtlspolicies/{name}:
+    delete:
+      tags: [Platform]
+      operationId: deleteKubernetesBackendTLSPolicy
+      x-soha-permissions:
+        mode: all
+        keys: [platform.network.backend-tls-policies.delete]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      responses:
+        "204": { description: Resource deleted. }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/network/backendtlspolicies/{name}/yaml:
+    get:
+      tags: [Platform]
+      operationId: getKubernetesBackendTLSPolicyYaml
+      x-soha-permissions:
+        mode: all
+        keys: [platform.network.backend-tls-policies.view]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      responses:
+        "200":
+          description: Authorized Kubernetes resource YAML.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceYamlEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [Platform]
+      operationId: applyKubernetesBackendTLSPolicyYaml
+      x-soha-permissions:
+        mode: all
+        keys: [platform.network.backend-tls-policies.update]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesResourceYamlInput"
+      responses:
+        "200":
+          description: Authorized Kubernetes resource YAML.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceYamlEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/network/referencegrants/{name}:
+    delete:
+      tags: [Platform]
+      operationId: deleteKubernetesReferenceGrant
+      x-soha-permissions:
+        mode: all
+        keys: [platform.network.reference-grants.delete]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      responses:
+        "204": { description: Resource deleted. }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/network/referencegrants/{name}/yaml:
+    get:
+      tags: [Platform]
+      operationId: getKubernetesReferenceGrantYaml
+      x-soha-permissions:
+        mode: all
+        keys: [platform.network.reference-grants.view]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      responses:
+        "200":
+          description: Authorized Kubernetes resource YAML.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceYamlEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [Platform]
+      operationId: applyKubernetesReferenceGrantYaml
+      x-soha-permissions:
+        mode: all
+        keys: [platform.network.reference-grants.update]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesResourceYamlInput"
+      responses:
+        "200":
+          description: Authorized Kubernetes resource YAML.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceYamlEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/configuration/hpas/{name}:
+    delete:
+      tags: [Platform]
+      operationId: deleteKubernetesHorizontalPodAutoscaler
+      x-soha-permissions:
+        mode: all
+        keys: [platform.configuration.horizontal-pod-autoscalers.delete]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      responses:
+        "204": { description: Resource deleted. }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/configuration/hpas/{name}/yaml:
+    get:
+      tags: [Platform]
+      operationId: getKubernetesHorizontalPodAutoscalerYaml
+      x-soha-permissions:
+        mode: all
+        keys: [platform.configuration.horizontal-pod-autoscalers.view]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      responses:
+        "200":
+          description: Authorized Kubernetes resource YAML.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceYamlEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [Platform]
+      operationId: applyKubernetesHorizontalPodAutoscalerYaml
+      x-soha-permissions:
+        mode: all
+        keys: [platform.configuration.horizontal-pod-autoscalers.update]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesResourceYamlInput"
+      responses:
+        "200":
+          description: Authorized Kubernetes resource YAML.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceYamlEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/configuration/poddisruptionbudgets/{name}:
+    delete:
+      tags: [Platform]
+      operationId: deleteKubernetesPodDisruptionBudget
+      x-soha-permissions:
+        mode: all
+        keys: [platform.configuration.pod-disruption-budgets.delete]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      responses:
+        "204": { description: Resource deleted. }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/configuration/poddisruptionbudgets/{name}/yaml:
+    get:
+      tags: [Platform]
+      operationId: getKubernetesPodDisruptionBudgetYaml
+      x-soha-permissions:
+        mode: all
+        keys: [platform.configuration.pod-disruption-budgets.view]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      responses:
+        "200":
+          description: Authorized Kubernetes resource YAML.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceYamlEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+    put:
+      tags: [Platform]
+      operationId: applyKubernetesPodDisruptionBudgetYaml
+      x-soha-permissions:
+        mode: all
+        keys: [platform.configuration.pod-disruption-budgets.update]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KubernetesResourceYamlInput"
+      responses:
+        "200":
+          description: Authorized Kubernetes resource YAML.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceYamlEnvelope"
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/workloads/replicationcontrollers/{name}:
+    delete:
+      tags: [Platform]
+      operationId: deleteKubernetesReplicationController
+      x-soha-permissions:
+        mode: all
+        keys: [platform.workloads.replication-controllers.delete]
+      x-soha-implementation-status: implemented
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesResourceName"
+        - $ref: "#/components/parameters/KubernetesNamespaceQuery"
+      responses:
+        "204": { description: Resource deleted. }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+
 components:
   securitySchemes:
     bearerAuth:
@@ -20942,6 +21430,7 @@ components:
       schema:
         type: string
         enum: [default, bypass, read-only, refresh]
+        x-enum-varnames: [CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault, CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass, CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly, CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh]
       description: Optional relay cache behavior hint.
   headers:
     SohaRouteIDHeader:
@@ -27105,7 +27594,10 @@ components:
       type: object
       properties:
         publicModel: { type: string, maxLength: 200 }
-        reasoningEffort: { type: string, enum: [auto, low, medium, high] }
+        reasoningEffort:
+          type: string
+          enum: [auto, low, medium, high]
+          x-enum-varnames: [WorkbenchModelPreferencesReasoningEffortAuto, WorkbenchModelPreferencesReasoningEffortLow, WorkbenchModelPreferencesReasoningEffortMedium, WorkbenchModelPreferencesReasoningEffortHigh]
       additionalProperties: false
     WorkbenchModelOption:
       type: object
@@ -36979,6 +37471,10 @@ components:
       type: object
       required: [transport, syncStrategy, cacheStatus, cacheReady, connectionState]
       properties:
+        actionChecks:
+          type: array
+          maxItems: 64
+          items: { $ref: "#/components/schemas/KubernetesAgentActionCheck" }
         transport:
           type: string
         syncStrategy:
@@ -36999,6 +37495,22 @@ components:
         message:
           type: string
       additionalProperties: false
+    KubernetesAgentActionCheck:
+      type: object
+      required: [action, implementation, configured, kubernetesRBAC]
+      properties:
+        action: { type: string }
+        implementation: { type: string, enum: [supported, unsupported, unknown] }
+        configured: { type: string, enum: [allowed, denied, unknown] }
+        kubernetesRBAC: { type: string, enum: [allowed, denied, unknown, not_applicable] }
+        checkedAt: { type: string, format: date-time }
+        reasonCode: { type: string }
+        scope: { type: string, enum: [cluster], x-enum-varnames: [KubernetesAgentActionCheckScopeCluster] }
+      additionalProperties: false
+    KubernetesAgentActionProfile:
+      type: string
+      enum: [legacy, workbench, read-only]
+      description: Installation preset only. Legacy preserves existing permissions; selecting workbench or read-only requires regenerating and reviewing the installation manifest.
     KubernetesClusterConnectionDetail:
       type: object
       required: [mode, credentialType, sourceType, hasInlineKubeconfig, hasToken, usesInformerCache]
@@ -37021,6 +37533,7 @@ components:
           type: boolean
         usesInformerCache:
           type: boolean
+        actionProfile: { $ref: "#/components/schemas/KubernetesAgentActionProfile" }
         customResourceRules:
           type: array
           maxItems: 50
@@ -37062,6 +37575,7 @@ components:
         prometheusClusterLabel: { type: string }
         grafanaBaseUrl: { type: string }
         prometheusTransport: { $ref: "#/components/schemas/KubernetesPrometheusTransport" }
+        agentActionProfile: { $ref: "#/components/schemas/KubernetesAgentActionProfile" }
         agentCustomResourceRules:
           type: array
           maxItems: 50
@@ -37249,6 +37763,18 @@ components:
           type: string
         unschedulable:
           type: boolean
+        taints:
+          type: array
+          nullable: true
+          description: Current Node spec taints. Empty means none; null or absent means not reported.
+          items:
+            $ref: "#/components/schemas/KubernetesNodeTaint"
+        conditions:
+          type: array
+          nullable: true
+          description: Current Node conditions, independent of scheduling and drain operations.
+          items:
+            $ref: "#/components/schemas/KubernetesWorkloadCondition"
         roles:
           type: array
           items:
@@ -39689,6 +40215,193 @@ components:
       properties:
         data: { $ref: "#/components/schemas/KubernetesNetworkPolicyDetail" }
       additionalProperties: false
+    KubernetesTopologyProvider:
+      type: string
+      enum: [kubernetes, gateway, traefik, apisix]
+      x-enum-varnames: [KubernetesTopologyProviderKubernetes, KubernetesTopologyProviderGateway, KubernetesTopologyProviderTraefik, KubernetesTopologyProviderApisix]
+    KubernetesTopologyResolution:
+      type: string
+      enum: [resolved, unresolved, not_found, not_visible, no_ready_endpoints, external, unsupported_fragment, unknown]
+      x-enum-varnames: [KubernetesTopologyResolutionResolved, KubernetesTopologyResolutionUnresolved, KubernetesTopologyResolutionNotFound, KubernetesTopologyResolutionNotVisible, KubernetesTopologyResolutionNoReadyEndpoints, KubernetesTopologyResolutionExternal, KubernetesTopologyResolutionUnsupportedFragment, KubernetesTopologyResolutionUnknown]
+    KubernetesTopologyProperty:
+      type: object
+      required: [name, value]
+      properties:
+        name: { type: string, maxLength: 64 }
+        value: { type: string, maxLength: 1024 }
+      additionalProperties: false
+    KubernetesTopologyMatch:
+      type: object
+      required: [type]
+      properties:
+        type: { type: string, maxLength: 32 }
+        name: { type: string, maxLength: 128 }
+        operator: { type: string, maxLength: 32 }
+        value: { type: string, maxLength: 1024 }
+      additionalProperties: false
+    KubernetesTopologyRule:
+      type: object
+      required: [index]
+      properties:
+        name: { type: string, maxLength: 253 }
+        index: { type: integer, minimum: 0 }
+        matchGroups:
+          description: Groups are ORed; matches inside each group are ANDed. Opaque expressions remain a bounded summary and are marked unsupported_fragment.
+          type: array
+          maxItems: 64
+          items:
+            type: array
+            maxItems: 64
+            items: { $ref: "#/components/schemas/KubernetesTopologyMatch" }
+        matchSummary: { type: string, maxLength: 2048 }
+        priority: { type: integer, format: int64 }
+        tlsMode: { type: string, maxLength: 64 }
+      additionalProperties: false
+    KubernetesTopologyCondition:
+      type: object
+      required: [type, status]
+      properties:
+        type: { type: string, maxLength: 128 }
+        status: { type: string, maxLength: 32 }
+        reason: { type: string, maxLength: 128 }
+        observedGeneration: { type: integer, format: int64 }
+        lastTransitionTime: { type: string, format: date-time }
+      additionalProperties: false
+    KubernetesTopologyGraphNode:
+      type: object
+      required: [id, type, label, provider, resolutionState]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 2048 }
+        type:
+          type: string
+          enum: [entry, rule, processor, backend-group, service, endpoint-group, pod, external]
+          x-enum-varnames: [KubernetesTopologyGraphNodeTypeEntry, KubernetesTopologyGraphNodeTypeRule, KubernetesTopologyGraphNodeTypeProcessor, KubernetesTopologyGraphNodeTypeBackendGroup, KubernetesTopologyGraphNodeTypeService, KubernetesTopologyGraphNodeTypeEndpointGroup, KubernetesTopologyGraphNodeTypePod, KubernetesTopologyGraphNodeTypeExternal]
+        label: { type: string, maxLength: 1024 }
+        provider: { $ref: "#/components/schemas/KubernetesTopologyProvider" }
+        protocol: { type: string, maxLength: 16 }
+        resolutionState: { $ref: "#/components/schemas/KubernetesTopologyResolution" }
+        resource: { $ref: "#/components/schemas/KubernetesResourceRef" }
+        rule: { $ref: "#/components/schemas/KubernetesTopologyRule" }
+        generation: { type: integer, format: int64 }
+        properties:
+          type: array
+          maxItems: 64
+          items: { $ref: "#/components/schemas/KubernetesTopologyProperty" }
+        conditions:
+          type: array
+          maxItems: 64
+          items: { $ref: "#/components/schemas/KubernetesTopologyCondition" }
+      additionalProperties: false
+    KubernetesTopologyGraphEdge:
+      type: object
+      required: [id, source, target, relation, resolutionState]
+      properties:
+        id: { type: string, minLength: 1, maxLength: 2048 }
+        source: { type: string, minLength: 1, maxLength: 2048 }
+        target: { type: string, minLength: 1, maxLength: 2048 }
+        relation:
+          type: string
+          enum: [matches, processes, forwards, weights, mirrors, resolves, selects]
+          x-enum-varnames: [KubernetesTopologyGraphEdgeRelationMatches, KubernetesTopologyGraphEdgeRelationProcesses, KubernetesTopologyGraphEdgeRelationForwards, KubernetesTopologyGraphEdgeRelationWeights, KubernetesTopologyGraphEdgeRelationMirrors, KubernetesTopologyGraphEdgeRelationResolves, KubernetesTopologyGraphEdgeRelationSelects]
+        resolutionState: { $ref: "#/components/schemas/KubernetesTopologyResolution" }
+        protocol: { type: string, maxLength: 16 }
+        port: { type: string, maxLength: 64 }
+        weight: { type: integer, format: int64, minimum: 0 }
+        totalWeight: { type: integer, format: int64, minimum: 0 }
+        mirrorPercent: { type: number, minimum: 0, maximum: 100 }
+        ruleRef: { type: string, maxLength: 2048 }
+        sourceRef: { $ref: "#/components/schemas/KubernetesResourceRef" }
+        note: { type: string, maxLength: 2048 }
+      additionalProperties: false
+    KubernetesTopologyCoverage:
+      type: object
+      required: [provider, sourceId, state]
+      properties:
+        provider: { $ref: "#/components/schemas/KubernetesTopologyProvider" }
+        sourceId: { type: string, maxLength: 128 }
+        state:
+          type: string
+          enum: [available, not_installed, unsupported, denied, error, partial]
+          x-enum-varnames: [KubernetesTopologyCoverageStateAvailable, KubernetesTopologyCoverageStateNotInstalled, KubernetesTopologyCoverageStateUnsupported, KubernetesTopologyCoverageStateDenied, KubernetesTopologyCoverageStateError, KubernetesTopologyCoverageStatePartial]
+        namespace: { type: string, maxLength: 63 }
+        supportedKinds:
+          type: array
+          maxItems: 32
+          items: { type: string, maxLength: 128 }
+        reasonCode: { type: string, maxLength: 128 }
+        checkedAt: { type: string, format: date-time }
+        observedAt: { type: string, format: date-time }
+        truncated: { type: boolean }
+      additionalProperties: false
+    KubernetesTopologySourceQuery:
+      type: object
+      required: [sourceId]
+      properties:
+        sourceId:
+          type: string
+          enum: [kubernetes.services, kubernetes.pods, kubernetes.endpointslices, kubernetes.ingresses, kubernetes.ingressclasses, gateway.gateways, gateway.gatewayclasses, gateway.httproutes, gateway.grpcroutes, gateway.tcproutes, gateway.tlsroutes, gateway.udproutes, gateway.referencegrants, traefik.ingressroutes, traefik.ingressroutetcps, traefik.ingressrouteudps, traefik.traefikservices, traefik.middlewares, traefik.middlewaretcps, apisix.apisixroutes, apisix.apisixupstreams, apisix.apisixtls]
+          x-enum-varnames: [KubernetesTopologySourceKubernetesServices, KubernetesTopologySourceKubernetesPods, KubernetesTopologySourceKubernetesEndpointslices, KubernetesTopologySourceKubernetesIngresses, KubernetesTopologySourceKubernetesIngressclasses, KubernetesTopologySourceGatewayGateways, KubernetesTopologySourceGatewayGatewayclasses, KubernetesTopologySourceGatewayHttproutes, KubernetesTopologySourceGatewayGrpcroutes, KubernetesTopologySourceGatewayTcproutes, KubernetesTopologySourceGatewayTlsroutes, KubernetesTopologySourceGatewayUdproutes, KubernetesTopologySourceGatewayReferencegrants, KubernetesTopologySourceTraefikIngressroutes, KubernetesTopologySourceTraefikIngressroutetcps, KubernetesTopologySourceTraefikIngressrouteudps, KubernetesTopologySourceTraefikTraefikservices, KubernetesTopologySourceTraefikMiddlewares, KubernetesTopologySourceTraefikMiddlewaretcps, KubernetesTopologySourceApisixApisixroutes, KubernetesTopologySourceApisixApisixupstreams, KubernetesTopologySourceApisixApisixtls]
+        namespace: { type: string, maxLength: 63, pattern: '^$|^[a-z0-9]([a-z0-9-]*[a-z0-9])?$' }
+      allOf:
+        - if:
+            properties:
+              sourceId: { enum: [kubernetes.ingressclasses, gateway.gatewayclasses] }
+            required: [sourceId]
+          then:
+            properties:
+              namespace: { type: string, maxLength: 0 }
+      additionalProperties: false
+    KubernetesTopologySnapshotRequest:
+      type: object
+      required: [queries]
+      properties:
+        queries:
+          type: array
+          minItems: 1
+          maxItems: 64
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/KubernetesTopologySourceQuery" }
+      additionalProperties: false
+    KubernetesTopologySourceObject:
+      type: object
+      required: [resource, content]
+      properties:
+        resource: { $ref: "#/components/schemas/KubernetesResourceRef" }
+        generation: { type: integer, format: int64 }
+        content:
+          type: string
+          maxLength: 65536
+          description: Fixed source-schema projection encoded as JSON. Unknown fields, raw annotations, Secret values, plugin configuration and credential material are removed before transport. This is not an original Kubernetes manifest.
+      additionalProperties: false
+    KubernetesTopologySourceResult:
+      type: object
+      required: [coverage, objects]
+      properties:
+        coverage: { $ref: "#/components/schemas/KubernetesTopologyCoverage" }
+        objects:
+          type: array
+          maxItems: 200
+          items: { $ref: "#/components/schemas/KubernetesTopologySourceObject" }
+      additionalProperties: false
+    KubernetesTopologySnapshot:
+      type: object
+      required: [version, sources]
+      properties:
+        version: { type: string, pattern: '^v1$' }
+        sources:
+          type: array
+          maxItems: 64
+          items: { $ref: "#/components/schemas/KubernetesTopologySourceResult" }
+      additionalProperties: false
+    ResourceMonitoringQuality: {"type":"string","enum":["valid","partial","stale","not_configured","not_collected","unsupported","denied","error","empty"],"x-enum-varnames":["ResourceMonitoringQualityValid","ResourceMonitoringQualityPartial","ResourceMonitoringQualityStale","ResourceMonitoringQualityNotConfigured","ResourceMonitoringQualityNotCollected","ResourceMonitoringQualityUnsupported","ResourceMonitoringQualityDenied","ResourceMonitoringQualityError","ResourceMonitoringQualityEmpty"]}
+    ResourceMonitoringViewName: {"type":"string","enum":["overview","cpu","memory","conntrack","pods"],"x-enum-varnames":["ResourceMonitoringViewOverview","ResourceMonitoringViewCPU","ResourceMonitoringViewMemory","ResourceMonitoringViewConntrack","ResourceMonitoringViewPods"]}
+    ResourceMonitoringQuantity: {"type":"object","additionalProperties":false,"required":["cpuCores","memoryBytes","podSlots"],"properties":{"cpuCores":{"type":"number","format":"double","nullable":true},"memoryBytes":{"type":"number","format":"double","nullable":true},"podSlots":{"type":"number","format":"double","nullable":true}}}
+    ResourceMonitoringNode: {"type":"object","additionalProperties":false,"required":["nodeRef","ready","cordoned","memoryPressure","diskPressure","pidPressure","capacity","allocatable","requests","limits","cpuLimitsComplete","memoryLimitsComplete","boundPods","pendingPods","remainingPodSlots","overflowPodSlots","quality"],"properties":{"nodeRef":{"$ref":"#/components/schemas/KubernetesResourceRef"},"internalIP":{"type":"string"},"os":{"type":"string"},"createdAt":{"type":"string","format":"date-time"},"ready":{"type":"string"},"cordoned":{"type":"boolean"},"memoryPressure":{"type":"string"},"diskPressure":{"type":"string"},"pidPressure":{"type":"string"},"capacity":{"$ref":"#/components/schemas/ResourceMonitoringQuantity"},"allocatable":{"$ref":"#/components/schemas/ResourceMonitoringQuantity"},"requests":{"$ref":"#/components/schemas/ResourceMonitoringQuantity"},"limits":{"$ref":"#/components/schemas/ResourceMonitoringQuantity"},"cpuLimitsComplete":{"type":"boolean"},"memoryLimitsComplete":{"type":"boolean"},"boundPods":{"type":"number","format":"double","nullable":true},"pendingPods":{"type":"number","format":"double","nullable":true},"remainingPodSlots":{"type":"number","format":"double","nullable":true},"overflowPodSlots":{"type":"number","format":"double","nullable":true},"quality":{"$ref":"#/components/schemas/ResourceMonitoringQuality"},"observedAt":{"type":"string","format":"date-time"}}}
+    ResourceMonitoringPoint: {"type":"object","additionalProperties":false,"required":["timestamp","value"],"properties":{"timestamp":{"type":"string","format":"date-time"},"value":{"type":"number","format":"double","nullable":true}}}
+    ResourceMonitoringSeries: {"type":"object","additionalProperties":false,"required":["nodeRef","metricKey","unit","quality","source","latest","points"],"properties":{"nodeRef":{"$ref":"#/components/schemas/KubernetesResourceRef"},"metricKey":{"type":"string","maxLength":64},"unit":{"type":"string","enum":["cores","bytes","count","events/s","events","percent"],"x-enum-varnames":["ResourceMonitoringUnitCores","ResourceMonitoringUnitBytes","ResourceMonitoringUnitCount","ResourceMonitoringUnitEventsPerSecond","ResourceMonitoringUnitEvents","ResourceMonitoringUnitPercent"]},"quality":{"$ref":"#/components/schemas/ResourceMonitoringQuality"},"reasonCode":{"type":"string","maxLength":64},"source":{"type":"string"},"sampledAt":{"type":"string","format":"date-time"},"latest":{"type":"number","format":"double","nullable":true},"points":{"type":"array","maxItems":1440,"items":{"$ref":"#/components/schemas/ResourceMonitoringPoint"}}}}
+    ResourceMonitoringPanel: {"type":"object","additionalProperties":false,"required":["key","label","unit","quality","series"],"properties":{"key":{"type":"string","maxLength":64},"label":{"type":"string"},"unit":{"type":"string"},"quality":{"$ref":"#/components/schemas/ResourceMonitoringQuality"},"reasonCode":{"type":"string","maxLength":64},"estimated":{"type":"boolean"},"windowSeconds":{"type":"integer","minimum":300,"maximum":3600},"series":{"type":"array","maxItems":500,"items":{"$ref":"#/components/schemas/ResourceMonitoringSeries"}}}}
+    ResourceMonitoringView: {"type":"object","additionalProperties":false,"required":["clusterId","view","from","to","stepSeconds","generatedAt","snapshotQuality","unscheduledPendingPods","nodes","panels"],"properties":{"clusterId":{"type":"string"},"view":{"$ref":"#/components/schemas/ResourceMonitoringViewName"},"node":{"type":"string"},"from":{"type":"string","format":"date-time"},"to":{"type":"string","format":"date-time"},"stepSeconds":{"type":"integer","minimum":15,"maximum":3600},"generatedAt":{"type":"string","format":"date-time"},"snapshotObservedAt":{"type":"string","format":"date-time"},"snapshotQuality":{"$ref":"#/components/schemas/ResourceMonitoringQuality"},"unscheduledPendingPods":{"type":"number","format":"double","nullable":true},"nodes":{"type":"array","maxItems":500,"items":{"$ref":"#/components/schemas/ResourceMonitoringNode"}},"panels":{"type":"array","maxItems":32,"items":{"$ref":"#/components/schemas/ResourceMonitoringPanel"}},"truncated":{"type":"boolean"},"nodeOptions":{"type":"array","maxItems":500,"items":{"$ref":"#/components/schemas/KubernetesResourceRef"}}}}
+    ResourceMonitoringEnvelope: {"type":"object","additionalProperties":false,"required":["data"],"properties":{"data":{"$ref":"#/components/schemas/ResourceMonitoringView"}}}
     KubernetesNetworkTopologySummary:
       type: object
       required: [entryCount, routeCount, serviceCount, missingServiceCount, backendPodCount, pendingRouteCount]
@@ -39737,6 +40450,21 @@ components:
         source: { type: string }
         generatedAt: { type: string }
         summary: { $ref: "#/components/schemas/KubernetesNetworkTopologySummary" }
+        graphVersion: { type: string, pattern: '^v1$' }
+        nodes:
+          type: array
+          maxItems: 500
+          items: { $ref: "#/components/schemas/KubernetesTopologyGraphNode" }
+        edges:
+          type: array
+          maxItems: 1000
+          items: { $ref: "#/components/schemas/KubernetesTopologyGraphEdge" }
+        coverage:
+          type: array
+          maxItems: 128
+          items: { $ref: "#/components/schemas/KubernetesTopologyCoverage" }
+        observedAt: { type: string, format: date-time }
+        truncated: { type: boolean }
         traces:
           type: array
           items: { $ref: "#/components/schemas/KubernetesNetworkTopologyTrace" }
@@ -43187,6 +43915,7 @@ components:
         namespace: { type: string, minLength: 1 }
         scopeMode: { $ref: "#/components/schemas/KubernetesResourceScopeMode" }
         uid: { type: string }
+        resourceVersion: { type: string }
       additionalProperties: false
     KubernetesResourceStreamEventType:
       type: string

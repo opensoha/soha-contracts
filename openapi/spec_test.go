@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"strings"
 	"testing"
 )
 
@@ -34,5 +35,38 @@ func TestEmbeddedSpecsMatchMetadata(t *testing.T) {
 	}
 	if document.Info.Version != Version {
 		t.Fatalf("info.version = %q, want %q", document.Info.Version, Version)
+	}
+}
+
+func TestTopologySuccessResponsePreservesDescription(t *testing.T) {
+	var document struct {
+		Paths map[string]struct {
+			Get struct {
+				Responses map[string]map[string]json.RawMessage `json:"responses"`
+			} `json:"get"`
+		} `json:"paths"`
+	}
+	if err := json.Unmarshal(JSON(), &document); err != nil {
+		t.Fatal(err)
+	}
+	response := document.Paths["/clusters/{clusterID}/network/topology"].Get.Responses["200"]
+	if len(response) == 0 {
+		t.Fatal("missing topology success response")
+	}
+	for key := range response {
+		switch key {
+		case "description", "headers", "content", "links":
+		default:
+			if !strings.HasPrefix(key, "x-") {
+				t.Errorf("unexpected topology response field %q", key)
+			}
+		}
+	}
+	var description string
+	if err := json.Unmarshal(response["description"], &description); err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(description, "Kubernetes, Gateway API, Traefik and APISIX topology,") {
+		t.Fatalf("topology response description was truncated: %q", description)
 	}
 }

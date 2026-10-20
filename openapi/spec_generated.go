@@ -5,9 +5,9 @@ package openapi
 import _ "embed"
 
 const (
-	Version    = "0.1.24"
-	YAMLSHA256 = "e1a2f7be61a7d7674f3e3928190a04ddf7ecb906170c5da9199519b50bc89616"
-	JSONSHA256 = "cf9f707f6e35f29486eb7a190742124d27c2db82915dd98b192af5aa4a587596"
+	Version    = "0.1.25"
+	YAMLSHA256 = "5f72e3a41fbf5edf22773a9b85d2841c87c99a0636ad704065b9b1333414bd02"
+	JSONSHA256 = "60341d8b2940687e94a3ed239363761e8e50cf36824fda11f344ba6363a17c04"
 )
 
 //go:embed soha-api.yaml

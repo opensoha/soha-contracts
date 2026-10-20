@@ -4403,6 +4403,108 @@ func (e KubernetesAccessReviewSubjectKind) Valid() bool {
 	}
 }
 
+// Defines values for KubernetesAgentActionCheckConfigured.
+const (
+	KubernetesAgentActionCheckConfiguredAllowed KubernetesAgentActionCheckConfigured = "allowed"
+	KubernetesAgentActionCheckConfiguredDenied  KubernetesAgentActionCheckConfigured = "denied"
+	KubernetesAgentActionCheckConfiguredUnknown KubernetesAgentActionCheckConfigured = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesAgentActionCheckConfigured enum.
+func (e KubernetesAgentActionCheckConfigured) Valid() bool {
+	switch e {
+	case KubernetesAgentActionCheckConfiguredAllowed:
+		return true
+	case KubernetesAgentActionCheckConfiguredDenied:
+		return true
+	case KubernetesAgentActionCheckConfiguredUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesAgentActionCheckImplementation.
+const (
+	KubernetesAgentActionCheckImplementationSupported   KubernetesAgentActionCheckImplementation = "supported"
+	KubernetesAgentActionCheckImplementationUnknown     KubernetesAgentActionCheckImplementation = "unknown"
+	KubernetesAgentActionCheckImplementationUnsupported KubernetesAgentActionCheckImplementation = "unsupported"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesAgentActionCheckImplementation enum.
+func (e KubernetesAgentActionCheckImplementation) Valid() bool {
+	switch e {
+	case KubernetesAgentActionCheckImplementationSupported:
+		return true
+	case KubernetesAgentActionCheckImplementationUnknown:
+		return true
+	case KubernetesAgentActionCheckImplementationUnsupported:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesAgentActionCheckKubernetesRBAC.
+const (
+	KubernetesAgentActionCheckKubernetesRBACAllowed       KubernetesAgentActionCheckKubernetesRBAC = "allowed"
+	KubernetesAgentActionCheckKubernetesRBACDenied        KubernetesAgentActionCheckKubernetesRBAC = "denied"
+	KubernetesAgentActionCheckKubernetesRBACNotApplicable KubernetesAgentActionCheckKubernetesRBAC = "not_applicable"
+	KubernetesAgentActionCheckKubernetesRBACUnknown       KubernetesAgentActionCheckKubernetesRBAC = "unknown"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesAgentActionCheckKubernetesRBAC enum.
+func (e KubernetesAgentActionCheckKubernetesRBAC) Valid() bool {
+	switch e {
+	case KubernetesAgentActionCheckKubernetesRBACAllowed:
+		return true
+	case KubernetesAgentActionCheckKubernetesRBACDenied:
+		return true
+	case KubernetesAgentActionCheckKubernetesRBACNotApplicable:
+		return true
+	case KubernetesAgentActionCheckKubernetesRBACUnknown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesAgentActionCheckScope.
+const (
+	KubernetesAgentActionCheckScopeCluster KubernetesAgentActionCheckScope = "cluster"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesAgentActionCheckScope enum.
+func (e KubernetesAgentActionCheckScope) Valid() bool {
+	switch e {
+	case KubernetesAgentActionCheckScopeCluster:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesAgentActionProfile.
+const (
+	KubernetesAgentActionProfileLegacy    KubernetesAgentActionProfile = "legacy"
+	KubernetesAgentActionProfileReadOnly  KubernetesAgentActionProfile = "read-only"
+	KubernetesAgentActionProfileWorkbench KubernetesAgentActionProfile = "workbench"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesAgentActionProfile enum.
+func (e KubernetesAgentActionProfile) Valid() bool {
+	switch e {
+	case KubernetesAgentActionProfileLegacy:
+		return true
+	case KubernetesAgentActionProfileReadOnly:
+		return true
+	case KubernetesAgentActionProfileWorkbench:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for KubernetesAgentCustomResourceRuleVerbs.
 const (
 	KubernetesAgentCustomResourceRuleVerbsCreate KubernetesAgentCustomResourceRuleVerbs = "create"
@@ -4991,6 +5093,165 @@ func (e KubernetesServicePortProtocol) Valid() bool {
 	}
 }
 
+// Defines values for KubernetesTopologyCoverageState.
+const (
+	KubernetesTopologyCoverageStateAvailable    KubernetesTopologyCoverageState = "available"
+	KubernetesTopologyCoverageStateDenied       KubernetesTopologyCoverageState = "denied"
+	KubernetesTopologyCoverageStateError        KubernetesTopologyCoverageState = "error"
+	KubernetesTopologyCoverageStateNotInstalled KubernetesTopologyCoverageState = "not_installed"
+	KubernetesTopologyCoverageStatePartial      KubernetesTopologyCoverageState = "partial"
+	KubernetesTopologyCoverageStateUnsupported  KubernetesTopologyCoverageState = "unsupported"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesTopologyCoverageState enum.
+func (e KubernetesTopologyCoverageState) Valid() bool {
+	switch e {
+	case KubernetesTopologyCoverageStateAvailable:
+		return true
+	case KubernetesTopologyCoverageStateDenied:
+		return true
+	case KubernetesTopologyCoverageStateError:
+		return true
+	case KubernetesTopologyCoverageStateNotInstalled:
+		return true
+	case KubernetesTopologyCoverageStatePartial:
+		return true
+	case KubernetesTopologyCoverageStateUnsupported:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesTopologyGraphEdgeRelation.
+const (
+	KubernetesTopologyGraphEdgeRelationForwards  KubernetesTopologyGraphEdgeRelation = "forwards"
+	KubernetesTopologyGraphEdgeRelationMatches   KubernetesTopologyGraphEdgeRelation = "matches"
+	KubernetesTopologyGraphEdgeRelationMirrors   KubernetesTopologyGraphEdgeRelation = "mirrors"
+	KubernetesTopologyGraphEdgeRelationProcesses KubernetesTopologyGraphEdgeRelation = "processes"
+	KubernetesTopologyGraphEdgeRelationResolves  KubernetesTopologyGraphEdgeRelation = "resolves"
+	KubernetesTopologyGraphEdgeRelationSelects   KubernetesTopologyGraphEdgeRelation = "selects"
+	KubernetesTopologyGraphEdgeRelationWeights   KubernetesTopologyGraphEdgeRelation = "weights"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesTopologyGraphEdgeRelation enum.
+func (e KubernetesTopologyGraphEdgeRelation) Valid() bool {
+	switch e {
+	case KubernetesTopologyGraphEdgeRelationForwards:
+		return true
+	case KubernetesTopologyGraphEdgeRelationMatches:
+		return true
+	case KubernetesTopologyGraphEdgeRelationMirrors:
+		return true
+	case KubernetesTopologyGraphEdgeRelationProcesses:
+		return true
+	case KubernetesTopologyGraphEdgeRelationResolves:
+		return true
+	case KubernetesTopologyGraphEdgeRelationSelects:
+		return true
+	case KubernetesTopologyGraphEdgeRelationWeights:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesTopologyGraphNodeType.
+const (
+	KubernetesTopologyGraphNodeTypeBackendGroup  KubernetesTopologyGraphNodeType = "backend-group"
+	KubernetesTopologyGraphNodeTypeEndpointGroup KubernetesTopologyGraphNodeType = "endpoint-group"
+	KubernetesTopologyGraphNodeTypeEntry         KubernetesTopologyGraphNodeType = "entry"
+	KubernetesTopologyGraphNodeTypeExternal      KubernetesTopologyGraphNodeType = "external"
+	KubernetesTopologyGraphNodeTypePod           KubernetesTopologyGraphNodeType = "pod"
+	KubernetesTopologyGraphNodeTypeProcessor     KubernetesTopologyGraphNodeType = "processor"
+	KubernetesTopologyGraphNodeTypeRule          KubernetesTopologyGraphNodeType = "rule"
+	KubernetesTopologyGraphNodeTypeService       KubernetesTopologyGraphNodeType = "service"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesTopologyGraphNodeType enum.
+func (e KubernetesTopologyGraphNodeType) Valid() bool {
+	switch e {
+	case KubernetesTopologyGraphNodeTypeBackendGroup:
+		return true
+	case KubernetesTopologyGraphNodeTypeEndpointGroup:
+		return true
+	case KubernetesTopologyGraphNodeTypeEntry:
+		return true
+	case KubernetesTopologyGraphNodeTypeExternal:
+		return true
+	case KubernetesTopologyGraphNodeTypePod:
+		return true
+	case KubernetesTopologyGraphNodeTypeProcessor:
+		return true
+	case KubernetesTopologyGraphNodeTypeRule:
+		return true
+	case KubernetesTopologyGraphNodeTypeService:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesTopologyProvider.
+const (
+	KubernetesTopologyProviderApisix     KubernetesTopologyProvider = "apisix"
+	KubernetesTopologyProviderGateway    KubernetesTopologyProvider = "gateway"
+	KubernetesTopologyProviderKubernetes KubernetesTopologyProvider = "kubernetes"
+	KubernetesTopologyProviderTraefik    KubernetesTopologyProvider = "traefik"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesTopologyProvider enum.
+func (e KubernetesTopologyProvider) Valid() bool {
+	switch e {
+	case KubernetesTopologyProviderApisix:
+		return true
+	case KubernetesTopologyProviderGateway:
+		return true
+	case KubernetesTopologyProviderKubernetes:
+		return true
+	case KubernetesTopologyProviderTraefik:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for KubernetesTopologyResolution.
+const (
+	KubernetesTopologyResolutionExternal            KubernetesTopologyResolution = "external"
+	KubernetesTopologyResolutionNoReadyEndpoints    KubernetesTopologyResolution = "no_ready_endpoints"
+	KubernetesTopologyResolutionNotFound            KubernetesTopologyResolution = "not_found"
+	KubernetesTopologyResolutionNotVisible          KubernetesTopologyResolution = "not_visible"
+	KubernetesTopologyResolutionResolved            KubernetesTopologyResolution = "resolved"
+	KubernetesTopologyResolutionUnknown             KubernetesTopologyResolution = "unknown"
+	KubernetesTopologyResolutionUnresolved          KubernetesTopologyResolution = "unresolved"
+	KubernetesTopologyResolutionUnsupportedFragment KubernetesTopologyResolution = "unsupported_fragment"
+)
+
+// Valid indicates whether the value is a known member of the KubernetesTopologyResolution enum.
+func (e KubernetesTopologyResolution) Valid() bool {
+	switch e {
+	case KubernetesTopologyResolutionExternal:
+		return true
+	case KubernetesTopologyResolutionNoReadyEndpoints:
+		return true
+	case KubernetesTopologyResolutionNotFound:
+		return true
+	case KubernetesTopologyResolutionNotVisible:
+		return true
+	case KubernetesTopologyResolutionResolved:
+		return true
+	case KubernetesTopologyResolutionUnknown:
+		return true
+	case KubernetesTopologyResolutionUnresolved:
+		return true
+	case KubernetesTopologyResolutionUnsupportedFragment:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for KubernetesWorkloadImportInputWorkloadKind.
 const (
 	KubernetesWorkloadImportInputWorkloadKindDaemonSet   KubernetesWorkloadImportInputWorkloadKind = "DaemonSet"
@@ -5110,28 +5371,28 @@ func (e KubernetesWorkloadSnapshotTargetKind) Valid() bool {
 
 // Defines values for LLMCallLogCacheStatus.
 const (
-	LLMCallLogCacheStatusBypass       LLMCallLogCacheStatus = "bypass"
-	LLMCallLogCacheStatusHit          LLMCallLogCacheStatus = "hit"
-	LLMCallLogCacheStatusMiss         LLMCallLogCacheStatus = "miss"
-	LLMCallLogCacheStatusStaleHit     LLMCallLogCacheStatus = "stale_hit"
-	LLMCallLogCacheStatusWrite        LLMCallLogCacheStatus = "write"
-	LLMCallLogCacheStatusWriteSkipped LLMCallLogCacheStatus = "write_skipped"
+	Bypass       LLMCallLogCacheStatus = "bypass"
+	Hit          LLMCallLogCacheStatus = "hit"
+	Miss         LLMCallLogCacheStatus = "miss"
+	StaleHit     LLMCallLogCacheStatus = "stale_hit"
+	Write        LLMCallLogCacheStatus = "write"
+	WriteSkipped LLMCallLogCacheStatus = "write_skipped"
 )
 
 // Valid indicates whether the value is a known member of the LLMCallLogCacheStatus enum.
 func (e LLMCallLogCacheStatus) Valid() bool {
 	switch e {
-	case LLMCallLogCacheStatusBypass:
+	case Bypass:
 		return true
-	case LLMCallLogCacheStatusHit:
+	case Hit:
 		return true
-	case LLMCallLogCacheStatusMiss:
+	case Miss:
 		return true
-	case LLMCallLogCacheStatusStaleHit:
+	case StaleHit:
 		return true
-	case LLMCallLogCacheStatusWrite:
+	case Write:
 		return true
-	case LLMCallLogCacheStatusWriteSkipped:
+	case WriteSkipped:
 		return true
 	default:
 		return false
@@ -9008,6 +9269,102 @@ func (e RepositoryProvider) Valid() bool {
 	}
 }
 
+// Defines values for ResourceMonitoringQuality.
+const (
+	ResourceMonitoringQualityDenied        ResourceMonitoringQuality = "denied"
+	ResourceMonitoringQualityEmpty         ResourceMonitoringQuality = "empty"
+	ResourceMonitoringQualityError         ResourceMonitoringQuality = "error"
+	ResourceMonitoringQualityNotCollected  ResourceMonitoringQuality = "not_collected"
+	ResourceMonitoringQualityNotConfigured ResourceMonitoringQuality = "not_configured"
+	ResourceMonitoringQualityPartial       ResourceMonitoringQuality = "partial"
+	ResourceMonitoringQualityStale         ResourceMonitoringQuality = "stale"
+	ResourceMonitoringQualityUnsupported   ResourceMonitoringQuality = "unsupported"
+	ResourceMonitoringQualityValid         ResourceMonitoringQuality = "valid"
+)
+
+// Valid indicates whether the value is a known member of the ResourceMonitoringQuality enum.
+func (e ResourceMonitoringQuality) Valid() bool {
+	switch e {
+	case ResourceMonitoringQualityDenied:
+		return true
+	case ResourceMonitoringQualityEmpty:
+		return true
+	case ResourceMonitoringQualityError:
+		return true
+	case ResourceMonitoringQualityNotCollected:
+		return true
+	case ResourceMonitoringQualityNotConfigured:
+		return true
+	case ResourceMonitoringQualityPartial:
+		return true
+	case ResourceMonitoringQualityStale:
+		return true
+	case ResourceMonitoringQualityUnsupported:
+		return true
+	case ResourceMonitoringQualityValid:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ResourceMonitoringSeriesUnit.
+const (
+	ResourceMonitoringUnitBytes           ResourceMonitoringSeriesUnit = "bytes"
+	ResourceMonitoringUnitCores           ResourceMonitoringSeriesUnit = "cores"
+	ResourceMonitoringUnitCount           ResourceMonitoringSeriesUnit = "count"
+	ResourceMonitoringUnitEvents          ResourceMonitoringSeriesUnit = "events"
+	ResourceMonitoringUnitEventsPerSecond ResourceMonitoringSeriesUnit = "events/s"
+	ResourceMonitoringUnitPercent         ResourceMonitoringSeriesUnit = "percent"
+)
+
+// Valid indicates whether the value is a known member of the ResourceMonitoringSeriesUnit enum.
+func (e ResourceMonitoringSeriesUnit) Valid() bool {
+	switch e {
+	case ResourceMonitoringUnitBytes:
+		return true
+	case ResourceMonitoringUnitCores:
+		return true
+	case ResourceMonitoringUnitCount:
+		return true
+	case ResourceMonitoringUnitEvents:
+		return true
+	case ResourceMonitoringUnitEventsPerSecond:
+		return true
+	case ResourceMonitoringUnitPercent:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ResourceMonitoringViewName.
+const (
+	ResourceMonitoringViewCPU       ResourceMonitoringViewName = "cpu"
+	ResourceMonitoringViewConntrack ResourceMonitoringViewName = "conntrack"
+	ResourceMonitoringViewMemory    ResourceMonitoringViewName = "memory"
+	ResourceMonitoringViewOverview  ResourceMonitoringViewName = "overview"
+	ResourceMonitoringViewPods      ResourceMonitoringViewName = "pods"
+)
+
+// Valid indicates whether the value is a known member of the ResourceMonitoringViewName enum.
+func (e ResourceMonitoringViewName) Valid() bool {
+	switch e {
+	case ResourceMonitoringViewCPU:
+		return true
+	case ResourceMonitoringViewConntrack:
+		return true
+	case ResourceMonitoringViewMemory:
+		return true
+	case ResourceMonitoringViewOverview:
+		return true
+	case ResourceMonitoringViewPods:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for RuntimeConfigApplicationStatus.
 const (
 	RuntimeConfigApplicationStatusApplied          RuntimeConfigApplicationStatus = "applied"
@@ -10960,22 +11317,22 @@ func (e OpenAICompatibleProvider) Valid() bool {
 
 // Defines values for SohaCacheModeHeader.
 const (
-	SohaCacheModeHeaderBypass   SohaCacheModeHeader = "bypass"
-	SohaCacheModeHeaderDefault  SohaCacheModeHeader = "default"
-	SohaCacheModeHeaderReadOnly SohaCacheModeHeader = "read-only"
-	SohaCacheModeHeaderRefresh  SohaCacheModeHeader = "refresh"
+	SohaCacheModeHeaderCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   SohaCacheModeHeader = "bypass"
+	SohaCacheModeHeaderCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  SohaCacheModeHeader = "default"
+	SohaCacheModeHeaderCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly SohaCacheModeHeader = "read-only"
+	SohaCacheModeHeaderCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  SohaCacheModeHeader = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the SohaCacheModeHeader enum.
 func (e SohaCacheModeHeader) Valid() bool {
 	switch e {
-	case SohaCacheModeHeaderBypass:
+	case SohaCacheModeHeaderCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case SohaCacheModeHeaderDefault:
+	case SohaCacheModeHeaderCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case SohaCacheModeHeaderReadOnly:
+	case SohaCacheModeHeaderCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case SohaCacheModeHeaderRefresh:
+	case SohaCacheModeHeaderCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11005,22 +11362,22 @@ func (e DecideAIGatewayApprovalRequestParamsAction) Valid() bool {
 
 // Defines values for CreateAIGatewayAnthropicMessageParamsXSohaCacheMode.
 const (
-	CreateAIGatewayAnthropicMessageParamsXSohaCacheModeBypass   CreateAIGatewayAnthropicMessageParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayAnthropicMessageParamsXSohaCacheModeDefault  CreateAIGatewayAnthropicMessageParamsXSohaCacheMode = "default"
-	CreateAIGatewayAnthropicMessageParamsXSohaCacheModeReadOnly CreateAIGatewayAnthropicMessageParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayAnthropicMessageParamsXSohaCacheModeRefresh  CreateAIGatewayAnthropicMessageParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayAnthropicMessageParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayAnthropicMessageParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayAnthropicMessageParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayAnthropicMessageParamsXSohaCacheMode = "default"
+	CreateAIGatewayAnthropicMessageParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayAnthropicMessageParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayAnthropicMessageParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayAnthropicMessageParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayAnthropicMessageParamsXSohaCacheMode enum.
 func (e CreateAIGatewayAnthropicMessageParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayAnthropicMessageParamsXSohaCacheModeBypass:
+	case CreateAIGatewayAnthropicMessageParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayAnthropicMessageParamsXSohaCacheModeDefault:
+	case CreateAIGatewayAnthropicMessageParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayAnthropicMessageParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayAnthropicMessageParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayAnthropicMessageParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayAnthropicMessageParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11029,22 +11386,22 @@ func (e CreateAIGatewayAnthropicMessageParamsXSohaCacheMode) Valid() bool {
 
 // Defines values for CreateAIGatewayCohereRerankParamsXSohaCacheMode.
 const (
-	CreateAIGatewayCohereRerankParamsXSohaCacheModeBypass   CreateAIGatewayCohereRerankParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayCohereRerankParamsXSohaCacheModeDefault  CreateAIGatewayCohereRerankParamsXSohaCacheMode = "default"
-	CreateAIGatewayCohereRerankParamsXSohaCacheModeReadOnly CreateAIGatewayCohereRerankParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayCohereRerankParamsXSohaCacheModeRefresh  CreateAIGatewayCohereRerankParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayCohereRerankParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayCohereRerankParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayCohereRerankParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayCohereRerankParamsXSohaCacheMode = "default"
+	CreateAIGatewayCohereRerankParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayCohereRerankParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayCohereRerankParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayCohereRerankParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayCohereRerankParamsXSohaCacheMode enum.
 func (e CreateAIGatewayCohereRerankParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayCohereRerankParamsXSohaCacheModeBypass:
+	case CreateAIGatewayCohereRerankParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayCohereRerankParamsXSohaCacheModeDefault:
+	case CreateAIGatewayCohereRerankParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayCohereRerankParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayCohereRerankParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayCohereRerankParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayCohereRerankParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11053,22 +11410,22 @@ func (e CreateAIGatewayCohereRerankParamsXSohaCacheMode) Valid() bool {
 
 // Defines values for CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode.
 const (
-	CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeBypass   CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeDefault  CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode = "default"
-	CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeReadOnly CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeRefresh  CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode = "default"
+	CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode enum.
 func (e CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeBypass:
+	case CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeDefault:
+	case CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11077,22 +11434,22 @@ func (e CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode) Valid() bool {
 
 // Defines values for CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode.
 const (
-	CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeBypass   CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeDefault  CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode = "default"
-	CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeReadOnly CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeRefresh  CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode = "default"
+	CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode enum.
 func (e CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeBypass:
+	case CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeDefault:
+	case CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11101,22 +11458,22 @@ func (e CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode) Valid() bool {
 
 // Defines values for CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode.
 const (
-	CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeBypass   CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeDefault  CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode = "default"
-	CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeReadOnly CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeRefresh  CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode = "default"
+	CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode enum.
 func (e CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeBypass:
+	case CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeDefault:
+	case CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11125,22 +11482,22 @@ func (e CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode) Valid() 
 
 // Defines values for CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11149,22 +11506,22 @@ func (e CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode) Valid() bool {
 
 // Defines values for CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11173,22 +11530,22 @@ func (e CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode) Valid() boo
 
 // Defines values for CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11197,22 +11554,22 @@ func (e CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode) Valid() bool 
 
 // Defines values for CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11221,22 +11578,22 @@ func (e CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode) Valid() bool {
 
 // Defines values for CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11245,22 +11602,22 @@ func (e CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode) Valid() bool {
 
 // Defines values for CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11269,22 +11626,22 @@ func (e CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode) Valid() bool {
 
 // Defines values for CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11293,22 +11650,22 @@ func (e CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode) Valid() bool {
 
 // Defines values for CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11317,22 +11674,22 @@ func (e CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode) Valid() bool {
 
 // Defines values for CreateAIGatewayOpenAIResponseParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAIResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIResponseParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAIResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIResponseParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAIResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIResponseParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAIResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIResponseParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAIResponseParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAIResponseParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAIResponseParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAIResponseParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAIResponseParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIResponseParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAIResponseParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAIResponseParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAIResponseParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAIResponseParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAIResponseParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAIResponseParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAIResponseParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAIResponseParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAIResponseParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAIResponseParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAIResponseParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAIResponseParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11341,22 +11698,22 @@ func (e CreateAIGatewayOpenAIResponseParamsXSohaCacheMode) Valid() bool {
 
 // Defines values for CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11389,22 +11746,22 @@ func (e CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsOpenaiCompatible
 
 // Defines values for CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11437,22 +11794,22 @@ func (e CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsOpenaiCom
 
 // Defines values for CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11485,22 +11842,22 @@ func (e CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsOpenaiCompa
 
 // Defines values for CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11533,22 +11890,22 @@ func (e CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsOpenaiCompati
 
 // Defines values for CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11581,22 +11938,22 @@ func (e CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsOpenaiCompatiblePr
 
 // Defines values for CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11629,22 +11986,22 @@ func (e CreateAIGatewayOpenAICompatibleProviderImageEditParamsOpenaiCompatiblePr
 
 // Defines values for CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11677,22 +12034,22 @@ func (e CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsOpenaiCompat
 
 // Defines values for CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -11749,22 +12106,22 @@ func (e ListAIGatewayOpenAICompatibleProviderModelsParamsOpenaiCompatibleProvide
 
 // Defines values for CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode.
 const (
-	CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "bypass"
-	CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "default"
-	CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "read-only"
-	CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "refresh"
+	CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass   CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "bypass"
+	CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault  CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "default"
+	CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "read-only"
+	CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh  CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "refresh"
 )
 
 // Valid indicates whether the value is a known member of the CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode enum.
 func (e CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode) Valid() bool {
 	switch e {
-	case CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
+	case CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
+	case CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
+	case CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly:
 		return true
-	case CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
+	case CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeCreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh:
 		return true
 	default:
 		return false
@@ -19198,6 +19555,32 @@ type KubernetesAdmissionWebhookRule struct {
 	Scope       string   `json:"scope,omitempty"`
 }
 
+// KubernetesAgentActionCheck defines model for KubernetesAgentActionCheck.
+type KubernetesAgentActionCheck struct {
+	Action         string                                   `json:"action"`
+	CheckedAt      *time.Time                               `json:"checkedAt,omitempty"`
+	Configured     KubernetesAgentActionCheckConfigured     `json:"configured"`
+	Implementation KubernetesAgentActionCheckImplementation `json:"implementation"`
+	KubernetesRBAC KubernetesAgentActionCheckKubernetesRBAC `json:"kubernetesRBAC"`
+	ReasonCode     string                                   `json:"reasonCode,omitempty"`
+	Scope          KubernetesAgentActionCheckScope          `json:"scope,omitempty"`
+}
+
+// KubernetesAgentActionCheckConfigured defines model for KubernetesAgentActionCheck.Configured.
+type KubernetesAgentActionCheckConfigured string
+
+// KubernetesAgentActionCheckImplementation defines model for KubernetesAgentActionCheck.Implementation.
+type KubernetesAgentActionCheckImplementation string
+
+// KubernetesAgentActionCheckKubernetesRBAC defines model for KubernetesAgentActionCheck.KubernetesRBAC.
+type KubernetesAgentActionCheckKubernetesRBAC string
+
+// KubernetesAgentActionCheckScope defines model for KubernetesAgentActionCheck.Scope.
+type KubernetesAgentActionCheckScope string
+
+// KubernetesAgentActionProfile Installation preset only. Legacy preserves existing permissions; selecting workbench or read-only requires regenerating and reviewing the installation manifest.
+type KubernetesAgentActionProfile string
+
 // KubernetesAgentCustomResourceRule defines model for KubernetesAgentCustomResourceRule.
 type KubernetesAgentCustomResourceRule struct {
 	APIGroup string `json:"apiGroup"`
@@ -19259,6 +19642,8 @@ type KubernetesCacheResourceDiagnostic struct {
 
 // KubernetesClusterConnectionDetail defines model for KubernetesClusterConnectionDetail.
 type KubernetesClusterConnectionDetail struct {
+	// ActionProfile Installation preset only. Legacy preserves existing permissions; selecting workbench or read-only requires regenerating and reviewing the installation manifest.
+	ActionProfile       KubernetesAgentActionProfile        `json:"actionProfile,omitempty"`
 	Context             string                              `json:"context,omitempty"`
 	CredentialType      string                              `json:"credentialType"`
 	CustomResourceRules []KubernetesAgentCustomResourceRule `json:"customResourceRules,omitempty"`
@@ -19287,6 +19672,7 @@ type KubernetesClusterDetailEnvelope struct {
 
 // KubernetesClusterDiagnostics defines model for KubernetesClusterDiagnostics.
 type KubernetesClusterDiagnostics struct {
+	ActionChecks    []KubernetesAgentActionCheck        `json:"actionChecks,omitempty"`
 	CacheReady      bool                                `json:"cacheReady"`
 	CacheResources  []KubernetesCacheResourceDiagnostic `json:"cacheResources,omitempty"`
 	CacheStatus     string                              `json:"cacheStatus"`
@@ -20575,13 +20961,19 @@ type KubernetesNetworkRelatedPod struct {
 
 // KubernetesNetworkTopology defines model for KubernetesNetworkTopology.
 type KubernetesNetworkTopology struct {
-	ClusterID   string                           `json:"clusterId"`
-	GeneratedAt string                           `json:"generatedAt"`
-	Namespace   string                           `json:"namespace,omitempty"`
-	Source      string                           `json:"source"`
-	Summary     KubernetesNetworkTopologySummary `json:"summary"`
-	Traces      []KubernetesNetworkTopologyTrace `json:"traces,omitempty"`
-	Warnings    []string                         `json:"warnings,omitempty"`
+	ClusterID    string                           `json:"clusterId"`
+	Coverage     []KubernetesTopologyCoverage     `json:"coverage,omitempty"`
+	Edges        []KubernetesTopologyGraphEdge    `json:"edges,omitempty"`
+	GeneratedAt  string                           `json:"generatedAt"`
+	GraphVersion string                           `json:"graphVersion,omitempty"`
+	Namespace    string                           `json:"namespace,omitempty"`
+	Nodes        []KubernetesTopologyGraphNode    `json:"nodes,omitempty"`
+	ObservedAt   *time.Time                       `json:"observedAt,omitempty"`
+	Source       string                           `json:"source"`
+	Summary      KubernetesNetworkTopologySummary `json:"summary"`
+	Traces       []KubernetesNetworkTopologyTrace `json:"traces,omitempty"`
+	Truncated    bool                             `json:"truncated,omitempty"`
+	Warnings     []string                         `json:"warnings,omitempty"`
 }
 
 // KubernetesNetworkTopologyEnvelope defines model for KubernetesNetworkTopologyEnvelope.
@@ -20625,16 +21017,22 @@ type KubernetesNetworkTopologyTrace struct {
 
 // KubernetesNode defines model for KubernetesNode.
 type KubernetesNode struct {
-	AgeSeconds     int64                          `json:"ageSeconds"`
-	AllowedActions []string                       `json:"allowedActions,omitempty"`
-	InternalIP     string                         `json:"internalIp,omitempty"`
-	Name           string                         `json:"name"`
-	PodCount       int                            `json:"podCount"`
-	Resources      *KubernetesNodeResourceSummary `json:"resources,omitempty"`
-	Roles          []string                       `json:"roles,omitempty"`
-	Status         string                         `json:"status"`
-	Unschedulable  bool                           `json:"unschedulable"`
-	Version        string                         `json:"version,omitempty"`
+	AgeSeconds     int64    `json:"ageSeconds"`
+	AllowedActions []string `json:"allowedActions,omitempty"`
+
+	// Conditions Current Node conditions, independent of scheduling and drain operations.
+	Conditions []KubernetesWorkloadCondition  `json:"conditions,omitempty"`
+	InternalIP string                         `json:"internalIp,omitempty"`
+	Name       string                         `json:"name"`
+	PodCount   int                            `json:"podCount"`
+	Resources  *KubernetesNodeResourceSummary `json:"resources,omitempty"`
+	Roles      []string                       `json:"roles,omitempty"`
+	Status     string                         `json:"status"`
+
+	// Taints Current Node spec taints. Empty means none; null or absent means not reported.
+	Taints        []KubernetesNodeTaint `json:"taints,omitempty"`
+	Unschedulable bool                  `json:"unschedulable"`
+	Version       string                `json:"version,omitempty"`
 }
 
 // KubernetesNodeDetail defines model for KubernetesNodeDetail.
@@ -21443,13 +21841,14 @@ type KubernetesResourceQuotaListEnvelope struct {
 
 // KubernetesResourceRef defines model for KubernetesResourceRef.
 type KubernetesResourceRef struct {
-	APIVersion string                      `json:"apiVersion"`
-	ClusterID  string                      `json:"clusterId"`
-	Kind       string                      `json:"kind"`
-	Name       string                      `json:"name"`
-	Namespace  string                      `json:"namespace,omitempty"`
-	ScopeMode  KubernetesResourceScopeMode `json:"scopeMode"`
-	UID        string                      `json:"uid,omitempty"`
+	APIVersion      string                      `json:"apiVersion"`
+	ClusterID       string                      `json:"clusterId"`
+	Kind            string                      `json:"kind"`
+	Name            string                      `json:"name"`
+	Namespace       string                      `json:"namespace,omitempty"`
+	ResourceVersion string                      `json:"resourceVersion,omitempty"`
+	ScopeMode       KubernetesResourceScopeMode `json:"scopeMode"`
+	UID             string                      `json:"uid,omitempty"`
 }
 
 // KubernetesResourceScope defines model for KubernetesResourceScope.
@@ -21955,6 +22354,101 @@ type KubernetesSubjectAccessReviewResult struct {
 // KubernetesSubjectAccessReviewResultEnvelope defines model for KubernetesSubjectAccessReviewResultEnvelope.
 type KubernetesSubjectAccessReviewResultEnvelope struct {
 	Data KubernetesSubjectAccessReviewResult `json:"data"`
+}
+
+// KubernetesTopologyCondition defines model for KubernetesTopologyCondition.
+type KubernetesTopologyCondition struct {
+	LastTransitionTime *time.Time `json:"lastTransitionTime,omitempty"`
+	ObservedGeneration *int64     `json:"observedGeneration,omitempty"`
+	Reason             string     `json:"reason,omitempty"`
+	Status             string     `json:"status"`
+	Type               string     `json:"type"`
+}
+
+// KubernetesTopologyCoverage defines model for KubernetesTopologyCoverage.
+type KubernetesTopologyCoverage struct {
+	CheckedAt      *time.Time                      `json:"checkedAt,omitempty"`
+	Namespace      string                          `json:"namespace,omitempty"`
+	ObservedAt     *time.Time                      `json:"observedAt,omitempty"`
+	Provider       KubernetesTopologyProvider      `json:"provider"`
+	ReasonCode     string                          `json:"reasonCode,omitempty"`
+	SourceID       string                          `json:"sourceId"`
+	State          KubernetesTopologyCoverageState `json:"state"`
+	SupportedKinds []string                        `json:"supportedKinds,omitempty"`
+	Truncated      bool                            `json:"truncated,omitempty"`
+}
+
+// KubernetesTopologyCoverageState defines model for KubernetesTopologyCoverage.State.
+type KubernetesTopologyCoverageState string
+
+// KubernetesTopologyGraphEdge defines model for KubernetesTopologyGraphEdge.
+type KubernetesTopologyGraphEdge struct {
+	ID              string                              `json:"id"`
+	MirrorPercent   *float32                            `json:"mirrorPercent,omitempty"`
+	Note            string                              `json:"note,omitempty"`
+	Port            string                              `json:"port,omitempty"`
+	Protocol        string                              `json:"protocol,omitempty"`
+	Relation        KubernetesTopologyGraphEdgeRelation `json:"relation"`
+	ResolutionState KubernetesTopologyResolution        `json:"resolutionState"`
+	RuleRef         string                              `json:"ruleRef,omitempty"`
+	Source          string                              `json:"source"`
+	SourceRef       *KubernetesResourceRef              `json:"sourceRef,omitempty"`
+	Target          string                              `json:"target"`
+	TotalWeight     *int64                              `json:"totalWeight,omitempty"`
+	Weight          *int64                              `json:"weight,omitempty"`
+}
+
+// KubernetesTopologyGraphEdgeRelation defines model for KubernetesTopologyGraphEdge.Relation.
+type KubernetesTopologyGraphEdgeRelation string
+
+// KubernetesTopologyGraphNode defines model for KubernetesTopologyGraphNode.
+type KubernetesTopologyGraphNode struct {
+	Conditions      []KubernetesTopologyCondition   `json:"conditions,omitempty"`
+	Generation      int64                           `json:"generation,omitempty"`
+	ID              string                          `json:"id"`
+	Label           string                          `json:"label"`
+	Properties      []KubernetesTopologyProperty    `json:"properties,omitempty"`
+	Protocol        string                          `json:"protocol,omitempty"`
+	Provider        KubernetesTopologyProvider      `json:"provider"`
+	ResolutionState KubernetesTopologyResolution    `json:"resolutionState"`
+	Resource        *KubernetesResourceRef          `json:"resource,omitempty"`
+	Rule            *KubernetesTopologyRule         `json:"rule,omitempty"`
+	Type            KubernetesTopologyGraphNodeType `json:"type"`
+}
+
+// KubernetesTopologyGraphNodeType defines model for KubernetesTopologyGraphNode.Type.
+type KubernetesTopologyGraphNodeType string
+
+// KubernetesTopologyMatch defines model for KubernetesTopologyMatch.
+type KubernetesTopologyMatch struct {
+	Name     string `json:"name,omitempty"`
+	Operator string `json:"operator,omitempty"`
+	Type     string `json:"type"`
+	Value    string `json:"value,omitempty"`
+}
+
+// KubernetesTopologyProperty defines model for KubernetesTopologyProperty.
+type KubernetesTopologyProperty struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
+}
+
+// KubernetesTopologyProvider defines model for KubernetesTopologyProvider.
+type KubernetesTopologyProvider string
+
+// KubernetesTopologyResolution defines model for KubernetesTopologyResolution.
+type KubernetesTopologyResolution string
+
+// KubernetesTopologyRule defines model for KubernetesTopologyRule.
+type KubernetesTopologyRule struct {
+	Index int `json:"index"`
+
+	// MatchGroups Groups are ORed; matches inside each group are ANDed. Opaque expressions remain a bounded summary and are marked unsupported_fragment.
+	MatchGroups  [][]KubernetesTopologyMatch `json:"matchGroups,omitempty"`
+	MatchSummary string                      `json:"matchSummary,omitempty"`
+	Name         string                      `json:"name,omitempty"`
+	Priority     *int64                      `json:"priority,omitempty"`
+	TLSMode      string                      `json:"tlsMode,omitempty"`
 }
 
 // KubernetesWorkloadCondition defines model for KubernetesWorkloadCondition.
@@ -27455,6 +27949,101 @@ type ResourceCapability struct {
 	RequiredScopes []string   `json:"requiredScopes,omitempty"`
 }
 
+// ResourceMonitoringEnvelope defines model for ResourceMonitoringEnvelope.
+type ResourceMonitoringEnvelope struct {
+	Data ResourceMonitoringView `json:"data"`
+}
+
+// ResourceMonitoringNode defines model for ResourceMonitoringNode.
+type ResourceMonitoringNode struct {
+	Allocatable          ResourceMonitoringQuantity `json:"allocatable"`
+	BoundPods            *float64                   `json:"boundPods"`
+	Capacity             ResourceMonitoringQuantity `json:"capacity"`
+	Cordoned             bool                       `json:"cordoned"`
+	CPULimitsComplete    bool                       `json:"cpuLimitsComplete"`
+	CreatedAt            *time.Time                 `json:"createdAt,omitempty"`
+	DiskPressure         string                     `json:"diskPressure"`
+	InternalIP           string                     `json:"internalIP,omitempty"`
+	Limits               ResourceMonitoringQuantity `json:"limits"`
+	MemoryLimitsComplete bool                       `json:"memoryLimitsComplete"`
+	MemoryPressure       string                     `json:"memoryPressure"`
+	NodeRef              KubernetesResourceRef      `json:"nodeRef"`
+	ObservedAt           *time.Time                 `json:"observedAt,omitempty"`
+	Os                   string                     `json:"os,omitempty"`
+	OverflowPodSlots     *float64                   `json:"overflowPodSlots"`
+	PendingPods          *float64                   `json:"pendingPods"`
+	PidPressure          string                     `json:"pidPressure"`
+	Quality              ResourceMonitoringQuality  `json:"quality"`
+	Ready                string                     `json:"ready"`
+	RemainingPodSlots    *float64                   `json:"remainingPodSlots"`
+	Requests             ResourceMonitoringQuantity `json:"requests"`
+}
+
+// ResourceMonitoringPanel defines model for ResourceMonitoringPanel.
+type ResourceMonitoringPanel struct {
+	Estimated     bool                       `json:"estimated,omitempty"`
+	Key           string                     `json:"key"`
+	Label         string                     `json:"label"`
+	Quality       ResourceMonitoringQuality  `json:"quality"`
+	ReasonCode    string                     `json:"reasonCode,omitempty"`
+	Series        []ResourceMonitoringSeries `json:"series"`
+	Unit          string                     `json:"unit"`
+	WindowSeconds int                        `json:"windowSeconds,omitempty"`
+}
+
+// ResourceMonitoringPoint defines model for ResourceMonitoringPoint.
+type ResourceMonitoringPoint struct {
+	Timestamp time.Time `json:"timestamp"`
+	Value     *float64  `json:"value"`
+}
+
+// ResourceMonitoringQuality defines model for ResourceMonitoringQuality.
+type ResourceMonitoringQuality string
+
+// ResourceMonitoringQuantity defines model for ResourceMonitoringQuantity.
+type ResourceMonitoringQuantity struct {
+	CPUCores    *float64 `json:"cpuCores"`
+	MemoryBytes *float64 `json:"memoryBytes"`
+	PodSlots    *float64 `json:"podSlots"`
+}
+
+// ResourceMonitoringSeries defines model for ResourceMonitoringSeries.
+type ResourceMonitoringSeries struct {
+	Latest     *float64                     `json:"latest"`
+	MetricKey  string                       `json:"metricKey"`
+	NodeRef    KubernetesResourceRef        `json:"nodeRef"`
+	Points     []ResourceMonitoringPoint    `json:"points"`
+	Quality    ResourceMonitoringQuality    `json:"quality"`
+	ReasonCode string                       `json:"reasonCode,omitempty"`
+	SampledAt  *time.Time                   `json:"sampledAt,omitempty"`
+	Source     string                       `json:"source"`
+	Unit       ResourceMonitoringSeriesUnit `json:"unit"`
+}
+
+// ResourceMonitoringSeriesUnit defines model for ResourceMonitoringSeries.Unit.
+type ResourceMonitoringSeriesUnit string
+
+// ResourceMonitoringView defines model for ResourceMonitoringView.
+type ResourceMonitoringView struct {
+	ClusterID              string                     `json:"clusterId"`
+	From                   time.Time                  `json:"from"`
+	GeneratedAt            time.Time                  `json:"generatedAt"`
+	Node                   string                     `json:"node,omitempty"`
+	NodeOptions            []KubernetesResourceRef    `json:"nodeOptions,omitempty"`
+	Nodes                  []ResourceMonitoringNode   `json:"nodes"`
+	Panels                 []ResourceMonitoringPanel  `json:"panels"`
+	SnapshotObservedAt     *time.Time                 `json:"snapshotObservedAt,omitempty"`
+	SnapshotQuality        ResourceMonitoringQuality  `json:"snapshotQuality"`
+	StepSeconds            int                        `json:"stepSeconds"`
+	To                     time.Time                  `json:"to"`
+	Truncated              bool                       `json:"truncated,omitempty"`
+	UnscheduledPendingPods *float64                   `json:"unscheduledPendingPods"`
+	View                   ResourceMonitoringViewName `json:"view"`
+}
+
+// ResourceMonitoringViewName defines model for ResourceMonitoringViewName.
+type ResourceMonitoringViewName string
+
 // ResourceReadRequest defines model for ResourceReadRequest.
 type ResourceReadRequest struct {
 	AIClientID   string         `json:"aiClientId,omitempty"`
@@ -32260,8 +32849,26 @@ type ListKubernetesHorizontalPodAutoscalersParams struct {
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
 
+// DeleteKubernetesHorizontalPodAutoscalerParams defines parameters for DeleteKubernetesHorizontalPodAutoscaler.
+type DeleteKubernetesHorizontalPodAutoscalerParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
 // GetKubernetesHorizontalPodAutoscalerDetailParams defines parameters for GetKubernetesHorizontalPodAutoscalerDetail.
 type GetKubernetesHorizontalPodAutoscalerDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesHorizontalPodAutoscalerYamlParams defines parameters for GetKubernetesHorizontalPodAutoscalerYaml.
+type GetKubernetesHorizontalPodAutoscalerYamlParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ApplyKubernetesHorizontalPodAutoscalerYamlParams defines parameters for ApplyKubernetesHorizontalPodAutoscalerYaml.
+type ApplyKubernetesHorizontalPodAutoscalerYamlParams struct {
 	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
@@ -32290,8 +32897,26 @@ type ListKubernetesPodDisruptionBudgetsParams struct {
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
 
+// DeleteKubernetesPodDisruptionBudgetParams defines parameters for DeleteKubernetesPodDisruptionBudget.
+type DeleteKubernetesPodDisruptionBudgetParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
 // GetKubernetesPodDisruptionBudgetDetailParams defines parameters for GetKubernetesPodDisruptionBudgetDetail.
 type GetKubernetesPodDisruptionBudgetDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesPodDisruptionBudgetYamlParams defines parameters for GetKubernetesPodDisruptionBudgetYaml.
+type GetKubernetesPodDisruptionBudgetYamlParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ApplyKubernetesPodDisruptionBudgetYamlParams defines parameters for ApplyKubernetesPodDisruptionBudgetYaml.
+type ApplyKubernetesPodDisruptionBudgetYamlParams struct {
 	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
@@ -32421,8 +33046,26 @@ type ListKubernetesBackendTLSPoliciesParams struct {
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
 
+// DeleteKubernetesBackendTLSPolicyParams defines parameters for DeleteKubernetesBackendTLSPolicy.
+type DeleteKubernetesBackendTLSPolicyParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
 // GetKubernetesBackendTLSPolicyDetailParams defines parameters for GetKubernetesBackendTLSPolicyDetail.
 type GetKubernetesBackendTLSPolicyDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesBackendTLSPolicyYamlParams defines parameters for GetKubernetesBackendTLSPolicyYaml.
+type GetKubernetesBackendTLSPolicyYamlParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ApplyKubernetesBackendTLSPolicyYamlParams defines parameters for ApplyKubernetesBackendTLSPolicyYaml.
+type ApplyKubernetesBackendTLSPolicyYamlParams struct {
 	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
@@ -32457,8 +33100,26 @@ type ListKubernetesGRPCRoutesParams struct {
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
 
+// DeleteKubernetesGRPCRouteParams defines parameters for DeleteKubernetesGRPCRoute.
+type DeleteKubernetesGRPCRouteParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
 // GetKubernetesGRPCRouteDetailParams defines parameters for GetKubernetesGRPCRouteDetail.
 type GetKubernetesGRPCRouteDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesGRPCRouteYamlParams defines parameters for GetKubernetesGRPCRouteYaml.
+type GetKubernetesGRPCRouteYamlParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ApplyKubernetesGRPCRouteYamlParams defines parameters for ApplyKubernetesGRPCRouteYaml.
+type ApplyKubernetesGRPCRouteYamlParams struct {
 	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
@@ -32469,8 +33130,26 @@ type ListKubernetesHTTPRoutesParams struct {
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
 
+// DeleteKubernetesHTTPRouteParams defines parameters for DeleteKubernetesHTTPRoute.
+type DeleteKubernetesHTTPRouteParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
 // GetKubernetesHTTPRouteDetailParams defines parameters for GetKubernetesHTTPRouteDetail.
 type GetKubernetesHTTPRouteDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesHTTPRouteYamlParams defines parameters for GetKubernetesHTTPRouteYaml.
+type GetKubernetesHTTPRouteYamlParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ApplyKubernetesHTTPRouteYamlParams defines parameters for ApplyKubernetesHTTPRouteYaml.
+type ApplyKubernetesHTTPRouteYamlParams struct {
 	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
@@ -32505,8 +33184,26 @@ type ListKubernetesReferenceGrantsParams struct {
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
 
+// DeleteKubernetesReferenceGrantParams defines parameters for DeleteKubernetesReferenceGrant.
+type DeleteKubernetesReferenceGrantParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
 // GetKubernetesReferenceGrantDetailParams defines parameters for GetKubernetesReferenceGrantDetail.
 type GetKubernetesReferenceGrantDetailParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// GetKubernetesReferenceGrantYamlParams defines parameters for GetKubernetesReferenceGrantYaml.
+type GetKubernetesReferenceGrantYamlParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// ApplyKubernetesReferenceGrantYamlParams defines parameters for ApplyKubernetesReferenceGrantYaml.
+type ApplyKubernetesReferenceGrantYamlParams struct {
 	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
@@ -32541,6 +33238,16 @@ type GetKubernetesNetworkTopologyParams struct {
 // ExecuteKubernetesResourceCreateParams defines parameters for ExecuteKubernetesResourceCreate.
 type ExecuteKubernetesResourceCreateParams struct {
 	IdempotencyKey IdempotencyKey `json:"Idempotency-Key"`
+}
+
+// GetKubernetesResourceMonitoringParams defines parameters for GetKubernetesResourceMonitoring.
+type GetKubernetesResourceMonitoringParams struct {
+	View         ResourceMonitoringViewName `form:"view" json:"view"`
+	Node         string                     `form:"node,omitempty" json:"node,omitempty"`
+	From         time.Time                  `form:"from,omitempty" json:"from,omitempty"`
+	To           time.Time                  `form:"to,omitempty" json:"to,omitempty"`
+	RangeMinutes int                        `form:"rangeMinutes,omitempty" json:"rangeMinutes,omitempty"`
+	StepSeconds  int                        `form:"stepSeconds,omitempty" json:"stepSeconds,omitempty"`
 }
 
 // GetKubernetesResourceGraphParams defines parameters for GetKubernetesResourceGraph.
@@ -32759,6 +33466,12 @@ type GetKubernetesReplicaSetYamlParams struct {
 
 // ListKubernetesReplicationControllersParams defines parameters for ListKubernetesReplicationControllers.
 type ListKubernetesReplicationControllersParams struct {
+	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
+	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// DeleteKubernetesReplicationControllerParams defines parameters for DeleteKubernetesReplicationController.
+type DeleteKubernetesReplicationControllerParams struct {
 	// Namespace Omit to aggregate across namespaces when the operation supports cluster-wide reads.
 	Namespace KubernetesNamespaceQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
 }
@@ -34003,6 +34716,12 @@ type UpgradeClusterAgentJSONRequestBody = ClusterAgentUpgradeInput
 // UpdateKubernetesConfigMapDataJSONRequestBody defines body for UpdateKubernetesConfigMapData for application/json ContentType.
 type UpdateKubernetesConfigMapDataJSONRequestBody = KubernetesConfigMapDataInput
 
+// ApplyKubernetesHorizontalPodAutoscalerYamlJSONRequestBody defines body for ApplyKubernetesHorizontalPodAutoscalerYaml for application/json ContentType.
+type ApplyKubernetesHorizontalPodAutoscalerYamlJSONRequestBody = KubernetesResourceYamlInput
+
+// ApplyKubernetesPodDisruptionBudgetYamlJSONRequestBody defines body for ApplyKubernetesPodDisruptionBudgetYaml for application/json ContentType.
+type ApplyKubernetesPodDisruptionBudgetYamlJSONRequestBody = KubernetesResourceYamlInput
+
 // UpdateKubernetesSecretDataJSONRequestBody defines body for UpdateKubernetesSecretData for application/json ContentType.
 type UpdateKubernetesSecretDataJSONRequestBody = KubernetesSecretDataInput
 
@@ -34035,6 +34754,18 @@ type CreateKubernetesNamespaceJSONRequestBody = KubernetesNamespaceCreateInput
 
 // UpdateKubernetesNamespaceJSONRequestBody defines body for UpdateKubernetesNamespace for application/json ContentType.
 type UpdateKubernetesNamespaceJSONRequestBody = KubernetesNamespaceInput
+
+// ApplyKubernetesBackendTLSPolicyYamlJSONRequestBody defines body for ApplyKubernetesBackendTLSPolicyYaml for application/json ContentType.
+type ApplyKubernetesBackendTLSPolicyYamlJSONRequestBody = KubernetesResourceYamlInput
+
+// ApplyKubernetesGRPCRouteYamlJSONRequestBody defines body for ApplyKubernetesGRPCRouteYaml for application/json ContentType.
+type ApplyKubernetesGRPCRouteYamlJSONRequestBody = KubernetesResourceYamlInput
+
+// ApplyKubernetesHTTPRouteYamlJSONRequestBody defines body for ApplyKubernetesHTTPRouteYaml for application/json ContentType.
+type ApplyKubernetesHTTPRouteYamlJSONRequestBody = KubernetesResourceYamlInput
+
+// ApplyKubernetesReferenceGrantYamlJSONRequestBody defines body for ApplyKubernetesReferenceGrantYaml for application/json ContentType.
+type ApplyKubernetesReferenceGrantYamlJSONRequestBody = KubernetesResourceYamlInput
 
 // DisableClusterLogCollectionJSONRequestBody defines body for DisableClusterLogCollection for application/json ContentType.
 type DisableClusterLogCollectionJSONRequestBody = LogCollectionDisableInput
@@ -42492,3 +43223,309 @@ const Running WorkbenchAgentStatusEventStatus = "running"
 
 // Retained for Go SDK source compatibility.
 const Succeeded WorkbenchAgentStatusEventStatus = "succeeded"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayAnthropicMessageParamsXSohaCacheModeBypass CreateAIGatewayAnthropicMessageParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayAnthropicMessageParamsXSohaCacheModeDefault CreateAIGatewayAnthropicMessageParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayAnthropicMessageParamsXSohaCacheModeReadOnly CreateAIGatewayAnthropicMessageParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayAnthropicMessageParamsXSohaCacheModeRefresh CreateAIGatewayAnthropicMessageParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayCohereRerankParamsXSohaCacheModeBypass CreateAIGatewayCohereRerankParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayCohereRerankParamsXSohaCacheModeDefault CreateAIGatewayCohereRerankParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayCohereRerankParamsXSohaCacheModeReadOnly CreateAIGatewayCohereRerankParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayCohereRerankParamsXSohaCacheModeRefresh CreateAIGatewayCohereRerankParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeBypass CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeDefault CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeReadOnly CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayGeminiGenerateContentParamsXSohaCacheModeRefresh CreateAIGatewayGeminiGenerateContentParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeBypass CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeDefault CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeReadOnly CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayGeminiInteractionsParamsXSohaCacheModeRefresh CreateAIGatewayGeminiInteractionsParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeBypass CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeDefault CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeReadOnly CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheModeRefresh CreateAIGatewayGeminiStreamGenerateContentParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeBypass CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeDefault CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheModeRefresh CreateAIGatewayOpenAIAudioSpeechParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeBypass CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeDefault CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheModeRefresh CreateAIGatewayOpenAIAudioTranscriptionParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeBypass CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeDefault CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheModeRefresh CreateAIGatewayOpenAIAudioTranslationParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeBypass CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeDefault CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheModeRefresh CreateAIGatewayOpenAIChatCompletionParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeBypass CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeDefault CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheModeRefresh CreateAIGatewayOpenAICompatibleProviderAudioSpeechParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeBypass CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeDefault CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheModeRefresh CreateAIGatewayOpenAICompatibleProviderAudioTranscriptionParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeBypass CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeDefault CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheModeRefresh CreateAIGatewayOpenAICompatibleProviderAudioTranslationParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeBypass CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeDefault CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheModeRefresh CreateAIGatewayOpenAICompatibleProviderChatCompletionParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeBypass CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeDefault CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheModeRefresh CreateAIGatewayOpenAICompatibleProviderEmbeddingParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeBypass CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeDefault CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheModeRefresh CreateAIGatewayOpenAICompatibleProviderImageEditParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeBypass CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeDefault CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheModeRefresh CreateAIGatewayOpenAICompatibleProviderImageGenerationParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeBypass CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeDefault CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheModeRefresh CreateAIGatewayOpenAICompatibleProviderImageVariationParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeBypass CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeDefault CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheModeRefresh CreateAIGatewayOpenAICompatibleProviderResponseParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeBypass CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeDefault CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheModeRefresh CreateAIGatewayOpenAIEmbeddingParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeBypass CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeDefault CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIImageEditParamsXSohaCacheModeRefresh CreateAIGatewayOpenAIImageEditParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeBypass CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeDefault CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheModeRefresh CreateAIGatewayOpenAIImageGenerationParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeBypass CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeDefault CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIImageVariationParamsXSohaCacheModeRefresh CreateAIGatewayOpenAIImageVariationParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIResponseParamsXSohaCacheModeBypass CreateAIGatewayOpenAIResponseParamsXSohaCacheMode = "bypass"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIResponseParamsXSohaCacheModeDefault CreateAIGatewayOpenAIResponseParamsXSohaCacheMode = "default"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIResponseParamsXSohaCacheModeReadOnly CreateAIGatewayOpenAIResponseParamsXSohaCacheMode = "read-only"
+
+// Retained for Go SDK source compatibility.
+const CreateAIGatewayOpenAIResponseParamsXSohaCacheModeRefresh CreateAIGatewayOpenAIResponseParamsXSohaCacheMode = "refresh"
+
+// Retained for Go SDK source compatibility.
+const SohaCacheModeHeaderBypass SohaCacheModeHeader = "bypass"
+
+// Retained for Go SDK source compatibility.
+const SohaCacheModeHeaderDefault SohaCacheModeHeader = "default"
+
+// Retained for Go SDK source compatibility.
+const SohaCacheModeHeaderReadOnly SohaCacheModeHeader = "read-only"
+
+// Retained for Go SDK source compatibility.
+const SohaCacheModeHeaderRefresh SohaCacheModeHeader = "refresh"
+
+// Retained for Go SDK source compatibility.
+const LLMCallLogCacheStatusBypass LLMCallLogCacheStatus = "bypass"
+
+// Retained for Go SDK source compatibility.
+const LLMCallLogCacheStatusHit LLMCallLogCacheStatus = "hit"
+
+// Retained for Go SDK source compatibility.
+const LLMCallLogCacheStatusMiss LLMCallLogCacheStatus = "miss"
+
+// Retained for Go SDK source compatibility.
+const LLMCallLogCacheStatusStaleHit LLMCallLogCacheStatus = "stale_hit"
+
+// Retained for Go SDK source compatibility.
+const LLMCallLogCacheStatusWrite LLMCallLogCacheStatus = "write"
+
+// Retained for Go SDK source compatibility.
+const LLMCallLogCacheStatusWriteSkipped LLMCallLogCacheStatus = "write_skipped"
