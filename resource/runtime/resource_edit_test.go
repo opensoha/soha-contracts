@@ -22,7 +22,7 @@ const testEditManager = "opensoha-resource-edit/v1"
 
 func editFixture() *unstructured.Unstructured {
 	item := &unstructured.Unstructured{Object: map[string]any{"apiVersion": "v1", "kind": "ConfigMap", "metadata": map[string]any{"name": "sample", "namespace": "demo", "uid": "original", "resourceVersion": "1"}, "data": map[string]any{"phase": "created"}}}
-	item.SetManagedFields([]metav1.ManagedFieldsEntry{{Manager: testEditManager, Operation: metav1.ManagedFieldsOperationUpdate, APIVersion: "v1", FieldsType: "FieldsV1", FieldsV1: &metav1.FieldsV1{Raw: []byte(`{"f:data":{"f:phase":{}}}`)}}})
+	item.SetManagedFields([]metav1.ManagedFieldsEntry{{Manager: testEditManager, Operation: metav1.ManagedFieldsOperationUpdate, APIVersion: "v1", FieldsType: "FieldsV1", FieldsV1: metav1.NewFieldsV1(`{"f:data":{"f:phase":{}}}`)}})
 	return item
 }
 
@@ -46,7 +46,7 @@ func TestApplyResourceEditMigratesOnlyItsOwnCreationFields(t *testing.T) {
 			}
 			if test.foreign {
 				owners := live.GetManagedFields()
-				owners = append(owners, metav1.ManagedFieldsEntry{Manager: "helm", Operation: metav1.ManagedFieldsOperationApply, APIVersion: "v1", FieldsType: "FieldsV1", FieldsV1: &metav1.FieldsV1{Raw: []byte(`{"f:data":{"f:external":{}}}`)}})
+				owners = append(owners, metav1.ManagedFieldsEntry{Manager: "helm", Operation: metav1.ManagedFieldsOperationApply, APIVersion: "v1", FieldsType: "FieldsV1", FieldsV1: metav1.NewFieldsV1(`{"f:data":{"f:external":{}}}`)})
 				live.SetManagedFields(owners)
 			}
 			desired := live.DeepCopy()
@@ -149,7 +149,7 @@ func assertEditMigration(t *testing.T, payload []byte, foreign bool) {
 	if err := json.Unmarshal(ops[1].Value, &owners); err != nil || len(owners) < 1 || owners[0].Manager != testEditManager || owners[0].Operation != metav1.ManagedFieldsOperationApply {
 		t.Fatalf("unexpected ownership migration: %s %v", payload, err)
 	}
-	if foreign && (len(owners) != 2 || owners[1].Manager != "helm" || owners[1].Operation != metav1.ManagedFieldsOperationApply || string(owners[1].FieldsV1.Raw) != `{"f:data":{"f:external":{}}}`) {
+	if foreign && (len(owners) != 2 || owners[1].Manager != "helm" || owners[1].Operation != metav1.ManagedFieldsOperationApply || owners[1].FieldsV1.GetRawString() != `{"f:data":{"f:external":{}}}`) {
 		t.Fatal("migration changed external ownership")
 	}
 }

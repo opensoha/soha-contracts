@@ -49,7 +49,10 @@ func (c *DrainClient) Failure(ctx context.Context, err error) error {
 	code := "node_drain_failed"
 	var denied error
 	c.failures.Range(func(_, value any) bool {
-		failure := value.(error)
+		failure, ok := value.(error)
+		if !ok {
+			return true
+		}
 		switch {
 		case apierrors.IsForbidden(failure) || apierrors.IsUnauthorized(failure):
 			denied = failure

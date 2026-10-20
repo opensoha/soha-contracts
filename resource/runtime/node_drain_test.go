@@ -67,6 +67,8 @@ func TestDrainFeedbackKeepsCancellationAndSuccessDistinct(t *testing.T) {
 
 func TestDrainFeedbackDoesNotHidePermissionDenialBehindPDB(t *testing.T) {
 	client := NewDrainClient(fake.NewClientset())
+	client.failures.Store("invalid", struct{}{})
+	assertDrainCode(t, client.Failure(context.Background(), errors.New("private")), "node_drain_failed")
 	blocked := &apierrors.StatusError{ErrStatus: metav1.Status{Code: 429, Details: &metav1.StatusDetails{Causes: []metav1.StatusCause{{Type: policyv1.DisruptionBudgetCause}}}}}
 	_ = client.observe("team", "blocked", blocked)
 	canceled, cancel := context.WithCancel(context.Background())
