@@ -35,7 +35,7 @@ func TestSchemaFixtures(t *testing.T) {
 			}
 			for _, file := range files {
 				t.Run(name+"/"+kind+"/"+filepath.Base(file), func(t *testing.T) {
-					data, err := os.ReadFile(file)
+					data, err := os.ReadFile(file) // #nosec G304 -- Glob uses only the fixed repository fixture names and valid/invalid categories above.
 					if err != nil {
 						t.Fatal(err)
 					}
@@ -50,7 +50,7 @@ func TestSchemaFixtures(t *testing.T) {
 
 func guestFixture[T any](t *testing.T, name string) T {
 	t.Helper()
-	data, err := os.ReadFile("../../fixtures/json-schema/personal-guest-" + name + "/valid/minimal.json")
+	data, err := os.ReadFile("../../fixtures/json-schema/personal-guest-" + name + "/valid/minimal.json") // #nosec G304 -- All callers pass constant test fixture names, never external input.
 	if err != nil {
 		t.Fatal(err)
 	}

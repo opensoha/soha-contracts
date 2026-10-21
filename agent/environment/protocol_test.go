@@ -16,7 +16,7 @@ func TestRequestFixturesMatchRuntimeBoundary(t *testing.T) {
 		}
 		for _, file := range files {
 			t.Run(kind+"/"+filepath.Base(file), func(t *testing.T) {
-				data, err := os.ReadFile(file)
+				data, err := os.ReadFile(file) // #nosec G304 -- Glob is rooted in repository fixtures with fixed valid/invalid categories.
 				if err != nil {
 					t.Fatal(err)
 				}

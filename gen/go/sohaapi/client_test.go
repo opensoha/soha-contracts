@@ -1622,7 +1622,7 @@ func TestCreateServiceAccountTokenEscapesPathPostsBodyAndDecodesData(t *testing.
 		writeJSON(t, w, map[string]any{
 			"data": map[string]any{
 				"value": "soha_sat_secret",
-				"token": map[string]any{
+				"token": map[string]any{ // #nosec G101 -- Synthetic token metadata in an httptest response, not a usable credential.
 					"id":               "sat-2",
 					"serviceAccountId": "svc/1",
 					"name":             "deploy token",
@@ -1682,7 +1682,7 @@ func TestRotateServiceAccountTokenEscapesPathPostsBodyAndDecodesData(t *testing.
 		writeJSON(t, w, map[string]any{
 			"data": map[string]any{
 				"value": "soha_sat_rotated",
-				"token": map[string]any{
+				"token": map[string]any{ // #nosec G101 -- Synthetic token metadata in an httptest response, not a usable credential.
 					"id":               "sat-rotated",
 					"serviceAccountId": "svc-1",
 					"name":             "rotated service token",
