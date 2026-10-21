@@ -21365,6 +21365,9 @@ type KubernetesPod struct {
 	ReadyContainers        string                      `json:"readyContainers"`
 	Requests               *KubernetesResourceQuantity `json:"requests,omitempty"`
 	Restarts               int32                       `json:"restarts"`
+
+	// UID Immutable Pod identity. Required by clients restoring a saved live session; absent on older providers.
+	UID string `json:"uid,omitempty"`
 }
 
 // KubernetesPodDetail defines model for KubernetesPodDetail.
@@ -21387,7 +21390,10 @@ type KubernetesPodDetail struct {
 	Requests           *KubernetesResourceQuantity    `json:"requests,omitempty"`
 	ServiceAccountName string                         `json:"serviceAccountName,omitempty"`
 	StartTime          string                         `json:"startTime,omitempty"`
-	Volumes            []KubernetesPodVolume          `json:"volumes,omitempty"`
+
+	// UID Immutable Pod identity. Required by clients restoring a saved live session; absent on older providers.
+	UID     string                `json:"uid,omitempty"`
+	Volumes []KubernetesPodVolume `json:"volumes,omitempty"`
 }
 
 // KubernetesPodDetailEnvelope defines model for KubernetesPodDetailEnvelope.
@@ -29162,6 +29168,7 @@ type StreamTicketEnvelope struct {
 
 // StreamTicketRequest defines model for StreamTicketRequest.
 type StreamTicketRequest struct {
+	// Path Same-origin stream pathname. UID-aware Pod sessions include expectedUid, namespace, container and shell query fields to bind the one-use ticket to that exact target; other query fields are not part of the binding.
 	Path string `json:"path"`
 }
 
@@ -33576,11 +33583,14 @@ type GetKubernetesPodDetailParams struct {
 
 // GetKubernetesPodLogsParams defines parameters for GetKubernetesPodLogs.
 type GetKubernetesPodLogsParams struct {
-	Namespace    KubernetesNamespaceDefaultQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
-	Container    string                          `form:"container,omitempty" json:"container,omitempty"`
-	TailLines    int                             `form:"tailLines,omitempty" json:"tailLines,omitempty"`
-	SinceSeconds int                             `form:"sinceSeconds,omitempty" json:"sinceSeconds,omitempty"`
-	Previous     bool                            `form:"previous,omitempty" json:"previous,omitempty"`
+	Namespace KubernetesNamespaceDefaultQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+
+	// ExpectedUID Reject the request if the live Pod UID differs. Omit only for legacy clients, never when restoring a saved session.
+	ExpectedUID  string `form:"expectedUid,omitempty" json:"expectedUid,omitempty"`
+	Container    string `form:"container,omitempty" json:"container,omitempty"`
+	TailLines    int    `form:"tailLines,omitempty" json:"tailLines,omitempty"`
+	SinceSeconds int    `form:"sinceSeconds,omitempty" json:"sinceSeconds,omitempty"`
+	Previous     bool   `form:"previous,omitempty" json:"previous,omitempty"`
 }
 
 // GetClusterPodMetricsParams defines parameters for GetClusterPodMetrics.

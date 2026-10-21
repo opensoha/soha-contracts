@@ -6,6 +6,8 @@ info:
     Public OpenSoha core API contract. This first contract focuses on stable
     cross-repository boundaries: auth, health, runner-facing control-plane
     callbacks, AI Gateway, and MCP capability discovery.
+    Pod session WebSocket targets and their UID-aware ticket requirements are
+    described separately in x-soha-websocket-paths to preserve HTTP client generation.
 servers:
   - url: /api/v1
     description: Soha API v1
@@ -40,6 +42,78 @@ tags:
   - name: Portal
   - name: Directory
   - name: Network Access
+x-soha-websocket-paths:
+  /clusters/{clusterID}/workloads/pods/{podName}/logs/stream:
+    get:
+      tags: [Platform]
+      operationId: streamKubernetesPodLogs
+      x-soha-permissions:
+        mode: all
+        keys: [platform.pods.logs]
+      x-soha-implementation-status: implemented
+      description: >-
+        Existing WebSocket logs endpoint. Saved sessions must provide expectedUid.
+        Each upstream open checks the current Pod UID and current action authorization.
+        A stream ticket issued with expectedUid binds namespace, container and shell too.
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesPodName"
+        - $ref: "#/components/parameters/KubernetesNamespaceDefaultQuery"
+        - name: expectedUid
+          in: query
+          schema: { type: string, minLength: 1 }
+        - name: container
+          in: query
+          schema: { type: string, minLength: 1 }
+        - name: stream_ticket
+          in: query
+          schema: { type: string, minLength: 1 }
+        - name: tailLines
+          in: query
+          schema: { type: integer, minimum: 0, default: 200 }
+        - name: sinceSeconds
+          in: query
+          schema: { type: integer, minimum: 0, default: 0 }
+      responses:
+        "101":
+          description: WebSocket opened; terminalMessage envelopes carry stream output and safe exit status. Authentication, UID, permission or provider failures terminate the stream without attaching to a replacement Pod.
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/workloads/pods/{podName}/terminal:
+    get:
+      tags: [Platform]
+      operationId: streamKubernetesPodTerminal
+      x-soha-permissions:
+        mode: all
+        keys: [platform.pods.exec]
+      x-soha-implementation-status: implemented
+      description: >-
+        Existing WebSocket exec endpoint. Saved sessions must provide expectedUid.
+        Each upstream open checks the current Pod UID and current action authorization.
+        A stream ticket issued with expectedUid binds namespace, container and shell too.
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesPodName"
+        - $ref: "#/components/parameters/KubernetesNamespaceDefaultQuery"
+        - name: expectedUid
+          in: query
+          schema: { type: string, minLength: 1 }
+        - name: container
+          in: query
+          schema: { type: string, minLength: 1 }
+        - name: stream_ticket
+          in: query
+          schema: { type: string, minLength: 1 }
+        - name: shell
+          in: query
+          schema: { type: string, default: /bin/sh }
+      responses:
+        "101":
+          description: WebSocket opened; terminalMessage envelopes carry stream output and safe exit status. Authentication, UID, permission or provider failures terminate the stream without attaching to a replacement Pod.
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
 paths:
   /network-access/vpn/profiles:
     get:
@@ -8703,6 +8777,10 @@ paths:
         - $ref: "#/components/parameters/ClusterID"
         - $ref: "#/components/parameters/KubernetesPodName"
         - $ref: "#/components/parameters/KubernetesNamespaceDefaultQuery"
+        - name: expectedUid
+          in: query
+          description: Reject the request if the live Pod UID differs. Omit only for legacy clients, never when restoring a saved session.
+          schema: { type: string, minLength: 1 }
         - name: container
           in: query
           schema: { type: string, minLength: 1 }
@@ -8724,6 +8802,11 @@ paths:
                 $ref: "#/components/schemas/KubernetesPodLogsEnvelope"
         "403": { $ref: "#/components/responses/Error" }
         "404": { $ref: "#/components/responses/Error" }
+        "409":
+          description: The current Pod UID differs from expectedUid; open the current Pod instead of adopting it by name.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ErrorEnvelope" }
         "503": { $ref: "#/components/responses/Error" }
   /clusters/{clusterID}/workloads/pods/{podName}/yaml:
     get:
@@ -30148,6 +30231,7 @@ components:
       properties:
         path:
           type: string
+          description: Same-origin stream pathname. UID-aware Pod sessions include expectedUid, namespace, container and shell query fields to bind the one-use ticket to that exact target; other query fields are not part of the binding.
       additionalProperties: false
     StreamTicket:
       type: object
@@ -38113,6 +38197,10 @@ components:
       type: object
       required: [name, namespace, phase, readyContainers, restarts, ageSeconds]
       properties:
+        uid:
+          type: string
+          minLength: 1
+          description: Immutable Pod identity. Required by clients restoring a saved live session; absent on older providers.
         name:
           type: string
         namespace:
@@ -38272,6 +38360,10 @@ components:
       type: object
       required: [name, namespace, phase]
       properties:
+        uid:
+          type: string
+          minLength: 1
+          description: Immutable Pod identity. Required by clients restoring a saved live session; absent on older providers.
         name:
           type: string
         namespace:

@@ -17168,6 +17168,7 @@ export interface components {
             codeVerifier: string;
         };
         StreamTicketRequest: {
+            /** @description Same-origin stream pathname. UID-aware Pod sessions include expectedUid, namespace, container and shell query fields to bind the one-use ticket to that exact target; other query fields are not part of the binding. */
             path: string;
         };
         StreamTicket: {
@@ -21858,6 +21859,8 @@ export interface components {
             data: components["schemas"]["KubernetesWorkloadOverview"];
         };
         KubernetesPod: {
+            /** @description Immutable Pod identity. Required by clients restoring a saved live session; absent on older providers. */
+            uid?: string;
             name: string;
             namespace: string;
             phase: string;
@@ -21926,6 +21929,8 @@ export interface components {
             relation?: string;
         };
         KubernetesPodDetail: {
+            /** @description Immutable Pod identity. Required by clients restoring a saved live session; absent on older providers. */
+            uid?: string;
             name: string;
             namespace: string;
             phase: string;
@@ -41270,6 +41275,8 @@ export interface operations {
         parameters: {
             query?: {
                 namespace?: components["parameters"]["KubernetesNamespaceDefaultQuery"];
+                /** @description Reject the request if the live Pod UID differs. Omit only for legacy clients, never when restoring a saved session. */
+                expectedUid?: string;
                 container?: string;
                 tailLines?: number;
                 sinceSeconds?: number;
@@ -41295,6 +41302,15 @@ export interface operations {
             };
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
+            /** @description The current Pod UID differs from expectedUid; open the current Pod instead of adopting it by name. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             503: components["responses"]["Error"];
         };
     };

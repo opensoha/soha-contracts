@@ -70,3 +70,45 @@ func TestTopologySuccessResponsePreservesDescription(t *testing.T) {
 		t.Fatalf("topology response description was truncated: %q", description)
 	}
 }
+
+func TestPodWebSocketMetadataPreservesHTTPRouteSurface(t *testing.T) {
+	var document struct {
+		Paths   map[string]json.RawMessage `json:"paths"`
+		Streams map[string]struct {
+			Get struct {
+				Permissions struct {
+					Keys []string `json:"keys"`
+				} `json:"x-soha-permissions"`
+				Parameters []struct {
+					Name   string `json:"name"`
+					Schema struct {
+						Type      string `json:"type"`
+						MinLength int    `json:"minLength"`
+					} `json:"schema"`
+				} `json:"parameters"`
+			} `json:"get"`
+		} `json:"x-soha-websocket-paths"`
+	}
+	if err := json.Unmarshal(JSON(), &document); err != nil {
+		t.Fatal(err)
+	}
+	for suffix, permission := range map[string]string{"logs/stream": "platform.pods.logs", "terminal": "platform.pods.exec"} {
+		path := "/clusters/{clusterID}/workloads/pods/{podName}/" + suffix
+		if _, exists := document.Paths[path]; exists {
+			t.Fatalf("WebSocket target entered the HTTP client route surface: %s", path)
+		}
+		stream, exists := document.Streams[path]
+		if !exists || len(stream.Get.Permissions.Keys) != 1 || stream.Get.Permissions.Keys[0] != permission {
+			t.Fatalf("missing WebSocket target permission: %s", path)
+		}
+		uidQuery := false
+		for _, parameter := range stream.Get.Parameters {
+			if parameter.Name == "expectedUid" && parameter.Schema.Type == "string" && parameter.Schema.MinLength == 1 {
+				uidQuery = true
+			}
+		}
+		if !uidQuery {
+			t.Fatalf("missing non-empty expectedUid query metadata: %s", path)
+		}
+	}
+}

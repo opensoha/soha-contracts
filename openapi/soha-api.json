@@ -30005,6 +30005,11 @@
             "format": "int32",
             "minimum": 0,
             "type": "integer"
+          },
+          "uid": {
+            "description": "Immutable Pod identity. Required by clients restoring a saved live session; absent on older providers.",
+            "minLength": 1,
+            "type": "string"
           }
         },
         "required": [
@@ -30084,6 +30089,11 @@
             "type": "string"
           },
           "startTime": {
+            "type": "string"
+          },
+          "uid": {
+            "description": "Immutable Pod identity. Required by clients restoring a saved live session; absent on older providers.",
+            "minLength": 1,
             "type": "string"
           },
           "volumes": {
@@ -57881,6 +57891,7 @@
         "additionalProperties": false,
         "properties": {
           "path": {
+            "description": "Same-origin stream pathname. UID-aware Pod sessions include expectedUid, namespace, container and shell query fields to bind the one-use ticket to that exact target; other query fields are not part of the binding.",
             "type": "string"
           }
         },
@@ -65945,7 +65956,7 @@
     }
   },
   "info": {
-    "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery.\n",
+    "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery. Pod session WebSocket targets and their UID-aware ticket requirements are described separately in x-soha-websocket-paths to preserve HTTP client generation.\n",
     "title": "Soha API",
     "version": "0.1.25"
   },
@@ -83799,6 +83810,15 @@
             "$ref": "#/components/parameters/KubernetesNamespaceDefaultQuery"
           },
           {
+            "description": "Reject the request if the live Pod UID differs. Omit only for legacy clients, never when restoring a saved session.",
+            "in": "query",
+            "name": "expectedUid",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
             "in": "query",
             "name": "container",
             "schema": {
@@ -83849,6 +83869,16 @@
           },
           "404": {
             "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The current Pod UID differs from expectedUid; open the current Pod instead of adopting it by name."
           },
           "503": {
             "$ref": "#/components/responses/Error"
@@ -108266,5 +108296,163 @@
     {
       "name": "Network Access"
     }
-  ]
+  ],
+  "x-soha-websocket-paths": {
+    "/clusters/{clusterID}/workloads/pods/{podName}/logs/stream": {
+      "get": {
+        "description": "Existing WebSocket logs endpoint. Saved sessions must provide expectedUid. Each upstream open checks the current Pod UID and current action authorization. A stream ticket issued with expectedUid binds namespace, container and shell too.",
+        "operationId": "streamKubernetesPodLogs",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesPodName"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNamespaceDefaultQuery"
+          },
+          {
+            "in": "query",
+            "name": "expectedUid",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "container",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "stream_ticket",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "tailLines",
+            "schema": {
+              "default": 200,
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sinceSeconds",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "101": {
+            "description": "WebSocket opened; terminalMessage envelopes carry stream output and safe exit status. Authentication, UID, permission or provider failures terminate the stream without attaching to a replacement Pod."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.pods.logs"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/clusters/{clusterID}/workloads/pods/{podName}/terminal": {
+      "get": {
+        "description": "Existing WebSocket exec endpoint. Saved sessions must provide expectedUid. Each upstream open checks the current Pod UID and current action authorization. A stream ticket issued with expectedUid binds namespace, container and shell too.",
+        "operationId": "streamKubernetesPodTerminal",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesPodName"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNamespaceDefaultQuery"
+          },
+          {
+            "in": "query",
+            "name": "expectedUid",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "container",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "stream_ticket",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "shell",
+            "schema": {
+              "default": "/bin/sh",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "101": {
+            "description": "WebSocket opened; terminalMessage envelopes carry stream output and safe exit status. Authentication, UID, permission or provider failures terminate the stream without attaching to a replacement Pod."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.pods.exec"
+          ],
+          "mode": "all"
+        }
+      }
+    }
+  }
 }
