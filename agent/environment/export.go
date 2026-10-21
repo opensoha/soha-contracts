@@ -86,6 +86,7 @@ func (w *ExportWriter) Finish(request Request) (ExportResult, error) {
 	if err := binary.Write(w.Writer, binary.BigEndian, uint32(0)); err != nil {
 		return ExportResult{}, err
 	}
+	// #nosec G115 -- ValidateFor bounds all three lease IDs to 128 runes and the remaining receipt fields are fixed or bounded.
 	if err := binary.Write(w.Writer, binary.BigEndian, uint32(len(data))); err != nil {
 		return ExportResult{}, err
 	}

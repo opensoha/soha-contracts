@@ -37,7 +37,7 @@ func TestArgoCDWithKubernetes(t *testing.T) {
 	operatorRequire(t, err)
 	kube, err := kubernetes.NewForConfig(config)
 	operatorRequire(t, err)
-	data, err := os.ReadFile(os.Getenv("SOHA_ARGOCD_TEST_STATE"))
+	data, err := os.ReadFile(os.Getenv("SOHA_ARGOCD_TEST_STATE")) // #nosec G703 -- Opt-in integration test reads the operator-selected local fixture path; no server request controls it.
 	operatorRequire(t, err)
 	var state map[string]json.RawMessage
 	operatorRequire(t, json.Unmarshal(data, &state))
