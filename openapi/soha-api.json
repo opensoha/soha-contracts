@@ -6126,6 +6126,23 @@
             },
             "type": "object"
           },
+          "source": {
+            "$ref": "#/components/schemas/KubernetesImportSource"
+          },
+          "sourceStatus": {
+            "enum": [
+              "linked",
+              "changed",
+              "replaced",
+              "missing",
+              "unavailable",
+              "forbidden"
+            ],
+            "type": "string"
+          },
+          "targetId": {
+            "type": "string"
+          },
           "updatedReplicas": {
             "type": "integer"
           },
@@ -27826,11 +27843,17 @@
             },
             "type": "array"
           },
+          "source": {
+            "$ref": "#/components/schemas/KubernetesImportSource"
+          },
           "workloadKind": {
             "enum": [
               "Deployment",
               "StatefulSet",
-              "DaemonSet"
+              "DaemonSet",
+              "Job",
+              "CronJob",
+              "CustomResource"
             ],
             "type": "string"
           },
@@ -27888,7 +27911,10 @@
             "enum": [
               "Deployment",
               "StatefulSet",
-              "DaemonSet"
+              "DaemonSet",
+              "Job",
+              "CronJob",
+              "CustomResource"
             ],
             "type": "string"
           },
@@ -27915,11 +27941,17 @@
           "id": {
             "type": "string"
           },
+          "source": {
+            "$ref": "#/components/schemas/KubernetesImportSource"
+          },
           "workloadKind": {
             "enum": [
               "Deployment",
               "StatefulSet",
-              "DaemonSet"
+              "DaemonSet",
+              "Job",
+              "CronJob",
+              "CustomResource"
             ],
             "type": "string"
           },
@@ -27956,6 +27988,99 @@
           "key",
           "name",
           "created"
+        ],
+        "type": "object"
+      },
+      "KubernetesImportOwnerReference": {
+        "additionalProperties": false,
+        "properties": {
+          "apiVersion": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "blockOwnerDeletion": {
+            "type": "boolean"
+          },
+          "controller": {
+            "type": "boolean"
+          },
+          "kind": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "uid": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "apiVersion",
+          "kind",
+          "name",
+          "uid"
+        ],
+        "type": "object"
+      },
+      "KubernetesImportSource": {
+        "additionalProperties": false,
+        "description": "Safe source identity captured from an authorized live read. No YAML, spec values, annotations or status are persisted here. For native workloads specDigest covers configuration and ownership metadata excluding status/resourceVersion. For CRs it fences the public UID, generation and owner references without hashing secret content; metadata-only edits are outside that fence. CRs without a positive generation are rejected. UID identifies recreation.",
+        "properties": {
+          "crdName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "generation": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "observedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "owners": {
+            "items": {
+              "$ref": "#/components/schemas/KubernetesImportOwnerReference"
+            },
+            "maxItems": 32,
+            "type": "array"
+          },
+          "plural": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "resource": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/KubernetesResourceRef"
+              },
+              {
+                "properties": {
+                  "uid": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "uid"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "specDigest": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "resource",
+          "specDigest",
+          "observedAt"
         ],
         "type": "object"
       },
@@ -33156,6 +33281,7 @@
       },
       "KubernetesServiceImportRequest": {
         "additionalProperties": false,
+        "description": "Initial association is observe_only. A managed request is rejected until a separate UID-aware ownership handoff and release preflight are available; it must never silently enable publishing.",
         "properties": {
           "applicationKey": {
             "minLength": 1,
@@ -34313,11 +34439,27 @@
       "KubernetesWorkloadImportInput": {
         "additionalProperties": false,
         "properties": {
+          "crdName": {
+            "description": "Required for CustomResource. Resolve the served GVR and scope from this CRD; never infer API group or plural from Kind.",
+            "minLength": 1,
+            "type": "string"
+          },
+          "expectedSpecDigest": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "expectedUid": {
+            "minLength": 1,
+            "type": "string"
+          },
           "workloadKind": {
             "enum": [
               "Deployment",
               "StatefulSet",
-              "DaemonSet"
+              "DaemonSet",
+              "Job",
+              "CronJob",
+              "CustomResource"
             ],
             "type": "string"
           },
@@ -73842,6 +73984,65 @@
         ]
       }
     },
+    "/application-environments/{applicationEnvironmentID}/targets/{targetID}/source": {
+      "get": {
+        "description": "Read a linked source through existing Kubernetes authorization. Rejects replaced UIDs. Custom resource YAML additionally requires sensitive-data read permission. Responses must not be persisted in browser caches.",
+        "operationId": "getApplicationEnvironmentTargetSource",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "applicationEnvironmentID",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "targetID",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesResourceYamlEnvelope"
+                }
+              }
+            },
+            "description": "Current cluster YAML for the linked resource, never a fabricated source file.",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
     "/application-environments/helm-release-imports": {
       "post": {
         "operationId": "importHelmReleases",
@@ -73924,6 +74125,32 @@
       "get": {
         "operationId": "listApplicationEnvironmentTargetCandidates",
         "parameters": [
+          {
+            "in": "query",
+            "name": "workloadKind",
+            "required": false,
+            "schema": {
+              "enum": [
+                "Deployment",
+                "StatefulSet",
+                "DaemonSet",
+                "Job",
+                "CronJob",
+                "CustomResource"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Explicit CRD selection for CustomResource discovery. Only this served resource and namespace are queried.",
+            "in": "query",
+            "name": "crdName",
+            "required": false,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
           {
             "in": "query",
             "name": "clusterId",

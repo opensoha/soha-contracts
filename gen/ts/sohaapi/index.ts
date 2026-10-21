@@ -1317,6 +1317,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/application-environments/{applicationEnvironmentID}/targets/{targetID}/source": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read a linked source through existing Kubernetes authorization. Rejects replaced UIDs. Custom resource YAML additionally requires sensitive-data read permission. Responses must not be persisted in browser caches. */
+        get: operations["getApplicationEnvironmentTargetSource"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/application-environments/target-candidates": {
         parameters: {
             query?: never;
@@ -18151,11 +18168,34 @@ export interface components {
             kind: "Service" | "Ingress" | "HorizontalPodAutoscaler";
             name: string;
         };
+        KubernetesImportOwnerReference: {
+            apiVersion: string;
+            kind: string;
+            name: string;
+            uid: string;
+            controller?: boolean;
+            blockOwnerDeletion?: boolean;
+        };
+        /** @description Safe source identity captured from an authorized live read. No YAML, spec values, annotations or status are persisted here. For native workloads specDigest covers configuration and ownership metadata excluding status/resourceVersion. For CRs it fences the public UID, generation and owner references without hashing secret content; metadata-only edits are outside that fence. CRs without a positive generation are rejected. UID identifies recreation. */
+        KubernetesImportSource: {
+            resource: components["schemas"]["KubernetesResourceRef"] & {
+                uid: string;
+            };
+            specDigest: string;
+            /** Format: int64 */
+            generation?: number;
+            crdName?: string;
+            plural?: string;
+            /** Format: date-time */
+            observedAt: string;
+            owners?: components["schemas"]["KubernetesImportOwnerReference"][];
+        };
         KubernetesImportCandidate: {
+            source?: components["schemas"]["KubernetesImportSource"];
             clusterId: string;
             namespace: string;
             /** @enum {string} */
-            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet";
+            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet" | "Job" | "CronJob" | "CustomResource";
             workloadName: string;
             desiredReplicas: number;
             readyReplicas: number;
@@ -18170,10 +18210,15 @@ export interface components {
             truncated: boolean;
         };
         KubernetesWorkloadImportInput: {
+            expectedUid?: string;
+            expectedSpecDigest?: string;
+            /** @description Required for CustomResource. Resolve the served GVR and scope from this CRD; never infer API group or plural from Kind. */
+            crdName?: string;
             /** @enum {string} */
-            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet";
+            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet" | "Job" | "CronJob" | "CustomResource";
             workloadName: string;
         };
+        /** @description Initial association is observe_only. A managed request is rejected until a separate UID-aware ownership handoff and release preflight are available; it must never silently enable publishing. */
         KubernetesServiceImportRequest: {
             clusterId: string;
             namespace: string;
@@ -18196,14 +18241,15 @@ export interface components {
             key: string;
             name: string;
             /** @enum {string} */
-            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet";
+            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet" | "Job" | "CronJob" | "CustomResource";
             workloadName: string;
             created: boolean;
         };
         KubernetesImportedTarget: {
+            source?: components["schemas"]["KubernetesImportSource"];
             id: string;
             /** @enum {string} */
-            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet";
+            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet" | "Job" | "CronJob" | "CustomResource";
             workloadName: string;
             created: boolean;
         };
@@ -19215,6 +19261,10 @@ export interface components {
             latestRelease?: components["schemas"]["ReleaseRecord"];
         };
         ApplicationRuntimeWorkload: {
+            targetId?: string;
+            source?: components["schemas"]["KubernetesImportSource"];
+            /** @enum {string} */
+            sourceStatus?: "linked" | "changed" | "replaced" | "missing" | "unavailable" | "forbidden";
             applicationEnvironmentId: string;
             clusterId: string;
             namespace: string;
@@ -29327,6 +29377,8 @@ export type ApplicationWorkflowInput = components['schemas']['ApplicationWorkflo
 export type ApplicationEnvironment = components['schemas']['ApplicationEnvironment'];
 export type ApplicationEnvironmentInput = components['schemas']['ApplicationEnvironmentInput'];
 export type KubernetesRelatedResource = components['schemas']['KubernetesRelatedResource'];
+export type KubernetesImportOwnerReference = components['schemas']['KubernetesImportOwnerReference'];
+export type KubernetesImportSource = components['schemas']['KubernetesImportSource'];
 export type KubernetesImportCandidate = components['schemas']['KubernetesImportCandidate'];
 export type KubernetesImportCandidateListEnvelope = components['schemas']['KubernetesImportCandidateListEnvelope'];
 export type KubernetesWorkloadImportInput = components['schemas']['KubernetesWorkloadImportInput'];
@@ -33451,9 +33503,39 @@ export interface operations {
             400: components["responses"]["Error"];
         };
     };
+    getApplicationEnvironmentTargetSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationEnvironmentID: string;
+                targetID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current cluster YAML for the linked resource, never a fabricated source file. */
+            200: {
+                headers: {
+                    "Cache-Control": "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
     listApplicationEnvironmentTargetCandidates: {
         parameters: {
             query: {
+                workloadKind?: "Deployment" | "StatefulSet" | "DaemonSet" | "Job" | "CronJob" | "CustomResource";
+                /** @description Explicit CRD selection for CustomResource discovery. Only this served resource and namespace are queried. */
+                crdName?: string;
                 clusterId: string;
                 namespace: string;
                 search?: string;

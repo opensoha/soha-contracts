@@ -2640,11 +2640,53 @@ paths:
                 $ref: "#/components/schemas/ApplicationEnvironmentEnvelope"
         "400":
           $ref: "#/components/responses/Error"
+  /application-environments/{applicationEnvironmentID}/targets/{targetID}/source:
+    get:
+      tags: [Delivery]
+      operationId: getApplicationEnvironmentTargetSource
+      description: Read a linked source through existing Kubernetes authorization. Rejects replaced UIDs. Custom resource YAML additionally requires sensitive-data read permission. Responses must not be persisted in browser caches.
+      parameters:
+        - name: applicationEnvironmentID
+          in: path
+          required: true
+          schema: { type: string, minLength: 1 }
+        - name: targetID
+          in: path
+          required: true
+          schema: { type: string, minLength: 1 }
+      responses:
+        "200":
+          description: Current cluster YAML for the linked resource, never a fabricated source file.
+          headers:
+            Cache-Control:
+              required: true
+              schema: { type: string, const: no-store }
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceYamlEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
   /application-environments/target-candidates:
     get:
       tags: [Delivery]
       operationId: listApplicationEnvironmentTargetCandidates
       parameters:
+        - name: workloadKind
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Deployment, StatefulSet, DaemonSet, Job, CronJob, CustomResource]
+        - name: crdName
+          in: query
+          required: false
+          description: Explicit CRD selection for CustomResource discovery. Only this served resource and namespace are queried.
+          schema: { type: string, minLength: 1 }
         - name: clusterId
           in: query
           required: true
@@ -31925,10 +31967,44 @@ components:
           type: string
           minLength: 1
       additionalProperties: false
+    KubernetesImportOwnerReference:
+      type: object
+      required: [apiVersion, kind, name, uid]
+      properties:
+        apiVersion: { type: string, minLength: 1 }
+        kind: { type: string, minLength: 1 }
+        name: { type: string, minLength: 1 }
+        uid: { type: string, minLength: 1 }
+        controller: { type: boolean }
+        blockOwnerDeletion: { type: boolean }
+      additionalProperties: false
+    KubernetesImportSource:
+      type: object
+      description: Safe source identity captured from an authorized live read. No YAML, spec values, annotations or status are persisted here. For native workloads specDigest covers configuration and ownership metadata excluding status/resourceVersion. For CRs it fences the public UID, generation and owner references without hashing secret content; metadata-only edits are outside that fence. CRs without a positive generation are rejected. UID identifies recreation.
+      required: [resource, specDigest, observedAt]
+      properties:
+        resource:
+          allOf:
+            - $ref: "#/components/schemas/KubernetesResourceRef"
+            - type: object
+              required: [uid]
+              properties:
+                uid: { type: string, minLength: 1 }
+        specDigest: { type: string, pattern: '^[a-f0-9]{64}$' }
+        generation: { type: integer, format: int64, minimum: 0 }
+        crdName: { type: string, minLength: 1 }
+        plural: { type: string, minLength: 1 }
+        observedAt: { type: string, format: date-time }
+        owners:
+          type: array
+          maxItems: 32
+          items: { $ref: "#/components/schemas/KubernetesImportOwnerReference" }
+      additionalProperties: false
     KubernetesImportCandidate:
       type: object
       required: [clusterId, namespace, workloadKind, workloadName, desiredReplicas, readyReplicas, relatedResources]
       properties:
+        source: { $ref: "#/components/schemas/KubernetesImportSource" }
         clusterId:
           type: string
           minLength: 1
@@ -31937,7 +32013,7 @@ components:
           minLength: 1
         workloadKind:
           type: string
-          enum: [Deployment, StatefulSet, DaemonSet]
+          enum: [Deployment, StatefulSet, DaemonSet, Job, CronJob, CustomResource]
         workloadName:
           type: string
           minLength: 1
@@ -31976,14 +32052,21 @@ components:
       type: object
       required: [workloadKind, workloadName]
       properties:
+        expectedUid: { type: string, minLength: 1 }
+        expectedSpecDigest: { type: string, pattern: '^[a-f0-9]{64}$' }
+        crdName:
+          type: string
+          minLength: 1
+          description: Required for CustomResource. Resolve the served GVR and scope from this CRD; never infer API group or plural from Kind.
         workloadKind:
           type: string
-          enum: [Deployment, StatefulSet, DaemonSet]
+          enum: [Deployment, StatefulSet, DaemonSet, Job, CronJob, CustomResource]
         workloadName:
           type: string
           minLength: 1
       additionalProperties: false
     KubernetesServiceImportRequest:
+      description: Initial association is observe_only. A managed request is rejected until a separate UID-aware ownership handoff and release preflight are available; it must never silently enable publishing.
       type: object
       required: [clusterId, namespace, applicationKey, applicationName, environmentKey, environmentName, ownershipMode, workloads]
       properties:
@@ -32041,7 +32124,7 @@ components:
           type: string
         workloadKind:
           type: string
-          enum: [Deployment, StatefulSet, DaemonSet]
+          enum: [Deployment, StatefulSet, DaemonSet, Job, CronJob, CustomResource]
         workloadName:
           type: string
         created:
@@ -32051,11 +32134,12 @@ components:
       type: object
       required: [id, workloadKind, workloadName, created]
       properties:
+        source: { $ref: "#/components/schemas/KubernetesImportSource" }
         id:
           type: string
         workloadKind:
           type: string
-          enum: [Deployment, StatefulSet, DaemonSet]
+          enum: [Deployment, StatefulSet, DaemonSet, Job, CronJob, CustomResource]
         workloadName:
           type: string
         created:
@@ -33690,6 +33774,13 @@ components:
       type: object
       required: [applicationEnvironmentId, clusterId, namespace, workloadKind, workloadName, desiredReplicas, readyReplicas, updatedReplicas, availableReplicas]
       properties:
+        targetId:
+          type: string
+        source:
+          $ref: "#/components/schemas/KubernetesImportSource"
+        sourceStatus:
+          type: string
+          enum: [linked, changed, replaced, missing, unavailable, forbidden]
         applicationEnvironmentId:
           type: string
         clusterId:

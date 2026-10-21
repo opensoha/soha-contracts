@@ -749,6 +749,36 @@ func (e ApplicationRuntimeEnvironmentStatus) Valid() bool {
 	}
 }
 
+// Defines values for ApplicationRuntimeWorkloadSourceStatus.
+const (
+	ApplicationRuntimeWorkloadSourceStatusChanged     ApplicationRuntimeWorkloadSourceStatus = "changed"
+	ApplicationRuntimeWorkloadSourceStatusForbidden   ApplicationRuntimeWorkloadSourceStatus = "forbidden"
+	ApplicationRuntimeWorkloadSourceStatusLinked      ApplicationRuntimeWorkloadSourceStatus = "linked"
+	ApplicationRuntimeWorkloadSourceStatusMissing     ApplicationRuntimeWorkloadSourceStatus = "missing"
+	ApplicationRuntimeWorkloadSourceStatusReplaced    ApplicationRuntimeWorkloadSourceStatus = "replaced"
+	ApplicationRuntimeWorkloadSourceStatusUnavailable ApplicationRuntimeWorkloadSourceStatus = "unavailable"
+)
+
+// Valid indicates whether the value is a known member of the ApplicationRuntimeWorkloadSourceStatus enum.
+func (e ApplicationRuntimeWorkloadSourceStatus) Valid() bool {
+	switch e {
+	case ApplicationRuntimeWorkloadSourceStatusChanged:
+		return true
+	case ApplicationRuntimeWorkloadSourceStatusForbidden:
+		return true
+	case ApplicationRuntimeWorkloadSourceStatusLinked:
+		return true
+	case ApplicationRuntimeWorkloadSourceStatusMissing:
+		return true
+	case ApplicationRuntimeWorkloadSourceStatusReplaced:
+		return true
+	case ApplicationRuntimeWorkloadSourceStatusUnavailable:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ApplicationServiceServiceKind.
 const (
 	ApplicationServiceServiceKindExternalService    ApplicationServiceServiceKind = "external_service"
@@ -2581,22 +2611,22 @@ func (e DeliveryDraftInputSource) Valid() bool {
 
 // Defines values for DeliveryDraftServiceServiceKind.
 const (
-	ExternalService    DeliveryDraftServiceServiceKind = "external_service"
-	HelmRelease        DeliveryDraftServiceServiceKind = "helm_release"
-	Job                DeliveryDraftServiceServiceKind = "job"
-	KubernetesWorkload DeliveryDraftServiceServiceKind = "kubernetes_workload"
+	DeliveryDraftServiceServiceKindExternalService    DeliveryDraftServiceServiceKind = "external_service"
+	DeliveryDraftServiceServiceKindHelmRelease        DeliveryDraftServiceServiceKind = "helm_release"
+	DeliveryDraftServiceServiceKindJob                DeliveryDraftServiceServiceKind = "job"
+	DeliveryDraftServiceServiceKindKubernetesWorkload DeliveryDraftServiceServiceKind = "kubernetes_workload"
 )
 
 // Valid indicates whether the value is a known member of the DeliveryDraftServiceServiceKind enum.
 func (e DeliveryDraftServiceServiceKind) Valid() bool {
 	switch e {
-	case ExternalService:
+	case DeliveryDraftServiceServiceKindExternalService:
 		return true
-	case HelmRelease:
+	case DeliveryDraftServiceServiceKindHelmRelease:
 		return true
-	case Job:
+	case DeliveryDraftServiceServiceKindJob:
 		return true
-	case KubernetesWorkload:
+	case DeliveryDraftServiceServiceKindKubernetesWorkload:
 		return true
 	default:
 		return false
@@ -4585,17 +4615,26 @@ func (e KubernetesCustomResourceAccessAllowedActions) Valid() bool {
 
 // Defines values for KubernetesImportCandidateWorkloadKind.
 const (
-	KubernetesImportCandidateWorkloadKindDaemonSet   KubernetesImportCandidateWorkloadKind = "DaemonSet"
-	KubernetesImportCandidateWorkloadKindDeployment  KubernetesImportCandidateWorkloadKind = "Deployment"
-	KubernetesImportCandidateWorkloadKindStatefulSet KubernetesImportCandidateWorkloadKind = "StatefulSet"
+	KubernetesImportCandidateWorkloadKindCronJob        KubernetesImportCandidateWorkloadKind = "CronJob"
+	KubernetesImportCandidateWorkloadKindCustomResource KubernetesImportCandidateWorkloadKind = "CustomResource"
+	KubernetesImportCandidateWorkloadKindDaemonSet      KubernetesImportCandidateWorkloadKind = "DaemonSet"
+	KubernetesImportCandidateWorkloadKindDeployment     KubernetesImportCandidateWorkloadKind = "Deployment"
+	KubernetesImportCandidateWorkloadKindJob            KubernetesImportCandidateWorkloadKind = "Job"
+	KubernetesImportCandidateWorkloadKindStatefulSet    KubernetesImportCandidateWorkloadKind = "StatefulSet"
 )
 
 // Valid indicates whether the value is a known member of the KubernetesImportCandidateWorkloadKind enum.
 func (e KubernetesImportCandidateWorkloadKind) Valid() bool {
 	switch e {
+	case KubernetesImportCandidateWorkloadKindCronJob:
+		return true
+	case KubernetesImportCandidateWorkloadKindCustomResource:
+		return true
 	case KubernetesImportCandidateWorkloadKindDaemonSet:
 		return true
 	case KubernetesImportCandidateWorkloadKindDeployment:
+		return true
+	case KubernetesImportCandidateWorkloadKindJob:
 		return true
 	case KubernetesImportCandidateWorkloadKindStatefulSet:
 		return true
@@ -4606,17 +4645,26 @@ func (e KubernetesImportCandidateWorkloadKind) Valid() bool {
 
 // Defines values for KubernetesImportedServiceWorkloadKind.
 const (
-	KubernetesImportedServiceWorkloadKindDaemonSet   KubernetesImportedServiceWorkloadKind = "DaemonSet"
-	KubernetesImportedServiceWorkloadKindDeployment  KubernetesImportedServiceWorkloadKind = "Deployment"
-	KubernetesImportedServiceWorkloadKindStatefulSet KubernetesImportedServiceWorkloadKind = "StatefulSet"
+	KubernetesImportedServiceWorkloadKindCronJob        KubernetesImportedServiceWorkloadKind = "CronJob"
+	KubernetesImportedServiceWorkloadKindCustomResource KubernetesImportedServiceWorkloadKind = "CustomResource"
+	KubernetesImportedServiceWorkloadKindDaemonSet      KubernetesImportedServiceWorkloadKind = "DaemonSet"
+	KubernetesImportedServiceWorkloadKindDeployment     KubernetesImportedServiceWorkloadKind = "Deployment"
+	KubernetesImportedServiceWorkloadKindJob            KubernetesImportedServiceWorkloadKind = "Job"
+	KubernetesImportedServiceWorkloadKindStatefulSet    KubernetesImportedServiceWorkloadKind = "StatefulSet"
 )
 
 // Valid indicates whether the value is a known member of the KubernetesImportedServiceWorkloadKind enum.
 func (e KubernetesImportedServiceWorkloadKind) Valid() bool {
 	switch e {
+	case KubernetesImportedServiceWorkloadKindCronJob:
+		return true
+	case KubernetesImportedServiceWorkloadKindCustomResource:
+		return true
 	case KubernetesImportedServiceWorkloadKindDaemonSet:
 		return true
 	case KubernetesImportedServiceWorkloadKindDeployment:
+		return true
+	case KubernetesImportedServiceWorkloadKindJob:
 		return true
 	case KubernetesImportedServiceWorkloadKindStatefulSet:
 		return true
@@ -4627,17 +4675,26 @@ func (e KubernetesImportedServiceWorkloadKind) Valid() bool {
 
 // Defines values for KubernetesImportedTargetWorkloadKind.
 const (
-	KubernetesImportedTargetWorkloadKindDaemonSet   KubernetesImportedTargetWorkloadKind = "DaemonSet"
-	KubernetesImportedTargetWorkloadKindDeployment  KubernetesImportedTargetWorkloadKind = "Deployment"
-	KubernetesImportedTargetWorkloadKindStatefulSet KubernetesImportedTargetWorkloadKind = "StatefulSet"
+	KubernetesImportedTargetWorkloadKindCronJob        KubernetesImportedTargetWorkloadKind = "CronJob"
+	KubernetesImportedTargetWorkloadKindCustomResource KubernetesImportedTargetWorkloadKind = "CustomResource"
+	KubernetesImportedTargetWorkloadKindDaemonSet      KubernetesImportedTargetWorkloadKind = "DaemonSet"
+	KubernetesImportedTargetWorkloadKindDeployment     KubernetesImportedTargetWorkloadKind = "Deployment"
+	KubernetesImportedTargetWorkloadKindJob            KubernetesImportedTargetWorkloadKind = "Job"
+	KubernetesImportedTargetWorkloadKindStatefulSet    KubernetesImportedTargetWorkloadKind = "StatefulSet"
 )
 
 // Valid indicates whether the value is a known member of the KubernetesImportedTargetWorkloadKind enum.
 func (e KubernetesImportedTargetWorkloadKind) Valid() bool {
 	switch e {
+	case KubernetesImportedTargetWorkloadKindCronJob:
+		return true
+	case KubernetesImportedTargetWorkloadKindCustomResource:
+		return true
 	case KubernetesImportedTargetWorkloadKindDaemonSet:
 		return true
 	case KubernetesImportedTargetWorkloadKindDeployment:
+		return true
+	case KubernetesImportedTargetWorkloadKindJob:
 		return true
 	case KubernetesImportedTargetWorkloadKindStatefulSet:
 		return true
@@ -5254,17 +5311,26 @@ func (e KubernetesTopologyResolution) Valid() bool {
 
 // Defines values for KubernetesWorkloadImportInputWorkloadKind.
 const (
-	KubernetesWorkloadImportInputWorkloadKindDaemonSet   KubernetesWorkloadImportInputWorkloadKind = "DaemonSet"
-	KubernetesWorkloadImportInputWorkloadKindDeployment  KubernetesWorkloadImportInputWorkloadKind = "Deployment"
-	KubernetesWorkloadImportInputWorkloadKindStatefulSet KubernetesWorkloadImportInputWorkloadKind = "StatefulSet"
+	KubernetesWorkloadImportInputWorkloadKindCronJob        KubernetesWorkloadImportInputWorkloadKind = "CronJob"
+	KubernetesWorkloadImportInputWorkloadKindCustomResource KubernetesWorkloadImportInputWorkloadKind = "CustomResource"
+	KubernetesWorkloadImportInputWorkloadKindDaemonSet      KubernetesWorkloadImportInputWorkloadKind = "DaemonSet"
+	KubernetesWorkloadImportInputWorkloadKindDeployment     KubernetesWorkloadImportInputWorkloadKind = "Deployment"
+	KubernetesWorkloadImportInputWorkloadKindJob            KubernetesWorkloadImportInputWorkloadKind = "Job"
+	KubernetesWorkloadImportInputWorkloadKindStatefulSet    KubernetesWorkloadImportInputWorkloadKind = "StatefulSet"
 )
 
 // Valid indicates whether the value is a known member of the KubernetesWorkloadImportInputWorkloadKind enum.
 func (e KubernetesWorkloadImportInputWorkloadKind) Valid() bool {
 	switch e {
+	case KubernetesWorkloadImportInputWorkloadKindCronJob:
+		return true
+	case KubernetesWorkloadImportInputWorkloadKindCustomResource:
+		return true
 	case KubernetesWorkloadImportInputWorkloadKindDaemonSet:
 		return true
 	case KubernetesWorkloadImportInputWorkloadKindDeployment:
+		return true
+	case KubernetesWorkloadImportInputWorkloadKindJob:
 		return true
 	case KubernetesWorkloadImportInputWorkloadKindStatefulSet:
 		return true
@@ -9502,19 +9568,19 @@ func (e RuntimeConfigValueType) Valid() bool {
 
 // Defines values for RuntimeNetworkUsageScope.
 const (
-	RuntimeNetworkUsageScopeNetworkNamespace RuntimeNetworkUsageScope = "network_namespace"
-	RuntimeNetworkUsageScopeProcess          RuntimeNetworkUsageScope = "process"
-	RuntimeNetworkUsageScopeUnavailable      RuntimeNetworkUsageScope = "unavailable"
+	NetworkNamespace RuntimeNetworkUsageScope = "network_namespace"
+	Process          RuntimeNetworkUsageScope = "process"
+	Unavailable      RuntimeNetworkUsageScope = "unavailable"
 )
 
 // Valid indicates whether the value is a known member of the RuntimeNetworkUsageScope enum.
 func (e RuntimeNetworkUsageScope) Valid() bool {
 	switch e {
-	case RuntimeNetworkUsageScopeNetworkNamespace:
+	case NetworkNamespace:
 		return true
-	case RuntimeNetworkUsageScopeProcess:
+	case Process:
 		return true
-	case RuntimeNetworkUsageScopeUnavailable:
+	case Unavailable:
 		return true
 	default:
 		return false
@@ -12341,6 +12407,36 @@ func (e TransitionAgentProviderRolloutParamsRolloutAction) Valid() bool {
 	}
 }
 
+// Defines values for ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind.
+const (
+	ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindCronJob        ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind = "CronJob"
+	ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindCustomResource ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind = "CustomResource"
+	ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindDaemonSet      ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind = "DaemonSet"
+	ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindDeployment     ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind = "Deployment"
+	ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindJob            ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind = "Job"
+	ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindStatefulSet    ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind = "StatefulSet"
+)
+
+// Valid indicates whether the value is a known member of the ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind enum.
+func (e ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind) Valid() bool {
+	switch e {
+	case ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindCronJob:
+		return true
+	case ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindCustomResource:
+		return true
+	case ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindDaemonSet:
+		return true
+	case ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindDeployment:
+		return true
+	case ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindJob:
+		return true
+	case ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindStatefulSet:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ListComputeTasksParamsSortOrder.
 const (
 	Asc  ListComputeTasksParamsSortOrder = "asc"
@@ -13994,10 +14090,18 @@ type ApplicationRuntimeWorkload struct {
 	Namespace                string            `json:"namespace"`
 	ReadyReplicas            int               `json:"readyReplicas"`
 	Selector                 map[string]string `json:"selector,omitempty"`
-	UpdatedReplicas          int               `json:"updatedReplicas"`
-	WorkloadKind             string            `json:"workloadKind"`
-	WorkloadName             string            `json:"workloadName"`
+
+	// Source Safe source identity captured from an authorized live read. No YAML, spec values, annotations or status are persisted here. For native workloads specDigest covers configuration and ownership metadata excluding status/resourceVersion. For CRs it fences the public UID, generation and owner references without hashing secret content; metadata-only edits are outside that fence. CRs without a positive generation are rejected. UID identifies recreation.
+	Source          *KubernetesImportSource                `json:"source,omitempty"`
+	SourceStatus    ApplicationRuntimeWorkloadSourceStatus `json:"sourceStatus,omitempty"`
+	TargetID        string                                 `json:"targetId,omitempty"`
+	UpdatedReplicas int                                    `json:"updatedReplicas"`
+	WorkloadKind    string                                 `json:"workloadKind"`
+	WorkloadName    string                                 `json:"workloadName"`
 }
+
+// ApplicationRuntimeWorkloadSourceStatus defines model for ApplicationRuntimeWorkload.SourceStatus.
+type ApplicationRuntimeWorkloadSourceStatus string
 
 // ApplicationService defines model for ApplicationService.
 type ApplicationService struct {
@@ -20594,15 +20698,18 @@ type KubernetesHorizontalPodAutoscalerMetric struct {
 
 // KubernetesImportCandidate defines model for KubernetesImportCandidate.
 type KubernetesImportCandidate struct {
-	ClusterID        string                                `json:"clusterId"`
-	Containers       []string                              `json:"containers,omitempty"`
-	DesiredReplicas  int                                   `json:"desiredReplicas"`
-	Labels           map[string]string                     `json:"labels,omitempty"`
-	Namespace        string                                `json:"namespace"`
-	ReadyReplicas    int                                   `json:"readyReplicas"`
-	RelatedResources []KubernetesRelatedResource           `json:"relatedResources"`
-	WorkloadKind     KubernetesImportCandidateWorkloadKind `json:"workloadKind"`
-	WorkloadName     string                                `json:"workloadName"`
+	ClusterID        string                      `json:"clusterId"`
+	Containers       []string                    `json:"containers,omitempty"`
+	DesiredReplicas  int                         `json:"desiredReplicas"`
+	Labels           map[string]string           `json:"labels,omitempty"`
+	Namespace        string                      `json:"namespace"`
+	ReadyReplicas    int                         `json:"readyReplicas"`
+	RelatedResources []KubernetesRelatedResource `json:"relatedResources"`
+
+	// Source Safe source identity captured from an authorized live read. No YAML, spec values, annotations or status are persisted here. For native workloads specDigest covers configuration and ownership metadata excluding status/resourceVersion. For CRs it fences the public UID, generation and owner references without hashing secret content; metadata-only edits are outside that fence. CRs without a positive generation are rejected. UID identifies recreation.
+	Source       *KubernetesImportSource               `json:"source,omitempty"`
+	WorkloadKind KubernetesImportCandidateWorkloadKind `json:"workloadKind"`
+	WorkloadName string                                `json:"workloadName"`
 }
 
 // KubernetesImportCandidateWorkloadKind defines model for KubernetesImportCandidate.WorkloadKind.
@@ -20622,6 +20729,36 @@ type KubernetesImportEntityRef struct {
 	Name    string `json:"name"`
 }
 
+// KubernetesImportOwnerReference defines model for KubernetesImportOwnerReference.
+type KubernetesImportOwnerReference struct {
+	APIVersion         string `json:"apiVersion"`
+	BlockOwnerDeletion bool   `json:"blockOwnerDeletion,omitempty"`
+	Controller         bool   `json:"controller,omitempty"`
+	Kind               string `json:"kind"`
+	Name               string `json:"name"`
+	UID                string `json:"uid"`
+}
+
+// KubernetesImportSource Safe source identity captured from an authorized live read. No YAML, spec values, annotations or status are persisted here. For native workloads specDigest covers configuration and ownership metadata excluding status/resourceVersion. For CRs it fences the public UID, generation and owner references without hashing secret content; metadata-only edits are outside that fence. CRs without a positive generation are rejected. UID identifies recreation.
+type KubernetesImportSource struct {
+	CrdName    string                           `json:"crdName,omitempty"`
+	Generation int64                            `json:"generation,omitempty"`
+	ObservedAt time.Time                        `json:"observedAt"`
+	Owners     []KubernetesImportOwnerReference `json:"owners,omitempty"`
+	Plural     string                           `json:"plural,omitempty"`
+	Resource   struct {
+		APIVersion      string                      `json:"apiVersion"`
+		ClusterID       string                      `json:"clusterId"`
+		Kind            string                      `json:"kind"`
+		Name            string                      `json:"name"`
+		Namespace       string                      `json:"namespace,omitempty"`
+		ResourceVersion string                      `json:"resourceVersion,omitempty"`
+		ScopeMode       KubernetesResourceScopeMode `json:"scopeMode"`
+		UID             string                      `json:"uid"`
+	} `json:"resource"`
+	SpecDigest string `json:"specDigest"`
+}
+
 // KubernetesImportedService defines model for KubernetesImportedService.
 type KubernetesImportedService struct {
 	Created      bool                                  `json:"created"`
@@ -20637,8 +20774,11 @@ type KubernetesImportedServiceWorkloadKind string
 
 // KubernetesImportedTarget defines model for KubernetesImportedTarget.
 type KubernetesImportedTarget struct {
-	Created      bool                                 `json:"created"`
-	ID           string                               `json:"id"`
+	Created bool   `json:"created"`
+	ID      string `json:"id"`
+
+	// Source Safe source identity captured from an authorized live read. No YAML, spec values, annotations or status are persisted here. For native workloads specDigest covers configuration and ownership metadata excluding status/resourceVersion. For CRs it fences the public UID, generation and owner references without hashing secret content; metadata-only edits are outside that fence. CRs without a positive generation are rejected. UID identifies recreation.
+	Source       *KubernetesImportSource              `json:"source,omitempty"`
 	WorkloadKind KubernetesImportedTargetWorkloadKind `json:"workloadKind"`
 	WorkloadName string                               `json:"workloadName"`
 }
@@ -22195,7 +22335,7 @@ type KubernetesServiceEndpoint struct {
 	Zone        string `json:"zone,omitempty"`
 }
 
-// KubernetesServiceImportRequest defines model for KubernetesServiceImportRequest.
+// KubernetesServiceImportRequest Initial association is observe_only. A managed request is rejected until a separate UID-aware ownership handoff and release preflight are available; it must never silently enable publishing.
 type KubernetesServiceImportRequest struct {
 	ApplicationKey  string                                      `json:"applicationKey"`
 	ApplicationName string                                      `json:"applicationName"`
@@ -22477,8 +22617,12 @@ type KubernetesWorkloadContainer struct {
 
 // KubernetesWorkloadImportInput defines model for KubernetesWorkloadImportInput.
 type KubernetesWorkloadImportInput struct {
-	WorkloadKind KubernetesWorkloadImportInputWorkloadKind `json:"workloadKind"`
-	WorkloadName string                                    `json:"workloadName"`
+	// CrdName Required for CustomResource. Resolve the served GVR and scope from this CRD; never infer API group or plural from Kind.
+	CrdName            string                                    `json:"crdName,omitempty"`
+	ExpectedSpecDigest string                                    `json:"expectedSpecDigest,omitempty"`
+	ExpectedUID        string                                    `json:"expectedUid,omitempty"`
+	WorkloadKind       KubernetesWorkloadImportInputWorkloadKind `json:"workloadKind"`
+	WorkloadName       string                                    `json:"workloadName"`
 }
 
 // KubernetesWorkloadImportInputWorkloadKind defines model for KubernetesWorkloadImportInput.WorkloadKind.
@@ -32698,11 +32842,18 @@ type ListApplicationEnvironmentsParams struct {
 
 // ListApplicationEnvironmentTargetCandidatesParams defines parameters for ListApplicationEnvironmentTargetCandidates.
 type ListApplicationEnvironmentTargetCandidatesParams struct {
+	WorkloadKind ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind `form:"workloadKind,omitempty" json:"workloadKind,omitempty"`
+
+	// CrdName Explicit CRD selection for CustomResource discovery. Only this served resource and namespace are queried.
+	CrdName   string `form:"crdName,omitempty" json:"crdName,omitempty"`
 	ClusterID string `form:"clusterId" json:"clusterId"`
 	Namespace string `form:"namespace" json:"namespace"`
 	Search    string `form:"search,omitempty" json:"search,omitempty"`
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
+
+// ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind defines parameters for ListApplicationEnvironmentTargetCandidates.
+type ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind string
 
 // ListApplicationsParams defines parameters for ListApplications.
 type ListApplicationsParams struct {
@@ -43192,6 +43343,18 @@ const (
 )
 
 // Retained for Go SDK source compatibility.
+const ExternalService DeliveryDraftServiceServiceKind = "external_service"
+
+// Retained for Go SDK source compatibility.
+const HelmRelease DeliveryDraftServiceServiceKind = "helm_release"
+
+// Retained for Go SDK source compatibility.
+const Job DeliveryDraftServiceServiceKind = "job"
+
+// Retained for Go SDK source compatibility.
+const KubernetesWorkload DeliveryDraftServiceServiceKind = "kubernetes_workload"
+
+// Retained for Go SDK source compatibility.
 const ListAIGatewayRelayUpstreamsParamsStatusActive ListAIGatewayRelayUpstreamsParamsStatus = "active"
 
 // Retained for Go SDK source compatibility.
@@ -43201,13 +43364,13 @@ const ListAIGatewayRelayUpstreamsParamsStatusDegraded ListAIGatewayRelayUpstream
 const ListAIGatewayRelayUpstreamsParamsStatusDisabled ListAIGatewayRelayUpstreamsParamsStatus = "disabled"
 
 // Retained for Go SDK source compatibility.
-const NetworkNamespace RuntimeNetworkUsageScope = "network_namespace"
+const RuntimeNetworkUsageScopeNetworkNamespace RuntimeNetworkUsageScope = "network_namespace"
 
 // Retained for Go SDK source compatibility.
-const Process RuntimeNetworkUsageScope = "process"
+const RuntimeNetworkUsageScopeProcess RuntimeNetworkUsageScope = "process"
 
 // Retained for Go SDK source compatibility.
-const Unavailable RuntimeNetworkUsageScope = "unavailable"
+const RuntimeNetworkUsageScopeUnavailable RuntimeNetworkUsageScope = "unavailable"
 
 // Retained for Go SDK source compatibility.
 const Cancelled WorkbenchAgentStatusEventStatus = "cancelled"
