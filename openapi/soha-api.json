@@ -37846,6 +37846,9 @@
             "minLength": 1,
             "type": "string"
           },
+          "rootResource": {
+            "$ref": "#/components/schemas/ManifestRootResource"
+          },
           "serviceId": {
             "type": "string"
           },
@@ -38476,6 +38479,9 @@
           },
           "rolloutControl": {
             "$ref": "#/components/schemas/ProgressiveRolloutControlInput"
+          },
+          "rootResource": {
+            "$ref": "#/components/schemas/ManifestRootResource"
           },
           "sourceId": {
             "type": "string"
@@ -39196,6 +39202,61 @@
         },
         "required": [
           "expectedGeneration"
+        ],
+        "type": "object"
+      },
+      "ManifestRootResource": {
+        "additionalProperties": false,
+        "description": "Server-frozen imported namespaced CR identity and user-reviewed generation. Publication requires the original imported target with metadata ownershipMode=managed, rootCRGeneration matching the reviewed generation, and configRef selecting its Manifest binding. Only spec may be updated; missing roots are never created. Current user or token permissions, external ownership and UID are rechecked. Requires manifest.root-cr.v1 Agent capability and manifest_root_cr_v1 provider. Configuration copies, revisions, plans and deployments retain the sensitive configuration read permission; ordinary task summaries omit root documents.",
+        "properties": {
+          "apiVersion": {
+            "minLength": 3,
+            "type": "string"
+          },
+          "crdName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "deliveryPlanId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "generation": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "kind": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "namespace": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "targetId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "uid": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "apiVersion",
+          "kind",
+          "namespace",
+          "name",
+          "uid",
+          "generation",
+          "crdName",
+          "targetId",
+          "deliveryPlanId"
         ],
         "type": "object"
       },

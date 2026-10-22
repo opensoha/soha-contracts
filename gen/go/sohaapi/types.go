@@ -23853,20 +23853,23 @@ type ManifestDeliverySnapshot struct {
 	ExpectedGeneration       int64                      `json:"expectedGeneration"`
 
 	// GitOpsDocuments Frozen GitOps child resources sharing this plan's preflight, ownership and observation boundaries.
-	GitOpsDocuments  []ManifestRenderedDocument     `json:"gitOpsDocuments,omitempty"`
-	InputDigest      string                         `json:"inputDigest"`
-	Namespace        string                         `json:"namespace"`
-	PackageID        string                         `json:"packageId"`
-	PackageUpdatedAt time.Time                      `json:"packageUpdatedAt"`
-	PreflightTaskID  string                         `json:"preflightTaskId"`
-	RenderedDigest   string                         `json:"renderedDigest"`
-	RendererVersion  string                         `json:"rendererVersion"`
-	Revision         int                            `json:"revision"`
-	RevisionDigest   string                         `json:"revisionDigest"`
-	ServiceID        string                         `json:"serviceId,omitempty"`
-	SourceCommit     string                         `json:"sourceCommit,omitempty"`
-	TargetID         string                         `json:"targetId"`
-	TemplateInputs   *ManifestServiceTemplateInputs `json:"templateInputs,omitempty"`
+	GitOpsDocuments  []ManifestRenderedDocument `json:"gitOpsDocuments,omitempty"`
+	InputDigest      string                     `json:"inputDigest"`
+	Namespace        string                     `json:"namespace"`
+	PackageID        string                     `json:"packageId"`
+	PackageUpdatedAt time.Time                  `json:"packageUpdatedAt"`
+	PreflightTaskID  string                     `json:"preflightTaskId"`
+	RenderedDigest   string                     `json:"renderedDigest"`
+	RendererVersion  string                     `json:"rendererVersion"`
+	Revision         int                        `json:"revision"`
+	RevisionDigest   string                     `json:"revisionDigest"`
+
+	// RootResource Server-frozen imported namespaced CR identity and user-reviewed generation. Publication requires the original imported target with metadata ownershipMode=managed, rootCRGeneration matching the reviewed generation, and configRef selecting its Manifest binding. Only spec may be updated; missing roots are never created. Current user or token permissions, external ownership and UID are rechecked. Requires manifest.root-cr.v1 Agent capability and manifest_root_cr_v1 provider. Configuration copies, revisions, plans and deployments retain the sensitive configuration read permission; ordinary task summaries omit root documents.
+	RootResource   *ManifestRootResource          `json:"rootResource,omitempty"`
+	ServiceID      string                         `json:"serviceId,omitempty"`
+	SourceCommit   string                         `json:"sourceCommit,omitempty"`
+	TargetID       string                         `json:"targetId"`
+	TemplateInputs *ManifestServiceTemplateInputs `json:"templateInputs,omitempty"`
 }
 
 // ManifestDeployment defines model for ManifestDeployment.
@@ -24070,7 +24073,10 @@ type ManifestExecutionTaskPayload struct {
 	RequestedCommit string                               `json:"requestedCommit,omitempty"`
 	Revision        int                                  `json:"revision,omitempty"`
 	RolloutControl  *ProgressiveRolloutControlInput      `json:"rolloutControl,omitempty"`
-	SourceID        string                               `json:"sourceId,omitempty"`
+
+	// RootResource Server-frozen imported namespaced CR identity and user-reviewed generation. Publication requires the original imported target with metadata ownershipMode=managed, rootCRGeneration matching the reviewed generation, and configRef selecting its Manifest binding. Only spec may be updated; missing roots are never created. Current user or token permissions, external ownership and UID are rechecked. Requires manifest.root-cr.v1 Agent capability and manifest_root_cr_v1 provider. Configuration copies, revisions, plans and deployments retain the sensitive configuration read permission; ordinary task summaries omit root documents.
+	RootResource *ManifestRootResource `json:"rootResource,omitempty"`
+	SourceID     string                `json:"sourceId,omitempty"`
 }
 
 // ManifestExecutionTaskPayloadRenderer defines model for ManifestExecutionTaskPayload.Renderer.
@@ -24291,6 +24297,19 @@ type ManifestRollbackInput struct {
 	Reason             string `json:"reason,omitempty"`
 	TargetRevision     int    `json:"targetRevision,omitempty"`
 	UseLastKnownGood   bool   `json:"useLastKnownGood,omitempty"`
+}
+
+// ManifestRootResource Server-frozen imported namespaced CR identity and user-reviewed generation. Publication requires the original imported target with metadata ownershipMode=managed, rootCRGeneration matching the reviewed generation, and configRef selecting its Manifest binding. Only spec may be updated; missing roots are never created. Current user or token permissions, external ownership and UID are rechecked. Requires manifest.root-cr.v1 Agent capability and manifest_root_cr_v1 provider. Configuration copies, revisions, plans and deployments retain the sensitive configuration read permission; ordinary task summaries omit root documents.
+type ManifestRootResource struct {
+	APIVersion     string `json:"apiVersion"`
+	CrdName        string `json:"crdName"`
+	DeliveryPlanID string `json:"deliveryPlanId"`
+	Generation     int64  `json:"generation"`
+	Kind           string `json:"kind"`
+	Name           string `json:"name"`
+	Namespace      string `json:"namespace"`
+	TargetID       string `json:"targetId"`
+	UID            string `json:"uid"`
 }
 
 // ManifestServiceTemplateInputs defines model for ManifestServiceTemplateInputs.

@@ -19679,8 +19679,22 @@ export interface components {
         };
         /** @enum {string} */
         ManifestTaskAction: "preflight" | "apply" | "observe" | "repair" | "adopt" | "rollback" | "sync" | "rollout_control";
+        /** @description Server-frozen imported namespaced CR identity and user-reviewed generation. Publication requires the original imported target with metadata ownershipMode=managed, rootCRGeneration matching the reviewed generation, and configRef selecting its Manifest binding. Only spec may be updated; missing roots are never created. Current user or token permissions, external ownership and UID are rechecked. Requires manifest.root-cr.v1 Agent capability and manifest_root_cr_v1 provider. Configuration copies, revisions, plans and deployments retain the sensitive configuration read permission; ordinary task summaries omit root documents. */
+        ManifestRootResource: {
+            targetId: string;
+            deliveryPlanId: string;
+            apiVersion: string;
+            kind: string;
+            namespace: string;
+            name: string;
+            uid: string;
+            /** Format: int64 */
+            generation: number;
+            crdName: string;
+        };
         /** @description Controller-aware tasks use providerKind manifest_agent_v3.<clusterId> and require manifest.execution.v3. Older runners must not claim these tasks or bypass GitOps and Rollout ownership. */
         ManifestExecutionTaskPayload: {
+            rootResource?: components["schemas"]["ManifestRootResource"];
             rolloutControl?: components["schemas"]["ProgressiveRolloutControlInput"];
             /** @description Server-rendered child resources from the single Argo Application's immutable Git source and image overrides; used for ownership admission and live verification, never direct apply. */
             gitOpsDocuments?: components["schemas"]["ManifestRenderedDocument"][];
@@ -20290,6 +20304,7 @@ export interface components {
             releaseBundleId?: string;
         };
         ManifestDeliverySnapshot: {
+            rootResource?: components["schemas"]["ManifestRootResource"];
             /** @description Frozen GitOps child resources sharing this plan's preflight, ownership and observation boundaries. */
             gitOpsDocuments?: components["schemas"]["ManifestRenderedDocument"][];
             deliveryPlanId: string;
@@ -29608,6 +29623,7 @@ export type ProgressiveRolloutMetric = components['schemas']['ProgressiveRollout
 export type ProgressiveRolloutStatus = components['schemas']['ProgressiveRolloutStatus'];
 export type ProgressiveRolloutStatusEnvelope = components['schemas']['ProgressiveRolloutStatusEnvelope'];
 export type ManifestTaskAction = components['schemas']['ManifestTaskAction'];
+export type ManifestRootResource = components['schemas']['ManifestRootResource'];
 export type ManifestExecutionTaskPayload = components['schemas']['ManifestExecutionTaskPayload'];
 export type ManifestExecutionTask = components['schemas']['ManifestExecutionTask'];
 export type ManifestExecutionTaskEnvelope = components['schemas']['ManifestExecutionTaskEnvelope'];
