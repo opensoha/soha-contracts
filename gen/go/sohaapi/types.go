@@ -8842,25 +8842,25 @@ func (e PersonalGuestRuntimeInputBrowserAction) Valid() bool {
 
 // Defines values for PersonalGuestRuntimeInputKind.
 const (
-	Browser   PersonalGuestRuntimeInputKind = "browser"
-	Docker    PersonalGuestRuntimeInputKind = "docker"
-	Execute   PersonalGuestRuntimeInputKind = "execute"
-	FileRead  PersonalGuestRuntimeInputKind = "file_read"
-	FileWrite PersonalGuestRuntimeInputKind = "file_write"
+	PersonalGuestRuntimeInputKindBrowser   PersonalGuestRuntimeInputKind = "browser"
+	PersonalGuestRuntimeInputKindDocker    PersonalGuestRuntimeInputKind = "docker"
+	PersonalGuestRuntimeInputKindExecute   PersonalGuestRuntimeInputKind = "execute"
+	PersonalGuestRuntimeInputKindFileRead  PersonalGuestRuntimeInputKind = "file_read"
+	PersonalGuestRuntimeInputKindFileWrite PersonalGuestRuntimeInputKind = "file_write"
 )
 
 // Valid indicates whether the value is a known member of the PersonalGuestRuntimeInputKind enum.
 func (e PersonalGuestRuntimeInputKind) Valid() bool {
 	switch e {
-	case Browser:
+	case PersonalGuestRuntimeInputKindBrowser:
 		return true
-	case Docker:
+	case PersonalGuestRuntimeInputKindDocker:
 		return true
-	case Execute:
+	case PersonalGuestRuntimeInputKindExecute:
 		return true
-	case FileRead:
+	case PersonalGuestRuntimeInputKindFileRead:
 		return true
-	case FileWrite:
+	case PersonalGuestRuntimeInputKindFileWrite:
 		return true
 	default:
 		return false
@@ -9425,6 +9425,108 @@ func (e ResourceMonitoringViewName) Valid() bool {
 	case ResourceMonitoringViewOverview:
 		return true
 	case ResourceMonitoringViewPods:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ResourceRelationCoverageState.
+const (
+	ResourceRelationCoverageStateAvailable    ResourceRelationCoverageState = "available"
+	ResourceRelationCoverageStateDenied       ResourceRelationCoverageState = "denied"
+	ResourceRelationCoverageStateError        ResourceRelationCoverageState = "error"
+	ResourceRelationCoverageStateNotInstalled ResourceRelationCoverageState = "not_installed"
+	ResourceRelationCoverageStatePartial      ResourceRelationCoverageState = "partial"
+	ResourceRelationCoverageStateUnsupported  ResourceRelationCoverageState = "unsupported"
+)
+
+// Valid indicates whether the value is a known member of the ResourceRelationCoverageState enum.
+func (e ResourceRelationCoverageState) Valid() bool {
+	switch e {
+	case ResourceRelationCoverageStateAvailable:
+		return true
+	case ResourceRelationCoverageStateDenied:
+		return true
+	case ResourceRelationCoverageStateError:
+		return true
+	case ResourceRelationCoverageStateNotInstalled:
+		return true
+	case ResourceRelationCoverageStatePartial:
+		return true
+	case ResourceRelationCoverageStateUnsupported:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ResourceRelationEdgeType.
+const (
+	ResourceRelationEdgeTypeManual            ResourceRelationEdgeType = "manual"
+	ResourceRelationEdgeTypeOwns              ResourceRelationEdgeType = "owns"
+	ResourceRelationEdgeTypeReferences        ResourceRelationEdgeType = "references"
+	ResourceRelationEdgeTypeSelectorCandidate ResourceRelationEdgeType = "selector_candidate"
+)
+
+// Valid indicates whether the value is a known member of the ResourceRelationEdgeType enum.
+func (e ResourceRelationEdgeType) Valid() bool {
+	switch e {
+	case ResourceRelationEdgeTypeManual:
+		return true
+	case ResourceRelationEdgeTypeOwns:
+		return true
+	case ResourceRelationEdgeTypeReferences:
+		return true
+	case ResourceRelationEdgeTypeSelectorCandidate:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ResourceRelationNodeRole.
+const (
+	ResourceRelationNodeRoleCandidate ResourceRelationNodeRole = "candidate"
+	ResourceRelationNodeRoleManual    ResourceRelationNodeRole = "manual"
+	ResourceRelationNodeRoleOwned     ResourceRelationNodeRole = "owned"
+	ResourceRelationNodeRoleReference ResourceRelationNodeRole = "reference"
+	ResourceRelationNodeRoleRoot      ResourceRelationNodeRole = "root"
+)
+
+// Valid indicates whether the value is a known member of the ResourceRelationNodeRole enum.
+func (e ResourceRelationNodeRole) Valid() bool {
+	switch e {
+	case ResourceRelationNodeRoleCandidate:
+		return true
+	case ResourceRelationNodeRoleManual:
+		return true
+	case ResourceRelationNodeRoleOwned:
+		return true
+	case ResourceRelationNodeRoleReference:
+		return true
+	case ResourceRelationNodeRoleRoot:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ResourceRelationRuleType.
+const (
+	ResourceRelationRuleTypeManual    ResourceRelationRuleType = "manual"
+	ResourceRelationRuleTypeReference ResourceRelationRuleType = "reference"
+	ResourceRelationRuleTypeSelector  ResourceRelationRuleType = "selector"
+)
+
+// Valid indicates whether the value is a known member of the ResourceRelationRuleType enum.
+func (e ResourceRelationRuleType) Valid() bool {
+	switch e {
+	case ResourceRelationRuleTypeManual:
+		return true
+	case ResourceRelationRuleTypeReference:
+		return true
+	case ResourceRelationRuleTypeSelector:
 		return true
 	default:
 		return false
@@ -12475,16 +12577,16 @@ func (e SearchWorkbenchMessagesParamsWorkspace) Valid() bool {
 
 // Defines values for ExportDeliveryDocumentParamsFormat.
 const (
-	JSON ExportDeliveryDocumentParamsFormat = "json"
-	Yaml ExportDeliveryDocumentParamsFormat = "yaml"
+	ExportDeliveryDocumentParamsFormatJSON ExportDeliveryDocumentParamsFormat = "json"
+	ExportDeliveryDocumentParamsFormatYaml ExportDeliveryDocumentParamsFormat = "yaml"
 )
 
 // Valid indicates whether the value is a known member of the ExportDeliveryDocumentParamsFormat enum.
 func (e ExportDeliveryDocumentParamsFormat) Valid() bool {
 	switch e {
-	case JSON:
+	case ExportDeliveryDocumentParamsFormatJSON:
 		return true
-	case Yaml:
+	case ExportDeliveryDocumentParamsFormatYaml:
 		return true
 	default:
 		return false
@@ -28222,6 +28324,83 @@ type ResourceReadResultEnvelope struct {
 	Data ResourceReadResult `json:"data"`
 }
 
+// ResourceRelationConfig defines model for ResourceRelationConfig.
+type ResourceRelationConfig struct {
+	RootUID string                   `json:"rootUid"`
+	Rules   []ResourceRelationRule   `json:"rules"`
+	Sources []ResourceRelationSource `json:"sources"`
+	Version string                   `json:"version"`
+}
+
+// ResourceRelationCoverage defines model for ResourceRelationCoverage.
+type ResourceRelationCoverage struct {
+	QueryID    string                        `json:"queryId"`
+	ReasonCode string                        `json:"reasonCode,omitempty"`
+	State      ResourceRelationCoverageState `json:"state"`
+	Truncated  bool                          `json:"truncated"`
+}
+
+// ResourceRelationCoverageState defines model for ResourceRelationCoverage.State.
+type ResourceRelationCoverageState string
+
+// ResourceRelationEdge defines model for ResourceRelationEdge.
+type ResourceRelationEdge struct {
+	FromUID string                   `json:"fromUid"`
+	RuleID  string                   `json:"ruleId,omitempty"`
+	ToUID   string                   `json:"toUid"`
+	Type    ResourceRelationEdgeType `json:"type"`
+}
+
+// ResourceRelationEdgeType defines model for ResourceRelationEdge.Type.
+type ResourceRelationEdgeType string
+
+// ResourceRelationNode defines model for ResourceRelationNode.
+type ResourceRelationNode struct {
+	Depth    int                      `json:"depth"`
+	Resource KubernetesResourceRef    `json:"resource"`
+	Role     ResourceRelationNodeRole `json:"role"`
+}
+
+// ResourceRelationNodeRole defines model for ResourceRelationNode.Role.
+type ResourceRelationNodeRole string
+
+// ResourceRelationRule defines model for ResourceRelationRule.
+type ResourceRelationRule struct {
+	ID       string                   `json:"id"`
+	Name     string                   `json:"name,omitempty"`
+	Selector map[string]string        `json:"selector,omitempty"`
+	Target   ResourceRelationSource   `json:"target"`
+	Type     ResourceRelationRuleType `json:"type"`
+	UID      string                   `json:"uid,omitempty"`
+}
+
+// ResourceRelationRuleType defines model for ResourceRelationRule.Type.
+type ResourceRelationRuleType string
+
+// ResourceRelationSource defines model for ResourceRelationSource.
+type ResourceRelationSource struct {
+	APIVersion string `json:"apiVersion"`
+	Kind       string `json:"kind"`
+	Namespace  string `json:"namespace"`
+	Resource   string `json:"resource"`
+}
+
+// ResourceRelationsEnvelope defines model for ResourceRelationsEnvelope.
+type ResourceRelationsEnvelope struct {
+	Data ResourceRelationsView `json:"data"`
+}
+
+// ResourceRelationsView defines model for ResourceRelationsView.
+type ResourceRelationsView struct {
+	Config     ResourceRelationConfig     `json:"config"`
+	Coverage   []ResourceRelationCoverage `json:"coverage"`
+	Edges      []ResourceRelationEdge     `json:"edges"`
+	Nodes      []ResourceRelationNode     `json:"nodes"`
+	ObservedAt string                     `json:"observedAt"`
+	Partial    bool                       `json:"partial"`
+	Root       KubernetesResourceRef      `json:"root"`
+}
+
 // ResourceSelector defines model for ResourceSelector.
 type ResourceSelector struct {
 	MatchLabels map[string]string `json:"matchLabels,omitempty"`
@@ -43351,6 +43530,27 @@ const (
 	Medium   MarketplaceAdvisorySeverity = MarketplaceAdvisorySeverityMedium
 	Low      MarketplaceAdvisorySeverity = MarketplaceAdvisorySeverityLow
 )
+
+// Retained for Go SDK source compatibility.
+const Browser PersonalGuestRuntimeInputKind = "browser"
+
+// Retained for Go SDK source compatibility.
+const Docker PersonalGuestRuntimeInputKind = "docker"
+
+// Retained for Go SDK source compatibility.
+const Execute PersonalGuestRuntimeInputKind = "execute"
+
+// Retained for Go SDK source compatibility.
+const FileRead PersonalGuestRuntimeInputKind = "file_read"
+
+// Retained for Go SDK source compatibility.
+const FileWrite PersonalGuestRuntimeInputKind = "file_write"
+
+// Retained for Go SDK source compatibility.
+const JSON ExportDeliveryDocumentParamsFormat = "json"
+
+// Retained for Go SDK source compatibility.
+const Yaml ExportDeliveryDocumentParamsFormat = "yaml"
 
 // Retained for Go SDK source compatibility.
 const ExternalService DeliveryDraftServiceServiceKind = "external_service"

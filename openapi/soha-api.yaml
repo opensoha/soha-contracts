@@ -2745,6 +2745,34 @@ paths:
           $ref: "#/components/responses/Error"
         "409":
           $ref: "#/components/responses/Error"
+  /application-environments/{applicationEnvironmentID}/targets/{targetID}/relations:
+    get:
+      tags: [Delivery]
+      operationId: getApplicationEnvironmentTargetRelations
+      description: Read UID-verified metadata relationships for an imported root. Every source retains Kubernetes and Soha authorization. Rules are observational metadata, never permission grants. Partial coverage is explicit; no provider configuration values are returned.
+      parameters:
+        - name: applicationEnvironmentID
+          in: path
+          required: true
+          schema: { type: string, minLength: 1 }
+        - name: targetID
+          in: path
+          required: true
+          schema: { type: string, minLength: 1 }
+      responses:
+        "200":
+          description: Bounded observed relations, including coverage gaps.
+          headers:
+            Cache-Control:
+              required: true
+              schema: { type: string, const: no-store }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ResourceRelationsEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
   /application-environments/target-candidates:
     get:
       tags: [Delivery]
@@ -31229,6 +31257,14 @@ components:
           type: string
           format: date-time
       additionalProperties: false
+    ResourceRelationSource: {"type": "object", "required": ["apiVersion", "resource", "kind", "namespace"], "properties": {"apiVersion": {"type": "string", "minLength": 1}, "resource": {"type": "string", "minLength": 1}, "kind": {"type": "string", "minLength": 1}, "namespace": {"type": "string", "minLength": 1}}, "additionalProperties": false}
+    ResourceRelationRule: {"type": "object", "required": ["id", "type", "target"], "properties": {"id": {"type": "string", "minLength": 1}, "type": {"type": "string", "enum": ["reference", "manual", "selector"]}, "target": {"$ref": "#/components/schemas/ResourceRelationSource"}, "name": {"type": "string"}, "uid": {"type": "string"}, "selector": {"type": "object", "additionalProperties": {"type": "string"}, "maxProperties": 16}}, "additionalProperties": false}
+    ResourceRelationConfig: {"type": "object", "required": ["version", "rootUid", "sources", "rules"], "properties": {"version": {"type": "string", "const": "v1"}, "rootUid": {"type": "string", "minLength": 1}, "sources": {"type": "array", "items": {"$ref": "#/components/schemas/ResourceRelationSource"}, "maxItems": 8}, "rules": {"type": "array", "items": {"$ref": "#/components/schemas/ResourceRelationRule"}, "maxItems": 8}}, "additionalProperties": false}
+    ResourceRelationNode: {"type": "object", "required": ["resource", "role", "depth"], "properties": {"resource": {"$ref": "#/components/schemas/KubernetesResourceRef"}, "role": {"type": "string", "enum": ["root", "owned", "manual", "reference", "candidate"]}, "depth": {"type": "integer", "minimum": 0, "maximum": 8}}, "additionalProperties": false}
+    ResourceRelationEdge: {"type": "object", "required": ["fromUid", "toUid", "type"], "properties": {"fromUid": {"type": "string", "minLength": 1}, "toUid": {"type": "string", "minLength": 1}, "type": {"type": "string", "enum": ["owns", "manual", "references", "selector_candidate"]}, "ruleId": {"type": "string"}}, "additionalProperties": false}
+    ResourceRelationCoverage: {"type": "object", "required": ["queryId", "state", "truncated"], "properties": {"queryId": {"type": "string", "minLength": 1}, "state": {"type": "string", "enum": ["available", "partial", "denied", "error", "not_installed", "unsupported"]}, "reasonCode": {"type": "string"}, "truncated": {"type": "boolean"}}, "additionalProperties": false}
+    ResourceRelationsView: {"type": "object", "required": ["root", "config", "nodes", "edges", "coverage", "partial", "observedAt"], "properties": {"root": {"$ref": "#/components/schemas/KubernetesResourceRef"}, "config": {"$ref": "#/components/schemas/ResourceRelationConfig"}, "nodes": {"type": "array", "items": {"$ref": "#/components/schemas/ResourceRelationNode"}, "maxItems": 500}, "edges": {"type": "array", "items": {"$ref": "#/components/schemas/ResourceRelationEdge"}}, "coverage": {"type": "array", "items": {"$ref": "#/components/schemas/ResourceRelationCoverage"}}, "partial": {"type": "boolean"}, "observedAt": {"type": "string"}}, "additionalProperties": false}
+    ResourceRelationsEnvelope: {"type": "object", "required": ["data"], "properties": {"data": {"$ref": "#/components/schemas/ResourceRelationsView"}}, "additionalProperties": false}
     ReleaseTarget:
       type: object
       required: [id, applicationEnvironmentId, clusterId, namespace, workloadKind, workloadName, enabled]

@@ -54364,6 +54364,257 @@
         ],
         "type": "object"
       },
+      "ResourceRelationConfig": {
+        "additionalProperties": false,
+        "properties": {
+          "rootUid": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "rules": {
+            "items": {
+              "$ref": "#/components/schemas/ResourceRelationRule"
+            },
+            "maxItems": 8,
+            "type": "array"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/ResourceRelationSource"
+            },
+            "maxItems": 8,
+            "type": "array"
+          },
+          "version": {
+            "const": "v1",
+            "type": "string"
+          }
+        },
+        "required": [
+          "version",
+          "rootUid",
+          "sources",
+          "rules"
+        ],
+        "type": "object"
+      },
+      "ResourceRelationCoverage": {
+        "additionalProperties": false,
+        "properties": {
+          "queryId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "reasonCode": {
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "available",
+              "partial",
+              "denied",
+              "error",
+              "not_installed",
+              "unsupported"
+            ],
+            "type": "string"
+          },
+          "truncated": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "queryId",
+          "state",
+          "truncated"
+        ],
+        "type": "object"
+      },
+      "ResourceRelationEdge": {
+        "additionalProperties": false,
+        "properties": {
+          "fromUid": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "ruleId": {
+            "type": "string"
+          },
+          "toUid": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "owns",
+              "manual",
+              "references",
+              "selector_candidate"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "fromUid",
+          "toUid",
+          "type"
+        ],
+        "type": "object"
+      },
+      "ResourceRelationNode": {
+        "additionalProperties": false,
+        "properties": {
+          "depth": {
+            "maximum": 8,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "resource": {
+            "$ref": "#/components/schemas/KubernetesResourceRef"
+          },
+          "role": {
+            "enum": [
+              "root",
+              "owned",
+              "manual",
+              "reference",
+              "candidate"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "resource",
+          "role",
+          "depth"
+        ],
+        "type": "object"
+      },
+      "ResourceRelationRule": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "selector": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "maxProperties": 16,
+            "type": "object"
+          },
+          "target": {
+            "$ref": "#/components/schemas/ResourceRelationSource"
+          },
+          "type": {
+            "enum": [
+              "reference",
+              "manual",
+              "selector"
+            ],
+            "type": "string"
+          },
+          "uid": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "target"
+        ],
+        "type": "object"
+      },
+      "ResourceRelationsEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ResourceRelationsView"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "ResourceRelationSource": {
+        "additionalProperties": false,
+        "properties": {
+          "apiVersion": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "kind": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "namespace": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "resource": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "apiVersion",
+          "resource",
+          "kind",
+          "namespace"
+        ],
+        "type": "object"
+      },
+      "ResourceRelationsView": {
+        "additionalProperties": false,
+        "properties": {
+          "config": {
+            "$ref": "#/components/schemas/ResourceRelationConfig"
+          },
+          "coverage": {
+            "items": {
+              "$ref": "#/components/schemas/ResourceRelationCoverage"
+            },
+            "type": "array"
+          },
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/ResourceRelationEdge"
+            },
+            "type": "array"
+          },
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/ResourceRelationNode"
+            },
+            "maxItems": 500,
+            "type": "array"
+          },
+          "observedAt": {
+            "type": "string"
+          },
+          "partial": {
+            "type": "boolean"
+          },
+          "root": {
+            "$ref": "#/components/schemas/KubernetesResourceRef"
+          }
+        },
+        "required": [
+          "root",
+          "config",
+          "nodes",
+          "edges",
+          "coverage",
+          "partial",
+          "observedAt"
+        ],
+        "type": "object"
+      },
       "ResourceSelector": {
         "additionalProperties": false,
         "properties": {
@@ -73987,6 +74238,68 @@
             "description": "Application environment delivery detail."
           },
           "404": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
+    "/application-environments/{applicationEnvironmentID}/targets/{targetID}/relations": {
+      "get": {
+        "description": "Read UID-verified metadata relationships for an imported root. Every source retains Kubernetes and Soha authorization. Rules are observational metadata, never permission grants. Partial coverage is explicit; no provider configuration values are returned.",
+        "operationId": "getApplicationEnvironmentTargetRelations",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "applicationEnvironmentID",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "targetID",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceRelationsEnvelope"
+                }
+              }
+            },
+            "description": "Bounded observed relations, including coverage gaps.",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
             "$ref": "#/components/responses/Error"
           }
         },

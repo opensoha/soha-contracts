@@ -1334,6 +1334,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/application-environments/{applicationEnvironmentID}/targets/{targetID}/relations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read UID-verified metadata relationships for an imported root. Every source retains Kubernetes and Soha authorization. Rules are observational metadata, never permission grants. Partial coverage is explicit; no provider configuration values are returned. */
+        get: operations["getApplicationEnvironmentTargetRelations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/application-environments/target-candidates": {
         parameters: {
             query?: never;
@@ -17698,6 +17715,62 @@ export interface components {
             /** Format: date-time */
             updatedAt: string;
         };
+        ResourceRelationSource: {
+            apiVersion: string;
+            resource: string;
+            kind: string;
+            namespace: string;
+        };
+        ResourceRelationRule: {
+            id: string;
+            /** @enum {string} */
+            type: "reference" | "manual" | "selector";
+            target: components["schemas"]["ResourceRelationSource"];
+            name?: string;
+            uid?: string;
+            selector?: {
+                [key: string]: string;
+            };
+        };
+        ResourceRelationConfig: {
+            /** @constant */
+            version: "v1";
+            rootUid: string;
+            sources: components["schemas"]["ResourceRelationSource"][];
+            rules: components["schemas"]["ResourceRelationRule"][];
+        };
+        ResourceRelationNode: {
+            resource: components["schemas"]["KubernetesResourceRef"];
+            /** @enum {string} */
+            role: "root" | "owned" | "manual" | "reference" | "candidate";
+            depth: number;
+        };
+        ResourceRelationEdge: {
+            fromUid: string;
+            toUid: string;
+            /** @enum {string} */
+            type: "owns" | "manual" | "references" | "selector_candidate";
+            ruleId?: string;
+        };
+        ResourceRelationCoverage: {
+            queryId: string;
+            /** @enum {string} */
+            state: "available" | "partial" | "denied" | "error" | "not_installed" | "unsupported";
+            reasonCode?: string;
+            truncated: boolean;
+        };
+        ResourceRelationsView: {
+            root: components["schemas"]["KubernetesResourceRef"];
+            config: components["schemas"]["ResourceRelationConfig"];
+            nodes: components["schemas"]["ResourceRelationNode"][];
+            edges: components["schemas"]["ResourceRelationEdge"][];
+            coverage: components["schemas"]["ResourceRelationCoverage"][];
+            partial: boolean;
+            observedAt: string;
+        };
+        ResourceRelationsEnvelope: {
+            data: components["schemas"]["ResourceRelationsView"];
+        };
         ReleaseTarget: {
             docker?: components["schemas"]["DockerDeliveryConfiguration"];
             helm?: components["schemas"]["HelmDeliveryConfiguration"];
@@ -29337,6 +29410,14 @@ export type BuildPolicy = components['schemas']['BuildPolicy'];
 export type ResourceSelector = components['schemas']['ResourceSelector'];
 export type ReleasePolicy = components['schemas']['ReleasePolicy'];
 export type DeliveryEnvironment = components['schemas']['DeliveryEnvironment'];
+export type ResourceRelationSource = components['schemas']['ResourceRelationSource'];
+export type ResourceRelationRule = components['schemas']['ResourceRelationRule'];
+export type ResourceRelationConfig = components['schemas']['ResourceRelationConfig'];
+export type ResourceRelationNode = components['schemas']['ResourceRelationNode'];
+export type ResourceRelationEdge = components['schemas']['ResourceRelationEdge'];
+export type ResourceRelationCoverage = components['schemas']['ResourceRelationCoverage'];
+export type ResourceRelationsView = components['schemas']['ResourceRelationsView'];
+export type ResourceRelationsEnvelope = components['schemas']['ResourceRelationsEnvelope'];
 export type ReleaseTarget = components['schemas']['ReleaseTarget'];
 export type ReleaseTargetInput = components['schemas']['ReleaseTargetInput'];
 export type DockerDeliveryConfiguration = components['schemas']['DockerDeliveryConfiguration'];
@@ -33530,6 +33611,34 @@ export interface operations {
                     "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
                 };
             };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getApplicationEnvironmentTargetRelations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationEnvironmentID: string;
+                targetID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded observed relations, including coverage gaps. */
+            200: {
+                headers: {
+                    "Cache-Control": "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResourceRelationsEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
             409: components["responses"]["Error"];

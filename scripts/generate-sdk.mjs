@@ -236,6 +236,8 @@ const (
   // oapi-codegen changes enum prefixes when another schema introduces the same
   // value. Preserve both published spellings without redeclaring generated ones.
   for (const [typeName, values] of [
+    ["PersonalGuestRuntimeInputKind", [["Browser", "browser"], ["Docker", "docker"], ["Execute", "execute"], ["FileRead", "file_read"], ["FileWrite", "file_write"]]],
+    ["ExportDeliveryDocumentParamsFormat", [["JSON", "json"], ["Yaml", "yaml"]]],
     ["DeliveryDraftServiceServiceKind", [["ExternalService", "external_service"], ["HelmRelease", "helm_release"], ["Job", "job"], ["KubernetesWorkload", "kubernetes_workload"]]],
     ["ListAIGatewayRelayUpstreamsParamsStatus", [["Active", "active"], ["Degraded", "degraded"], ["Disabled", "disabled"]]],
     ["RuntimeNetworkUsageScope", [["NetworkNamespace", "network_namespace"], ["Process", "process"], ["Unavailable", "unavailable"]]],
