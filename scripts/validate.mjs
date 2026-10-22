@@ -114,6 +114,9 @@ const requiredJsonSchemas = [
 ];
 
 const requiredOpenapiFixtureSchemas = [
+  "TemplateUpdatePreviewInput",
+  "TemplateUpdatePolicyInput",
+  "TemplateUpdateBatchInput",
   "PersonalDockerEnvironmentPolicy",
   "PersonalVMEnvironmentPolicy",
   "PersonalEnvironmentQuota",

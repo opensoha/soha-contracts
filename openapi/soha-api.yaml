@@ -4340,6 +4340,23 @@ paths:
                 $ref: "#/components/schemas/DeliveryEnvironmentListEnvelope"
         "403":
           $ref: "#/components/responses/Error"
+  /delivery/template-updates/targets:
+    get:
+      {"tags": ["Delivery"], "operationId": "listTemplateUpdateTargets", "summary": "Preview affected application bindings with honest paginated totals", "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.", "responses": {"200": {"description": "Success", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateUpdateTargetPageEnvelope"}}}}, "400": {"$ref": "#/components/responses/Error"}, "403": {"$ref": "#/components/responses/Error"}, "404": {"$ref": "#/components/responses/Error"}, "409": {"$ref": "#/components/responses/Error"}}, "parameters": [{"in": "query", "name": "kind", "required": true, "schema": {"$ref": "#/components/schemas/TemplateUpdateKind"}}, {"in": "query", "name": "templateId", "required": true, "schema": {"type": "string", "maxLength": 256}}, {"in": "query", "name": "applicationId", "required": false, "schema": {"type": "string", "maxLength": 256}}, {"in": "query", "name": "page", "required": false, "schema": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}}, {"in": "query", "name": "pageSize", "required": false, "schema": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 100}}, {"name": "serviceId", "in": "query", "required": false, "schema": {"type": "string", "maxLength": 256}}, {"name": "applicationEnvironmentId", "in": "query", "required": false, "schema": {"type": "string", "maxLength": 256}}]}
+  /delivery/template-updates/previews:
+    post:
+      {"tags": ["Delivery"], "operationId": "createTemplateUpdatePreview", "summary": "Freeze final template adoption and cumulative plus adjacent-version differences", "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.", "responses": {"200": {"description": "Success", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateUpdatePreviewEnvelope"}}}}, "400": {"$ref": "#/components/responses/Error"}, "403": {"$ref": "#/components/responses/Error"}, "404": {"$ref": "#/components/responses/Error"}, "409": {"$ref": "#/components/responses/Error"}}, "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateUpdatePreviewInput"}}}}}
+  /delivery/template-updates/previews/{previewID}:
+    get:
+      {"tags": ["Delivery"], "operationId": "getTemplateUpdatePreview", "summary": "Read a frozen adoption preview with current scope revalidation", "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.", "responses": {"200": {"description": "Success", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateUpdatePreviewEnvelope"}}}}, "400": {"$ref": "#/components/responses/Error"}, "403": {"$ref": "#/components/responses/Error"}, "404": {"$ref": "#/components/responses/Error"}, "409": {"$ref": "#/components/responses/Error"}}, "parameters": [{"in": "path", "name": "previewID", "required": true, "schema": {"type": "string", "maxLength": 256}}]}
+  /delivery/template-updates/previews/{previewID}/batches:
+    post:
+      {"tags": ["Delivery"], "operationId": "createTemplateUpdateBatch", "summary": "Adopt selected candidates in waves through existing DeliveryBatch and Plan approvals", "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.", "responses": {"200": {"description": "Success", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/DeliveryBatchEnvelope"}}}}, "400": {"$ref": "#/components/responses/Error"}, "403": {"$ref": "#/components/responses/Error"}, "404": {"$ref": "#/components/responses/Error"}, "409": {"$ref": "#/components/responses/Error"}}, "parameters": [{"in": "path", "name": "previewID", "required": true, "schema": {"type": "string", "maxLength": 256}}], "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateUpdateBatchInput"}}}}}
+  /delivery/template-updates/policies:
+    get:
+      {"tags": ["Delivery"], "operationId": "listTemplateUpdatePolicies", "summary": "List explicit adoption policies visible to the current principal", "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.", "responses": {"200": {"description": "Success", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateUpdatePolicyListEnvelope"}}}}, "400": {"$ref": "#/components/responses/Error"}, "403": {"$ref": "#/components/responses/Error"}, "404": {"$ref": "#/components/responses/Error"}, "409": {"$ref": "#/components/responses/Error"}}, "parameters": [{"in": "query", "name": "kind", "required": true, "schema": {"$ref": "#/components/schemas/TemplateUpdateKind"}}, {"in": "query", "name": "templateId", "required": true, "schema": {"type": "string", "maxLength": 256}}, {"in": "query", "name": "applicationId", "required": false, "schema": {"type": "string", "maxLength": 256}}]}
+    put:
+      {"tags": ["Delivery"], "operationId": "saveTemplateUpdatePolicy", "summary": "Save fixed manual automatic or approval policy using a binding-scoped CAS", "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.", "responses": {"200": {"description": "Success", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateUpdatePolicyEnvelope"}}}}, "400": {"$ref": "#/components/responses/Error"}, "403": {"$ref": "#/components/responses/Error"}, "404": {"$ref": "#/components/responses/Error"}, "409": {"$ref": "#/components/responses/Error"}}, "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateUpdatePolicyInput"}}}}}
   /delivery/manifest-packages:
     get:
       tags: [Delivery]
@@ -32551,9 +32568,10 @@ components:
       type: object
       required: [id, applicationId, serviceId, action]
       properties:
+        templateCandidateId: { type: string, minLength: 1, maxLength: 256 }
         id: { type: string, pattern: '^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$' }
         applicationId: { type: string, minLength: 1 }
-        serviceId: { type: string, minLength: 1 }
+        serviceId: { type: string }
         applicationEnvironmentId: { type: string, minLength: 1 }
         releaseTargetId: { type: string }
         helmRevision: { type: integer, minimum: 1, description: Existing owned Helm revision to restore through a new config_update batch. }
@@ -32574,10 +32592,25 @@ components:
           items: { type: string }
       allOf:
         - if:
-            properties:
-              action: { enum: [build_deploy, deploy, config_update] }
+            required: [templateCandidateId]
           then:
-            required: [applicationEnvironmentId]
+            properties:
+              action: { const: config_update }
+              releaseBundleId: { type: string, maxLength: 0 }
+            not:
+              anyOf:
+                - required: [helmRevision]
+                - required: [buildArgs]
+                - required: [repositoryRefs]
+          else:
+            properties:
+              serviceId: { type: string, minLength: 1 }
+            allOf:
+              - if:
+                  properties:
+                    action: { enum: [build_deploy, deploy, config_update] }
+                then:
+                  required: [applicationEnvironmentId]
         - if:
             properties:
               action: { const: deploy }
@@ -33533,6 +33566,7 @@ components:
       type: object
       required: [target, applicationName, serviceName, serviceVersion, configurationDigest]
       properties:
+        templateUpdate: { $ref: "#/components/schemas/TemplateUpdateReceipt" }
         target: { $ref: "#/components/schemas/DeliveryTargetInput" }
         applicationName: { type: string }
         serviceName: { type: string }
@@ -34691,6 +34725,7 @@ components:
       type: object
       required: [id, packageId, applicationEnvironmentId, environmentKey, clusterId, namespace, overlay, driftPolicy, deletionPolicy, enabled, version, createdAt, updatedAt]
       properties:
+        templateSelection: { $ref: "#/components/schemas/ManifestTemplateSelection" }
         templateParameters: { $ref: "#/components/schemas/TemplateParameterValues" }
         id: { type: string, minLength: 1 }
         packageId: { type: string, minLength: 1 }
@@ -35372,6 +35407,7 @@ components:
       type: object
       required: [id, source, status, applicationId, applicationEnvironmentId, action, requiresApproval, createdAt, updatedAt]
       properties:
+        templateCandidateId: { type: string, minLength: 1, maxLength: 256 }
         dockerSnapshots:
           type: array
           maxItems: 50
@@ -50756,3 +50792,42 @@ components:
       properties:
         data: { $ref: "#/components/schemas/NetworkPolicyPreviewResult" }
       additionalProperties: false
+
+    TemplateUpdateKind:
+      {"type": "string", "enum": ["deployment", "build", "workflow", "blueprint"]}
+    TemplateUpdateMode:
+      {"type": "string", "enum": ["fixed", "manual", "automatic", "approval"]}
+    ManifestTemplateSelection:
+      {"type": "object", "properties": {"templateId": {"type": "string", "maxLength": 256}, "version": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "parameters": {"$ref": "#/components/schemas/TemplateParameterValues"}, "baseFilesDigest": {"type": "string", "maxLength": 80}, "adoptionId": {"type": "string", "maxLength": 256}}, "required": ["templateId", "version", "parameters", "baseFilesDigest", "adoptionId"], "additionalProperties": false}
+    TemplateUpdateTarget:
+      {"type": "object", "properties": {"id": {"type": "string", "maxLength": 256}, "kind": {"$ref": "#/components/schemas/TemplateUpdateKind"}, "templateId": {"type": "string", "maxLength": 256}, "applicationId": {"type": "string", "maxLength": 256}, "applicationName": {"type": "string", "maxLength": 256}, "serviceId": {"type": "string", "maxLength": 256}, "serviceName": {"type": "string", "maxLength": 256}, "applicationEnvironmentId": {"type": "string", "maxLength": 256}, "environmentName": {"type": "string", "maxLength": 256}, "releaseTargetId": {"type": "string", "maxLength": 256}, "fromVersion": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "mode": {"$ref": "#/components/schemas/TemplateUpdateMode"}, "requiresApproval": {"type": "boolean"}, "eligible": {"type": "boolean"}, "reason": {"type": "string", "maxLength": 1024}, "independentOverrides": {"type": "array", "items": {"type": "string", "maxLength": 256}, "maxItems": 100}, "bindingRevision": {"type": "string", "maxLength": 256}, "scope": {"type": "string", "enum": ["environment", "application", "creation_only"]}}, "required": ["id", "kind", "templateId", "applicationId", "applicationName", "serviceId", "serviceName", "applicationEnvironmentId", "environmentName", "releaseTargetId", "fromVersion", "mode", "requiresApproval", "eligible", "reason", "independentOverrides", "bindingRevision", "scope"], "additionalProperties": false}
+    TemplateUpdateTargetPage:
+      {"type": "object", "properties": {"items": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateUpdateTarget"}, "maxItems": 100}, "total": {"type": "integer", "format": "int64", "minimum": 0, "maximum": 2147483647}, "page": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "pageSize": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 100}}, "required": ["items", "total", "page", "pageSize"], "additionalProperties": false}
+    TemplateUpdateSelection:
+      {"type": "object", "properties": {"targetId": {"type": "string", "maxLength": 256, "minLength": 1}, "parameters": {"$ref": "#/components/schemas/TemplateParameterValues"}, "useNewDefaults": {"type": "array", "items": {"type": "string", "maxLength": 256}, "maxItems": 100, "uniqueItems": true}, "wave": {"type": "integer", "format": "int64", "minimum": 0, "maximum": 199}}, "required": ["targetId"], "additionalProperties": false}
+    TemplateUpdatePreviewInput:
+      {"type": "object", "properties": {"kind": {"$ref": "#/components/schemas/TemplateUpdateKind"}, "templateId": {"type": "string", "maxLength": 256, "minLength": 1}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "targets": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateUpdateSelection"}, "maxItems": 100, "minItems": 1}, "applicationId": {"type": "string", "minLength": 1, "maxLength": 256}}, "required": ["kind", "templateId", "toVersion", "targets"], "additionalProperties": false}
+    TemplateUpdateChange:
+      {"type": "object", "properties": {"section": {"type": "string", "enum": ["source", "schema", "defaults", "parameters", "resources"]}, "path": {"type": "string", "maxLength": 1024}, "before": {"type": "string", "maxLength": 32768}, "after": {"type": "string", "maxLength": 32768}}, "required": ["section", "path", "before", "after"], "additionalProperties": false}
+    TemplateUpdateDiff:
+      {"type": "object", "properties": {"fromVersion": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "changes": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateUpdateChange"}, "maxItems": 500}, "renderStatus": {"type": "string", "enum": ["available", "unavailable", "invalid"]}, "diagnostics": {"type": "array", "items": {"type": "string", "maxLength": 2048}, "maxItems": 32}, "historyGap": {"type": "boolean"}}, "required": ["fromVersion", "toVersion", "changes", "renderStatus", "diagnostics", "historyGap"], "additionalProperties": false}
+    TemplateUpdateCandidate:
+      {"type": "object", "properties": {"id": {"type": "string", "maxLength": 256}, "target": {"$ref": "#/components/schemas/TemplateUpdateTarget"}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "digest": {"type": "string", "maxLength": 80}, "parameters": {"$ref": "#/components/schemas/TemplateParameterValues"}, "cumulative": {"$ref": "#/components/schemas/TemplateUpdateDiff"}, "versions": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateUpdateDiff"}, "maxItems": 200}, "eligible": {"type": "boolean"}, "reason": {"type": "string", "maxLength": 1024}, "requiresApproval": {"type": "boolean"}, "wave": {"type": "integer", "format": "int64", "minimum": 0, "maximum": 199}}, "required": ["id", "target", "toVersion", "digest", "parameters", "cumulative", "versions", "eligible", "reason", "requiresApproval", "wave"], "additionalProperties": false}
+    TemplateUpdatePreview:
+      {"type": "object", "properties": {"id": {"type": "string", "maxLength": 256}, "kind": {"$ref": "#/components/schemas/TemplateUpdateKind"}, "templateId": {"type": "string", "maxLength": 256}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "digest": {"type": "string", "maxLength": 80}, "candidates": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateUpdateCandidate"}, "maxItems": 100}, "createdAt": {"type": "string", "format": "date-time"}, "expiresAt": {"type": "string", "format": "date-time"}, "configurationOnly": {"type": "boolean", "const": true}}, "required": ["id", "kind", "templateId", "toVersion", "digest", "candidates", "createdAt", "expiresAt", "configurationOnly"], "additionalProperties": false}
+    TemplateUpdateBatchInput:
+      {"type": "object", "properties": {"previewDigest": {"type": "string", "maxLength": 80, "minLength": 1}, "candidateIds": {"type": "array", "items": {"type": "string", "maxLength": 256, "minLength": 1}, "maxItems": 100, "minItems": 1, "uniqueItems": true}, "waveSize": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 100}, "stopOnFailure": {"type": "boolean"}, "acknowledgeHistoryGaps": {"type": "boolean"}, "idempotencyKey": {"type": "string", "maxLength": 128, "minLength": 8}}, "required": ["previewDigest", "candidateIds", "waveSize", "stopOnFailure", "acknowledgeHistoryGaps", "idempotencyKey"], "additionalProperties": false}
+    TemplateUpdatePolicyInput:
+      {"type": "object", "properties": {"kind": {"$ref": "#/components/schemas/TemplateUpdateKind"}, "templateId": {"type": "string", "maxLength": 256, "minLength": 1}, "targetId": {"type": "string", "maxLength": 256, "minLength": 1}, "mode": {"$ref": "#/components/schemas/TemplateUpdateMode"}, "paused": {"type": "boolean"}, "expectedVersion": {"type": "integer", "format": "int64", "minimum": 0, "maximum": 2147483647}}, "required": ["kind", "templateId", "targetId", "mode", "paused", "expectedVersion"], "additionalProperties": false}
+    TemplateUpdatePolicy:
+      {"type": "object", "properties": {"id": {"type": "string", "maxLength": 256}, "kind": {"$ref": "#/components/schemas/TemplateUpdateKind"}, "templateId": {"type": "string", "maxLength": 256}, "targetId": {"type": "string", "maxLength": 256}, "mode": {"$ref": "#/components/schemas/TemplateUpdateMode"}, "paused": {"type": "boolean"}, "version": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "lastBatchId": {"type": "string", "maxLength": 256}, "lastError": {"type": "string", "maxLength": 1024}, "updatedAt": {"type": "string", "format": "date-time"}}, "required": ["id", "kind", "templateId", "targetId", "mode", "paused", "version", "lastBatchId", "lastError", "updatedAt"], "additionalProperties": false}
+    TemplateUpdateTargetPageEnvelope:
+      {"type": "object", "properties": {"data": {"$ref": "#/components/schemas/TemplateUpdateTargetPage"}}, "required": ["data"], "additionalProperties": false}
+    TemplateUpdatePreviewEnvelope:
+      {"type": "object", "properties": {"data": {"$ref": "#/components/schemas/TemplateUpdatePreview"}}, "required": ["data"], "additionalProperties": false}
+    TemplateUpdatePolicyEnvelope:
+      {"type": "object", "properties": {"data": {"$ref": "#/components/schemas/TemplateUpdatePolicy"}}, "required": ["data"], "additionalProperties": false}
+    TemplateUpdatePolicyListEnvelope:
+      {"type": "object", "properties": {"data": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateUpdatePolicy"}, "maxItems": 2000}}, "required": ["data"], "additionalProperties": false}
+    TemplateUpdateReceipt:
+      {"type": "object", "required": ["kind", "templateId", "bindingId", "previewId", "candidateId", "fromVersion", "toVersion", "requiresApproval"], "properties": {"kind": {"$ref": "#/components/schemas/TemplateUpdateKind"}, "templateId": {"type": "string", "minLength": 1, "maxLength": 256}, "bindingId": {"type": "string", "minLength": 1, "maxLength": 256}, "previewId": {"type": "string", "minLength": 1, "maxLength": 256}, "candidateId": {"type": "string", "minLength": 1, "maxLength": 256}, "fromVersion": {"type": "integer", "format": "int64", "minimum": 1}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1}, "requiresApproval": {"type": "boolean"}}, "additionalProperties": false}

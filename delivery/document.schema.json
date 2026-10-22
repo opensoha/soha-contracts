@@ -804,21 +804,68 @@
       "additionalProperties": false,
       "allOf": [
         {
-          "if": {
+          "else": {
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "action": {
+                      "enum": [
+                        "build_deploy",
+                        "deploy",
+                        "config_update"
+                      ]
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "applicationEnvironmentId"
+                  ]
+                }
+              }
+            ],
             "properties": {
-              "action": {
-                "enum": [
-                  "build_deploy",
-                  "deploy",
-                  "config_update"
-                ]
+              "serviceId": {
+                "minLength": 1,
+                "type": "string"
               }
             }
           },
-          "then": {
+          "if": {
             "required": [
-              "applicationEnvironmentId"
+              "templateCandidateId"
             ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "helmRevision"
+                  ]
+                },
+                {
+                  "required": [
+                    "buildArgs"
+                  ]
+                },
+                {
+                  "required": [
+                    "repositoryRefs"
+                  ]
+                }
+              ]
+            },
+            "properties": {
+              "action": {
+                "const": "config_update"
+              },
+              "releaseBundleId": {
+                "maxLength": 0,
+                "type": "string"
+              }
+            }
           }
         },
         {
@@ -897,6 +944,10 @@
           "type": "array"
         },
         "serviceId": {
+          "type": "string"
+        },
+        "templateCandidateId": {
+          "maxLength": 256,
           "minLength": 1,
           "type": "string"
         }

@@ -8983,22 +8983,22 @@ func (e PluginArtifactRecordProvenanceStatus) Valid() bool {
 
 // Defines values for PluginArtifactRecordSignatureStatus.
 const (
-	Invalid     PluginArtifactRecordSignatureStatus = "invalid"
-	NotProvided PluginArtifactRecordSignatureStatus = "not_provided"
-	Untrusted   PluginArtifactRecordSignatureStatus = "untrusted"
-	Verified    PluginArtifactRecordSignatureStatus = "verified"
+	PluginArtifactRecordSignatureStatusInvalid     PluginArtifactRecordSignatureStatus = "invalid"
+	PluginArtifactRecordSignatureStatusNotProvided PluginArtifactRecordSignatureStatus = "not_provided"
+	PluginArtifactRecordSignatureStatusUntrusted   PluginArtifactRecordSignatureStatus = "untrusted"
+	PluginArtifactRecordSignatureStatusVerified    PluginArtifactRecordSignatureStatus = "verified"
 )
 
 // Valid indicates whether the value is a known member of the PluginArtifactRecordSignatureStatus enum.
 func (e PluginArtifactRecordSignatureStatus) Valid() bool {
 	switch e {
-	case Invalid:
+	case PluginArtifactRecordSignatureStatusInvalid:
 		return true
-	case NotProvided:
+	case PluginArtifactRecordSignatureStatusNotProvided:
 		return true
-	case Untrusted:
+	case PluginArtifactRecordSignatureStatusUntrusted:
 		return true
-	case Verified:
+	case PluginArtifactRecordSignatureStatusVerified:
 		return true
 	default:
 		return false
@@ -10184,6 +10184,123 @@ func (e TemplatePublicationState) Valid() bool {
 	}
 }
 
+// Defines values for TemplateUpdateChangeSection.
+const (
+	TemplateUpdateChangeSectionDefaults   TemplateUpdateChangeSection = "defaults"
+	TemplateUpdateChangeSectionParameters TemplateUpdateChangeSection = "parameters"
+	TemplateUpdateChangeSectionResources  TemplateUpdateChangeSection = "resources"
+	TemplateUpdateChangeSectionSchema     TemplateUpdateChangeSection = "schema"
+	TemplateUpdateChangeSectionSource     TemplateUpdateChangeSection = "source"
+)
+
+// Valid indicates whether the value is a known member of the TemplateUpdateChangeSection enum.
+func (e TemplateUpdateChangeSection) Valid() bool {
+	switch e {
+	case TemplateUpdateChangeSectionDefaults:
+		return true
+	case TemplateUpdateChangeSectionParameters:
+		return true
+	case TemplateUpdateChangeSectionResources:
+		return true
+	case TemplateUpdateChangeSectionSchema:
+		return true
+	case TemplateUpdateChangeSectionSource:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TemplateUpdateDiffRenderStatus.
+const (
+	TemplateUpdateDiffRenderStatusAvailable   TemplateUpdateDiffRenderStatus = "available"
+	TemplateUpdateDiffRenderStatusInvalid     TemplateUpdateDiffRenderStatus = "invalid"
+	TemplateUpdateDiffRenderStatusUnavailable TemplateUpdateDiffRenderStatus = "unavailable"
+)
+
+// Valid indicates whether the value is a known member of the TemplateUpdateDiffRenderStatus enum.
+func (e TemplateUpdateDiffRenderStatus) Valid() bool {
+	switch e {
+	case TemplateUpdateDiffRenderStatusAvailable:
+		return true
+	case TemplateUpdateDiffRenderStatusInvalid:
+		return true
+	case TemplateUpdateDiffRenderStatusUnavailable:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TemplateUpdateKind.
+const (
+	TemplateUpdateKindBlueprint  TemplateUpdateKind = "blueprint"
+	TemplateUpdateKindBuild      TemplateUpdateKind = "build"
+	TemplateUpdateKindDeployment TemplateUpdateKind = "deployment"
+	TemplateUpdateKindWorkflow   TemplateUpdateKind = "workflow"
+)
+
+// Valid indicates whether the value is a known member of the TemplateUpdateKind enum.
+func (e TemplateUpdateKind) Valid() bool {
+	switch e {
+	case TemplateUpdateKindBlueprint:
+		return true
+	case TemplateUpdateKindBuild:
+		return true
+	case TemplateUpdateKindDeployment:
+		return true
+	case TemplateUpdateKindWorkflow:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TemplateUpdateMode.
+const (
+	Approval  TemplateUpdateMode = "approval"
+	Automatic TemplateUpdateMode = "automatic"
+	Fixed     TemplateUpdateMode = "fixed"
+	Manual    TemplateUpdateMode = "manual"
+)
+
+// Valid indicates whether the value is a known member of the TemplateUpdateMode enum.
+func (e TemplateUpdateMode) Valid() bool {
+	switch e {
+	case Approval:
+		return true
+	case Automatic:
+		return true
+	case Fixed:
+		return true
+	case Manual:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TemplateUpdateTargetScope.
+const (
+	TemplateUpdateTargetScopeApplication  TemplateUpdateTargetScope = "application"
+	TemplateUpdateTargetScopeCreationOnly TemplateUpdateTargetScope = "creation_only"
+	TemplateUpdateTargetScopeEnvironment  TemplateUpdateTargetScope = "environment"
+)
+
+// Valid indicates whether the value is a known member of the TemplateUpdateTargetScope enum.
+func (e TemplateUpdateTargetScope) Valid() bool {
+	switch e {
+	case TemplateUpdateTargetScopeApplication:
+		return true
+	case TemplateUpdateTargetScopeCreationOnly:
+		return true
+	case TemplateUpdateTargetScopeEnvironment:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ToolExecutionContractMode.
 const (
 	Async ToolExecutionContractMode = "async"
@@ -10309,22 +10426,22 @@ func (e VirtualMachineActionInputAction) Valid() bool {
 
 // Defines values for VirtualMachinePowerInputAction.
 const (
-	Delete VirtualMachinePowerInputAction = "delete"
-	Reboot VirtualMachinePowerInputAction = "reboot"
-	Start  VirtualMachinePowerInputAction = "start"
-	Stop   VirtualMachinePowerInputAction = "stop"
+	VirtualMachinePowerInputActionDelete VirtualMachinePowerInputAction = "delete"
+	VirtualMachinePowerInputActionReboot VirtualMachinePowerInputAction = "reboot"
+	VirtualMachinePowerInputActionStart  VirtualMachinePowerInputAction = "start"
+	VirtualMachinePowerInputActionStop   VirtualMachinePowerInputAction = "stop"
 )
 
 // Valid indicates whether the value is a known member of the VirtualMachinePowerInputAction enum.
 func (e VirtualMachinePowerInputAction) Valid() bool {
 	switch e {
-	case Delete:
+	case VirtualMachinePowerInputActionDelete:
 		return true
-	case Reboot:
+	case VirtualMachinePowerInputActionReboot:
 		return true
-	case Start:
+	case VirtualMachinePowerInputActionStart:
 		return true
-	case Stop:
+	case VirtualMachinePowerInputActionStop:
 		return true
 	default:
 		return false
@@ -16667,6 +16784,7 @@ type DeliveryPlan struct {
 	Status                   DeliveryPlanStatus            `json:"status"`
 	TargetID                 string                        `json:"targetId,omitempty"`
 	TargetSummary            string                        `json:"targetSummary,omitempty"`
+	TemplateCandidateID      string                        `json:"templateCandidateId,omitempty"`
 	UpdatedAt                time.Time                     `json:"updatedAt"`
 	Variables                map[string]any                `json:"variables,omitempty"`
 }
@@ -16768,6 +16886,7 @@ type DeliveryTargetSnapshot struct {
 	ServiceName         string                            `json:"serviceName"`
 	ServiceVersion      int                               `json:"serviceVersion"`
 	Target              DeliveryTargetInput               `json:"target"`
+	TemplateUpdate      *TemplateUpdateReceipt            `json:"templateUpdate,omitempty"`
 }
 
 // DeliveryTemplateProvenance Immutable provenance captured when a template version is published. Source removal and detachment never erase it. Workflow uses its saved version.
@@ -23703,23 +23822,24 @@ type MFAWebAuthnResponse struct {
 
 // ManifestBinding defines model for ManifestBinding.
 type ManifestBinding struct {
-	ApplicationEnvironmentID string                    `json:"applicationEnvironmentId"`
-	ClusterID                string                    `json:"clusterId"`
-	CreatedAt                time.Time                 `json:"createdAt"`
-	DeletionPolicy           ManifestDeletionPolicy    `json:"deletionPolicy"`
-	DriftPolicy              ManifestDriftPolicy       `json:"driftPolicy"`
-	Enabled                  bool                      `json:"enabled"`
-	EnvironmentKey           string                    `json:"environmentKey"`
-	ID                       string                    `json:"id"`
-	Kustomize                *ManifestKustomizeOptions `json:"kustomize,omitempty"`
-	Namespace                string                    `json:"namespace"`
-	Overlay                  map[string]string         `json:"overlay"`
-	PackageID                string                    `json:"packageId"`
-	RolloutStrategyID        string                    `json:"rolloutStrategyId,omitempty"`
-	TemplateParameters       *TemplateParameterValues  `json:"templateParameters,omitempty"`
-	UpdatedAt                time.Time                 `json:"updatedAt"`
-	VerificationPolicyID     string                    `json:"verificationPolicyId,omitempty"`
-	Version                  int64                     `json:"version"`
+	ApplicationEnvironmentID string                     `json:"applicationEnvironmentId"`
+	ClusterID                string                     `json:"clusterId"`
+	CreatedAt                time.Time                  `json:"createdAt"`
+	DeletionPolicy           ManifestDeletionPolicy     `json:"deletionPolicy"`
+	DriftPolicy              ManifestDriftPolicy        `json:"driftPolicy"`
+	Enabled                  bool                       `json:"enabled"`
+	EnvironmentKey           string                     `json:"environmentKey"`
+	ID                       string                     `json:"id"`
+	Kustomize                *ManifestKustomizeOptions  `json:"kustomize,omitempty"`
+	Namespace                string                     `json:"namespace"`
+	Overlay                  map[string]string          `json:"overlay"`
+	PackageID                string                     `json:"packageId"`
+	RolloutStrategyID        string                     `json:"rolloutStrategyId,omitempty"`
+	TemplateParameters       *TemplateParameterValues   `json:"templateParameters,omitempty"`
+	TemplateSelection        *ManifestTemplateSelection `json:"templateSelection,omitempty"`
+	UpdatedAt                time.Time                  `json:"updatedAt"`
+	VerificationPolicyID     string                     `json:"verificationPolicyId,omitempty"`
+	Version                  int64                      `json:"version"`
 }
 
 // ManifestBindingEnvelope defines model for ManifestBindingEnvelope.
@@ -24443,6 +24563,15 @@ type ManifestSyncWebhookInput struct {
 
 // ManifestTaskAction defines model for ManifestTaskAction.
 type ManifestTaskAction string
+
+// ManifestTemplateSelection defines model for ManifestTemplateSelection.
+type ManifestTemplateSelection struct {
+	AdoptionID      string                  `json:"adoptionId"`
+	BaseFilesDigest string                  `json:"baseFilesDigest"`
+	Parameters      TemplateParameterValues `json:"parameters"`
+	TemplateID      string                  `json:"templateId"`
+	Version         int64                   `json:"version"`
+}
 
 // ManifestValidationStage defines model for ManifestValidationStage.
 type ManifestValidationStage string
@@ -29530,6 +29659,180 @@ type TemplatePublishInput struct {
 	ExpectedRevision int `json:"expectedRevision"`
 }
 
+// TemplateUpdateBatchInput defines model for TemplateUpdateBatchInput.
+type TemplateUpdateBatchInput struct {
+	AcknowledgeHistoryGaps bool     `json:"acknowledgeHistoryGaps"`
+	CandidateIDs           []string `json:"candidateIds"`
+	IdempotencyKey         string   `json:"idempotencyKey"`
+	PreviewDigest          string   `json:"previewDigest"`
+	StopOnFailure          bool     `json:"stopOnFailure"`
+	WaveSize               int64    `json:"waveSize"`
+}
+
+// TemplateUpdateCandidate defines model for TemplateUpdateCandidate.
+type TemplateUpdateCandidate struct {
+	Cumulative       TemplateUpdateDiff      `json:"cumulative"`
+	Digest           string                  `json:"digest"`
+	Eligible         bool                    `json:"eligible"`
+	ID               string                  `json:"id"`
+	Parameters       TemplateParameterValues `json:"parameters"`
+	Reason           string                  `json:"reason"`
+	RequiresApproval bool                    `json:"requiresApproval"`
+	Target           TemplateUpdateTarget    `json:"target"`
+	ToVersion        int64                   `json:"toVersion"`
+	Versions         []TemplateUpdateDiff    `json:"versions"`
+	Wave             int64                   `json:"wave"`
+}
+
+// TemplateUpdateChange defines model for TemplateUpdateChange.
+type TemplateUpdateChange struct {
+	After   string                      `json:"after"`
+	Before  string                      `json:"before"`
+	Path    string                      `json:"path"`
+	Section TemplateUpdateChangeSection `json:"section"`
+}
+
+// TemplateUpdateChangeSection defines model for TemplateUpdateChange.Section.
+type TemplateUpdateChangeSection string
+
+// TemplateUpdateDiff defines model for TemplateUpdateDiff.
+type TemplateUpdateDiff struct {
+	Changes      []TemplateUpdateChange         `json:"changes"`
+	Diagnostics  []string                       `json:"diagnostics"`
+	FromVersion  int64                          `json:"fromVersion"`
+	HistoryGap   bool                           `json:"historyGap"`
+	RenderStatus TemplateUpdateDiffRenderStatus `json:"renderStatus"`
+	ToVersion    int64                          `json:"toVersion"`
+}
+
+// TemplateUpdateDiffRenderStatus defines model for TemplateUpdateDiff.RenderStatus.
+type TemplateUpdateDiffRenderStatus string
+
+// TemplateUpdateKind defines model for TemplateUpdateKind.
+type TemplateUpdateKind string
+
+// TemplateUpdateMode defines model for TemplateUpdateMode.
+type TemplateUpdateMode string
+
+// TemplateUpdatePolicy defines model for TemplateUpdatePolicy.
+type TemplateUpdatePolicy struct {
+	ID          string             `json:"id"`
+	Kind        TemplateUpdateKind `json:"kind"`
+	LastBatchID string             `json:"lastBatchId"`
+	LastError   string             `json:"lastError"`
+	Mode        TemplateUpdateMode `json:"mode"`
+	Paused      bool               `json:"paused"`
+	TargetID    string             `json:"targetId"`
+	TemplateID  string             `json:"templateId"`
+	UpdatedAt   time.Time          `json:"updatedAt"`
+	Version     int64              `json:"version"`
+}
+
+// TemplateUpdatePolicyEnvelope defines model for TemplateUpdatePolicyEnvelope.
+type TemplateUpdatePolicyEnvelope struct {
+	Data TemplateUpdatePolicy `json:"data"`
+}
+
+// TemplateUpdatePolicyInput defines model for TemplateUpdatePolicyInput.
+type TemplateUpdatePolicyInput struct {
+	ExpectedVersion int64              `json:"expectedVersion"`
+	Kind            TemplateUpdateKind `json:"kind"`
+	Mode            TemplateUpdateMode `json:"mode"`
+	Paused          bool               `json:"paused"`
+	TargetID        string             `json:"targetId"`
+	TemplateID      string             `json:"templateId"`
+}
+
+// TemplateUpdatePolicyListEnvelope defines model for TemplateUpdatePolicyListEnvelope.
+type TemplateUpdatePolicyListEnvelope struct {
+	Data []TemplateUpdatePolicy `json:"data"`
+}
+
+// TemplateUpdatePreview defines model for TemplateUpdatePreview.
+type TemplateUpdatePreview struct {
+	Candidates        []TemplateUpdateCandidate `json:"candidates"`
+	ConfigurationOnly bool                      `json:"configurationOnly"`
+	CreatedAt         time.Time                 `json:"createdAt"`
+	Digest            string                    `json:"digest"`
+	ExpiresAt         time.Time                 `json:"expiresAt"`
+	ID                string                    `json:"id"`
+	Kind              TemplateUpdateKind        `json:"kind"`
+	TemplateID        string                    `json:"templateId"`
+	ToVersion         int64                     `json:"toVersion"`
+}
+
+// TemplateUpdatePreviewEnvelope defines model for TemplateUpdatePreviewEnvelope.
+type TemplateUpdatePreviewEnvelope struct {
+	Data TemplateUpdatePreview `json:"data"`
+}
+
+// TemplateUpdatePreviewInput defines model for TemplateUpdatePreviewInput.
+type TemplateUpdatePreviewInput struct {
+	ApplicationID string                    `json:"applicationId,omitempty"`
+	Kind          TemplateUpdateKind        `json:"kind"`
+	Targets       []TemplateUpdateSelection `json:"targets"`
+	TemplateID    string                    `json:"templateId"`
+	ToVersion     int64                     `json:"toVersion"`
+}
+
+// TemplateUpdateReceipt defines model for TemplateUpdateReceipt.
+type TemplateUpdateReceipt struct {
+	BindingID        string             `json:"bindingId"`
+	CandidateID      string             `json:"candidateId"`
+	FromVersion      int64              `json:"fromVersion"`
+	Kind             TemplateUpdateKind `json:"kind"`
+	PreviewID        string             `json:"previewId"`
+	RequiresApproval bool               `json:"requiresApproval"`
+	TemplateID       string             `json:"templateId"`
+	ToVersion        int64              `json:"toVersion"`
+}
+
+// TemplateUpdateSelection defines model for TemplateUpdateSelection.
+type TemplateUpdateSelection struct {
+	Parameters     *TemplateParameterValues `json:"parameters,omitempty"`
+	TargetID       string                   `json:"targetId"`
+	UseNewDefaults []string                 `json:"useNewDefaults,omitempty"`
+	Wave           int64                    `json:"wave,omitempty"`
+}
+
+// TemplateUpdateTarget defines model for TemplateUpdateTarget.
+type TemplateUpdateTarget struct {
+	ApplicationEnvironmentID string                    `json:"applicationEnvironmentId"`
+	ApplicationID            string                    `json:"applicationId"`
+	ApplicationName          string                    `json:"applicationName"`
+	BindingRevision          string                    `json:"bindingRevision"`
+	Eligible                 bool                      `json:"eligible"`
+	EnvironmentName          string                    `json:"environmentName"`
+	FromVersion              int64                     `json:"fromVersion"`
+	ID                       string                    `json:"id"`
+	IndependentOverrides     []string                  `json:"independentOverrides"`
+	Kind                     TemplateUpdateKind        `json:"kind"`
+	Mode                     TemplateUpdateMode        `json:"mode"`
+	Reason                   string                    `json:"reason"`
+	ReleaseTargetID          string                    `json:"releaseTargetId"`
+	RequiresApproval         bool                      `json:"requiresApproval"`
+	Scope                    TemplateUpdateTargetScope `json:"scope"`
+	ServiceID                string                    `json:"serviceId"`
+	ServiceName              string                    `json:"serviceName"`
+	TemplateID               string                    `json:"templateId"`
+}
+
+// TemplateUpdateTargetScope defines model for TemplateUpdateTarget.Scope.
+type TemplateUpdateTargetScope string
+
+// TemplateUpdateTargetPage defines model for TemplateUpdateTargetPage.
+type TemplateUpdateTargetPage struct {
+	Items    []TemplateUpdateTarget `json:"items"`
+	Page     int64                  `json:"page"`
+	PageSize int64                  `json:"pageSize"`
+	Total    int64                  `json:"total"`
+}
+
+// TemplateUpdateTargetPageEnvelope defines model for TemplateUpdateTargetPageEnvelope.
+type TemplateUpdateTargetPageEnvelope struct {
+	Data TemplateUpdateTargetPage `json:"data"`
+}
+
 // TokenRotationInput defines model for TokenRotationInput.
 type TokenRotationInput struct {
 	ExpiresAt *time.Time `json:"expiresAt,omitempty"`
@@ -34162,6 +34465,24 @@ type ListDeliveryTemplateSyncRunsParams struct {
 	Limit  int `form:"limit,omitempty" json:"limit,omitempty"`
 }
 
+// ListTemplateUpdatePoliciesParams defines parameters for ListTemplateUpdatePolicies.
+type ListTemplateUpdatePoliciesParams struct {
+	Kind          TemplateUpdateKind `form:"kind" json:"kind"`
+	TemplateID    string             `form:"templateId" json:"templateId"`
+	ApplicationID string             `form:"applicationId,omitempty" json:"applicationId,omitempty"`
+}
+
+// ListTemplateUpdateTargetsParams defines parameters for ListTemplateUpdateTargets.
+type ListTemplateUpdateTargetsParams struct {
+	Kind                     TemplateUpdateKind `form:"kind" json:"kind"`
+	TemplateID               string             `form:"templateId" json:"templateId"`
+	ApplicationID            string             `form:"applicationId,omitempty" json:"applicationId,omitempty"`
+	Page                     int64              `form:"page,omitempty" json:"page,omitempty"`
+	PageSize                 int64              `form:"pageSize,omitempty" json:"pageSize,omitempty"`
+	ServiceID                string             `form:"serviceId,omitempty" json:"serviceId,omitempty"`
+	ApplicationEnvironmentID string             `form:"applicationEnvironmentId,omitempty" json:"applicationEnvironmentId,omitempty"`
+}
+
 // ListDeliveryTriggersParams defines parameters for ListDeliveryTriggers.
 type ListDeliveryTriggersParams struct {
 	TargetKind ListDeliveryTriggersParamsTargetKind `form:"targetKind,omitempty" json:"targetKind,omitempty"`
@@ -35398,6 +35719,15 @@ type SyncDeliveryTemplateSourceJSONRequestBody = DeliveryTemplateSyncInput
 
 // ApplyDeliveryTemplateSyncJSONRequestBody defines body for ApplyDeliveryTemplateSync for application/json ContentType.
 type ApplyDeliveryTemplateSyncJSONRequestBody = DeliveryTemplateSyncApplyInput
+
+// SaveTemplateUpdatePolicyJSONRequestBody defines body for SaveTemplateUpdatePolicy for application/json ContentType.
+type SaveTemplateUpdatePolicyJSONRequestBody = TemplateUpdatePolicyInput
+
+// CreateTemplateUpdatePreviewJSONRequestBody defines body for CreateTemplateUpdatePreview for application/json ContentType.
+type CreateTemplateUpdatePreviewJSONRequestBody = TemplateUpdatePreviewInput
+
+// CreateTemplateUpdateBatchJSONRequestBody defines body for CreateTemplateUpdateBatch for application/json ContentType.
+type CreateTemplateUpdateBatchJSONRequestBody = TemplateUpdateBatchInput
 
 // CreateDeliveryTriggerJSONRequestBody defines body for CreateDeliveryTrigger for application/json ContentType.
 type CreateDeliveryTriggerJSONRequestBody = DeliveryTriggerInput
