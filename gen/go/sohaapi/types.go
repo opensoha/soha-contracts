@@ -14849,6 +14849,7 @@ type BuildTemplate struct {
 	Enabled            bool                     `json:"enabled"`
 	ID                 string                   `json:"id"`
 	Key                string                   `json:"key"`
+	MigrationPolicy    *TemplateMigrationPolicy `json:"migrationPolicy,omitempty"`
 	Name               string                   `json:"name"`
 	PublicationState   TemplatePublicationState `json:"publicationState,omitempty"`
 
@@ -14883,10 +14884,11 @@ type BuildTemplateInput struct {
 	Enabled            bool   `json:"enabled"`
 
 	// ExpectedRevision Reject an update if the stored revision differs.
-	ExpectedRevision int    `json:"expectedRevision,omitempty"`
-	ID               string `json:"id,omitempty"`
-	Key              string `json:"key"`
-	Name             string `json:"name"`
+	ExpectedRevision int                      `json:"expectedRevision,omitempty"`
+	ID               string                   `json:"id,omitempty"`
+	Key              string                   `json:"key"`
+	MigrationPolicy  *TemplateMigrationPolicy `json:"migrationPolicy,omitempty"`
+	Name             string                   `json:"name"`
 
 	// Publish Publish an immutable version when saving. False saves a draft; omission preserves legacy save-and-publish behavior.
 	Publish bool `json:"publish,omitempty"`
@@ -16250,6 +16252,7 @@ type DeliveryDeploymentTemplateSpec struct {
 	Enabled              bool                     `json:"enabled,omitempty"`
 	EnvironmentOverrides []string                 `json:"environmentOverrides,omitempty"`
 	Health               DeploymentTemplateHealth `json:"health"`
+	MigrationPolicy      *TemplateMigrationPolicy `json:"migrationPolicy,omitempty"`
 
 	// ParameterSchema Restricted JSON Schema. Objects reject undeclared keys unless mapValues specifies their schema. secret_reference accepts only a namespaced Secret name/key reference, never a plaintext credential. External references and executable expressions are unsupported.
 	ParameterSchema TemplateParameterSchema  `json:"parameterSchema"`
@@ -17262,9 +17265,10 @@ type DeliveryWorkflowTemplateDocument struct {
 
 // DeliveryWorkflowTemplateSpec defines model for DeliveryWorkflowTemplateSpec.
 type DeliveryWorkflowTemplateSpec struct {
-	Category   string                                  `json:"category,omitempty"`
-	Definition DeliveryWorkflowTemplateSpec_Definition `json:"definition"`
-	Enabled    bool                                    `json:"enabled,omitempty"`
+	Category        string                                  `json:"category,omitempty"`
+	Definition      DeliveryWorkflowTemplateSpec_Definition `json:"definition"`
+	Enabled         bool                                    `json:"enabled,omitempty"`
+	MigrationPolicy *TemplateMigrationPolicy                `json:"migrationPolicy,omitempty"`
 }
 
 // DeliveryWorkflowTemplateSpec_Definition defines model for DeliveryWorkflowTemplateSpec.Definition.
@@ -18636,6 +18640,7 @@ type HelmDeliverySnapshot struct {
 	ConfigurationDigest      string                        `json:"configurationDigest"`
 	DeliveryPlanID           string                        `json:"deliveryPlanId"`
 	ExpectedRevision         int                           `json:"expectedRevision"`
+	Migration                *TemplateMigrationAssessment  `json:"migration,omitempty"`
 	Namespace                string                        `json:"namespace"`
 	Operation                HelmDeliverySnapshotOperation `json:"operation"`
 	PreflightTaskID          string                        `json:"preflightTaskId"`
@@ -18647,6 +18652,7 @@ type HelmDeliverySnapshot struct {
 	ServiceID                string                        `json:"serviceId"`
 	ServiceVersion           int64                         `json:"serviceVersion"`
 	TargetID                 string                        `json:"targetId"`
+	TemplateInputs           *TemplateVersionReference     `json:"templateInputs,omitempty"`
 	TimeoutSeconds           int                           `json:"timeoutSeconds,omitempty"`
 	ValuesDigest             string                        `json:"valuesDigest"`
 }
@@ -23973,16 +23979,17 @@ type ManifestDeliverySnapshot struct {
 	ExpectedGeneration       int64                      `json:"expectedGeneration"`
 
 	// GitOpsDocuments Frozen GitOps child resources sharing this plan's preflight, ownership and observation boundaries.
-	GitOpsDocuments  []ManifestRenderedDocument `json:"gitOpsDocuments,omitempty"`
-	InputDigest      string                     `json:"inputDigest"`
-	Namespace        string                     `json:"namespace"`
-	PackageID        string                     `json:"packageId"`
-	PackageUpdatedAt time.Time                  `json:"packageUpdatedAt"`
-	PreflightTaskID  string                     `json:"preflightTaskId"`
-	RenderedDigest   string                     `json:"renderedDigest"`
-	RendererVersion  string                     `json:"rendererVersion"`
-	Revision         int                        `json:"revision"`
-	RevisionDigest   string                     `json:"revisionDigest"`
+	GitOpsDocuments  []ManifestRenderedDocument   `json:"gitOpsDocuments,omitempty"`
+	InputDigest      string                       `json:"inputDigest"`
+	Migration        *TemplateMigrationAssessment `json:"migration,omitempty"`
+	Namespace        string                       `json:"namespace"`
+	PackageID        string                       `json:"packageId"`
+	PackageUpdatedAt time.Time                    `json:"packageUpdatedAt"`
+	PreflightTaskID  string                       `json:"preflightTaskId"`
+	RenderedDigest   string                       `json:"renderedDigest"`
+	RendererVersion  string                       `json:"rendererVersion"`
+	Revision         int                          `json:"revision"`
+	RevisionDigest   string                       `json:"revisionDigest"`
 
 	// RootResource Server-frozen imported namespaced CR identity and user-reviewed generation. Publication requires the original imported target with metadata ownershipMode=managed, rootCRGeneration matching the reviewed generation, and configRef selecting its Manifest binding. Only spec may be updated; missing roots are never created. Current user or token permissions, external ownership and UID are rechecked. Requires manifest.root-cr.v1 Agent capability and manifest_root_cr_v1 provider. Configuration copies, revisions, plans and deployments retain the sensitive configuration read permission; ordinary task summaries omit root documents.
 	RootResource   *ManifestRootResource          `json:"rootResource,omitempty"`
@@ -24057,6 +24064,7 @@ type ManifestDeploymentSpec struct {
 type ManifestDeploymentStatus struct {
 	AppliedDigest         string                      `json:"appliedDigest,omitempty"`
 	AppliedRevision       int                         `json:"appliedRevision,omitempty"`
+	AppliedTemplate       *TemplateVersionReference   `json:"appliedTemplate,omitempty"`
 	Conditions            []ManifestCondition         `json:"conditions"`
 	Drift                 *ManifestDriftReport        `json:"drift,omitempty"`
 	Inventory             []ManifestResourceInventory `json:"inventory"`
@@ -29216,6 +29224,7 @@ type ServiceDeploymentTemplate struct {
 	Health               DeploymentTemplateHealth `json:"health"`
 	ID                   string                   `json:"id"`
 	Key                  string                   `json:"key"`
+	MigrationPolicy      *TemplateMigrationPolicy `json:"migrationPolicy,omitempty"`
 	Name                 string                   `json:"name"`
 
 	// ParameterSchema Restricted JSON Schema. Objects reject undeclared keys unless mapValues specifies their schema. secret_reference accepts only a namespaced Secret name/key reference, never a plaintext credential. External references and executable expressions are unsupported.
@@ -29256,6 +29265,7 @@ type ServiceDeploymentTemplateInput struct {
 	ExpectedRevision     int64                    `json:"expectedRevision,omitempty"`
 	Health               DeploymentTemplateHealth `json:"health"`
 	Key                  string                   `json:"key"`
+	MigrationPolicy      *TemplateMigrationPolicy `json:"migrationPolicy,omitempty"`
 	Name                 string                   `json:"name"`
 
 	// ParameterSchema Restricted JSON Schema. Objects reject undeclared keys unless mapValues specifies their schema. secret_reference accepts only a namespaced Secret name/key reference, never a plaintext credential. External references and executable expressions are unsupported.
@@ -29607,6 +29617,35 @@ type TemplateCopyOrigin struct {
 	Version  int64  `json:"version,omitempty"`
 }
 
+// TemplateMigrationAssessment defines model for TemplateMigrationAssessment.
+type TemplateMigrationAssessment struct {
+	Blocked          bool                    `json:"blocked"`
+	FromVersion      int64                   `json:"fromVersion"`
+	Reason           string                  `json:"reason"`
+	RequiresApproval bool                    `json:"requiresApproval"`
+	Steps            []TemplateMigrationStep `json:"steps"`
+	ToVersion        int64                   `json:"toVersion"`
+}
+
+// TemplateMigrationPolicy defines model for TemplateMigrationPolicy.
+type TemplateMigrationPolicy struct {
+	// Guide Human migration/recovery instructions. Never executed as a script.
+	Guide string `json:"guide,omitempty"`
+
+	// Irreversible Forward changes require approval; ordinary rollback across this boundary is forbidden.
+	Irreversible bool `json:"irreversible"`
+
+	// Sequential Must cross this boundary as adjacent published versions; approval cannot waive it.
+	Sequential bool `json:"sequential"`
+}
+
+// TemplateMigrationStep defines model for TemplateMigrationStep.
+type TemplateMigrationStep struct {
+	ContentDigest string                  `json:"contentDigest"`
+	Policy        TemplateMigrationPolicy `json:"policy"`
+	Version       int64                   `json:"version"`
+}
+
 // TemplateParameterSchema Restricted JSON Schema. Objects reject undeclared keys unless mapValues specifies their schema. secret_reference accepts only a namespaced Secret name/key reference, never a plaintext credential. External references and executable expressions are unsupported.
 type TemplateParameterSchema struct {
 	Description string                              `json:"description,omitempty"`
@@ -29701,6 +29740,7 @@ type TemplateUpdateDiff struct {
 	Diagnostics  []string                       `json:"diagnostics"`
 	FromVersion  int64                          `json:"fromVersion"`
 	HistoryGap   bool                           `json:"historyGap"`
+	Migration    *TemplateMigrationAssessment   `json:"migration,omitempty"`
 	RenderStatus TemplateUpdateDiffRenderStatus `json:"renderStatus"`
 	ToVersion    int64                          `json:"toVersion"`
 }
@@ -29831,6 +29871,13 @@ type TemplateUpdateTargetPage struct {
 // TemplateUpdateTargetPageEnvelope defines model for TemplateUpdateTargetPageEnvelope.
 type TemplateUpdateTargetPageEnvelope struct {
 	Data TemplateUpdateTargetPage `json:"data"`
+}
+
+// TemplateVersionReference defines model for TemplateVersionReference.
+type TemplateVersionReference struct {
+	TemplateDigest  string `json:"templateDigest"`
+	TemplateID      string `json:"templateId"`
+	TemplateVersion int64  `json:"templateVersion"`
 }
 
 // TokenRotationInput defines model for TokenRotationInput.
@@ -32289,6 +32336,7 @@ type WorkflowTemplate struct {
 	Enabled          bool                     `json:"enabled"`
 	ID               string                   `json:"id"`
 	Key              string                   `json:"key"`
+	MigrationPolicy  *TemplateMigrationPolicy `json:"migrationPolicy,omitempty"`
 	Name             string                   `json:"name"`
 	PublicationState TemplatePublicationState `json:"publicationState,omitempty"`
 
@@ -32318,10 +32366,11 @@ type WorkflowTemplateInput struct {
 	Enabled     bool           `json:"enabled"`
 
 	// ExpectedRevision Reject an update if the stored revision differs.
-	ExpectedRevision int    `json:"expectedRevision,omitempty"`
-	ID               string `json:"id,omitempty"`
-	Key              string `json:"key"`
-	Name             string `json:"name"`
+	ExpectedRevision int                      `json:"expectedRevision,omitempty"`
+	ID               string                   `json:"id,omitempty"`
+	Key              string                   `json:"key"`
+	MigrationPolicy  *TemplateMigrationPolicy `json:"migrationPolicy,omitempty"`
+	Name             string                   `json:"name"`
 
 	// Publish Publish an immutable version when saving. False saves a draft; omission preserves legacy save-and-publish behavior.
 	Publish bool `json:"publish,omitempty"`

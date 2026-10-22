@@ -7968,6 +7968,9 @@
           "key": {
             "type": "string"
           },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
+          },
           "name": {
             "type": "string"
           },
@@ -8055,6 +8058,9 @@
           },
           "key": {
             "type": "string"
+          },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
           },
           "name": {
             "type": "string"
@@ -12266,6 +12272,9 @@
             "default": true,
             "type": "boolean"
           },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
+          },
           "variableSchema": {
             "additionalProperties": {
               "$ref": "#/components/schemas/DeliveryBuildVariableSchema"
@@ -12405,6 +12414,9 @@
           },
           "health": {
             "$ref": "#/components/schemas/DeploymentTemplateHealth"
+          },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
           },
           "parameterSchema": {
             "$ref": "#/components/schemas/TemplateParameterSchema"
@@ -15619,6 +15631,9 @@
           "enabled": {
             "default": true,
             "type": "boolean"
+          },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
           }
         },
         "required": [
@@ -20276,6 +20291,9 @@
             "minimum": 0,
             "type": "integer"
           },
+          "migration": {
+            "$ref": "#/components/schemas/TemplateMigrationAssessment"
+          },
           "namespace": {
             "minLength": 1,
             "type": "string"
@@ -20328,6 +20346,9 @@
           "targetId": {
             "minLength": 1,
             "type": "string"
+          },
+          "templateInputs": {
+            "$ref": "#/components/schemas/TemplateVersionReference"
           },
           "timeoutSeconds": {
             "maximum": 3600,
@@ -37876,6 +37897,9 @@
             "minLength": 1,
             "type": "string"
           },
+          "migration": {
+            "$ref": "#/components/schemas/TemplateMigrationAssessment"
+          },
           "namespace": {
             "minLength": 1,
             "type": "string"
@@ -38161,6 +38185,9 @@
           "appliedRevision": {
             "minimum": 1,
             "type": "integer"
+          },
+          "appliedTemplate": {
+            "$ref": "#/components/schemas/TemplateVersionReference"
           },
           "conditions": {
             "items": {
@@ -57330,6 +57357,9 @@
             "minLength": 1,
             "type": "string"
           },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
+          },
           "name": {
             "minLength": 1,
             "type": "string"
@@ -57472,6 +57502,9 @@
             "minLength": 1,
             "pattern": "^[a-z0-9][a-z0-9._-]*$",
             "type": "string"
+          },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
           },
           "name": {
             "maxLength": 200,
@@ -58707,6 +58740,128 @@
         ],
         "type": "object"
       },
+      "TemplateMigrationAssessment": {
+        "additionalProperties": false,
+        "properties": {
+          "blocked": {
+            "type": "boolean"
+          },
+          "fromVersion": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "reason": {
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "requiresApproval": {
+            "type": "boolean"
+          },
+          "steps": {
+            "items": {
+              "$ref": "#/components/schemas/TemplateMigrationStep"
+            },
+            "maxItems": 200,
+            "type": "array"
+          },
+          "toVersion": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "fromVersion",
+          "toVersion",
+          "blocked",
+          "requiresApproval",
+          "reason",
+          "steps"
+        ],
+        "type": "object"
+      },
+      "TemplateMigrationPolicy": {
+        "additionalProperties": false,
+        "if": {
+          "anyOf": [
+            {
+              "properties": {
+                "sequential": {
+                  "const": true
+                }
+              },
+              "required": [
+                "sequential"
+              ]
+            },
+            {
+              "properties": {
+                "irreversible": {
+                  "const": true
+                }
+              },
+              "required": [
+                "irreversible"
+              ]
+            }
+          ]
+        },
+        "properties": {
+          "guide": {
+            "description": "Human migration/recovery instructions. Never executed as a script.",
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "irreversible": {
+            "description": "Forward changes require approval; ordinary rollback across this boundary is forbidden.",
+            "type": "boolean"
+          },
+          "sequential": {
+            "description": "Must cross this boundary as adjacent published versions; approval cannot waive it.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "sequential",
+          "irreversible"
+        ],
+        "then": {
+          "properties": {
+            "guide": {
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          },
+          "required": [
+            "guide"
+          ]
+        },
+        "type": "object"
+      },
+      "TemplateMigrationStep": {
+        "additionalProperties": false,
+        "properties": {
+          "contentDigest": {
+            "maxLength": 80,
+            "type": "string"
+          },
+          "policy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
+          },
+          "version": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "version",
+          "contentDigest",
+          "policy"
+        ],
+        "type": "object"
+      },
       "TemplateParameterSchema": {
         "additionalProperties": false,
         "description": "Restricted JSON Schema. Objects reject undeclared keys unless mapValues specifies their schema. secret_reference accepts only a namespaced Secret name/key reference, never a plaintext credential. External references and executable expressions are unsupported.",
@@ -59048,6 +59203,9 @@
           },
           "historyGap": {
             "type": "boolean"
+          },
+          "migration": {
+            "$ref": "#/components/schemas/TemplateMigrationAssessment"
           },
           "renderStatus": {
             "enum": [
@@ -59558,6 +59716,32 @@
         },
         "required": [
           "data"
+        ],
+        "type": "object"
+      },
+      "TemplateVersionReference": {
+        "additionalProperties": false,
+        "properties": {
+          "templateDigest": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string"
+          },
+          "templateId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "templateVersion": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "templateId",
+          "templateVersion",
+          "templateDigest"
         ],
         "type": "object"
       },
@@ -66918,6 +67102,9 @@
           "key": {
             "type": "string"
           },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
+          },
           "name": {
             "type": "string"
           },
@@ -66991,6 +67178,9 @@
           },
           "key": {
             "type": "string"
+          },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
           },
           "name": {
             "type": "string"

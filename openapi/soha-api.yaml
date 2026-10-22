@@ -31667,6 +31667,8 @@ components:
       type: object
       required: [deliveryPlanId, targetId, applicationId, applicationEnvironmentId, serviceId, serviceVersion, clusterId, namespace, releaseName, operation, chart, chartVersion, chartDigest, configurationDigest, valuesDigest, renderedDigest, expectedRevision, resources, preflightTaskId]
       properties:
+        templateInputs: {"$ref": "#/components/schemas/TemplateVersionReference"}
+        migration: {"$ref": "#/components/schemas/TemplateMigrationAssessment"}
         deliveryPlanId: { type: string, minLength: 1 }
         targetId: { type: string, minLength: 1 }
         applicationId: { type: string, minLength: 1 }
@@ -31789,6 +31791,7 @@ components:
       type: object
       required: [key, name, source, parameterSchema, defaults, health, enabled]
       properties:
+        migrationPolicy: { $ref: "#/components/schemas/TemplateMigrationPolicy" }
         copiedFrom: { $ref: '#/components/schemas/TemplateCopyOrigin' }
         key: { type: string, minLength: 1, maxLength: 128, pattern: '^[a-z0-9][a-z0-9._-]*$' }
         name: { type: string, minLength: 1, maxLength: 200 }
@@ -31814,6 +31817,7 @@ components:
       type: object
       required: [id, key, name, source, parameterSchema, defaults, health, enabled, revision, publishedVersion, publicationState, createdAt, updatedAt]
       properties:
+        migrationPolicy: { $ref: "#/components/schemas/TemplateMigrationPolicy" }
         id: { type: string, minLength: 1 }
         key: { type: string, minLength: 1 }
         name: { type: string, minLength: 1 }
@@ -31907,6 +31911,7 @@ components:
       type: object
       required: [id, key, name, enabled, createdAt, updatedAt]
       properties:
+        migrationPolicy: {"$ref": "#/components/schemas/TemplateMigrationPolicy"}
         revision:
           type: integer
           minimum: 1
@@ -31948,6 +31953,7 @@ components:
       type: object
       required: [key, name, enabled]
       properties:
+        migrationPolicy: {"$ref": "#/components/schemas/TemplateMigrationPolicy"}
         copiedFrom: { $ref: '#/components/schemas/TemplateCopyOrigin' }
         expectedRevision:
           type: integer
@@ -32415,6 +32421,7 @@ components:
       type: object
       required: [id, key, name, enabled, createdAt, updatedAt]
       properties:
+        migrationPolicy: {"$ref": "#/components/schemas/TemplateMigrationPolicy"}
         revision:
           type: integer
           minimum: 1
@@ -32466,6 +32473,7 @@ components:
       type: object
       required: [key, name, enabled]
       properties:
+        migrationPolicy: {"$ref": "#/components/schemas/TemplateMigrationPolicy"}
         copiedFrom: { $ref: '#/components/schemas/TemplateCopyOrigin' }
         expectedRevision:
           type: integer
@@ -32658,6 +32666,7 @@ components:
       type: object
       additionalProperties: false
       properties:
+        migrationPolicy: { $ref: "#/components/schemas/TemplateMigrationPolicy" }
         builderKind: { type: string, minLength: 1, maxLength: 128, default: custom }
         dockerfileTemplate: { type: string, maxLength: 1048576 }
         buildCommands:
@@ -32690,6 +32699,7 @@ components:
       additionalProperties: false
       required: [source, parameterSchema, defaults, health]
       properties:
+        migrationPolicy: {"$ref": "#/components/schemas/TemplateMigrationPolicy"}
         source: { $ref: '#/components/schemas/DeploymentTemplateSource' }
         parameterSchema: { $ref: '#/components/schemas/TemplateParameterSchema' }
         defaults: { $ref: '#/components/schemas/TemplateParameterValues' }
@@ -32846,6 +32856,7 @@ components:
       additionalProperties: false
       required: [definition]
       properties:
+        migrationPolicy: { $ref: "#/components/schemas/TemplateMigrationPolicy" }
         category: { type: string, minLength: 1, maxLength: 128, not: { pattern: '^application:' }, default: release }
         definition:
           oneOf:
@@ -34863,6 +34874,7 @@ components:
       type: object
       required: [observedGeneration, phase, conditions, inventory]
       properties:
+        appliedTemplate: {"$ref": "#/components/schemas/TemplateVersionReference"}
         observedGeneration: { type: integer, format: int64, minimum: 0 }
         appliedRevision: { type: integer, minimum: 1 }
         appliedDigest: { type: string }
@@ -35506,6 +35518,7 @@ components:
       type: object
       required: [deliveryPlanId, targetId, packageId, bindingId, bindingVersion, applicationEnvironmentId, clusterId, namespace, revision, revisionDigest, packageUpdatedAt, rendererVersion, inputDigest, renderedDigest, documents, preflightTaskId, expectedGeneration]
       properties:
+        migration: {"$ref": "#/components/schemas/TemplateMigrationAssessment"}
         rootResource: { $ref: "#/components/schemas/ManifestRootResource" }
         gitOpsDocuments:
           type: array
@@ -50810,7 +50823,7 @@ components:
     TemplateUpdateChange:
       {"type": "object", "properties": {"section": {"type": "string", "enum": ["source", "schema", "defaults", "parameters", "resources"]}, "path": {"type": "string", "maxLength": 1024}, "before": {"type": "string", "maxLength": 32768}, "after": {"type": "string", "maxLength": 32768}}, "required": ["section", "path", "before", "after"], "additionalProperties": false}
     TemplateUpdateDiff:
-      {"type": "object", "properties": {"fromVersion": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "changes": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateUpdateChange"}, "maxItems": 500}, "renderStatus": {"type": "string", "enum": ["available", "unavailable", "invalid"]}, "diagnostics": {"type": "array", "items": {"type": "string", "maxLength": 2048}, "maxItems": 32}, "historyGap": {"type": "boolean"}}, "required": ["fromVersion", "toVersion", "changes", "renderStatus", "diagnostics", "historyGap"], "additionalProperties": false}
+      {"type": "object", "properties": {"fromVersion": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "changes": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateUpdateChange"}, "maxItems": 500}, "renderStatus": {"type": "string", "enum": ["available", "unavailable", "invalid"]}, "diagnostics": {"type": "array", "items": {"type": "string", "maxLength": 2048}, "maxItems": 32}, "historyGap": {"type": "boolean"}, "migration": {"$ref": "#/components/schemas/TemplateMigrationAssessment"}}, "required": ["fromVersion", "toVersion", "changes", "renderStatus", "diagnostics", "historyGap"], "additionalProperties": false}
     TemplateUpdateCandidate:
       {"type": "object", "properties": {"id": {"type": "string", "maxLength": 256}, "target": {"$ref": "#/components/schemas/TemplateUpdateTarget"}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "digest": {"type": "string", "maxLength": 80}, "parameters": {"$ref": "#/components/schemas/TemplateParameterValues"}, "cumulative": {"$ref": "#/components/schemas/TemplateUpdateDiff"}, "versions": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateUpdateDiff"}, "maxItems": 200}, "eligible": {"type": "boolean"}, "reason": {"type": "string", "maxLength": 1024}, "requiresApproval": {"type": "boolean"}, "wave": {"type": "integer", "format": "int64", "minimum": 0, "maximum": 199}}, "required": ["id", "target", "toVersion", "digest", "parameters", "cumulative", "versions", "eligible", "reason", "requiresApproval", "wave"], "additionalProperties": false}
     TemplateUpdatePreview:
@@ -50831,3 +50844,11 @@ components:
       {"type": "object", "properties": {"data": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateUpdatePolicy"}, "maxItems": 2000}}, "required": ["data"], "additionalProperties": false}
     TemplateUpdateReceipt:
       {"type": "object", "required": ["kind", "templateId", "bindingId", "previewId", "candidateId", "fromVersion", "toVersion", "requiresApproval"], "properties": {"kind": {"$ref": "#/components/schemas/TemplateUpdateKind"}, "templateId": {"type": "string", "minLength": 1, "maxLength": 256}, "bindingId": {"type": "string", "minLength": 1, "maxLength": 256}, "previewId": {"type": "string", "minLength": 1, "maxLength": 256}, "candidateId": {"type": "string", "minLength": 1, "maxLength": 256}, "fromVersion": {"type": "integer", "format": "int64", "minimum": 1}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1}, "requiresApproval": {"type": "boolean"}}, "additionalProperties": false}
+    TemplateMigrationPolicy:
+      {"type": "object", "additionalProperties": false, "properties": {"sequential": {"type": "boolean", "description": "Must cross this boundary as adjacent published versions; approval cannot waive it."}, "irreversible": {"type": "boolean", "description": "Forward changes require approval; ordinary rollback across this boundary is forbidden."}, "guide": {"type": "string", "maxLength": 2000, "description": "Human migration/recovery instructions. Never executed as a script."}}, "required": ["sequential", "irreversible"], "if": {"anyOf": [{"required": ["sequential"], "properties": {"sequential": {"const": true}}}, {"required": ["irreversible"], "properties": {"irreversible": {"const": true}}}]}, "then": {"required": ["guide"], "properties": {"guide": {"minLength": 1, "pattern": "\\S"}}}}
+    TemplateVersionReference:
+      {"type": "object", "additionalProperties": false, "properties": {"templateId": {"type": "string", "maxLength": 128, "minLength": 1}, "templateVersion": {"type": "integer", "format": "int64", "minimum": 1}, "templateDigest": {"type": "string", "maxLength": 80, "minLength": 1}}, "required": ["templateId", "templateVersion", "templateDigest"]}
+    TemplateMigrationStep:
+      {"type": "object", "additionalProperties": false, "properties": {"version": {"type": "integer", "format": "int64", "minimum": 1}, "contentDigest": {"type": "string", "maxLength": 80}, "policy": {"$ref": "#/components/schemas/TemplateMigrationPolicy"}}, "required": ["version", "contentDigest", "policy"]}
+    TemplateMigrationAssessment:
+      {"type": "object", "additionalProperties": false, "properties": {"fromVersion": {"type": "integer", "format": "int64", "minimum": 0}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1}, "blocked": {"type": "boolean"}, "requiresApproval": {"type": "boolean"}, "reason": {"type": "string", "maxLength": 1024}, "steps": {"type": "array", "maxItems": 200, "items": {"$ref": "#/components/schemas/TemplateMigrationStep"}}}, "required": ["fromVersion", "toVersion", "blocked", "requiresApproval", "reason", "steps"]}

@@ -18081,6 +18081,8 @@ export interface components {
             hook?: boolean;
         };
         HelmDeliverySnapshot: {
+            templateInputs?: components["schemas"]["TemplateVersionReference"];
+            migration?: components["schemas"]["TemplateMigrationAssessment"];
             deliveryPlanId: string;
             targetId: string;
             applicationId: string;
@@ -18152,6 +18154,7 @@ export interface components {
             timeoutSeconds: number;
         };
         ServiceDeploymentTemplateInput: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             copiedFrom?: components["schemas"]["TemplateCopyOrigin"];
             key: string;
             name: string;
@@ -18170,6 +18173,7 @@ export interface components {
             expectedRevision?: number;
         };
         ServiceDeploymentTemplate: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             id: string;
             key: string;
             name: string;
@@ -18238,6 +18242,7 @@ export interface components {
             expectedRevision: number;
         };
         WorkflowTemplate: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             /** @description Current editable revision used for conditional saves. */
             revision?: number;
             /** @description Latest immutable published version; zero means unpublished. */
@@ -18261,6 +18266,7 @@ export interface components {
             updatedAt: string;
         };
         WorkflowTemplateInput: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             copiedFrom?: components["schemas"]["TemplateCopyOrigin"];
             /** @description Reject an update if the stored revision differs. */
             expectedRevision?: number;
@@ -18484,6 +18490,7 @@ export interface components {
             data: components["schemas"]["HelmReleaseImportResult"];
         };
         BuildTemplate: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             /** @description Current editable revision used for conditional saves. */
             revision?: number;
             /** @description Latest immutable published version; zero means unpublished. */
@@ -18513,6 +18520,7 @@ export interface components {
             updatedAt: string;
         };
         BuildTemplateInput: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             copiedFrom?: components["schemas"]["TemplateCopyOrigin"];
             /** @description Reject an update if the stored revision differs. */
             expectedRevision?: number;
@@ -18615,6 +18623,7 @@ export interface components {
             maxLength?: number;
         };
         DeliveryBuildTemplateSpec: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             /** @default custom */
             builderKind?: string;
             dockerfileTemplate?: string;
@@ -18631,6 +18640,7 @@ export interface components {
             dockerfileTemplate: string;
         } | unknown);
         DeliveryDeploymentTemplateSpec: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             source: components["schemas"]["DeploymentTemplateSource"];
             parameterSchema: components["schemas"]["TemplateParameterSchema"];
             defaults: components["schemas"]["TemplateParameterValues"];
@@ -18709,6 +18719,7 @@ export interface components {
             onFailure?: components["schemas"]["DeliveryDocumentStep"][];
         } & (unknown | unknown | unknown);
         DeliveryWorkflowTemplateSpec: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             /** @default release */
             category?: string;
             definition: components["schemas"]["DeliveryBatchTemplateDefinition"] | components["schemas"]["DeliveryDocumentDAG"];
@@ -20064,6 +20075,7 @@ export interface components {
             deletionPolicy: components["schemas"]["ManifestDeletionPolicy"];
         };
         ManifestDeploymentStatus: {
+            appliedTemplate?: components["schemas"]["TemplateVersionReference"];
             /** Format: int64 */
             observedGeneration: number;
             appliedRevision?: number;
@@ -20412,6 +20424,7 @@ export interface components {
             releaseBundleId?: string;
         };
         ManifestDeliverySnapshot: {
+            migration?: components["schemas"]["TemplateMigrationAssessment"];
             rootResource?: components["schemas"]["ManifestRootResource"];
             /** @description Frozen GitOps child resources sharing this plan's preflight, ownership and observation boundaries. */
             gitOpsDocuments?: components["schemas"]["ManifestRenderedDocument"][];
@@ -28691,6 +28704,7 @@ export interface components {
             renderStatus: "available" | "unavailable" | "invalid";
             diagnostics: string[];
             historyGap: boolean;
+            migration?: components["schemas"]["TemplateMigrationAssessment"];
         };
         TemplateUpdateCandidate: {
             id: string;
@@ -28777,6 +28791,36 @@ export interface components {
             /** Format: int64 */
             toVersion: number;
             requiresApproval: boolean;
+        };
+        TemplateMigrationPolicy: {
+            /** @description Must cross this boundary as adjacent published versions; approval cannot waive it. */
+            sequential: boolean;
+            /** @description Forward changes require approval; ordinary rollback across this boundary is forbidden. */
+            irreversible: boolean;
+            /** @description Human migration/recovery instructions. Never executed as a script. */
+            guide?: string;
+        };
+        TemplateVersionReference: {
+            templateId: string;
+            /** Format: int64 */
+            templateVersion: number;
+            templateDigest: string;
+        };
+        TemplateMigrationStep: {
+            /** Format: int64 */
+            version: number;
+            contentDigest: string;
+            policy: components["schemas"]["TemplateMigrationPolicy"];
+        };
+        TemplateMigrationAssessment: {
+            /** Format: int64 */
+            fromVersion: number;
+            /** Format: int64 */
+            toVersion: number;
+            blocked: boolean;
+            requiresApproval: boolean;
+            reason: string;
+            steps: components["schemas"]["TemplateMigrationStep"][];
         };
     };
     responses: {
@@ -30974,6 +31018,10 @@ export type TemplateUpdatePreviewEnvelope = components['schemas']['TemplateUpdat
 export type TemplateUpdatePolicyEnvelope = components['schemas']['TemplateUpdatePolicyEnvelope'];
 export type TemplateUpdatePolicyListEnvelope = components['schemas']['TemplateUpdatePolicyListEnvelope'];
 export type TemplateUpdateReceipt = components['schemas']['TemplateUpdateReceipt'];
+export type TemplateMigrationPolicy = components['schemas']['TemplateMigrationPolicy'];
+export type TemplateVersionReference = components['schemas']['TemplateVersionReference'];
+export type TemplateMigrationStep = components['schemas']['TemplateMigrationStep'];
+export type TemplateMigrationAssessment = components['schemas']['TemplateMigrationAssessment'];
 export type ResponseIdentityError = components['responses']['IdentityError'];
 export type ResponseError = components['responses']['Error'];
 export type ResponseComputeError = components['responses']['ComputeError'];

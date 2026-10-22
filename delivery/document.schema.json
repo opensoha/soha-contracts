@@ -177,6 +177,9 @@
           "default": true,
           "type": "boolean"
         },
+        "migrationPolicy": {
+          "$ref": "#/$defs/TemplateMigrationPolicy"
+        },
         "variableSchema": {
           "additionalProperties": {
             "$ref": "#/$defs/DeliveryBuildVariableSchema"
@@ -316,6 +319,9 @@
         },
         "health": {
           "$ref": "#/$defs/DeploymentTemplateHealth"
+        },
+        "migrationPolicy": {
+          "$ref": "#/$defs/TemplateMigrationPolicy"
         },
         "parameterSchema": {
           "$ref": "#/$defs/TemplateParameterSchema"
@@ -1119,6 +1125,9 @@
         "enabled": {
           "default": true,
           "type": "boolean"
+        },
+        "migrationPolicy": {
+          "$ref": "#/$defs/TemplateMigrationPolicy"
         }
       },
       "required": [
@@ -1424,6 +1433,64 @@
       },
       "propertyNames": {
         "pattern": "^[A-Z_][A-Z0-9_]*$"
+      },
+      "type": "object"
+    },
+    "TemplateMigrationPolicy": {
+      "additionalProperties": false,
+      "if": {
+        "anyOf": [
+          {
+            "properties": {
+              "sequential": {
+                "const": true
+              }
+            },
+            "required": [
+              "sequential"
+            ]
+          },
+          {
+            "properties": {
+              "irreversible": {
+                "const": true
+              }
+            },
+            "required": [
+              "irreversible"
+            ]
+          }
+        ]
+      },
+      "properties": {
+        "guide": {
+          "description": "Human migration/recovery instructions. Never executed as a script.",
+          "maxLength": 2000,
+          "type": "string"
+        },
+        "irreversible": {
+          "description": "Forward changes require approval; ordinary rollback across this boundary is forbidden.",
+          "type": "boolean"
+        },
+        "sequential": {
+          "description": "Must cross this boundary as adjacent published versions; approval cannot waive it.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "sequential",
+        "irreversible"
+      ],
+      "then": {
+        "properties": {
+          "guide": {
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "required": [
+          "guide"
+        ]
       },
       "type": "object"
     },
