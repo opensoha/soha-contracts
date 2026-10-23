@@ -530,3 +530,27 @@ only synchronize their release-version metadata to satisfy their existing
 guards. Candidate matrices use the packed/local contracts source. Consumers
 must still pin the published version and validate the registry/proxy package
 before claiming released-version acceptance.
+
+
+## 0.1.26 delivery workbench contracts
+
+This release candidate adds optional stable Kubernetes resource identities,
+generic root-CR relationships and publication control, immutable template
+versions/adoption previews, migration declarations, and create-only first-release
+initialization. Existing request fields, operation IDs, action enums and client
+methods remain compatible. Published version snapshots and fixed consumer
+revisions are preserved.
+
+Template adoption is configuration, not proof of deployment. Runtime baselines
+require matching original resource UIDs and healthy execution/observation
+receipts. Unknown existing deployments remain blocked; initialization cannot
+adopt existing resources or replay uncertain writes. Migration guides are
+review information and are not executed as scripts.
+
+Core and Agent must implement the matching capability/provider protocols before
+using root-CR or initialization tasks. Old runtimes must reject unsupported
+protocols rather than interpret them as ordinary SSA or Helm updates. Publishing
+this SDK alone does not enable the feature or validate a production deployment.
+Consumers must pin the actually published npm/Go artifacts and validate the
+released combination; local tarballs and provenance policy files do not prove
+registry publication or an npm provenance attestation.
