@@ -31716,6 +31716,11 @@ components:
         action: { type: string, enum: [preflight, apply, observe] }
         snapshot: { $ref: "#/components/schemas/HelmDeliverySnapshot" }
         prepared: { $ref: "#/components/schemas/HelmPreparedRelease" }
+        initializationResources:
+          type: array
+          maxItems: 300
+          description: Server-derived original successful initialization apply receipt. Required for initialization observation or already-applied recovery; current same-name objects cannot establish original ownership.
+          items: { $ref: "#/components/schemas/ManifestResourceInventory" }
       additionalProperties: false
     HelmExecutionTaskResult:
       type: object
@@ -34515,6 +34520,7 @@ components:
       description: Controller-aware tasks use providerKind manifest_agent_v3.<clusterId> and require manifest.execution.v3. Older runners must not claim these tasks or bypass GitOps and Rollout ownership.
       required: [action, packageId, generation, idempotencyKey]
       properties:
+        initializationPlanId: { type: string, minLength: 1, maxLength: 128, description: "Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag." }
         rootResource: { $ref: "#/components/schemas/ManifestRootResource" }
         rolloutControl: { $ref: "#/components/schemas/ProgressiveRolloutControlInput" }
         gitOpsDocuments:
@@ -34578,6 +34584,7 @@ components:
       type: object
       required: [ready, capability, renderedDigest, resourceCount, diagnostics]
       properties:
+        initializationPlanId: { type: string, minLength: 1, maxLength: 128, description: "Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag." }
         ready: { type: boolean }
         capability: { type: string, enum: [available, degraded, unsupported] }
         renderedDigest: { type: string }
@@ -34624,6 +34631,7 @@ components:
       type: object
       required: [action, generation, stale, diagnostics, inventory]
       properties:
+        initializationPlanId: { type: string, minLength: 1, maxLength: 128, description: "Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag." }
         rollout: { $ref: "#/components/schemas/ProgressiveRolloutStatus" }
         action: { $ref: "#/components/schemas/ManifestTaskAction" }
         deploymentId: { type: string }
@@ -50851,4 +50859,4 @@ components:
     TemplateMigrationStep:
       {"type": "object", "additionalProperties": false, "properties": {"version": {"type": "integer", "format": "int64", "minimum": 1}, "contentDigest": {"type": "string", "maxLength": 80}, "policy": {"$ref": "#/components/schemas/TemplateMigrationPolicy"}}, "required": ["version", "contentDigest", "policy"]}
     TemplateMigrationAssessment:
-      {"type": "object", "additionalProperties": false, "properties": {"fromVersion": {"type": "integer", "format": "int64", "minimum": 0}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1}, "blocked": {"type": "boolean"}, "requiresApproval": {"type": "boolean"}, "reason": {"type": "string", "maxLength": 1024}, "steps": {"type": "array", "maxItems": 200, "items": {"$ref": "#/components/schemas/TemplateMigrationStep"}}}, "required": ["fromVersion", "toVersion", "blocked", "requiresApproval", "reason", "steps"]}
+      {"type": "object", "additionalProperties": false, "properties": {"initialization": {"type": "boolean", "description": "Server-classified first-deployment candidate; requires create-only preflight and explicit Plan approval. It is not a successful runtime baseline or proof that external data is empty."}, "fromVersion": {"type": "integer", "format": "int64", "minimum": 0}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1}, "blocked": {"type": "boolean"}, "requiresApproval": {"type": "boolean"}, "reason": {"type": "string", "maxLength": 1024}, "steps": {"type": "array", "maxItems": 200, "items": {"$ref": "#/components/schemas/TemplateMigrationStep"}}}, "required": ["fromVersion", "toVersion", "blocked", "requiresApproval", "reason", "steps"]}

@@ -241,6 +241,9 @@ func (r chartBudgetReader) Read(p []byte) (int, error) {
 // Prepare accepts an unfinished render; Execute additionally verifies its digests.
 func ValidateTaskIdentity(input sohaapi.HelmExecutionTaskPayload) error {
 	s := input.Snapshot
+	if IsInitialization(s) && (s.Operation != sohaapi.HelmDeliverySnapshotOperationInstall || s.ExpectedRevision != 0 || s.RollbackRevision != 0 || s.Migration.Blocked || !s.Migration.RequiresApproval || s.Migration.FromVersion != 0 || s.TemplateInputs == nil || s.TemplateInputs.TemplateVersion != s.Migration.ToVersion) {
+		return errors.New("initialization requires an approved create-only first deployment snapshot")
+	}
 	for _, value := range []string{s.DeliveryPlanID, s.TargetID, s.ApplicationID, s.ApplicationEnvironmentID, s.ServiceID, s.ClusterID} {
 		if strings.TrimSpace(value) == "" || len(value) > 512 {
 			return errors.New("helm task identity is incomplete")
@@ -249,7 +252,7 @@ func ValidateTaskIdentity(input sohaapi.HelmExecutionTaskPayload) error {
 	if !input.Action.Valid() || !helmName.MatchString(s.Namespace) || len(s.Namespace) > 63 || !helmName.MatchString(s.ReleaseName) || len(s.ReleaseName) > 53 || s.ExpectedRevision < 0 || s.RollbackRevision < 0 || s.TimeoutSeconds < 0 || s.TimeoutSeconds > 3600 {
 		return errors.New("helm task action, namespace, revision or timeout is invalid")
 	}
-	if len(s.Resources) > 300 {
+	if len(s.Resources) > 300 || len(input.InitializationResources) > 300 {
 		return errors.New("helm task exceeds 300 resources")
 	}
 	if input.Prepared != nil {

@@ -20394,6 +20394,14 @@
             ],
             "type": "string"
           },
+          "initializationResources": {
+            "description": "Server-derived original successful initialization apply receipt. Required for initialization observation or already-applied recovery; current same-name objects cannot establish original ownership.",
+            "items": {
+              "$ref": "#/components/schemas/ManifestResourceInventory"
+            },
+            "maxItems": 300,
+            "type": "array"
+          },
           "prepared": {
             "$ref": "#/components/schemas/HelmPreparedRelease"
           },
@@ -38517,6 +38525,12 @@
             },
             "type": "array"
           },
+          "initializationPlanId": {
+            "description": "Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag.",
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
           "inventory": {
             "items": {
               "$ref": "#/components/schemas/ManifestResourceInventory"
@@ -38621,6 +38635,12 @@
             "format": "int64",
             "minimum": 1,
             "type": "integer"
+          },
+          "initializationPlanId": {
+            "description": "Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag.",
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
           },
           "inventory": {
             "items": {
@@ -39010,6 +39030,12 @@
               "$ref": "#/components/schemas/ManifestDiagnostic"
             },
             "type": "array"
+          },
+          "initializationPlanId": {
+            "description": "Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag.",
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
           },
           "ready": {
             "type": "boolean"
@@ -58750,6 +58776,10 @@
             "format": "int64",
             "minimum": 0,
             "type": "integer"
+          },
+          "initialization": {
+            "description": "Server-classified first-deployment candidate; requires create-only preflight and explicit Plan approval. It is not a successful runtime baseline or proof that external data is empty.",
+            "type": "boolean"
           },
           "reason": {
             "maxLength": 1024,

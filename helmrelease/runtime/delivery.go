@@ -28,6 +28,7 @@ import (
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/dynamic"
 )
 
@@ -37,6 +38,13 @@ func Prepare(ctx context.Context, cfg *action.Configuration, input sohaapi.HelmE
 	}
 	current, err := currentHelmDelivery(cfg, input.Snapshot.ReleaseName, 0)
 	if err != nil {
+		return input, err
+	}
+	if helmrelease.IsInitialization(input.Snapshot) && helmDeliveryAlreadyApplied(current, input.Snapshot) {
+		if err := validateHelmPrepared(cfg, input); err != nil {
+			return input, err
+		}
+		_, err := observeInitializedHelm(ctx, cfg, input, current)
 		return input, err
 	}
 	input.Snapshot.ExpectedRevision = 0
@@ -105,16 +113,21 @@ func Execute(ctx context.Context, cfg *action.Configuration, input sohaapi.HelmE
 		return result, err
 	}
 	if input.Action == sohaapi.Observe {
-		return observeHelmDelivery(ctx, cfg, input.Snapshot, current)
+		return observeInitializedHelm(ctx, cfg, input, current)
 	}
 	if err := validateHelmPrepared(cfg, input); err != nil {
 		return result, err
 	}
 	if helmDeliveryAlreadyApplied(current, input.Snapshot) {
-		return observeHelmDelivery(ctx, cfg, input.Snapshot, current)
+		return observeInitializedHelm(ctx, cfg, input, current)
 	}
 	if err := helmDeliveryRevisionMatches(current, input.Snapshot); err != nil {
 		return result, err
+	}
+	if helmrelease.IsInitialization(input.Snapshot) {
+		if err := requireInitialHelmResourcesAbsent(cfg, input); err != nil {
+			return result, err
+		}
 	}
 	if input.Action == sohaapi.Preflight {
 		result.Ready, result.Status, result.Revision = true, "preflighted", input.Snapshot.ExpectedRevision
@@ -136,10 +149,21 @@ func Execute(ctx context.Context, cfg *action.Configuration, input sohaapi.HelmE
 	// Helm's RunWithContext may return while its mutation goroutine is still
 	// running. Once mutation begins, native Timeout bounds it; cancellation is
 	// acknowledged only after Run has returned and the release is inspected.
+	var initialization *initializingHelmClient
+	if helmrelease.IsInitialization(input.Snapshot) {
+		initialization = &initializingHelmClient{Interface: cfg.KubeClient, created: make(map[string]types.UID)}
+		cfg = helmConfigurationWithClient(cfg, initialization)
+	}
 	_, runErr := runHelmDeliveryAction(context.Background(), cfg, input, ch, false)
 	current, err = currentHelmDelivery(cfg, input.Snapshot.ReleaseName, 0)
 	if err == nil && current != nil {
 		result, err = observeHelmDelivery(ctx, cfg, input.Snapshot, current)
+		if err == nil && initialization != nil {
+			err = initialization.validateCreated(result)
+		}
+	}
+	if err != nil || runErr != nil {
+		result.Ready = false
 	}
 	if runErr != nil {
 		return result, fmt.Errorf("%w: Helm execution failed; inspect the recorded revision and resource state", ErrUnavailable)
@@ -150,17 +174,23 @@ func Execute(ctx context.Context, cfg *action.Configuration, input sohaapi.HelmE
 	return result, err
 }
 
+// Build a per-invocation configuration without copying Helm's internal mutex or
+// replacing the caller's client. Dry-run template functions also remain local.
+func helmConfigurationWithClient(original *action.Configuration, client kube.Interface) *action.Configuration {
+	cfg := &action.Configuration{
+		RESTClientGetter: original.RESTClientGetter, Releases: original.Releases,
+		KubeClient: client, RegistryClient: original.RegistryClient,
+		Capabilities: original.Capabilities, HookOutputFunc: original.HookOutputFunc,
+		CustomTemplateFuncs: maps.Clone(original.CustomTemplateFuncs),
+	}
+	cfg.SetLogger(original.Logger().Handler())
+	return cfg
+}
+
 func runHelmDeliveryAction(ctx context.Context, cfg *action.Configuration, input sohaapi.HelmExecutionTaskPayload, ch chart.Charter, dryRun bool) (*helmreleasev1.Release, error) {
 	if dryRun {
 		// Discover real cluster capabilities, but keep template lookup disabled.
-		original := cfg
-		cfg = &action.Configuration{
-			RESTClientGetter: original.RESTClientGetter, Releases: original.Releases,
-			KubeClient: original.KubeClient, RegistryClient: original.RegistryClient,
-			Capabilities: original.Capabilities, HookOutputFunc: original.HookOutputFunc,
-			CustomTemplateFuncs: maps.Clone(original.CustomTemplateFuncs),
-		}
-		cfg.SetLogger(original.Logger().Handler())
+		cfg = helmConfigurationWithClient(cfg, cfg.KubeClient)
 		if cfg.CustomTemplateFuncs == nil {
 			cfg.CustomTemplateFuncs = make(map[string]any)
 		}

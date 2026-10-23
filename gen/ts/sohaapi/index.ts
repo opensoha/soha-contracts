@@ -18120,6 +18120,8 @@ export interface components {
             action: "preflight" | "apply" | "observe";
             snapshot: components["schemas"]["HelmDeliverySnapshot"];
             prepared?: components["schemas"]["HelmPreparedRelease"];
+            /** @description Server-derived original successful initialization apply receipt. Required for initialization observation or already-applied recovery; current same-name objects cannot establish original ownership. */
+            initializationResources?: components["schemas"]["ManifestResourceInventory"][];
         };
         HelmExecutionTaskResult: {
             ready: boolean;
@@ -19811,6 +19813,8 @@ export interface components {
         };
         /** @description Controller-aware tasks use providerKind manifest_agent_v3.<clusterId> and require manifest.execution.v3. Older runners must not claim these tasks or bypass GitOps and Rollout ownership. */
         ManifestExecutionTaskPayload: {
+            /** @description Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag. */
+            initializationPlanId?: string;
             rootResource?: components["schemas"]["ManifestRootResource"];
             rolloutControl?: components["schemas"]["ProgressiveRolloutControlInput"];
             /** @description Server-rendered child resources from the single Argo Application's immutable Git source and image overrides; used for ownership admission and live verification, never direct apply. */
@@ -19852,6 +19856,8 @@ export interface components {
             data: components["schemas"]["ManifestExecutionTask"];
         };
         ManifestPreflightResult: {
+            /** @description Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag. */
+            initializationPlanId?: string;
             ready: boolean;
             /** @enum {string} */
             capability: "available" | "degraded" | "unsupported";
@@ -19881,6 +19887,8 @@ export interface components {
             evidenceRefs: string[];
         };
         ManifestExecutionTaskResult: {
+            /** @description Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag. */
+            initializationPlanId?: string;
             rollout?: components["schemas"]["ProgressiveRolloutStatus"];
             action: components["schemas"]["ManifestTaskAction"];
             deploymentId?: string;
@@ -28813,6 +28821,8 @@ export interface components {
             policy: components["schemas"]["TemplateMigrationPolicy"];
         };
         TemplateMigrationAssessment: {
+            /** @description Server-classified first-deployment candidate; requires create-only preflight and explicit Plan approval. It is not a successful runtime baseline or proof that external data is empty. */
+            initialization?: boolean;
             /** Format: int64 */
             fromVersion: number;
             /** Format: int64 */

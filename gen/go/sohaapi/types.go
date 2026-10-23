@@ -18664,6 +18664,9 @@ type HelmDeliverySnapshotOperation string
 type HelmExecutionTaskPayload struct {
 	Action HelmExecutionTaskPayloadAction `json:"action"`
 
+	// InitializationResources Server-derived original successful initialization apply receipt. Required for initialization observation or already-applied recovery; current same-name objects cannot establish original ownership.
+	InitializationResources []ManifestResourceInventory `json:"initializationResources,omitempty"`
+
 	// Prepared Confidential runner input. Never returned through ordinary plan, task, history or log reads.
 	Prepared *HelmPreparedRelease `json:"prepared,omitempty"`
 	Snapshot HelmDeliverySnapshot `json:"snapshot"`
@@ -24184,23 +24187,26 @@ type ManifestExecutionTaskPayload struct {
 	Generation      int64                      `json:"generation"`
 
 	// GitOpsDocuments Server-rendered child resources from the single Argo Application's immutable Git source and image overrides; used for ownership admission and live verification, never direct apply.
-	GitOpsDocuments []ManifestRenderedDocument           `json:"gitOpsDocuments,omitempty"`
-	IdempotencyKey  string                               `json:"idempotencyKey"`
-	IncludePatterns []string                             `json:"includePatterns,omitempty"`
-	Inventory       []ManifestResourceInventory          `json:"inventory,omitempty"`
-	Namespace       string                               `json:"namespace,omitempty"`
-	PackageID       string                               `json:"packageId"`
-	Path            string                               `json:"path,omitempty"`
-	RefType         ManifestSourceRefType                `json:"refType,omitempty"`
-	RefValue        string                               `json:"refValue,omitempty"`
-	RenderedDigest  string                               `json:"renderedDigest,omitempty"`
-	Renderer        ManifestExecutionTaskPayloadRenderer `json:"renderer,omitempty"`
-	RepositoryID    string                               `json:"repositoryId,omitempty"`
-	RepositoryURL   string                               `json:"repositoryUrl,omitempty"`
-	RequestedBy     string                               `json:"requestedBy,omitempty"`
-	RequestedCommit string                               `json:"requestedCommit,omitempty"`
-	Revision        int                                  `json:"revision,omitempty"`
-	RolloutControl  *ProgressiveRolloutControlInput      `json:"rolloutControl,omitempty"`
+	GitOpsDocuments []ManifestRenderedDocument `json:"gitOpsDocuments,omitempty"`
+	IdempotencyKey  string                     `json:"idempotencyKey"`
+	IncludePatterns []string                   `json:"includePatterns,omitempty"`
+
+	// InitializationPlanID Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag.
+	InitializationPlanID string                               `json:"initializationPlanId,omitempty"`
+	Inventory            []ManifestResourceInventory          `json:"inventory,omitempty"`
+	Namespace            string                               `json:"namespace,omitempty"`
+	PackageID            string                               `json:"packageId"`
+	Path                 string                               `json:"path,omitempty"`
+	RefType              ManifestSourceRefType                `json:"refType,omitempty"`
+	RefValue             string                               `json:"refValue,omitempty"`
+	RenderedDigest       string                               `json:"renderedDigest,omitempty"`
+	Renderer             ManifestExecutionTaskPayloadRenderer `json:"renderer,omitempty"`
+	RepositoryID         string                               `json:"repositoryId,omitempty"`
+	RepositoryURL        string                               `json:"repositoryUrl,omitempty"`
+	RequestedBy          string                               `json:"requestedBy,omitempty"`
+	RequestedCommit      string                               `json:"requestedCommit,omitempty"`
+	Revision             int                                  `json:"revision,omitempty"`
+	RolloutControl       *ProgressiveRolloutControlInput      `json:"rolloutControl,omitempty"`
 
 	// RootResource Server-frozen imported namespaced CR identity and user-reviewed generation. Publication requires the original imported target with metadata ownershipMode=managed, rootCRGeneration matching the reviewed generation, and configRef selecting its Manifest binding. Only spec may be updated; missing roots are never created. Current user or token permissions, external ownership and UID are rechecked. Requires manifest.root-cr.v1 Agent capability and manifest_root_cr_v1 provider. Configuration copies, revisions, plans and deployments retain the sensitive configuration read permission; ordinary task summaries omit root documents.
 	RootResource *ManifestRootResource `json:"rootResource,omitempty"`
@@ -24212,18 +24218,21 @@ type ManifestExecutionTaskPayloadRenderer string
 
 // ManifestExecutionTaskResult defines model for ManifestExecutionTaskResult.
 type ManifestExecutionTaskResult struct {
-	Action          ManifestTaskAction          `json:"action"`
-	AdoptedFiles    []ManifestFile              `json:"adoptedFiles,omitempty"`
-	CanonicalDigest string                      `json:"canonicalDigest,omitempty"`
-	DeploymentID    string                      `json:"deploymentId,omitempty"`
-	Diagnostics     []ManifestDiagnostic        `json:"diagnostics"`
-	Drift           *ManifestDriftReport        `json:"drift,omitempty"`
-	EvidenceRefs    []string                    `json:"evidenceRefs,omitempty"`
-	Generation      int64                       `json:"generation"`
-	Inventory       []ManifestResourceInventory `json:"inventory"`
-	Preflight       *ManifestPreflightResult    `json:"preflight,omitempty"`
-	RenderedDigest  string                      `json:"renderedDigest,omitempty"`
-	ResolvedCommit  string                      `json:"resolvedCommit,omitempty"`
+	Action          ManifestTaskAction   `json:"action"`
+	AdoptedFiles    []ManifestFile       `json:"adoptedFiles,omitempty"`
+	CanonicalDigest string               `json:"canonicalDigest,omitempty"`
+	DeploymentID    string               `json:"deploymentId,omitempty"`
+	Diagnostics     []ManifestDiagnostic `json:"diagnostics"`
+	Drift           *ManifestDriftReport `json:"drift,omitempty"`
+	EvidenceRefs    []string             `json:"evidenceRefs,omitempty"`
+	Generation      int64                `json:"generation"`
+
+	// InitializationPlanID Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag.
+	InitializationPlanID string                      `json:"initializationPlanId,omitempty"`
+	Inventory            []ManifestResourceInventory `json:"inventory"`
+	Preflight            *ManifestPreflightResult    `json:"preflight,omitempty"`
+	RenderedDigest       string                      `json:"renderedDigest,omitempty"`
+	ResolvedCommit       string                      `json:"resolvedCommit,omitempty"`
 
 	// Rollout Observed Argo Rollouts state. Traffic weights are read from Traefik, never inferred from replica counts. Promotion clears only a manual pause and does not skip analysis.
 	Rollout     *ProgressiveRolloutStatus `json:"rollout,omitempty"`
@@ -24336,11 +24345,14 @@ type ManifestPreflightInput struct {
 
 // ManifestPreflightResult defines model for ManifestPreflightResult.
 type ManifestPreflightResult struct {
-	Capability     ManifestPreflightResultCapability `json:"capability"`
-	Diagnostics    []ManifestDiagnostic              `json:"diagnostics"`
-	Ready          bool                              `json:"ready"`
-	RenderedDigest string                            `json:"renderedDigest"`
-	ResourceCount  int                               `json:"resourceCount"`
+	Capability  ManifestPreflightResultCapability `json:"capability"`
+	Diagnostics []ManifestDiagnostic              `json:"diagnostics"`
+
+	// InitializationPlanID Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag.
+	InitializationPlanID string `json:"initializationPlanId,omitempty"`
+	Ready                bool   `json:"ready"`
+	RenderedDigest       string `json:"renderedDigest"`
+	ResourceCount        int    `json:"resourceCount"`
 }
 
 // ManifestPreflightResultCapability defines model for ManifestPreflightResult.Capability.
@@ -29619,8 +29631,11 @@ type TemplateCopyOrigin struct {
 
 // TemplateMigrationAssessment defines model for TemplateMigrationAssessment.
 type TemplateMigrationAssessment struct {
-	Blocked          bool                    `json:"blocked"`
-	FromVersion      int64                   `json:"fromVersion"`
+	Blocked     bool  `json:"blocked"`
+	FromVersion int64 `json:"fromVersion"`
+
+	// Initialization Server-classified first-deployment candidate; requires create-only preflight and explicit Plan approval. It is not a successful runtime baseline or proof that external data is empty.
+	Initialization   bool                    `json:"initialization,omitempty"`
 	Reason           string                  `json:"reason"`
 	RequiresApproval bool                    `json:"requiresApproval"`
 	Steps            []TemplateMigrationStep `json:"steps"`
