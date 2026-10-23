@@ -39,6 +39,7 @@ type observedHelmKubeClient struct {
 	missing   bool
 	namespace string
 	reads     int
+	uid       string
 }
 
 func (c *observedHelmKubeClient) Build(io.Reader, bool) (kube.ResourceList, error) {
@@ -49,6 +50,9 @@ func (c *observedHelmKubeClient) Build(io.Reader, bool) (kube.ResourceList, erro
 			return &http.Response{StatusCode: http.StatusNotFound, Header: http.Header{"Content-Type": {"application/json"}}, Body: io.NopCloser(strings.NewReader(`{"apiVersion":"v1","kind":"Status","status":"Failure","reason":"NotFound","code":404}`))}, nil
 		}
 		body := object
+		if c.uid != "" {
+			body = strings.Replace(body, `"name":"app"`, `"name":"app","uid":"`+c.uid+`"`, 1)
+		}
 		if c.deleting {
 			body = strings.Replace(body, `"name":"app"`, `"name":"app","deletionTimestamp":"2026-09-12T00:00:00Z"`, 1)
 		}

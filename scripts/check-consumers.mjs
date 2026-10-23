@@ -1,5 +1,5 @@
 import { mkdtemp, rm } from "node:fs/promises";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -223,6 +223,7 @@ function contractsTarball(packageDir) {
 }
 
 async function goWorkspaceEnv(consumerDir) {
+	consumerDir = realpathSync(consumerDir);
   const workDir = await mkdtemp(join(tmpdir(), "opensoha-consumer-work-"));
   const goWork = join(workDir, "go.work");
   run("go", ["work", "init", consumerDir], workDir, process.env);

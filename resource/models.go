@@ -104,6 +104,7 @@ type NamespaceUpsertInput struct {
 }
 
 type PodView struct {
+	UID                    string               `json:"uid,omitempty"`
 	Name                   string               `json:"name"`
 	Namespace              string               `json:"namespace"`
 	Phase                  string               `json:"phase"`
@@ -240,6 +241,7 @@ type NodeResourceSummaryView struct {
 }
 
 type PodDetailView struct {
+	UID                string                   `json:"uid,omitempty"`
 	Name               string                   `json:"name"`
 	Namespace          string                   `json:"namespace"`
 	Phase              string                   `json:"phase"`

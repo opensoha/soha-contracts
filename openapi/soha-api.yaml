@@ -1,11 +1,13 @@
 openapi: 3.1.0
 info:
   title: Soha API
-  version: 0.1.25
+  version: 0.1.26
   description: >
     Public OpenSoha core API contract. This first contract focuses on stable
     cross-repository boundaries: auth, health, runner-facing control-plane
     callbacks, AI Gateway, and MCP capability discovery.
+    Pod session WebSocket targets and their UID-aware ticket requirements are
+    described separately in x-soha-websocket-paths to preserve HTTP client generation.
 servers:
   - url: /api/v1
     description: Soha API v1
@@ -40,6 +42,78 @@ tags:
   - name: Portal
   - name: Directory
   - name: Network Access
+x-soha-websocket-paths:
+  /clusters/{clusterID}/workloads/pods/{podName}/logs/stream:
+    get:
+      tags: [Platform]
+      operationId: streamKubernetesPodLogs
+      x-soha-permissions:
+        mode: all
+        keys: [platform.pods.logs]
+      x-soha-implementation-status: implemented
+      description: >-
+        Existing WebSocket logs endpoint. Saved sessions must provide expectedUid.
+        Each upstream open checks the current Pod UID and current action authorization.
+        A stream ticket issued with expectedUid binds namespace, container and shell too.
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesPodName"
+        - $ref: "#/components/parameters/KubernetesNamespaceDefaultQuery"
+        - name: expectedUid
+          in: query
+          schema: { type: string, minLength: 1 }
+        - name: container
+          in: query
+          schema: { type: string, minLength: 1 }
+        - name: stream_ticket
+          in: query
+          schema: { type: string, minLength: 1 }
+        - name: tailLines
+          in: query
+          schema: { type: integer, minimum: 0, default: 200 }
+        - name: sinceSeconds
+          in: query
+          schema: { type: integer, minimum: 0, default: 0 }
+      responses:
+        "101":
+          description: WebSocket opened; terminalMessage envelopes carry stream output and safe exit status. Authentication, UID, permission or provider failures terminate the stream without attaching to a replacement Pod.
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /clusters/{clusterID}/workloads/pods/{podName}/terminal:
+    get:
+      tags: [Platform]
+      operationId: streamKubernetesPodTerminal
+      x-soha-permissions:
+        mode: all
+        keys: [platform.pods.exec]
+      x-soha-implementation-status: implemented
+      description: >-
+        Existing WebSocket exec endpoint. Saved sessions must provide expectedUid.
+        Each upstream open checks the current Pod UID and current action authorization.
+        A stream ticket issued with expectedUid binds namespace, container and shell too.
+      parameters:
+        - $ref: "#/components/parameters/ClusterID"
+        - $ref: "#/components/parameters/KubernetesPodName"
+        - $ref: "#/components/parameters/KubernetesNamespaceDefaultQuery"
+        - name: expectedUid
+          in: query
+          schema: { type: string, minLength: 1 }
+        - name: container
+          in: query
+          schema: { type: string, minLength: 1 }
+        - name: stream_ticket
+          in: query
+          schema: { type: string, minLength: 1 }
+        - name: shell
+          in: query
+          schema: { type: string, default: /bin/sh }
+      responses:
+        "101":
+          description: WebSocket opened; terminalMessage envelopes carry stream output and safe exit status. Authentication, UID, permission or provider failures terminate the stream without attaching to a replacement Pod.
+        "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
 paths:
   /network-access/vpn/profiles:
     get:
@@ -2640,11 +2714,81 @@ paths:
                 $ref: "#/components/schemas/ApplicationEnvironmentEnvelope"
         "400":
           $ref: "#/components/responses/Error"
+  /application-environments/{applicationEnvironmentID}/targets/{targetID}/source:
+    get:
+      tags: [Delivery]
+      operationId: getApplicationEnvironmentTargetSource
+      description: Read a linked source through existing Kubernetes authorization. Rejects replaced UIDs. Custom resource YAML additionally requires sensitive-data read permission. Responses must not be persisted in browser caches.
+      parameters:
+        - name: applicationEnvironmentID
+          in: path
+          required: true
+          schema: { type: string, minLength: 1 }
+        - name: targetID
+          in: path
+          required: true
+          schema: { type: string, minLength: 1 }
+      responses:
+        "200":
+          description: Current cluster YAML for the linked resource, never a fabricated source file.
+          headers:
+            Cache-Control:
+              required: true
+              schema: { type: string, const: no-store }
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KubernetesResourceYamlEnvelope"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /application-environments/{applicationEnvironmentID}/targets/{targetID}/relations:
+    get:
+      tags: [Delivery]
+      operationId: getApplicationEnvironmentTargetRelations
+      description: Read UID-verified metadata relationships for an imported root. Every source retains Kubernetes and Soha authorization. Rules are observational metadata, never permission grants. Partial coverage is explicit; no provider configuration values are returned.
+      parameters:
+        - name: applicationEnvironmentID
+          in: path
+          required: true
+          schema: { type: string, minLength: 1 }
+        - name: targetID
+          in: path
+          required: true
+          schema: { type: string, minLength: 1 }
+      responses:
+        "200":
+          description: Bounded observed relations, including coverage gaps.
+          headers:
+            Cache-Control:
+              required: true
+              schema: { type: string, const: no-store }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ResourceRelationsEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
   /application-environments/target-candidates:
     get:
       tags: [Delivery]
       operationId: listApplicationEnvironmentTargetCandidates
       parameters:
+        - name: workloadKind
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Deployment, StatefulSet, DaemonSet, Job, CronJob, CustomResource]
+        - name: crdName
+          in: query
+          required: false
+          description: Explicit CRD selection for CustomResource discovery. Only this served resource and namespace are queried.
+          schema: { type: string, minLength: 1 }
         - name: clusterId
           in: query
           required: true
@@ -4196,6 +4340,23 @@ paths:
                 $ref: "#/components/schemas/DeliveryEnvironmentListEnvelope"
         "403":
           $ref: "#/components/responses/Error"
+  /delivery/template-updates/targets:
+    get:
+      {"tags": ["Delivery"], "operationId": "listTemplateUpdateTargets", "summary": "Preview affected application bindings with honest paginated totals", "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.", "responses": {"200": {"description": "Success", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateUpdateTargetPageEnvelope"}}}}, "400": {"$ref": "#/components/responses/Error"}, "403": {"$ref": "#/components/responses/Error"}, "404": {"$ref": "#/components/responses/Error"}, "409": {"$ref": "#/components/responses/Error"}}, "parameters": [{"in": "query", "name": "kind", "required": true, "schema": {"$ref": "#/components/schemas/TemplateUpdateKind"}}, {"in": "query", "name": "templateId", "required": true, "schema": {"type": "string", "maxLength": 256}}, {"in": "query", "name": "applicationId", "required": false, "schema": {"type": "string", "maxLength": 256}}, {"in": "query", "name": "page", "required": false, "schema": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}}, {"in": "query", "name": "pageSize", "required": false, "schema": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 100}}, {"name": "serviceId", "in": "query", "required": false, "schema": {"type": "string", "maxLength": 256}}, {"name": "applicationEnvironmentId", "in": "query", "required": false, "schema": {"type": "string", "maxLength": 256}}]}
+  /delivery/template-updates/previews:
+    post:
+      {"tags": ["Delivery"], "operationId": "createTemplateUpdatePreview", "summary": "Freeze final template adoption and cumulative plus adjacent-version differences", "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.", "responses": {"200": {"description": "Success", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateUpdatePreviewEnvelope"}}}}, "400": {"$ref": "#/components/responses/Error"}, "403": {"$ref": "#/components/responses/Error"}, "404": {"$ref": "#/components/responses/Error"}, "409": {"$ref": "#/components/responses/Error"}}, "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateUpdatePreviewInput"}}}}}
+  /delivery/template-updates/previews/{previewID}:
+    get:
+      {"tags": ["Delivery"], "operationId": "getTemplateUpdatePreview", "summary": "Read a frozen adoption preview with current scope revalidation", "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.", "responses": {"200": {"description": "Success", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateUpdatePreviewEnvelope"}}}}, "400": {"$ref": "#/components/responses/Error"}, "403": {"$ref": "#/components/responses/Error"}, "404": {"$ref": "#/components/responses/Error"}, "409": {"$ref": "#/components/responses/Error"}}, "parameters": [{"in": "path", "name": "previewID", "required": true, "schema": {"type": "string", "maxLength": 256}}]}
+  /delivery/template-updates/previews/{previewID}/batches:
+    post:
+      {"tags": ["Delivery"], "operationId": "createTemplateUpdateBatch", "summary": "Adopt selected candidates in waves through existing DeliveryBatch and Plan approvals", "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.", "responses": {"200": {"description": "Success", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/DeliveryBatchEnvelope"}}}}, "400": {"$ref": "#/components/responses/Error"}, "403": {"$ref": "#/components/responses/Error"}, "404": {"$ref": "#/components/responses/Error"}, "409": {"$ref": "#/components/responses/Error"}}, "parameters": [{"in": "path", "name": "previewID", "required": true, "schema": {"type": "string", "maxLength": 256}}], "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateUpdateBatchInput"}}}}}
+  /delivery/template-updates/policies:
+    get:
+      {"tags": ["Delivery"], "operationId": "listTemplateUpdatePolicies", "summary": "List explicit adoption policies visible to the current principal", "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.", "responses": {"200": {"description": "Success", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateUpdatePolicyListEnvelope"}}}}, "400": {"$ref": "#/components/responses/Error"}, "403": {"$ref": "#/components/responses/Error"}, "404": {"$ref": "#/components/responses/Error"}, "409": {"$ref": "#/components/responses/Error"}}, "parameters": [{"in": "query", "name": "kind", "required": true, "schema": {"$ref": "#/components/schemas/TemplateUpdateKind"}}, {"in": "query", "name": "templateId", "required": true, "schema": {"type": "string", "maxLength": 256}}, {"in": "query", "name": "applicationId", "required": false, "schema": {"type": "string", "maxLength": 256}}]}
+    put:
+      {"tags": ["Delivery"], "operationId": "saveTemplateUpdatePolicy", "summary": "Save fixed manual automatic or approval policy using a binding-scoped CAS", "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.", "responses": {"200": {"description": "Success", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateUpdatePolicyEnvelope"}}}}, "400": {"$ref": "#/components/responses/Error"}, "403": {"$ref": "#/components/responses/Error"}, "404": {"$ref": "#/components/responses/Error"}, "409": {"$ref": "#/components/responses/Error"}}, "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateUpdatePolicyInput"}}}}}
   /delivery/manifest-packages:
     get:
       tags: [Delivery]
@@ -8661,6 +8822,10 @@ paths:
         - $ref: "#/components/parameters/ClusterID"
         - $ref: "#/components/parameters/KubernetesPodName"
         - $ref: "#/components/parameters/KubernetesNamespaceDefaultQuery"
+        - name: expectedUid
+          in: query
+          description: Reject the request if the live Pod UID differs. Omit only for legacy clients, never when restoring a saved session.
+          schema: { type: string, minLength: 1 }
         - name: container
           in: query
           schema: { type: string, minLength: 1 }
@@ -8682,6 +8847,11 @@ paths:
                 $ref: "#/components/schemas/KubernetesPodLogsEnvelope"
         "403": { $ref: "#/components/responses/Error" }
         "404": { $ref: "#/components/responses/Error" }
+        "409":
+          description: The current Pod UID differs from expectedUid; open the current Pod instead of adopting it by name.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ErrorEnvelope" }
         "503": { $ref: "#/components/responses/Error" }
   /clusters/{clusterID}/workloads/pods/{podName}/yaml:
     get:
@@ -30106,6 +30276,7 @@ components:
       properties:
         path:
           type: string
+          description: Same-origin stream pathname. UID-aware Pod sessions include expectedUid, namespace, container and shell query fields to bind the one-use ticket to that exact target; other query fields are not part of the binding.
       additionalProperties: false
     StreamTicket:
       type: object
@@ -31103,6 +31274,14 @@ components:
           type: string
           format: date-time
       additionalProperties: false
+    ResourceRelationSource: {"type": "object", "required": ["apiVersion", "resource", "kind", "namespace"], "properties": {"apiVersion": {"type": "string", "minLength": 1}, "resource": {"type": "string", "minLength": 1}, "kind": {"type": "string", "minLength": 1}, "namespace": {"type": "string", "minLength": 1}}, "additionalProperties": false}
+    ResourceRelationRule: {"type": "object", "required": ["id", "type", "target"], "properties": {"id": {"type": "string", "minLength": 1}, "type": {"type": "string", "enum": ["reference", "manual", "selector"]}, "target": {"$ref": "#/components/schemas/ResourceRelationSource"}, "name": {"type": "string"}, "uid": {"type": "string"}, "selector": {"type": "object", "additionalProperties": {"type": "string"}, "maxProperties": 16}}, "additionalProperties": false}
+    ResourceRelationConfig: {"type": "object", "required": ["version", "rootUid", "sources", "rules"], "properties": {"version": {"type": "string", "const": "v1"}, "rootUid": {"type": "string", "minLength": 1}, "sources": {"type": "array", "items": {"$ref": "#/components/schemas/ResourceRelationSource"}, "maxItems": 8}, "rules": {"type": "array", "items": {"$ref": "#/components/schemas/ResourceRelationRule"}, "maxItems": 8}}, "additionalProperties": false}
+    ResourceRelationNode: {"type": "object", "required": ["resource", "role", "depth"], "properties": {"resource": {"$ref": "#/components/schemas/KubernetesResourceRef"}, "role": {"type": "string", "enum": ["root", "owned", "manual", "reference", "candidate"]}, "depth": {"type": "integer", "minimum": 0, "maximum": 8}}, "additionalProperties": false}
+    ResourceRelationEdge: {"type": "object", "required": ["fromUid", "toUid", "type"], "properties": {"fromUid": {"type": "string", "minLength": 1}, "toUid": {"type": "string", "minLength": 1}, "type": {"type": "string", "enum": ["owns", "manual", "references", "selector_candidate"]}, "ruleId": {"type": "string"}}, "additionalProperties": false}
+    ResourceRelationCoverage: {"type": "object", "required": ["queryId", "state", "truncated"], "properties": {"queryId": {"type": "string", "minLength": 1}, "state": {"type": "string", "enum": ["available", "partial", "denied", "error", "not_installed", "unsupported"]}, "reasonCode": {"type": "string"}, "truncated": {"type": "boolean"}}, "additionalProperties": false}
+    ResourceRelationsView: {"type": "object", "required": ["root", "config", "nodes", "edges", "coverage", "partial", "observedAt"], "properties": {"root": {"$ref": "#/components/schemas/KubernetesResourceRef"}, "config": {"$ref": "#/components/schemas/ResourceRelationConfig"}, "nodes": {"type": "array", "items": {"$ref": "#/components/schemas/ResourceRelationNode"}, "maxItems": 500}, "edges": {"type": "array", "items": {"$ref": "#/components/schemas/ResourceRelationEdge"}}, "coverage": {"type": "array", "items": {"$ref": "#/components/schemas/ResourceRelationCoverage"}}, "partial": {"type": "boolean"}, "observedAt": {"type": "string"}}, "additionalProperties": false}
+    ResourceRelationsEnvelope: {"type": "object", "required": ["data"], "properties": {"data": {"$ref": "#/components/schemas/ResourceRelationsView"}}, "additionalProperties": false}
     ReleaseTarget:
       type: object
       required: [id, applicationEnvironmentId, clusterId, namespace, workloadKind, workloadName, enabled]
@@ -31488,6 +31667,8 @@ components:
       type: object
       required: [deliveryPlanId, targetId, applicationId, applicationEnvironmentId, serviceId, serviceVersion, clusterId, namespace, releaseName, operation, chart, chartVersion, chartDigest, configurationDigest, valuesDigest, renderedDigest, expectedRevision, resources, preflightTaskId]
       properties:
+        templateInputs: {"$ref": "#/components/schemas/TemplateVersionReference"}
+        migration: {"$ref": "#/components/schemas/TemplateMigrationAssessment"}
         deliveryPlanId: { type: string, minLength: 1 }
         targetId: { type: string, minLength: 1 }
         applicationId: { type: string, minLength: 1 }
@@ -31535,6 +31716,11 @@ components:
         action: { type: string, enum: [preflight, apply, observe] }
         snapshot: { $ref: "#/components/schemas/HelmDeliverySnapshot" }
         prepared: { $ref: "#/components/schemas/HelmPreparedRelease" }
+        initializationResources:
+          type: array
+          maxItems: 300
+          description: Server-derived original successful initialization apply receipt. Required for initialization observation or already-applied recovery; current same-name objects cannot establish original ownership.
+          items: { $ref: "#/components/schemas/ManifestResourceInventory" }
       additionalProperties: false
     HelmExecutionTaskResult:
       type: object
@@ -31610,6 +31796,7 @@ components:
       type: object
       required: [key, name, source, parameterSchema, defaults, health, enabled]
       properties:
+        migrationPolicy: { $ref: "#/components/schemas/TemplateMigrationPolicy" }
         copiedFrom: { $ref: '#/components/schemas/TemplateCopyOrigin' }
         key: { type: string, minLength: 1, maxLength: 128, pattern: '^[a-z0-9][a-z0-9._-]*$' }
         name: { type: string, minLength: 1, maxLength: 200 }
@@ -31635,6 +31822,7 @@ components:
       type: object
       required: [id, key, name, source, parameterSchema, defaults, health, enabled, revision, publishedVersion, publicationState, createdAt, updatedAt]
       properties:
+        migrationPolicy: { $ref: "#/components/schemas/TemplateMigrationPolicy" }
         id: { type: string, minLength: 1 }
         key: { type: string, minLength: 1 }
         name: { type: string, minLength: 1 }
@@ -31728,6 +31916,7 @@ components:
       type: object
       required: [id, key, name, enabled, createdAt, updatedAt]
       properties:
+        migrationPolicy: {"$ref": "#/components/schemas/TemplateMigrationPolicy"}
         revision:
           type: integer
           minimum: 1
@@ -31769,6 +31958,7 @@ components:
       type: object
       required: [key, name, enabled]
       properties:
+        migrationPolicy: {"$ref": "#/components/schemas/TemplateMigrationPolicy"}
         copiedFrom: { $ref: '#/components/schemas/TemplateCopyOrigin' }
         expectedRevision:
           type: integer
@@ -31925,10 +32115,44 @@ components:
           type: string
           minLength: 1
       additionalProperties: false
+    KubernetesImportOwnerReference:
+      type: object
+      required: [apiVersion, kind, name, uid]
+      properties:
+        apiVersion: { type: string, minLength: 1 }
+        kind: { type: string, minLength: 1 }
+        name: { type: string, minLength: 1 }
+        uid: { type: string, minLength: 1 }
+        controller: { type: boolean }
+        blockOwnerDeletion: { type: boolean }
+      additionalProperties: false
+    KubernetesImportSource:
+      type: object
+      description: Safe source identity captured from an authorized live read. No YAML, spec values, annotations or status are persisted here. For native workloads specDigest covers configuration and ownership metadata excluding status/resourceVersion. For CRs it fences the public UID, generation and owner references without hashing secret content; metadata-only edits are outside that fence. CRs without a positive generation are rejected. UID identifies recreation.
+      required: [resource, specDigest, observedAt]
+      properties:
+        resource:
+          allOf:
+            - $ref: "#/components/schemas/KubernetesResourceRef"
+            - type: object
+              required: [uid]
+              properties:
+                uid: { type: string, minLength: 1 }
+        specDigest: { type: string, pattern: '^[a-f0-9]{64}$' }
+        generation: { type: integer, format: int64, minimum: 0 }
+        crdName: { type: string, minLength: 1 }
+        plural: { type: string, minLength: 1 }
+        observedAt: { type: string, format: date-time }
+        owners:
+          type: array
+          maxItems: 32
+          items: { $ref: "#/components/schemas/KubernetesImportOwnerReference" }
+      additionalProperties: false
     KubernetesImportCandidate:
       type: object
       required: [clusterId, namespace, workloadKind, workloadName, desiredReplicas, readyReplicas, relatedResources]
       properties:
+        source: { $ref: "#/components/schemas/KubernetesImportSource" }
         clusterId:
           type: string
           minLength: 1
@@ -31937,7 +32161,7 @@ components:
           minLength: 1
         workloadKind:
           type: string
-          enum: [Deployment, StatefulSet, DaemonSet]
+          enum: [Deployment, StatefulSet, DaemonSet, Job, CronJob, CustomResource]
         workloadName:
           type: string
           minLength: 1
@@ -31976,14 +32200,21 @@ components:
       type: object
       required: [workloadKind, workloadName]
       properties:
+        expectedUid: { type: string, minLength: 1 }
+        expectedSpecDigest: { type: string, pattern: '^[a-f0-9]{64}$' }
+        crdName:
+          type: string
+          minLength: 1
+          description: Required for CustomResource. Resolve the served GVR and scope from this CRD; never infer API group or plural from Kind.
         workloadKind:
           type: string
-          enum: [Deployment, StatefulSet, DaemonSet]
+          enum: [Deployment, StatefulSet, DaemonSet, Job, CronJob, CustomResource]
         workloadName:
           type: string
           minLength: 1
       additionalProperties: false
     KubernetesServiceImportRequest:
+      description: Initial association is observe_only. A managed request is rejected until a separate UID-aware ownership handoff and release preflight are available; it must never silently enable publishing.
       type: object
       required: [clusterId, namespace, applicationKey, applicationName, environmentKey, environmentName, ownershipMode, workloads]
       properties:
@@ -32041,7 +32272,7 @@ components:
           type: string
         workloadKind:
           type: string
-          enum: [Deployment, StatefulSet, DaemonSet]
+          enum: [Deployment, StatefulSet, DaemonSet, Job, CronJob, CustomResource]
         workloadName:
           type: string
         created:
@@ -32051,11 +32282,12 @@ components:
       type: object
       required: [id, workloadKind, workloadName, created]
       properties:
+        source: { $ref: "#/components/schemas/KubernetesImportSource" }
         id:
           type: string
         workloadKind:
           type: string
-          enum: [Deployment, StatefulSet, DaemonSet]
+          enum: [Deployment, StatefulSet, DaemonSet, Job, CronJob, CustomResource]
         workloadName:
           type: string
         created:
@@ -32194,6 +32426,7 @@ components:
       type: object
       required: [id, key, name, enabled, createdAt, updatedAt]
       properties:
+        migrationPolicy: {"$ref": "#/components/schemas/TemplateMigrationPolicy"}
         revision:
           type: integer
           minimum: 1
@@ -32245,6 +32478,7 @@ components:
       type: object
       required: [key, name, enabled]
       properties:
+        migrationPolicy: {"$ref": "#/components/schemas/TemplateMigrationPolicy"}
         copiedFrom: { $ref: '#/components/schemas/TemplateCopyOrigin' }
         expectedRevision:
           type: integer
@@ -32347,9 +32581,10 @@ components:
       type: object
       required: [id, applicationId, serviceId, action]
       properties:
+        templateCandidateId: { type: string, minLength: 1, maxLength: 256 }
         id: { type: string, pattern: '^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$' }
         applicationId: { type: string, minLength: 1 }
-        serviceId: { type: string, minLength: 1 }
+        serviceId: { type: string }
         applicationEnvironmentId: { type: string, minLength: 1 }
         releaseTargetId: { type: string }
         helmRevision: { type: integer, minimum: 1, description: Existing owned Helm revision to restore through a new config_update batch. }
@@ -32370,10 +32605,25 @@ components:
           items: { type: string }
       allOf:
         - if:
-            properties:
-              action: { enum: [build_deploy, deploy, config_update] }
+            required: [templateCandidateId]
           then:
-            required: [applicationEnvironmentId]
+            properties:
+              action: { const: config_update }
+              releaseBundleId: { type: string, maxLength: 0 }
+            not:
+              anyOf:
+                - required: [helmRevision]
+                - required: [buildArgs]
+                - required: [repositoryRefs]
+          else:
+            properties:
+              serviceId: { type: string, minLength: 1 }
+            allOf:
+              - if:
+                  properties:
+                    action: { enum: [build_deploy, deploy, config_update] }
+                then:
+                  required: [applicationEnvironmentId]
         - if:
             properties:
               action: { const: deploy }
@@ -32421,6 +32671,7 @@ components:
       type: object
       additionalProperties: false
       properties:
+        migrationPolicy: { $ref: "#/components/schemas/TemplateMigrationPolicy" }
         builderKind: { type: string, minLength: 1, maxLength: 128, default: custom }
         dockerfileTemplate: { type: string, maxLength: 1048576 }
         buildCommands:
@@ -32453,6 +32704,7 @@ components:
       additionalProperties: false
       required: [source, parameterSchema, defaults, health]
       properties:
+        migrationPolicy: {"$ref": "#/components/schemas/TemplateMigrationPolicy"}
         source: { $ref: '#/components/schemas/DeploymentTemplateSource' }
         parameterSchema: { $ref: '#/components/schemas/TemplateParameterSchema' }
         defaults: { $ref: '#/components/schemas/TemplateParameterValues' }
@@ -32609,6 +32861,7 @@ components:
       additionalProperties: false
       required: [definition]
       properties:
+        migrationPolicy: { $ref: "#/components/schemas/TemplateMigrationPolicy" }
         category: { type: string, minLength: 1, maxLength: 128, not: { pattern: '^application:' }, default: release }
         definition:
           oneOf:
@@ -33329,6 +33582,7 @@ components:
       type: object
       required: [target, applicationName, serviceName, serviceVersion, configurationDigest]
       properties:
+        templateUpdate: { $ref: "#/components/schemas/TemplateUpdateReceipt" }
         target: { $ref: "#/components/schemas/DeliveryTargetInput" }
         applicationName: { type: string }
         serviceName: { type: string }
@@ -33690,6 +33944,13 @@ components:
       type: object
       required: [applicationEnvironmentId, clusterId, namespace, workloadKind, workloadName, desiredReplicas, readyReplicas, updatedReplicas, availableReplicas]
       properties:
+        targetId:
+          type: string
+        source:
+          $ref: "#/components/schemas/KubernetesImportSource"
+        sourceStatus:
+          type: string
+          enum: [linked, changed, replaced, missing, unavailable, forbidden]
         applicationEnvironmentId:
           type: string
         clusterId:
@@ -34239,11 +34500,28 @@ components:
       type: string
       enum: [preflight, apply, observe, repair, adopt, rollback, sync, rollout_control]
       x-enum-varnames: [ManifestTaskActionPreflight, ManifestTaskActionApply, ManifestTaskActionObserve, ManifestTaskActionRepair, ManifestTaskActionAdopt, ManifestTaskActionRollback, ManifestTaskActionSync, ManifestTaskActionRolloutControl]
+    ManifestRootResource:
+      type: object
+      description: Server-frozen imported namespaced CR identity and user-reviewed generation. Publication requires the original imported target with metadata ownershipMode=managed, rootCRGeneration matching the reviewed generation, and configRef selecting its Manifest binding. Only spec may be updated; missing roots are never created. Current user or token permissions, external ownership and UID are rechecked. Requires manifest.root-cr.v1 Agent capability and manifest_root_cr_v1 provider. Configuration copies, revisions, plans and deployments retain the sensitive configuration read permission; ordinary task summaries omit root documents.
+      required: [apiVersion, kind, namespace, name, uid, generation, crdName, targetId, deliveryPlanId]
+      properties:
+        targetId: { type: string, minLength: 1 }
+        deliveryPlanId: { type: string, minLength: 1 }
+        apiVersion: { type: string, minLength: 3 }
+        kind: { type: string, minLength: 1 }
+        namespace: { type: string, minLength: 1 }
+        name: { type: string, minLength: 1 }
+        uid: { type: string, minLength: 1 }
+        generation: { type: integer, format: int64, minimum: 1 }
+        crdName: { type: string, minLength: 1 }
+      additionalProperties: false
     ManifestExecutionTaskPayload:
       type: object
       description: Controller-aware tasks use providerKind manifest_agent_v3.<clusterId> and require manifest.execution.v3. Older runners must not claim these tasks or bypass GitOps and Rollout ownership.
       required: [action, packageId, generation, idempotencyKey]
       properties:
+        initializationPlanId: { type: string, minLength: 1, maxLength: 128, description: "Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag." }
+        rootResource: { $ref: "#/components/schemas/ManifestRootResource" }
         rolloutControl: { $ref: "#/components/schemas/ProgressiveRolloutControlInput" }
         gitOpsDocuments:
           type: array
@@ -34306,6 +34584,7 @@ components:
       type: object
       required: [ready, capability, renderedDigest, resourceCount, diagnostics]
       properties:
+        initializationPlanId: { type: string, minLength: 1, maxLength: 128, description: "Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag." }
         ready: { type: boolean }
         capability: { type: string, enum: [available, degraded, unsupported] }
         renderedDigest: { type: string }
@@ -34352,6 +34631,7 @@ components:
       type: object
       required: [action, generation, stale, diagnostics, inventory]
       properties:
+        initializationPlanId: { type: string, minLength: 1, maxLength: 128, description: "Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag." }
         rollout: { $ref: "#/components/schemas/ProgressiveRolloutStatus" }
         action: { $ref: "#/components/schemas/ManifestTaskAction" }
         deploymentId: { type: string }
@@ -34464,6 +34744,7 @@ components:
       type: object
       required: [id, packageId, applicationEnvironmentId, environmentKey, clusterId, namespace, overlay, driftPolicy, deletionPolicy, enabled, version, createdAt, updatedAt]
       properties:
+        templateSelection: { $ref: "#/components/schemas/ManifestTemplateSelection" }
         templateParameters: { $ref: "#/components/schemas/TemplateParameterValues" }
         id: { type: string, minLength: 1 }
         packageId: { type: string, minLength: 1 }
@@ -34601,6 +34882,7 @@ components:
       type: object
       required: [observedGeneration, phase, conditions, inventory]
       properties:
+        appliedTemplate: {"$ref": "#/components/schemas/TemplateVersionReference"}
         observedGeneration: { type: integer, format: int64, minimum: 0 }
         appliedRevision: { type: integer, minimum: 1 }
         appliedDigest: { type: string }
@@ -35145,6 +35427,7 @@ components:
       type: object
       required: [id, source, status, applicationId, applicationEnvironmentId, action, requiresApproval, createdAt, updatedAt]
       properties:
+        templateCandidateId: { type: string, minLength: 1, maxLength: 256 }
         dockerSnapshots:
           type: array
           maxItems: 50
@@ -35243,6 +35526,8 @@ components:
       type: object
       required: [deliveryPlanId, targetId, packageId, bindingId, bindingVersion, applicationEnvironmentId, clusterId, namespace, revision, revisionDigest, packageUpdatedAt, rendererVersion, inputDigest, renderedDigest, documents, preflightTaskId, expectedGeneration]
       properties:
+        migration: {"$ref": "#/components/schemas/TemplateMigrationAssessment"}
+        rootResource: { $ref: "#/components/schemas/ManifestRootResource" }
         gitOpsDocuments:
           type: array
           minItems: 1
@@ -38022,6 +38307,10 @@ components:
       type: object
       required: [name, namespace, phase, readyContainers, restarts, ageSeconds]
       properties:
+        uid:
+          type: string
+          minLength: 1
+          description: Immutable Pod identity. Required by clients restoring a saved live session; absent on older providers.
         name:
           type: string
         namespace:
@@ -38181,6 +38470,10 @@ components:
       type: object
       required: [name, namespace, phase]
       properties:
+        uid:
+          type: string
+          minLength: 1
+          description: Immutable Pod identity. Required by clients restoring a saved live session; absent on older providers.
         name:
           type: string
         namespace:
@@ -50520,3 +50813,50 @@ components:
       properties:
         data: { $ref: "#/components/schemas/NetworkPolicyPreviewResult" }
       additionalProperties: false
+
+    TemplateUpdateKind:
+      {"type": "string", "enum": ["deployment", "build", "workflow", "blueprint"]}
+    TemplateUpdateMode:
+      {"type": "string", "enum": ["fixed", "manual", "automatic", "approval"]}
+    ManifestTemplateSelection:
+      {"type": "object", "properties": {"templateId": {"type": "string", "maxLength": 256}, "version": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "parameters": {"$ref": "#/components/schemas/TemplateParameterValues"}, "baseFilesDigest": {"type": "string", "maxLength": 80}, "adoptionId": {"type": "string", "maxLength": 256}}, "required": ["templateId", "version", "parameters", "baseFilesDigest", "adoptionId"], "additionalProperties": false}
+    TemplateUpdateTarget:
+      {"type": "object", "properties": {"id": {"type": "string", "maxLength": 256}, "kind": {"$ref": "#/components/schemas/TemplateUpdateKind"}, "templateId": {"type": "string", "maxLength": 256}, "applicationId": {"type": "string", "maxLength": 256}, "applicationName": {"type": "string", "maxLength": 256}, "serviceId": {"type": "string", "maxLength": 256}, "serviceName": {"type": "string", "maxLength": 256}, "applicationEnvironmentId": {"type": "string", "maxLength": 256}, "environmentName": {"type": "string", "maxLength": 256}, "releaseTargetId": {"type": "string", "maxLength": 256}, "fromVersion": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "mode": {"$ref": "#/components/schemas/TemplateUpdateMode"}, "requiresApproval": {"type": "boolean"}, "eligible": {"type": "boolean"}, "reason": {"type": "string", "maxLength": 1024}, "independentOverrides": {"type": "array", "items": {"type": "string", "maxLength": 256}, "maxItems": 100}, "bindingRevision": {"type": "string", "maxLength": 256}, "scope": {"type": "string", "enum": ["environment", "application", "creation_only"]}}, "required": ["id", "kind", "templateId", "applicationId", "applicationName", "serviceId", "serviceName", "applicationEnvironmentId", "environmentName", "releaseTargetId", "fromVersion", "mode", "requiresApproval", "eligible", "reason", "independentOverrides", "bindingRevision", "scope"], "additionalProperties": false}
+    TemplateUpdateTargetPage:
+      {"type": "object", "properties": {"items": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateUpdateTarget"}, "maxItems": 100}, "total": {"type": "integer", "format": "int64", "minimum": 0, "maximum": 2147483647}, "page": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "pageSize": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 100}}, "required": ["items", "total", "page", "pageSize"], "additionalProperties": false}
+    TemplateUpdateSelection:
+      {"type": "object", "properties": {"targetId": {"type": "string", "maxLength": 256, "minLength": 1}, "parameters": {"$ref": "#/components/schemas/TemplateParameterValues"}, "useNewDefaults": {"type": "array", "items": {"type": "string", "maxLength": 256}, "maxItems": 100, "uniqueItems": true}, "wave": {"type": "integer", "format": "int64", "minimum": 0, "maximum": 199}}, "required": ["targetId"], "additionalProperties": false}
+    TemplateUpdatePreviewInput:
+      {"type": "object", "properties": {"kind": {"$ref": "#/components/schemas/TemplateUpdateKind"}, "templateId": {"type": "string", "maxLength": 256, "minLength": 1}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "targets": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateUpdateSelection"}, "maxItems": 100, "minItems": 1}, "applicationId": {"type": "string", "minLength": 1, "maxLength": 256}}, "required": ["kind", "templateId", "toVersion", "targets"], "additionalProperties": false}
+    TemplateUpdateChange:
+      {"type": "object", "properties": {"section": {"type": "string", "enum": ["source", "schema", "defaults", "parameters", "resources"]}, "path": {"type": "string", "maxLength": 1024}, "before": {"type": "string", "maxLength": 32768}, "after": {"type": "string", "maxLength": 32768}}, "required": ["section", "path", "before", "after"], "additionalProperties": false}
+    TemplateUpdateDiff:
+      {"type": "object", "properties": {"fromVersion": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "changes": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateUpdateChange"}, "maxItems": 500}, "renderStatus": {"type": "string", "enum": ["available", "unavailable", "invalid"]}, "diagnostics": {"type": "array", "items": {"type": "string", "maxLength": 2048}, "maxItems": 32}, "historyGap": {"type": "boolean"}, "migration": {"$ref": "#/components/schemas/TemplateMigrationAssessment"}}, "required": ["fromVersion", "toVersion", "changes", "renderStatus", "diagnostics", "historyGap"], "additionalProperties": false}
+    TemplateUpdateCandidate:
+      {"type": "object", "properties": {"id": {"type": "string", "maxLength": 256}, "target": {"$ref": "#/components/schemas/TemplateUpdateTarget"}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "digest": {"type": "string", "maxLength": 80}, "parameters": {"$ref": "#/components/schemas/TemplateParameterValues"}, "cumulative": {"$ref": "#/components/schemas/TemplateUpdateDiff"}, "versions": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateUpdateDiff"}, "maxItems": 200}, "eligible": {"type": "boolean"}, "reason": {"type": "string", "maxLength": 1024}, "requiresApproval": {"type": "boolean"}, "wave": {"type": "integer", "format": "int64", "minimum": 0, "maximum": 199}}, "required": ["id", "target", "toVersion", "digest", "parameters", "cumulative", "versions", "eligible", "reason", "requiresApproval", "wave"], "additionalProperties": false}
+    TemplateUpdatePreview:
+      {"type": "object", "properties": {"id": {"type": "string", "maxLength": 256}, "kind": {"$ref": "#/components/schemas/TemplateUpdateKind"}, "templateId": {"type": "string", "maxLength": 256}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "digest": {"type": "string", "maxLength": 80}, "candidates": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateUpdateCandidate"}, "maxItems": 100}, "createdAt": {"type": "string", "format": "date-time"}, "expiresAt": {"type": "string", "format": "date-time"}, "configurationOnly": {"type": "boolean", "const": true}}, "required": ["id", "kind", "templateId", "toVersion", "digest", "candidates", "createdAt", "expiresAt", "configurationOnly"], "additionalProperties": false}
+    TemplateUpdateBatchInput:
+      {"type": "object", "properties": {"previewDigest": {"type": "string", "maxLength": 80, "minLength": 1}, "candidateIds": {"type": "array", "items": {"type": "string", "maxLength": 256, "minLength": 1}, "maxItems": 100, "minItems": 1, "uniqueItems": true}, "waveSize": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 100}, "stopOnFailure": {"type": "boolean"}, "acknowledgeHistoryGaps": {"type": "boolean"}, "idempotencyKey": {"type": "string", "maxLength": 128, "minLength": 8}}, "required": ["previewDigest", "candidateIds", "waveSize", "stopOnFailure", "acknowledgeHistoryGaps", "idempotencyKey"], "additionalProperties": false}
+    TemplateUpdatePolicyInput:
+      {"type": "object", "properties": {"kind": {"$ref": "#/components/schemas/TemplateUpdateKind"}, "templateId": {"type": "string", "maxLength": 256, "minLength": 1}, "targetId": {"type": "string", "maxLength": 256, "minLength": 1}, "mode": {"$ref": "#/components/schemas/TemplateUpdateMode"}, "paused": {"type": "boolean"}, "expectedVersion": {"type": "integer", "format": "int64", "minimum": 0, "maximum": 2147483647}}, "required": ["kind", "templateId", "targetId", "mode", "paused", "expectedVersion"], "additionalProperties": false}
+    TemplateUpdatePolicy:
+      {"type": "object", "properties": {"id": {"type": "string", "maxLength": 256}, "kind": {"$ref": "#/components/schemas/TemplateUpdateKind"}, "templateId": {"type": "string", "maxLength": 256}, "targetId": {"type": "string", "maxLength": 256}, "mode": {"$ref": "#/components/schemas/TemplateUpdateMode"}, "paused": {"type": "boolean"}, "version": {"type": "integer", "format": "int64", "minimum": 1, "maximum": 2147483647}, "lastBatchId": {"type": "string", "maxLength": 256}, "lastError": {"type": "string", "maxLength": 1024}, "updatedAt": {"type": "string", "format": "date-time"}}, "required": ["id", "kind", "templateId", "targetId", "mode", "paused", "version", "lastBatchId", "lastError", "updatedAt"], "additionalProperties": false}
+    TemplateUpdateTargetPageEnvelope:
+      {"type": "object", "properties": {"data": {"$ref": "#/components/schemas/TemplateUpdateTargetPage"}}, "required": ["data"], "additionalProperties": false}
+    TemplateUpdatePreviewEnvelope:
+      {"type": "object", "properties": {"data": {"$ref": "#/components/schemas/TemplateUpdatePreview"}}, "required": ["data"], "additionalProperties": false}
+    TemplateUpdatePolicyEnvelope:
+      {"type": "object", "properties": {"data": {"$ref": "#/components/schemas/TemplateUpdatePolicy"}}, "required": ["data"], "additionalProperties": false}
+    TemplateUpdatePolicyListEnvelope:
+      {"type": "object", "properties": {"data": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateUpdatePolicy"}, "maxItems": 2000}}, "required": ["data"], "additionalProperties": false}
+    TemplateUpdateReceipt:
+      {"type": "object", "required": ["kind", "templateId", "bindingId", "previewId", "candidateId", "fromVersion", "toVersion", "requiresApproval"], "properties": {"kind": {"$ref": "#/components/schemas/TemplateUpdateKind"}, "templateId": {"type": "string", "minLength": 1, "maxLength": 256}, "bindingId": {"type": "string", "minLength": 1, "maxLength": 256}, "previewId": {"type": "string", "minLength": 1, "maxLength": 256}, "candidateId": {"type": "string", "minLength": 1, "maxLength": 256}, "fromVersion": {"type": "integer", "format": "int64", "minimum": 1}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1}, "requiresApproval": {"type": "boolean"}}, "additionalProperties": false}
+    TemplateMigrationPolicy:
+      {"type": "object", "additionalProperties": false, "properties": {"sequential": {"type": "boolean", "description": "Must cross this boundary as adjacent published versions; approval cannot waive it."}, "irreversible": {"type": "boolean", "description": "Forward changes require approval; ordinary rollback across this boundary is forbidden."}, "guide": {"type": "string", "maxLength": 2000, "description": "Human migration/recovery instructions. Never executed as a script."}}, "required": ["sequential", "irreversible"], "if": {"anyOf": [{"required": ["sequential"], "properties": {"sequential": {"const": true}}}, {"required": ["irreversible"], "properties": {"irreversible": {"const": true}}}]}, "then": {"required": ["guide"], "properties": {"guide": {"minLength": 1, "pattern": "\\S"}}}}
+    TemplateVersionReference:
+      {"type": "object", "additionalProperties": false, "properties": {"templateId": {"type": "string", "maxLength": 128, "minLength": 1}, "templateVersion": {"type": "integer", "format": "int64", "minimum": 1}, "templateDigest": {"type": "string", "maxLength": 80, "minLength": 1}}, "required": ["templateId", "templateVersion", "templateDigest"]}
+    TemplateMigrationStep:
+      {"type": "object", "additionalProperties": false, "properties": {"version": {"type": "integer", "format": "int64", "minimum": 1}, "contentDigest": {"type": "string", "maxLength": 80}, "policy": {"$ref": "#/components/schemas/TemplateMigrationPolicy"}}, "required": ["version", "contentDigest", "policy"]}
+    TemplateMigrationAssessment:
+      {"type": "object", "additionalProperties": false, "properties": {"initialization": {"type": "boolean", "description": "Server-classified first-deployment candidate; requires create-only preflight and explicit Plan approval. It is not a successful runtime baseline or proof that external data is empty."}, "fromVersion": {"type": "integer", "format": "int64", "minimum": 0}, "toVersion": {"type": "integer", "format": "int64", "minimum": 1}, "blocked": {"type": "boolean"}, "requiresApproval": {"type": "boolean"}, "reason": {"type": "string", "maxLength": 1024}, "steps": {"type": "array", "maxItems": 200, "items": {"$ref": "#/components/schemas/TemplateMigrationStep"}}}, "required": ["fromVersion", "toVersion", "blocked", "requiresApproval", "reason", "steps"]}

@@ -749,6 +749,36 @@ func (e ApplicationRuntimeEnvironmentStatus) Valid() bool {
 	}
 }
 
+// Defines values for ApplicationRuntimeWorkloadSourceStatus.
+const (
+	ApplicationRuntimeWorkloadSourceStatusChanged     ApplicationRuntimeWorkloadSourceStatus = "changed"
+	ApplicationRuntimeWorkloadSourceStatusForbidden   ApplicationRuntimeWorkloadSourceStatus = "forbidden"
+	ApplicationRuntimeWorkloadSourceStatusLinked      ApplicationRuntimeWorkloadSourceStatus = "linked"
+	ApplicationRuntimeWorkloadSourceStatusMissing     ApplicationRuntimeWorkloadSourceStatus = "missing"
+	ApplicationRuntimeWorkloadSourceStatusReplaced    ApplicationRuntimeWorkloadSourceStatus = "replaced"
+	ApplicationRuntimeWorkloadSourceStatusUnavailable ApplicationRuntimeWorkloadSourceStatus = "unavailable"
+)
+
+// Valid indicates whether the value is a known member of the ApplicationRuntimeWorkloadSourceStatus enum.
+func (e ApplicationRuntimeWorkloadSourceStatus) Valid() bool {
+	switch e {
+	case ApplicationRuntimeWorkloadSourceStatusChanged:
+		return true
+	case ApplicationRuntimeWorkloadSourceStatusForbidden:
+		return true
+	case ApplicationRuntimeWorkloadSourceStatusLinked:
+		return true
+	case ApplicationRuntimeWorkloadSourceStatusMissing:
+		return true
+	case ApplicationRuntimeWorkloadSourceStatusReplaced:
+		return true
+	case ApplicationRuntimeWorkloadSourceStatusUnavailable:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ApplicationServiceServiceKind.
 const (
 	ApplicationServiceServiceKindExternalService    ApplicationServiceServiceKind = "external_service"
@@ -2581,22 +2611,22 @@ func (e DeliveryDraftInputSource) Valid() bool {
 
 // Defines values for DeliveryDraftServiceServiceKind.
 const (
-	ExternalService    DeliveryDraftServiceServiceKind = "external_service"
-	HelmRelease        DeliveryDraftServiceServiceKind = "helm_release"
-	Job                DeliveryDraftServiceServiceKind = "job"
-	KubernetesWorkload DeliveryDraftServiceServiceKind = "kubernetes_workload"
+	DeliveryDraftServiceServiceKindExternalService    DeliveryDraftServiceServiceKind = "external_service"
+	DeliveryDraftServiceServiceKindHelmRelease        DeliveryDraftServiceServiceKind = "helm_release"
+	DeliveryDraftServiceServiceKindJob                DeliveryDraftServiceServiceKind = "job"
+	DeliveryDraftServiceServiceKindKubernetesWorkload DeliveryDraftServiceServiceKind = "kubernetes_workload"
 )
 
 // Valid indicates whether the value is a known member of the DeliveryDraftServiceServiceKind enum.
 func (e DeliveryDraftServiceServiceKind) Valid() bool {
 	switch e {
-	case ExternalService:
+	case DeliveryDraftServiceServiceKindExternalService:
 		return true
-	case HelmRelease:
+	case DeliveryDraftServiceServiceKindHelmRelease:
 		return true
-	case Job:
+	case DeliveryDraftServiceServiceKindJob:
 		return true
-	case KubernetesWorkload:
+	case DeliveryDraftServiceServiceKindKubernetesWorkload:
 		return true
 	default:
 		return false
@@ -4585,17 +4615,26 @@ func (e KubernetesCustomResourceAccessAllowedActions) Valid() bool {
 
 // Defines values for KubernetesImportCandidateWorkloadKind.
 const (
-	KubernetesImportCandidateWorkloadKindDaemonSet   KubernetesImportCandidateWorkloadKind = "DaemonSet"
-	KubernetesImportCandidateWorkloadKindDeployment  KubernetesImportCandidateWorkloadKind = "Deployment"
-	KubernetesImportCandidateWorkloadKindStatefulSet KubernetesImportCandidateWorkloadKind = "StatefulSet"
+	KubernetesImportCandidateWorkloadKindCronJob        KubernetesImportCandidateWorkloadKind = "CronJob"
+	KubernetesImportCandidateWorkloadKindCustomResource KubernetesImportCandidateWorkloadKind = "CustomResource"
+	KubernetesImportCandidateWorkloadKindDaemonSet      KubernetesImportCandidateWorkloadKind = "DaemonSet"
+	KubernetesImportCandidateWorkloadKindDeployment     KubernetesImportCandidateWorkloadKind = "Deployment"
+	KubernetesImportCandidateWorkloadKindJob            KubernetesImportCandidateWorkloadKind = "Job"
+	KubernetesImportCandidateWorkloadKindStatefulSet    KubernetesImportCandidateWorkloadKind = "StatefulSet"
 )
 
 // Valid indicates whether the value is a known member of the KubernetesImportCandidateWorkloadKind enum.
 func (e KubernetesImportCandidateWorkloadKind) Valid() bool {
 	switch e {
+	case KubernetesImportCandidateWorkloadKindCronJob:
+		return true
+	case KubernetesImportCandidateWorkloadKindCustomResource:
+		return true
 	case KubernetesImportCandidateWorkloadKindDaemonSet:
 		return true
 	case KubernetesImportCandidateWorkloadKindDeployment:
+		return true
+	case KubernetesImportCandidateWorkloadKindJob:
 		return true
 	case KubernetesImportCandidateWorkloadKindStatefulSet:
 		return true
@@ -4606,17 +4645,26 @@ func (e KubernetesImportCandidateWorkloadKind) Valid() bool {
 
 // Defines values for KubernetesImportedServiceWorkloadKind.
 const (
-	KubernetesImportedServiceWorkloadKindDaemonSet   KubernetesImportedServiceWorkloadKind = "DaemonSet"
-	KubernetesImportedServiceWorkloadKindDeployment  KubernetesImportedServiceWorkloadKind = "Deployment"
-	KubernetesImportedServiceWorkloadKindStatefulSet KubernetesImportedServiceWorkloadKind = "StatefulSet"
+	KubernetesImportedServiceWorkloadKindCronJob        KubernetesImportedServiceWorkloadKind = "CronJob"
+	KubernetesImportedServiceWorkloadKindCustomResource KubernetesImportedServiceWorkloadKind = "CustomResource"
+	KubernetesImportedServiceWorkloadKindDaemonSet      KubernetesImportedServiceWorkloadKind = "DaemonSet"
+	KubernetesImportedServiceWorkloadKindDeployment     KubernetesImportedServiceWorkloadKind = "Deployment"
+	KubernetesImportedServiceWorkloadKindJob            KubernetesImportedServiceWorkloadKind = "Job"
+	KubernetesImportedServiceWorkloadKindStatefulSet    KubernetesImportedServiceWorkloadKind = "StatefulSet"
 )
 
 // Valid indicates whether the value is a known member of the KubernetesImportedServiceWorkloadKind enum.
 func (e KubernetesImportedServiceWorkloadKind) Valid() bool {
 	switch e {
+	case KubernetesImportedServiceWorkloadKindCronJob:
+		return true
+	case KubernetesImportedServiceWorkloadKindCustomResource:
+		return true
 	case KubernetesImportedServiceWorkloadKindDaemonSet:
 		return true
 	case KubernetesImportedServiceWorkloadKindDeployment:
+		return true
+	case KubernetesImportedServiceWorkloadKindJob:
 		return true
 	case KubernetesImportedServiceWorkloadKindStatefulSet:
 		return true
@@ -4627,17 +4675,26 @@ func (e KubernetesImportedServiceWorkloadKind) Valid() bool {
 
 // Defines values for KubernetesImportedTargetWorkloadKind.
 const (
-	KubernetesImportedTargetWorkloadKindDaemonSet   KubernetesImportedTargetWorkloadKind = "DaemonSet"
-	KubernetesImportedTargetWorkloadKindDeployment  KubernetesImportedTargetWorkloadKind = "Deployment"
-	KubernetesImportedTargetWorkloadKindStatefulSet KubernetesImportedTargetWorkloadKind = "StatefulSet"
+	KubernetesImportedTargetWorkloadKindCronJob        KubernetesImportedTargetWorkloadKind = "CronJob"
+	KubernetesImportedTargetWorkloadKindCustomResource KubernetesImportedTargetWorkloadKind = "CustomResource"
+	KubernetesImportedTargetWorkloadKindDaemonSet      KubernetesImportedTargetWorkloadKind = "DaemonSet"
+	KubernetesImportedTargetWorkloadKindDeployment     KubernetesImportedTargetWorkloadKind = "Deployment"
+	KubernetesImportedTargetWorkloadKindJob            KubernetesImportedTargetWorkloadKind = "Job"
+	KubernetesImportedTargetWorkloadKindStatefulSet    KubernetesImportedTargetWorkloadKind = "StatefulSet"
 )
 
 // Valid indicates whether the value is a known member of the KubernetesImportedTargetWorkloadKind enum.
 func (e KubernetesImportedTargetWorkloadKind) Valid() bool {
 	switch e {
+	case KubernetesImportedTargetWorkloadKindCronJob:
+		return true
+	case KubernetesImportedTargetWorkloadKindCustomResource:
+		return true
 	case KubernetesImportedTargetWorkloadKindDaemonSet:
 		return true
 	case KubernetesImportedTargetWorkloadKindDeployment:
+		return true
+	case KubernetesImportedTargetWorkloadKindJob:
 		return true
 	case KubernetesImportedTargetWorkloadKindStatefulSet:
 		return true
@@ -5254,17 +5311,26 @@ func (e KubernetesTopologyResolution) Valid() bool {
 
 // Defines values for KubernetesWorkloadImportInputWorkloadKind.
 const (
-	KubernetesWorkloadImportInputWorkloadKindDaemonSet   KubernetesWorkloadImportInputWorkloadKind = "DaemonSet"
-	KubernetesWorkloadImportInputWorkloadKindDeployment  KubernetesWorkloadImportInputWorkloadKind = "Deployment"
-	KubernetesWorkloadImportInputWorkloadKindStatefulSet KubernetesWorkloadImportInputWorkloadKind = "StatefulSet"
+	KubernetesWorkloadImportInputWorkloadKindCronJob        KubernetesWorkloadImportInputWorkloadKind = "CronJob"
+	KubernetesWorkloadImportInputWorkloadKindCustomResource KubernetesWorkloadImportInputWorkloadKind = "CustomResource"
+	KubernetesWorkloadImportInputWorkloadKindDaemonSet      KubernetesWorkloadImportInputWorkloadKind = "DaemonSet"
+	KubernetesWorkloadImportInputWorkloadKindDeployment     KubernetesWorkloadImportInputWorkloadKind = "Deployment"
+	KubernetesWorkloadImportInputWorkloadKindJob            KubernetesWorkloadImportInputWorkloadKind = "Job"
+	KubernetesWorkloadImportInputWorkloadKindStatefulSet    KubernetesWorkloadImportInputWorkloadKind = "StatefulSet"
 )
 
 // Valid indicates whether the value is a known member of the KubernetesWorkloadImportInputWorkloadKind enum.
 func (e KubernetesWorkloadImportInputWorkloadKind) Valid() bool {
 	switch e {
+	case KubernetesWorkloadImportInputWorkloadKindCronJob:
+		return true
+	case KubernetesWorkloadImportInputWorkloadKindCustomResource:
+		return true
 	case KubernetesWorkloadImportInputWorkloadKindDaemonSet:
 		return true
 	case KubernetesWorkloadImportInputWorkloadKindDeployment:
+		return true
+	case KubernetesWorkloadImportInputWorkloadKindJob:
 		return true
 	case KubernetesWorkloadImportInputWorkloadKindStatefulSet:
 		return true
@@ -8776,25 +8842,25 @@ func (e PersonalGuestRuntimeInputBrowserAction) Valid() bool {
 
 // Defines values for PersonalGuestRuntimeInputKind.
 const (
-	Browser   PersonalGuestRuntimeInputKind = "browser"
-	Docker    PersonalGuestRuntimeInputKind = "docker"
-	Execute   PersonalGuestRuntimeInputKind = "execute"
-	FileRead  PersonalGuestRuntimeInputKind = "file_read"
-	FileWrite PersonalGuestRuntimeInputKind = "file_write"
+	PersonalGuestRuntimeInputKindBrowser   PersonalGuestRuntimeInputKind = "browser"
+	PersonalGuestRuntimeInputKindDocker    PersonalGuestRuntimeInputKind = "docker"
+	PersonalGuestRuntimeInputKindExecute   PersonalGuestRuntimeInputKind = "execute"
+	PersonalGuestRuntimeInputKindFileRead  PersonalGuestRuntimeInputKind = "file_read"
+	PersonalGuestRuntimeInputKindFileWrite PersonalGuestRuntimeInputKind = "file_write"
 )
 
 // Valid indicates whether the value is a known member of the PersonalGuestRuntimeInputKind enum.
 func (e PersonalGuestRuntimeInputKind) Valid() bool {
 	switch e {
-	case Browser:
+	case PersonalGuestRuntimeInputKindBrowser:
 		return true
-	case Docker:
+	case PersonalGuestRuntimeInputKindDocker:
 		return true
-	case Execute:
+	case PersonalGuestRuntimeInputKindExecute:
 		return true
-	case FileRead:
+	case PersonalGuestRuntimeInputKindFileRead:
 		return true
-	case FileWrite:
+	case PersonalGuestRuntimeInputKindFileWrite:
 		return true
 	default:
 		return false
@@ -8917,22 +8983,22 @@ func (e PluginArtifactRecordProvenanceStatus) Valid() bool {
 
 // Defines values for PluginArtifactRecordSignatureStatus.
 const (
-	Invalid     PluginArtifactRecordSignatureStatus = "invalid"
-	NotProvided PluginArtifactRecordSignatureStatus = "not_provided"
-	Untrusted   PluginArtifactRecordSignatureStatus = "untrusted"
-	Verified    PluginArtifactRecordSignatureStatus = "verified"
+	PluginArtifactRecordSignatureStatusInvalid     PluginArtifactRecordSignatureStatus = "invalid"
+	PluginArtifactRecordSignatureStatusNotProvided PluginArtifactRecordSignatureStatus = "not_provided"
+	PluginArtifactRecordSignatureStatusUntrusted   PluginArtifactRecordSignatureStatus = "untrusted"
+	PluginArtifactRecordSignatureStatusVerified    PluginArtifactRecordSignatureStatus = "verified"
 )
 
 // Valid indicates whether the value is a known member of the PluginArtifactRecordSignatureStatus enum.
 func (e PluginArtifactRecordSignatureStatus) Valid() bool {
 	switch e {
-	case Invalid:
+	case PluginArtifactRecordSignatureStatusInvalid:
 		return true
-	case NotProvided:
+	case PluginArtifactRecordSignatureStatusNotProvided:
 		return true
-	case Untrusted:
+	case PluginArtifactRecordSignatureStatusUntrusted:
 		return true
-	case Verified:
+	case PluginArtifactRecordSignatureStatusVerified:
 		return true
 	default:
 		return false
@@ -9365,6 +9431,108 @@ func (e ResourceMonitoringViewName) Valid() bool {
 	}
 }
 
+// Defines values for ResourceRelationCoverageState.
+const (
+	ResourceRelationCoverageStateAvailable    ResourceRelationCoverageState = "available"
+	ResourceRelationCoverageStateDenied       ResourceRelationCoverageState = "denied"
+	ResourceRelationCoverageStateError        ResourceRelationCoverageState = "error"
+	ResourceRelationCoverageStateNotInstalled ResourceRelationCoverageState = "not_installed"
+	ResourceRelationCoverageStatePartial      ResourceRelationCoverageState = "partial"
+	ResourceRelationCoverageStateUnsupported  ResourceRelationCoverageState = "unsupported"
+)
+
+// Valid indicates whether the value is a known member of the ResourceRelationCoverageState enum.
+func (e ResourceRelationCoverageState) Valid() bool {
+	switch e {
+	case ResourceRelationCoverageStateAvailable:
+		return true
+	case ResourceRelationCoverageStateDenied:
+		return true
+	case ResourceRelationCoverageStateError:
+		return true
+	case ResourceRelationCoverageStateNotInstalled:
+		return true
+	case ResourceRelationCoverageStatePartial:
+		return true
+	case ResourceRelationCoverageStateUnsupported:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ResourceRelationEdgeType.
+const (
+	ResourceRelationEdgeTypeManual            ResourceRelationEdgeType = "manual"
+	ResourceRelationEdgeTypeOwns              ResourceRelationEdgeType = "owns"
+	ResourceRelationEdgeTypeReferences        ResourceRelationEdgeType = "references"
+	ResourceRelationEdgeTypeSelectorCandidate ResourceRelationEdgeType = "selector_candidate"
+)
+
+// Valid indicates whether the value is a known member of the ResourceRelationEdgeType enum.
+func (e ResourceRelationEdgeType) Valid() bool {
+	switch e {
+	case ResourceRelationEdgeTypeManual:
+		return true
+	case ResourceRelationEdgeTypeOwns:
+		return true
+	case ResourceRelationEdgeTypeReferences:
+		return true
+	case ResourceRelationEdgeTypeSelectorCandidate:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ResourceRelationNodeRole.
+const (
+	ResourceRelationNodeRoleCandidate ResourceRelationNodeRole = "candidate"
+	ResourceRelationNodeRoleManual    ResourceRelationNodeRole = "manual"
+	ResourceRelationNodeRoleOwned     ResourceRelationNodeRole = "owned"
+	ResourceRelationNodeRoleReference ResourceRelationNodeRole = "reference"
+	ResourceRelationNodeRoleRoot      ResourceRelationNodeRole = "root"
+)
+
+// Valid indicates whether the value is a known member of the ResourceRelationNodeRole enum.
+func (e ResourceRelationNodeRole) Valid() bool {
+	switch e {
+	case ResourceRelationNodeRoleCandidate:
+		return true
+	case ResourceRelationNodeRoleManual:
+		return true
+	case ResourceRelationNodeRoleOwned:
+		return true
+	case ResourceRelationNodeRoleReference:
+		return true
+	case ResourceRelationNodeRoleRoot:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ResourceRelationRuleType.
+const (
+	ResourceRelationRuleTypeManual    ResourceRelationRuleType = "manual"
+	ResourceRelationRuleTypeReference ResourceRelationRuleType = "reference"
+	ResourceRelationRuleTypeSelector  ResourceRelationRuleType = "selector"
+)
+
+// Valid indicates whether the value is a known member of the ResourceRelationRuleType enum.
+func (e ResourceRelationRuleType) Valid() bool {
+	switch e {
+	case ResourceRelationRuleTypeManual:
+		return true
+	case ResourceRelationRuleTypeReference:
+		return true
+	case ResourceRelationRuleTypeSelector:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for RuntimeConfigApplicationStatus.
 const (
 	RuntimeConfigApplicationStatusApplied          RuntimeConfigApplicationStatus = "applied"
@@ -9502,19 +9670,19 @@ func (e RuntimeConfigValueType) Valid() bool {
 
 // Defines values for RuntimeNetworkUsageScope.
 const (
-	RuntimeNetworkUsageScopeNetworkNamespace RuntimeNetworkUsageScope = "network_namespace"
-	RuntimeNetworkUsageScopeProcess          RuntimeNetworkUsageScope = "process"
-	RuntimeNetworkUsageScopeUnavailable      RuntimeNetworkUsageScope = "unavailable"
+	NetworkNamespace RuntimeNetworkUsageScope = "network_namespace"
+	Process          RuntimeNetworkUsageScope = "process"
+	Unavailable      RuntimeNetworkUsageScope = "unavailable"
 )
 
 // Valid indicates whether the value is a known member of the RuntimeNetworkUsageScope enum.
 func (e RuntimeNetworkUsageScope) Valid() bool {
 	switch e {
-	case RuntimeNetworkUsageScopeNetworkNamespace:
+	case NetworkNamespace:
 		return true
-	case RuntimeNetworkUsageScopeProcess:
+	case Process:
 		return true
-	case RuntimeNetworkUsageScopeUnavailable:
+	case Unavailable:
 		return true
 	default:
 		return false
@@ -10016,6 +10184,123 @@ func (e TemplatePublicationState) Valid() bool {
 	}
 }
 
+// Defines values for TemplateUpdateChangeSection.
+const (
+	TemplateUpdateChangeSectionDefaults   TemplateUpdateChangeSection = "defaults"
+	TemplateUpdateChangeSectionParameters TemplateUpdateChangeSection = "parameters"
+	TemplateUpdateChangeSectionResources  TemplateUpdateChangeSection = "resources"
+	TemplateUpdateChangeSectionSchema     TemplateUpdateChangeSection = "schema"
+	TemplateUpdateChangeSectionSource     TemplateUpdateChangeSection = "source"
+)
+
+// Valid indicates whether the value is a known member of the TemplateUpdateChangeSection enum.
+func (e TemplateUpdateChangeSection) Valid() bool {
+	switch e {
+	case TemplateUpdateChangeSectionDefaults:
+		return true
+	case TemplateUpdateChangeSectionParameters:
+		return true
+	case TemplateUpdateChangeSectionResources:
+		return true
+	case TemplateUpdateChangeSectionSchema:
+		return true
+	case TemplateUpdateChangeSectionSource:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TemplateUpdateDiffRenderStatus.
+const (
+	TemplateUpdateDiffRenderStatusAvailable   TemplateUpdateDiffRenderStatus = "available"
+	TemplateUpdateDiffRenderStatusInvalid     TemplateUpdateDiffRenderStatus = "invalid"
+	TemplateUpdateDiffRenderStatusUnavailable TemplateUpdateDiffRenderStatus = "unavailable"
+)
+
+// Valid indicates whether the value is a known member of the TemplateUpdateDiffRenderStatus enum.
+func (e TemplateUpdateDiffRenderStatus) Valid() bool {
+	switch e {
+	case TemplateUpdateDiffRenderStatusAvailable:
+		return true
+	case TemplateUpdateDiffRenderStatusInvalid:
+		return true
+	case TemplateUpdateDiffRenderStatusUnavailable:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TemplateUpdateKind.
+const (
+	TemplateUpdateKindBlueprint  TemplateUpdateKind = "blueprint"
+	TemplateUpdateKindBuild      TemplateUpdateKind = "build"
+	TemplateUpdateKindDeployment TemplateUpdateKind = "deployment"
+	TemplateUpdateKindWorkflow   TemplateUpdateKind = "workflow"
+)
+
+// Valid indicates whether the value is a known member of the TemplateUpdateKind enum.
+func (e TemplateUpdateKind) Valid() bool {
+	switch e {
+	case TemplateUpdateKindBlueprint:
+		return true
+	case TemplateUpdateKindBuild:
+		return true
+	case TemplateUpdateKindDeployment:
+		return true
+	case TemplateUpdateKindWorkflow:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TemplateUpdateMode.
+const (
+	Approval  TemplateUpdateMode = "approval"
+	Automatic TemplateUpdateMode = "automatic"
+	Fixed     TemplateUpdateMode = "fixed"
+	Manual    TemplateUpdateMode = "manual"
+)
+
+// Valid indicates whether the value is a known member of the TemplateUpdateMode enum.
+func (e TemplateUpdateMode) Valid() bool {
+	switch e {
+	case Approval:
+		return true
+	case Automatic:
+		return true
+	case Fixed:
+		return true
+	case Manual:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TemplateUpdateTargetScope.
+const (
+	TemplateUpdateTargetScopeApplication  TemplateUpdateTargetScope = "application"
+	TemplateUpdateTargetScopeCreationOnly TemplateUpdateTargetScope = "creation_only"
+	TemplateUpdateTargetScopeEnvironment  TemplateUpdateTargetScope = "environment"
+)
+
+// Valid indicates whether the value is a known member of the TemplateUpdateTargetScope enum.
+func (e TemplateUpdateTargetScope) Valid() bool {
+	switch e {
+	case TemplateUpdateTargetScopeApplication:
+		return true
+	case TemplateUpdateTargetScopeCreationOnly:
+		return true
+	case TemplateUpdateTargetScopeEnvironment:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ToolExecutionContractMode.
 const (
 	Async ToolExecutionContractMode = "async"
@@ -10141,22 +10426,22 @@ func (e VirtualMachineActionInputAction) Valid() bool {
 
 // Defines values for VirtualMachinePowerInputAction.
 const (
-	Delete VirtualMachinePowerInputAction = "delete"
-	Reboot VirtualMachinePowerInputAction = "reboot"
-	Start  VirtualMachinePowerInputAction = "start"
-	Stop   VirtualMachinePowerInputAction = "stop"
+	VirtualMachinePowerInputActionDelete VirtualMachinePowerInputAction = "delete"
+	VirtualMachinePowerInputActionReboot VirtualMachinePowerInputAction = "reboot"
+	VirtualMachinePowerInputActionStart  VirtualMachinePowerInputAction = "start"
+	VirtualMachinePowerInputActionStop   VirtualMachinePowerInputAction = "stop"
 )
 
 // Valid indicates whether the value is a known member of the VirtualMachinePowerInputAction enum.
 func (e VirtualMachinePowerInputAction) Valid() bool {
 	switch e {
-	case Delete:
+	case VirtualMachinePowerInputActionDelete:
 		return true
-	case Reboot:
+	case VirtualMachinePowerInputActionReboot:
 		return true
-	case Start:
+	case VirtualMachinePowerInputActionStart:
 		return true
-	case Stop:
+	case VirtualMachinePowerInputActionStop:
 		return true
 	default:
 		return false
@@ -12341,6 +12626,36 @@ func (e TransitionAgentProviderRolloutParamsRolloutAction) Valid() bool {
 	}
 }
 
+// Defines values for ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind.
+const (
+	ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindCronJob        ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind = "CronJob"
+	ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindCustomResource ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind = "CustomResource"
+	ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindDaemonSet      ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind = "DaemonSet"
+	ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindDeployment     ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind = "Deployment"
+	ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindJob            ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind = "Job"
+	ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindStatefulSet    ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind = "StatefulSet"
+)
+
+// Valid indicates whether the value is a known member of the ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind enum.
+func (e ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind) Valid() bool {
+	switch e {
+	case ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindCronJob:
+		return true
+	case ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindCustomResource:
+		return true
+	case ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindDaemonSet:
+		return true
+	case ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindDeployment:
+		return true
+	case ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindJob:
+		return true
+	case ListApplicationEnvironmentTargetCandidatesParamsWorkloadKindStatefulSet:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ListComputeTasksParamsSortOrder.
 const (
 	Asc  ListComputeTasksParamsSortOrder = "asc"
@@ -12379,16 +12694,16 @@ func (e SearchWorkbenchMessagesParamsWorkspace) Valid() bool {
 
 // Defines values for ExportDeliveryDocumentParamsFormat.
 const (
-	JSON ExportDeliveryDocumentParamsFormat = "json"
-	Yaml ExportDeliveryDocumentParamsFormat = "yaml"
+	ExportDeliveryDocumentParamsFormatJSON ExportDeliveryDocumentParamsFormat = "json"
+	ExportDeliveryDocumentParamsFormatYaml ExportDeliveryDocumentParamsFormat = "yaml"
 )
 
 // Valid indicates whether the value is a known member of the ExportDeliveryDocumentParamsFormat enum.
 func (e ExportDeliveryDocumentParamsFormat) Valid() bool {
 	switch e {
-	case JSON:
+	case ExportDeliveryDocumentParamsFormatJSON:
 		return true
-	case Yaml:
+	case ExportDeliveryDocumentParamsFormatYaml:
 		return true
 	default:
 		return false
@@ -13994,10 +14309,18 @@ type ApplicationRuntimeWorkload struct {
 	Namespace                string            `json:"namespace"`
 	ReadyReplicas            int               `json:"readyReplicas"`
 	Selector                 map[string]string `json:"selector,omitempty"`
-	UpdatedReplicas          int               `json:"updatedReplicas"`
-	WorkloadKind             string            `json:"workloadKind"`
-	WorkloadName             string            `json:"workloadName"`
+
+	// Source Safe source identity captured from an authorized live read. No YAML, spec values, annotations or status are persisted here. For native workloads specDigest covers configuration and ownership metadata excluding status/resourceVersion. For CRs it fences the public UID, generation and owner references without hashing secret content; metadata-only edits are outside that fence. CRs without a positive generation are rejected. UID identifies recreation.
+	Source          *KubernetesImportSource                `json:"source,omitempty"`
+	SourceStatus    ApplicationRuntimeWorkloadSourceStatus `json:"sourceStatus,omitempty"`
+	TargetID        string                                 `json:"targetId,omitempty"`
+	UpdatedReplicas int                                    `json:"updatedReplicas"`
+	WorkloadKind    string                                 `json:"workloadKind"`
+	WorkloadName    string                                 `json:"workloadName"`
 }
+
+// ApplicationRuntimeWorkloadSourceStatus defines model for ApplicationRuntimeWorkload.SourceStatus.
+type ApplicationRuntimeWorkloadSourceStatus string
 
 // ApplicationService defines model for ApplicationService.
 type ApplicationService struct {
@@ -14526,6 +14849,7 @@ type BuildTemplate struct {
 	Enabled            bool                     `json:"enabled"`
 	ID                 string                   `json:"id"`
 	Key                string                   `json:"key"`
+	MigrationPolicy    *TemplateMigrationPolicy `json:"migrationPolicy,omitempty"`
 	Name               string                   `json:"name"`
 	PublicationState   TemplatePublicationState `json:"publicationState,omitempty"`
 
@@ -14560,10 +14884,11 @@ type BuildTemplateInput struct {
 	Enabled            bool   `json:"enabled"`
 
 	// ExpectedRevision Reject an update if the stored revision differs.
-	ExpectedRevision int    `json:"expectedRevision,omitempty"`
-	ID               string `json:"id,omitempty"`
-	Key              string `json:"key"`
-	Name             string `json:"name"`
+	ExpectedRevision int                      `json:"expectedRevision,omitempty"`
+	ID               string                   `json:"id,omitempty"`
+	Key              string                   `json:"key"`
+	MigrationPolicy  *TemplateMigrationPolicy `json:"migrationPolicy,omitempty"`
+	Name             string                   `json:"name"`
 
 	// Publish Publish an immutable version when saving. False saves a draft; omission preserves legacy save-and-publish behavior.
 	Publish bool `json:"publish,omitempty"`
@@ -15927,6 +16252,7 @@ type DeliveryDeploymentTemplateSpec struct {
 	Enabled              bool                     `json:"enabled,omitempty"`
 	EnvironmentOverrides []string                 `json:"environmentOverrides,omitempty"`
 	Health               DeploymentTemplateHealth `json:"health"`
+	MigrationPolicy      *TemplateMigrationPolicy `json:"migrationPolicy,omitempty"`
 
 	// ParameterSchema Restricted JSON Schema. Objects reject undeclared keys unless mapValues specifies their schema. secret_reference accepts only a namespaced Secret name/key reference, never a plaintext credential. External references and executable expressions are unsupported.
 	ParameterSchema TemplateParameterSchema  `json:"parameterSchema"`
@@ -16461,6 +16787,7 @@ type DeliveryPlan struct {
 	Status                   DeliveryPlanStatus            `json:"status"`
 	TargetID                 string                        `json:"targetId,omitempty"`
 	TargetSummary            string                        `json:"targetSummary,omitempty"`
+	TemplateCandidateID      string                        `json:"templateCandidateId,omitempty"`
 	UpdatedAt                time.Time                     `json:"updatedAt"`
 	Variables                map[string]any                `json:"variables,omitempty"`
 }
@@ -16562,6 +16889,7 @@ type DeliveryTargetSnapshot struct {
 	ServiceName         string                            `json:"serviceName"`
 	ServiceVersion      int                               `json:"serviceVersion"`
 	Target              DeliveryTargetInput               `json:"target"`
+	TemplateUpdate      *TemplateUpdateReceipt            `json:"templateUpdate,omitempty"`
 }
 
 // DeliveryTemplateProvenance Immutable provenance captured when a template version is published. Source removal and detachment never erase it. Workflow uses its saved version.
@@ -16937,9 +17265,10 @@ type DeliveryWorkflowTemplateDocument struct {
 
 // DeliveryWorkflowTemplateSpec defines model for DeliveryWorkflowTemplateSpec.
 type DeliveryWorkflowTemplateSpec struct {
-	Category   string                                  `json:"category,omitempty"`
-	Definition DeliveryWorkflowTemplateSpec_Definition `json:"definition"`
-	Enabled    bool                                    `json:"enabled,omitempty"`
+	Category        string                                  `json:"category,omitempty"`
+	Definition      DeliveryWorkflowTemplateSpec_Definition `json:"definition"`
+	Enabled         bool                                    `json:"enabled,omitempty"`
+	MigrationPolicy *TemplateMigrationPolicy                `json:"migrationPolicy,omitempty"`
 }
 
 // DeliveryWorkflowTemplateSpec_Definition defines model for DeliveryWorkflowTemplateSpec.Definition.
@@ -18311,6 +18640,7 @@ type HelmDeliverySnapshot struct {
 	ConfigurationDigest      string                        `json:"configurationDigest"`
 	DeliveryPlanID           string                        `json:"deliveryPlanId"`
 	ExpectedRevision         int                           `json:"expectedRevision"`
+	Migration                *TemplateMigrationAssessment  `json:"migration,omitempty"`
 	Namespace                string                        `json:"namespace"`
 	Operation                HelmDeliverySnapshotOperation `json:"operation"`
 	PreflightTaskID          string                        `json:"preflightTaskId"`
@@ -18322,6 +18652,7 @@ type HelmDeliverySnapshot struct {
 	ServiceID                string                        `json:"serviceId"`
 	ServiceVersion           int64                         `json:"serviceVersion"`
 	TargetID                 string                        `json:"targetId"`
+	TemplateInputs           *TemplateVersionReference     `json:"templateInputs,omitempty"`
 	TimeoutSeconds           int                           `json:"timeoutSeconds,omitempty"`
 	ValuesDigest             string                        `json:"valuesDigest"`
 }
@@ -18332,6 +18663,9 @@ type HelmDeliverySnapshotOperation string
 // HelmExecutionTaskPayload defines model for HelmExecutionTaskPayload.
 type HelmExecutionTaskPayload struct {
 	Action HelmExecutionTaskPayloadAction `json:"action"`
+
+	// InitializationResources Server-derived original successful initialization apply receipt. Required for initialization observation or already-applied recovery; current same-name objects cannot establish original ownership.
+	InitializationResources []ManifestResourceInventory `json:"initializationResources,omitempty"`
 
 	// Prepared Confidential runner input. Never returned through ordinary plan, task, history or log reads.
 	Prepared *HelmPreparedRelease `json:"prepared,omitempty"`
@@ -20594,15 +20928,18 @@ type KubernetesHorizontalPodAutoscalerMetric struct {
 
 // KubernetesImportCandidate defines model for KubernetesImportCandidate.
 type KubernetesImportCandidate struct {
-	ClusterID        string                                `json:"clusterId"`
-	Containers       []string                              `json:"containers,omitempty"`
-	DesiredReplicas  int                                   `json:"desiredReplicas"`
-	Labels           map[string]string                     `json:"labels,omitempty"`
-	Namespace        string                                `json:"namespace"`
-	ReadyReplicas    int                                   `json:"readyReplicas"`
-	RelatedResources []KubernetesRelatedResource           `json:"relatedResources"`
-	WorkloadKind     KubernetesImportCandidateWorkloadKind `json:"workloadKind"`
-	WorkloadName     string                                `json:"workloadName"`
+	ClusterID        string                      `json:"clusterId"`
+	Containers       []string                    `json:"containers,omitempty"`
+	DesiredReplicas  int                         `json:"desiredReplicas"`
+	Labels           map[string]string           `json:"labels,omitempty"`
+	Namespace        string                      `json:"namespace"`
+	ReadyReplicas    int                         `json:"readyReplicas"`
+	RelatedResources []KubernetesRelatedResource `json:"relatedResources"`
+
+	// Source Safe source identity captured from an authorized live read. No YAML, spec values, annotations or status are persisted here. For native workloads specDigest covers configuration and ownership metadata excluding status/resourceVersion. For CRs it fences the public UID, generation and owner references without hashing secret content; metadata-only edits are outside that fence. CRs without a positive generation are rejected. UID identifies recreation.
+	Source       *KubernetesImportSource               `json:"source,omitempty"`
+	WorkloadKind KubernetesImportCandidateWorkloadKind `json:"workloadKind"`
+	WorkloadName string                                `json:"workloadName"`
 }
 
 // KubernetesImportCandidateWorkloadKind defines model for KubernetesImportCandidate.WorkloadKind.
@@ -20622,6 +20959,36 @@ type KubernetesImportEntityRef struct {
 	Name    string `json:"name"`
 }
 
+// KubernetesImportOwnerReference defines model for KubernetesImportOwnerReference.
+type KubernetesImportOwnerReference struct {
+	APIVersion         string `json:"apiVersion"`
+	BlockOwnerDeletion bool   `json:"blockOwnerDeletion,omitempty"`
+	Controller         bool   `json:"controller,omitempty"`
+	Kind               string `json:"kind"`
+	Name               string `json:"name"`
+	UID                string `json:"uid"`
+}
+
+// KubernetesImportSource Safe source identity captured from an authorized live read. No YAML, spec values, annotations or status are persisted here. For native workloads specDigest covers configuration and ownership metadata excluding status/resourceVersion. For CRs it fences the public UID, generation and owner references without hashing secret content; metadata-only edits are outside that fence. CRs without a positive generation are rejected. UID identifies recreation.
+type KubernetesImportSource struct {
+	CrdName    string                           `json:"crdName,omitempty"`
+	Generation int64                            `json:"generation,omitempty"`
+	ObservedAt time.Time                        `json:"observedAt"`
+	Owners     []KubernetesImportOwnerReference `json:"owners,omitempty"`
+	Plural     string                           `json:"plural,omitempty"`
+	Resource   struct {
+		APIVersion      string                      `json:"apiVersion"`
+		ClusterID       string                      `json:"clusterId"`
+		Kind            string                      `json:"kind"`
+		Name            string                      `json:"name"`
+		Namespace       string                      `json:"namespace,omitempty"`
+		ResourceVersion string                      `json:"resourceVersion,omitempty"`
+		ScopeMode       KubernetesResourceScopeMode `json:"scopeMode"`
+		UID             string                      `json:"uid"`
+	} `json:"resource"`
+	SpecDigest string `json:"specDigest"`
+}
+
 // KubernetesImportedService defines model for KubernetesImportedService.
 type KubernetesImportedService struct {
 	Created      bool                                  `json:"created"`
@@ -20637,8 +21004,11 @@ type KubernetesImportedServiceWorkloadKind string
 
 // KubernetesImportedTarget defines model for KubernetesImportedTarget.
 type KubernetesImportedTarget struct {
-	Created      bool                                 `json:"created"`
-	ID           string                               `json:"id"`
+	Created bool   `json:"created"`
+	ID      string `json:"id"`
+
+	// Source Safe source identity captured from an authorized live read. No YAML, spec values, annotations or status are persisted here. For native workloads specDigest covers configuration and ownership metadata excluding status/resourceVersion. For CRs it fences the public UID, generation and owner references without hashing secret content; metadata-only edits are outside that fence. CRs without a positive generation are rejected. UID identifies recreation.
+	Source       *KubernetesImportSource              `json:"source,omitempty"`
 	WorkloadKind KubernetesImportedTargetWorkloadKind `json:"workloadKind"`
 	WorkloadName string                               `json:"workloadName"`
 }
@@ -21225,6 +21595,9 @@ type KubernetesPod struct {
 	ReadyContainers        string                      `json:"readyContainers"`
 	Requests               *KubernetesResourceQuantity `json:"requests,omitempty"`
 	Restarts               int32                       `json:"restarts"`
+
+	// UID Immutable Pod identity. Required by clients restoring a saved live session; absent on older providers.
+	UID string `json:"uid,omitempty"`
 }
 
 // KubernetesPodDetail defines model for KubernetesPodDetail.
@@ -21247,7 +21620,10 @@ type KubernetesPodDetail struct {
 	Requests           *KubernetesResourceQuantity    `json:"requests,omitempty"`
 	ServiceAccountName string                         `json:"serviceAccountName,omitempty"`
 	StartTime          string                         `json:"startTime,omitempty"`
-	Volumes            []KubernetesPodVolume          `json:"volumes,omitempty"`
+
+	// UID Immutable Pod identity. Required by clients restoring a saved live session; absent on older providers.
+	UID     string                `json:"uid,omitempty"`
+	Volumes []KubernetesPodVolume `json:"volumes,omitempty"`
 }
 
 // KubernetesPodDetailEnvelope defines model for KubernetesPodDetailEnvelope.
@@ -22195,7 +22571,7 @@ type KubernetesServiceEndpoint struct {
 	Zone        string `json:"zone,omitempty"`
 }
 
-// KubernetesServiceImportRequest defines model for KubernetesServiceImportRequest.
+// KubernetesServiceImportRequest Initial association is observe_only. A managed request is rejected until a separate UID-aware ownership handoff and release preflight are available; it must never silently enable publishing.
 type KubernetesServiceImportRequest struct {
 	ApplicationKey  string                                      `json:"applicationKey"`
 	ApplicationName string                                      `json:"applicationName"`
@@ -22477,8 +22853,12 @@ type KubernetesWorkloadContainer struct {
 
 // KubernetesWorkloadImportInput defines model for KubernetesWorkloadImportInput.
 type KubernetesWorkloadImportInput struct {
-	WorkloadKind KubernetesWorkloadImportInputWorkloadKind `json:"workloadKind"`
-	WorkloadName string                                    `json:"workloadName"`
+	// CrdName Required for CustomResource. Resolve the served GVR and scope from this CRD; never infer API group or plural from Kind.
+	CrdName            string                                    `json:"crdName,omitempty"`
+	ExpectedSpecDigest string                                    `json:"expectedSpecDigest,omitempty"`
+	ExpectedUID        string                                    `json:"expectedUid,omitempty"`
+	WorkloadKind       KubernetesWorkloadImportInputWorkloadKind `json:"workloadKind"`
+	WorkloadName       string                                    `json:"workloadName"`
 }
 
 // KubernetesWorkloadImportInputWorkloadKind defines model for KubernetesWorkloadImportInput.WorkloadKind.
@@ -23451,23 +23831,24 @@ type MFAWebAuthnResponse struct {
 
 // ManifestBinding defines model for ManifestBinding.
 type ManifestBinding struct {
-	ApplicationEnvironmentID string                    `json:"applicationEnvironmentId"`
-	ClusterID                string                    `json:"clusterId"`
-	CreatedAt                time.Time                 `json:"createdAt"`
-	DeletionPolicy           ManifestDeletionPolicy    `json:"deletionPolicy"`
-	DriftPolicy              ManifestDriftPolicy       `json:"driftPolicy"`
-	Enabled                  bool                      `json:"enabled"`
-	EnvironmentKey           string                    `json:"environmentKey"`
-	ID                       string                    `json:"id"`
-	Kustomize                *ManifestKustomizeOptions `json:"kustomize,omitempty"`
-	Namespace                string                    `json:"namespace"`
-	Overlay                  map[string]string         `json:"overlay"`
-	PackageID                string                    `json:"packageId"`
-	RolloutStrategyID        string                    `json:"rolloutStrategyId,omitempty"`
-	TemplateParameters       *TemplateParameterValues  `json:"templateParameters,omitempty"`
-	UpdatedAt                time.Time                 `json:"updatedAt"`
-	VerificationPolicyID     string                    `json:"verificationPolicyId,omitempty"`
-	Version                  int64                     `json:"version"`
+	ApplicationEnvironmentID string                     `json:"applicationEnvironmentId"`
+	ClusterID                string                     `json:"clusterId"`
+	CreatedAt                time.Time                  `json:"createdAt"`
+	DeletionPolicy           ManifestDeletionPolicy     `json:"deletionPolicy"`
+	DriftPolicy              ManifestDriftPolicy        `json:"driftPolicy"`
+	Enabled                  bool                       `json:"enabled"`
+	EnvironmentKey           string                     `json:"environmentKey"`
+	ID                       string                     `json:"id"`
+	Kustomize                *ManifestKustomizeOptions  `json:"kustomize,omitempty"`
+	Namespace                string                     `json:"namespace"`
+	Overlay                  map[string]string          `json:"overlay"`
+	PackageID                string                     `json:"packageId"`
+	RolloutStrategyID        string                     `json:"rolloutStrategyId,omitempty"`
+	TemplateParameters       *TemplateParameterValues   `json:"templateParameters,omitempty"`
+	TemplateSelection        *ManifestTemplateSelection `json:"templateSelection,omitempty"`
+	UpdatedAt                time.Time                  `json:"updatedAt"`
+	VerificationPolicyID     string                     `json:"verificationPolicyId,omitempty"`
+	Version                  int64                      `json:"version"`
 }
 
 // ManifestBindingEnvelope defines model for ManifestBindingEnvelope.
@@ -23601,20 +23982,24 @@ type ManifestDeliverySnapshot struct {
 	ExpectedGeneration       int64                      `json:"expectedGeneration"`
 
 	// GitOpsDocuments Frozen GitOps child resources sharing this plan's preflight, ownership and observation boundaries.
-	GitOpsDocuments  []ManifestRenderedDocument     `json:"gitOpsDocuments,omitempty"`
-	InputDigest      string                         `json:"inputDigest"`
-	Namespace        string                         `json:"namespace"`
-	PackageID        string                         `json:"packageId"`
-	PackageUpdatedAt time.Time                      `json:"packageUpdatedAt"`
-	PreflightTaskID  string                         `json:"preflightTaskId"`
-	RenderedDigest   string                         `json:"renderedDigest"`
-	RendererVersion  string                         `json:"rendererVersion"`
-	Revision         int                            `json:"revision"`
-	RevisionDigest   string                         `json:"revisionDigest"`
-	ServiceID        string                         `json:"serviceId,omitempty"`
-	SourceCommit     string                         `json:"sourceCommit,omitempty"`
-	TargetID         string                         `json:"targetId"`
-	TemplateInputs   *ManifestServiceTemplateInputs `json:"templateInputs,omitempty"`
+	GitOpsDocuments  []ManifestRenderedDocument   `json:"gitOpsDocuments,omitempty"`
+	InputDigest      string                       `json:"inputDigest"`
+	Migration        *TemplateMigrationAssessment `json:"migration,omitempty"`
+	Namespace        string                       `json:"namespace"`
+	PackageID        string                       `json:"packageId"`
+	PackageUpdatedAt time.Time                    `json:"packageUpdatedAt"`
+	PreflightTaskID  string                       `json:"preflightTaskId"`
+	RenderedDigest   string                       `json:"renderedDigest"`
+	RendererVersion  string                       `json:"rendererVersion"`
+	Revision         int                          `json:"revision"`
+	RevisionDigest   string                       `json:"revisionDigest"`
+
+	// RootResource Server-frozen imported namespaced CR identity and user-reviewed generation. Publication requires the original imported target with metadata ownershipMode=managed, rootCRGeneration matching the reviewed generation, and configRef selecting its Manifest binding. Only spec may be updated; missing roots are never created. Current user or token permissions, external ownership and UID are rechecked. Requires manifest.root-cr.v1 Agent capability and manifest_root_cr_v1 provider. Configuration copies, revisions, plans and deployments retain the sensitive configuration read permission; ordinary task summaries omit root documents.
+	RootResource   *ManifestRootResource          `json:"rootResource,omitempty"`
+	ServiceID      string                         `json:"serviceId,omitempty"`
+	SourceCommit   string                         `json:"sourceCommit,omitempty"`
+	TargetID       string                         `json:"targetId"`
+	TemplateInputs *ManifestServiceTemplateInputs `json:"templateInputs,omitempty"`
 }
 
 // ManifestDeployment defines model for ManifestDeployment.
@@ -23682,6 +24067,7 @@ type ManifestDeploymentSpec struct {
 type ManifestDeploymentStatus struct {
 	AppliedDigest         string                      `json:"appliedDigest,omitempty"`
 	AppliedRevision       int                         `json:"appliedRevision,omitempty"`
+	AppliedTemplate       *TemplateVersionReference   `json:"appliedTemplate,omitempty"`
 	Conditions            []ManifestCondition         `json:"conditions"`
 	Drift                 *ManifestDriftReport        `json:"drift,omitempty"`
 	Inventory             []ManifestResourceInventory `json:"inventory"`
@@ -23801,24 +24187,30 @@ type ManifestExecutionTaskPayload struct {
 	Generation      int64                      `json:"generation"`
 
 	// GitOpsDocuments Server-rendered child resources from the single Argo Application's immutable Git source and image overrides; used for ownership admission and live verification, never direct apply.
-	GitOpsDocuments []ManifestRenderedDocument           `json:"gitOpsDocuments,omitempty"`
-	IdempotencyKey  string                               `json:"idempotencyKey"`
-	IncludePatterns []string                             `json:"includePatterns,omitempty"`
-	Inventory       []ManifestResourceInventory          `json:"inventory,omitempty"`
-	Namespace       string                               `json:"namespace,omitempty"`
-	PackageID       string                               `json:"packageId"`
-	Path            string                               `json:"path,omitempty"`
-	RefType         ManifestSourceRefType                `json:"refType,omitempty"`
-	RefValue        string                               `json:"refValue,omitempty"`
-	RenderedDigest  string                               `json:"renderedDigest,omitempty"`
-	Renderer        ManifestExecutionTaskPayloadRenderer `json:"renderer,omitempty"`
-	RepositoryID    string                               `json:"repositoryId,omitempty"`
-	RepositoryURL   string                               `json:"repositoryUrl,omitempty"`
-	RequestedBy     string                               `json:"requestedBy,omitempty"`
-	RequestedCommit string                               `json:"requestedCommit,omitempty"`
-	Revision        int                                  `json:"revision,omitempty"`
-	RolloutControl  *ProgressiveRolloutControlInput      `json:"rolloutControl,omitempty"`
-	SourceID        string                               `json:"sourceId,omitempty"`
+	GitOpsDocuments []ManifestRenderedDocument `json:"gitOpsDocuments,omitempty"`
+	IdempotencyKey  string                     `json:"idempotencyKey"`
+	IncludePatterns []string                   `json:"includePatterns,omitempty"`
+
+	// InitializationPlanID Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag.
+	InitializationPlanID string                               `json:"initializationPlanId,omitempty"`
+	Inventory            []ManifestResourceInventory          `json:"inventory,omitempty"`
+	Namespace            string                               `json:"namespace,omitempty"`
+	PackageID            string                               `json:"packageId"`
+	Path                 string                               `json:"path,omitempty"`
+	RefType              ManifestSourceRefType                `json:"refType,omitempty"`
+	RefValue             string                               `json:"refValue,omitempty"`
+	RenderedDigest       string                               `json:"renderedDigest,omitempty"`
+	Renderer             ManifestExecutionTaskPayloadRenderer `json:"renderer,omitempty"`
+	RepositoryID         string                               `json:"repositoryId,omitempty"`
+	RepositoryURL        string                               `json:"repositoryUrl,omitempty"`
+	RequestedBy          string                               `json:"requestedBy,omitempty"`
+	RequestedCommit      string                               `json:"requestedCommit,omitempty"`
+	Revision             int                                  `json:"revision,omitempty"`
+	RolloutControl       *ProgressiveRolloutControlInput      `json:"rolloutControl,omitempty"`
+
+	// RootResource Server-frozen imported namespaced CR identity and user-reviewed generation. Publication requires the original imported target with metadata ownershipMode=managed, rootCRGeneration matching the reviewed generation, and configRef selecting its Manifest binding. Only spec may be updated; missing roots are never created. Current user or token permissions, external ownership and UID are rechecked. Requires manifest.root-cr.v1 Agent capability and manifest_root_cr_v1 provider. Configuration copies, revisions, plans and deployments retain the sensitive configuration read permission; ordinary task summaries omit root documents.
+	RootResource *ManifestRootResource `json:"rootResource,omitempty"`
+	SourceID     string                `json:"sourceId,omitempty"`
 }
 
 // ManifestExecutionTaskPayloadRenderer defines model for ManifestExecutionTaskPayload.Renderer.
@@ -23826,18 +24218,21 @@ type ManifestExecutionTaskPayloadRenderer string
 
 // ManifestExecutionTaskResult defines model for ManifestExecutionTaskResult.
 type ManifestExecutionTaskResult struct {
-	Action          ManifestTaskAction          `json:"action"`
-	AdoptedFiles    []ManifestFile              `json:"adoptedFiles,omitempty"`
-	CanonicalDigest string                      `json:"canonicalDigest,omitempty"`
-	DeploymentID    string                      `json:"deploymentId,omitempty"`
-	Diagnostics     []ManifestDiagnostic        `json:"diagnostics"`
-	Drift           *ManifestDriftReport        `json:"drift,omitempty"`
-	EvidenceRefs    []string                    `json:"evidenceRefs,omitempty"`
-	Generation      int64                       `json:"generation"`
-	Inventory       []ManifestResourceInventory `json:"inventory"`
-	Preflight       *ManifestPreflightResult    `json:"preflight,omitempty"`
-	RenderedDigest  string                      `json:"renderedDigest,omitempty"`
-	ResolvedCommit  string                      `json:"resolvedCommit,omitempty"`
+	Action          ManifestTaskAction   `json:"action"`
+	AdoptedFiles    []ManifestFile       `json:"adoptedFiles,omitempty"`
+	CanonicalDigest string               `json:"canonicalDigest,omitempty"`
+	DeploymentID    string               `json:"deploymentId,omitempty"`
+	Diagnostics     []ManifestDiagnostic `json:"diagnostics"`
+	Drift           *ManifestDriftReport `json:"drift,omitempty"`
+	EvidenceRefs    []string             `json:"evidenceRefs,omitempty"`
+	Generation      int64                `json:"generation"`
+
+	// InitializationPlanID Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag.
+	InitializationPlanID string                      `json:"initializationPlanId,omitempty"`
+	Inventory            []ManifestResourceInventory `json:"inventory"`
+	Preflight            *ManifestPreflightResult    `json:"preflight,omitempty"`
+	RenderedDigest       string                      `json:"renderedDigest,omitempty"`
+	ResolvedCommit       string                      `json:"resolvedCommit,omitempty"`
 
 	// Rollout Observed Argo Rollouts state. Traffic weights are read from Traefik, never inferred from replica counts. Promotion clears only a manual pause and does not skip analysis.
 	Rollout     *ProgressiveRolloutStatus `json:"rollout,omitempty"`
@@ -23950,11 +24345,14 @@ type ManifestPreflightInput struct {
 
 // ManifestPreflightResult defines model for ManifestPreflightResult.
 type ManifestPreflightResult struct {
-	Capability     ManifestPreflightResultCapability `json:"capability"`
-	Diagnostics    []ManifestDiagnostic              `json:"diagnostics"`
-	Ready          bool                              `json:"ready"`
-	RenderedDigest string                            `json:"renderedDigest"`
-	ResourceCount  int                               `json:"resourceCount"`
+	Capability  ManifestPreflightResultCapability `json:"capability"`
+	Diagnostics []ManifestDiagnostic              `json:"diagnostics"`
+
+	// InitializationPlanID Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag.
+	InitializationPlanID string `json:"initializationPlanId,omitempty"`
+	Ready                bool   `json:"ready"`
+	RenderedDigest       string `json:"renderedDigest"`
+	ResourceCount        int    `json:"resourceCount"`
 }
 
 // ManifestPreflightResultCapability defines model for ManifestPreflightResult.Capability.
@@ -24039,6 +24437,19 @@ type ManifestRollbackInput struct {
 	Reason             string `json:"reason,omitempty"`
 	TargetRevision     int    `json:"targetRevision,omitempty"`
 	UseLastKnownGood   bool   `json:"useLastKnownGood,omitempty"`
+}
+
+// ManifestRootResource Server-frozen imported namespaced CR identity and user-reviewed generation. Publication requires the original imported target with metadata ownershipMode=managed, rootCRGeneration matching the reviewed generation, and configRef selecting its Manifest binding. Only spec may be updated; missing roots are never created. Current user or token permissions, external ownership and UID are rechecked. Requires manifest.root-cr.v1 Agent capability and manifest_root_cr_v1 provider. Configuration copies, revisions, plans and deployments retain the sensitive configuration read permission; ordinary task summaries omit root documents.
+type ManifestRootResource struct {
+	APIVersion     string `json:"apiVersion"`
+	CrdName        string `json:"crdName"`
+	DeliveryPlanID string `json:"deliveryPlanId"`
+	Generation     int64  `json:"generation"`
+	Kind           string `json:"kind"`
+	Name           string `json:"name"`
+	Namespace      string `json:"namespace"`
+	TargetID       string `json:"targetId"`
+	UID            string `json:"uid"`
 }
 
 // ManifestServiceTemplateInputs defines model for ManifestServiceTemplateInputs.
@@ -24172,6 +24583,15 @@ type ManifestSyncWebhookInput struct {
 
 // ManifestTaskAction defines model for ManifestTaskAction.
 type ManifestTaskAction string
+
+// ManifestTemplateSelection defines model for ManifestTemplateSelection.
+type ManifestTemplateSelection struct {
+	AdoptionID      string                  `json:"adoptionId"`
+	BaseFilesDigest string                  `json:"baseFilesDigest"`
+	Parameters      TemplateParameterValues `json:"parameters"`
+	TemplateID      string                  `json:"templateId"`
+	Version         int64                   `json:"version"`
+}
 
 // ManifestValidationStage defines model for ManifestValidationStage.
 type ManifestValidationStage string
@@ -28072,6 +28492,83 @@ type ResourceReadResultEnvelope struct {
 	Data ResourceReadResult `json:"data"`
 }
 
+// ResourceRelationConfig defines model for ResourceRelationConfig.
+type ResourceRelationConfig struct {
+	RootUID string                   `json:"rootUid"`
+	Rules   []ResourceRelationRule   `json:"rules"`
+	Sources []ResourceRelationSource `json:"sources"`
+	Version string                   `json:"version"`
+}
+
+// ResourceRelationCoverage defines model for ResourceRelationCoverage.
+type ResourceRelationCoverage struct {
+	QueryID    string                        `json:"queryId"`
+	ReasonCode string                        `json:"reasonCode,omitempty"`
+	State      ResourceRelationCoverageState `json:"state"`
+	Truncated  bool                          `json:"truncated"`
+}
+
+// ResourceRelationCoverageState defines model for ResourceRelationCoverage.State.
+type ResourceRelationCoverageState string
+
+// ResourceRelationEdge defines model for ResourceRelationEdge.
+type ResourceRelationEdge struct {
+	FromUID string                   `json:"fromUid"`
+	RuleID  string                   `json:"ruleId,omitempty"`
+	ToUID   string                   `json:"toUid"`
+	Type    ResourceRelationEdgeType `json:"type"`
+}
+
+// ResourceRelationEdgeType defines model for ResourceRelationEdge.Type.
+type ResourceRelationEdgeType string
+
+// ResourceRelationNode defines model for ResourceRelationNode.
+type ResourceRelationNode struct {
+	Depth    int                      `json:"depth"`
+	Resource KubernetesResourceRef    `json:"resource"`
+	Role     ResourceRelationNodeRole `json:"role"`
+}
+
+// ResourceRelationNodeRole defines model for ResourceRelationNode.Role.
+type ResourceRelationNodeRole string
+
+// ResourceRelationRule defines model for ResourceRelationRule.
+type ResourceRelationRule struct {
+	ID       string                   `json:"id"`
+	Name     string                   `json:"name,omitempty"`
+	Selector map[string]string        `json:"selector,omitempty"`
+	Target   ResourceRelationSource   `json:"target"`
+	Type     ResourceRelationRuleType `json:"type"`
+	UID      string                   `json:"uid,omitempty"`
+}
+
+// ResourceRelationRuleType defines model for ResourceRelationRule.Type.
+type ResourceRelationRuleType string
+
+// ResourceRelationSource defines model for ResourceRelationSource.
+type ResourceRelationSource struct {
+	APIVersion string `json:"apiVersion"`
+	Kind       string `json:"kind"`
+	Namespace  string `json:"namespace"`
+	Resource   string `json:"resource"`
+}
+
+// ResourceRelationsEnvelope defines model for ResourceRelationsEnvelope.
+type ResourceRelationsEnvelope struct {
+	Data ResourceRelationsView `json:"data"`
+}
+
+// ResourceRelationsView defines model for ResourceRelationsView.
+type ResourceRelationsView struct {
+	Config     ResourceRelationConfig     `json:"config"`
+	Coverage   []ResourceRelationCoverage `json:"coverage"`
+	Edges      []ResourceRelationEdge     `json:"edges"`
+	Nodes      []ResourceRelationNode     `json:"nodes"`
+	ObservedAt string                     `json:"observedAt"`
+	Partial    bool                       `json:"partial"`
+	Root       KubernetesResourceRef      `json:"root"`
+}
+
 // ResourceSelector defines model for ResourceSelector.
 type ResourceSelector struct {
 	MatchLabels map[string]string `json:"matchLabels,omitempty"`
@@ -28739,6 +29236,7 @@ type ServiceDeploymentTemplate struct {
 	Health               DeploymentTemplateHealth `json:"health"`
 	ID                   string                   `json:"id"`
 	Key                  string                   `json:"key"`
+	MigrationPolicy      *TemplateMigrationPolicy `json:"migrationPolicy,omitempty"`
 	Name                 string                   `json:"name"`
 
 	// ParameterSchema Restricted JSON Schema. Objects reject undeclared keys unless mapValues specifies their schema. secret_reference accepts only a namespaced Secret name/key reference, never a plaintext credential. External references and executable expressions are unsupported.
@@ -28779,6 +29277,7 @@ type ServiceDeploymentTemplateInput struct {
 	ExpectedRevision     int64                    `json:"expectedRevision,omitempty"`
 	Health               DeploymentTemplateHealth `json:"health"`
 	Key                  string                   `json:"key"`
+	MigrationPolicy      *TemplateMigrationPolicy `json:"migrationPolicy,omitempty"`
 	Name                 string                   `json:"name"`
 
 	// ParameterSchema Restricted JSON Schema. Objects reject undeclared keys unless mapValues specifies their schema. secret_reference accepts only a namespaced Secret name/key reference, never a plaintext credential. External references and executable expressions are unsupported.
@@ -29018,6 +29517,7 @@ type StreamTicketEnvelope struct {
 
 // StreamTicketRequest defines model for StreamTicketRequest.
 type StreamTicketRequest struct {
+	// Path Same-origin stream pathname. UID-aware Pod sessions include expectedUid, namespace, container and shell query fields to bind the one-use ticket to that exact target; other query fields are not part of the binding.
 	Path string `json:"path"`
 }
 
@@ -29129,6 +29629,38 @@ type TemplateCopyOrigin struct {
 	Version  int64  `json:"version,omitempty"`
 }
 
+// TemplateMigrationAssessment defines model for TemplateMigrationAssessment.
+type TemplateMigrationAssessment struct {
+	Blocked     bool  `json:"blocked"`
+	FromVersion int64 `json:"fromVersion"`
+
+	// Initialization Server-classified first-deployment candidate; requires create-only preflight and explicit Plan approval. It is not a successful runtime baseline or proof that external data is empty.
+	Initialization   bool                    `json:"initialization,omitempty"`
+	Reason           string                  `json:"reason"`
+	RequiresApproval bool                    `json:"requiresApproval"`
+	Steps            []TemplateMigrationStep `json:"steps"`
+	ToVersion        int64                   `json:"toVersion"`
+}
+
+// TemplateMigrationPolicy defines model for TemplateMigrationPolicy.
+type TemplateMigrationPolicy struct {
+	// Guide Human migration/recovery instructions. Never executed as a script.
+	Guide string `json:"guide,omitempty"`
+
+	// Irreversible Forward changes require approval; ordinary rollback across this boundary is forbidden.
+	Irreversible bool `json:"irreversible"`
+
+	// Sequential Must cross this boundary as adjacent published versions; approval cannot waive it.
+	Sequential bool `json:"sequential"`
+}
+
+// TemplateMigrationStep defines model for TemplateMigrationStep.
+type TemplateMigrationStep struct {
+	ContentDigest string                  `json:"contentDigest"`
+	Policy        TemplateMigrationPolicy `json:"policy"`
+	Version       int64                   `json:"version"`
+}
+
 // TemplateParameterSchema Restricted JSON Schema. Objects reject undeclared keys unless mapValues specifies their schema. secret_reference accepts only a namespaced Secret name/key reference, never a plaintext credential. External references and executable expressions are unsupported.
 type TemplateParameterSchema struct {
 	Description string                              `json:"description,omitempty"`
@@ -29179,6 +29711,188 @@ type TemplatePublicationState string
 // TemplatePublishInput defines model for TemplatePublishInput.
 type TemplatePublishInput struct {
 	ExpectedRevision int `json:"expectedRevision"`
+}
+
+// TemplateUpdateBatchInput defines model for TemplateUpdateBatchInput.
+type TemplateUpdateBatchInput struct {
+	AcknowledgeHistoryGaps bool     `json:"acknowledgeHistoryGaps"`
+	CandidateIDs           []string `json:"candidateIds"`
+	IdempotencyKey         string   `json:"idempotencyKey"`
+	PreviewDigest          string   `json:"previewDigest"`
+	StopOnFailure          bool     `json:"stopOnFailure"`
+	WaveSize               int64    `json:"waveSize"`
+}
+
+// TemplateUpdateCandidate defines model for TemplateUpdateCandidate.
+type TemplateUpdateCandidate struct {
+	Cumulative       TemplateUpdateDiff      `json:"cumulative"`
+	Digest           string                  `json:"digest"`
+	Eligible         bool                    `json:"eligible"`
+	ID               string                  `json:"id"`
+	Parameters       TemplateParameterValues `json:"parameters"`
+	Reason           string                  `json:"reason"`
+	RequiresApproval bool                    `json:"requiresApproval"`
+	Target           TemplateUpdateTarget    `json:"target"`
+	ToVersion        int64                   `json:"toVersion"`
+	Versions         []TemplateUpdateDiff    `json:"versions"`
+	Wave             int64                   `json:"wave"`
+}
+
+// TemplateUpdateChange defines model for TemplateUpdateChange.
+type TemplateUpdateChange struct {
+	After   string                      `json:"after"`
+	Before  string                      `json:"before"`
+	Path    string                      `json:"path"`
+	Section TemplateUpdateChangeSection `json:"section"`
+}
+
+// TemplateUpdateChangeSection defines model for TemplateUpdateChange.Section.
+type TemplateUpdateChangeSection string
+
+// TemplateUpdateDiff defines model for TemplateUpdateDiff.
+type TemplateUpdateDiff struct {
+	Changes      []TemplateUpdateChange         `json:"changes"`
+	Diagnostics  []string                       `json:"diagnostics"`
+	FromVersion  int64                          `json:"fromVersion"`
+	HistoryGap   bool                           `json:"historyGap"`
+	Migration    *TemplateMigrationAssessment   `json:"migration,omitempty"`
+	RenderStatus TemplateUpdateDiffRenderStatus `json:"renderStatus"`
+	ToVersion    int64                          `json:"toVersion"`
+}
+
+// TemplateUpdateDiffRenderStatus defines model for TemplateUpdateDiff.RenderStatus.
+type TemplateUpdateDiffRenderStatus string
+
+// TemplateUpdateKind defines model for TemplateUpdateKind.
+type TemplateUpdateKind string
+
+// TemplateUpdateMode defines model for TemplateUpdateMode.
+type TemplateUpdateMode string
+
+// TemplateUpdatePolicy defines model for TemplateUpdatePolicy.
+type TemplateUpdatePolicy struct {
+	ID          string             `json:"id"`
+	Kind        TemplateUpdateKind `json:"kind"`
+	LastBatchID string             `json:"lastBatchId"`
+	LastError   string             `json:"lastError"`
+	Mode        TemplateUpdateMode `json:"mode"`
+	Paused      bool               `json:"paused"`
+	TargetID    string             `json:"targetId"`
+	TemplateID  string             `json:"templateId"`
+	UpdatedAt   time.Time          `json:"updatedAt"`
+	Version     int64              `json:"version"`
+}
+
+// TemplateUpdatePolicyEnvelope defines model for TemplateUpdatePolicyEnvelope.
+type TemplateUpdatePolicyEnvelope struct {
+	Data TemplateUpdatePolicy `json:"data"`
+}
+
+// TemplateUpdatePolicyInput defines model for TemplateUpdatePolicyInput.
+type TemplateUpdatePolicyInput struct {
+	ExpectedVersion int64              `json:"expectedVersion"`
+	Kind            TemplateUpdateKind `json:"kind"`
+	Mode            TemplateUpdateMode `json:"mode"`
+	Paused          bool               `json:"paused"`
+	TargetID        string             `json:"targetId"`
+	TemplateID      string             `json:"templateId"`
+}
+
+// TemplateUpdatePolicyListEnvelope defines model for TemplateUpdatePolicyListEnvelope.
+type TemplateUpdatePolicyListEnvelope struct {
+	Data []TemplateUpdatePolicy `json:"data"`
+}
+
+// TemplateUpdatePreview defines model for TemplateUpdatePreview.
+type TemplateUpdatePreview struct {
+	Candidates        []TemplateUpdateCandidate `json:"candidates"`
+	ConfigurationOnly bool                      `json:"configurationOnly"`
+	CreatedAt         time.Time                 `json:"createdAt"`
+	Digest            string                    `json:"digest"`
+	ExpiresAt         time.Time                 `json:"expiresAt"`
+	ID                string                    `json:"id"`
+	Kind              TemplateUpdateKind        `json:"kind"`
+	TemplateID        string                    `json:"templateId"`
+	ToVersion         int64                     `json:"toVersion"`
+}
+
+// TemplateUpdatePreviewEnvelope defines model for TemplateUpdatePreviewEnvelope.
+type TemplateUpdatePreviewEnvelope struct {
+	Data TemplateUpdatePreview `json:"data"`
+}
+
+// TemplateUpdatePreviewInput defines model for TemplateUpdatePreviewInput.
+type TemplateUpdatePreviewInput struct {
+	ApplicationID string                    `json:"applicationId,omitempty"`
+	Kind          TemplateUpdateKind        `json:"kind"`
+	Targets       []TemplateUpdateSelection `json:"targets"`
+	TemplateID    string                    `json:"templateId"`
+	ToVersion     int64                     `json:"toVersion"`
+}
+
+// TemplateUpdateReceipt defines model for TemplateUpdateReceipt.
+type TemplateUpdateReceipt struct {
+	BindingID        string             `json:"bindingId"`
+	CandidateID      string             `json:"candidateId"`
+	FromVersion      int64              `json:"fromVersion"`
+	Kind             TemplateUpdateKind `json:"kind"`
+	PreviewID        string             `json:"previewId"`
+	RequiresApproval bool               `json:"requiresApproval"`
+	TemplateID       string             `json:"templateId"`
+	ToVersion        int64              `json:"toVersion"`
+}
+
+// TemplateUpdateSelection defines model for TemplateUpdateSelection.
+type TemplateUpdateSelection struct {
+	Parameters     *TemplateParameterValues `json:"parameters,omitempty"`
+	TargetID       string                   `json:"targetId"`
+	UseNewDefaults []string                 `json:"useNewDefaults,omitempty"`
+	Wave           int64                    `json:"wave,omitempty"`
+}
+
+// TemplateUpdateTarget defines model for TemplateUpdateTarget.
+type TemplateUpdateTarget struct {
+	ApplicationEnvironmentID string                    `json:"applicationEnvironmentId"`
+	ApplicationID            string                    `json:"applicationId"`
+	ApplicationName          string                    `json:"applicationName"`
+	BindingRevision          string                    `json:"bindingRevision"`
+	Eligible                 bool                      `json:"eligible"`
+	EnvironmentName          string                    `json:"environmentName"`
+	FromVersion              int64                     `json:"fromVersion"`
+	ID                       string                    `json:"id"`
+	IndependentOverrides     []string                  `json:"independentOverrides"`
+	Kind                     TemplateUpdateKind        `json:"kind"`
+	Mode                     TemplateUpdateMode        `json:"mode"`
+	Reason                   string                    `json:"reason"`
+	ReleaseTargetID          string                    `json:"releaseTargetId"`
+	RequiresApproval         bool                      `json:"requiresApproval"`
+	Scope                    TemplateUpdateTargetScope `json:"scope"`
+	ServiceID                string                    `json:"serviceId"`
+	ServiceName              string                    `json:"serviceName"`
+	TemplateID               string                    `json:"templateId"`
+}
+
+// TemplateUpdateTargetScope defines model for TemplateUpdateTarget.Scope.
+type TemplateUpdateTargetScope string
+
+// TemplateUpdateTargetPage defines model for TemplateUpdateTargetPage.
+type TemplateUpdateTargetPage struct {
+	Items    []TemplateUpdateTarget `json:"items"`
+	Page     int64                  `json:"page"`
+	PageSize int64                  `json:"pageSize"`
+	Total    int64                  `json:"total"`
+}
+
+// TemplateUpdateTargetPageEnvelope defines model for TemplateUpdateTargetPageEnvelope.
+type TemplateUpdateTargetPageEnvelope struct {
+	Data TemplateUpdateTargetPage `json:"data"`
+}
+
+// TemplateVersionReference defines model for TemplateVersionReference.
+type TemplateVersionReference struct {
+	TemplateDigest  string `json:"templateDigest"`
+	TemplateID      string `json:"templateId"`
+	TemplateVersion int64  `json:"templateVersion"`
 }
 
 // TokenRotationInput defines model for TokenRotationInput.
@@ -31637,6 +32351,7 @@ type WorkflowTemplate struct {
 	Enabled          bool                     `json:"enabled"`
 	ID               string                   `json:"id"`
 	Key              string                   `json:"key"`
+	MigrationPolicy  *TemplateMigrationPolicy `json:"migrationPolicy,omitempty"`
 	Name             string                   `json:"name"`
 	PublicationState TemplatePublicationState `json:"publicationState,omitempty"`
 
@@ -31666,10 +32381,11 @@ type WorkflowTemplateInput struct {
 	Enabled     bool           `json:"enabled"`
 
 	// ExpectedRevision Reject an update if the stored revision differs.
-	ExpectedRevision int    `json:"expectedRevision,omitempty"`
-	ID               string `json:"id,omitempty"`
-	Key              string `json:"key"`
-	Name             string `json:"name"`
+	ExpectedRevision int                      `json:"expectedRevision,omitempty"`
+	ID               string                   `json:"id,omitempty"`
+	Key              string                   `json:"key"`
+	MigrationPolicy  *TemplateMigrationPolicy `json:"migrationPolicy,omitempty"`
+	Name             string                   `json:"name"`
 
 	// Publish Publish an immutable version when saving. False saves a draft; omission preserves legacy save-and-publish behavior.
 	Publish bool `json:"publish,omitempty"`
@@ -32698,11 +33414,18 @@ type ListApplicationEnvironmentsParams struct {
 
 // ListApplicationEnvironmentTargetCandidatesParams defines parameters for ListApplicationEnvironmentTargetCandidates.
 type ListApplicationEnvironmentTargetCandidatesParams struct {
+	WorkloadKind ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind `form:"workloadKind,omitempty" json:"workloadKind,omitempty"`
+
+	// CrdName Explicit CRD selection for CustomResource discovery. Only this served resource and namespace are queried.
+	CrdName   string `form:"crdName,omitempty" json:"crdName,omitempty"`
 	ClusterID string `form:"clusterId" json:"clusterId"`
 	Namespace string `form:"namespace" json:"namespace"`
 	Search    string `form:"search,omitempty" json:"search,omitempty"`
 	Limit     int    `form:"limit,omitempty" json:"limit,omitempty"`
 }
+
+// ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind defines parameters for ListApplicationEnvironmentTargetCandidates.
+type ListApplicationEnvironmentTargetCandidatesParamsWorkloadKind string
 
 // ListApplicationsParams defines parameters for ListApplications.
 type ListApplicationsParams struct {
@@ -33425,11 +34148,14 @@ type GetKubernetesPodDetailParams struct {
 
 // GetKubernetesPodLogsParams defines parameters for GetKubernetesPodLogs.
 type GetKubernetesPodLogsParams struct {
-	Namespace    KubernetesNamespaceDefaultQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
-	Container    string                          `form:"container,omitempty" json:"container,omitempty"`
-	TailLines    int                             `form:"tailLines,omitempty" json:"tailLines,omitempty"`
-	SinceSeconds int                             `form:"sinceSeconds,omitempty" json:"sinceSeconds,omitempty"`
-	Previous     bool                            `form:"previous,omitempty" json:"previous,omitempty"`
+	Namespace KubernetesNamespaceDefaultQuery `form:"namespace,omitempty" json:"namespace,omitempty"`
+
+	// ExpectedUID Reject the request if the live Pod UID differs. Omit only for legacy clients, never when restoring a saved session.
+	ExpectedUID  string `form:"expectedUid,omitempty" json:"expectedUid,omitempty"`
+	Container    string `form:"container,omitempty" json:"container,omitempty"`
+	TailLines    int    `form:"tailLines,omitempty" json:"tailLines,omitempty"`
+	SinceSeconds int    `form:"sinceSeconds,omitempty" json:"sinceSeconds,omitempty"`
+	Previous     bool   `form:"previous,omitempty" json:"previous,omitempty"`
 }
 
 // GetClusterPodMetricsParams defines parameters for GetClusterPodMetrics.
@@ -33801,6 +34527,24 @@ type ListDeliveryTemplateSourceObjectsParams struct {
 type ListDeliveryTemplateSyncRunsParams struct {
 	Offset int `form:"offset,omitempty" json:"offset,omitempty"`
 	Limit  int `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
+// ListTemplateUpdatePoliciesParams defines parameters for ListTemplateUpdatePolicies.
+type ListTemplateUpdatePoliciesParams struct {
+	Kind          TemplateUpdateKind `form:"kind" json:"kind"`
+	TemplateID    string             `form:"templateId" json:"templateId"`
+	ApplicationID string             `form:"applicationId,omitempty" json:"applicationId,omitempty"`
+}
+
+// ListTemplateUpdateTargetsParams defines parameters for ListTemplateUpdateTargets.
+type ListTemplateUpdateTargetsParams struct {
+	Kind                     TemplateUpdateKind `form:"kind" json:"kind"`
+	TemplateID               string             `form:"templateId" json:"templateId"`
+	ApplicationID            string             `form:"applicationId,omitempty" json:"applicationId,omitempty"`
+	Page                     int64              `form:"page,omitempty" json:"page,omitempty"`
+	PageSize                 int64              `form:"pageSize,omitempty" json:"pageSize,omitempty"`
+	ServiceID                string             `form:"serviceId,omitempty" json:"serviceId,omitempty"`
+	ApplicationEnvironmentID string             `form:"applicationEnvironmentId,omitempty" json:"applicationEnvironmentId,omitempty"`
 }
 
 // ListDeliveryTriggersParams defines parameters for ListDeliveryTriggers.
@@ -35039,6 +35783,15 @@ type SyncDeliveryTemplateSourceJSONRequestBody = DeliveryTemplateSyncInput
 
 // ApplyDeliveryTemplateSyncJSONRequestBody defines body for ApplyDeliveryTemplateSync for application/json ContentType.
 type ApplyDeliveryTemplateSyncJSONRequestBody = DeliveryTemplateSyncApplyInput
+
+// SaveTemplateUpdatePolicyJSONRequestBody defines body for SaveTemplateUpdatePolicy for application/json ContentType.
+type SaveTemplateUpdatePolicyJSONRequestBody = TemplateUpdatePolicyInput
+
+// CreateTemplateUpdatePreviewJSONRequestBody defines body for CreateTemplateUpdatePreview for application/json ContentType.
+type CreateTemplateUpdatePreviewJSONRequestBody = TemplateUpdatePreviewInput
+
+// CreateTemplateUpdateBatchJSONRequestBody defines body for CreateTemplateUpdateBatch for application/json ContentType.
+type CreateTemplateUpdateBatchJSONRequestBody = TemplateUpdateBatchInput
 
 // CreateDeliveryTriggerJSONRequestBody defines body for CreateDeliveryTrigger for application/json ContentType.
 type CreateDeliveryTriggerJSONRequestBody = DeliveryTriggerInput
@@ -43192,6 +43945,39 @@ const (
 )
 
 // Retained for Go SDK source compatibility.
+const Browser PersonalGuestRuntimeInputKind = "browser"
+
+// Retained for Go SDK source compatibility.
+const Docker PersonalGuestRuntimeInputKind = "docker"
+
+// Retained for Go SDK source compatibility.
+const Execute PersonalGuestRuntimeInputKind = "execute"
+
+// Retained for Go SDK source compatibility.
+const FileRead PersonalGuestRuntimeInputKind = "file_read"
+
+// Retained for Go SDK source compatibility.
+const FileWrite PersonalGuestRuntimeInputKind = "file_write"
+
+// Retained for Go SDK source compatibility.
+const JSON ExportDeliveryDocumentParamsFormat = "json"
+
+// Retained for Go SDK source compatibility.
+const Yaml ExportDeliveryDocumentParamsFormat = "yaml"
+
+// Retained for Go SDK source compatibility.
+const ExternalService DeliveryDraftServiceServiceKind = "external_service"
+
+// Retained for Go SDK source compatibility.
+const HelmRelease DeliveryDraftServiceServiceKind = "helm_release"
+
+// Retained for Go SDK source compatibility.
+const Job DeliveryDraftServiceServiceKind = "job"
+
+// Retained for Go SDK source compatibility.
+const KubernetesWorkload DeliveryDraftServiceServiceKind = "kubernetes_workload"
+
+// Retained for Go SDK source compatibility.
 const ListAIGatewayRelayUpstreamsParamsStatusActive ListAIGatewayRelayUpstreamsParamsStatus = "active"
 
 // Retained for Go SDK source compatibility.
@@ -43201,13 +43987,13 @@ const ListAIGatewayRelayUpstreamsParamsStatusDegraded ListAIGatewayRelayUpstream
 const ListAIGatewayRelayUpstreamsParamsStatusDisabled ListAIGatewayRelayUpstreamsParamsStatus = "disabled"
 
 // Retained for Go SDK source compatibility.
-const NetworkNamespace RuntimeNetworkUsageScope = "network_namespace"
+const RuntimeNetworkUsageScopeNetworkNamespace RuntimeNetworkUsageScope = "network_namespace"
 
 // Retained for Go SDK source compatibility.
-const Process RuntimeNetworkUsageScope = "process"
+const RuntimeNetworkUsageScopeProcess RuntimeNetworkUsageScope = "process"
 
 // Retained for Go SDK source compatibility.
-const Unavailable RuntimeNetworkUsageScope = "unavailable"
+const RuntimeNetworkUsageScopeUnavailable RuntimeNetworkUsageScope = "unavailable"
 
 // Retained for Go SDK source compatibility.
 const Cancelled WorkbenchAgentStatusEventStatus = "cancelled"

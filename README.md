@@ -118,7 +118,7 @@ calling code in the consumer until those APIs are promoted into the supported
 client surface. Redirect-oriented flows such as OIDC provider redirects should
 not use the JSON-only `doJSON` helper until a non-JSON client mode is added.
 
-The Go generator and generated DTO checks run with Go 1.27.2 in CI.
+The Go generator and generated DTO checks run with Go 1.27.3 in CI.
 
 ## Validation
 

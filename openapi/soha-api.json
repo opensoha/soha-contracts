@@ -6126,6 +6126,23 @@
             },
             "type": "object"
           },
+          "source": {
+            "$ref": "#/components/schemas/KubernetesImportSource"
+          },
+          "sourceStatus": {
+            "enum": [
+              "linked",
+              "changed",
+              "replaced",
+              "missing",
+              "unavailable",
+              "forbidden"
+            ],
+            "type": "string"
+          },
+          "targetId": {
+            "type": "string"
+          },
           "updatedReplicas": {
             "type": "integer"
           },
@@ -7951,6 +7968,9 @@
           "key": {
             "type": "string"
           },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
+          },
           "name": {
             "type": "string"
           },
@@ -8038,6 +8058,9 @@
           },
           "key": {
             "type": "string"
+          },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
           },
           "name": {
             "type": "string"
@@ -12249,6 +12272,9 @@
             "default": true,
             "type": "boolean"
           },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
+          },
           "variableSchema": {
             "additionalProperties": {
               "$ref": "#/components/schemas/DeliveryBuildVariableSchema"
@@ -12388,6 +12414,9 @@
           },
           "health": {
             "$ref": "#/components/schemas/DeploymentTemplateHealth"
+          },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
           },
           "parameterSchema": {
             "$ref": "#/components/schemas/TemplateParameterSchema"
@@ -13982,6 +14011,11 @@
           "targetSummary": {
             "type": "string"
           },
+          "templateCandidateId": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
           "updatedAt": {
             "format": "date-time",
             "type": "string"
@@ -14206,21 +14240,68 @@
         "additionalProperties": false,
         "allOf": [
           {
-            "if": {
+            "else": {
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "action": {
+                        "enum": [
+                          "build_deploy",
+                          "deploy",
+                          "config_update"
+                        ]
+                      }
+                    }
+                  },
+                  "then": {
+                    "required": [
+                      "applicationEnvironmentId"
+                    ]
+                  }
+                }
+              ],
               "properties": {
-                "action": {
-                  "enum": [
-                    "build_deploy",
-                    "deploy",
-                    "config_update"
-                  ]
+                "serviceId": {
+                  "minLength": 1,
+                  "type": "string"
                 }
               }
             },
-            "then": {
+            "if": {
               "required": [
-                "applicationEnvironmentId"
+                "templateCandidateId"
               ]
+            },
+            "then": {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "helmRevision"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "buildArgs"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "repositoryRefs"
+                    ]
+                  }
+                ]
+              },
+              "properties": {
+                "action": {
+                  "const": "config_update"
+                },
+                "releaseBundleId": {
+                  "maxLength": 0,
+                  "type": "string"
+                }
+              }
             }
           },
           {
@@ -14299,6 +14380,10 @@
             "type": "array"
           },
           "serviceId": {
+            "type": "string"
+          },
+          "templateCandidateId": {
+            "maxLength": 256,
             "minLength": 1,
             "type": "string"
           }
@@ -14361,6 +14446,9 @@
           },
           "target": {
             "$ref": "#/components/schemas/DeliveryTargetInput"
+          },
+          "templateUpdate": {
+            "$ref": "#/components/schemas/TemplateUpdateReceipt"
           }
         },
         "required": [
@@ -15543,6 +15631,9 @@
           "enabled": {
             "default": true,
             "type": "boolean"
+          },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
           }
         },
         "required": [
@@ -20200,6 +20291,9 @@
             "minimum": 0,
             "type": "integer"
           },
+          "migration": {
+            "$ref": "#/components/schemas/TemplateMigrationAssessment"
+          },
           "namespace": {
             "minLength": 1,
             "type": "string"
@@ -20253,6 +20347,9 @@
             "minLength": 1,
             "type": "string"
           },
+          "templateInputs": {
+            "$ref": "#/components/schemas/TemplateVersionReference"
+          },
           "timeoutSeconds": {
             "maximum": 3600,
             "minimum": 1,
@@ -20296,6 +20393,14 @@
               "observe"
             ],
             "type": "string"
+          },
+          "initializationResources": {
+            "description": "Server-derived original successful initialization apply receipt. Required for initialization observation or already-applied recovery; current same-name objects cannot establish original ownership.",
+            "items": {
+              "$ref": "#/components/schemas/ManifestResourceInventory"
+            },
+            "maxItems": 300,
+            "type": "array"
           },
           "prepared": {
             "$ref": "#/components/schemas/HelmPreparedRelease"
@@ -27826,11 +27931,17 @@
             },
             "type": "array"
           },
+          "source": {
+            "$ref": "#/components/schemas/KubernetesImportSource"
+          },
           "workloadKind": {
             "enum": [
               "Deployment",
               "StatefulSet",
-              "DaemonSet"
+              "DaemonSet",
+              "Job",
+              "CronJob",
+              "CustomResource"
             ],
             "type": "string"
           },
@@ -27888,7 +27999,10 @@
             "enum": [
               "Deployment",
               "StatefulSet",
-              "DaemonSet"
+              "DaemonSet",
+              "Job",
+              "CronJob",
+              "CustomResource"
             ],
             "type": "string"
           },
@@ -27915,11 +28029,17 @@
           "id": {
             "type": "string"
           },
+          "source": {
+            "$ref": "#/components/schemas/KubernetesImportSource"
+          },
           "workloadKind": {
             "enum": [
               "Deployment",
               "StatefulSet",
-              "DaemonSet"
+              "DaemonSet",
+              "Job",
+              "CronJob",
+              "CustomResource"
             ],
             "type": "string"
           },
@@ -27956,6 +28076,99 @@
           "key",
           "name",
           "created"
+        ],
+        "type": "object"
+      },
+      "KubernetesImportOwnerReference": {
+        "additionalProperties": false,
+        "properties": {
+          "apiVersion": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "blockOwnerDeletion": {
+            "type": "boolean"
+          },
+          "controller": {
+            "type": "boolean"
+          },
+          "kind": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "uid": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "apiVersion",
+          "kind",
+          "name",
+          "uid"
+        ],
+        "type": "object"
+      },
+      "KubernetesImportSource": {
+        "additionalProperties": false,
+        "description": "Safe source identity captured from an authorized live read. No YAML, spec values, annotations or status are persisted here. For native workloads specDigest covers configuration and ownership metadata excluding status/resourceVersion. For CRs it fences the public UID, generation and owner references without hashing secret content; metadata-only edits are outside that fence. CRs without a positive generation are rejected. UID identifies recreation.",
+        "properties": {
+          "crdName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "generation": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "observedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "owners": {
+            "items": {
+              "$ref": "#/components/schemas/KubernetesImportOwnerReference"
+            },
+            "maxItems": 32,
+            "type": "array"
+          },
+          "plural": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "resource": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/KubernetesResourceRef"
+              },
+              {
+                "properties": {
+                  "uid": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "uid"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "specDigest": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "resource",
+          "specDigest",
+          "observedAt"
         ],
         "type": "object"
       },
@@ -29880,6 +30093,11 @@
             "format": "int32",
             "minimum": 0,
             "type": "integer"
+          },
+          "uid": {
+            "description": "Immutable Pod identity. Required by clients restoring a saved live session; absent on older providers.",
+            "minLength": 1,
+            "type": "string"
           }
         },
         "required": [
@@ -29959,6 +30177,11 @@
             "type": "string"
           },
           "startTime": {
+            "type": "string"
+          },
+          "uid": {
+            "description": "Immutable Pod identity. Required by clients restoring a saved live session; absent on older providers.",
+            "minLength": 1,
             "type": "string"
           },
           "volumes": {
@@ -33156,6 +33379,7 @@
       },
       "KubernetesServiceImportRequest": {
         "additionalProperties": false,
+        "description": "Initial association is observe_only. A managed request is rejected until a separate UID-aware ownership handoff and release preflight are available; it must never silently enable publishing.",
         "properties": {
           "applicationKey": {
             "minLength": 1,
@@ -34313,11 +34537,27 @@
       "KubernetesWorkloadImportInput": {
         "additionalProperties": false,
         "properties": {
+          "crdName": {
+            "description": "Required for CustomResource. Resolve the served GVR and scope from this CRD; never infer API group or plural from Kind.",
+            "minLength": 1,
+            "type": "string"
+          },
+          "expectedSpecDigest": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "expectedUid": {
+            "minLength": 1,
+            "type": "string"
+          },
           "workloadKind": {
             "enum": [
               "Deployment",
               "StatefulSet",
-              "DaemonSet"
+              "DaemonSet",
+              "Job",
+              "CronJob",
+              "CustomResource"
             ],
             "type": "string"
           },
@@ -37147,6 +37387,9 @@
           "templateParameters": {
             "$ref": "#/components/schemas/TemplateParameterValues"
           },
+          "templateSelection": {
+            "$ref": "#/components/schemas/ManifestTemplateSelection"
+          },
           "updatedAt": {
             "format": "date-time",
             "type": "string"
@@ -37662,6 +37905,9 @@
             "minLength": 1,
             "type": "string"
           },
+          "migration": {
+            "$ref": "#/components/schemas/TemplateMigrationAssessment"
+          },
           "namespace": {
             "minLength": 1,
             "type": "string"
@@ -37693,6 +37939,9 @@
           "revisionDigest": {
             "minLength": 1,
             "type": "string"
+          },
+          "rootResource": {
+            "$ref": "#/components/schemas/ManifestRootResource"
           },
           "serviceId": {
             "type": "string"
@@ -37944,6 +38193,9 @@
           "appliedRevision": {
             "minimum": 1,
             "type": "integer"
+          },
+          "appliedTemplate": {
+            "$ref": "#/components/schemas/TemplateVersionReference"
           },
           "conditions": {
             "items": {
@@ -38273,6 +38525,12 @@
             },
             "type": "array"
           },
+          "initializationPlanId": {
+            "description": "Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag.",
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
           "inventory": {
             "items": {
               "$ref": "#/components/schemas/ManifestResourceInventory"
@@ -38325,6 +38583,9 @@
           "rolloutControl": {
             "$ref": "#/components/schemas/ProgressiveRolloutControlInput"
           },
+          "rootResource": {
+            "$ref": "#/components/schemas/ManifestRootResource"
+          },
           "sourceId": {
             "type": "string"
           }
@@ -38374,6 +38635,12 @@
             "format": "int64",
             "minimum": 1,
             "type": "integer"
+          },
+          "initializationPlanId": {
+            "description": "Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag.",
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
           },
           "inventory": {
             "items": {
@@ -38764,6 +39031,12 @@
             },
             "type": "array"
           },
+          "initializationPlanId": {
+            "description": "Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag.",
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
           "ready": {
             "type": "boolean"
           },
@@ -39044,6 +39317,61 @@
         },
         "required": [
           "expectedGeneration"
+        ],
+        "type": "object"
+      },
+      "ManifestRootResource": {
+        "additionalProperties": false,
+        "description": "Server-frozen imported namespaced CR identity and user-reviewed generation. Publication requires the original imported target with metadata ownershipMode=managed, rootCRGeneration matching the reviewed generation, and configRef selecting its Manifest binding. Only spec may be updated; missing roots are never created. Current user or token permissions, external ownership and UID are rechecked. Requires manifest.root-cr.v1 Agent capability and manifest_root_cr_v1 provider. Configuration copies, revisions, plans and deployments retain the sensitive configuration read permission; ordinary task summaries omit root documents.",
+        "properties": {
+          "apiVersion": {
+            "minLength": 3,
+            "type": "string"
+          },
+          "crdName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "deliveryPlanId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "generation": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "kind": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "namespace": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "targetId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "uid": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "apiVersion",
+          "kind",
+          "namespace",
+          "name",
+          "uid",
+          "generation",
+          "crdName",
+          "targetId",
+          "deliveryPlanId"
         ],
         "type": "object"
       },
@@ -39527,6 +39855,40 @@
           "ManifestTaskActionSync",
           "ManifestTaskActionRolloutControl"
         ]
+      },
+      "ManifestTemplateSelection": {
+        "additionalProperties": false,
+        "properties": {
+          "adoptionId": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "baseFilesDigest": {
+            "maxLength": 80,
+            "type": "string"
+          },
+          "parameters": {
+            "$ref": "#/components/schemas/TemplateParameterValues"
+          },
+          "templateId": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "version": {
+            "format": "int64",
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "templateId",
+          "version",
+          "parameters",
+          "baseFilesDigest",
+          "adoptionId"
+        ],
+        "type": "object"
       },
       "ManifestValidationStage": {
         "enum": [
@@ -54212,6 +54574,257 @@
         ],
         "type": "object"
       },
+      "ResourceRelationConfig": {
+        "additionalProperties": false,
+        "properties": {
+          "rootUid": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "rules": {
+            "items": {
+              "$ref": "#/components/schemas/ResourceRelationRule"
+            },
+            "maxItems": 8,
+            "type": "array"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/ResourceRelationSource"
+            },
+            "maxItems": 8,
+            "type": "array"
+          },
+          "version": {
+            "const": "v1",
+            "type": "string"
+          }
+        },
+        "required": [
+          "version",
+          "rootUid",
+          "sources",
+          "rules"
+        ],
+        "type": "object"
+      },
+      "ResourceRelationCoverage": {
+        "additionalProperties": false,
+        "properties": {
+          "queryId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "reasonCode": {
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "available",
+              "partial",
+              "denied",
+              "error",
+              "not_installed",
+              "unsupported"
+            ],
+            "type": "string"
+          },
+          "truncated": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "queryId",
+          "state",
+          "truncated"
+        ],
+        "type": "object"
+      },
+      "ResourceRelationEdge": {
+        "additionalProperties": false,
+        "properties": {
+          "fromUid": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "ruleId": {
+            "type": "string"
+          },
+          "toUid": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "owns",
+              "manual",
+              "references",
+              "selector_candidate"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "fromUid",
+          "toUid",
+          "type"
+        ],
+        "type": "object"
+      },
+      "ResourceRelationNode": {
+        "additionalProperties": false,
+        "properties": {
+          "depth": {
+            "maximum": 8,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "resource": {
+            "$ref": "#/components/schemas/KubernetesResourceRef"
+          },
+          "role": {
+            "enum": [
+              "root",
+              "owned",
+              "manual",
+              "reference",
+              "candidate"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "resource",
+          "role",
+          "depth"
+        ],
+        "type": "object"
+      },
+      "ResourceRelationRule": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "selector": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "maxProperties": 16,
+            "type": "object"
+          },
+          "target": {
+            "$ref": "#/components/schemas/ResourceRelationSource"
+          },
+          "type": {
+            "enum": [
+              "reference",
+              "manual",
+              "selector"
+            ],
+            "type": "string"
+          },
+          "uid": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "target"
+        ],
+        "type": "object"
+      },
+      "ResourceRelationsEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ResourceRelationsView"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "ResourceRelationSource": {
+        "additionalProperties": false,
+        "properties": {
+          "apiVersion": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "kind": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "namespace": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "resource": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "apiVersion",
+          "resource",
+          "kind",
+          "namespace"
+        ],
+        "type": "object"
+      },
+      "ResourceRelationsView": {
+        "additionalProperties": false,
+        "properties": {
+          "config": {
+            "$ref": "#/components/schemas/ResourceRelationConfig"
+          },
+          "coverage": {
+            "items": {
+              "$ref": "#/components/schemas/ResourceRelationCoverage"
+            },
+            "type": "array"
+          },
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/ResourceRelationEdge"
+            },
+            "type": "array"
+          },
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/ResourceRelationNode"
+            },
+            "maxItems": 500,
+            "type": "array"
+          },
+          "observedAt": {
+            "type": "string"
+          },
+          "partial": {
+            "type": "boolean"
+          },
+          "root": {
+            "$ref": "#/components/schemas/KubernetesResourceRef"
+          }
+        },
+        "required": [
+          "root",
+          "config",
+          "nodes",
+          "edges",
+          "coverage",
+          "partial",
+          "observedAt"
+        ],
+        "type": "object"
+      },
       "ResourceSelector": {
         "additionalProperties": false,
         "properties": {
@@ -56770,6 +57383,9 @@
             "minLength": 1,
             "type": "string"
           },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
+          },
           "name": {
             "minLength": 1,
             "type": "string"
@@ -56912,6 +57528,9 @@
             "minLength": 1,
             "pattern": "^[a-z0-9][a-z0-9._-]*$",
             "type": "string"
+          },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
           },
           "name": {
             "maxLength": 200,
@@ -57739,6 +58358,7 @@
         "additionalProperties": false,
         "properties": {
           "path": {
+            "description": "Same-origin stream pathname. UID-aware Pod sessions include expectedUid, namespace, container and shell query fields to bind the one-use ticket to that exact target; other query fields are not part of the binding.",
             "type": "string"
           }
         },
@@ -58146,6 +58766,132 @@
         ],
         "type": "object"
       },
+      "TemplateMigrationAssessment": {
+        "additionalProperties": false,
+        "properties": {
+          "blocked": {
+            "type": "boolean"
+          },
+          "fromVersion": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "initialization": {
+            "description": "Server-classified first-deployment candidate; requires create-only preflight and explicit Plan approval. It is not a successful runtime baseline or proof that external data is empty.",
+            "type": "boolean"
+          },
+          "reason": {
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "requiresApproval": {
+            "type": "boolean"
+          },
+          "steps": {
+            "items": {
+              "$ref": "#/components/schemas/TemplateMigrationStep"
+            },
+            "maxItems": 200,
+            "type": "array"
+          },
+          "toVersion": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "fromVersion",
+          "toVersion",
+          "blocked",
+          "requiresApproval",
+          "reason",
+          "steps"
+        ],
+        "type": "object"
+      },
+      "TemplateMigrationPolicy": {
+        "additionalProperties": false,
+        "if": {
+          "anyOf": [
+            {
+              "properties": {
+                "sequential": {
+                  "const": true
+                }
+              },
+              "required": [
+                "sequential"
+              ]
+            },
+            {
+              "properties": {
+                "irreversible": {
+                  "const": true
+                }
+              },
+              "required": [
+                "irreversible"
+              ]
+            }
+          ]
+        },
+        "properties": {
+          "guide": {
+            "description": "Human migration/recovery instructions. Never executed as a script.",
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "irreversible": {
+            "description": "Forward changes require approval; ordinary rollback across this boundary is forbidden.",
+            "type": "boolean"
+          },
+          "sequential": {
+            "description": "Must cross this boundary as adjacent published versions; approval cannot waive it.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "sequential",
+          "irreversible"
+        ],
+        "then": {
+          "properties": {
+            "guide": {
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          },
+          "required": [
+            "guide"
+          ]
+        },
+        "type": "object"
+      },
+      "TemplateMigrationStep": {
+        "additionalProperties": false,
+        "properties": {
+          "contentDigest": {
+            "maxLength": 80,
+            "type": "string"
+          },
+          "policy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
+          },
+          "version": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "version",
+          "contentDigest",
+          "policy"
+        ],
+        "type": "object"
+      },
       "TemplateParameterSchema": {
         "additionalProperties": false,
         "description": "Restricted JSON Schema. Objects reject undeclared keys unless mapValues specifies their schema. secret_reference accepts only a namespaced Secret name/key reference, never a plaintext credential. External references and executable expressions are unsupported.",
@@ -58312,6 +59058,720 @@
         },
         "required": [
           "expectedRevision"
+        ],
+        "type": "object"
+      },
+      "TemplateUpdateBatchInput": {
+        "additionalProperties": false,
+        "properties": {
+          "acknowledgeHistoryGaps": {
+            "type": "boolean"
+          },
+          "candidateIds": {
+            "items": {
+              "maxLength": 256,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 100,
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "idempotencyKey": {
+            "maxLength": 128,
+            "minLength": 8,
+            "type": "string"
+          },
+          "previewDigest": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string"
+          },
+          "stopOnFailure": {
+            "type": "boolean"
+          },
+          "waveSize": {
+            "format": "int64",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "previewDigest",
+          "candidateIds",
+          "waveSize",
+          "stopOnFailure",
+          "acknowledgeHistoryGaps",
+          "idempotencyKey"
+        ],
+        "type": "object"
+      },
+      "TemplateUpdateCandidate": {
+        "additionalProperties": false,
+        "properties": {
+          "cumulative": {
+            "$ref": "#/components/schemas/TemplateUpdateDiff"
+          },
+          "digest": {
+            "maxLength": 80,
+            "type": "string"
+          },
+          "eligible": {
+            "type": "boolean"
+          },
+          "id": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "parameters": {
+            "$ref": "#/components/schemas/TemplateParameterValues"
+          },
+          "reason": {
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "requiresApproval": {
+            "type": "boolean"
+          },
+          "target": {
+            "$ref": "#/components/schemas/TemplateUpdateTarget"
+          },
+          "toVersion": {
+            "format": "int64",
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "versions": {
+            "items": {
+              "$ref": "#/components/schemas/TemplateUpdateDiff"
+            },
+            "maxItems": 200,
+            "type": "array"
+          },
+          "wave": {
+            "format": "int64",
+            "maximum": 199,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "target",
+          "toVersion",
+          "digest",
+          "parameters",
+          "cumulative",
+          "versions",
+          "eligible",
+          "reason",
+          "requiresApproval",
+          "wave"
+        ],
+        "type": "object"
+      },
+      "TemplateUpdateChange": {
+        "additionalProperties": false,
+        "properties": {
+          "after": {
+            "maxLength": 32768,
+            "type": "string"
+          },
+          "before": {
+            "maxLength": 32768,
+            "type": "string"
+          },
+          "path": {
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "section": {
+            "enum": [
+              "source",
+              "schema",
+              "defaults",
+              "parameters",
+              "resources"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "section",
+          "path",
+          "before",
+          "after"
+        ],
+        "type": "object"
+      },
+      "TemplateUpdateDiff": {
+        "additionalProperties": false,
+        "properties": {
+          "changes": {
+            "items": {
+              "$ref": "#/components/schemas/TemplateUpdateChange"
+            },
+            "maxItems": 500,
+            "type": "array"
+          },
+          "diagnostics": {
+            "items": {
+              "maxLength": 2048,
+              "type": "string"
+            },
+            "maxItems": 32,
+            "type": "array"
+          },
+          "fromVersion": {
+            "format": "int64",
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "historyGap": {
+            "type": "boolean"
+          },
+          "migration": {
+            "$ref": "#/components/schemas/TemplateMigrationAssessment"
+          },
+          "renderStatus": {
+            "enum": [
+              "available",
+              "unavailable",
+              "invalid"
+            ],
+            "type": "string"
+          },
+          "toVersion": {
+            "format": "int64",
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "fromVersion",
+          "toVersion",
+          "changes",
+          "renderStatus",
+          "diagnostics",
+          "historyGap"
+        ],
+        "type": "object"
+      },
+      "TemplateUpdateKind": {
+        "enum": [
+          "deployment",
+          "build",
+          "workflow",
+          "blueprint"
+        ],
+        "type": "string"
+      },
+      "TemplateUpdateMode": {
+        "enum": [
+          "fixed",
+          "manual",
+          "automatic",
+          "approval"
+        ],
+        "type": "string"
+      },
+      "TemplateUpdatePolicy": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/TemplateUpdateKind"
+          },
+          "lastBatchId": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "lastError": {
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/TemplateUpdateMode"
+          },
+          "paused": {
+            "type": "boolean"
+          },
+          "targetId": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "templateId": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "version": {
+            "format": "int64",
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "templateId",
+          "targetId",
+          "mode",
+          "paused",
+          "version",
+          "lastBatchId",
+          "lastError",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "TemplateUpdatePolicyEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/TemplateUpdatePolicy"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "TemplateUpdatePolicyInput": {
+        "additionalProperties": false,
+        "properties": {
+          "expectedVersion": {
+            "format": "int64",
+            "maximum": 2147483647,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/TemplateUpdateKind"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/TemplateUpdateMode"
+          },
+          "paused": {
+            "type": "boolean"
+          },
+          "targetId": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "templateId": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "templateId",
+          "targetId",
+          "mode",
+          "paused",
+          "expectedVersion"
+        ],
+        "type": "object"
+      },
+      "TemplateUpdatePolicyListEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/TemplateUpdatePolicy"
+            },
+            "maxItems": 2000,
+            "type": "array"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "TemplateUpdatePreview": {
+        "additionalProperties": false,
+        "properties": {
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/TemplateUpdateCandidate"
+            },
+            "maxItems": 100,
+            "type": "array"
+          },
+          "configurationOnly": {
+            "const": true,
+            "type": "boolean"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "digest": {
+            "maxLength": 80,
+            "type": "string"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/TemplateUpdateKind"
+          },
+          "templateId": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "toVersion": {
+            "format": "int64",
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "templateId",
+          "toVersion",
+          "digest",
+          "candidates",
+          "createdAt",
+          "expiresAt",
+          "configurationOnly"
+        ],
+        "type": "object"
+      },
+      "TemplateUpdatePreviewEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/TemplateUpdatePreview"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "TemplateUpdatePreviewInput": {
+        "additionalProperties": false,
+        "properties": {
+          "applicationId": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/TemplateUpdateKind"
+          },
+          "targets": {
+            "items": {
+              "$ref": "#/components/schemas/TemplateUpdateSelection"
+            },
+            "maxItems": 100,
+            "minItems": 1,
+            "type": "array"
+          },
+          "templateId": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "toVersion": {
+            "format": "int64",
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "kind",
+          "templateId",
+          "toVersion",
+          "targets"
+        ],
+        "type": "object"
+      },
+      "TemplateUpdateReceipt": {
+        "additionalProperties": false,
+        "properties": {
+          "bindingId": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "candidateId": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "fromVersion": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/TemplateUpdateKind"
+          },
+          "previewId": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "requiresApproval": {
+            "type": "boolean"
+          },
+          "templateId": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "toVersion": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "kind",
+          "templateId",
+          "bindingId",
+          "previewId",
+          "candidateId",
+          "fromVersion",
+          "toVersion",
+          "requiresApproval"
+        ],
+        "type": "object"
+      },
+      "TemplateUpdateSelection": {
+        "additionalProperties": false,
+        "properties": {
+          "parameters": {
+            "$ref": "#/components/schemas/TemplateParameterValues"
+          },
+          "targetId": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "useNewDefaults": {
+            "items": {
+              "maxLength": 256,
+              "type": "string"
+            },
+            "maxItems": 100,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "wave": {
+            "format": "int64",
+            "maximum": 199,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "targetId"
+        ],
+        "type": "object"
+      },
+      "TemplateUpdateTarget": {
+        "additionalProperties": false,
+        "properties": {
+          "applicationEnvironmentId": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "applicationId": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "applicationName": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "bindingRevision": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "eligible": {
+            "type": "boolean"
+          },
+          "environmentName": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "fromVersion": {
+            "format": "int64",
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "id": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "independentOverrides": {
+            "items": {
+              "maxLength": 256,
+              "type": "string"
+            },
+            "maxItems": 100,
+            "type": "array"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/TemplateUpdateKind"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/TemplateUpdateMode"
+          },
+          "reason": {
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "releaseTargetId": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "requiresApproval": {
+            "type": "boolean"
+          },
+          "scope": {
+            "enum": [
+              "environment",
+              "application",
+              "creation_only"
+            ],
+            "type": "string"
+          },
+          "serviceId": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "serviceName": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "templateId": {
+            "maxLength": 256,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "templateId",
+          "applicationId",
+          "applicationName",
+          "serviceId",
+          "serviceName",
+          "applicationEnvironmentId",
+          "environmentName",
+          "releaseTargetId",
+          "fromVersion",
+          "mode",
+          "requiresApproval",
+          "eligible",
+          "reason",
+          "independentOverrides",
+          "bindingRevision",
+          "scope"
+        ],
+        "type": "object"
+      },
+      "TemplateUpdateTargetPage": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/TemplateUpdateTarget"
+            },
+            "maxItems": 100,
+            "type": "array"
+          },
+          "page": {
+            "format": "int64",
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "pageSize": {
+            "format": "int64",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "total": {
+            "format": "int64",
+            "maximum": 2147483647,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "pageSize"
+        ],
+        "type": "object"
+      },
+      "TemplateUpdateTargetPageEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/TemplateUpdateTargetPage"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "type": "object"
+      },
+      "TemplateVersionReference": {
+        "additionalProperties": false,
+        "properties": {
+          "templateDigest": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string"
+          },
+          "templateId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "templateVersion": {
+            "format": "int64",
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "templateId",
+          "templateVersion",
+          "templateDigest"
         ],
         "type": "object"
       },
@@ -65672,6 +67132,9 @@
           "key": {
             "type": "string"
           },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
+          },
           "name": {
             "type": "string"
           },
@@ -65746,6 +67209,9 @@
           "key": {
             "type": "string"
           },
+          "migrationPolicy": {
+            "$ref": "#/components/schemas/TemplateMigrationPolicy"
+          },
           "name": {
             "type": "string"
           },
@@ -65803,9 +67269,9 @@
     }
   },
   "info": {
-    "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery.\n",
+    "description": "Public OpenSoha core API contract. This first contract focuses on stable cross-repository boundaries: auth, health, runner-facing control-plane callbacks, AI Gateway, and MCP capability discovery. Pod session WebSocket targets and their UID-aware ticket requirements are described separately in x-soha-websocket-paths to preserve HTTP client generation.\n",
     "title": "Soha API",
-    "version": "0.1.25"
+    "version": "0.1.26"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -73842,6 +75308,127 @@
         ]
       }
     },
+    "/application-environments/{applicationEnvironmentID}/targets/{targetID}/relations": {
+      "get": {
+        "description": "Read UID-verified metadata relationships for an imported root. Every source retains Kubernetes and Soha authorization. Rules are observational metadata, never permission grants. Partial coverage is explicit; no provider configuration values are returned.",
+        "operationId": "getApplicationEnvironmentTargetRelations",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "applicationEnvironmentID",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "targetID",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceRelationsEnvelope"
+                }
+              }
+            },
+            "description": "Bounded observed relations, including coverage gaps.",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
+    "/application-environments/{applicationEnvironmentID}/targets/{targetID}/source": {
+      "get": {
+        "description": "Read a linked source through existing Kubernetes authorization. Rejects replaced UIDs. Custom resource YAML additionally requires sensitive-data read permission. Responses must not be persisted in browser caches.",
+        "operationId": "getApplicationEnvironmentTargetSource",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "applicationEnvironmentID",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "targetID",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KubernetesResourceYamlEnvelope"
+                }
+              }
+            },
+            "description": "Current cluster YAML for the linked resource, never a fabricated source file.",
+            "headers": {
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "const": "no-store",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
     "/application-environments/helm-release-imports": {
       "post": {
         "operationId": "importHelmReleases",
@@ -73924,6 +75511,32 @@
       "get": {
         "operationId": "listApplicationEnvironmentTargetCandidates",
         "parameters": [
+          {
+            "in": "query",
+            "name": "workloadKind",
+            "required": false,
+            "schema": {
+              "enum": [
+                "Deployment",
+                "StatefulSet",
+                "DaemonSet",
+                "Job",
+                "CronJob",
+                "CustomResource"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Explicit CRD selection for CustomResource discovery. Only this served resource and namespace are queried.",
+            "in": "query",
+            "name": "crdName",
+            "required": false,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
           {
             "in": "query",
             "name": "clusterId",
@@ -83572,6 +85185,15 @@
             "$ref": "#/components/parameters/KubernetesNamespaceDefaultQuery"
           },
           {
+            "description": "Reject the request if the live Pod UID differs. Omit only for legacy clients, never when restoring a saved session.",
+            "in": "query",
+            "name": "expectedUid",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
             "in": "query",
             "name": "container",
             "schema": {
@@ -83622,6 +85244,16 @@
           },
           "404": {
             "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The current Pod UID differs from expectedUid; open the current Pod instead of adopting it by name."
           },
           "503": {
             "$ref": "#/components/responses/Error"
@@ -91930,6 +93562,356 @@
           ],
           "mode": "all"
         }
+      }
+    },
+    "/delivery/template-updates/policies": {
+      "get": {
+        "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.",
+        "operationId": "listTemplateUpdatePolicies",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "kind",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/TemplateUpdateKind"
+            }
+          },
+          {
+            "in": "query",
+            "name": "templateId",
+            "required": true,
+            "schema": {
+              "maxLength": 256,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "applicationId",
+            "required": false,
+            "schema": {
+              "maxLength": 256,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplateUpdatePolicyListEnvelope"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "List explicit adoption policies visible to the current principal",
+        "tags": [
+          "Delivery"
+        ]
+      },
+      "put": {
+        "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.",
+        "operationId": "saveTemplateUpdatePolicy",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TemplateUpdatePolicyInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplateUpdatePolicyEnvelope"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "Save fixed manual automatic or approval policy using a binding-scoped CAS",
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
+    "/delivery/template-updates/previews": {
+      "post": {
+        "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.",
+        "operationId": "createTemplateUpdatePreview",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TemplateUpdatePreviewInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplateUpdatePreviewEnvelope"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "Freeze final template adoption and cumulative plus adjacent-version differences",
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
+    "/delivery/template-updates/previews/{previewID}": {
+      "get": {
+        "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.",
+        "operationId": "getTemplateUpdatePreview",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "previewID",
+            "required": true,
+            "schema": {
+              "maxLength": 256,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplateUpdatePreviewEnvelope"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "Read a frozen adoption preview with current scope revalidation",
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
+    "/delivery/template-updates/previews/{previewID}/batches": {
+      "post": {
+        "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.",
+        "operationId": "createTemplateUpdateBatch",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "previewID",
+            "required": true,
+            "schema": {
+              "maxLength": 256,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TemplateUpdateBatchInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeliveryBatchEnvelope"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "Adopt selected candidates in waves through existing DeliveryBatch and Plan approvals",
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
+    "/delivery/template-updates/targets": {
+      "get": {
+        "description": "Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.",
+        "operationId": "listTemplateUpdateTargets",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "kind",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/TemplateUpdateKind"
+            }
+          },
+          {
+            "in": "query",
+            "name": "templateId",
+            "required": true,
+            "schema": {
+              "maxLength": 256,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "applicationId",
+            "required": false,
+            "schema": {
+              "maxLength": 256,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "format": "int64",
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "required": false,
+            "schema": {
+              "format": "int64",
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "serviceId",
+            "required": false,
+            "schema": {
+              "maxLength": 256,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "applicationEnvironmentId",
+            "required": false,
+            "schema": {
+              "maxLength": 256,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplateUpdateTargetPageEnvelope"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "summary": "Preview affected application bindings with honest paginated totals",
+        "tags": [
+          "Delivery"
+        ]
       }
     },
     "/delivery/triggers": {
@@ -108039,5 +110021,163 @@
     {
       "name": "Network Access"
     }
-  ]
+  ],
+  "x-soha-websocket-paths": {
+    "/clusters/{clusterID}/workloads/pods/{podName}/logs/stream": {
+      "get": {
+        "description": "Existing WebSocket logs endpoint. Saved sessions must provide expectedUid. Each upstream open checks the current Pod UID and current action authorization. A stream ticket issued with expectedUid binds namespace, container and shell too.",
+        "operationId": "streamKubernetesPodLogs",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesPodName"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNamespaceDefaultQuery"
+          },
+          {
+            "in": "query",
+            "name": "expectedUid",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "container",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "stream_ticket",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "tailLines",
+            "schema": {
+              "default": 200,
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sinceSeconds",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "101": {
+            "description": "WebSocket opened; terminalMessage envelopes carry stream output and safe exit status. Authentication, UID, permission or provider failures terminate the stream without attaching to a replacement Pod."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.pods.logs"
+          ],
+          "mode": "all"
+        }
+      }
+    },
+    "/clusters/{clusterID}/workloads/pods/{podName}/terminal": {
+      "get": {
+        "description": "Existing WebSocket exec endpoint. Saved sessions must provide expectedUid. Each upstream open checks the current Pod UID and current action authorization. A stream ticket issued with expectedUid binds namespace, container and shell too.",
+        "operationId": "streamKubernetesPodTerminal",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClusterID"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesPodName"
+          },
+          {
+            "$ref": "#/components/parameters/KubernetesNamespaceDefaultQuery"
+          },
+          {
+            "in": "query",
+            "name": "expectedUid",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "container",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "stream_ticket",
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "shell",
+            "schema": {
+              "default": "/bin/sh",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "101": {
+            "description": "WebSocket opened; terminalMessage envelopes carry stream output and safe exit status. Authentication, UID, permission or provider failures terminate the stream without attaching to a replacement Pod."
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "tags": [
+          "Platform"
+        ],
+        "x-soha-implementation-status": "implemented",
+        "x-soha-permissions": {
+          "keys": [
+            "platform.pods.exec"
+          ],
+          "mode": "all"
+        }
+      }
+    }
+  }
 }

@@ -1317,6 +1317,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/application-environments/{applicationEnvironmentID}/targets/{targetID}/source": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read a linked source through existing Kubernetes authorization. Rejects replaced UIDs. Custom resource YAML additionally requires sensitive-data read permission. Responses must not be persisted in browser caches. */
+        get: operations["getApplicationEnvironmentTargetSource"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/application-environments/{applicationEnvironmentID}/targets/{targetID}/relations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read UID-verified metadata relationships for an imported root. Every source retains Kubernetes and Soha authorization. Rules are observational metadata, never permission grants. Partial coverage is explicit; no provider configuration values are returned. */
+        get: operations["getApplicationEnvironmentTargetRelations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/application-environments/target-candidates": {
         parameters: {
             query?: never;
@@ -2143,6 +2177,110 @@ export interface paths {
         };
         get: operations["listDeliveryEnvironments"];
         put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/template-updates/targets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Preview affected application bindings with honest paginated totals
+         * @description Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.
+         */
+        get: operations["listTemplateUpdateTargets"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/template-updates/previews": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Freeze final template adoption and cumulative plus adjacent-version differences
+         * @description Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.
+         */
+        post: operations["createTemplateUpdatePreview"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/template-updates/previews/{previewID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Read a frozen adoption preview with current scope revalidation
+         * @description Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.
+         */
+        get: operations["getTemplateUpdatePreview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/template-updates/previews/{previewID}/batches": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Adopt selected candidates in waves through existing DeliveryBatch and Plan approvals
+         * @description Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.
+         */
+        post: operations["createTemplateUpdateBatch"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/delivery/template-updates/policies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List explicit adoption policies visible to the current principal
+         * @description Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.
+         */
+        get: operations["listTemplateUpdatePolicies"];
+        /**
+         * Save fixed manual automatic or approval policy using a binding-scoped CAS
+         * @description Uses current application and environment permissions. Published immutable template versions only; adoption changes configuration and never deploys resources. Fixed and detached bindings are excluded from automatic propagation. Concurrent changes return 409.
+         */
+        put: operations["saveTemplateUpdatePolicy"];
         post?: never;
         delete?: never;
         options?: never;
@@ -17151,6 +17289,7 @@ export interface components {
             codeVerifier: string;
         };
         StreamTicketRequest: {
+            /** @description Same-origin stream pathname. UID-aware Pod sessions include expectedUid, namespace, container and shell query fields to bind the one-use ticket to that exact target; other query fields are not part of the binding. */
             path: string;
         };
         StreamTicket: {
@@ -17680,6 +17819,62 @@ export interface components {
             /** Format: date-time */
             updatedAt: string;
         };
+        ResourceRelationSource: {
+            apiVersion: string;
+            resource: string;
+            kind: string;
+            namespace: string;
+        };
+        ResourceRelationRule: {
+            id: string;
+            /** @enum {string} */
+            type: "reference" | "manual" | "selector";
+            target: components["schemas"]["ResourceRelationSource"];
+            name?: string;
+            uid?: string;
+            selector?: {
+                [key: string]: string;
+            };
+        };
+        ResourceRelationConfig: {
+            /** @constant */
+            version: "v1";
+            rootUid: string;
+            sources: components["schemas"]["ResourceRelationSource"][];
+            rules: components["schemas"]["ResourceRelationRule"][];
+        };
+        ResourceRelationNode: {
+            resource: components["schemas"]["KubernetesResourceRef"];
+            /** @enum {string} */
+            role: "root" | "owned" | "manual" | "reference" | "candidate";
+            depth: number;
+        };
+        ResourceRelationEdge: {
+            fromUid: string;
+            toUid: string;
+            /** @enum {string} */
+            type: "owns" | "manual" | "references" | "selector_candidate";
+            ruleId?: string;
+        };
+        ResourceRelationCoverage: {
+            queryId: string;
+            /** @enum {string} */
+            state: "available" | "partial" | "denied" | "error" | "not_installed" | "unsupported";
+            reasonCode?: string;
+            truncated: boolean;
+        };
+        ResourceRelationsView: {
+            root: components["schemas"]["KubernetesResourceRef"];
+            config: components["schemas"]["ResourceRelationConfig"];
+            nodes: components["schemas"]["ResourceRelationNode"][];
+            edges: components["schemas"]["ResourceRelationEdge"][];
+            coverage: components["schemas"]["ResourceRelationCoverage"][];
+            partial: boolean;
+            observedAt: string;
+        };
+        ResourceRelationsEnvelope: {
+            data: components["schemas"]["ResourceRelationsView"];
+        };
         ReleaseTarget: {
             docker?: components["schemas"]["DockerDeliveryConfiguration"];
             helm?: components["schemas"]["HelmDeliveryConfiguration"];
@@ -17886,6 +18081,8 @@ export interface components {
             hook?: boolean;
         };
         HelmDeliverySnapshot: {
+            templateInputs?: components["schemas"]["TemplateVersionReference"];
+            migration?: components["schemas"]["TemplateMigrationAssessment"];
             deliveryPlanId: string;
             targetId: string;
             applicationId: string;
@@ -17923,6 +18120,8 @@ export interface components {
             action: "preflight" | "apply" | "observe";
             snapshot: components["schemas"]["HelmDeliverySnapshot"];
             prepared?: components["schemas"]["HelmPreparedRelease"];
+            /** @description Server-derived original successful initialization apply receipt. Required for initialization observation or already-applied recovery; current same-name objects cannot establish original ownership. */
+            initializationResources?: components["schemas"]["ManifestResourceInventory"][];
         };
         HelmExecutionTaskResult: {
             ready: boolean;
@@ -17957,6 +18156,7 @@ export interface components {
             timeoutSeconds: number;
         };
         ServiceDeploymentTemplateInput: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             copiedFrom?: components["schemas"]["TemplateCopyOrigin"];
             key: string;
             name: string;
@@ -17975,6 +18175,7 @@ export interface components {
             expectedRevision?: number;
         };
         ServiceDeploymentTemplate: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             id: string;
             key: string;
             name: string;
@@ -18043,6 +18244,7 @@ export interface components {
             expectedRevision: number;
         };
         WorkflowTemplate: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             /** @description Current editable revision used for conditional saves. */
             revision?: number;
             /** @description Latest immutable published version; zero means unpublished. */
@@ -18066,6 +18268,7 @@ export interface components {
             updatedAt: string;
         };
         WorkflowTemplateInput: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             copiedFrom?: components["schemas"]["TemplateCopyOrigin"];
             /** @description Reject an update if the stored revision differs. */
             expectedRevision?: number;
@@ -18151,11 +18354,34 @@ export interface components {
             kind: "Service" | "Ingress" | "HorizontalPodAutoscaler";
             name: string;
         };
+        KubernetesImportOwnerReference: {
+            apiVersion: string;
+            kind: string;
+            name: string;
+            uid: string;
+            controller?: boolean;
+            blockOwnerDeletion?: boolean;
+        };
+        /** @description Safe source identity captured from an authorized live read. No YAML, spec values, annotations or status are persisted here. For native workloads specDigest covers configuration and ownership metadata excluding status/resourceVersion. For CRs it fences the public UID, generation and owner references without hashing secret content; metadata-only edits are outside that fence. CRs without a positive generation are rejected. UID identifies recreation. */
+        KubernetesImportSource: {
+            resource: components["schemas"]["KubernetesResourceRef"] & {
+                uid: string;
+            };
+            specDigest: string;
+            /** Format: int64 */
+            generation?: number;
+            crdName?: string;
+            plural?: string;
+            /** Format: date-time */
+            observedAt: string;
+            owners?: components["schemas"]["KubernetesImportOwnerReference"][];
+        };
         KubernetesImportCandidate: {
+            source?: components["schemas"]["KubernetesImportSource"];
             clusterId: string;
             namespace: string;
             /** @enum {string} */
-            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet";
+            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet" | "Job" | "CronJob" | "CustomResource";
             workloadName: string;
             desiredReplicas: number;
             readyReplicas: number;
@@ -18170,10 +18396,15 @@ export interface components {
             truncated: boolean;
         };
         KubernetesWorkloadImportInput: {
+            expectedUid?: string;
+            expectedSpecDigest?: string;
+            /** @description Required for CustomResource. Resolve the served GVR and scope from this CRD; never infer API group or plural from Kind. */
+            crdName?: string;
             /** @enum {string} */
-            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet";
+            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet" | "Job" | "CronJob" | "CustomResource";
             workloadName: string;
         };
+        /** @description Initial association is observe_only. A managed request is rejected until a separate UID-aware ownership handoff and release preflight are available; it must never silently enable publishing. */
         KubernetesServiceImportRequest: {
             clusterId: string;
             namespace: string;
@@ -18196,14 +18427,15 @@ export interface components {
             key: string;
             name: string;
             /** @enum {string} */
-            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet";
+            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet" | "Job" | "CronJob" | "CustomResource";
             workloadName: string;
             created: boolean;
         };
         KubernetesImportedTarget: {
+            source?: components["schemas"]["KubernetesImportSource"];
             id: string;
             /** @enum {string} */
-            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet";
+            workloadKind: "Deployment" | "StatefulSet" | "DaemonSet" | "Job" | "CronJob" | "CustomResource";
             workloadName: string;
             created: boolean;
         };
@@ -18260,6 +18492,7 @@ export interface components {
             data: components["schemas"]["HelmReleaseImportResult"];
         };
         BuildTemplate: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             /** @description Current editable revision used for conditional saves. */
             revision?: number;
             /** @description Latest immutable published version; zero means unpublished. */
@@ -18289,6 +18522,7 @@ export interface components {
             updatedAt: string;
         };
         BuildTemplateInput: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             copiedFrom?: components["schemas"]["TemplateCopyOrigin"];
             /** @description Reject an update if the stored revision differs. */
             expectedRevision?: number;
@@ -18350,6 +18584,7 @@ export interface components {
             summary?: string;
         };
         DeliveryTargetInput: {
+            templateCandidateId?: string;
             id: string;
             applicationId: string;
             serviceId: string;
@@ -18390,6 +18625,7 @@ export interface components {
             maxLength?: number;
         };
         DeliveryBuildTemplateSpec: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             /** @default custom */
             builderKind?: string;
             dockerfileTemplate?: string;
@@ -18406,6 +18642,7 @@ export interface components {
             dockerfileTemplate: string;
         } | unknown);
         DeliveryDeploymentTemplateSpec: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             source: components["schemas"]["DeploymentTemplateSource"];
             parameterSchema: components["schemas"]["TemplateParameterSchema"];
             defaults: components["schemas"]["TemplateParameterValues"];
@@ -18484,6 +18721,7 @@ export interface components {
             onFailure?: components["schemas"]["DeliveryDocumentStep"][];
         } & (unknown | unknown | unknown);
         DeliveryWorkflowTemplateSpec: {
+            migrationPolicy?: components["schemas"]["TemplateMigrationPolicy"];
             /** @default release */
             category?: string;
             definition: components["schemas"]["DeliveryBatchTemplateDefinition"] | components["schemas"]["DeliveryDocumentDAG"];
@@ -19005,6 +19243,7 @@ export interface components {
             sourceCommit?: components["schemas"]["DeliverySourceCommit"];
         } & (unknown | unknown);
         DeliveryTargetSnapshot: {
+            templateUpdate?: components["schemas"]["TemplateUpdateReceipt"];
             target: components["schemas"]["DeliveryTargetInput"];
             applicationName: string;
             serviceName: string;
@@ -19215,6 +19454,10 @@ export interface components {
             latestRelease?: components["schemas"]["ReleaseRecord"];
         };
         ApplicationRuntimeWorkload: {
+            targetId?: string;
+            source?: components["schemas"]["KubernetesImportSource"];
+            /** @enum {string} */
+            sourceStatus?: "linked" | "changed" | "replaced" | "missing" | "unavailable" | "forbidden";
             applicationEnvironmentId: string;
             clusterId: string;
             namespace: string;
@@ -19555,8 +19798,24 @@ export interface components {
         };
         /** @enum {string} */
         ManifestTaskAction: "preflight" | "apply" | "observe" | "repair" | "adopt" | "rollback" | "sync" | "rollout_control";
+        /** @description Server-frozen imported namespaced CR identity and user-reviewed generation. Publication requires the original imported target with metadata ownershipMode=managed, rootCRGeneration matching the reviewed generation, and configRef selecting its Manifest binding. Only spec may be updated; missing roots are never created. Current user or token permissions, external ownership and UID are rechecked. Requires manifest.root-cr.v1 Agent capability and manifest_root_cr_v1 provider. Configuration copies, revisions, plans and deployments retain the sensitive configuration read permission; ordinary task summaries omit root documents. */
+        ManifestRootResource: {
+            targetId: string;
+            deliveryPlanId: string;
+            apiVersion: string;
+            kind: string;
+            namespace: string;
+            name: string;
+            uid: string;
+            /** Format: int64 */
+            generation: number;
+            crdName: string;
+        };
         /** @description Controller-aware tasks use providerKind manifest_agent_v3.<clusterId> and require manifest.execution.v3. Older runners must not claim these tasks or bypass GitOps and Rollout ownership. */
         ManifestExecutionTaskPayload: {
+            /** @description Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag. */
+            initializationPlanId?: string;
+            rootResource?: components["schemas"]["ManifestRootResource"];
             rolloutControl?: components["schemas"]["ProgressiveRolloutControlInput"];
             /** @description Server-rendered child resources from the single Argo Application's immutable Git source and image overrides; used for ownership admission and live verification, never direct apply. */
             gitOpsDocuments?: components["schemas"]["ManifestRenderedDocument"][];
@@ -19597,6 +19856,8 @@ export interface components {
             data: components["schemas"]["ManifestExecutionTask"];
         };
         ManifestPreflightResult: {
+            /** @description Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag. */
+            initializationPlanId?: string;
             ready: boolean;
             /** @enum {string} */
             capability: "available" | "degraded" | "unsupported";
@@ -19626,6 +19887,8 @@ export interface components {
             evidenceRefs: string[];
         };
         ManifestExecutionTaskResult: {
+            /** @description Server-frozen initialization Plan identity. Requires manifest.initialize.v1 and its dedicated provider; preflight uses create dry-run, apply creates only, and observation verifies the created UIDs. Never a force or adoption flag. */
+            initializationPlanId?: string;
             rollout?: components["schemas"]["ProgressiveRolloutStatus"];
             action: components["schemas"]["ManifestTaskAction"];
             deploymentId?: string;
@@ -19702,6 +19965,7 @@ export interface components {
         /** @enum {string} */
         ManifestDeletionPolicy: "orphan" | "delete_managed";
         ManifestBinding: {
+            templateSelection?: components["schemas"]["ManifestTemplateSelection"];
             templateParameters?: components["schemas"]["TemplateParameterValues"];
             id: string;
             packageId: string;
@@ -19819,6 +20083,7 @@ export interface components {
             deletionPolicy: components["schemas"]["ManifestDeletionPolicy"];
         };
         ManifestDeploymentStatus: {
+            appliedTemplate?: components["schemas"]["TemplateVersionReference"];
             /** Format: int64 */
             observedGeneration: number;
             appliedRevision?: number;
@@ -20108,6 +20373,7 @@ export interface components {
             spec: components["schemas"]["RenderedDeliverySpec"];
         };
         DeliveryPlan: {
+            templateCandidateId?: string;
             dockerSnapshots?: components["schemas"]["DockerDeliverySnapshot"][];
             helmSnapshots?: components["schemas"]["HelmDeliverySnapshot"][];
             id: string;
@@ -20166,6 +20432,8 @@ export interface components {
             releaseBundleId?: string;
         };
         ManifestDeliverySnapshot: {
+            migration?: components["schemas"]["TemplateMigrationAssessment"];
+            rootResource?: components["schemas"]["ManifestRootResource"];
             /** @description Frozen GitOps child resources sharing this plan's preflight, ownership and observation boundaries. */
             gitOpsDocuments?: components["schemas"]["ManifestRenderedDocument"][];
             deliveryPlanId: string;
@@ -21808,6 +22076,8 @@ export interface components {
             data: components["schemas"]["KubernetesWorkloadOverview"];
         };
         KubernetesPod: {
+            /** @description Immutable Pod identity. Required by clients restoring a saved live session; absent on older providers. */
+            uid?: string;
             name: string;
             namespace: string;
             phase: string;
@@ -21876,6 +22146,8 @@ export interface components {
             relation?: string;
         };
         KubernetesPodDetail: {
+            /** @description Immutable Pod identity. Required by clients restoring a saved live session; absent on older providers. */
+            uid?: string;
             name: string;
             namespace: string;
             phase: string;
@@ -28365,6 +28637,201 @@ export interface components {
         NetworkPolicyPreviewEnvelope: {
             data: components["schemas"]["NetworkPolicyPreviewResult"];
         };
+        /** @enum {string} */
+        TemplateUpdateKind: "deployment" | "build" | "workflow" | "blueprint";
+        /** @enum {string} */
+        TemplateUpdateMode: "fixed" | "manual" | "automatic" | "approval";
+        ManifestTemplateSelection: {
+            templateId: string;
+            /** Format: int64 */
+            version: number;
+            parameters: components["schemas"]["TemplateParameterValues"];
+            baseFilesDigest: string;
+            adoptionId: string;
+        };
+        TemplateUpdateTarget: {
+            id: string;
+            kind: components["schemas"]["TemplateUpdateKind"];
+            templateId: string;
+            applicationId: string;
+            applicationName: string;
+            serviceId: string;
+            serviceName: string;
+            applicationEnvironmentId: string;
+            environmentName: string;
+            releaseTargetId: string;
+            /** Format: int64 */
+            fromVersion: number;
+            mode: components["schemas"]["TemplateUpdateMode"];
+            requiresApproval: boolean;
+            eligible: boolean;
+            reason: string;
+            independentOverrides: string[];
+            bindingRevision: string;
+            /** @enum {string} */
+            scope: "environment" | "application" | "creation_only";
+        };
+        TemplateUpdateTargetPage: {
+            items: components["schemas"]["TemplateUpdateTarget"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int64 */
+            page: number;
+            /** Format: int64 */
+            pageSize: number;
+        };
+        TemplateUpdateSelection: {
+            targetId: string;
+            parameters?: components["schemas"]["TemplateParameterValues"];
+            useNewDefaults?: string[];
+            /** Format: int64 */
+            wave?: number;
+        };
+        TemplateUpdatePreviewInput: {
+            kind: components["schemas"]["TemplateUpdateKind"];
+            templateId: string;
+            /** Format: int64 */
+            toVersion: number;
+            targets: components["schemas"]["TemplateUpdateSelection"][];
+            applicationId?: string;
+        };
+        TemplateUpdateChange: {
+            /** @enum {string} */
+            section: "source" | "schema" | "defaults" | "parameters" | "resources";
+            path: string;
+            before: string;
+            after: string;
+        };
+        TemplateUpdateDiff: {
+            /** Format: int64 */
+            fromVersion: number;
+            /** Format: int64 */
+            toVersion: number;
+            changes: components["schemas"]["TemplateUpdateChange"][];
+            /** @enum {string} */
+            renderStatus: "available" | "unavailable" | "invalid";
+            diagnostics: string[];
+            historyGap: boolean;
+            migration?: components["schemas"]["TemplateMigrationAssessment"];
+        };
+        TemplateUpdateCandidate: {
+            id: string;
+            target: components["schemas"]["TemplateUpdateTarget"];
+            /** Format: int64 */
+            toVersion: number;
+            digest: string;
+            parameters: components["schemas"]["TemplateParameterValues"];
+            cumulative: components["schemas"]["TemplateUpdateDiff"];
+            versions: components["schemas"]["TemplateUpdateDiff"][];
+            eligible: boolean;
+            reason: string;
+            requiresApproval: boolean;
+            /** Format: int64 */
+            wave: number;
+        };
+        TemplateUpdatePreview: {
+            id: string;
+            kind: components["schemas"]["TemplateUpdateKind"];
+            templateId: string;
+            /** Format: int64 */
+            toVersion: number;
+            digest: string;
+            candidates: components["schemas"]["TemplateUpdateCandidate"][];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            expiresAt: string;
+            /** @constant */
+            configurationOnly: true;
+        };
+        TemplateUpdateBatchInput: {
+            previewDigest: string;
+            candidateIds: string[];
+            /** Format: int64 */
+            waveSize: number;
+            stopOnFailure: boolean;
+            acknowledgeHistoryGaps: boolean;
+            idempotencyKey: string;
+        };
+        TemplateUpdatePolicyInput: {
+            kind: components["schemas"]["TemplateUpdateKind"];
+            templateId: string;
+            targetId: string;
+            mode: components["schemas"]["TemplateUpdateMode"];
+            paused: boolean;
+            /** Format: int64 */
+            expectedVersion: number;
+        };
+        TemplateUpdatePolicy: {
+            id: string;
+            kind: components["schemas"]["TemplateUpdateKind"];
+            templateId: string;
+            targetId: string;
+            mode: components["schemas"]["TemplateUpdateMode"];
+            paused: boolean;
+            /** Format: int64 */
+            version: number;
+            lastBatchId: string;
+            lastError: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        TemplateUpdateTargetPageEnvelope: {
+            data: components["schemas"]["TemplateUpdateTargetPage"];
+        };
+        TemplateUpdatePreviewEnvelope: {
+            data: components["schemas"]["TemplateUpdatePreview"];
+        };
+        TemplateUpdatePolicyEnvelope: {
+            data: components["schemas"]["TemplateUpdatePolicy"];
+        };
+        TemplateUpdatePolicyListEnvelope: {
+            data: components["schemas"]["TemplateUpdatePolicy"][];
+        };
+        TemplateUpdateReceipt: {
+            kind: components["schemas"]["TemplateUpdateKind"];
+            templateId: string;
+            bindingId: string;
+            previewId: string;
+            candidateId: string;
+            /** Format: int64 */
+            fromVersion: number;
+            /** Format: int64 */
+            toVersion: number;
+            requiresApproval: boolean;
+        };
+        TemplateMigrationPolicy: {
+            /** @description Must cross this boundary as adjacent published versions; approval cannot waive it. */
+            sequential: boolean;
+            /** @description Forward changes require approval; ordinary rollback across this boundary is forbidden. */
+            irreversible: boolean;
+            /** @description Human migration/recovery instructions. Never executed as a script. */
+            guide?: string;
+        };
+        TemplateVersionReference: {
+            templateId: string;
+            /** Format: int64 */
+            templateVersion: number;
+            templateDigest: string;
+        };
+        TemplateMigrationStep: {
+            /** Format: int64 */
+            version: number;
+            contentDigest: string;
+            policy: components["schemas"]["TemplateMigrationPolicy"];
+        };
+        TemplateMigrationAssessment: {
+            /** @description Server-classified first-deployment candidate; requires create-only preflight and explicit Plan approval. It is not a successful runtime baseline or proof that external data is empty. */
+            initialization?: boolean;
+            /** Format: int64 */
+            fromVersion: number;
+            /** Format: int64 */
+            toVersion: number;
+            blocked: boolean;
+            requiresApproval: boolean;
+            reason: string;
+            steps: components["schemas"]["TemplateMigrationStep"][];
+        };
     };
     responses: {
         /** @description Stable redacted Identity protocol or management error. */
@@ -29282,6 +29749,14 @@ export type BuildPolicy = components['schemas']['BuildPolicy'];
 export type ResourceSelector = components['schemas']['ResourceSelector'];
 export type ReleasePolicy = components['schemas']['ReleasePolicy'];
 export type DeliveryEnvironment = components['schemas']['DeliveryEnvironment'];
+export type ResourceRelationSource = components['schemas']['ResourceRelationSource'];
+export type ResourceRelationRule = components['schemas']['ResourceRelationRule'];
+export type ResourceRelationConfig = components['schemas']['ResourceRelationConfig'];
+export type ResourceRelationNode = components['schemas']['ResourceRelationNode'];
+export type ResourceRelationEdge = components['schemas']['ResourceRelationEdge'];
+export type ResourceRelationCoverage = components['schemas']['ResourceRelationCoverage'];
+export type ResourceRelationsView = components['schemas']['ResourceRelationsView'];
+export type ResourceRelationsEnvelope = components['schemas']['ResourceRelationsEnvelope'];
 export type ReleaseTarget = components['schemas']['ReleaseTarget'];
 export type ReleaseTargetInput = components['schemas']['ReleaseTargetInput'];
 export type DockerDeliveryConfiguration = components['schemas']['DockerDeliveryConfiguration'];
@@ -29327,6 +29802,8 @@ export type ApplicationWorkflowInput = components['schemas']['ApplicationWorkflo
 export type ApplicationEnvironment = components['schemas']['ApplicationEnvironment'];
 export type ApplicationEnvironmentInput = components['schemas']['ApplicationEnvironmentInput'];
 export type KubernetesRelatedResource = components['schemas']['KubernetesRelatedResource'];
+export type KubernetesImportOwnerReference = components['schemas']['KubernetesImportOwnerReference'];
+export type KubernetesImportSource = components['schemas']['KubernetesImportSource'];
 export type KubernetesImportCandidate = components['schemas']['KubernetesImportCandidate'];
 export type KubernetesImportCandidateListEnvelope = components['schemas']['KubernetesImportCandidateListEnvelope'];
 export type KubernetesWorkloadImportInput = components['schemas']['KubernetesWorkloadImportInput'];
@@ -29470,6 +29947,7 @@ export type ProgressiveRolloutMetric = components['schemas']['ProgressiveRollout
 export type ProgressiveRolloutStatus = components['schemas']['ProgressiveRolloutStatus'];
 export type ProgressiveRolloutStatusEnvelope = components['schemas']['ProgressiveRolloutStatusEnvelope'];
 export type ManifestTaskAction = components['schemas']['ManifestTaskAction'];
+export type ManifestRootResource = components['schemas']['ManifestRootResource'];
 export type ManifestExecutionTaskPayload = components['schemas']['ManifestExecutionTaskPayload'];
 export type ManifestExecutionTask = components['schemas']['ManifestExecutionTask'];
 export type ManifestExecutionTaskEnvelope = components['schemas']['ManifestExecutionTaskEnvelope'];
@@ -30531,6 +31009,29 @@ export type NetworkSessionCommandEnvelope = components['schemas']['NetworkSessio
 export type NetworkPolicyPreviewRequest = components['schemas']['NetworkPolicyPreviewRequest'];
 export type NetworkPolicyPreviewResult = components['schemas']['NetworkPolicyPreviewResult'];
 export type NetworkPolicyPreviewEnvelope = components['schemas']['NetworkPolicyPreviewEnvelope'];
+export type TemplateUpdateKind = components['schemas']['TemplateUpdateKind'];
+export type TemplateUpdateMode = components['schemas']['TemplateUpdateMode'];
+export type ManifestTemplateSelection = components['schemas']['ManifestTemplateSelection'];
+export type TemplateUpdateTarget = components['schemas']['TemplateUpdateTarget'];
+export type TemplateUpdateTargetPage = components['schemas']['TemplateUpdateTargetPage'];
+export type TemplateUpdateSelection = components['schemas']['TemplateUpdateSelection'];
+export type TemplateUpdatePreviewInput = components['schemas']['TemplateUpdatePreviewInput'];
+export type TemplateUpdateChange = components['schemas']['TemplateUpdateChange'];
+export type TemplateUpdateDiff = components['schemas']['TemplateUpdateDiff'];
+export type TemplateUpdateCandidate = components['schemas']['TemplateUpdateCandidate'];
+export type TemplateUpdatePreview = components['schemas']['TemplateUpdatePreview'];
+export type TemplateUpdateBatchInput = components['schemas']['TemplateUpdateBatchInput'];
+export type TemplateUpdatePolicyInput = components['schemas']['TemplateUpdatePolicyInput'];
+export type TemplateUpdatePolicy = components['schemas']['TemplateUpdatePolicy'];
+export type TemplateUpdateTargetPageEnvelope = components['schemas']['TemplateUpdateTargetPageEnvelope'];
+export type TemplateUpdatePreviewEnvelope = components['schemas']['TemplateUpdatePreviewEnvelope'];
+export type TemplateUpdatePolicyEnvelope = components['schemas']['TemplateUpdatePolicyEnvelope'];
+export type TemplateUpdatePolicyListEnvelope = components['schemas']['TemplateUpdatePolicyListEnvelope'];
+export type TemplateUpdateReceipt = components['schemas']['TemplateUpdateReceipt'];
+export type TemplateMigrationPolicy = components['schemas']['TemplateMigrationPolicy'];
+export type TemplateVersionReference = components['schemas']['TemplateVersionReference'];
+export type TemplateMigrationStep = components['schemas']['TemplateMigrationStep'];
+export type TemplateMigrationAssessment = components['schemas']['TemplateMigrationAssessment'];
 export type ResponseIdentityError = components['responses']['IdentityError'];
 export type ResponseError = components['responses']['Error'];
 export type ResponseComputeError = components['responses']['ComputeError'];
@@ -33451,9 +33952,67 @@ export interface operations {
             400: components["responses"]["Error"];
         };
     };
+    getApplicationEnvironmentTargetSource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationEnvironmentID: string;
+                targetID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current cluster YAML for the linked resource, never a fabricated source file. */
+            200: {
+                headers: {
+                    "Cache-Control": "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KubernetesResourceYamlEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getApplicationEnvironmentTargetRelations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                applicationEnvironmentID: string;
+                targetID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded observed relations, including coverage gaps. */
+            200: {
+                headers: {
+                    "Cache-Control": "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResourceRelationsEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
     listApplicationEnvironmentTargetCandidates: {
         parameters: {
             query: {
+                workloadKind?: "Deployment" | "StatefulSet" | "DaemonSet" | "Job" | "CronJob" | "CustomResource";
+                /** @description Explicit CRD selection for CustomResource discovery. Only this served resource and namespace are queried. */
+                crdName?: string;
                 clusterId: string;
                 namespace: string;
                 search?: string;
@@ -35388,6 +35947,178 @@ export interface operations {
                 };
             };
             403: components["responses"]["Error"];
+        };
+    };
+    listTemplateUpdateTargets: {
+        parameters: {
+            query: {
+                kind: components["schemas"]["TemplateUpdateKind"];
+                templateId: string;
+                applicationId?: string;
+                page?: number;
+                pageSize?: number;
+                serviceId?: string;
+                applicationEnvironmentId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TemplateUpdateTargetPageEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    createTemplateUpdatePreview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TemplateUpdatePreviewInput"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TemplateUpdatePreviewEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getTemplateUpdatePreview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                previewID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TemplateUpdatePreviewEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    createTemplateUpdateBatch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                previewID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TemplateUpdateBatchInput"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeliveryBatchEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listTemplateUpdatePolicies: {
+        parameters: {
+            query: {
+                kind: components["schemas"]["TemplateUpdateKind"];
+                templateId: string;
+                applicationId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TemplateUpdatePolicyListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    saveTemplateUpdatePolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TemplateUpdatePolicyInput"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TemplateUpdatePolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
         };
     };
     listManifestPackages: {
@@ -41188,6 +41919,8 @@ export interface operations {
         parameters: {
             query?: {
                 namespace?: components["parameters"]["KubernetesNamespaceDefaultQuery"];
+                /** @description Reject the request if the live Pod UID differs. Omit only for legacy clients, never when restoring a saved session. */
+                expectedUid?: string;
                 container?: string;
                 tailLines?: number;
                 sinceSeconds?: number;
@@ -41213,6 +41946,15 @@ export interface operations {
             };
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
+            /** @description The current Pod UID differs from expectedUid; open the current Pod instead of adopting it by name. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             503: components["responses"]["Error"];
         };
     };
