@@ -12245,6 +12245,248 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/network-access/endpoint-response-policies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Draft and published endpoint response policies in the authorized site scope. */
+        get: operations["listNetworkEndpointResponsePolicies"];
+        put?: never;
+        /** @description Create a draft. No network action occurs until explicit publication. */
+        post: operations["createNetworkEndpointResponsePolicy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/endpoint-response-policies/{policyID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read a scoped policy and its immutable published configuration. */
+        get: operations["getNetworkEndpointResponsePolicy"];
+        /** @description Update the draft with revision checking. Authorize both old and new scopes. */
+        put: operations["updateNetworkEndpointResponsePolicy"];
+        post?: never;
+        /** @description Retire a policy without implicitly clearing existing restrictions. */
+        delete: operations["deleteNetworkEndpointResponsePolicy"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/endpoint-response-policies/{policyID}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Publish a validated immutable revision after checking NAS and endpoint capabilities. Disabling stops new triggers; existing restrictions are reevaluated. */
+        post: operations["publishNetworkEndpointResponsePolicy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/endpoint-response-policies/{policyID}/rollback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Publish the chosen previous configuration as a new revision. Restriction epochs never decrease. */
+        post: operations["rollbackNetworkEndpointResponsePolicy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/endpoint-response-policies/{policyID}/revisions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read bounded policy revision history in the authorized scope. */
+        get: operations["listNetworkEndpointResponsePolicyRevisions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/endpoint-response-policies/{policyID}/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Preview this policy against a visible device and fresh NAS evidence without creating restrictions or commands. */
+        post: operations["previewNetworkEndpointResponsePolicy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/endpoint-response-events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read scoped endpoint response events. Notification and network enforcement are separate states. */
+        get: operations["listNetworkEndpointResponseEvents"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/endpoint-response-events/{eventID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read a response event and causal presence/session evidence. */
+        get: operations["getNetworkEndpointResponseEvent"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/endpoint-response-events/{eventID}/restore": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Restore only after current trusted health and all other constraints are reevaluated. One heartbeat or policy retirement cannot restore access. */
+        post: operations["restoreNetworkEndpointResponseEvent"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/endpoint-maintenance-windows": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read bounded, scoped maintenance exceptions. */
+        get: operations["listNetworkEndpointMaintenanceWindows"];
+        put?: never;
+        /** @description Create an audited exception of at most 24 hours for one device and site. Existing denies and sensitive lease bounds remain effective. */
+        post: operations["createNetworkEndpointMaintenanceWindow"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/endpoint-maintenance-windows/{windowID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** @description End a scoped maintenance exception and reevaluate current health. */
+        delete: operations["deleteNetworkEndpointMaintenanceWindow"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/endpoint-devices/{deviceID}/presence": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read current trusted service presence separately from device registration and UI state. */
+        get: operations["getNetworkEndpointPresence"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/session-commands/{commandID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Read command progress only after authorizing its parent session scope. Applied ACK is distinct from verified network effects. */
+        get: operations["getNetworkSessionCommand"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/admission/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Read-only admission evaluation for the device owner and selected NAS. Returns current policy and attribute versions; it does not authenticate a certificate or grant network access. */
+        post: operations["previewNetworkAdmission"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -28156,6 +28398,8 @@ export interface components {
             authentication: components["schemas"]["NetworkConnectionAuthentication"];
             accessProfile: components["schemas"]["NetworkAccessProfile"];
             policyVersion: number;
+            provisioningAvailable?: boolean;
+            provisioningReason?: string;
         };
         NetworkConnectionOptionListEnvelope: {
             items: components["schemas"]["NetworkConnectionOption"][];
@@ -28174,6 +28418,7 @@ export interface components {
             status: components["schemas"]["NetworkNASBindingStatus"];
             coaSupported: boolean;
             disconnectSupported: boolean;
+            eapServerTrust?: components["schemas"]["NetworkEAPServerTrust"];
         };
         NetworkNASBinding: {
             id: string;
@@ -28192,6 +28437,7 @@ export interface components {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            eapServerTrust?: components["schemas"]["NetworkEAPServerTrust"];
         };
         NetworkNASBindingEnvelope: {
             data: components["schemas"]["NetworkNASBinding"];
@@ -28375,6 +28621,8 @@ export interface components {
             users: string[];
             teams: string[];
             tags: string[];
+            /** @description Current role binding IDs. Removing a binding removes this selector match on re-evaluation. */
+            roles?: string[];
         };
         NetworkAccessPolicyInput: {
             name: string;
@@ -28556,6 +28804,15 @@ export interface components {
             startedAt: string;
             /** Format: date-time */
             expiresAt: string;
+            /** @description Policy version used by the original NAS authentication decision. */
+            admissionPolicyVersion?: number;
+            /** @description Original NAS decision input version, including health and persisted restrictions; absent for legacy or non-NAS sessions. */
+            admissionAttributeVersion?: string;
+            /** @description Persisted security ceiling for this NAS session; it is not evidence of network enforcement. */
+            restrictionProfile?: components["schemas"]["NetworkAccessProfile"];
+            restrictionReason?: string;
+            /** @description Latest admission revalidation command. Applied means NAS acknowledgment; Accounting or data-plane checks must verify enforcement. */
+            latestCommand?: components["schemas"]["NetworkSessionCommand"];
         };
         NetworkSessionEnvelope: {
             data: components["schemas"]["NetworkSession"];
@@ -28633,9 +28890,20 @@ export interface components {
             networkLeaseRequired: boolean;
             resourceLeaseRequired: boolean;
             reasons: string[];
+            attributeVersion?: string;
+            /** Format: date-time */
+            evaluatedAt?: string;
         };
         NetworkPolicyPreviewEnvelope: {
             data: components["schemas"]["NetworkPolicyPreviewResult"];
+        };
+        NetworkAdmissionPreviewResult: components["schemas"]["NetworkPolicyPreviewResult"] & {
+            attributeVersion: string;
+            /** Format: date-time */
+            evaluatedAt: string;
+        };
+        NetworkAdmissionPreviewEnvelope: {
+            data: components["schemas"]["NetworkAdmissionPreviewResult"];
         };
         /** @enum {string} */
         TemplateUpdateKind: "deployment" | "build" | "workflow" | "blueprint";
@@ -28831,6 +29099,221 @@ export interface components {
             requiresApproval: boolean;
             reason: string;
             steps: components["schemas"]["TemplateMigrationStep"][];
+        };
+        /** @enum {string} */
+        NetworkEndpointResponseAction: "record" | "notify" | "restrict" | "disconnect";
+        /** @enum {string} */
+        NetworkEndpointResponseSignal: "service_unavailable" | "service_unhealthy" | "ui_unavailable";
+        NetworkEndpointResponseStep: {
+            afterSeconds: number;
+            action: components["schemas"]["NetworkEndpointResponseAction"];
+            /** @enum {string} */
+            targetAccessProfile?: "restricted" | "quarantine";
+        };
+        NetworkEndpointResponsePolicyConfiguration: {
+            name: string;
+            enabled: boolean;
+            siteIds: string[];
+            nasBindingIds: string[];
+            deviceIds: string[];
+            subjects: components["schemas"]["NetworkPolicySubjects"];
+            signal: components["schemas"]["NetworkEndpointResponseSignal"];
+            requireHealthyForAdmission: boolean;
+            heartbeatIntervalSeconds: number;
+            missedHeartbeats: number;
+            gracePeriodSeconds: number;
+            accountingFreshnessSeconds: number;
+            restoreHeartbeats: number;
+            restoreObservationSeconds: number;
+            autoRestore: boolean;
+            /** @description Steps execute in array order. afterSeconds must strictly increase and disconnect must be the last step. The service rejects configurations that violate these cross-step rules. */
+            steps: components["schemas"]["NetworkEndpointResponseStep"][];
+            /** @enum {string} */
+            failureAction: "record" | "disconnect";
+            notificationPolicyId?: string;
+        };
+        NetworkEndpointResponsePolicyInput: {
+            expectedRevision: number;
+            configuration: components["schemas"]["NetworkEndpointResponsePolicyConfiguration"];
+        };
+        NetworkEndpointResponsePolicyPublishInput: {
+            expectedRevision: number;
+        };
+        NetworkEndpointResponsePolicyRollbackInput: {
+            expectedRevision: number;
+            revision: number;
+        };
+        NetworkEndpointResponsePolicy: {
+            id: string;
+            revision: number;
+            publishedRevision: number;
+            configuration: components["schemas"]["NetworkEndpointResponsePolicyConfiguration"];
+            publishedConfiguration?: components["schemas"]["NetworkEndpointResponsePolicyConfiguration"];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            /** Format: date-time */
+            publishedAt?: string;
+        };
+        NetworkEndpointResponsePolicyRevision: {
+            revision: number;
+            configuration: components["schemas"]["NetworkEndpointResponsePolicyConfiguration"];
+            /** Format: date-time */
+            createdAt: string;
+            actorId: string;
+        };
+        NetworkEndpointPresence: {
+            deviceId: string;
+            runtimeId?: string;
+            /** @enum {string} */
+            serviceState: "healthy" | "degraded" | "unknown" | "offline";
+            /** @enum {string} */
+            uiState: "online" | "offline" | "unknown";
+            /** Format: date-time */
+            uiLastObservedAt?: string;
+            /** Format: date-time */
+            uiHealthySince?: string;
+            uiHealthySamples?: number;
+            bootId?: string;
+            sequence?: number;
+            configurationVersion?: number;
+            policyVersion?: number;
+            /** Format: date-time */
+            lastObservedAt?: string;
+            /** Format: date-time */
+            lastReceivedAt?: string;
+            /** Format: date-time */
+            healthySince?: string;
+            healthySamples: number;
+            reasonCode?: string;
+        };
+        NetworkNASSessionEvidence: {
+            sessionId: string;
+            runtimeId: string;
+            nasId: string;
+            accountingSessionId?: string;
+            /** @enum {string} */
+            state: "active" | "stopped" | "unknown";
+            /** Format: date-time */
+            lastObservedAt?: string;
+            /** Format: date-time */
+            lastReceivedAt?: string;
+            /** Format: date-time */
+            startedAt?: string;
+            /** Format: date-time */
+            stoppedAt?: string;
+            /** @enum {string} */
+            verificationState: "unknown" | "observed" | "verified";
+            observedAccessProfile?: components["schemas"]["NetworkAccessProfile"];
+        };
+        NetworkEndpointResponsePreviewInput: {
+            deviceId: string;
+            sessionId?: string;
+        };
+        NetworkEndpointResponsePreview: {
+            policyId: string;
+            revision: number;
+            deviceId: string;
+            matched: boolean;
+            reasonCode: string;
+            /** Format: date-time */
+            triggerAfter?: string;
+            presence: components["schemas"]["NetworkEndpointPresence"];
+            sessions: components["schemas"]["NetworkNASSessionEvidence"][];
+            steps: components["schemas"]["NetworkEndpointResponseStep"][];
+            unsupportedActions: components["schemas"]["NetworkEndpointResponseAction"][];
+        };
+        /** @enum {string} */
+        NetworkEndpointResponseEventStatus: "observing" | "active" | "enforcing" | "restricted" | "disconnected" | "enforcement_unknown" | "recovering" | "restored";
+        /** @enum {string} */
+        NetworkEndpointResponseNotificationState: "not_requested" | "pending" | "delivered" | "failed";
+        NetworkEndpointResponseEvent: {
+            id: string;
+            policyId: string;
+            policyRevision: number;
+            revision: number;
+            deviceId: string;
+            subjectId: string;
+            siteId: string;
+            sessionId: string;
+            nasId: string;
+            status: components["schemas"]["NetworkEndpointResponseEventStatus"];
+            reasonCode: string;
+            signal: components["schemas"]["NetworkEndpointResponseSignal"];
+            stage: number;
+            action: components["schemas"]["NetworkEndpointResponseAction"];
+            commandIds: string[];
+            notificationState: components["schemas"]["NetworkEndpointResponseNotificationState"];
+            notificationReason?: string;
+            presence?: components["schemas"]["NetworkEndpointPresence"];
+            nasEvidence?: components["schemas"]["NetworkNASSessionEvidence"];
+            restrictionEpoch: number;
+            /** Format: date-time */
+            triggeredAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            /** Format: date-time */
+            restoredAt?: string;
+        };
+        NetworkEndpointResponseRestoreInput: {
+            expectedRevision: number;
+            reason: string;
+        };
+        NetworkEndpointMaintenanceInput: {
+            deviceId: string;
+            siteId: string;
+            /** Format: date-time */
+            expiresAt: string;
+            reason: string;
+        };
+        NetworkEndpointMaintenance: {
+            id: string;
+            deviceId: string;
+            siteId: string;
+            /** Format: date-time */
+            expiresAt: string;
+            reason: string;
+            actorId: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        NetworkEAPServerTrust: {
+            serverNames: string[];
+            caCertificates: string[];
+            /** @enum {string} */
+            wifiSecurity: "wpa2-enterprise" | "wpa3-enterprise";
+        };
+        NetworkEndpointResponsePolicyEnvelope: {
+            data: components["schemas"]["NetworkEndpointResponsePolicy"];
+        };
+        NetworkEndpointPresenceEnvelope: {
+            data: components["schemas"]["NetworkEndpointPresence"];
+        };
+        NetworkEndpointResponsePreviewEnvelope: {
+            data: components["schemas"]["NetworkEndpointResponsePreview"];
+        };
+        NetworkEndpointResponseEventEnvelope: {
+            data: components["schemas"]["NetworkEndpointResponseEvent"];
+        };
+        NetworkEndpointMaintenanceEnvelope: {
+            data: components["schemas"]["NetworkEndpointMaintenance"];
+        };
+        NetworkEndpointResponsePolicyListEnvelope: {
+            items: components["schemas"]["NetworkEndpointResponsePolicy"][];
+        };
+        NetworkEndpointResponsePolicyRevisionListEnvelope: {
+            items: components["schemas"]["NetworkEndpointResponsePolicyRevision"][];
+        };
+        NetworkEndpointResponseEventListEnvelope: {
+            items: components["schemas"]["NetworkEndpointResponseEvent"][];
+        };
+        NetworkEndpointMaintenanceListEnvelope: {
+            items: components["schemas"]["NetworkEndpointMaintenance"][];
+        };
+        NetworkAdmissionPreviewRequest: {
+            deviceId: string;
+            nasBindingId: string;
         };
     };
     responses: {
@@ -31009,6 +31492,8 @@ export type NetworkSessionCommandEnvelope = components['schemas']['NetworkSessio
 export type NetworkPolicyPreviewRequest = components['schemas']['NetworkPolicyPreviewRequest'];
 export type NetworkPolicyPreviewResult = components['schemas']['NetworkPolicyPreviewResult'];
 export type NetworkPolicyPreviewEnvelope = components['schemas']['NetworkPolicyPreviewEnvelope'];
+export type NetworkAdmissionPreviewResult = components['schemas']['NetworkAdmissionPreviewResult'];
+export type NetworkAdmissionPreviewEnvelope = components['schemas']['NetworkAdmissionPreviewEnvelope'];
 export type TemplateUpdateKind = components['schemas']['TemplateUpdateKind'];
 export type TemplateUpdateMode = components['schemas']['TemplateUpdateMode'];
 export type ManifestTemplateSelection = components['schemas']['ManifestTemplateSelection'];
@@ -31032,6 +31517,36 @@ export type TemplateMigrationPolicy = components['schemas']['TemplateMigrationPo
 export type TemplateVersionReference = components['schemas']['TemplateVersionReference'];
 export type TemplateMigrationStep = components['schemas']['TemplateMigrationStep'];
 export type TemplateMigrationAssessment = components['schemas']['TemplateMigrationAssessment'];
+export type NetworkEndpointResponseAction = components['schemas']['NetworkEndpointResponseAction'];
+export type NetworkEndpointResponseSignal = components['schemas']['NetworkEndpointResponseSignal'];
+export type NetworkEndpointResponseStep = components['schemas']['NetworkEndpointResponseStep'];
+export type NetworkEndpointResponsePolicyConfiguration = components['schemas']['NetworkEndpointResponsePolicyConfiguration'];
+export type NetworkEndpointResponsePolicyInput = components['schemas']['NetworkEndpointResponsePolicyInput'];
+export type NetworkEndpointResponsePolicyPublishInput = components['schemas']['NetworkEndpointResponsePolicyPublishInput'];
+export type NetworkEndpointResponsePolicyRollbackInput = components['schemas']['NetworkEndpointResponsePolicyRollbackInput'];
+export type NetworkEndpointResponsePolicy = components['schemas']['NetworkEndpointResponsePolicy'];
+export type NetworkEndpointResponsePolicyRevision = components['schemas']['NetworkEndpointResponsePolicyRevision'];
+export type NetworkEndpointPresence = components['schemas']['NetworkEndpointPresence'];
+export type NetworkNASSessionEvidence = components['schemas']['NetworkNASSessionEvidence'];
+export type NetworkEndpointResponsePreviewInput = components['schemas']['NetworkEndpointResponsePreviewInput'];
+export type NetworkEndpointResponsePreview = components['schemas']['NetworkEndpointResponsePreview'];
+export type NetworkEndpointResponseEventStatus = components['schemas']['NetworkEndpointResponseEventStatus'];
+export type NetworkEndpointResponseNotificationState = components['schemas']['NetworkEndpointResponseNotificationState'];
+export type NetworkEndpointResponseEvent = components['schemas']['NetworkEndpointResponseEvent'];
+export type NetworkEndpointResponseRestoreInput = components['schemas']['NetworkEndpointResponseRestoreInput'];
+export type NetworkEndpointMaintenanceInput = components['schemas']['NetworkEndpointMaintenanceInput'];
+export type NetworkEndpointMaintenance = components['schemas']['NetworkEndpointMaintenance'];
+export type NetworkEAPServerTrust = components['schemas']['NetworkEAPServerTrust'];
+export type NetworkEndpointResponsePolicyEnvelope = components['schemas']['NetworkEndpointResponsePolicyEnvelope'];
+export type NetworkEndpointPresenceEnvelope = components['schemas']['NetworkEndpointPresenceEnvelope'];
+export type NetworkEndpointResponsePreviewEnvelope = components['schemas']['NetworkEndpointResponsePreviewEnvelope'];
+export type NetworkEndpointResponseEventEnvelope = components['schemas']['NetworkEndpointResponseEventEnvelope'];
+export type NetworkEndpointMaintenanceEnvelope = components['schemas']['NetworkEndpointMaintenanceEnvelope'];
+export type NetworkEndpointResponsePolicyListEnvelope = components['schemas']['NetworkEndpointResponsePolicyListEnvelope'];
+export type NetworkEndpointResponsePolicyRevisionListEnvelope = components['schemas']['NetworkEndpointResponsePolicyRevisionListEnvelope'];
+export type NetworkEndpointResponseEventListEnvelope = components['schemas']['NetworkEndpointResponseEventListEnvelope'];
+export type NetworkEndpointMaintenanceListEnvelope = components['schemas']['NetworkEndpointMaintenanceListEnvelope'];
+export type NetworkAdmissionPreviewRequest = components['schemas']['NetworkAdmissionPreviewRequest'];
 export type ResponseIdentityError = components['responses']['IdentityError'];
 export type ResponseError = components['responses']['Error'];
 export type ResponseComputeError = components['responses']['ComputeError'];
@@ -56838,6 +57353,488 @@ export interface operations {
             404: components["responses"]["Error"];
             409: components["responses"]["Error"];
             503: components["responses"]["Error"];
+        };
+    };
+    listNetworkEndpointResponsePolicies: {
+        parameters: {
+            query?: {
+                siteId?: string;
+                deviceId?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Draft and published endpoint response policies in the authorized site scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkEndpointResponsePolicyListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    createNetworkEndpointResponsePolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkEndpointResponsePolicyInput"];
+            };
+        };
+        responses: {
+            /** @description Create a draft. No network action occurs until explicit publication. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkEndpointResponsePolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getNetworkEndpointResponsePolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                policyID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Read a scoped policy and its immutable published configuration. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkEndpointResponsePolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    updateNetworkEndpointResponsePolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                policyID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkEndpointResponsePolicyInput"];
+            };
+        };
+        responses: {
+            /** @description Update the draft with revision checking. Authorize both old and new scopes. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkEndpointResponsePolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    deleteNetworkEndpointResponsePolicy: {
+        parameters: {
+            query: {
+                expectedRevision: number;
+            };
+            header?: never;
+            path: {
+                policyID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Retire a policy without implicitly clearing existing restrictions. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    publishNetworkEndpointResponsePolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                policyID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkEndpointResponsePolicyPublishInput"];
+            };
+        };
+        responses: {
+            /** @description Publish a validated immutable revision after checking NAS and endpoint capabilities. Disabling stops new triggers; existing restrictions are reevaluated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkEndpointResponsePolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    rollbackNetworkEndpointResponsePolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                policyID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkEndpointResponsePolicyRollbackInput"];
+            };
+        };
+        responses: {
+            /** @description Publish the chosen previous configuration as a new revision. Restriction epochs never decrease. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkEndpointResponsePolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listNetworkEndpointResponsePolicyRevisions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                policyID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Read bounded policy revision history in the authorized scope. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkEndpointResponsePolicyRevisionListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    previewNetworkEndpointResponsePolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                policyID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkEndpointResponsePreviewInput"];
+            };
+        };
+        responses: {
+            /** @description Preview this policy against a visible device and fresh NAS evidence without creating restrictions or commands. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkEndpointResponsePreviewEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listNetworkEndpointResponseEvents: {
+        parameters: {
+            query?: {
+                siteId?: string;
+                deviceId?: string;
+                limit?: number;
+                policyId?: string;
+                status?: components["schemas"]["NetworkEndpointResponseEventStatus"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Read scoped endpoint response events. Notification and network enforcement are separate states. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkEndpointResponseEventListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getNetworkEndpointResponseEvent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                eventID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Read a response event and causal presence/session evidence. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkEndpointResponseEventEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    restoreNetworkEndpointResponseEvent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                eventID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkEndpointResponseRestoreInput"];
+            };
+        };
+        responses: {
+            /** @description Restore only after current trusted health and all other constraints are reevaluated. One heartbeat or policy retirement cannot restore access. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkEndpointResponseEventEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listNetworkEndpointMaintenanceWindows: {
+        parameters: {
+            query?: {
+                siteId?: string;
+                deviceId?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Read bounded, scoped maintenance exceptions. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkEndpointMaintenanceListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    createNetworkEndpointMaintenanceWindow: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkEndpointMaintenanceInput"];
+            };
+        };
+        responses: {
+            /** @description Create an audited exception of at most 24 hours for one device and site. Existing denies and sensitive lease bounds remain effective. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkEndpointMaintenanceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    deleteNetworkEndpointMaintenanceWindow: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                windowID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description End a scoped maintenance exception and reevaluate current health. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getNetworkEndpointPresence: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deviceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Read current trusted service presence separately from device registration and UI state. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkEndpointPresenceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    getNetworkSessionCommand: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                commandID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Read command progress only after authorizing its parent session scope. Applied ACK is distinct from verified network effects. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkSessionCommandEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    previewNetworkAdmission: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkAdmissionPreviewRequest"];
+            };
+        };
+        responses: {
+            /** @description Current admission policy, health restrictions, input version and evaluation time. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkAdmissionPreviewEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
         };
     };
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "authorization.opensoha.io/v1",
   "catalogVersion": "2.0.0",
-  "contentHash": "sha256:2d98b53189afa67c09a2917325e3b1b1b70aafe00d370bdabaef7d6b11ef493c",
+  "contentHash": "sha256:fa8516821cd30722887c6fa4ce7483b7e00ec56a299508f1d8eb8a95eba39188",
   "permissions": [
     {
       "key": "access.directory.create",
@@ -4764,6 +4764,150 @@
       "resource": "endpoint_devices",
       "action": "view",
       "displayName": "查看网络接入设备",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.endpoint_response_events.maintenance",
+      "domain": "network_access",
+      "resource": "endpoint_response_events",
+      "action": "maintenance",
+      "displayName": "管理终端维护例外",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.endpoint_response_events.restore",
+      "domain": "network_access",
+      "resource": "endpoint_response_events",
+      "action": "restore",
+      "displayName": "解除终端联动限制",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.endpoint_response_events.view",
+      "domain": "network_access",
+      "resource": "endpoint_response_events",
+      "action": "view",
+      "displayName": "查看终端联动事件",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.endpoint_response_policies.create",
+      "domain": "network_access",
+      "resource": "endpoint_response_policies",
+      "action": "create",
+      "displayName": "创建终端联动策略",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.endpoint_response_policies.delete",
+      "domain": "network_access",
+      "resource": "endpoint_response_policies",
+      "action": "delete",
+      "displayName": "停用终端联动策略",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.endpoint_response_policies.preview",
+      "domain": "network_access",
+      "resource": "endpoint_response_policies",
+      "action": "preview",
+      "displayName": "预览终端联动策略",
+      "riskLevel": "read",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.endpoint_response_policies.publish",
+      "domain": "network_access",
+      "resource": "endpoint_response_policies",
+      "action": "publish",
+      "displayName": "发布终端联动策略",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.endpoint_response_policies.update",
+      "domain": "network_access",
+      "resource": "endpoint_response_policies",
+      "action": "update",
+      "displayName": "修改终端联动策略",
+      "riskLevel": "mutate",
+      "scopeKinds": [
+        "tenant",
+        "workspace",
+        "resource"
+      ],
+      "approvalPolicy": "never",
+      "status": "active",
+      "assignable": true
+    },
+    {
+      "key": "network_access.endpoint_response_policies.view",
+      "domain": "network_access",
+      "resource": "endpoint_response_policies",
+      "action": "view",
+      "displayName": "查看终端联动策略",
       "riskLevel": "read",
       "scopeKinds": [
         "tenant",
