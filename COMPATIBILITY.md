@@ -22,6 +22,16 @@ Current stream: `0.1.x`.
 - `1.0.0` starts the stable contract line. After `1.0.0`, breaking changes
   require a major version bump, a migration note, and consumer coordination.
 
+## Proxy Configuration Inputs
+
+The proxy configuration endpoint accepts partial updates through
+`NetworkProxyConfigurationPatchInput`. Its optional `content` distinguishes omission
+from an explicit empty value. Existing Go consumers retain
+`NetworkProxyConfigurationInput.Content` as a string and the full-input
+`UpdateNetworkProxyConfigurationJSONRequestBody` alias. New Go consumers that omit
+encrypted content must explicitly use the Patch input. TypeScript operation types
+follow the partial HTTP schema. Both full and partial requests use the same endpoint.
+
 ## Version Synchronization
 
 Each release must keep these values aligned:
