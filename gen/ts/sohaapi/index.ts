@@ -7138,6 +7138,177 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/docker/projects/{dockerProjectID}/content-dlp": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Requires docker.dlp-policy.view and DockerProject object scope. Metadata contains no file content or matched excerpts. */
+        get: operations["getDockerVolumeDLPPolicy"];
+        /** @description Requires docker.dlp-policy.update and DockerProject object scope. Metadata contains no file content or matched excerpts. */
+        put: operations["saveDockerVolumeDLPPolicy"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/projects/{dockerProjectID}/content-dlp/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Requires docker.dlp-policy.publish and DockerProject object scope. Metadata contains no file content or matched excerpts. */
+        post: operations["publishDockerVolumeDLPPolicy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/projects/{dockerProjectID}/content-dlp/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Requires docker.dlp-events.view and DockerProject object scope. Metadata contains no file content or matched excerpts. Returns latest 100 events, newest first; bounded history, not a total or export. */
+        get: operations["listDockerVolumeDLPEvents"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/projects/{dockerProjectID}/runtime/volume-file": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Requires docker.services.view. When a project DLP policy is published and enabled, Core additionally requires DockerProject object scope and inspects a complete UTF-8 file up to 262144 bytes before returning content. Block denies matches and incomplete/unsupported scans; audit may allow uninspected content. With no enabled published policy, the existing channel remains uninspected and no transfer DLP event is issued. Terminal/log/direct volume access are outside this channel. No-store; DLP denials return no file content. */
+        get: operations["readDockerProjectVolumeFile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/projects/{dockerProjectID}/content-dlp/activity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Requires own docker.services.view or reviewer/event-view permission plus project ABAC. Returns latest100 own cases unless authorized for review. */
+        get: operations["listDockerVolumeDLPActivity"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/projects/{dockerProjectID}/content-dlp/events/{eventID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Requires event ownership and docker.services.view, or independent event/review permission, plus project ABAC. */
+        get: operations["getDockerVolumeDLPCase"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/projects/{dockerProjectID}/content-dlp/events/{eventID}/authorizations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Requires event owner and current file-view object scope. Warning acknowledgement or approved appeal only. Token expires within60s, one-use, actor/content/target/policy-bound; retry rereads and rescans. */
+        post: operations["authorizeDockerVolumeDLPTransfer"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/projects/{dockerProjectID}/content-dlp/events/{eventID}/appeal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Requires event owner and file-view project scope. Fixed reason codes; no content evidence. */
+        post: operations["appealDockerVolumeDLPTransfer"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/projects/{dockerProjectID}/content-dlp/events/{eventID}/appeal/review": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Requires docker.dlp-appeals.review, project ABAC, no self-review; release of event-owned network hold additionally requires global network linkage scope. Approval permits one exact retry and does not restore old network authorizations. */
+        post: operations["reviewDockerVolumeDLPAppeal"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/projects/{dockerProjectID}/runtime/volume-file/read": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Requires docker.services.view. Structured Core-gated read; authorization appears only in body. On warn/block no file content is returned. Existing GET remains fail-closed. */
+        post: operations["readDockerProjectVolumeTransfer"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/docker/projects/{dockerProjectID}/logs/query": {
         parameters: {
             query?: never;
@@ -11268,6 +11439,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/network-access/workload-bindings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkWorkloadBindings"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/workload-bindings/{bindingID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["putNetworkWorkloadBinding"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/devices/{deviceID}/management-proof": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["submitNetworkManagementProof"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/network-access/sites": {
         parameters: {
             query?: never;
@@ -11428,6 +11647,39 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/network-access/sessions/{sessionID}/vpn-revocation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkVPNSessionRevocation"];
+        put?: never;
+        /** @description Revokes every active VPN session for the selected session's subject, device and site and persists a reconnect restriction. A separate explicit release permits fresh authorization; it never restores old sessions or leases. NAS sessions use the existing NAS action API. */
+        post: operations["revokeNetworkVPNSession"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/sessions/{sessionID}/vpn-revocation/release": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["releaseNetworkVPNSessionRevocation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/network-access/proxy-instances": {
         parameters: {
             query?: never;
@@ -11476,6 +11728,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/network-access/proxy-instances/{instanceID}/configuration-history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNetworkProxyConfigurationHistory"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/proxy-instances/{instanceID}/configuration-history/{revision}/restore": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["restoreNetworkProxyConfiguration"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/network-access/proxy-instances/{instanceID}/traffic": {
         parameters: {
             query?: never;
@@ -11518,6 +11802,22 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["closeNetworkProxyConnection"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/proxy-instances/{instanceID}/close-commands/{commandID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNetworkProxyCloseCommand"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -12481,6 +12781,479 @@ export interface paths {
         put?: never;
         /** @description Read-only admission evaluation for the device owner and selected NAS. Returns current policy and attribute versions; it does not authenticate a certificate or grant network access. */
         post: operations["previewNetworkAdmission"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/endpoint-devices/{deviceID}/channel-controls": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Requires endpoint_controls.view and device ABAC. Scope and freshness are explicit. */
+        get: operations["getEndpointChannelControls"];
+        /** @description Requires independent update permission, device ABAC and all-subjects scope; CAS draft only. */
+        put: operations["saveEndpointChannelControls"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/endpoint-devices/{deviceID}/channel-controls/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Explicit publish; independent publish permission plus device and all-subjects ABAC. New revision is required to release controls. */
+        post: operations["publishEndpointChannelControls"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-control/v1/runtimes/{runtimeID}/channel-controls": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description mTLS current endpoint credential and windows-channel-controls-v1 capability; response includes one-use receipt challenge. */
+        get: operations["getRuntimeChannelControls"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-control/v1/runtimes/{runtimeID}/channel-controls/receipt": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description mTLS endpoint report. Current credential/policy and one-use challenge are atomically checked; replay cannot refresh receipt. */
+        post: operations["reportRuntimeChannelControls"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/destinations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * listManagedContentDestinations
+         * @description Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+         */
+        get: operations["listManagedContentDestinations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/destinations/admin": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * listManagedContentAdminDestinations
+         * @description Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+         */
+        get: operations["listManagedContentAdminDestinations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/destinations/{destinationID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * getManagedContentDestination
+         * @description Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+         */
+        get: operations["getManagedContentDestination"];
+        /**
+         * saveManagedContentDestination
+         * @description Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+         */
+        put: operations["saveManagedContentDestination"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/destinations/{destinationID}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * publishManagedContentDestination
+         * @description Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+         */
+        post: operations["publishManagedContentDestination"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/uploads": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * submitManagedContentUploads
+         * @description Buffer at most 256 KiB in Core, inspect all bytes, persist a decision and only then submit to the approved destination. requestId is single-attempt idempotency; unknown outcomes must be looked up, never automatically replayed.
+         */
+        post: operations["submitManagedContentUploads"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/pastes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * submitManagedContentPastes
+         * @description Buffer at most 256 KiB in Core, inspect all bytes, persist a decision and only then submit to the approved destination. requestId is single-attempt idempotency; unknown outcomes must be looked up, never automatically replayed.
+         */
+        post: operations["submitManagedContentPastes"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/files": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * listManagedContentFiles
+         * @description Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+         */
+        get: operations["listManagedContentFiles"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/files/{fileID}/read": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * performManagedContentFileRead
+         * @description Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+         */
+        post: operations["performManagedContentFileRead"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/files/{fileID}/copy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * performManagedContentFileCopy
+         * @description Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+         */
+        post: operations["performManagedContentFileCopy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/files/{fileID}/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * performManagedContentFileDelete
+         * @description Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+         */
+        post: operations["performManagedContentFileDelete"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/records": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * listManagedContentRecords
+         * @description Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+         */
+        get: operations["listManagedContentRecords"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/records/{recordID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * getManagedContentRecord
+         * @description Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+         */
+        get: operations["getManagedContentRecord"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/destinations/{destinationID}/cases": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * listManagedContentCases
+         * @description Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+         */
+        get: operations["listManagedContentCases"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/records/{recordID}/authorize": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * handleManagedContentAuthorize
+         * @description The owner needs view plus the original operation permissions (create and/or download). Current object scopes are rechecked. Authorization is single-use, content/target/connection/version-bound and does not transfer data.
+         */
+        post: operations["handleManagedContentAuthorize"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/records/{recordID}/appeal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * handleManagedContentAppeal
+         * @description Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+         */
+        post: operations["handleManagedContentAppeal"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/records/{recordID}/review": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * handleManagedContentReview
+         * @description Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+         */
+        post: operations["handleManagedContentReview"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/destinations/{destinationID}/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Compare saved draft with active policy on bounded samples
+         * @description Shadow only; no upload, download, policy publication, network restriction or persisted content. 1-8 complete samples, each at most 32KiB. Counts are sample counts, not false-positive rates.
+         */
+        post: operations["previewManagedContentDestination"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/docker/projects/{dockerProjectID}/content-dlp/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Compare saved draft with active policy on bounded samples
+         * @description Shadow only; no upload, download, policy publication, network restriction or persisted content. 1-8 complete samples, each at most 32KiB. Counts are sample counts, not false-positive rates.
+         */
+        post: operations["previewDockerContentDLPPolicy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/records/{recordID}/network": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Read source-owned network hold and execution receipts
+         * @description Own record with transfer view; other actors require global transfer event view and every gate scope. No file content.
+         */
+        get: operations["getManagedContentNetworkState"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/network-access/content-transfers/destinations/review": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List authorized destinations for content case review
+         * @description Requires independent global event-view scope; includes disabled/unpublished destinations so earlier findings remain reviewable. Returns summaries without connection configuration or content.
+         */
+        get: operations["listManagedContentReviewDestinations"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -27253,6 +28026,244 @@ export interface components {
             manifest: components["schemas"]["PluginManifest"];
             installed?: boolean;
         };
+        DockerVolumeDLPRule: {
+            expression: string;
+            id: string;
+            /** @description Default confidential. The administrator classifies this detector rule. */
+            dataLevel?: components["schemas"]["DLPDataLevel"];
+        };
+        DockerVolumeDLPContent: {
+            /** @description Default false. For warn/block matched releases, both authorization issuance and use require recent server-verified MFA in the same authenticated session. MFA does not replace acknowledgement or independent appeal approval. */
+            requireStepUp?: boolean;
+            detectors: ("private_key" | "aws_access_key" | "credential_assignment")[];
+            enabled: boolean;
+            /** @enum {string} */
+            mode: "audit" | "warn" | "block";
+            /**
+             * @description Default none. revoke_network only for block matched denials and requires independent all-subjects network linkage authorization.
+             * @enum {string}
+             */
+            networkAction?: "none" | "revoke_network";
+            rules: components["schemas"]["DockerVolumeDLPRule"][];
+            /** @description Default public (all matches enforce); derived only from trusted detector/rule policy, never client classification. */
+            minimumDataLevel?: components["schemas"]["DLPDataLevel"];
+            /**
+             * @description Optional explicit pin; unknown engines rejected.
+             * @constant
+             */
+            detectorVersion?: "content-dlp-text-v1";
+        } & unknown;
+        DockerVolumeDLPPolicy: {
+            projectId: string;
+            /** Format: int64 */
+            revision: number;
+            draft: components["schemas"]["DockerVolumeDLPContent"];
+            published?: components["schemas"]["DockerVolumeDLPContent"];
+            /** Format: int64 */
+            publishedVersion: number;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DockerVolumeDLPSaveInput: {
+            /** Format: int64 */
+            expectedRevision: number;
+            draft: components["schemas"]["DockerVolumeDLPContent"];
+        };
+        DockerVolumeDLPPublishInput: {
+            /** Format: int64 */
+            expectedRevision: number;
+        };
+        DockerVolumeDLPDecision: {
+            /** @description A matched release additionally requires recent MFA in the authenticated issuing session; no content or MFA secret is returned. */
+            stepUpRequired?: boolean;
+            allowed: boolean;
+            /** @enum {string} */
+            authorizationKind?: "acknowledge" | "approved_appeal";
+            contentFingerprint?: string;
+            /** @enum {string} */
+            detectorVersion: "content-dlp-text-v1" | "content-dlp-archive-v2";
+            eventId: string;
+            matchedRuleIds: string[];
+            /** @enum {string} */
+            mode: "audit" | "warn" | "block";
+            originEventId?: string;
+            /** Format: int64 */
+            policyVersion: number;
+            /** @enum {string} */
+            requiredAction?: "acknowledge" | "appeal";
+            /** @enum {string} */
+            status: "clean" | "matched" | "unsupported" | "encrypted" | "too_large" | "timeout" | "error";
+            /**
+             * @description Maximum matched rule level; clean is unclassified, uninspected is unknown. Not a proof that a file is public.
+             * @enum {string}
+             */
+            dataLevel?: "public" | "internal" | "confidential" | "restricted" | "unclassified" | "unknown";
+            minimumDataLevel?: components["schemas"]["DLPDataLevel"];
+            ruleSetVersion?: string;
+        };
+        DockerVolumeDLPEvent: {
+            /** @enum {string} */
+            action: "transfer" | "policy_saved" | "policy_published" | "appeal_submitted" | "appeal_reviewed" | "warning_acknowledged" | "appeal_authorization_issued";
+            actorId: string;
+            allowed: boolean;
+            /** @enum {string} */
+            authorizationKind?: "acknowledge" | "approved_appeal";
+            contentFingerprint?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** @enum {string} */
+            detectorVersion: "content-dlp-text-v1" | "content-dlp-archive-v2";
+            eventId: string;
+            id: string;
+            /** Format: int64 */
+            inspectedBytes: number;
+            matchedRuleIds: string[];
+            /** @enum {string} */
+            mode: "audit" | "warn" | "block";
+            networkHoldId?: string;
+            originEventId?: string;
+            /** Format: int64 */
+            policyVersion: number;
+            projectId: string;
+            /** @enum {string} */
+            requiredAction?: "acknowledge" | "appeal";
+            /** Format: int64 */
+            revision: number;
+            /** Format: int64 */
+            sizeBytes: number;
+            /** @enum {string} */
+            status: "clean" | "matched" | "unsupported" | "encrypted" | "too_large" | "timeout" | "error";
+            targetFingerprint?: string;
+            /**
+             * @description Maximum matched rule level; clean is unclassified, uninspected is unknown. Not a proof that a file is public.
+             * @enum {string}
+             */
+            dataLevel?: "public" | "internal" | "confidential" | "restricted" | "unclassified" | "unknown";
+            minimumDataLevel?: components["schemas"]["DLPDataLevel"];
+            ruleSetVersion?: string;
+        };
+        DockerVolumeDLPPolicyEnvelope: {
+            data: components["schemas"]["DockerVolumeDLPPolicy"];
+        };
+        DockerVolumeDLPEventListEnvelope: {
+            items: components["schemas"]["DockerVolumeDLPEvent"][];
+        };
+        DockerVolumeFileContent: {
+            projectId: string;
+            serviceName: string;
+            target: string;
+            path: string;
+            content: string;
+            /** Format: int64 */
+            sizeBytes: number;
+            truncated: boolean;
+            dlp?: components["schemas"]["DockerVolumeDLPDecision"];
+        };
+        DockerVolumeFileContentEnvelope: {
+            data: components["schemas"]["DockerVolumeFileContent"];
+        };
+        DockerVolumeDLPAuthorizationInput: {
+            /** @enum {string} */
+            action: "acknowledge" | "approved_appeal";
+        };
+        DockerVolumeDLPAuthorization: {
+            token: string;
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        DockerVolumeDLPAppealInput: {
+            /** @enum {string} */
+            reasonCode: "false_positive" | "business_need";
+        };
+        DockerVolumeDLPAppealReviewInput: {
+            /** Format: int64 */
+            expectedRevision: number;
+            /** @enum {string} */
+            resolution: "approved" | "rejected";
+            /** @enum {string} */
+            reasonCode: "confirmed_false_positive" | "approved_business_exception" | "policy_required" | "insufficient_context";
+        };
+        DockerVolumeDLPAppeal: {
+            eventId: string;
+            projectId: string;
+            actorId: string;
+            /** @enum {string} */
+            reasonCode: "false_positive" | "business_need";
+            /** @enum {string} */
+            status: "pending" | "approved" | "rejected";
+            /** Format: int64 */
+            revision: number;
+            reviewerId?: string;
+            /** @enum {string} */
+            reviewReason?: "confirmed_false_positive" | "approved_business_exception" | "policy_required" | "insufficient_context";
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DockerVolumeDLPNetworkTarget: {
+            /** @enum {string} */
+            kind: "configuration" | "nas" | "proxy" | "unattributed_proxy";
+            runtimeId?: string;
+            sessionId?: string;
+            commandId?: string;
+            /** Format: int64 */
+            baseVersion: number;
+            /** Format: int64 */
+            observedVersion: number;
+            status: string;
+        };
+        DockerVolumeDLPNetworkHold: {
+            id: string;
+            sourceEventId: string;
+            projectId: string;
+            subjectId: string;
+            active: boolean;
+            /** Format: int64 */
+            revision: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            releasedAt?: string;
+            targets: components["schemas"]["DockerVolumeDLPNetworkTarget"][];
+        };
+        DockerVolumeDLPCase: {
+            event: components["schemas"]["DockerVolumeDLPEvent"];
+            appeal?: components["schemas"]["DockerVolumeDLPAppeal"];
+            linkage?: components["schemas"]["DockerVolumeDLPNetworkHold"];
+        };
+        DockerVolumeFileReadInput: {
+            serviceName?: string;
+            target: string;
+            path: string;
+            /** Format: int64 */
+            limitBytes?: number;
+            /** @description Single-use opaque authorization, never a URL parameter. */
+            authorization?: string;
+        };
+        DockerVolumeTransferResult: {
+            file?: components["schemas"]["DockerVolumeFileContent"];
+            decision?: components["schemas"]["DockerVolumeDLPDecision"];
+        } | {
+            file: components["schemas"]["DockerVolumeFileContent"];
+        } | {
+            decision: components["schemas"]["DockerVolumeDLPDecision"];
+        };
+        DockerVolumeDLPAuthorizationEnvelope: {
+            data: components["schemas"]["DockerVolumeDLPAuthorization"];
+        };
+        DockerVolumeDLPAppealEnvelope: {
+            data: components["schemas"]["DockerVolumeDLPAppeal"];
+        };
+        DockerVolumeDLPCaseEnvelope: {
+            data: components["schemas"]["DockerVolumeDLPCase"];
+        };
+        DockerVolumeTransferResultEnvelope: {
+            data: components["schemas"]["DockerVolumeTransferResult"];
+        };
+        DockerVolumeDLPCaseListEnvelope: {
+            items: components["schemas"]["DockerVolumeDLPCase"][];
+        };
         SoftwarePackage: {
             id: string;
             softwareId: string;
@@ -28020,6 +29031,16 @@ export interface components {
         EndpointDevicePostureStatus: "unknown" | "compliant" | "non_compliant";
         /** @enum {string} */
         EndpointDeviceType: "desktop" | "laptop" | "server" | "mobile" | "tablet" | "virtual" | "unknown";
+        /**
+         * @description Administrator-maintained management classification. Ownership and endpoint-reported facts cannot promote this value; unknown is the default and this is not attestation.
+         * @enum {string}
+         */
+        EndpointDeviceManagementState: "managed" | "unmanaged" | "unknown";
+        /**
+         * @description Explicit site governance rollout. Legacy preserves existing behavior; managed_only requires managed devices; restricted_unmanaged limits other devices to explicitly authorized unprotected resource ZTNA or restricted admission profiles.
+         * @enum {string}
+         */
+        NetworkDeviceGovernanceMode: "legacy" | "managed_only" | "restricted_unmanaged" | "verified_managed_only";
         /** @enum {string} */
         EndpointDeviceOwnershipType: "company" | "personal" | "temporary" | "unassigned";
         /** @enum {string} */
@@ -28050,6 +29071,8 @@ export interface components {
             networkInterfaces: components["schemas"]["EndpointNetworkInterface"][];
         };
         EndpointDevice: {
+            /** Format: date-time */
+            readonly managementVerifiedUntil?: string;
             id: string;
             name: string;
             ownerUserId: string;
@@ -28057,6 +29080,7 @@ export interface components {
             platform: string;
             deviceType?: components["schemas"]["EndpointDeviceType"];
             ownershipType?: components["schemas"]["EndpointDeviceOwnershipType"];
+            managementState?: components["schemas"]["EndpointDeviceManagementState"];
             hostname?: string;
             siteId?: string;
             postureStatus: components["schemas"]["EndpointDevicePostureStatus"];
@@ -28077,6 +29101,7 @@ export interface components {
             postureStatus?: components["schemas"]["EndpointDevicePostureStatus"];
             deviceType?: components["schemas"]["EndpointDeviceType"];
             ownershipType?: components["schemas"]["EndpointDeviceOwnershipType"];
+            managementState?: components["schemas"]["EndpointDeviceManagementState"];
         };
         EndpointDeviceRegistrationInput: {
             name: string;
@@ -28091,9 +29116,47 @@ export interface components {
         EndpointDeviceListEnvelope: {
             items: components["schemas"]["EndpointDevice"][];
         };
+        NetworkWorkloadBindingInput: {
+            serviceAccountId: string;
+            runtimeId: string;
+            deviceId: string;
+            siteId: string;
+            networkSpaceId: string;
+            resourceIds: string[];
+            enabled: boolean;
+            /** Format: date-time */
+            expiresAt: string;
+            revision: number;
+        };
+        NetworkWorkloadBinding: {
+            id: string;
+            serviceAccountId: string;
+            runtimeId: string;
+            deviceId: string;
+            siteId: string;
+            networkSpaceId: string;
+            resourceIds: string[];
+            enabled: boolean;
+            /** Format: date-time */
+            expiresAt: string;
+            revision: number;
+        };
+        NetworkManagementProofInput: {
+            payload: string;
+            signature: string;
+        };
+        NetworkWorkloadBindingEnvelope: {
+            data: components["schemas"]["NetworkWorkloadBinding"];
+        };
+        NetworkWorkloadBindingListEnvelope: {
+            items: components["schemas"]["NetworkWorkloadBinding"][];
+        };
         /** @enum {string} */
         NetworkSiteStatus: "active" | "disabled";
         NetworkSite: {
+            /** @description Base64 Ed25519 public key for the site MDM issuer; empty clears and omission preserves. */
+            managementIssuerKey?: string;
+            deviceGovernance?: components["schemas"]["NetworkDeviceGovernanceMode"];
             id: string;
             name: string;
             status: components["schemas"]["NetworkSiteStatus"];
@@ -28105,6 +29168,9 @@ export interface components {
             updatedAt: string;
         };
         NetworkSiteInput: {
+            /** @description Base64 Ed25519 public key for the site MDM issuer; empty clears and omission preserves. */
+            managementIssuerKey?: string;
+            deviceGovernance?: components["schemas"]["NetworkDeviceGovernanceMode"];
             name: string;
             status: components["schemas"]["NetworkSiteStatus"];
             description?: string;
@@ -28118,6 +29184,10 @@ export interface components {
         };
         /** @description IPv4 CIDR accepted by the first network-access slice; consumers must additionally require canonical network addresses. */
         NetworkIPv4CIDR: string;
+        /** @description Non-default IPv4 or IPv6 CIDR syntax; Core additionally validates canonical network-address bits and compressed spelling. */
+        NetworkIPCIDR: string;
+        /** @description Canonical unicast IPv4 or IPv6 address; mapped, scoped and unspecified addresses are rejected. */
+        NetworkIPAddress: string;
         /** @enum {string} */
         NetworkSpaceStatus: "active" | "disabled";
         NetworkSpace: {
@@ -28125,7 +29195,7 @@ export interface components {
             siteId: string;
             name: string;
             status: components["schemas"]["NetworkSpaceStatus"];
-            cidrs: components["schemas"]["NetworkIPv4CIDR"][];
+            cidrs: components["schemas"]["NetworkIPCIDR"][];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -28135,7 +29205,7 @@ export interface components {
             siteId: string;
             name: string;
             status: components["schemas"]["NetworkSpaceStatus"];
-            cidrs: components["schemas"]["NetworkIPv4CIDR"][];
+            cidrs: components["schemas"]["NetworkIPCIDR"][];
         };
         NetworkSpaceEnvelope: {
             data: components["schemas"]["NetworkSpace"];
@@ -28200,13 +29270,13 @@ export interface components {
             administrativeStatus: components["schemas"]["NetworkGatewayAdministrativeStatus"];
             publicEndpointHost: string;
             publicEndpointPort: number;
-            overlayCidr: string;
+            overlayCidr: components["schemas"]["NetworkIPCIDR"];
             routingMode: components["schemas"]["NetworkGatewayRoutingMode"];
             hubGatewayId?: string;
-            advertisedCidrs?: components["schemas"]["NetworkIPv4CIDR"][];
+            advertisedCidrs?: components["schemas"]["NetworkIPCIDR"][];
             mtu: number;
             persistentKeepaliveSeconds: number;
-            dnsServers: string[];
+            dnsServers: components["schemas"]["NetworkIPAddress"][];
         };
         NetworkGateway: {
             region?: string;
@@ -28224,13 +29294,13 @@ export interface components {
             status: components["schemas"]["NetworkGatewayStatus"];
             publicEndpointHost: string;
             publicEndpointPort: number;
-            overlayCidr: string;
+            overlayCidr: components["schemas"]["NetworkIPCIDR"];
             routingMode: components["schemas"]["NetworkGatewayRoutingMode"];
             hubGatewayId?: string;
-            advertisedCidrs?: components["schemas"]["NetworkIPv4CIDR"][];
+            advertisedCidrs?: components["schemas"]["NetworkIPCIDR"][];
             mtu: number;
             persistentKeepaliveSeconds: number;
-            dnsServers: string[];
+            dnsServers: components["schemas"]["NetworkIPAddress"][];
             wireguardPublicKey?: string;
             version?: string;
             /** Format: date-time */
@@ -28290,7 +29360,7 @@ export interface components {
             fakeIpRange?: components["schemas"]["NetworkIPv4CIDR"];
             selectorGroup: string;
             selectedProxy?: string;
-            bypassCidrs: components["schemas"]["NetworkIPv4CIDR"][];
+            bypassCidrs: components["schemas"]["NetworkIPCIDR"][];
             bypassHosts: string[];
             failClosed: boolean;
         } & unknown & unknown & unknown & unknown;
@@ -28310,7 +29380,7 @@ export interface components {
             fakeIpRange?: components["schemas"]["NetworkIPv4CIDR"];
             selectorGroup: string;
             selectedProxy?: string;
-            bypassCidrs: components["schemas"]["NetworkIPv4CIDR"][];
+            bypassCidrs: components["schemas"]["NetworkIPCIDR"][];
             bypassHosts: string[];
             failClosed: boolean;
             /** Format: date-time */
@@ -28470,6 +29540,41 @@ export interface components {
         NetworkSiteProfileBindingListEnvelope: {
             items: components["schemas"]["NetworkSiteProfileBinding"][];
         };
+        NetworkVPNRevocationReleaseInput: {
+            expectedEpoch: number;
+        };
+        NetworkVPNRevocationExecution: {
+            runtimeId: string;
+            configurationVersion: number;
+            /** @description Configuration receipt only. Pending or missing receipt does not prove enforcement. */
+            applyStatus: string;
+            reasonCode?: string;
+            /** Format: date-time */
+            appliedAt?: string;
+        };
+        NetworkVPNRevocation: {
+            sessionId: string;
+            subjectId: string;
+            deviceId: string;
+            siteId: string;
+            epoch: number;
+            active: boolean;
+            reasonCode: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            releasedAt?: string;
+            executions: components["schemas"]["NetworkVPNRevocationExecution"][];
+        };
+        NetworkVPNRevocationStateEnvelope: {
+            data: {
+                present: boolean;
+                revocation?: components["schemas"]["NetworkVPNRevocation"];
+            };
+        };
+        NetworkVPNRevocationEnvelope: {
+            data: components["schemas"]["NetworkVPNRevocation"];
+        };
         /** @enum {string} */
         NetworkProxyEngine: "mihomo" | "sing-box" | "v2ray";
         NetworkProxyInstanceInput: {
@@ -28481,11 +29586,14 @@ export interface components {
         /** @enum {string} */
         NetworkProxyInstanceStatus: "unregistered" | "online" | "degraded" | "offline" | "disabled";
         /** @enum {string} */
-        NetworkProxyCapability: "traffic" | "connections" | "close_connection";
+        NetworkProxyCapability: "traffic" | "connections" | "close_connection" | "protected_destinations_v1" | "protection_rules_readback" | "guarded_dns_tcp_v1";
         NetworkProxyInstance: {
             id: string;
             name: string;
             engine: components["schemas"]["NetworkProxyEngine"];
+            binding?: components["schemas"]["NetworkProxyBinding"];
+            policyVersion?: number;
+            observedPolicyVersion?: number;
             enabled: boolean;
             host?: string;
             engineVersion?: string;
@@ -28504,6 +29612,8 @@ export interface components {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+            /** @description Owner-bound managed runtime suspension; not per-flow user attribution. */
+            securityRestricted?: boolean;
         };
         NetworkProxyInstanceEnvelope: {
             data: components["schemas"]["NetworkProxyInstance"];
@@ -28511,12 +29621,44 @@ export interface components {
         NetworkProxyInstanceListEnvelope: {
             items: components["schemas"]["NetworkProxyInstance"][];
         };
+        /** @description Administrative placement only. Does not authenticate proxy users or grant resource access. */
+        NetworkProxyBinding: {
+            siteId: string;
+            deviceId: string;
+            resourceIds: string[];
+        };
+        NetworkProxyRestoreInput: {
+            expectedRevision: number;
+        };
+        NetworkProxyConfigurationRevision: {
+            revision: number;
+            contentHash: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        NetworkProxyConfigurationHistoryEnvelope: {
+            items: components["schemas"]["NetworkProxyConfigurationRevision"][];
+        };
+        /** @description Retained full-configuration SDK input for existing consumers. New partial updates use NetworkProxyConfigurationPatchInput; the HTTP endpoint still accepts full configurations. */
         NetworkProxyConfigurationInput: {
             /** Format: int64 */
             expectedRevision: number;
             enabled: boolean;
             /** Format: password */
             content: string;
+        };
+        NetworkProxyConfigurationPatchInput: {
+            /** Format: int64 */
+            expectedRevision: number;
+            /** @description Only permitted when disabled. Requires scope authorization for the existing and unbound instance. */
+            clearBinding?: boolean;
+            binding?: components["schemas"]["NetworkProxyBinding"];
+            enabled: boolean;
+            /**
+             * Format: password
+             * @description Omission retains the stored encrypted configuration. Required for the first configuration.
+             */
+            content?: string;
         };
         NetworkProxyTrafficSample: {
             /** Format: date-time */
@@ -28556,6 +29698,8 @@ export interface components {
         };
         NetworkProxyCloseCommandEnvelope: {
             commandId: string;
+            connectionId?: string;
+            reasonCode?: string;
             /** @enum {string} */
             status: "pending" | "closed" | "not-found" | "failed" | "expired";
             /** Format: date-time */
@@ -28633,6 +29777,8 @@ export interface components {
             siteIds: string[];
             resourceIds: string[];
             modes: components["schemas"]["NetworkAccessMode"][];
+            /** @description Administrator-managed device classifications. Omission on update preserves the current selector; an explicit empty array clears it. Site governance constraints still apply. */
+            deviceManagementStates?: components["schemas"]["EndpointDeviceManagementState"][];
             deviceStatuses: components["schemas"]["EndpointDeviceStatus"][];
             postureStatuses: components["schemas"]["EndpointDevicePostureStatus"][];
             accessProfile: components["schemas"]["NetworkAccessProfile"];
@@ -28647,6 +29793,8 @@ export interface components {
             siteIds: string[];
             resourceIds: string[];
             modes: components["schemas"]["NetworkAccessMode"][];
+            /** @description Administrator-managed device classifications. Omission on update preserves the current selector; an explicit empty array clears it. Site governance constraints still apply. */
+            deviceManagementStates?: components["schemas"]["EndpointDeviceManagementState"][];
             deviceStatuses: components["schemas"]["EndpointDeviceStatus"][];
             postureStatuses: components["schemas"]["EndpointDevicePostureStatus"][];
             accessProfile: components["schemas"]["NetworkAccessProfile"];
@@ -28679,7 +29827,7 @@ export interface components {
             sourceType: components["schemas"]["NetworkConflictSourceType"];
             sourceId?: string;
             name: string;
-            cidr: components["schemas"]["NetworkIPv4CIDR"];
+            cidr: components["schemas"]["NetworkIPCIDR"];
         };
         NetworkConflictAnalysisRequest: {
             runtimeRanges: components["schemas"]["NetworkConflictRange"][];
@@ -28711,7 +29859,7 @@ export interface components {
             subjectId: string;
             deviceId: string;
             networkSpaceId: string;
-            cidrs: components["schemas"]["NetworkIPv4CIDR"][];
+            cidrs: components["schemas"]["NetworkIPCIDR"][];
             policyVersion: number;
             status: components["schemas"]["NetworkLeaseStatus"];
             /** Format: date-time */
@@ -29314,6 +30462,348 @@ export interface components {
         NetworkAdmissionPreviewRequest: {
             deviceId: string;
             nasBindingId: string;
+        };
+        EndpointChannelControls: {
+            usb: boolean;
+            print: boolean;
+            clipboard: boolean;
+        };
+        EndpointChannelReceipt: {
+            /** @enum {string} */
+            name: "usb" | "print" | "clipboard";
+            /** @enum {string} */
+            scope: "current_usb_volumes" | "local_new_print_jobs" | "enrolled_console_win32";
+            /** @enum {string} */
+            state: "off" | "controlled" | "partial" | "failed" | "unsupported" | "conflict" | "unconfigured" | "not_present";
+            targets: number;
+            controlled: number;
+            reasonCode: string;
+        };
+        EndpointChannelPolicy: {
+            deviceId: string;
+            /** Format: int64 */
+            revision: number;
+            /** Format: int64 */
+            publishedVersion: number;
+            draft: components["schemas"]["EndpointChannelControls"];
+            published?: components["schemas"]["EndpointChannelControls"];
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        EndpointChannelDesired: {
+            /** @constant */
+            schemaVersion: "endpoint-controls/v1alpha1";
+            deviceId: string;
+            runtimeId: string;
+            credentialId: string;
+            /** Format: int64 */
+            policyVersion: number;
+            challenge: string;
+            controls: components["schemas"]["EndpointChannelControls"];
+            /** Format: date-time */
+            issuedAt: string;
+            /** Format: date-time */
+            validUntil: string;
+            /** @description False means unconfigured; never a release. Release requires a higher explicit published version. */
+            configured: boolean;
+        };
+        EndpointChannelReport: {
+            /** @constant */
+            schemaVersion: "endpoint-controls/v1alpha1";
+            deviceId: string;
+            runtimeId: string;
+            credentialId: string;
+            /** Format: int64 */
+            policyVersion: number;
+            challenge: string;
+            /** Format: date-time */
+            observedAt: string;
+            channels: components["schemas"]["EndpointChannelReceipt"][];
+        };
+        EndpointChannelView: {
+            policy: components["schemas"]["EndpointChannelPolicy"];
+            receipt?: components["schemas"]["EndpointChannelObservation"];
+            /** Format: date-time */
+            receivedAt?: string;
+            fresh: boolean;
+            runtimeCount: number;
+            pendingRuntimeCount: number;
+        };
+        EndpointChannelSaveInput: {
+            /** Format: int64 */
+            expectedRevision: number;
+            draft: components["schemas"]["EndpointChannelControls"];
+        };
+        EndpointChannelPublishInput: {
+            /** Format: int64 */
+            expectedRevision: number;
+        };
+        EndpointChannelPolicyEnvelope: {
+            data: components["schemas"]["EndpointChannelPolicy"];
+        };
+        EndpointChannelDesiredEnvelope: {
+            data: components["schemas"]["EndpointChannelDesired"];
+        };
+        EndpointChannelViewEnvelope: {
+            data: components["schemas"]["EndpointChannelView"];
+        };
+        EndpointChannelObservation: {
+            runtimeId: string;
+            credentialId: string;
+            /** Format: int64 */
+            policyVersion: number;
+            /** Format: date-time */
+            observedAt: string;
+            channels: components["schemas"]["EndpointChannelReceipt"][];
+        };
+        ManagedContentPolicy: {
+            /** @description Default false. For warn/block matched releases, authorization issuance and use require recent server-verified MFA in the same authenticated session, in addition to acknowledgement or independent approval. */
+            requireStepUp?: boolean;
+            detectors: ("private_key" | "aws_access_key" | "credential_assignment")[];
+            /** @enum {string} */
+            mode: "audit" | "warn" | "block";
+            rules: components["schemas"]["DockerVolumeDLPRule"][];
+            /** @description Default public (all matches enforce); derived only from trusted detector/rule policy, never client classification. */
+            minimumDataLevel?: components["schemas"]["DLPDataLevel"];
+            /**
+             * @description Omitted means text-v1. Archive-v2 additionally inspects complete bounded ZIP (store/deflate), POSIX USTAR and single-member GZIP recursively in Core memory: raw input and cumulative expansion each at most 256 KiB, 64 entries, three archive layers and 100:1 per-container and ZIP-member expansion. Names and comments are inspected. Encryption, corruption, unsafe/duplicate names, special files, unsupported members including Office/PDF/images, trailing payloads and exceeded budgets are never clean. Original bytes remain the authorization and transfer target; audit retains explicit non-blocking semantics.
+             * @enum {string}
+             */
+            detectorVersion?: "content-dlp-text-v1" | "content-dlp-archive-v2";
+            /**
+             * @description Only block matched denials; requires independent network_access.dlp_linkage.manage and all-subjects ABAC.
+             * @enum {string}
+             */
+            networkAction?: "none" | "revoke_network";
+        } & unknown;
+        ManagedContentDestinationConfig: {
+            name: string;
+            /** @enum {string} */
+            kind: "s3" | "webdav";
+            enabled: boolean;
+            policy: components["schemas"]["ManagedContentPolicy"];
+            storageIntegrationId?: string;
+            /** Format: uri */
+            baseUrl?: string;
+            secretRef?: string;
+            privateCIDRs?: string[];
+        };
+        ManagedContentDestination: {
+            /** Format: uuid */
+            id: string;
+            ownerId: string;
+            revision: number;
+            draft: components["schemas"]["ManagedContentDestinationConfig"];
+            published?: components["schemas"]["ManagedContentDestinationConfig"];
+            publishedVersion: number;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ManagedContentDestinationSummary: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            /** @enum {string} */
+            kind: "s3" | "webdav";
+            publishedVersion: number;
+            /** @enum {string} */
+            mode: "audit" | "warn" | "block";
+        };
+        ManagedContentSaveInput: {
+            expectedRevision: number;
+            draft: components["schemas"]["ManagedContentDestinationConfig"];
+        };
+        ManagedContentPublishInput: {
+            expectedRevision: number;
+        };
+        ManagedContentAuthorization: {
+            /** Format: uuid */
+            attemptId: string;
+            token: string;
+        };
+        ManagedContentRequest: {
+            /** Format: uuid */
+            requestId: string;
+            authorization?: components["schemas"]["ManagedContentAuthorization"];
+        };
+        ManagedContentUploadInput: {
+            /** Format: uuid */
+            requestId: string;
+            authorization?: components["schemas"]["ManagedContentAuthorization"];
+            /** Format: uuid */
+            destinationId: string;
+            fileName: string;
+            /** Format: byte */
+            contentBase64: string;
+        };
+        ManagedContentPasteInput: {
+            /** Format: uuid */
+            requestId: string;
+            authorization?: components["schemas"]["ManagedContentAuthorization"];
+            /** Format: uuid */
+            destinationId: string;
+            fileName: string;
+            text: string;
+        };
+        ManagedContentCopyInput: {
+            /** Format: uuid */
+            requestId: string;
+            authorization?: components["schemas"]["ManagedContentAuthorization"];
+            /** Format: uuid */
+            destinationId: string;
+        };
+        ManagedContentGate: {
+            /** Format: uuid */
+            destinationId: string;
+            policyVersion: number;
+        };
+        ManagedContentRecord: {
+            /** @enum {string} */
+            action: "upload" | "paste" | "copy" | "download" | "delete";
+            actorId: string;
+            appealReason?: string;
+            /** @enum {string} */
+            appealStatus: "none" | "pending" | "approved" | "rejected";
+            /** Format: date-time */
+            createdAt: string;
+            decision?: components["schemas"]["DockerVolumeDLPDecision"];
+            /** Format: date-time */
+            deletedAt?: string;
+            /** Format: uuid */
+            destinationId: string;
+            errorCode?: string;
+            fileName: string;
+            gates: components["schemas"]["ManagedContentGate"][];
+            /** Format: uuid */
+            id: string;
+            nameRedacted?: boolean;
+            reviewerId?: string;
+            reviewReason?: string;
+            revision: number;
+            sizeBytes: number;
+            /** Format: uuid */
+            sourceId?: string;
+            /** @enum {string} */
+            state: "prepared" | "sending" | "blocked" | "completed" | "failed" | "unknown";
+            /** Format: date-time */
+            updatedAt: string;
+            /** Format: uuid */
+            networkHoldId?: string;
+        };
+        ManagedContentResult: {
+            record: components["schemas"]["ManagedContentRecord"];
+            /** Format: byte */
+            contentBase64?: string;
+        };
+        ManagedContentRecordPage: {
+            items: components["schemas"]["ManagedContentRecord"][];
+            total: number;
+            offset: number;
+            limit: number;
+        };
+        ManagedContentAuthorizeInput: {
+            /** @enum {string} */
+            action: "acknowledge" | "use_approval";
+        };
+        ManagedContentAppealInput: {
+            /** @enum {string} */
+            reasonCode: "false_positive" | "business_exception";
+        };
+        ManagedContentReviewInput: {
+            expectedRevision: number;
+            /** @enum {string} */
+            resolution: "approve" | "reject";
+            /** @enum {string} */
+            reasonCode: "false_positive" | "business_exception" | "insufficient_justification";
+        };
+        ManagedContentDestinationEnvelope: {
+            data: components["schemas"]["ManagedContentDestination"];
+        };
+        ManagedContentResultEnvelope: {
+            data: components["schemas"]["ManagedContentResult"];
+        };
+        ManagedContentRecordEnvelope: {
+            data: components["schemas"]["ManagedContentRecord"];
+        };
+        ManagedContentRecordPageEnvelope: {
+            data: components["schemas"]["ManagedContentRecordPage"];
+        };
+        ManagedContentDestinationsEnvelope: {
+            data: components["schemas"]["ManagedContentDestinationSummary"][];
+        };
+        ManagedContentAdminDestinationsEnvelope: {
+            data: components["schemas"]["ManagedContentDestination"][];
+        };
+        ManagedContentAuthorizationEnvelope: {
+            data: components["schemas"]["DockerVolumeDLPAuthorization"];
+        };
+        /** @enum {string} */
+        DLPDataLevel: "public" | "internal" | "confidential" | "restricted";
+        DLPShadowDecision: {
+            /** @description The matched sample would require recent MFA in addition to the configured release workflow. Shadow evaluation issues no MFA challenge or transfer token. */
+            stepUpRequired?: boolean;
+            allowed: boolean;
+            /** @enum {string} */
+            detectorVersion: "content-dlp-text-v1" | "content-dlp-archive-v2";
+            matchedRuleIds: string[];
+            /** @enum {string} */
+            mode: "audit" | "warn" | "block";
+            /** @enum {string} */
+            status: "clean" | "matched" | "unsupported" | "encrypted" | "too_large" | "timeout" | "error";
+            /**
+             * @description Maximum matched rule level; clean is unclassified, uninspected is unknown. Not a proof that a file is public.
+             * @enum {string}
+             */
+            dataLevel?: "public" | "internal" | "confidential" | "restricted" | "unclassified" | "unknown";
+            minimumDataLevel?: components["schemas"]["DLPDataLevel"];
+            ruleSetVersion?: string;
+            enabled: boolean;
+        };
+        DLPShadowInput: {
+            /** Format: int64 */
+            expectedRevision: number;
+            samples: string[];
+        };
+        DLPShadowSample: {
+            index: number;
+            /** Format: int64 */
+            sizeBytes: number;
+            draft: components["schemas"]["DLPShadowDecision"];
+            published?: components["schemas"]["DLPShadowDecision"];
+        };
+        DLPShadowResult: {
+            /** Format: int64 */
+            revision: number;
+            /** Format: int64 */
+            publishedVersion: number;
+            draftRuleSetVersion: string;
+            samples: components["schemas"]["DLPShadowSample"][];
+            wouldBlock: number;
+            wouldWarn: number;
+            uninspected: number;
+            changed: number;
+        };
+        DLPShadowEnvelope: {
+            data: components["schemas"]["DLPShadowResult"];
+        };
+        ManagedContentNetworkHold: {
+            active: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            id: string;
+            /** Format: date-time */
+            releasedAt?: string;
+            /** Format: int64 */
+            revision: number;
+            subjectId: string;
+            targets: components["schemas"]["DockerVolumeDLPNetworkTarget"][];
+            /** Format: uuid */
+            destinationId: string;
+            /** Format: uuid */
+            sourceRecordId: string;
+        };
+        ManagedContentNetworkEnvelope: {
+            data: components["schemas"]["ManagedContentNetworkHold"];
         };
     };
     responses: {
@@ -31277,6 +32767,32 @@ export type CloudOnlyDomain = components['schemas']['CloudOnlyDomain'];
 export type CloudExtensionPoint = components['schemas']['CloudExtensionPoint'];
 export type CloudExtensionPointListEnvelope = components['schemas']['CloudExtensionPointListEnvelope'];
 export type MarketplacePlugin = components['schemas']['MarketplacePlugin'];
+export type DockerVolumeDLPRule = components['schemas']['DockerVolumeDLPRule'];
+export type DockerVolumeDLPContent = components['schemas']['DockerVolumeDLPContent'];
+export type DockerVolumeDLPPolicy = components['schemas']['DockerVolumeDLPPolicy'];
+export type DockerVolumeDLPSaveInput = components['schemas']['DockerVolumeDLPSaveInput'];
+export type DockerVolumeDLPPublishInput = components['schemas']['DockerVolumeDLPPublishInput'];
+export type DockerVolumeDLPDecision = components['schemas']['DockerVolumeDLPDecision'];
+export type DockerVolumeDLPEvent = components['schemas']['DockerVolumeDLPEvent'];
+export type DockerVolumeDLPPolicyEnvelope = components['schemas']['DockerVolumeDLPPolicyEnvelope'];
+export type DockerVolumeDLPEventListEnvelope = components['schemas']['DockerVolumeDLPEventListEnvelope'];
+export type DockerVolumeFileContent = components['schemas']['DockerVolumeFileContent'];
+export type DockerVolumeFileContentEnvelope = components['schemas']['DockerVolumeFileContentEnvelope'];
+export type DockerVolumeDLPAuthorizationInput = components['schemas']['DockerVolumeDLPAuthorizationInput'];
+export type DockerVolumeDLPAuthorization = components['schemas']['DockerVolumeDLPAuthorization'];
+export type DockerVolumeDLPAppealInput = components['schemas']['DockerVolumeDLPAppealInput'];
+export type DockerVolumeDLPAppealReviewInput = components['schemas']['DockerVolumeDLPAppealReviewInput'];
+export type DockerVolumeDLPAppeal = components['schemas']['DockerVolumeDLPAppeal'];
+export type DockerVolumeDLPNetworkTarget = components['schemas']['DockerVolumeDLPNetworkTarget'];
+export type DockerVolumeDLPNetworkHold = components['schemas']['DockerVolumeDLPNetworkHold'];
+export type DockerVolumeDLPCase = components['schemas']['DockerVolumeDLPCase'];
+export type DockerVolumeFileReadInput = components['schemas']['DockerVolumeFileReadInput'];
+export type DockerVolumeTransferResult = components['schemas']['DockerVolumeTransferResult'];
+export type DockerVolumeDLPAuthorizationEnvelope = components['schemas']['DockerVolumeDLPAuthorizationEnvelope'];
+export type DockerVolumeDLPAppealEnvelope = components['schemas']['DockerVolumeDLPAppealEnvelope'];
+export type DockerVolumeDLPCaseEnvelope = components['schemas']['DockerVolumeDLPCaseEnvelope'];
+export type DockerVolumeTransferResultEnvelope = components['schemas']['DockerVolumeTransferResultEnvelope'];
+export type DockerVolumeDLPCaseListEnvelope = components['schemas']['DockerVolumeDLPCaseListEnvelope'];
 export type SoftwarePackage = components['schemas']['SoftwarePackage'];
 export type SoftwarePackageDownloadRecord = components['schemas']['SoftwarePackageDownloadRecord'];
 export type SoftwarePackageDownloadRecordListEnvelope = components['schemas']['SoftwarePackageDownloadRecordListEnvelope'];
@@ -31365,6 +32881,8 @@ export type DirectoryEmploymentStatus = components['schemas']['DirectoryEmployme
 export type EndpointDeviceStatus = components['schemas']['EndpointDeviceStatus'];
 export type EndpointDevicePostureStatus = components['schemas']['EndpointDevicePostureStatus'];
 export type EndpointDeviceType = components['schemas']['EndpointDeviceType'];
+export type EndpointDeviceManagementState = components['schemas']['EndpointDeviceManagementState'];
+export type NetworkDeviceGovernanceMode = components['schemas']['NetworkDeviceGovernanceMode'];
 export type EndpointDeviceOwnershipType = components['schemas']['EndpointDeviceOwnershipType'];
 export type EndpointNetworkInterfaceKind = components['schemas']['EndpointNetworkInterfaceKind'];
 export type EndpointNetworkInterfaceStatus = components['schemas']['EndpointNetworkInterfaceStatus'];
@@ -31375,12 +32893,19 @@ export type EndpointDeviceInput = components['schemas']['EndpointDeviceInput'];
 export type EndpointDeviceRegistrationInput = components['schemas']['EndpointDeviceRegistrationInput'];
 export type EndpointDeviceEnvelope = components['schemas']['EndpointDeviceEnvelope'];
 export type EndpointDeviceListEnvelope = components['schemas']['EndpointDeviceListEnvelope'];
+export type NetworkWorkloadBindingInput = components['schemas']['NetworkWorkloadBindingInput'];
+export type NetworkWorkloadBinding = components['schemas']['NetworkWorkloadBinding'];
+export type NetworkManagementProofInput = components['schemas']['NetworkManagementProofInput'];
+export type NetworkWorkloadBindingEnvelope = components['schemas']['NetworkWorkloadBindingEnvelope'];
+export type NetworkWorkloadBindingListEnvelope = components['schemas']['NetworkWorkloadBindingListEnvelope'];
 export type NetworkSiteStatus = components['schemas']['NetworkSiteStatus'];
 export type NetworkSite = components['schemas']['NetworkSite'];
 export type NetworkSiteInput = components['schemas']['NetworkSiteInput'];
 export type NetworkSiteEnvelope = components['schemas']['NetworkSiteEnvelope'];
 export type NetworkSiteListEnvelope = components['schemas']['NetworkSiteListEnvelope'];
 export type NetworkIPv4CIDR = components['schemas']['NetworkIPv4CIDR'];
+export type NetworkIPCIDR = components['schemas']['NetworkIPCIDR'];
+export type NetworkIPAddress = components['schemas']['NetworkIPAddress'];
 export type NetworkSpaceStatus = components['schemas']['NetworkSpaceStatus'];
 export type NetworkSpace = components['schemas']['NetworkSpace'];
 export type NetworkSpaceInput = components['schemas']['NetworkSpaceInput'];
@@ -31428,6 +32953,11 @@ export type NetworkSiteProfileBindingInput = components['schemas']['NetworkSiteP
 export type NetworkSiteProfileBinding = components['schemas']['NetworkSiteProfileBinding'];
 export type NetworkSiteProfileBindingEnvelope = components['schemas']['NetworkSiteProfileBindingEnvelope'];
 export type NetworkSiteProfileBindingListEnvelope = components['schemas']['NetworkSiteProfileBindingListEnvelope'];
+export type NetworkVPNRevocationReleaseInput = components['schemas']['NetworkVPNRevocationReleaseInput'];
+export type NetworkVPNRevocationExecution = components['schemas']['NetworkVPNRevocationExecution'];
+export type NetworkVPNRevocation = components['schemas']['NetworkVPNRevocation'];
+export type NetworkVPNRevocationStateEnvelope = components['schemas']['NetworkVPNRevocationStateEnvelope'];
+export type NetworkVPNRevocationEnvelope = components['schemas']['NetworkVPNRevocationEnvelope'];
 export type NetworkProxyEngine = components['schemas']['NetworkProxyEngine'];
 export type NetworkProxyInstanceInput = components['schemas']['NetworkProxyInstanceInput'];
 export type NetworkProxyInstanceStatus = components['schemas']['NetworkProxyInstanceStatus'];
@@ -31435,7 +32965,12 @@ export type NetworkProxyCapability = components['schemas']['NetworkProxyCapabili
 export type NetworkProxyInstance = components['schemas']['NetworkProxyInstance'];
 export type NetworkProxyInstanceEnvelope = components['schemas']['NetworkProxyInstanceEnvelope'];
 export type NetworkProxyInstanceListEnvelope = components['schemas']['NetworkProxyInstanceListEnvelope'];
+export type NetworkProxyBinding = components['schemas']['NetworkProxyBinding'];
+export type NetworkProxyRestoreInput = components['schemas']['NetworkProxyRestoreInput'];
+export type NetworkProxyConfigurationRevision = components['schemas']['NetworkProxyConfigurationRevision'];
+export type NetworkProxyConfigurationHistoryEnvelope = components['schemas']['NetworkProxyConfigurationHistoryEnvelope'];
 export type NetworkProxyConfigurationInput = components['schemas']['NetworkProxyConfigurationInput'];
+export type NetworkProxyConfigurationPatchInput = components['schemas']['NetworkProxyConfigurationPatchInput'];
 export type NetworkProxyTrafficSample = components['schemas']['NetworkProxyTrafficSample'];
 export type NetworkProxyTrafficEnvelope = components['schemas']['NetworkProxyTrafficEnvelope'];
 export type NetworkProxyConnection = components['schemas']['NetworkProxyConnection'];
@@ -31547,6 +33082,51 @@ export type NetworkEndpointResponsePolicyRevisionListEnvelope = components['sche
 export type NetworkEndpointResponseEventListEnvelope = components['schemas']['NetworkEndpointResponseEventListEnvelope'];
 export type NetworkEndpointMaintenanceListEnvelope = components['schemas']['NetworkEndpointMaintenanceListEnvelope'];
 export type NetworkAdmissionPreviewRequest = components['schemas']['NetworkAdmissionPreviewRequest'];
+export type EndpointChannelControls = components['schemas']['EndpointChannelControls'];
+export type EndpointChannelReceipt = components['schemas']['EndpointChannelReceipt'];
+export type EndpointChannelPolicy = components['schemas']['EndpointChannelPolicy'];
+export type EndpointChannelDesired = components['schemas']['EndpointChannelDesired'];
+export type EndpointChannelReport = components['schemas']['EndpointChannelReport'];
+export type EndpointChannelView = components['schemas']['EndpointChannelView'];
+export type EndpointChannelSaveInput = components['schemas']['EndpointChannelSaveInput'];
+export type EndpointChannelPublishInput = components['schemas']['EndpointChannelPublishInput'];
+export type EndpointChannelPolicyEnvelope = components['schemas']['EndpointChannelPolicyEnvelope'];
+export type EndpointChannelDesiredEnvelope = components['schemas']['EndpointChannelDesiredEnvelope'];
+export type EndpointChannelViewEnvelope = components['schemas']['EndpointChannelViewEnvelope'];
+export type EndpointChannelObservation = components['schemas']['EndpointChannelObservation'];
+export type ManagedContentPolicy = components['schemas']['ManagedContentPolicy'];
+export type ManagedContentDestinationConfig = components['schemas']['ManagedContentDestinationConfig'];
+export type ManagedContentDestination = components['schemas']['ManagedContentDestination'];
+export type ManagedContentDestinationSummary = components['schemas']['ManagedContentDestinationSummary'];
+export type ManagedContentSaveInput = components['schemas']['ManagedContentSaveInput'];
+export type ManagedContentPublishInput = components['schemas']['ManagedContentPublishInput'];
+export type ManagedContentAuthorization = components['schemas']['ManagedContentAuthorization'];
+export type ManagedContentRequest = components['schemas']['ManagedContentRequest'];
+export type ManagedContentUploadInput = components['schemas']['ManagedContentUploadInput'];
+export type ManagedContentPasteInput = components['schemas']['ManagedContentPasteInput'];
+export type ManagedContentCopyInput = components['schemas']['ManagedContentCopyInput'];
+export type ManagedContentGate = components['schemas']['ManagedContentGate'];
+export type ManagedContentRecord = components['schemas']['ManagedContentRecord'];
+export type ManagedContentResult = components['schemas']['ManagedContentResult'];
+export type ManagedContentRecordPage = components['schemas']['ManagedContentRecordPage'];
+export type ManagedContentAuthorizeInput = components['schemas']['ManagedContentAuthorizeInput'];
+export type ManagedContentAppealInput = components['schemas']['ManagedContentAppealInput'];
+export type ManagedContentReviewInput = components['schemas']['ManagedContentReviewInput'];
+export type ManagedContentDestinationEnvelope = components['schemas']['ManagedContentDestinationEnvelope'];
+export type ManagedContentResultEnvelope = components['schemas']['ManagedContentResultEnvelope'];
+export type ManagedContentRecordEnvelope = components['schemas']['ManagedContentRecordEnvelope'];
+export type ManagedContentRecordPageEnvelope = components['schemas']['ManagedContentRecordPageEnvelope'];
+export type ManagedContentDestinationsEnvelope = components['schemas']['ManagedContentDestinationsEnvelope'];
+export type ManagedContentAdminDestinationsEnvelope = components['schemas']['ManagedContentAdminDestinationsEnvelope'];
+export type ManagedContentAuthorizationEnvelope = components['schemas']['ManagedContentAuthorizationEnvelope'];
+export type DLPDataLevel = components['schemas']['DLPDataLevel'];
+export type DLPShadowDecision = components['schemas']['DLPShadowDecision'];
+export type DLPShadowInput = components['schemas']['DLPShadowInput'];
+export type DLPShadowSample = components['schemas']['DLPShadowSample'];
+export type DLPShadowResult = components['schemas']['DLPShadowResult'];
+export type DLPShadowEnvelope = components['schemas']['DLPShadowEnvelope'];
+export type ManagedContentNetworkHold = components['schemas']['ManagedContentNetworkHold'];
+export type ManagedContentNetworkEnvelope = components['schemas']['ManagedContentNetworkEnvelope'];
 export type ResponseIdentityError = components['responses']['IdentityError'];
 export type ResponseError = components['responses']['Error'];
 export type ResponseComputeError = components['responses']['ComputeError'];
@@ -45946,6 +47526,353 @@ export interface operations {
             503: components["responses"]["Error"];
         };
     };
+    getDockerVolumeDLPPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dockerProjectID: components["parameters"]["DockerProjectID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerVolumeDLPPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    saveDockerVolumeDLPPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dockerProjectID: components["parameters"]["DockerProjectID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DockerVolumeDLPSaveInput"];
+            };
+        };
+        responses: {
+            /** @description Authorized result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerVolumeDLPPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    publishDockerVolumeDLPPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dockerProjectID: components["parameters"]["DockerProjectID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DockerVolumeDLPPublishInput"];
+            };
+        };
+        responses: {
+            /** @description Authorized result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerVolumeDLPPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listDockerVolumeDLPEvents: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dockerProjectID: components["parameters"]["DockerProjectID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerVolumeDLPEventListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    readDockerProjectVolumeFile: {
+        parameters: {
+            query: {
+                serviceName?: string;
+                target: string;
+                path: string;
+                limitBytes?: number;
+            };
+            header?: never;
+            path: {
+                dockerProjectID: components["parameters"]["DockerProjectID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized result. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerVolumeFileContentEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listDockerVolumeDLPActivity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dockerProjectID: components["parameters"]["DockerProjectID"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized bounded result; denied transfer results contain no file. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerVolumeDLPCaseListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            410: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getDockerVolumeDLPCase: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dockerProjectID: components["parameters"]["DockerProjectID"];
+                eventID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized bounded result; denied transfer results contain no file. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerVolumeDLPCaseEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            410: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    authorizeDockerVolumeDLPTransfer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dockerProjectID: components["parameters"]["DockerProjectID"];
+                eventID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DockerVolumeDLPAuthorizationInput"];
+            };
+        };
+        responses: {
+            /** @description Authorized bounded result; denied transfer results contain no file. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerVolumeDLPAuthorizationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            410: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    appealDockerVolumeDLPTransfer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dockerProjectID: components["parameters"]["DockerProjectID"];
+                eventID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DockerVolumeDLPAppealInput"];
+            };
+        };
+        responses: {
+            /** @description Authorized bounded result; denied transfer results contain no file. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerVolumeDLPAppealEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            410: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    reviewDockerVolumeDLPAppeal: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dockerProjectID: components["parameters"]["DockerProjectID"];
+                eventID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DockerVolumeDLPAppealReviewInput"];
+            };
+        };
+        responses: {
+            /** @description Authorized bounded result; denied transfer results contain no file. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerVolumeDLPAppealEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            410: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    readDockerProjectVolumeTransfer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dockerProjectID: components["parameters"]["DockerProjectID"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DockerVolumeFileReadInput"];
+            };
+        };
+        responses: {
+            /** @description Authorized bounded result; denied transfer results contain no file. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DockerVolumeTransferResultEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            410: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
     queryDockerProjectLogs: {
         parameters: {
             query?: never;
@@ -54680,6 +56607,90 @@ export interface operations {
             409: components["responses"]["Error"];
         };
     };
+    listNetworkWorkloadBindings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current network security state. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkWorkloadBindingListEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    putNetworkWorkloadBinding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                bindingID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkWorkloadBindingInput"];
+            };
+        };
+        responses: {
+            /** @description Current network security state. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkWorkloadBindingEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    submitNetworkManagementProof: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deviceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkManagementProofInput"];
+            };
+        };
+        responses: {
+            /** @description Current network security state. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EndpointDeviceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
     listNetworkSites: {
         parameters: {
             query?: {
@@ -55310,6 +57321,87 @@ export interface operations {
             404: components["responses"]["Error"];
         };
     };
+    getNetworkVPNSessionRevocation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Persistent VPN restriction for this subject, device and site, including asynchronous configuration receipts. Applied is execution readback, not an end-to-end traffic test. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNRevocationStateEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    revokeNetworkVPNSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Restriction persisted and endpoint/gateway configurations queued. This is not proof that traffic has already stopped. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNRevocationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    releaseNetworkVPNSessionRevocation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkVPNRevocationReleaseInput"];
+            };
+        };
+        responses: {
+            /** @description Restriction released with an epoch compare-and-swap. New connections must obtain fresh authorization and MFA; revoked sessions remain revoked. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkVPNRevocationEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
     listNetworkProxyInstances: {
         parameters: {
             query?: {
@@ -55397,11 +57489,66 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["NetworkProxyConfigurationInput"];
+                "application/json": components["schemas"]["NetworkProxyConfigurationPatchInput"];
             };
         };
         responses: {
             /** @description Desired revision saved; runtime application is asynchronous. Configuration contents are not returned. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkProxyInstanceEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+        };
+    };
+    listNetworkProxyConfigurationHistory: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                instanceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Latest 100 source revision metadata entries; encrypted content and old bindings are never returned. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkProxyConfigurationHistoryEnvelope"];
+                };
+            };
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+        };
+    };
+    restoreNetworkProxyConfiguration: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                instanceID: string;
+                revision: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NetworkProxyRestoreInput"];
+            };
+        };
+        responses: {
+            /** @description Source restored as a new desired revision with current binding and current protection; runtime applies asynchronously. */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -55492,6 +57639,32 @@ export interface operations {
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
             409: components["responses"]["Error"];
+        };
+    };
+    getNetworkProxyCloseCommand: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                instanceID: string;
+                commandID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Close command state reported by its enrolled runtime. Pending is not proof of closure; expired commands did not receive a timely terminal receipt. No configuration or controller credentials are returned. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NetworkProxyCloseCommandEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
         };
     };
     listCurrentNetworkConnectionOptions: {
@@ -57835,6 +60008,1486 @@ export interface operations {
             400: components["responses"]["Error"];
             403: components["responses"]["Error"];
             404: components["responses"]["Error"];
+        };
+    };
+    getEndpointChannelControls: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deviceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded, authenticated channel result; control receipt is not data-plane acceptance. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EndpointChannelViewEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    saveEndpointChannelControls: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deviceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EndpointChannelSaveInput"];
+            };
+        };
+        responses: {
+            /** @description Bounded, authenticated channel result; control receipt is not data-plane acceptance. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EndpointChannelPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    publishEndpointChannelControls: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                deviceID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EndpointChannelPublishInput"];
+            };
+        };
+        responses: {
+            /** @description Bounded, authenticated channel result; control receipt is not data-plane acceptance. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EndpointChannelPolicyEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    getRuntimeChannelControls: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                runtimeID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded, authenticated channel result; control receipt is not data-plane acceptance. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EndpointChannelDesiredEnvelope"];
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    reportRuntimeChannelControls: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                runtimeID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EndpointChannelReport"];
+            };
+        };
+        responses: {
+            /** @description Current, content-free control report recorded. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
+            409: components["responses"]["Error"];
+            503: components["responses"]["Error"];
+        };
+    };
+    listManagedContentDestinations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentDestinationsEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    listManagedContentAdminDestinations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentAdminDestinationsEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getManagedContentDestination: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                destinationID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentDestinationEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    saveManagedContentDestination: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                destinationID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManagedContentSaveInput"];
+            };
+        };
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentDestinationEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JSON request body exceeds 512 KiB */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    publishManagedContentDestination: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                destinationID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManagedContentPublishInput"];
+            };
+        };
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentDestinationEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JSON request body exceeds 512 KiB */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    submitManagedContentUploads: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManagedContentUploadInput"];
+            };
+        };
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentResultEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JSON request body exceeds 512 KiB */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    submitManagedContentPastes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManagedContentPasteInput"];
+            };
+        };
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentResultEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JSON request body exceeds 512 KiB */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    listManagedContentFiles: {
+        parameters: {
+            query?: {
+                offset?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentRecordPageEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    performManagedContentFileRead: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                fileID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManagedContentRequest"];
+            };
+        };
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentResultEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JSON request body exceeds 512 KiB */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    performManagedContentFileCopy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                fileID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManagedContentCopyInput"];
+            };
+        };
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentResultEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JSON request body exceeds 512 KiB */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    performManagedContentFileDelete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                fileID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManagedContentRequest"];
+            };
+        };
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentResultEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JSON request body exceeds 512 KiB */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    listManagedContentRecords: {
+        parameters: {
+            query?: {
+                offset?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentRecordPageEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getManagedContentRecord: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                recordID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentRecordEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    listManagedContentCases: {
+        parameters: {
+            query?: {
+                offset?: number;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                destinationID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentRecordPageEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    handleManagedContentAuthorize: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                recordID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManagedContentAuthorizeInput"];
+            };
+        };
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentAuthorizationEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JSON request body exceeds 512 KiB */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    handleManagedContentAppeal: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                recordID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManagedContentAppealInput"];
+            };
+        };
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentRecordEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JSON request body exceeds 512 KiB */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    handleManagedContentReview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                recordID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManagedContentReviewInput"];
+            };
+        };
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentRecordEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JSON request body exceeds 512 KiB */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    previewManagedContentDestination: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                destinationID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DLPShadowInput"];
+            };
+        };
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DLPShadowEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JSON request body exceeds 512 KiB */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    previewDockerContentDLPPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dockerProjectID: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DLPShadowInput"];
+            };
+        };
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DLPShadowEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description JSON request body exceeds 512 KiB */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getManagedContentNetworkState: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                recordID: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentNetworkEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Record or network hold not found in the authorized scope */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    listManagedContentReviewDestinations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current record or decision. A blocked/unknown record is not a completed transfer. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedContentDestinationsEnvelope"];
+                };
+            };
+            /** @description Invalid or over-limit request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Authentication required */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Permission or object scope denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Version, identity or single-use conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Dependency or reliable recording unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
 }

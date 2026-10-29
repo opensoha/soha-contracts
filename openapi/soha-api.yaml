@@ -11462,6 +11462,424 @@ paths:
           $ref: "#/components/responses/Error"
         "503":
           $ref: "#/components/responses/Error"
+  /docker/projects/{dockerProjectID}/content-dlp:
+    get:
+      tags:
+        - Docker
+      operationId: getDockerVolumeDLPPolicy
+      description: Requires docker.dlp-policy.view and DockerProject object scope.
+        Metadata contains no file content or matched excerpts.
+      parameters:
+        - $ref: "#/components/parameters/DockerProjectID"
+      responses:
+        "200":
+          description: Authorized result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerVolumeDLPPolicyEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+    put:
+      tags:
+        - Docker
+      operationId: saveDockerVolumeDLPPolicy
+      description: Requires docker.dlp-policy.update and DockerProject object scope.
+        Metadata contains no file content or matched excerpts.
+      parameters:
+        - $ref: "#/components/parameters/DockerProjectID"
+      responses:
+        "200":
+          description: Authorized result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerVolumeDLPPolicyEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DockerVolumeDLPSaveInput"
+  /docker/projects/{dockerProjectID}/content-dlp/publish:
+    post:
+      tags:
+        - Docker
+      operationId: publishDockerVolumeDLPPolicy
+      description: Requires docker.dlp-policy.publish and DockerProject object scope.
+        Metadata contains no file content or matched excerpts.
+      parameters:
+        - $ref: "#/components/parameters/DockerProjectID"
+      responses:
+        "200":
+          description: Authorized result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerVolumeDLPPolicyEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DockerVolumeDLPPublishInput"
+  /docker/projects/{dockerProjectID}/content-dlp/events:
+    get:
+      tags:
+        - Docker
+      operationId: listDockerVolumeDLPEvents
+      description: Requires docker.dlp-events.view and DockerProject object scope.
+        Metadata contains no file content or matched excerpts. Returns latest 100
+        events, newest first; bounded history, not a total or export.
+      parameters:
+        - $ref: "#/components/parameters/DockerProjectID"
+      responses:
+        "200":
+          description: Authorized result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerVolumeDLPEventListEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /docker/projects/{dockerProjectID}/runtime/volume-file:
+    get:
+      tags:
+        - Docker
+      operationId: readDockerProjectVolumeFile
+      description: Requires docker.services.view. When a project DLP policy is published and enabled,
+        Core additionally requires DockerProject object scope and inspects a complete UTF-8 file
+        up to 262144 bytes before returning content. Block denies matches and incomplete/unsupported
+        scans; audit may allow uninspected content. With no enabled published policy, the existing
+        channel remains uninspected and no transfer DLP event is issued. Terminal/log/direct volume
+        access are outside this channel. No-store; DLP denials return no file content.
+      parameters:
+        - $ref: "#/components/parameters/DockerProjectID"
+        - name: serviceName
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 128
+        - name: target
+          in: query
+          required: true
+          schema:
+            type: string
+            maxLength: 4096
+        - name: path
+          in: query
+          required: true
+          schema:
+            type: string
+            maxLength: 4096
+        - name: limitBytes
+          in: query
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 1048576
+      responses:
+        "200":
+          description: Authorized result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerVolumeFileContentEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /docker/projects/{dockerProjectID}/content-dlp/activity:
+    get:
+      tags:
+        - Docker
+      operationId: listDockerVolumeDLPActivity
+      description: Requires own docker.services.view or reviewer/event-view permission
+        plus project ABAC. Returns latest100 own cases unless authorized for
+        review.
+      parameters:
+        - $ref: "#/components/parameters/DockerProjectID"
+      responses:
+        "200":
+          description: Authorized bounded result; denied transfer results contain no file.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerVolumeDLPCaseListEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "410":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /docker/projects/{dockerProjectID}/content-dlp/events/{eventID}:
+    get:
+      tags:
+        - Docker
+      operationId: getDockerVolumeDLPCase
+      description: Requires event ownership and docker.services.view, or independent
+        event/review permission, plus project ABAC.
+      parameters:
+        - $ref: "#/components/parameters/DockerProjectID"
+        - name: eventID
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      responses:
+        "200":
+          description: Authorized bounded result; denied transfer results contain no file.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerVolumeDLPCaseEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "410":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /docker/projects/{dockerProjectID}/content-dlp/events/{eventID}/authorizations:
+    post:
+      tags:
+        - Docker
+      operationId: authorizeDockerVolumeDLPTransfer
+      description: Requires event owner and current file-view object scope. Warning
+        acknowledgement or approved appeal only. Token expires within60s, one-use,
+        actor/content/target/policy-bound; retry rereads and rescans.
+      parameters:
+        - $ref: "#/components/parameters/DockerProjectID"
+        - name: eventID
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      responses:
+        "200":
+          description: Authorized bounded result; denied transfer results contain no file.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerVolumeDLPAuthorizationEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "410":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DockerVolumeDLPAuthorizationInput"
+  /docker/projects/{dockerProjectID}/content-dlp/events/{eventID}/appeal:
+    post:
+      tags:
+        - Docker
+      operationId: appealDockerVolumeDLPTransfer
+      description: Requires event owner and file-view project scope. Fixed reason
+        codes; no content evidence.
+      parameters:
+        - $ref: "#/components/parameters/DockerProjectID"
+        - name: eventID
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      responses:
+        "200":
+          description: Authorized bounded result; denied transfer results contain no file.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerVolumeDLPAppealEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "410":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DockerVolumeDLPAppealInput"
+  /docker/projects/{dockerProjectID}/content-dlp/events/{eventID}/appeal/review:
+    post:
+      tags:
+        - Docker
+      operationId: reviewDockerVolumeDLPAppeal
+      description: Requires docker.dlp-appeals.review, project ABAC, no self-review;
+        release of event-owned network hold additionally requires global network
+        linkage scope. Approval permits one exact retry and does not restore old
+        network authorizations.
+      parameters:
+        - $ref: "#/components/parameters/DockerProjectID"
+        - name: eventID
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      responses:
+        "200":
+          description: Authorized bounded result; denied transfer results contain no file.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerVolumeDLPAppealEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "410":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DockerVolumeDLPAppealReviewInput"
+  /docker/projects/{dockerProjectID}/runtime/volume-file/read:
+    post:
+      tags:
+        - Docker
+      operationId: readDockerProjectVolumeTransfer
+      description: Requires docker.services.view. Structured Core-gated read;
+        authorization appears only in body. On warn/block no file content is
+        returned. Existing GET remains fail-closed.
+      parameters:
+        - $ref: "#/components/parameters/DockerProjectID"
+      responses:
+        "200":
+          description: Authorized bounded result; denied transfer results contain no file.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DockerVolumeTransferResultEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "410":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DockerVolumeFileReadInput"
   /docker/projects/{dockerProjectID}/logs/query:
     post:
       tags: [ Docker ]
@@ -18446,6 +18864,106 @@ paths:
         "400": { $ref: "#/components/responses/Error" }
         "401": { $ref: "#/components/responses/Error" }
         "409": { $ref: "#/components/responses/Error" }
+  /network-access/workload-bindings:
+    get:
+      tags:
+        - Network Access
+      operationId: listNetworkWorkloadBindings
+      x-soha-permissions:
+        mode: all
+        keys:
+          - network_access.policy.view
+      responses:
+        "200":
+          description: Current network security state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NetworkWorkloadBindingListEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+  /network-access/workload-bindings/{bindingID}:
+    put:
+      tags:
+        - Network Access
+      operationId: putNetworkWorkloadBinding
+      x-soha-permissions:
+        mode: all
+        keys:
+          - network_access.policy.update
+      responses:
+        "200":
+          description: Current network security state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NetworkWorkloadBindingEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NetworkWorkloadBindingInput"
+      parameters:
+        - name: bindingID
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+  /network-access/devices/{deviceID}/management-proof:
+    post:
+      tags:
+        - Network Access
+      operationId: submitNetworkManagementProof
+      x-soha-permissions:
+        mode: all
+        keys:
+          - network_access.endpoint_devices.update
+      responses:
+        "200":
+          description: Current network security state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EndpointDeviceEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NetworkManagementProofInput"
+      parameters:
+        - name: deviceID
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
   /network-access/sites:
     get:
       tags: [ Network Access ]
@@ -18923,6 +19441,67 @@ paths:
               schema: { $ref: "#/components/schemas/OperationStatus" }
         "403": { $ref: "#/components/responses/Error" }
         "404": { $ref: "#/components/responses/Error" }
+  /network-access/sessions/{sessionID}/vpn-revocation:
+    get:
+      tags: [ Network Access ]
+      operationId: getNetworkVPNSessionRevocation
+      x-soha-permissions:
+        mode: all
+        keys: [ network_access.vpn_sessions.view ]
+      parameters:
+        - { name: sessionID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Persistent VPN restriction for this subject, device and site, including asynchronous configuration receipts. Applied is execution readback, not an end-to-end traffic test.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkVPNRevocationStateEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+    post:
+      tags: [ Network Access ]
+      operationId: revokeNetworkVPNSession
+      description: Revokes every active VPN session for the selected session's subject, device and site and persists a reconnect restriction. A separate explicit release permits fresh authorization; it never restores old sessions or leases. NAS sessions use the existing NAS action API.
+      x-soha-permissions:
+        mode: all
+        keys: [ network_access.vpn_sessions.revoke ]
+      parameters:
+        - { name: sessionID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "202":
+          description: Restriction persisted and endpoint/gateway configurations queued. This is not proof that traffic has already stopped.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkVPNRevocationEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/sessions/{sessionID}/vpn-revocation/release:
+    post:
+      tags: [ Network Access ]
+      operationId: releaseNetworkVPNSessionRevocation
+      x-soha-permissions:
+        mode: all
+        keys: [ network_access.vpn_sessions.release ]
+      parameters:
+        - { name: sessionID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkVPNRevocationReleaseInput" }
+      responses:
+        "200":
+          description: Restriction released with an epoch compare-and-swap. New connections must obtain fresh authorization and MFA; revoked sessions remain revoked.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkVPNRevocationEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
   /network-access/proxy-instances:
     get:
       tags: [ Network Access ]
@@ -18991,10 +19570,48 @@ paths:
         required: true
         content:
           application/json:
-            schema: { $ref: "#/components/schemas/NetworkProxyConfigurationInput" }
+            schema: { $ref: "#/components/schemas/NetworkProxyConfigurationPatchInput" }
       responses:
         "200":
           description: Desired revision saved; runtime application is asynchronous. Configuration contents are not returned.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkProxyInstanceEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /network-access/proxy-instances/{instanceID}/configuration-history:
+    get:
+      tags: [ Network Access ]
+      operationId: listNetworkProxyConfigurationHistory
+      x-soha-permissions: { mode: all, keys: [ network_access.proxy_instances.view ] }
+      parameters:
+        - { name: instanceID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Latest 100 source revision metadata entries; encrypted content and old bindings are never returned.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkProxyConfigurationHistoryEnvelope" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /network-access/proxy-instances/{instanceID}/configuration-history/{revision}/restore:
+    post:
+      tags: [ Network Access ]
+      operationId: restoreNetworkProxyConfiguration
+      x-soha-permissions: { mode: all, keys: [ network_access.proxy_instances.update ] }
+      parameters:
+        - { name: instanceID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+        - { name: revision, in: path, required: true, schema: { type: integer, minimum: 1 } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NetworkProxyRestoreInput" }
+      responses:
+        "200":
+          description: Source restored as a new desired revision with current binding and current protection; runtime applies asynchronously.
           content:
             application/json:
               schema: { $ref: "#/components/schemas/NetworkProxyInstanceEnvelope" }
@@ -19058,6 +19675,25 @@ paths:
         "403": { $ref: "#/components/responses/Error" }
         "404": { $ref: "#/components/responses/Error" }
         "409": { $ref: "#/components/responses/Error" }
+  /network-access/proxy-instances/{instanceID}/close-commands/{commandID}:
+    get:
+      tags: [ Network Access ]
+      operationId: getNetworkProxyCloseCommand
+      x-soha-permissions:
+        mode: all
+        keys: [ network_access.proxy_connections.view ]
+      parameters:
+        - { name: instanceID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+        - { name: commandID, in: path, required: true, schema: { type: string, minLength: 1, maxLength: 128 } }
+      responses:
+        "200":
+          description: Close command state reported by its enrolled runtime. Pending is not proof of closure; expired commands did not receive a timely terminal receipt. No configuration or controller credentials are returned.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NetworkProxyCloseCommandEnvelope" }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
   /network-access/connection-options:
     get:
       tags: [ Network Access ]
@@ -21299,8 +21935,1145 @@ paths:
         "404":
           $ref: "#/components/responses/Error"
 
+  /network-access/endpoint-devices/{deviceID}/channel-controls:
+    get:
+      tags:
+        - NetworkAccess
+      operationId: getEndpointChannelControls
+      description: Requires endpoint_controls.view and device ABAC. Scope and
+        freshness are explicit.
+      parameters:
+        - name: deviceID
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+            pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$
+      responses:
+        "200":
+          description: Bounded, authenticated channel result; control receipt is not
+            data-plane acceptance.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EndpointChannelViewEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+    put:
+      tags:
+        - NetworkAccess
+      operationId: saveEndpointChannelControls
+      description: Requires independent update permission, device ABAC and
+        all-subjects scope; CAS draft only.
+      parameters:
+        - name: deviceID
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+            pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EndpointChannelSaveInput"
+      responses:
+        "200":
+          description: Bounded, authenticated channel result; control receipt is not
+            data-plane acceptance.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EndpointChannelPolicyEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /network-access/endpoint-devices/{deviceID}/channel-controls/publish:
+    post:
+      tags:
+        - NetworkAccess
+      operationId: publishEndpointChannelControls
+      description: Explicit publish; independent publish permission plus device and
+        all-subjects ABAC. New revision is required to release controls.
+      parameters:
+        - name: deviceID
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+            pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EndpointChannelPublishInput"
+      responses:
+        "200":
+          description: Bounded, authenticated channel result; control receipt is not
+            data-plane acceptance.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EndpointChannelPolicyEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /network-control/v1/runtimes/{runtimeID}/channel-controls:
+    servers:
+      - url: /api
+        description: Dedicated network-control mTLS listener, configured separately from the console API.
+    get:
+      tags:
+        - NetworkControl
+      operationId: getRuntimeChannelControls
+      security:
+        - networkControlMTLS: []
+      description: mTLS current endpoint credential and windows-channel-controls-v1
+        capability; response includes one-use receipt challenge.
+      parameters:
+        - name: runtimeID
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+            pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$
+      responses:
+        "200":
+          description: Bounded, authenticated channel result; control receipt is not
+            data-plane acceptance.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EndpointChannelDesiredEnvelope"
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "404":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /network-control/v1/runtimes/{runtimeID}/channel-controls/receipt:
+    servers:
+      - url: /api
+        description: Dedicated network-control mTLS listener, configured separately from the console API.
+    post:
+      tags:
+        - NetworkControl
+      operationId: reportRuntimeChannelControls
+      security:
+        - networkControlMTLS: []
+      description: mTLS endpoint report. Current credential/policy and one-use
+        challenge are atomically checked; replay cannot refresh receipt.
+      parameters:
+        - name: runtimeID
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+            pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EndpointChannelReport"
+      responses:
+        "204":
+          description: Current, content-free control report recorded.
+        "400":
+          $ref: "#/components/responses/Error"
+        "401":
+          $ref: "#/components/responses/Error"
+        "403":
+          $ref: "#/components/responses/Error"
+        "409":
+          $ref: "#/components/responses/Error"
+        "503":
+          $ref: "#/components/responses/Error"
+  /network-access/content-transfers/destinations:
+    get:
+      tags:
+        - NetworkAccess
+      operationId: listManagedContentDestinations
+      summary: listManagedContentDestinations
+      description: Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+      security:
+        - bearerAuth: []
+      parameters: []
+      responses:
+        "200":
+          description: Current record or decision. A blocked/unknown record is not a completed transfer.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedContentDestinationsEnvelope"
+        "400":
+          description: Invalid or over-limit request
+        "401":
+          description: Authentication required
+        "403":
+          description: Permission or object scope denied
+        "409":
+          description: Version, identity or single-use conflict
+        "503":
+          description: Dependency or reliable recording unavailable
+      x-permission-keys:
+        - network_access.content_transfers.view
+  /network-access/content-transfers/destinations/admin:
+    get:
+      tags:
+        - NetworkAccess
+      operationId: listManagedContentAdminDestinations
+      summary: listManagedContentAdminDestinations
+      description: Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+      security:
+        - bearerAuth: []
+      parameters: []
+      responses:
+        "200":
+          description: Current record or decision. A blocked/unknown record is not a completed transfer.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedContentAdminDestinationsEnvelope"
+        "400":
+          description: Invalid or over-limit request
+        "401":
+          description: Authentication required
+        "403":
+          description: Permission or object scope denied
+        "409":
+          description: Version, identity or single-use conflict
+        "503":
+          description: Dependency or reliable recording unavailable
+      x-permission-keys:
+        - network_access.content_destinations.view
+  /network-access/content-transfers/destinations/{destinationID}:
+    get:
+      tags:
+        - NetworkAccess
+      operationId: getManagedContentDestination
+      summary: getManagedContentDestination
+      description: Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: destinationID
+          in: path
+          required: true
+          schema:
+            type: string
+            maxLength: 36
+            format: uuid
+      responses:
+        "200":
+          description: Current record or decision. A blocked/unknown record is not a completed transfer.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedContentDestinationEnvelope"
+        "400":
+          description: Invalid or over-limit request
+        "401":
+          description: Authentication required
+        "403":
+          description: Permission or object scope denied
+        "409":
+          description: Version, identity or single-use conflict
+        "503":
+          description: Dependency or reliable recording unavailable
+      x-permission-keys:
+        - network_access.content_destinations.view
+    put:
+      tags:
+        - NetworkAccess
+      operationId: saveManagedContentDestination
+      summary: saveManagedContentDestination
+      description: Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: destinationID
+          in: path
+          required: true
+          schema:
+            type: string
+            maxLength: 36
+            format: uuid
+      responses:
+        "200":
+          description: Current record or decision. A blocked/unknown record is not a completed transfer.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedContentDestinationEnvelope"
+        "400":
+          description: Invalid or over-limit request
+        "401":
+          description: Authentication required
+        "403":
+          description: Permission or object scope denied
+        "413":
+          description: JSON request body exceeds 512 KiB
+        "409":
+          description: Version, identity or single-use conflict
+        "503":
+          description: Dependency or reliable recording unavailable
+      x-permission-keys:
+        - network_access.content_destinations.update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManagedContentSaveInput"
+  /network-access/content-transfers/destinations/{destinationID}/publish:
+    post:
+      tags:
+        - NetworkAccess
+      operationId: publishManagedContentDestination
+      summary: publishManagedContentDestination
+      description: Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: destinationID
+          in: path
+          required: true
+          schema:
+            type: string
+            maxLength: 36
+            format: uuid
+      responses:
+        "200":
+          description: Current record or decision. A blocked/unknown record is not a completed transfer.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedContentDestinationEnvelope"
+        "400":
+          description: Invalid or over-limit request
+        "401":
+          description: Authentication required
+        "403":
+          description: Permission or object scope denied
+        "413":
+          description: JSON request body exceeds 512 KiB
+        "409":
+          description: Version, identity or single-use conflict
+        "503":
+          description: Dependency or reliable recording unavailable
+      x-permission-keys:
+        - network_access.content_destinations.publish
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManagedContentPublishInput"
+  /network-access/content-transfers/uploads:
+    post:
+      tags:
+        - NetworkAccess
+      operationId: submitManagedContentUploads
+      summary: submitManagedContentUploads
+      description: Buffer at most 256 KiB in Core, inspect all bytes, persist a decision and only then submit to the approved destination. requestId is single-attempt idempotency; unknown outcomes must be looked up, never automatically replayed.
+      security:
+        - bearerAuth: []
+      parameters: []
+      responses:
+        "200":
+          description: Current record or decision. A blocked/unknown record is not a completed transfer.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedContentResultEnvelope"
+        "400":
+          description: Invalid or over-limit request
+        "401":
+          description: Authentication required
+        "403":
+          description: Permission or object scope denied
+        "413":
+          description: JSON request body exceeds 512 KiB
+        "409":
+          description: Version, identity or single-use conflict
+        "503":
+          description: Dependency or reliable recording unavailable
+      x-permission-keys:
+        - network_access.content_transfers.create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManagedContentUploadInput"
+  /network-access/content-transfers/pastes:
+    post:
+      tags:
+        - NetworkAccess
+      operationId: submitManagedContentPastes
+      summary: submitManagedContentPastes
+      description: Buffer at most 256 KiB in Core, inspect all bytes, persist a decision and only then submit to the approved destination. requestId is single-attempt idempotency; unknown outcomes must be looked up, never automatically replayed.
+      security:
+        - bearerAuth: []
+      parameters: []
+      responses:
+        "200":
+          description: Current record or decision. A blocked/unknown record is not a completed transfer.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedContentResultEnvelope"
+        "400":
+          description: Invalid or over-limit request
+        "401":
+          description: Authentication required
+        "403":
+          description: Permission or object scope denied
+        "413":
+          description: JSON request body exceeds 512 KiB
+        "409":
+          description: Version, identity or single-use conflict
+        "503":
+          description: Dependency or reliable recording unavailable
+      x-permission-keys:
+        - network_access.content_transfers.create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManagedContentPasteInput"
+  /network-access/content-transfers/files:
+    get:
+      tags:
+        - NetworkAccess
+      operationId: listManagedContentFiles
+      summary: listManagedContentFiles
+      description: Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 10000
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+      responses:
+        "200":
+          description: Current record or decision. A blocked/unknown record is not a completed transfer.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedContentRecordPageEnvelope"
+        "400":
+          description: Invalid or over-limit request
+        "401":
+          description: Authentication required
+        "403":
+          description: Permission or object scope denied
+        "409":
+          description: Version, identity or single-use conflict
+        "503":
+          description: Dependency or reliable recording unavailable
+      x-permission-keys:
+        - network_access.content_transfers.view
+  /network-access/content-transfers/files/{fileID}/read:
+    post:
+      tags:
+        - NetworkAccess
+      operationId: performManagedContentFileRead
+      summary: performManagedContentFileRead
+      description: Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: fileID
+          in: path
+          required: true
+          schema:
+            type: string
+            maxLength: 36
+            format: uuid
+      responses:
+        "200":
+          description: Current record or decision. A blocked/unknown record is not a completed transfer.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedContentResultEnvelope"
+        "400":
+          description: Invalid or over-limit request
+        "401":
+          description: Authentication required
+        "403":
+          description: Permission or object scope denied
+        "413":
+          description: JSON request body exceeds 512 KiB
+        "409":
+          description: Version, identity or single-use conflict
+        "503":
+          description: Dependency or reliable recording unavailable
+      x-permission-keys:
+        - network_access.content_transfers.download
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManagedContentRequest"
+  /network-access/content-transfers/files/{fileID}/copy:
+    post:
+      tags:
+        - NetworkAccess
+      operationId: performManagedContentFileCopy
+      summary: performManagedContentFileCopy
+      description: Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: fileID
+          in: path
+          required: true
+          schema:
+            type: string
+            maxLength: 36
+            format: uuid
+      responses:
+        "200":
+          description: Current record or decision. A blocked/unknown record is not a completed transfer.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedContentResultEnvelope"
+        "400":
+          description: Invalid or over-limit request
+        "401":
+          description: Authentication required
+        "403":
+          description: Permission or object scope denied
+        "413":
+          description: JSON request body exceeds 512 KiB
+        "409":
+          description: Version, identity or single-use conflict
+        "503":
+          description: Dependency or reliable recording unavailable
+      x-permission-keys:
+        - network_access.content_transfers.create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManagedContentCopyInput"
+  /network-access/content-transfers/files/{fileID}/delete:
+    post:
+      tags:
+        - NetworkAccess
+      operationId: performManagedContentFileDelete
+      summary: performManagedContentFileDelete
+      description: Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: fileID
+          in: path
+          required: true
+          schema:
+            type: string
+            maxLength: 36
+            format: uuid
+      responses:
+        "200":
+          description: Current record or decision. A blocked/unknown record is not a completed transfer.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedContentResultEnvelope"
+        "400":
+          description: Invalid or over-limit request
+        "401":
+          description: Authentication required
+        "403":
+          description: Permission or object scope denied
+        "413":
+          description: JSON request body exceeds 512 KiB
+        "409":
+          description: Version, identity or single-use conflict
+        "503":
+          description: Dependency or reliable recording unavailable
+      x-permission-keys:
+        - network_access.content_transfers.delete
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManagedContentRequest"
+  /network-access/content-transfers/records:
+    get:
+      tags:
+        - NetworkAccess
+      operationId: listManagedContentRecords
+      summary: listManagedContentRecords
+      description: Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 10000
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+      responses:
+        "200":
+          description: Current record or decision. A blocked/unknown record is not a completed transfer.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedContentRecordPageEnvelope"
+        "400":
+          description: Invalid or over-limit request
+        "401":
+          description: Authentication required
+        "403":
+          description: Permission or object scope denied
+        "409":
+          description: Version, identity or single-use conflict
+        "503":
+          description: Dependency or reliable recording unavailable
+      x-permission-keys:
+        - network_access.content_transfers.view
+  /network-access/content-transfers/records/{recordID}:
+    get:
+      tags:
+        - NetworkAccess
+      operationId: getManagedContentRecord
+      summary: getManagedContentRecord
+      description: Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: recordID
+          in: path
+          required: true
+          schema:
+            type: string
+            maxLength: 36
+            format: uuid
+      responses:
+        "200":
+          description: Current record or decision. A blocked/unknown record is not a completed transfer.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedContentRecordEnvelope"
+        "400":
+          description: Invalid or over-limit request
+        "401":
+          description: Authentication required
+        "403":
+          description: Permission or object scope denied
+        "409":
+          description: Version, identity or single-use conflict
+        "503":
+          description: Dependency or reliable recording unavailable
+      x-permission-keys:
+        - network_access.content_transfers.view
+  /network-access/content-transfers/destinations/{destinationID}/cases:
+    get:
+      tags:
+        - NetworkAccess
+      operationId: listManagedContentCases
+      summary: listManagedContentCases
+      description: Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: destinationID
+          in: path
+          required: true
+          schema:
+            type: string
+            maxLength: 36
+            format: uuid
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 10000
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+      responses:
+        "200":
+          description: Current record or decision. A blocked/unknown record is not a completed transfer.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedContentRecordPageEnvelope"
+        "400":
+          description: Invalid or over-limit request
+        "401":
+          description: Authentication required
+        "403":
+          description: Permission or object scope denied
+        "409":
+          description: Version, identity or single-use conflict
+        "503":
+          description: Dependency or reliable recording unavailable
+      x-permission-keys:
+        - network_access.content_transfer_events.view
+  /network-access/content-transfers/records/{recordID}/authorize:
+    post:
+      tags:
+        - NetworkAccess
+      operationId: handleManagedContentAuthorize
+      summary: handleManagedContentAuthorize
+      description: The owner needs view plus the original operation permissions (create and/or download). Current object scopes are rechecked. Authorization is single-use, content/target/connection/version-bound and does not transfer data.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: recordID
+          in: path
+          required: true
+          schema:
+            type: string
+            maxLength: 36
+            format: uuid
+      responses:
+        "200":
+          description: Current record or decision. A blocked/unknown record is not a completed transfer.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedContentAuthorizationEnvelope"
+        "400":
+          description: Invalid or over-limit request
+        "401":
+          description: Authentication required
+        "403":
+          description: Permission or object scope denied
+        "413":
+          description: JSON request body exceeds 512 KiB
+        "409":
+          description: Version, identity or single-use conflict
+        "503":
+          description: Dependency or reliable recording unavailable
+      x-permission-keys:
+        - network_access.content_transfers.view
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManagedContentAuthorizeInput"
+  /network-access/content-transfers/records/{recordID}/appeal:
+    post:
+      tags:
+        - NetworkAccess
+      operationId: handleManagedContentAppeal
+      summary: handleManagedContentAppeal
+      description: Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: recordID
+          in: path
+          required: true
+          schema:
+            type: string
+            maxLength: 36
+            format: uuid
+      responses:
+        "200":
+          description: Current record or decision. A blocked/unknown record is not a completed transfer.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedContentRecordEnvelope"
+        "400":
+          description: Invalid or over-limit request
+        "401":
+          description: Authentication required
+        "403":
+          description: Permission or object scope denied
+        "413":
+          description: JSON request body exceeds 512 KiB
+        "409":
+          description: Version, identity or single-use conflict
+        "503":
+          description: Dependency or reliable recording unavailable
+      x-permission-keys:
+        - network_access.content_transfers.view
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManagedContentAppealInput"
+  /network-access/content-transfers/records/{recordID}/review:
+    post:
+      tags:
+        - NetworkAccess
+      operationId: handleManagedContentReview
+      summary: handleManagedContentReview
+      description: Soha managed, bounded content transfer. Current permission and object scope are rechecked; no external browser-wide coverage.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: recordID
+          in: path
+          required: true
+          schema:
+            type: string
+            maxLength: 36
+            format: uuid
+      responses:
+        "200":
+          description: Current record or decision. A blocked/unknown record is not a completed transfer.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagedContentRecordEnvelope"
+        "400":
+          description: Invalid or over-limit request
+        "401":
+          description: Authentication required
+        "403":
+          description: Permission or object scope denied
+        "413":
+          description: JSON request body exceeds 512 KiB
+        "409":
+          description: Version, identity or single-use conflict
+        "503":
+          description: Dependency or reliable recording unavailable
+      x-permission-keys:
+        - network_access.content_transfer_appeals.review
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManagedContentReviewInput"
+  /network-access/content-transfers/destinations/{destinationID}/preview:
+    post:
+      {
+        "description": "Shadow only; no upload, download, policy publication, network restriction or persisted content. 1-8 complete samples, each at most 32KiB. Counts are sample counts, not false-positive rates.",
+        "operationId": "previewManagedContentDestination",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "destinationID",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "maxLength": 36,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DLPShadowInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DLPShadowEnvelope"
+                }
+              }
+            },
+            "description": "Current record or decision. A blocked/unknown record is not a completed transfer."
+          },
+          "400": {
+            "description": "Invalid or over-limit request"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Permission or object scope denied"
+          },
+          "409": {
+            "description": "Version, identity or single-use conflict"
+          },
+          "413": {
+            "description": "JSON request body exceeds 512 KiB"
+          },
+          "503": {
+            "description": "Dependency or reliable recording unavailable"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Compare saved draft with active policy on bounded samples",
+        "tags": [
+          "NetworkAccess"
+        ],
+        "x-permission-keys": [
+          "network_access.content_destinations.view",
+          "network_access.content_destinations.update"
+        ]
+      }
+  /docker/projects/{dockerProjectID}/content-dlp/preview:
+    post:
+      {
+        "description": "Shadow only; no upload, download, policy publication, network restriction or persisted content. 1-8 complete samples, each at most 32KiB. Counts are sample counts, not false-positive rates.",
+        "operationId": "previewDockerContentDLPPolicy",
+        "parameters": [
+          {
+            "name": "dockerProjectID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DLPShadowInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DLPShadowEnvelope"
+                }
+              }
+            },
+            "description": "Current record or decision. A blocked/unknown record is not a completed transfer."
+          },
+          "400": {
+            "description": "Invalid or over-limit request"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Permission or object scope denied"
+          },
+          "409": {
+            "description": "Version, identity or single-use conflict"
+          },
+          "413": {
+            "description": "JSON request body exceeds 512 KiB"
+          },
+          "503": {
+            "description": "Dependency or reliable recording unavailable"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Compare saved draft with active policy on bounded samples",
+        "tags": [
+          "NetworkAccess"
+        ],
+        "x-permission-keys": [
+          "docker.dlp-policy.view",
+          "docker.dlp-policy.update"
+        ]
+      }
+  /network-access/content-transfers/records/{recordID}/network:
+    get:
+      {
+        "description": "Own record with transfer view; other actors require global transfer event view and every gate scope. No file content.",
+        "operationId": "getManagedContentNetworkState",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "recordID",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "maxLength": 36,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManagedContentNetworkEnvelope"
+                }
+              }
+            },
+            "description": "Current record or decision. A blocked/unknown record is not a completed transfer."
+          },
+          "400": {
+            "description": "Invalid or over-limit request"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Permission or object scope denied"
+          },
+          "409": {
+            "description": "Version, identity or single-use conflict"
+          },
+          "503": {
+            "description": "Dependency or reliable recording unavailable"
+          },
+          "404": {
+            "description": "Record or network hold not found in the authorized scope"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Read source-owned network hold and execution receipts",
+        "tags": [
+          "NetworkAccess"
+        ],
+        "x-permission-keys": [
+          "network_access.content_transfers.view",
+          "network_access.content_transfer_events.view"
+        ]
+      }
+  /network-access/content-transfers/destinations/review:
+    get:
+      {
+        "description": "Requires independent global event-view scope; includes disabled/unpublished destinations so earlier findings remain reviewable. Returns summaries without connection configuration or content.",
+        "operationId": "listManagedContentReviewDestinations",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManagedContentDestinationsEnvelope"
+                }
+              }
+            },
+            "description": "Current record or decision. A blocked/unknown record is not a completed transfer."
+          },
+          "400": {
+            "description": "Invalid or over-limit request"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Permission or object scope denied"
+          },
+          "409": {
+            "description": "Version, identity or single-use conflict"
+          },
+          "503": {
+            "description": "Dependency or reliable recording unavailable"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "List authorized destinations for content case review",
+        "tags": [
+          "NetworkAccess"
+        ],
+        "x-permission-keys": [
+          "network_access.content_transfer_events.view"
+        ]
+      }
 components:
   securitySchemes:
+    networkControlMTLS:
+      type: mutualTLS
+      description: Current network-control client certificate, bound to the endpoint runtime and credential generation. A console Bearer JWT does not authenticate this listener.
     bearerAuth:
       type: http
       scheme: bearer
@@ -48266,6 +50039,810 @@ components:
         installed:
           type: boolean
       additionalProperties: false
+    DockerVolumeDLPRule:
+      {
+        "additionalProperties": false,
+        "properties": {
+          "expression": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "id": {
+            "pattern": "^[a-z][a-z0-9_-]{0,47}$",
+            "type": "string"
+          },
+          "dataLevel": {
+            "$ref": "#/components/schemas/DLPDataLevel",
+            "description": "Default confidential. The administrator classifies this detector rule."
+          }
+        },
+        "required": [
+          "id",
+          "expression"
+        ],
+        "type": "object"
+      }
+    DockerVolumeDLPContent:
+      {
+        "allOf": [{"if": {"required": ["requireStepUp"], "properties": {"requireStepUp": {"const": true}}}, "then": {"properties": {"mode": {"enum": ["warn", "block"]}}}}],
+        "additionalProperties": false,
+        "properties": {
+          "requireStepUp": {
+            "type": "boolean",
+            "description": "Default false. For warn/block matched releases, both authorization issuance and use require recent server-verified MFA in the same authenticated session. MFA does not replace acknowledgement or independent appeal approval."
+          },
+          "detectors": {
+            "items": {
+              "enum": [
+                "private_key",
+                "aws_access_key",
+                "credential_assignment"
+              ],
+              "type": "string"
+            },
+            "maxItems": 3,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "mode": {
+            "enum": [
+              "audit",
+              "warn",
+              "block"
+            ],
+            "type": "string"
+          },
+          "networkAction": {
+            "description": "Default none. revoke_network only for block matched denials and requires independent all-subjects network linkage authorization.",
+            "enum": [
+              "none",
+              "revoke_network"
+            ],
+            "type": "string"
+          },
+          "rules": {
+            "items": {
+              "$ref": "#/components/schemas/DockerVolumeDLPRule"
+            },
+            "maxItems": 16,
+            "type": "array"
+          },
+          "minimumDataLevel": {
+            "$ref": "#/components/schemas/DLPDataLevel",
+            "description": "Default public (all matches enforce); derived only from trusted detector/rule policy, never client classification."
+          },
+          "detectorVersion": {
+            "type": "string",
+            "const": "content-dlp-text-v1",
+            "maxLength": 64,
+            "description": "Optional explicit pin; unknown engines rejected."
+          }
+        },
+        "required": [
+          "enabled",
+          "mode",
+          "detectors",
+          "rules"
+        ],
+        "type": "object"
+      }
+    DockerVolumeDLPPolicy:
+      type: object
+      additionalProperties: false
+      required:
+        - projectId
+        - revision
+        - draft
+        - publishedVersion
+        - updatedAt
+      properties:
+        projectId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        revision:
+          type: integer
+          format: int64
+          minimum: 0
+        draft:
+          $ref: "#/components/schemas/DockerVolumeDLPContent"
+        published:
+          $ref: "#/components/schemas/DockerVolumeDLPContent"
+        publishedVersion:
+          type: integer
+          format: int64
+          minimum: 0
+        updatedAt:
+          type: string
+          format: date-time
+    DockerVolumeDLPSaveInput:
+      type: object
+      additionalProperties: false
+      required:
+        - expectedRevision
+        - draft
+      properties:
+        expectedRevision:
+          type: integer
+          format: int64
+          minimum: 0
+        draft:
+          $ref: "#/components/schemas/DockerVolumeDLPContent"
+    DockerVolumeDLPPublishInput:
+      type: object
+      additionalProperties: false
+      required:
+        - expectedRevision
+      properties:
+        expectedRevision:
+          type: integer
+          format: int64
+          minimum: 1
+    DockerVolumeDLPDecision:
+      {
+        "additionalProperties": false,
+        "properties": {
+          "stepUpRequired": {
+            "type": "boolean",
+            "description": "A matched release additionally requires recent MFA in the authenticated issuing session; no content or MFA secret is returned."
+          },
+          "allowed": {
+            "type": "boolean"
+          },
+          "authorizationKind": {
+            "enum": [
+              "acknowledge",
+              "approved_appeal"
+            ],
+            "type": "string"
+          },
+          "contentFingerprint": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "detectorVersion": {
+            "enum": [
+              "content-dlp-text-v1",
+              "content-dlp-archive-v2"
+            ],
+            "type": "string"
+          },
+          "eventId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "matchedRuleIds": {
+            "items": {
+              "maxLength": 48,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 19,
+            "type": "array"
+          },
+          "mode": {
+            "enum": [
+              "audit",
+              "warn",
+              "block"
+            ],
+            "type": "string"
+          },
+          "originEventId": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "policyVersion": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "requiredAction": {
+            "enum": [
+              "acknowledge",
+              "appeal"
+            ],
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "clean",
+              "matched",
+              "unsupported",
+              "encrypted",
+              "too_large",
+              "timeout",
+              "error"
+            ],
+            "type": "string"
+          },
+          "dataLevel": {
+            "type": "string",
+            "enum": [
+              "public",
+              "internal",
+              "confidential",
+              "restricted",
+              "unclassified",
+              "unknown"
+            ],
+            "x-enum-varnames": [
+              "DLPDecisionDataLevelPublic",
+              "DLPDecisionDataLevelInternal",
+              "DLPDecisionDataLevelConfidential",
+              "DLPDecisionDataLevelRestricted",
+              "DLPDecisionDataLevelUnclassified",
+              "DLPDecisionDataLevelUnknown"
+            ],
+            "description": "Maximum matched rule level; clean is unclassified, uninspected is unknown. Not a proof that a file is public."
+          },
+          "minimumDataLevel": {
+            "$ref": "#/components/schemas/DLPDataLevel"
+          },
+          "ruleSetVersion": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "eventId",
+          "mode",
+          "status",
+          "allowed",
+          "policyVersion",
+          "detectorVersion",
+          "matchedRuleIds"
+        ],
+        "type": "object"
+      }
+    DockerVolumeDLPEvent:
+      {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "enum": [
+              "transfer",
+              "policy_saved",
+              "policy_published",
+              "appeal_submitted",
+              "appeal_reviewed",
+              "warning_acknowledged",
+              "appeal_authorization_issued"
+            ],
+            "type": "string"
+          },
+          "actorId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "allowed": {
+            "type": "boolean"
+          },
+          "authorizationKind": {
+            "enum": [
+              "acknowledge",
+              "approved_appeal"
+            ],
+            "type": "string"
+          },
+          "contentFingerprint": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "detectorVersion": {
+            "enum": [
+              "content-dlp-text-v1",
+              "content-dlp-archive-v2"
+            ],
+            "type": "string"
+          },
+          "eventId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "inspectedBytes": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "matchedRuleIds": {
+            "items": {
+              "maxLength": 48,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 19,
+            "type": "array"
+          },
+          "mode": {
+            "enum": [
+              "audit",
+              "warn",
+              "block"
+            ],
+            "type": "string"
+          },
+          "networkHoldId": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "originEventId": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "policyVersion": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "projectId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "requiredAction": {
+            "enum": [
+              "acknowledge",
+              "appeal"
+            ],
+            "type": "string"
+          },
+          "revision": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "sizeBytes": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "status": {
+            "enum": [
+              "clean",
+              "matched",
+              "unsupported",
+              "encrypted",
+              "too_large",
+              "timeout",
+              "error"
+            ],
+            "type": "string"
+          },
+          "targetFingerprint": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "dataLevel": {
+            "description": "Maximum matched rule level; clean is unclassified, uninspected is unknown. Not a proof that a file is public.",
+            "enum": [
+              "public",
+              "internal",
+              "confidential",
+              "restricted",
+              "unclassified",
+              "unknown"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "DLPEventDataLevelPublic",
+              "DLPEventDataLevelInternal",
+              "DLPEventDataLevelConfidential",
+              "DLPEventDataLevelRestricted",
+              "DLPEventDataLevelUnclassified",
+              "DLPEventDataLevelUnknown"
+            ]
+          },
+          "minimumDataLevel": {
+            "$ref": "#/components/schemas/DLPDataLevel"
+          },
+          "ruleSetVersion": {
+            "pattern": "^sha256:[a-f0-9]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "eventId",
+          "mode",
+          "status",
+          "allowed",
+          "policyVersion",
+          "detectorVersion",
+          "matchedRuleIds",
+          "id",
+          "projectId",
+          "actorId",
+          "action",
+          "revision",
+          "sizeBytes",
+          "inspectedBytes",
+          "createdAt"
+        ],
+        "type": "object"
+      }
+    DockerVolumeDLPPolicyEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/DockerVolumeDLPPolicy"
+    DockerVolumeDLPEventListEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/DockerVolumeDLPEvent"
+    DockerVolumeFileContent:
+      type: object
+      additionalProperties: false
+      required:
+        - projectId
+        - serviceName
+        - target
+        - path
+        - content
+        - sizeBytes
+        - truncated
+      properties:
+        projectId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        serviceName:
+          type: string
+          minLength: 1
+          maxLength: 128
+        target:
+          type: string
+          maxLength: 4096
+        path:
+          type: string
+          maxLength: 4096
+        content:
+          type: string
+        sizeBytes:
+          type: integer
+          format: int64
+          minimum: 0
+        truncated:
+          type: boolean
+        dlp:
+          $ref: "#/components/schemas/DockerVolumeDLPDecision"
+    DockerVolumeFileContentEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/DockerVolumeFileContent"
+    DockerVolumeDLPAuthorizationInput:
+      type: object
+      additionalProperties: false
+      required:
+        - action
+      properties:
+        action:
+          type: string
+          enum:
+            - acknowledge
+            - approved_appeal
+    DockerVolumeDLPAuthorization:
+      type: object
+      additionalProperties: false
+      required:
+        - token
+        - expiresAt
+      properties:
+        token:
+          type: string
+          pattern: ^[A-Za-z0-9_-]{43}$
+          writeOnly: false
+        expiresAt:
+          type: string
+          format: date-time
+    DockerVolumeDLPAppealInput:
+      type: object
+      additionalProperties: false
+      required:
+        - reasonCode
+      properties:
+        reasonCode:
+          type: string
+          enum:
+            - false_positive
+            - business_need
+    DockerVolumeDLPAppealReviewInput:
+      type: object
+      additionalProperties: false
+      required:
+        - expectedRevision
+        - resolution
+        - reasonCode
+      properties:
+        expectedRevision:
+          type: integer
+          format: int64
+          minimum: 1
+        resolution:
+          type: string
+          enum:
+            - approved
+            - rejected
+        reasonCode:
+          type: string
+          enum:
+            - confirmed_false_positive
+            - approved_business_exception
+            - policy_required
+            - insufficient_context
+    DockerVolumeDLPAppeal:
+      type: object
+      additionalProperties: false
+      required:
+        - eventId
+        - projectId
+        - actorId
+        - reasonCode
+        - status
+        - revision
+        - createdAt
+        - updatedAt
+      properties:
+        eventId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        projectId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        actorId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        reasonCode:
+          type: string
+          enum:
+            - false_positive
+            - business_need
+        status:
+          type: string
+          enum:
+            - pending
+            - approved
+            - rejected
+        revision:
+          type: integer
+          format: int64
+          minimum: 0
+        reviewerId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        reviewReason:
+          type: string
+          enum:
+            - confirmed_false_positive
+            - approved_business_exception
+            - policy_required
+            - insufficient_context
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    DockerVolumeDLPNetworkTarget:
+      type: object
+      additionalProperties: false
+      required:
+        - kind
+        - baseVersion
+        - observedVersion
+        - status
+      properties:
+        kind:
+          type: string
+          enum:
+            - configuration
+            - nas
+            - proxy
+            - unattributed_proxy
+        runtimeId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        sessionId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        commandId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        baseVersion:
+          type: integer
+          format: int64
+          minimum: 0
+        observedVersion:
+          type: integer
+          format: int64
+          minimum: 0
+        status:
+          type: string
+          maxLength: 64
+    DockerVolumeDLPNetworkHold:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - sourceEventId
+        - projectId
+        - subjectId
+        - active
+        - revision
+        - createdAt
+        - targets
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        sourceEventId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        projectId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        subjectId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        active:
+          type: boolean
+        revision:
+          type: integer
+          format: int64
+          minimum: 0
+        createdAt:
+          type: string
+          format: date-time
+        releasedAt:
+          type: string
+          format: date-time
+        targets:
+          type: array
+          maxItems: 4096
+          items:
+            $ref: "#/components/schemas/DockerVolumeDLPNetworkTarget"
+    DockerVolumeDLPCase:
+      type: object
+      additionalProperties: false
+      required:
+        - event
+      properties:
+        event:
+          $ref: "#/components/schemas/DockerVolumeDLPEvent"
+        appeal:
+          $ref: "#/components/schemas/DockerVolumeDLPAppeal"
+        linkage:
+          $ref: "#/components/schemas/DockerVolumeDLPNetworkHold"
+    DockerVolumeFileReadInput:
+      type: object
+      additionalProperties: false
+      required:
+        - target
+        - path
+      properties:
+        serviceName:
+          type: string
+          minLength: 1
+          maxLength: 128
+        target:
+          type: string
+          minLength: 1
+          maxLength: 4096
+        path:
+          type: string
+          minLength: 1
+          maxLength: 4096
+        limitBytes:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 1048576
+        authorization:
+          type: string
+          pattern: ^[A-Za-z0-9_-]{43}$
+          description: Single-use opaque authorization, never a URL parameter.
+    DockerVolumeTransferResult:
+      type: object
+      additionalProperties: false
+      properties:
+        file:
+          $ref: "#/components/schemas/DockerVolumeFileContent"
+        decision:
+          $ref: "#/components/schemas/DockerVolumeDLPDecision"
+      anyOf:
+        - type: object
+          required: [file]
+          properties:
+            file:
+              $ref: "#/components/schemas/DockerVolumeFileContent"
+        - type: object
+          required: [decision]
+          properties:
+            decision:
+              $ref: "#/components/schemas/DockerVolumeDLPDecision"
+    DockerVolumeDLPAuthorizationEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/DockerVolumeDLPAuthorization"
+    DockerVolumeDLPAppealEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/DockerVolumeDLPAppeal"
+    DockerVolumeDLPCaseEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/DockerVolumeDLPCase"
+    DockerVolumeTransferResultEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/DockerVolumeTransferResult"
+    DockerVolumeDLPCaseListEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/DockerVolumeDLPCase"
     SoftwarePackage:
       type: object
       required: [ id, softwareId, name, publisher, version, platform, arch, fileName, sizeBytes, sha256, downloadPath, createdAt, updatedAt ]
@@ -49944,6 +52521,16 @@ components:
       type: string
       enum: [ desktop, laptop, server, mobile, tablet, virtual, unknown ]
       x-enum-varnames: [ EndpointDeviceTypeDesktop, EndpointDeviceTypeLaptop, EndpointDeviceTypeServer, EndpointDeviceTypeMobile, EndpointDeviceTypeTablet, EndpointDeviceTypeVirtual, EndpointDeviceTypeUnknown ]
+    EndpointDeviceManagementState:
+      type: string
+      enum: [ managed, unmanaged, unknown ]
+      x-enum-varnames: [ EndpointDeviceManagementStateManaged, EndpointDeviceManagementStateUnmanaged, EndpointDeviceManagementStateUnknown ]
+      description: Administrator-maintained management classification. Ownership and endpoint-reported facts cannot promote this value; unknown is the default and this is not attestation.
+    NetworkDeviceGovernanceMode:
+      type: string
+      enum: [ legacy, managed_only, restricted_unmanaged, verified_managed_only ]
+      x-enum-varnames: [ NetworkDeviceGovernanceModeLegacy, NetworkDeviceGovernanceModeManagedOnly, NetworkDeviceGovernanceModeRestrictedUnmanaged, NetworkDeviceGovernanceModeVerifiedManagedOnly ]
+      description: Explicit site governance rollout. Legacy preserves existing behavior; managed_only requires managed devices; restricted_unmanaged limits other devices to explicitly authorized unprotected resource ZTNA or restricted admission profiles.
     EndpointDeviceOwnershipType:
       type: string
       enum: [ company, personal, temporary, unassigned ]
@@ -50005,6 +52592,7 @@ components:
       type: object
       required: [ id, name, ownerUserId, status, platform, postureStatus, postureVersion, createdAt, updatedAt ]
       properties:
+        managementVerifiedUntil: { type: string, format: date-time, readOnly: true }
         id: { type: string, minLength: 1, maxLength: 128 }
         name: { type: string, minLength: 1, maxLength: 200 }
         ownerUserId: { type: string, minLength: 1, maxLength: 128 }
@@ -50012,6 +52600,7 @@ components:
         platform: { type: string, minLength: 1, maxLength: 64 }
         deviceType: { $ref: "#/components/schemas/EndpointDeviceType" }
         ownershipType: { $ref: "#/components/schemas/EndpointDeviceOwnershipType" }
+        managementState: { $ref: "#/components/schemas/EndpointDeviceManagementState" }
         hostname: { type: string, minLength: 1, maxLength: 253 }
         siteId: { type: string, minLength: 1, maxLength: 128 }
         postureStatus: { $ref: "#/components/schemas/EndpointDevicePostureStatus" }
@@ -50032,6 +52621,7 @@ components:
         postureStatus: { $ref: "#/components/schemas/EndpointDevicePostureStatus" }
         deviceType: { $ref: "#/components/schemas/EndpointDeviceType" }
         ownershipType: { $ref: "#/components/schemas/EndpointDeviceOwnershipType" }
+        managementState: { $ref: "#/components/schemas/EndpointDeviceManagementState" }
       additionalProperties: false
     EndpointDeviceRegistrationInput:
       type: object
@@ -50058,6 +52648,149 @@ components:
           maxItems: 200
           items: { $ref: "#/components/schemas/EndpointDevice" }
       additionalProperties: false
+    NetworkWorkloadBindingInput:
+      type: object
+      additionalProperties: false
+      required:
+        - serviceAccountId
+        - runtimeId
+        - deviceId
+        - siteId
+        - networkSpaceId
+        - resourceIds
+        - enabled
+        - expiresAt
+        - revision
+      properties:
+        serviceAccountId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        runtimeId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        deviceId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        siteId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        networkSpaceId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        resourceIds:
+          type: array
+          minItems: 1
+          maxItems: 256
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+        enabled:
+          type: boolean
+        expiresAt:
+          type: string
+          format: date-time
+        revision:
+          type: integer
+          minimum: 0
+    NetworkWorkloadBinding:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - serviceAccountId
+        - runtimeId
+        - deviceId
+        - siteId
+        - networkSpaceId
+        - resourceIds
+        - enabled
+        - expiresAt
+        - revision
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        serviceAccountId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        runtimeId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        deviceId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        siteId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        networkSpaceId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        resourceIds:
+          type: array
+          minItems: 1
+          maxItems: 256
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+        enabled:
+          type: boolean
+        expiresAt:
+          type: string
+          format: date-time
+        revision:
+          type: integer
+          minimum: 0
+    NetworkManagementProofInput:
+      type: object
+      additionalProperties: false
+      required:
+        - payload
+        - signature
+      properties:
+        payload:
+          type: string
+          minLength: 1
+          maxLength: 8192
+          pattern: '^[A-Za-z0-9_-]+$'
+        signature:
+          type: string
+          minLength: 86
+          maxLength: 86
+          pattern: '^[A-Za-z0-9_-]{86}$'
+    NetworkWorkloadBindingEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/NetworkWorkloadBinding"
+    NetworkWorkloadBindingListEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          maxItems: 200
+          items:
+            $ref: "#/components/schemas/NetworkWorkloadBinding"
     NetworkSiteStatus:
       type: string
       enum: [ active, disabled ]
@@ -50066,6 +52799,8 @@ components:
       type: object
       required: [ id, name, status, createdAt, updatedAt ]
       properties:
+        managementIssuerKey: { type: string, maxLength: 44, x-go-pointer: true, description: "Base64 Ed25519 public key for the site MDM issuer; empty clears and omission preserves." }
+        deviceGovernance: { $ref: "#/components/schemas/NetworkDeviceGovernanceMode" }
         id: { type: string, minLength: 1, maxLength: 128 }
         name: { type: string, minLength: 1, maxLength: 200 }
         status: { $ref: "#/components/schemas/NetworkSiteStatus" }
@@ -50078,6 +52813,8 @@ components:
       type: object
       required: [ name, status ]
       properties:
+        managementIssuerKey: { type: string, maxLength: 44, x-go-pointer: true, description: "Base64 Ed25519 public key for the site MDM issuer; empty clears and omission preserves." }
+        deviceGovernance: { $ref: "#/components/schemas/NetworkDeviceGovernanceMode" }
         name: { type: string, minLength: 1, maxLength: 200 }
         status: { $ref: "#/components/schemas/NetworkSiteStatus" }
         description: { type: string, maxLength: 2000 }
@@ -50103,6 +52840,17 @@ components:
       maxLength: 18
       pattern: '^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])/(?:[0-9]|[12][0-9]|3[0-2])$'
       description: IPv4 CIDR accepted by the first network-access slice; consumers must additionally require canonical network addresses.
+    NetworkIPCIDR:
+      type: string
+      maxLength: 64
+      pattern: '^(?:(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])/(?:[1-9]|[12][0-9]|3[0-2])|(?:(?:(?:0|[1-9a-f][0-9a-f]{0,3}):){7}(?:0|[1-9a-f][0-9a-f]{0,3})|(?:(?:0|[1-9a-f][0-9a-f]{0,3}):){1,7}:|(?:(?:0|[1-9a-f][0-9a-f]{0,3}):){1,6}:(?:0|[1-9a-f][0-9a-f]{0,3})|(?:(?:0|[1-9a-f][0-9a-f]{0,3}):){1,5}(?::(?:0|[1-9a-f][0-9a-f]{0,3})){1,2}|(?:(?:0|[1-9a-f][0-9a-f]{0,3}):){1,4}(?::(?:0|[1-9a-f][0-9a-f]{0,3})){1,3}|(?:(?:0|[1-9a-f][0-9a-f]{0,3}):){1,3}(?::(?:0|[1-9a-f][0-9a-f]{0,3})){1,4}|(?:(?:0|[1-9a-f][0-9a-f]{0,3}):){1,2}(?::(?:0|[1-9a-f][0-9a-f]{0,3})){1,5}|(?:0|[1-9a-f][0-9a-f]{0,3}):(?:(?::(?:0|[1-9a-f][0-9a-f]{0,3})){1,6})|:(?:(?::(?:0|[1-9a-f][0-9a-f]{0,3})){1,7}|:))/(?:[1-9]|[1-9][0-9]|1[01][0-9]|12[0-8]))$'
+      description: Non-default IPv4 or IPv6 CIDR syntax; Core additionally validates canonical network-address bits and compressed spelling.
+
+    NetworkIPAddress:
+      type: string
+      minLength: 2
+      maxLength: 39
+      description: Canonical unicast IPv4 or IPv6 address; mapped, scoped and unspecified addresses are rejected.
     NetworkSpaceStatus:
       type: string
       enum: [ active, disabled ]
@@ -50120,7 +52868,7 @@ components:
           minItems: 1
           maxItems: 64
           uniqueItems: true
-          items: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+          items: { $ref: "#/components/schemas/NetworkIPCIDR" }
         createdAt: { type: string, format: date-time }
         updatedAt: { type: string, format: date-time }
       additionalProperties: false
@@ -50136,7 +52884,7 @@ components:
           minItems: 1
           maxItems: 64
           uniqueItems: true
-          items: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+          items: { $ref: "#/components/schemas/NetworkIPCIDR" }
       additionalProperties: false
     NetworkSpaceEnvelope:
       type: object
@@ -50268,29 +53016,23 @@ components:
         siteId: { type: string, minLength: 1, maxLength: 128 }
         name: { type: string, minLength: 1, maxLength: 200 }
         administrativeStatus: { $ref: "#/components/schemas/NetworkGatewayAdministrativeStatus" }
-        publicEndpointHost: { type: string, minLength: 1, maxLength: 253, pattern: "^[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?$" }
+        publicEndpointHost: { type: string, minLength: 1, maxLength: 253, pattern: "^[A-Za-z0-9:][A-Za-z0-9.:-]{0,252}$" }
         publicEndpointPort: { type: integer, minimum: 1, maximum: 65535 }
-        overlayCidr:
-          type: string
-          maxLength: 18
-          pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])/(?:1[6-9]|2[0-9]|30)$"
+        overlayCidr: { $ref: "#/components/schemas/NetworkIPCIDR" }
         routingMode: { $ref: "#/components/schemas/NetworkGatewayRoutingMode" }
         hubGatewayId: { type: string, minLength: 1, maxLength: 128, pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]*$" }
         advertisedCidrs:
           type: array
           maxItems: 64
           uniqueItems: true
-          items: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+          items: { $ref: "#/components/schemas/NetworkIPCIDR" }
         mtu: { type: integer, minimum: 1280, maximum: 1500 }
         persistentKeepaliveSeconds: { type: integer, minimum: 0, maximum: 300 }
         dnsServers:
           type: array
           maxItems: 8
           uniqueItems: true
-          items:
-            type: string
-            maxLength: 15
-            pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$"
+          items: { $ref: "#/components/schemas/NetworkIPAddress" }
       additionalProperties: false
     NetworkGateway:
       type: object
@@ -50329,21 +53071,21 @@ components:
         status: { $ref: "#/components/schemas/NetworkGatewayStatus" }
         publicEndpointHost: { type: string, minLength: 1, maxLength: 253 }
         publicEndpointPort: { type: integer, minimum: 1, maximum: 65535 }
-        overlayCidr: { type: string, minLength: 9, maxLength: 18 }
+        overlayCidr: { $ref: "#/components/schemas/NetworkIPCIDR" }
         routingMode: { $ref: "#/components/schemas/NetworkGatewayRoutingMode" }
         hubGatewayId: { type: string, minLength: 1, maxLength: 128 }
         advertisedCidrs:
           type: array
           maxItems: 64
           uniqueItems: true
-          items: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+          items: { $ref: "#/components/schemas/NetworkIPCIDR" }
         mtu: { type: integer, minimum: 1280, maximum: 1500 }
         persistentKeepaliveSeconds: { type: integer, minimum: 0, maximum: 300 }
         dnsServers:
           type: array
           maxItems: 8
           uniqueItems: true
-          items: { type: string, minLength: 7, maxLength: 15 }
+          items: { $ref: "#/components/schemas/NetworkIPAddress" }
         wireguardPublicKey: { type: string, minLength: 44, maxLength: 44, pattern: "^[A-Za-z0-9+/]{43}=$" }
         version: { type: string, maxLength: 64 }
         lastHeartbeatAt: { type: string, format: date-time }
@@ -50439,7 +53181,7 @@ components:
               type: array
               maxItems: 256
               uniqueItems: true
-              items: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+              items: { $ref: "#/components/schemas/NetworkIPCIDR" }
             bypassHosts:
               type: array
               maxItems: 128
@@ -50499,7 +53241,7 @@ components:
           type: array
           maxItems: 256
           uniqueItems: true
-          items: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+          items: { $ref: "#/components/schemas/NetworkIPCIDR" }
         bypassHosts:
           type: array
           maxItems: 128
@@ -50729,6 +53471,57 @@ components:
           maxItems: 200
           items: { $ref: "#/components/schemas/NetworkSiteProfileBinding" }
       additionalProperties: false
+    NetworkVPNRevocationReleaseInput:
+      type: object
+      additionalProperties: false
+      required: [ expectedEpoch ]
+      properties:
+        expectedEpoch: { type: integer, minimum: 1 }
+    NetworkVPNRevocationExecution:
+      type: object
+      additionalProperties: false
+      required: [ runtimeId, configurationVersion, applyStatus ]
+      properties:
+        runtimeId: { type: string }
+        configurationVersion: { type: integer, minimum: 1 }
+        applyStatus: { type: string, description: Configuration receipt only. Pending or missing receipt does not prove enforcement. }
+        reasonCode: { type: string }
+        appliedAt: { type: string, format: date-time }
+    NetworkVPNRevocation:
+      type: object
+      additionalProperties: false
+      required: [ sessionId, subjectId, deviceId, siteId, epoch, active, reasonCode, createdAt, executions ]
+      properties:
+        sessionId: { type: string }
+        subjectId: { type: string }
+        deviceId: { type: string }
+        siteId: { type: string }
+        epoch: { type: integer, minimum: 1 }
+        active: { type: boolean }
+        reasonCode: { type: string }
+        createdAt: { type: string, format: date-time }
+        releasedAt: { type: string, format: date-time }
+        executions:
+          type: array
+          items: { $ref: "#/components/schemas/NetworkVPNRevocationExecution" }
+    NetworkVPNRevocationStateEnvelope:
+      type: object
+      additionalProperties: false
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          additionalProperties: false
+          required: [ present ]
+          properties:
+            present: { type: boolean }
+            revocation: { $ref: "#/components/schemas/NetworkVPNRevocation" }
+    NetworkVPNRevocationEnvelope:
+      type: object
+      additionalProperties: false
+      required: [ data ]
+      properties:
+        data: { $ref: "#/components/schemas/NetworkVPNRevocation" }
     NetworkProxyEngine:
       type: string
       enum: [ mihomo, sing-box, v2ray ]
@@ -50748,31 +53541,82 @@ components:
       x-enum-varnames: [ NetworkProxyInstanceStatusUnregistered, NetworkProxyInstanceStatusOnline, NetworkProxyInstanceStatusDegraded, NetworkProxyInstanceStatusOffline, NetworkProxyInstanceStatusDisabled ]
     NetworkProxyCapability:
       type: string
-      enum: [ traffic, connections, close_connection ]
-      x-enum-varnames: [ NetworkProxyCapabilityTraffic, NetworkProxyCapabilityConnections, NetworkProxyCapabilityCloseConnection ]
+      enum: [ traffic, connections, close_connection, protected_destinations_v1, protection_rules_readback, guarded_dns_tcp_v1 ]
+      x-enum-varnames: [ NetworkProxyCapabilityTraffic, NetworkProxyCapabilityConnections, NetworkProxyCapabilityCloseConnection, NetworkProxyCapabilityProtectedDestinationsV1, NetworkProxyCapabilityProtectionRulesReadback, NetworkProxyCapabilityGuardedDnsTcpV1 ]
     NetworkProxyInstance:
       type: object
-      required: [ id, name, engine, enabled, status, capabilities, desiredRevision, observedRevision, createdAt, updatedAt ]
+      required:
+        - id
+        - name
+        - engine
+        - enabled
+        - status
+        - capabilities
+        - desiredRevision
+        - observedRevision
+        - createdAt
+        - updatedAt
       properties:
-        id: { type: string, minLength: 1, maxLength: 128 }
-        name: { type: string, minLength: 1, maxLength: 128 }
-        engine: { $ref: "#/components/schemas/NetworkProxyEngine" }
-        enabled: { type: boolean }
-        host: { type: string, maxLength: 128 }
-        engineVersion: { type: string, maxLength: 64 }
-        status: { $ref: "#/components/schemas/NetworkProxyInstanceStatus" }
+        id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+        engine:
+          $ref: "#/components/schemas/NetworkProxyEngine"
+        binding:
+          $ref: "#/components/schemas/NetworkProxyBinding"
+        policyVersion:
+          type: integer
+          minimum: 0
+        observedPolicyVersion:
+          type: integer
+          minimum: 0
+        enabled:
+          type: boolean
+        host:
+          type: string
+          maxLength: 128
+        engineVersion:
+          type: string
+          maxLength: 64
+        status:
+          $ref: "#/components/schemas/NetworkProxyInstanceStatus"
         capabilities:
           type: array
-          maxItems: 3
+          maxItems: 6
           uniqueItems: true
-          items: { $ref: "#/components/schemas/NetworkProxyCapability" }
-        desiredRevision: { type: integer, format: int64, minimum: 0 }
-        observedRevision: { type: integer, format: int64, minimum: 0 }
-        lastSeenAt: { type: string, format: date-time }
-        lastSampleAt: { type: string, format: date-time }
-        reasonCode: { type: string, maxLength: 128 }
-        createdAt: { type: string, format: date-time }
-        updatedAt: { type: string, format: date-time }
+          items:
+            $ref: "#/components/schemas/NetworkProxyCapability"
+        desiredRevision:
+          type: integer
+          format: int64
+          minimum: 0
+        observedRevision:
+          type: integer
+          format: int64
+          minimum: 0
+        lastSeenAt:
+          type: string
+          format: date-time
+        lastSampleAt:
+          type: string
+          format: date-time
+        reasonCode:
+          type: string
+          maxLength: 128
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        securityRestricted:
+          type: boolean
+          description: Owner-bound managed runtime suspension; not per-flow user attribution.
       additionalProperties: false
     NetworkProxyInstanceEnvelope:
       type: object
@@ -50789,13 +53633,59 @@ components:
           maxItems: 200
           items: { $ref: "#/components/schemas/NetworkProxyInstance" }
       additionalProperties: false
+    NetworkProxyBinding:
+      type: object
+      description: Administrative placement only. Does not authenticate proxy users or grant resource access.
+      required: [ siteId, deviceId, resourceIds ]
+      properties:
+        siteId: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]*$' }
+        deviceId: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]*$' }
+        resourceIds:
+          type: array
+          maxItems: 128
+          uniqueItems: true
+          items: { type: string, minLength: 1, maxLength: 128, pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]*$' }
+      additionalProperties: false
+    NetworkProxyRestoreInput:
+      type: object
+      additionalProperties: false
+      required: [ expectedRevision ]
+      properties:
+        expectedRevision: { type: integer, minimum: 0 }
+    NetworkProxyConfigurationRevision:
+      type: object
+      additionalProperties: false
+      required: [ revision, contentHash, createdAt ]
+      properties:
+        revision: { type: integer, minimum: 1 }
+        contentHash: { type: string, pattern: '^sha256:[a-f0-9]{64}$' }
+        createdAt: { type: string, format: date-time }
+    NetworkProxyConfigurationHistoryEnvelope:
+      type: object
+      required: [ items ]
+      properties:
+        items:
+          type: array
+          maxItems: 100
+          items: { $ref: "#/components/schemas/NetworkProxyConfigurationRevision" }
     NetworkProxyConfigurationInput:
+      description: Retained full-configuration SDK input for existing consumers. New partial updates use NetworkProxyConfigurationPatchInput; the HTTP endpoint still accepts full configurations.
       type: object
       required: [ expectedRevision, enabled, content ]
       properties:
         expectedRevision: { type: integer, format: int64, minimum: 0 }
         enabled: { type: boolean }
         content: { type: string, minLength: 1, maxLength: 1048576, format: password, writeOnly: true }
+      additionalProperties: false
+    NetworkProxyConfigurationPatchInput:
+      type: object
+      required: [ expectedRevision, enabled ]
+      properties:
+        expectedRevision: { type: integer, format: int64, minimum: 0 }
+        clearBinding: { type: boolean, description: Only permitted when disabled. Requires scope authorization for the existing and unbound instance. }
+        binding: { $ref: "#/components/schemas/NetworkProxyBinding" }
+        enabled: { type: boolean }
+        content: { description: Omission retains the stored encrypted configuration. Required for the first configuration., x-go-pointer: true, type: string, minLength: 1, maxLength: 1048576, format: password, writeOnly: true }
       additionalProperties: false
     NetworkProxyTrafficSample:
       type: object
@@ -50850,6 +53740,8 @@ components:
       required: [ commandId, status, expiresAt ]
       properties:
         commandId: { type: string, minLength: 1, maxLength: 128 }
+        connectionId: { type: string, minLength: 1, maxLength: 128 }
+        reasonCode: { type: string, maxLength: 128 }
         status: { type: string, enum: [ pending, closed, not-found, failed, expired ] }
         expiresAt: { type: string, format: date-time }
       additionalProperties: false
@@ -50992,6 +53884,12 @@ components:
           maxItems: 5
           uniqueItems: true
           items: { $ref: "#/components/schemas/NetworkAccessMode" }
+        deviceManagementStates:
+          description: Administrator-managed device classifications. Omission on update preserves the current selector; an explicit empty array clears it. Site governance constraints still apply.
+          type: array
+          maxItems: 3
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/EndpointDeviceManagementState" }
         deviceStatuses:
           type: array
           maxItems: 4
@@ -51029,6 +53927,12 @@ components:
           maxItems: 5
           uniqueItems: true
           items: { $ref: "#/components/schemas/NetworkAccessMode" }
+        deviceManagementStates:
+          description: Administrator-managed device classifications. Omission on update preserves the current selector; an explicit empty array clears it. Site governance constraints still apply.
+          type: array
+          maxItems: 3
+          uniqueItems: true
+          items: { $ref: "#/components/schemas/EndpointDeviceManagementState" }
         deviceStatuses:
           type: array
           maxItems: 4
@@ -51088,7 +53992,7 @@ components:
         sourceType: { $ref: "#/components/schemas/NetworkConflictSourceType" }
         sourceId: { type: string, minLength: 1, maxLength: 128 }
         name: { type: string, minLength: 1, maxLength: 200 }
-        cidr: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+        cidr: { $ref: "#/components/schemas/NetworkIPCIDR" }
       additionalProperties: false
     NetworkConflictAnalysisRequest:
       type: object
@@ -51157,7 +54061,7 @@ components:
           minItems: 1
           maxItems: 128
           uniqueItems: true
-          items: { $ref: "#/components/schemas/NetworkIPv4CIDR" }
+          items: { $ref: "#/components/schemas/NetworkIPCIDR" }
         policyVersion: { type: integer, minimum: 1 }
         status: { $ref: "#/components/schemas/NetworkLeaseStatus" }
         issuedAt: { type: string, format: date-time }
@@ -52313,3 +55217,1246 @@ components:
           maxLength: 128
           pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]*$
       additionalProperties: false
+
+
+    EndpointChannelControls:
+      type: object
+      additionalProperties: false
+      required:
+        - usb
+        - print
+        - clipboard
+      properties:
+        usb:
+          type: boolean
+        print:
+          type: boolean
+        clipboard:
+          type: boolean
+    EndpointChannelReceipt:
+      type: object
+      additionalProperties: false
+      required:
+        - name
+        - scope
+        - state
+        - targets
+        - controlled
+        - reasonCode
+      properties:
+        name:
+          type: string
+          enum:
+            - usb
+            - print
+            - clipboard
+        scope:
+          type: string
+          enum:
+            - current_usb_volumes
+            - local_new_print_jobs
+            - enrolled_console_win32
+        state:
+          type: string
+          enum:
+            - off
+            - controlled
+            - partial
+            - failed
+            - unsupported
+            - conflict
+            - unconfigured
+            - not_present
+        targets:
+          type: integer
+          minimum: 0
+          maximum: 256
+        controlled:
+          type: integer
+          minimum: 0
+          maximum: 256
+        reasonCode:
+          type: string
+          pattern: ^[a-z][a-z0-9_]{0,63}$
+    EndpointChannelPolicy:
+      type: object
+      additionalProperties: false
+      required:
+        - deviceId
+        - revision
+        - publishedVersion
+        - draft
+        - updatedAt
+      properties:
+        deviceId:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$
+        revision:
+          type: integer
+          format: int64
+          minimum: 0
+        publishedVersion:
+          type: integer
+          format: int64
+          minimum: 0
+        draft:
+          $ref: "#/components/schemas/EndpointChannelControls"
+        published:
+          $ref: "#/components/schemas/EndpointChannelControls"
+        updatedAt:
+          type: string
+          format: date-time
+    EndpointChannelDesired:
+      type: object
+      additionalProperties: false
+      required:
+        - schemaVersion
+        - deviceId
+        - runtimeId
+        - credentialId
+        - policyVersion
+        - challenge
+        - controls
+        - issuedAt
+        - validUntil
+        - configured
+      properties:
+        schemaVersion:
+          type: string
+          const: endpoint-controls/v1alpha1
+        deviceId:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$
+        runtimeId:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$
+        credentialId:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$
+        policyVersion:
+          type: integer
+          format: int64
+          minimum: 0
+        challenge:
+          type: string
+          pattern: ^[A-Za-z0-9_-]{43}$
+        controls:
+          $ref: "#/components/schemas/EndpointChannelControls"
+        issuedAt:
+          type: string
+          format: date-time
+        validUntil:
+          type: string
+          format: date-time
+        configured:
+          type: boolean
+          description: False means unconfigured; never a release. Release requires a
+            higher explicit published version.
+    EndpointChannelReport:
+      type: object
+      additionalProperties: false
+      required:
+        - schemaVersion
+        - deviceId
+        - runtimeId
+        - credentialId
+        - policyVersion
+        - challenge
+        - observedAt
+        - channels
+      properties:
+        schemaVersion:
+          type: string
+          const: endpoint-controls/v1alpha1
+        deviceId:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$
+        runtimeId:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$
+        credentialId:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$
+        policyVersion:
+          type: integer
+          format: int64
+          minimum: 0
+        challenge:
+          type: string
+          pattern: ^[A-Za-z0-9_-]{43}$
+        observedAt:
+          type: string
+          format: date-time
+        channels:
+          type: array
+          minItems: 3
+          maxItems: 3
+          items:
+            $ref: "#/components/schemas/EndpointChannelReceipt"
+    EndpointChannelView:
+      type: object
+      additionalProperties: false
+      required:
+        - policy
+        - fresh
+        - runtimeCount
+        - pendingRuntimeCount
+      properties:
+        policy:
+          $ref: "#/components/schemas/EndpointChannelPolicy"
+        receipt:
+          $ref: "#/components/schemas/EndpointChannelObservation"
+        receivedAt:
+          type: string
+          format: date-time
+        fresh:
+          type: boolean
+        runtimeCount:
+          type: integer
+          minimum: 0
+        pendingRuntimeCount:
+          type: integer
+          minimum: 0
+    EndpointChannelSaveInput:
+      type: object
+      additionalProperties: false
+      required:
+        - expectedRevision
+        - draft
+      properties:
+        expectedRevision:
+          type: integer
+          format: int64
+          minimum: 0
+        draft:
+          $ref: "#/components/schemas/EndpointChannelControls"
+    EndpointChannelPublishInput:
+      type: object
+      additionalProperties: false
+      required:
+        - expectedRevision
+      properties:
+        expectedRevision:
+          type: integer
+          format: int64
+          minimum: 1
+    EndpointChannelPolicyEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/EndpointChannelPolicy"
+    EndpointChannelDesiredEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/EndpointChannelDesired"
+    EndpointChannelViewEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/EndpointChannelView"
+
+    EndpointChannelObservation:
+      type: object
+      additionalProperties: false
+      required:
+        - runtimeId
+        - credentialId
+        - policyVersion
+        - observedAt
+        - channels
+      properties:
+        runtimeId:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$
+        credentialId:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$
+        policyVersion:
+          type: integer
+          format: int64
+          minimum: 0
+        observedAt:
+          type: string
+          format: date-time
+        channels:
+          type: array
+          minItems: 3
+          maxItems: 3
+          items:
+            $ref: "#/components/schemas/EndpointChannelReceipt"
+
+    ManagedContentPolicy:
+      {
+        "allOf": [{"if": {"required": ["requireStepUp"], "properties": {"requireStepUp": {"const": true}}}, "then": {"properties": {"mode": {"enum": ["warn", "block"]}}}}],
+        "additionalProperties": false,
+        "properties": {
+          "requireStepUp": {
+            "type": "boolean",
+            "description": "Default false. For warn/block matched releases, authorization issuance and use require recent server-verified MFA in the same authenticated session, in addition to acknowledgement or independent approval."
+          },
+          "detectors": {
+            "items": {
+              "enum": [
+                "private_key",
+                "aws_access_key",
+                "credential_assignment"
+              ],
+              "type": "string",
+              "x-enum-varnames": [
+                "ManagedContentPolicyDetectorsPrivateKey",
+                "ManagedContentPolicyDetectorsAwsAccessKey",
+                "ManagedContentPolicyDetectorsCredentialAssignment"
+              ]
+            },
+            "maxItems": 3,
+            "type": "array"
+          },
+          "mode": {
+            "enum": [
+              "audit",
+              "warn",
+              "block"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "ManagedContentPolicyModeAudit",
+              "ManagedContentPolicyModeWarn",
+              "ManagedContentPolicyModeBlock"
+            ]
+          },
+          "rules": {
+            "items": {
+              "$ref": "#/components/schemas/DockerVolumeDLPRule"
+            },
+            "maxItems": 16,
+            "type": "array"
+          },
+          "minimumDataLevel": {
+            "$ref": "#/components/schemas/DLPDataLevel",
+            "description": "Default public (all matches enforce); derived only from trusted detector/rule policy, never client classification."
+          },
+          "detectorVersion": {
+            "type": "string",
+            "enum": [
+              "content-dlp-text-v1",
+              "content-dlp-archive-v2"
+            ],
+            "x-enum-varnames": [
+              "ManagedContentPolicyDetectorVersionTextV1",
+              "ManagedContentPolicyDetectorVersionArchiveV2"
+            ],
+            "maxLength": 64,
+            "description": "Omitted means text-v1. Archive-v2 additionally inspects complete bounded ZIP (store/deflate), POSIX USTAR and single-member GZIP recursively in Core memory: raw input and cumulative expansion each at most 256 KiB, 64 entries, three archive layers and 100:1 per-container and ZIP-member expansion. Names and comments are inspected. Encryption, corruption, unsafe/duplicate names, special files, unsupported members including Office/PDF/images, trailing payloads and exceeded budgets are never clean. Original bytes remain the authorization and transfer target; audit retains explicit non-blocking semantics."
+          },
+          "networkAction": {
+            "type": "string",
+            "enum": [
+              "none",
+              "revoke_network"
+            ],
+            "x-enum-varnames": [
+              "ManagedContentNetworkActionNone",
+              "ManagedContentNetworkActionRevokeNetwork"
+            ],
+            "description": "Only block matched denials; requires independent network_access.dlp_linkage.manage and all-subjects ABAC."
+          }
+        },
+        "required": [
+          "mode",
+          "detectors",
+          "rules"
+        ],
+        "type": "object"
+      }
+    ManagedContentDestinationConfig:
+      type: object
+      additionalProperties: false
+      required:
+        - name
+        - kind
+        - enabled
+        - policy
+      properties:
+        name:
+          type: string
+          maxLength: 120
+          minLength: 1
+        kind:
+          type: string
+          enum:
+            - s3
+            - webdav
+          x-enum-varnames:
+            - ManagedContentDestinationConfigKindS3
+            - ManagedContentDestinationConfigKindWebdav
+        enabled:
+          type: boolean
+        policy:
+          $ref: "#/components/schemas/ManagedContentPolicy"
+        storageIntegrationId:
+          type: string
+          maxLength: 128
+        baseUrl:
+          type: string
+          maxLength: 2048
+          format: uri
+        secretRef:
+          type: string
+          maxLength: 256
+          pattern: ^soha://secrets/[A-Za-z0-9._:-]+(?:/versions/[1-9][0-9]*)?$
+        privateCIDRs:
+          type: array
+          maxItems: 8
+          items:
+            type: string
+            maxLength: 64
+    ManagedContentDestination:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - ownerId
+        - revision
+        - draft
+        - publishedVersion
+        - updatedAt
+      properties:
+        id:
+          type: string
+          maxLength: 36
+          format: uuid
+        ownerId:
+          type: string
+          maxLength: 128
+        revision:
+          type: integer
+          minimum: 0
+        draft:
+          $ref: "#/components/schemas/ManagedContentDestinationConfig"
+        published:
+          $ref: "#/components/schemas/ManagedContentDestinationConfig"
+        publishedVersion:
+          type: integer
+          minimum: 0
+        updatedAt:
+          type: string
+          format: date-time
+    ManagedContentDestinationSummary:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - name
+        - kind
+        - publishedVersion
+        - mode
+      properties:
+        id:
+          type: string
+          maxLength: 36
+          format: uuid
+        name:
+          type: string
+          maxLength: 120
+        kind:
+          type: string
+          enum:
+            - s3
+            - webdav
+          x-enum-varnames:
+            - ManagedContentDestinationSummaryKindS3
+            - ManagedContentDestinationSummaryKindWebdav
+        publishedVersion:
+          type: integer
+          minimum: 0
+        mode:
+          type: string
+          enum:
+            - audit
+            - warn
+            - block
+          x-enum-varnames:
+            - ManagedContentDestinationSummaryModeAudit
+            - ManagedContentDestinationSummaryModeWarn
+            - ManagedContentDestinationSummaryModeBlock
+    ManagedContentSaveInput:
+      type: object
+      additionalProperties: false
+      required:
+        - expectedRevision
+        - draft
+      properties:
+        expectedRevision:
+          type: integer
+          minimum: 0
+        draft:
+          $ref: "#/components/schemas/ManagedContentDestinationConfig"
+    ManagedContentPublishInput:
+      type: object
+      additionalProperties: false
+      required:
+        - expectedRevision
+      properties:
+        expectedRevision:
+          type: integer
+          minimum: 1
+    ManagedContentAuthorization:
+      type: object
+      additionalProperties: false
+      required:
+        - attemptId
+        - token
+      properties:
+        attemptId:
+          type: string
+          maxLength: 36
+          format: uuid
+        token:
+          type: string
+          maxLength: 43
+          pattern: ^[A-Za-z0-9_-]{43}$
+    ManagedContentRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - requestId
+      properties:
+        requestId:
+          type: string
+          maxLength: 36
+          format: uuid
+        authorization:
+          $ref: "#/components/schemas/ManagedContentAuthorization"
+    ManagedContentUploadInput:
+      type: object
+      additionalProperties: false
+      required:
+        - requestId
+        - destinationId
+        - fileName
+        - contentBase64
+      properties:
+        requestId:
+          type: string
+          maxLength: 36
+          format: uuid
+        authorization:
+          $ref: "#/components/schemas/ManagedContentAuthorization"
+        destinationId:
+          type: string
+          maxLength: 36
+          format: uuid
+        fileName:
+          type: string
+          maxLength: 200
+          minLength: 1
+        contentBase64:
+          type: string
+          maxLength: 349528
+          format: byte
+    ManagedContentPasteInput:
+      type: object
+      additionalProperties: false
+      required:
+        - requestId
+        - destinationId
+        - fileName
+        - text
+      properties:
+        requestId:
+          type: string
+          maxLength: 36
+          format: uuid
+        authorization:
+          $ref: "#/components/schemas/ManagedContentAuthorization"
+        destinationId:
+          type: string
+          maxLength: 36
+          format: uuid
+        fileName:
+          type: string
+          maxLength: 200
+          minLength: 1
+        text:
+          type: string
+          maxLength: 262144
+    ManagedContentCopyInput:
+      type: object
+      additionalProperties: false
+      required:
+        - requestId
+        - destinationId
+      properties:
+        requestId:
+          type: string
+          maxLength: 36
+          format: uuid
+        authorization:
+          $ref: "#/components/schemas/ManagedContentAuthorization"
+        destinationId:
+          type: string
+          maxLength: 36
+          format: uuid
+    ManagedContentGate:
+      type: object
+      additionalProperties: false
+      required:
+        - destinationId
+        - policyVersion
+      properties:
+        destinationId:
+          type: string
+          maxLength: 36
+          format: uuid
+        policyVersion:
+          type: integer
+          minimum: 0
+    ManagedContentRecord:
+      {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "enum": [
+              "upload",
+              "paste",
+              "copy",
+              "download",
+              "delete"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "ManagedContentRecordActionUpload",
+              "ManagedContentRecordActionPaste",
+              "ManagedContentRecordActionCopy",
+              "ManagedContentRecordActionDownload",
+              "ManagedContentRecordActionDelete"
+            ]
+          },
+          "actorId": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "appealReason": {
+            "maxLength": 64,
+            "type": "string"
+          },
+          "appealStatus": {
+            "enum": [
+              "none",
+              "pending",
+              "approved",
+              "rejected"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "ManagedContentRecordAppealStatusNone",
+              "ManagedContentRecordAppealStatusPending",
+              "ManagedContentRecordAppealStatusApproved",
+              "ManagedContentRecordAppealStatusRejected"
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "decision": {
+            "$ref": "#/components/schemas/DockerVolumeDLPDecision"
+          },
+          "deletedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "destinationId": {
+            "format": "uuid",
+            "maxLength": 36,
+            "type": "string"
+          },
+          "errorCode": {
+            "maxLength": 64,
+            "type": "string"
+          },
+          "fileName": {
+            "maxLength": 200,
+            "type": "string"
+          },
+          "gates": {
+            "items": {
+              "$ref": "#/components/schemas/ManagedContentGate"
+            },
+            "maxItems": 2,
+            "type": "array"
+          },
+          "id": {
+            "format": "uuid",
+            "maxLength": 36,
+            "type": "string"
+          },
+          "nameRedacted": {
+            "type": "boolean"
+          },
+          "reviewerId": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "reviewReason": {
+            "maxLength": 64,
+            "type": "string"
+          },
+          "revision": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "sizeBytes": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "sourceId": {
+            "format": "uuid",
+            "maxLength": 36,
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "prepared",
+              "sending",
+              "blocked",
+              "completed",
+              "failed",
+              "unknown"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "ManagedContentRecordStatePrepared",
+              "ManagedContentRecordStateSending",
+              "ManagedContentRecordStateBlocked",
+              "ManagedContentRecordStateCompleted",
+              "ManagedContentRecordStateFailed",
+              "ManagedContentRecordStateUnknown"
+            ]
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "networkHoldId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id",
+          "actorId",
+          "destinationId",
+          "action",
+          "state",
+          "revision",
+          "fileName",
+          "sizeBytes",
+          "gates",
+          "appealStatus",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      }
+    ManagedContentResult:
+      type: object
+      additionalProperties: false
+      required:
+        - record
+      properties:
+        record:
+          $ref: "#/components/schemas/ManagedContentRecord"
+        contentBase64:
+          type: string
+          maxLength: 349528
+          format: byte
+    ManagedContentRecordPage:
+      type: object
+      additionalProperties: false
+      required:
+        - items
+        - total
+        - offset
+        - limit
+      properties:
+        items:
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/ManagedContentRecord"
+        total:
+          type: integer
+          minimum: 0
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 100
+    ManagedContentAuthorizeInput:
+      type: object
+      additionalProperties: false
+      required:
+        - action
+      properties:
+        action:
+          type: string
+          enum:
+            - acknowledge
+            - use_approval
+          x-enum-varnames:
+            - ManagedContentAuthorizeInputActionAcknowledge
+            - ManagedContentAuthorizeInputActionUseApproval
+    ManagedContentAppealInput:
+      type: object
+      additionalProperties: false
+      required:
+        - reasonCode
+      properties:
+        reasonCode:
+          type: string
+          enum:
+            - false_positive
+            - business_exception
+          x-enum-varnames:
+            - ManagedContentAppealInputReasonCodeFalsePositive
+            - ManagedContentAppealInputReasonCodeBusinessException
+    ManagedContentReviewInput:
+      type: object
+      additionalProperties: false
+      required:
+        - expectedRevision
+        - resolution
+        - reasonCode
+      properties:
+        expectedRevision:
+          type: integer
+          minimum: 1
+        resolution:
+          type: string
+          enum:
+            - approve
+            - reject
+          x-enum-varnames:
+            - ManagedContentReviewInputResolutionApprove
+            - ManagedContentReviewInputResolutionReject
+        reasonCode:
+          type: string
+          enum:
+            - false_positive
+            - business_exception
+            - insufficient_justification
+          x-enum-varnames:
+            - ManagedContentReviewInputReasonCodeFalsePositive
+            - ManagedContentReviewInputReasonCodeBusinessException
+            - ManagedContentReviewInputReasonCodeInsufficientJustification
+    ManagedContentDestinationEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/ManagedContentDestination"
+    ManagedContentResultEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/ManagedContentResult"
+    ManagedContentRecordEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/ManagedContentRecord"
+    ManagedContentRecordPageEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/ManagedContentRecordPage"
+    ManagedContentDestinationsEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/ManagedContentDestinationSummary"
+    ManagedContentAdminDestinationsEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/ManagedContentDestination"
+    ManagedContentAuthorizationEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/DockerVolumeDLPAuthorization"
+    DLPDataLevel:
+      {
+        "type": "string",
+        "enum": [
+          "public",
+          "internal",
+          "confidential",
+          "restricted"
+        ],
+        "x-enum-varnames": [
+          "DLPDataLevelPublic",
+          "DLPDataLevelInternal",
+          "DLPDataLevelConfidential",
+          "DLPDataLevelRestricted"
+        ]
+      }
+    DLPShadowDecision:
+      {
+        "additionalProperties": false,
+        "properties": {
+          "stepUpRequired": {
+            "type": "boolean",
+            "description": "The matched sample would require recent MFA in addition to the configured release workflow. Shadow evaluation issues no MFA challenge or transfer token."
+          },
+          "allowed": {
+            "type": "boolean"
+          },
+          "detectorVersion": {
+            "enum": [
+              "content-dlp-text-v1",
+              "content-dlp-archive-v2"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "DLPShadowDecisionDetectorVersionContent-Dlp-Text-V1",
+              "DLPShadowDecisionDetectorVersionArchiveV2"
+            ]
+          },
+          "matchedRuleIds": {
+            "items": {
+              "maxLength": 48,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 19,
+            "type": "array"
+          },
+          "mode": {
+            "enum": [
+              "audit",
+              "warn",
+              "block"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "DLPShadowDecisionModeAudit",
+              "DLPShadowDecisionModeWarn",
+              "DLPShadowDecisionModeBlock"
+            ]
+          },
+          "status": {
+            "enum": [
+              "clean",
+              "matched",
+              "unsupported",
+              "encrypted",
+              "too_large",
+              "timeout",
+              "error"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "DLPShadowDecisionStatusClean",
+              "DLPShadowDecisionStatusMatched",
+              "DLPShadowDecisionStatusUnsupported",
+              "DLPShadowDecisionStatusEncrypted",
+              "DLPShadowDecisionStatusTooLarge",
+              "DLPShadowDecisionStatusTimeout",
+              "DLPShadowDecisionStatusError"
+            ]
+          },
+          "dataLevel": {
+            "type": "string",
+            "enum": [
+              "public",
+              "internal",
+              "confidential",
+              "restricted",
+              "unclassified",
+              "unknown"
+            ],
+            "x-enum-varnames": [
+              "DLPShadowDecisionDataLevelPublic",
+              "DLPShadowDecisionDataLevelInternal",
+              "DLPShadowDecisionDataLevelConfidential",
+              "DLPShadowDecisionDataLevelRestricted",
+              "DLPShadowDecisionDataLevelUnclassified",
+              "DLPShadowDecisionDataLevelUnknown"
+            ],
+            "description": "Maximum matched rule level; clean is unclassified, uninspected is unknown. Not a proof that a file is public."
+          },
+          "minimumDataLevel": {
+            "$ref": "#/components/schemas/DLPDataLevel"
+          },
+          "ruleSetVersion": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "mode",
+          "status",
+          "allowed",
+          "detectorVersion",
+          "matchedRuleIds",
+          "enabled"
+        ],
+        "type": "object"
+      }
+    DLPShadowInput:
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expectedRevision",
+          "samples"
+        ],
+        "properties": {
+          "expectedRevision": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1
+          },
+          "samples": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 8,
+            "items": {
+              "type": "string",
+              "format": "byte",
+              "maxLength": 43692
+            }
+          }
+        }
+      }
+    DLPShadowSample:
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "index",
+          "sizeBytes",
+          "draft"
+        ],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 7
+          },
+          "sizeBytes": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 32768
+          },
+          "draft": {
+            "$ref": "#/components/schemas/DLPShadowDecision"
+          },
+          "published": {
+            "$ref": "#/components/schemas/DLPShadowDecision"
+          }
+        }
+      }
+    DLPShadowResult:
+      {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "revision",
+          "publishedVersion",
+          "draftRuleSetVersion",
+          "samples",
+          "wouldBlock",
+          "wouldWarn",
+          "uninspected",
+          "changed"
+        ],
+        "properties": {
+          "revision": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1
+          },
+          "publishedVersion": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          },
+          "draftRuleSetVersion": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "samples": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 8,
+            "items": {
+              "$ref": "#/components/schemas/DLPShadowSample"
+            }
+          },
+          "wouldBlock": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8
+          },
+          "wouldWarn": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8
+          },
+          "uninspected": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8
+          },
+          "changed": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8
+          }
+        }
+      }
+    DLPShadowEnvelope:
+      {
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/DLPShadowResult"
+          }
+        }
+      }
+    ManagedContentNetworkHold:
+      {
+        "additionalProperties": false,
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "releasedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "revision": {
+            "format": "int64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "subjectId": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "targets": {
+            "items": {
+              "$ref": "#/components/schemas/DockerVolumeDLPNetworkTarget"
+            },
+            "maxItems": 4096,
+            "type": "array"
+          },
+          "destinationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sourceRecordId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id",
+          "subjectId",
+          "active",
+          "revision",
+          "createdAt",
+          "targets",
+          "destinationId",
+          "sourceRecordId"
+        ],
+        "type": "object"
+      }
+    ManagedContentNetworkEnvelope:
+      {
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ManagedContentNetworkHold"
+          }
+        }
+      }
